@@ -36,23 +36,29 @@ fi
 INSTALLED_VERSION="${INSTALLED_VERSION:-unknown}"
 
 # Interactive paper-context prompt.
-# Skip if not on a tty (e.g. piped non-interactively without /dev/tty).
+# Detect interactivity by actually opening /dev/tty on FD 3. A readable
+# /dev/tty inode does not guarantee `read </dev/tty` will succeed: in CI
+# and `curl ... | bash` without a controlling terminal the open fails
+# with ENXIO, and with `set -e` that would abort the install.
+INTERACTIVE=0
+if [ -t 0 ]; then
+  INTERACTIVE=1
+elif exec 3</dev/tty 2>/dev/null; then
+  INTERACTIVE=1
+fi
+
 prompt_for_context() {
-  if [ ! -t 0 ] && [ ! -r /dev/tty ]; then
-    return 1
-  fi
-  return 0
+  [ "$INTERACTIVE" = "1" ]
 }
 
 read_field() {
   local prompt="$1"
   local var
+  printf "  %s: " "$prompt" >&2
   if [ -t 0 ]; then
-    printf "  %s: " "$prompt" >&2
     read -r var
   else
-    printf "  %s: " "$prompt" >&2
-    read -r var </dev/tty
+    read -r var <&3
   fi
   printf '%s' "$var"
 }
@@ -98,6 +104,11 @@ elif prompt_for_context; then
 else
   echo ""
   echo "Non-interactive install. Add a <paper_context> block to ${CLAUDE_MD} manually before running the skill."
+fi
+
+# Close the tty FD if we opened it.
+if [ "$INTERACTIVE" = "1" ] && [ ! -t 0 ]; then
+  exec 3<&- 2>/dev/null || true
 fi
 
 git add "$DEST"
