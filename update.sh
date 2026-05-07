@@ -1,9 +1,9 @@
 #!/bin/bash
 # Check for updates to paper-revision-editor and optionally apply them.
-# Usage: curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/update.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main/update.sh | bash
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main"
+REPO_URL="https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main"
 DEST=".claude/skills/paper-revision-editor"
 
 if ! git rev-parse --is-inside-work-tree &>/dev/null; then

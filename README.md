@@ -34,9 +34,8 @@ Real editorial work happens in a specific order: structure first, paragraph purp
 
 **One-time setup per paper repo:**
 
-1. Run the installer from the paper's repo root
-2. The script writes `SKILL.md` and supporting references into `.claude/skills/paper-revision-editor/`, then commits
-3. Add a `<paper_context>` block to `CLAUDE.md` at the repo root with venue, audience, thesis, revision stage
+1. Run the installer from the paper's repo root.
+2. The script prompts for target venue, audience, core thesis, and revision stage, writes a `<paper_context>` block to `CLAUDE.md`, copies `SKILL.md` and supporting references into `.claude/skills/paper-revision-editor/`, and commits.
 
 **Every revision after that:**
 
@@ -47,19 +46,12 @@ Real editorial work happens in a specific order: structure first, paragraph purp
 ## Quick Start
 
 ```bash
-# 1. Install the skill (from your paper's repo root)
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
+# 1. Install the skill (from your paper's repo root).
+#    The installer prompts for target venue, audience, thesis, and revision
+#    stage, then writes a <paper_context> block to CLAUDE.md.
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main/install.sh | bash
 
-# 2. Add paper context to CLAUDE.md at the repo root:
-#
-#    <paper_context>
-#    target_venue: Information Systems Research
-#    audience: empirical IS researchers
-#    core_thesis: [1-2 sentences stating the paper's contribution]
-#    revision_stage: response to reviewers
-#    </paper_context>
-
-# 3. Tell Claude:
+# 2. Tell Claude:
 #    "Revise the introduction."
 
 # That's it. Every revision request goes through the diagnose-then-revise pipeline.
@@ -70,14 +62,16 @@ curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
 **One-liner** (from your paper's repo root):
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main/install.sh | bash
 ```
+
+The installer prompts you for target venue, audience, core thesis, and revision stage, then writes a `<paper_context>` block to `CLAUDE.md` at the repo root.
 
 **Manual install** (if you prefer to see each step):
 
 ```bash
 # From the repo root
-BASE=https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
+BASE=https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main
 DEST=.claude/skills/paper-revision-editor
 
 mkdir -p "$DEST/references"
@@ -92,16 +86,18 @@ git add "$DEST"
 git commit -m "Add paper-revision-editor skill"
 ```
 
+You will then need to add the `<paper_context>` block to `CLAUDE.md` yourself (see below).
+
 **Or** just tell Claude Code on the Web:
 
-> "Clone the paper-revision-editor skill from https://github.com/ipeirotis/paper-revision-editor into `.claude/skills/paper-revision-editor/` in this repo and commit it."
+> "Clone the paper-revision-editor skill from https://github.com/ipeirotis/paper-copyediting-skill into `.claude/skills/paper-revision-editor/` in this repo and commit it."
 
 ## Updating
 
 Check which version you have and whether a newer one is available:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/update.sh | bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main/update.sh | bash
 ```
 
 This will:

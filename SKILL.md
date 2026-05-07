@@ -1,30 +1,8 @@
 ---
 name: paper-revision-editor
 version: 1.0.0
-description: >-
-  Editorial review of academic paper sections. Diagnoses structural and
-  stylistic problems, then revises while preserving voice, technical content,
-  and empirical claims.
-
-  TRIGGER when the user says any of these: "revise this section", "edit
-  my paper", "polish the introduction", "improve the writing", "review my
-  draft", "fix the structure", "tighten this up", "give me editorial
-  feedback", "is this argument clear", "address reviewer comments",
-  "respond to reviewers", "copy-edit this", "make this academic",
-  "rewrite this paragraph", "is this paragraph confusing", "does this
-  flow", "what's wrong with this section". Also trigger when the user
-  opens or pastes an academic paper section (abstract, introduction,
-  related work, methodology, results, discussion, conclusion) AND
-  indicates they want feedback or revisions on writing quality, structure,
-  or argument flow.
-
-  DO NOT TRIGGER for general writing questions ("what's active voice?",
-  "explain the passive"), citation formatting, BibTeX or reference
-  management, LaTeX compilation issues, pure proofreading without
-  structural feedback (just typos), generating new paper content from
-  scratch (this skill edits existing prose, it does not draft from
-  outlines), or non-academic writing such as blog posts, marketing copy,
-  or fiction.
+allowed-tools: Read, Edit, Grep, Glob
+description: Editorial review of academic paper sections. Diagnoses structural and stylistic problems first, then revises while preserving voice, technical content, and empirical claims. Use when the user asks to revise, edit, polish, copy-edit, tighten, or get editorial feedback on a paper section (introduction, related work, methodology, results, discussion, conclusion), or when responding to reviewer comments.
 ---
 
 # Paper Revision Editor
@@ -33,24 +11,41 @@ description: >-
 
 This skill performs editorial review of academic paper sections for top-tier venues. It diagnoses problems first, then revises. The revision preserves the author's voice, technical content, and empirical claims. Numerical results, citations, and analytical conclusions are never altered.
 
-## Before you start
+## When to use this skill
 
-Read paper context from one of the following, in order:
+**Trigger when the user:**
+- Asks to revise, polish, copy-edit, tighten, or improve the writing of a paper section.
+- Asks for editorial feedback, structural feedback, or whether a section "flows" or is clear.
+- Asks for help responding to reviewer comments on a paper.
+- Pastes or opens an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) AND signals they want revision.
+
+**Do NOT trigger when the user:**
+- Asks general writing questions ("what is active voice?", "explain nominalization").
+- Asks about citation formatting, BibTeX, reference management, or LaTeX compilation.
+- Wants pure proofreading (typos only, no structural feedback).
+- Wants new content drafted from outlines or notes. This skill edits existing prose; it does not write new sections.
+- Is editing non-academic writing (blog posts, marketing copy, fiction).
+
+## Before you start (gate)
+
+Read paper context, in this order:
 
 1. A `<paper_context>` block in `CLAUDE.md` at the repo root.
 2. `paper-meta.md` at the repo root.
 3. The manuscript's main file (look for the abstract and venue mentions).
 
-The context should include: target venue, primary audience, core thesis, and revision stage. If any are missing or ambiguous, ask the user before proceeding.
+The context must include: target venue, primary audience, core thesis, and revision stage.
+
+**If any of these are missing or ambiguous, stop and ask the user before diagnosing or revising.** Do not guess venue or audience from prose style. The diagnostic lens depends on these values; running it without them produces inconsistent output across sessions.
 
 ## Diagnostic lens
 
-Apply these in order. The earlier categories are more important than the later ones; do not waste time polishing sentences in a paragraph whose purpose is unclear.
+Apply in order. Earlier categories outrank later ones; do not polish sentences in a paragraph whose purpose is unclear.
 
 ### Structural integrity
 
 - Verify the paper has a clear thesis and that every section advances it.
-- Check that arguments build sequentially: each claim should rest on what has already been established, never on what comes later.
+- Check that arguments build sequentially: each claim should rest on what is already established, never on what comes later.
 - Flag sudden topic shifts, missing connective tissue between sections, and orphan paragraphs that do not serve the larger argument.
 - Ensure section ordering reflects logical dependency, not the chronological order of the research.
 
@@ -100,20 +95,42 @@ See `references/ai-tells-to-avoid.md` for the full list of patterns to flag.
 - Avoid these transition words: Furthermore, Moreover, Crucially, Importantly, Notably, Ultimately, Delving. Avoid the phrases "It's worth noting" and "That said." Build transitions from the content itself.
 - Avoid jargon that does not earn its place. If a plain word will do, use it.
 
-## Output format
+## Output format (strict)
 
-For the section provided:
+Always produce these four sections, in this order, with these exact headings:
 
-1. **Diagnosis.** List structural and stylistic problems with paragraph references.
-2. **Revised text.** Provide the revised section.
-3. **Change rationale.** Briefly note what changed and why.
-4. **Author questions.** Flag any unverifiable claims, missing evidence, or logical gaps as questions for the author rather than guessing.
+### 1. Diagnosis
+
+Numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Order by category from the diagnostic lens (structure first, sentence-level last).
+
+```
+1. [paragraph 2] Topic sentence promises a comparison but the paragraph
+   delivers a definition. Reader cannot tell which paper the section is about.
+2. [paragraph 4-5] Argument depends on a result introduced later in section 4.
+```
+
+### 2. Revised text
+
+The revised section in a single fenced block. No commentary inside the block.
+
+### 3. Change rationale
+
+One line per non-trivial change, in the form `before → after, why`.
+
+```
+"Furthermore, we find" → "We also find", removed banned transition word
+"performed an analysis of" → "analyzed", removed nominalization
+```
+
+### 4. Author questions
+
+Bulleted list. Each item is one unverifiable claim, missing evidence, or logical gap, phrased as a question for the author. End every item with a question mark. If there are none, write `None.`
 
 ## Examples
 
 **User:** "Can you take a look at the introduction and see if it flows?"
 
-**Skill behavior:** Reads `CLAUDE.md` for paper context, opens the introduction file, applies the full diagnostic lens, returns diagnosis + revised text + rationale + author questions.
+**Skill behavior:** Confirms paper context is loaded, opens the introduction file, applies the full diagnostic lens, returns the four-section output.
 
 **User:** "Just fix the typos in section 3."
 
@@ -121,7 +138,7 @@ For the section provided:
 
 **User:** "Reviewer 2 says my methodology is unclear. Help me fix it."
 
-**Skill behavior:** Triggers. Reads `CLAUDE.md`, sets revision stage to "response to reviewers", applies methodology-section lens with extra emphasis on replicability and inferential logic. Preserves the analytical decisions; rewrites the prose around them.
+**Skill behavior:** Triggers. Reads paper context with `revision_stage: response to reviewers`, applies methodology-section lens with extra emphasis on replicability and inferential logic. Preserves analytical decisions; rewrites the prose around them.
 
 **User:** "Write me a discussion section based on these results."
 
