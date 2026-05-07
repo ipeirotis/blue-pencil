@@ -29,7 +29,7 @@ fi
 echo "Installed version: $INSTALLED_VERSION"
 
 # Fetch latest version
-LATEST_VERSION=$(curl -sSL "$REPO_URL/VERSION" | tr -d '[:space:]')
+LATEST_VERSION=$(curl -fsSL "$REPO_URL/VERSION" | tr -d '[:space:]')
 if [ -z "$LATEST_VERSION" ]; then
   echo "ERROR: Could not fetch latest version." >&2
   exit 1
@@ -48,7 +48,7 @@ echo "--- Changelog (new entries since $INSTALLED_VERSION) ---"
 echo ""
 
 # Fetch and display changelog, showing only entries newer than the installed version
-CHANGELOG=$(curl -sSL "$REPO_URL/CHANGELOG.md")
+CHANGELOG=$(curl -fsSL "$REPO_URL/CHANGELOG.md")
 echo "$CHANGELOG" | awk -v installed="$INSTALLED_VERSION" '
   /^## \[/ {
     # Extract version from heading like "## [1.2.0] - 2026-04-01"
@@ -87,7 +87,7 @@ FILES="
 "
 
 for FILE in $FILES; do
-  curl -sSL "$REPO_URL/$FILE" -o "$DEST/$FILE"
+  curl -fsSL "$REPO_URL/$FILE" -o "$DEST/$FILE"
 done
 
 git add "$DEST"
