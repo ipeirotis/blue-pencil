@@ -1,6 +1,6 @@
 #!/bin/bash
 # Install paper-revision-editor skill into the current repo.
-# Usage: curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main/install.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
 set -e
 
 if ! git rev-parse --is-inside-work-tree &>/dev/null; then
@@ -11,7 +11,7 @@ fi
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
 
-BASE_URL="https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main"
+BASE_URL="https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main"
 SKILL_NAME="paper-revision-editor"
 DEST=".claude/skills/${SKILL_NAME}"
 

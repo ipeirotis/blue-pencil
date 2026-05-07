@@ -49,7 +49,7 @@ Real editorial work happens in a specific order: structure first, paragraph purp
 # 1. Install the skill (from your paper's repo root).
 #    The installer prompts for target venue, audience, thesis, and revision
 #    stage, then writes a <paper_context> block to CLAUDE.md.
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
 
 # 2. Tell Claude:
 #    "Revise the introduction."
@@ -62,7 +62,7 @@ curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/ma
 **One-liner** (from your paper's repo root):
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
 ```
 
 The installer prompts you for target venue, audience, core thesis, and revision stage, then writes a `<paper_context>` block to `CLAUDE.md` at the repo root.
@@ -71,7 +71,7 @@ The installer prompts you for target venue, audience, core thesis, and revision 
 
 ```bash
 # From the repo root
-BASE=https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main
+BASE=https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
 DEST=.claude/skills/paper-revision-editor
 
 mkdir -p "$DEST/references"
@@ -90,14 +90,14 @@ You will then need to add the `<paper_context>` block to `CLAUDE.md` yourself (s
 
 **Or** just tell Claude Code on the Web:
 
-> "Clone the paper-revision-editor skill from https://github.com/ipeirotis/paper-copyediting-skill into `.claude/skills/paper-revision-editor/` in this repo and commit it."
+> "Clone the paper-revision-editor skill from https://github.com/ipeirotis/paper-revision-editor into `.claude/skills/paper-revision-editor/` in this repo and commit it."
 
 ## Updating
 
 Check which version you have and whether a newer one is available:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-copyediting-skill/main/update.sh | bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/update.sh | bash
 ```
 
 This will:
