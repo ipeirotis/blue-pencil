@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-version: 1.0.0
+version: 1.1.0
 allowed-tools: Read, Edit, Grep, Glob
 description: Editorial review of academic paper sections. Diagnoses structural and stylistic problems first, then revises while preserving voice, technical content, and empirical claims. Use when the user asks to revise, edit, polish, copy-edit, tighten, or get editorial feedback on a paper section (introduction, related work, methodology, results, discussion, conclusion), or when responding to reviewer comments.
 ---
@@ -37,6 +37,41 @@ Read paper context, in this order:
 The context must include: target venue, primary audience, core thesis, and revision stage.
 
 **If any of these are missing or ambiguous, stop and ask the user before diagnosing or revising.** Do not guess venue or audience from prose style. The diagnostic lens depends on these values; running it without them produces inconsistent output across sessions.
+
+## Revision stage controls aggressiveness
+
+The `revision_stage` value in the paper context determines how much of the diagnostic lens to apply. Match the stage exactly:
+
+| Stage | What to change | What to leave alone |
+|-------|---------------|---------------------|
+| `first draft` | Structure, paragraph order, topic sentences, sentence-level cohesion. Reorder paragraphs and merge or split them when the argument demands it. | Numerical results, citations, empirical claims. |
+| `response to reviewers` | The specific paragraphs flagged by reviewers, plus their immediate neighbors. Sentence-level cohesion within those paragraphs. | Section ordering and any structure the reviewers accepted. Do not reorganize paragraphs the reviewers did not complain about. |
+| `final polish` | Sentence-level cohesion only: word choice, given-new flow, banned phrases, em-dashes, hedging. | Paragraph order, paragraph boundaries, topic sentences, and section structure. |
+
+If the stage is unclear, ask before revising. Do not pick a stage to make the request fit.
+
+## Reviewer-response workflow
+
+Trigger this branch when `revision_stage: response to reviewers` or when the user pastes reviewer comments alongside the section.
+
+1. Ask for the reviewer text if it is not yet in the conversation. Do not infer reviewer concerns from the section alone.
+2. Map each reviewer comment to specific paragraph numbers in the section. List the mapping before diagnosing.
+3. In the Diagnosis output, label each item with the reviewer concern it addresses, e.g. `[R2.3, paragraph 4]`.
+4. Leave paragraphs the reviewers did not flag untouched, even if they have stylistic issues. The cost of unsolicited rewrites at this stage is high: reviewers re-read changed prose and may raise new objections.
+5. In Author questions, surface any reviewer comment you could not address from the prose alone (e.g. requests for new analysis or new citations).
+
+## What is never edited
+
+These elements must be preserved verbatim. If they need to change, surface that in Author questions rather than editing.
+
+- Numerical results, statistics, p-values, effect sizes, sample sizes.
+- Citations and citation commands (`\cite{...}`, `\citep{...}`, `\citet{...}`, `[1]`, etc.). You may move a citation within a sentence for stress position, but do not add, remove, or change the cited keys.
+- Cross-references (`\ref{...}`, `\label{...}`, `\eqref{...}`, table and figure numbers).
+- Math: inline `$...$`, display `$$...$$`, and any `equation`, `align`, `gather`, or similar environments. Treat the math content as opaque.
+- LaTeX environments (`\begin{...}...\end{...}`), custom macros, and comment lines starting with `%`.
+- Author choices about which findings to emphasize, which limitations to acknowledge, and which framing to use for contributions.
+
+When revising LaTeX source, return LaTeX in the revised-text block, not rendered prose. Preserve line breaks inside environments where the source formatting matters (e.g. `tabular`, `lstlisting`).
 
 ## Diagnostic lens
 
@@ -89,10 +124,11 @@ Identify the section type from the file name or section heading and adapt:
 
 ## Style constraints
 
-See `references/ai-tells-to-avoid.md` for the full list of patterns to flag.
+The canonical list of banned words, banned phrases, and em-dash policy lives in `references/ai-tells-to-avoid.md`. Load that file before producing the revised text and the change rationale; do not maintain a parallel list here.
 
-- Do not use em-dashes. Use commas, parentheses, colons, or two sentences instead.
-- Avoid these transition words: Furthermore, Moreover, Crucially, Importantly, Notably, Ultimately, Delving. Avoid the phrases "It's worth noting" and "That said." Build transitions from the content itself.
+Two principles that govern all style choices:
+
+- Build transitions from the content itself. If a transition word would make the connection clear, the underlying argument is probably the part that needs work.
 - Avoid jargon that does not earn its place. If a plain word will do, use it.
 
 ## Output format (strict)

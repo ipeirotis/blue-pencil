@@ -1,6 +1,6 @@
 # AI Tells and House Style
 
-Patterns to flag and remove. Many of these are LLM-default phrases that signal AI-generated or AI-assisted prose. Others are house style for Panos Ipeirotis's papers.
+Patterns to flag and remove. Many of these are LLM-default phrases that signal AI-generated or AI-assisted prose. Others are house style for academic manuscripts.
 
 ## Banned transition words
 
@@ -45,9 +45,8 @@ Every em-dash in a draft should be replaced with one of these alternatives.
 - "Leverage" as a verb when "use" would do.
 - "Robust" as a generic positive descriptor. Robust to what?
 
-## Style preferences specific to this author
+## Manuscript style preferences
 
-- Email closing: "Cheers, Panos" for informal correspondence; "Best regards, Panos Ipeirotis" with full title for formal.
 - Technical terms get defined on first use, including acronyms. Reuse the same term consistently; do not introduce synonyms for variety.
 - Citations go inside the sentence, not at the end of a paragraph as a wall: "Smith (2020) showed X. Building on this, Jones (2022) extended Y." not "X has been shown, and Y has been extended (Smith, 2020; Jones, 2022)."
 
