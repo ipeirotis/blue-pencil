@@ -67,10 +67,18 @@ curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
 
 The installer prompts you for target venue, audience, core thesis, and revision stage, then writes a `<paper_context>` block to `CLAUDE.md` at the repo root.
 
+**Pinning to a release** (recommended for reproducible installs):
+
+```bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/v1.0.0/install.sh | REF=v1.0.0 bash
+```
+
+`REF` defaults to `main`. Pin it to any release tag to install a frozen version of the skill content. Pass the same tag in the URL and in `REF` so the installer and the files it fetches stay in sync.
+
 **Manual install** (if you prefer to see each step):
 
 ```bash
-# From the repo root
+# From the repo root. Replace `main` with `v1.0.0` (or any release tag) to pin.
 BASE=https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
 DEST=.claude/skills/paper-revision-editor
 

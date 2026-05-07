@@ -1,6 +1,12 @@
 #!/bin/bash
 # Install paper-revision-editor skill into the current repo.
-# Usage: curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
+# Usage:
+#   curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
+#   curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/v1.0.0/install.sh | REF=v1.0.0 bash
+#
+# REF defaults to "main". Set REF=<tag> to pin the installed content to a
+# release tag. The REF used to fetch this script and the REF used to fetch
+# skill content are independent; pass REF=<tag> to pin the content.
 set -e
 
 if ! git rev-parse --is-inside-work-tree &>/dev/null; then
@@ -11,7 +17,8 @@ fi
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
 
-BASE_URL="https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main"
+REF="${REF:-main}"
+BASE_URL="https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/${REF}"
 SKILL_NAME="paper-revision-editor"
 DEST=".claude/skills/${SKILL_NAME}"
 
@@ -122,4 +129,4 @@ echo "Next:"
 echo "  Open a section file and ask Claude to revise it."
 echo ""
 echo "To check for updates later:"
-echo "  curl -sSL ${BASE_URL}/update.sh | bash"
+echo "  curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/update.sh | bash"

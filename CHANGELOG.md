@@ -17,3 +17,4 @@ Initial versioned release.
 - references/ai-tells-to-avoid.md: banned words, banned phrases, em-dash policy, house style
 - Per-paper context loaded from CLAUDE.md or paper-meta.md at the repo root
 - One-line installer (`install.sh`) and version-aware updater (`update.sh`)
+- `REF` environment variable in `install.sh` for pinning skill content to a release tag (e.g. `REF=v1.0.0`); defaults to `main`
