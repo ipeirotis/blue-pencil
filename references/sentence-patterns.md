@@ -1,8 +1,8 @@
 # Sentence patterns
 
-A catalog of recurring sentence-level patterns and their fixes. Load this when the sentence-level cohesion lens in SKILL.md (or in `sentence-cohesion.md`) names a problem and a concrete diagnosis with a named pattern is useful for the change rationale.
+A catalog of recurring sentence-level patterns and their fixes. Load this when the sentence-level cohesion lens in SKILL.md (or in `references/sentence-cohesion.md`) names a problem and a concrete diagnosis with a named pattern is useful for the change rationale.
 
-The AI-tell list and banned-transition policy live in `ai-tells-to-avoid.md`, not here.
+The AI-tell list and banned-transition policy live in `references/ai-tells-to-avoid.md`, not here.
 
 ## Nominalizations
 
@@ -135,7 +135,7 @@ Common errors with logical connectives that obscure argument structure.
 - **"Indeed"** signals confirming evidence. It is overused as a generic intensifier.
 - **"While"** is ambiguous between "during" and "although". Prefer "although" or "whereas" for the contrastive meaning, especially in academic prose.
 
-Note: the banned-transition list in `ai-tells-to-avoid.md` is the canonical source. The above are about misuse of allowed connectives, not bans.
+Note: the banned-transition list in `references/ai-tells-to-avoid.md` is the canonical source. The above are about misuse of allowed connectives, not bans.
 
 ## Dangling references
 

@@ -90,7 +90,7 @@ Their rules in compressed form:
 9. **Allocate time wisely.** Title, abstract, figures, first paragraphs. These are what most readers read.
 10. **Get feedback early and often.**
 
-For section-by-section application of these rules, load `structural-patterns.md`.
+For section-by-section application of these rules, load `references/structural-patterns.md`.
 
 ## On Strunk and White
 
