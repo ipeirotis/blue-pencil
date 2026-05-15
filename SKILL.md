@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-version: 1.1.0
+version: 1.2.0
 allowed-tools: Read, Edit, Grep, Glob
 description: Editorial review of academic paper sections. Diagnoses structural and stylistic problems first, then revises while preserving voice, technical content, and empirical claims. Use when the user asks to revise, edit, polish, copy-edit, tighten, or get editorial feedback on a paper section (introduction, related work, methodology, results, discussion, conclusion), or when responding to reviewer comments.
 ---
@@ -77,6 +77,8 @@ When revising LaTeX source, return LaTeX in the revised-text block, not rendered
 
 Apply in order. Earlier categories outrank later ones; do not polish sentences in a paragraph whose purpose is unclear.
 
+For the theoretical grounding behind the moves below (Williams on character-action sentences, Gopen and Swan on reader-expectation theory, Pinker on the curse of knowledge, McEnerney on writing for readers, Mensh and Kording on paper architecture), load `references/principles.md`. Most revisions do not need it; load when an edit needs justification beyond "this reads better" or when the author asks why a move works.
+
 ### Structural integrity
 
 - Verify the paper has a clear thesis and that every section advances it.
@@ -98,7 +100,7 @@ Apply in order. Earlier categories outrank later ones; do not polish sentences i
 
 ### Sentence-level cohesion
 
-See `references/sentence-cohesion.md` for the full treatment.
+See `references/sentence-cohesion.md` for the full treatment of cohesion and flow. For a named-pattern catalog with before-and-after tables (nominalizations, throat-clearing, existentials, noun pile-ups, hedge stacking, misplaced stress, wordiness compounds, vague abstractions, misused connectives, dangling references, voice issues), load `references/sentence-patterns.md`. The patterns are useful as labels in the change rationale: "nominalization" or "misplaced stress" tells the author what kind of move was made without expanding the rationale line.
 
 - Old information first, new information last. Each sentence should link to the previous one through shared subjects or repeated concepts.
 - Cut throat-clearing and filler. Every sentence must earn its place.
@@ -113,7 +115,7 @@ See `references/sentence-cohesion.md` for the full treatment.
 
 ## Section-specific lens
 
-Identify the section type from the file name or section heading and adapt:
+Identify the section type from the file name or section heading and adapt. The one-line lenses below are sufficient for most revisions. For deeper section-specific guidance (abstract architecture, the McEnerney test for introductions, related-work-by-position-not-person, methodology pathologies, results structure, discussion structure, conclusions, plus rebuttal letters and grant proposals), load `references/structural-patterns.md`.
 
 - **Introduction**: motivation, positioning against prior work, explicit contribution claims, roadmap.
 - **Related Work**: organized by theme or argument, not by paper. Each cited work should serve the thesis.
