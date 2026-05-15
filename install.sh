@@ -29,6 +29,9 @@ FILES="
   VERSION
   references/sentence-cohesion.md
   references/ai-tells-to-avoid.md
+  references/principles.md
+  references/sentence-patterns.md
+  references/structural-patterns.md
 "
 
 for FILE in $FILES; do

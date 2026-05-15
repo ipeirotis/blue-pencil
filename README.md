@@ -19,6 +19,7 @@ A skill for [Claude Code on the Web](https://claude.com/product/claude-code) and
 - **Author voice preserved** — Empirical claims, numerical results, and analytical conclusions are never altered; only the prose around them
 - **Style constraints baked in** — No em-dashes, no AI transition words, no hedging filler
 - **Author-question flagging** — Unverifiable claims and logical gaps come back as questions, not guesses
+- **Principled grounding on demand** — Williams, Gopen and Swan, Pinker, McEnerney, and Mensh and Kording loaded as a reference file when an edit needs justification beyond "reads better"
 - **One-line install** — `curl | bash` and the skill is committed to the paper repo
 - **Travels with the repo** — Works in Claude Code on the Web because the skill lives inside `.claude/skills/`
 
@@ -86,7 +87,11 @@ mkdir -p "$DEST/references"
 
 for FILE in \
   SKILL.md VERSION \
-  references/sentence-cohesion.md references/ai-tells-to-avoid.md; do
+  references/sentence-cohesion.md \
+  references/ai-tells-to-avoid.md \
+  references/principles.md \
+  references/sentence-patterns.md \
+  references/structural-patterns.md; do
   curl -sSL "$BASE/$FILE" -o "$DEST/$FILE"
 done
 
@@ -147,6 +152,9 @@ The `revision_stage` field changes how aggressive the revision is. A first-draft
 | `.claude/skills/paper-revision-editor/VERSION` | Installed version | Yes |
 | `.claude/skills/paper-revision-editor/references/sentence-cohesion.md` | Deep guidance on flow | Yes |
 | `.claude/skills/paper-revision-editor/references/ai-tells-to-avoid.md` | Style constraints | Yes |
+| `.claude/skills/paper-revision-editor/references/principles.md` | Williams, Gopen-Swan, Pinker, McEnerney, Mensh-Kording exposition | Yes |
+| `.claude/skills/paper-revision-editor/references/sentence-patterns.md` | 12-pattern catalog with before-and-after tables | Yes |
+| `.claude/skills/paper-revision-editor/references/structural-patterns.md` | Section-specific deep guidance (abstract, intro, methods, results, discussion, conclusion, rebuttal, grant) | Yes |
 | `CLAUDE.md` (paper context) | Venue, thesis, audience, stage | Yes (you create this) |
 
 ## What Gets Edited and What Does Not
