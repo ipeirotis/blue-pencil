@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-version: 1.2.1
+version: 1.3.1
 allowed-tools: Read, Edit, Grep, Glob
 description: Editorial review of academic paper sections. Diagnoses structural and stylistic problems first, then revises while preserving voice, technical content, and empirical claims. Use when the user asks to revise, edit, polish, copy-edit, tighten, or get editorial feedback on a paper section (introduction, related work, methodology, results, discussion, conclusion), or when responding to reviewer comments.
 ---
@@ -38,6 +38,17 @@ The context must include: target venue, primary audience, core thesis, and revis
 
 **If any of these are missing or ambiguous, stop and ask the user before diagnosing or revising.** Do not guess venue or audience from prose style. The diagnostic lens depends on these values; running it without them produces inconsistent output across sessions.
 
+
+## Quick triage before full diagnosis
+
+Run this 30-second triage before applying the full lens:
+
+1. Confirm the request scope: **feedback only** vs **direct rewrite**.
+2. Confirm the unit of edit: whole section vs specific paragraphs.
+3. Confirm whether the user wants **minimal edits** or **aggressive edits** within the current `revision_stage`.
+
+If the request is ambiguous, ask one clarifying question before proceeding.
+
 ## Revision stage controls aggressiveness
 
 The `revision_stage` value in the paper context determines how much of the diagnostic lens to apply. Match the stage exactly:
@@ -55,7 +66,7 @@ If the stage is unclear, ask before revising. Do not pick a stage to make the re
 Trigger this branch when `revision_stage: response to reviewers` or when the user pastes reviewer comments alongside the section.
 
 1. Ask for the reviewer text if it is not yet in the conversation. Do not infer reviewer concerns from the section alone.
-2. Map each reviewer comment to specific paragraph numbers in the section. List the mapping before diagnosing.
+2. Map each reviewer comment to specific paragraph numbers in the section. If paragraph boundaries are ambiguous, create stable labels (`P1`, `P2`, ...) and use those labels consistently. List the mapping before diagnosing.
 3. In the Diagnosis output, label each item with the reviewer concern it addresses, e.g. `[R2.3, paragraph 4]`.
 4. Leave paragraphs the reviewers did not flag untouched, even if they have stylistic issues. The cost of unsolicited rewrites at this stage is high: reviewers re-read changed prose and may raise new objections.
 5. In Author questions, surface any reviewer comment you could not address from the prose alone (e.g. requests for new analysis or new citations).
@@ -133,13 +144,22 @@ Two principles that govern all style choices:
 - Build transitions from the content itself. If a transition word would make the connection clear, the underlying argument is probably the part that needs work.
 - Avoid jargon that does not earn its place. If a plain word will do, use it.
 
+## Preflight checks before finalizing output
+
+Before returning the final answer, run this checklist:
+
+- Confirm every diagnosis item references a concrete paragraph index or stable label.
+- Confirm no protected content changed (numbers, citations, math, cross-references, macros).
+- Confirm requested scope is respected (feedback-only vs rewrite; whole section vs selected paragraphs).
+- Confirm `Author questions` includes all unresolved evidence or reviewer-request gaps.
+
 ## Output format (strict)
 
 Always produce these four sections, in this order, with these exact headings:
 
 ### 1. Diagnosis
 
-Numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Order by category from the diagnostic lens (structure first, sentence-level last).
+Numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Order by category from the diagnostic lens (structure first, sentence-level last). Cap at 7 items and prioritize highest-impact issues when the section is long.
 
 ```
 1. [paragraph 2] Topic sentence promises a comparison but the paragraph
@@ -149,11 +169,11 @@ Numbered list. Each item is one structural or stylistic problem with a paragraph
 
 ### 2. Revised text
 
-The revised section in a single fenced block. No commentary inside the block.
+The revised section in a single fenced block. No commentary inside the block. If the user asked for feedback-only, include `No rewrite requested.` instead of revised prose.
 
 ### 3. Change rationale
 
-One line per non-trivial change, in the form `before → after, why`.
+One line per non-trivial change, in the form `before → after, why`. If no rewrite was requested, include brief rationale bullets for the top diagnosis items instead. If a rewrite was requested but no safe edits are possible under constraints, write `No safe edits under current constraints.` and explain why in one line.
 
 ```
 "Furthermore, we find" → "We also find", removed banned transition word
