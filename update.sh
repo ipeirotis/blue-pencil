@@ -87,6 +87,7 @@ FILES="
   references/principles.md
   references/sentence-patterns.md
   references/structural-patterns.md
+  references/edit-checks.md
 "
 
 for FILE in $FILES; do
