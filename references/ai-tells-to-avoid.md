@@ -24,6 +24,26 @@ These words and phrases mark text as AI-generated or as lazy academic filler. Re
 
 If a point is worth making, make it. Do not announce that you are about to make it.
 
+## Banned promotional adjectives
+
+Promotional adjectives perform certainty rather than earning it. If the substance of the sentence survives without the adjective, the adjective was throat-clearing.
+
+- important (the adjective; "Importantly" as a transition is also banned)
+- novel
+- interesting
+- significant — except where it means statistically significant
+- crucial (the adjective; "Crucially" as a transition is also banned)
+
+Edit move: delete the adjective and reread the sentence. If the substance survives, leave it deleted. If the sentence collapses, the underlying claim was weak; flag in Author questions rather than restoring the adjective.
+
+## Banned framing phrases
+
+- "We show that..." — replace with the result itself. "We show that X improves accuracy by 12 points" → "X improves accuracy by 12 points."
+- "It is well known that..." — if it is well known, say it; if it is not, cite it.
+- "In this paper, we propose..." in any sentence after the contribution paragraph — repeating the frame signals the paper is still selling instead of doing.
+
+McCloskey on economists and Dijkstra on computer scientists both argued that rhetoric which announces its own importance signals weak content.
+
 ## Em-dashes
 
 Do not use em-dashes (—) in this manuscript. The em-dash has become an LLM tell because models reach for it as a default when the right move is one of:
@@ -57,6 +77,8 @@ Before approving any revised passage, scan for:
 - [ ] Any em-dashes? Replace.
 - [ ] Any banned transition words? Rebuild the transition.
 - [ ] Any banned hedging phrases? Cut.
+- [ ] Any banned promotional adjectives ("important", "novel", "interesting", "significant", "crucial")? Delete; verify the substance survives.
+- [ ] "We show that..." or "It is well known that..." frames? Replace with the claim itself.
 - [ ] "Navigate" or "leverage" used as throat-clearing? Replace with simpler verb.
 - [ ] Triads that exist only for rhythm? Cut to two or expand to a real list.
 - [ ] Topic sentence in the first two sentences of the paragraph? If not, restructure.

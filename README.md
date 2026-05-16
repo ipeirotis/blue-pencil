@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Claude Skill](https://img.shields.io/badge/Claude_Code-Skill-blueviolet.svg)](https://code.claude.com/docs/en/skills)
 [![Stage](https://img.shields.io/badge/Use-Academic_writing-orange.svg)](#)
@@ -20,6 +20,7 @@ A skill for [Claude Code on the Web](https://claude.com/product/claude-code) and
 - **Style constraints baked in** — No em-dashes, no AI transition words, no hedging filler
 - **Author-question flagging** — Unverifiable claims and logical gaps come back as questions, not guesses
 - **Principled grounding on demand** — Williams, Gopen and Swan, Pinker, McEnerney, and Mensh and Kording loaded as a reference file when an edit needs justification beyond "reads better"
+- **Pass-level edit-checks** — Ten checklist questions plus two meta-rules (layered audience passes, default 20% cut) drawn from writers whose papers are widely cited as a pleasure to read (Coase, Akerlof, Kleinberg, Schelling, Brooks, Lampson, Chetty)
 - **One-line install** — `curl | bash` and the skill is committed to the paper repo
 - **Travels with the repo** — Works in Claude Code on the Web because the skill lives inside `.claude/skills/`
 
@@ -71,7 +72,7 @@ The installer prompts you for target venue, audience, core thesis, and revision 
 **Pinning to a release** (recommended for reproducible installs):
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/v1.2.1/install.sh | REF=v1.2.1 bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/v1.4.0/install.sh | REF=v1.4.0 bash
 ```
 
 `REF` defaults to `main`. Pin it to any release tag to install a frozen version of the skill content. Pass the same tag in the URL and in `REF` so the installer and the files it fetches stay in sync.
@@ -79,7 +80,7 @@ curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/v1.2
 **Manual install** (if you prefer to see each step):
 
 ```bash
-# From the repo root. Replace `main` with `v1.2.1` (or any release tag) to pin.
+# From the repo root. Replace `main` with `v1.4.0` (or any release tag) to pin.
 BASE=https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
 DEST=.claude/skills/paper-revision-editor
 
@@ -91,7 +92,8 @@ for FILE in \
   references/ai-tells-to-avoid.md \
   references/principles.md \
   references/sentence-patterns.md \
-  references/structural-patterns.md; do
+  references/structural-patterns.md \
+  references/edit-checks.md; do
   curl -sSL "$BASE/$FILE" -o "$DEST/$FILE"
 done
 
@@ -155,6 +157,7 @@ The `revision_stage` field changes how aggressive the revision is. A first-draft
 | `.claude/skills/paper-revision-editor/references/principles.md` | Williams, Gopen-Swan, Pinker, McEnerney, Mensh-Kording exposition | Yes |
 | `.claude/skills/paper-revision-editor/references/sentence-patterns.md` | 12-pattern catalog with before-and-after tables | Yes |
 | `.claude/skills/paper-revision-editor/references/structural-patterns.md` | Section-specific deep guidance (abstract, intro, methods, results, discussion, conclusion, rebuttal, grant) | Yes |
+| `.claude/skills/paper-revision-editor/references/edit-checks.md` | Ten pass-level edit-checks plus two meta-rules, drawn from exemplary writers (Coase, Akerlof, Kleinberg, Schelling, Brooks, Lampson, Chetty, others) | Yes |
 | `CLAUDE.md` (paper context) | Venue, thesis, audience, stage | Yes (you create this) |
 
 ## What Gets Edited and What Does Not

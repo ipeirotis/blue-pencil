@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-version: 1.3.1
+version: 1.4.0
 allowed-tools: Read, Edit, Grep, Glob
 description: Editorial review of academic paper sections. Diagnoses structural and stylistic problems first, then revises while preserving voice, technical content, and empirical claims. Use when the user asks to revise, edit, polish, copy-edit, tighten, or get editorial feedback on a paper section (introduction, related work, methodology, results, discussion, conclusion), or when responding to reviewer comments.
 ---
@@ -89,6 +89,8 @@ When revising LaTeX source, return LaTeX in the revised-text block, not rendered
 Apply in order. Earlier categories outrank later ones; do not polish sentences in a paragraph whose purpose is unclear.
 
 For the theoretical grounding behind the moves below (Williams on character-action sentences, Gopen and Swan on reader-expectation theory, Pinker on the curse of knowledge, McEnerney on writing for readers, Mensh and Kording on paper architecture), load `references/principles.md`. Most revisions do not need it; load when an edit needs justification beyond "this reads better" or when the author asks why a move works.
+
+For a pass-level checklist of structural and rhetorical edit-checks (puzzle-first opening, one named idea per paper, question-before-machinery, working examples, load-bearing figures, progressive disclosure, named list items, analogy discipline, promotional-adjective scrub, standalone intro/conclusion) plus two framing meta-rules (layered audience passes, default 20% cut), load `references/edit-checks.md`. Load when revising an introduction, abstract, or conclusion, or when the user asks for a holistic pass over the section.
 
 ### Structural integrity
 
