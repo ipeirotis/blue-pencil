@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-version: 1.5.0
+version: 1.6.0
 allowed-tools: Read, Edit, Grep, Glob
 description: Editorial review of academic paper sections. Diagnoses structural and stylistic problems first, then revises while preserving voice, technical content, and empirical claims. Use when the user asks to revise, edit, polish, copy-edit, tighten, or get editorial feedback on a paper section (introduction, related work, methodology, results, discussion, conclusion), or when responding to reviewer comments.
 ---
@@ -146,6 +146,40 @@ Two principles that govern all style choices:
 - Build transitions from the content itself. If a transition word would make the connection clear, the underlying argument is probably the part that needs work.
 - Avoid jargon that does not earn its place. If a plain word will do, use it.
 
+## Restraint: leaving prose unchanged
+
+The default reflex is to find something to edit. Resist the default reflex when a passage already passes the diagnostic lens. An unchanged paragraph is a valid rewrite output.
+
+A paragraph or sentence should be returned verbatim when the passage clears all of these checks:
+
+- Topic sentence sits in the first two sentences of the paragraph.
+- Subjects of consecutive sentences form a coherent topic string.
+- The stress position carries the most important word, not a citation or parenthetical.
+- No banned transition word, banned hedging phrase, banned promotional adjective, em-dash, or other tell from `references/ai-tells-to-avoid.md`.
+- No nominalization sits where an active verb belongs.
+- Claims, evidence, and interpretation are distinguishable.
+
+When a passage clears every check, return the passage verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. Do not invent a problem to justify an edit.
+
+For a whole-section request where most paragraphs clear the lens, return the section largely intact and use `Change rationale` to note only the paragraphs that were touched. A revision that touches every paragraph is suspect; experienced editors leave most prose alone.
+
+## Voice extraction: before rewriting
+
+Before producing the rewrite, identify three to five voice tics from the original passage. The rewrite must preserve the tics.
+
+A voice tic is a stable, deliberate choice that distinguishes the prose from a generic academic register. Common categories:
+
+- Pronoun policy: `we`, `I`, or impersonal constructions?
+- Sentence length distribution: short and punchy, long and qualified, or mixed?
+- Connective vocabulary: which non-banned transitions does the author actually use?
+- Citation placement: inside the sentence, parenthetical at the end of a clause, or footnoted?
+- Punctuation tics: semicolons for two-part claims, colons before lists, comma density.
+- Lexical preferences: domain-specific terms the author repeats, even when synonyms exist.
+
+What is not a voice tic: nominalizations, throat-clearing, em-dashes, banned transitions, hedge stacks. The listed patterns are problems regardless of who wrote the passage. If a voice tic conflicts with a style rule in `references/ai-tells-to-avoid.md`, the style rule wins. Do not preserve em-dashes, `Furthermore`, or `It is important to note that` as voice.
+
+For a single-paragraph polish or a final-polish pass, voice extraction can be informal: skim for the tics and proceed. For a whole-section rewrite or a first-draft pass, list the tics at the top of the `Diagnosis` block (see Output format) so the author can confirm the read before reading the revised text.
+
 ## Preflight checks before finalizing output
 
 Run this checklist before returning the final answer:
@@ -181,9 +215,14 @@ Always produce these four sections, in this order, with these exact headings:
 
 ### 1. Diagnosis
 
-Numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Order by category from the diagnostic lens (structure first, sentence-level last). Cap at 7 items and prioritize highest-impact issues when the section is long.
+For a whole-section rewrite or a first-draft pass, open with a single `Voice tics:` line listing three to five tics extracted from the original (see "Voice extraction"). Skip the line for single-paragraph requests and for final-polish passes.
+
+Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Order by category from the diagnostic lens (structure first, sentence-level last). Cap at 7 items and prioritize highest-impact issues when the section is long.
 
 ```
+Voice tics: `we` (not `I`); long sentences with semicolons for two-part claims;
+citations parenthetical at the end of clauses; sparse comma usage.
+
 1. [paragraph 2] Topic sentence promises a comparison but the paragraph
    delivers a definition. Reader cannot tell which paper the section is about.
 2. [paragraph 4-5] Argument depends on a result introduced later in section 4.

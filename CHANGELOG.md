@@ -3,6 +3,22 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.6.0] - 2026-05-21
+
+### Added
+
+- `SKILL.md`: a "Restraint: leaving prose unchanged" section. The skill now has an explicit no-edit pathway. A paragraph that clears six checks (topic sentence in the first two sentences, coherent topic string, stress position on the most important word, no banned transitions or AI tells, no nominalization where an active verb belongs, claims-evidence-interpretation distinguishable) is returned verbatim, with `Paragraph N: no safe improvement available` recorded in `Change rationale`. For whole-section requests, only the paragraphs that were actually touched appear in the rationale; a revision that touches every paragraph is flagged as suspect.
+
+- `SKILL.md`: a "Voice extraction: before rewriting" section. Before producing the rewrite, the skill identifies three to five voice tics from the original passage across six common categories (pronoun policy, sentence length distribution, connective vocabulary, citation placement, punctuation tics, lexical preferences) and preserves the tics in the rewrite. Patterns that are problems regardless of authorship (nominalizations, throat-clearing, em-dashes, banned transitions, hedge stacks) are explicitly excluded from voice. When a voice tic conflicts with a style rule in `references/ai-tells-to-avoid.md`, the style rule wins.
+
+### Changed
+
+- `SKILL.md` (version 1.5.0 → 1.6.0): the `Diagnosis` output section now opens with an optional `Voice tics:` line for whole-section rewrites and first-draft passes, listing three to five tics extracted from the original so the author can confirm the read before reading the revised text. The line is skipped for single-paragraph requests and final-polish passes. The example block under `Diagnosis` reflects the new format.
+
+### Rationale
+
+Two claims in the prior skill versions were asserted but never operationalized. First, "preserve voice" lived in the description and in the "What is never edited" list, but the skill had no mechanism for distinguishing voice from generic academic register; preservation drifted toward a vibe. The voice-extraction step makes the operation concrete and visible to the author (via the `Voice tics:` preamble), which both improves preservation and gives the author an early checkpoint to correct misreadings. Second, every prior invocation produced revised text, which trained the model toward action even on paragraphs that already passed the diagnostic lens. The restraint section names a six-check bar for leaving prose alone and treats an unchanged paragraph as a valid rewrite output. The two changes work together: extracting voice up front makes the author's prose legible enough to know when leaving the prose alone is correct.
+
 ## [1.5.0] - 2026-05-21
 
 ### Added
