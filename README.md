@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.7.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.8.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Standard: Agent Skills](https://img.shields.io/badge/Agent_Skills-SKILL.md-blueviolet.svg)](https://agentskills.io)
 
@@ -12,61 +12,94 @@ When you ask an agent to "revise the introduction" or "respond to reviewer 2", t
 
 ## Cross-tool support matrix
 
-The skill follows the [Agent Skills open standard](https://agentskills.io). Every tool below reads the same `SKILL.md` file from its own skills directory.
+The skill follows the [Agent Skills open standard](https://agentskills.io). The recommended install location is `~/.agents/skills/paper-revision-editor/`, which is the cross-tool standard read by Zed, Goose, Codex, Gemini CLI, OpenCode, Cline, and any other Agent-Skills-compatible tool that follows the spec. For tools that read only a tool-specific directory, the installer also symlinks into that directory.
 
-| Tool                            | Skills directory                                | Personal scope | Project scope |
-| ------------------------------- | ----------------------------------------------- | -------------- | ------------- |
-| Claude Code                     | `~/.claude/skills/<name>/`                      | Yes            | `.claude/skills/<name>/` |
-| Codex CLI                       | `~/.codex/skills/<name>/`                       | Yes            | `.codex/skills/<name>/`  |
-| Gemini CLI                      | `~/.gemini/skills/<name>/`                      | Yes            | `.gemini/skills/<name>/` |
-| Cursor                          | (project only) `.cursor/skills/<name>/`         | No             | Yes |
-| GitHub Copilot (Agent Mode)     | `~/.config/github-copilot/skills/<name>/`       | Yes            | `.github/skills/<name>/` |
-| OpenClaw                        | `~/.openclaw/skills/<name>/`                    | Yes            | `.openclaw/skills/<name>/` |
-| OpenCode, Goose, Cline, Roo Code, Zed, Junie | reads SKILL.md from the same paths as the tools above per the [Agent Skills spec](https://agentskills.io/specification.md) and bridges via [AGENTS.md](https://agents.md) | varies | varies |
+| Tool                          | Reads `~/.agents/skills/`? | Native global path                               | Project path                  |
+| ----------------------------- | -------------------------- | ------------------------------------------------ | ----------------------------- |
+| Claude Code                   | no                         | `~/.claude/skills/<name>/`                       | `.claude/skills/<name>/`      |
+| Codex CLI                     | yes                        | `~/.codex/skills/<name>/`                        | `.codex/skills/<name>/`       |
+| Gemini CLI                    | yes                        | `~/.gemini/skills/<name>/`                       | `.gemini/skills/<name>/`      |
+| Cursor                        | no                         | (none, project-scope only)                       | `.cursor/skills/<name>/`      |
+| GitHub Copilot (Agent Mode)   | no                         | `~/.config/github-copilot/skills/<name>/`        | `.github/skills/<name>/`      |
+| OpenClaw                      | yes                        | `~/.openclaw/skills/<name>/`                     | `.openclaw/skills/<name>/`    |
+| OpenCode                      | yes                        | `~/.config/opencode/skills/<name>/`              | `.opencode/skills/<name>/`    |
+| Goose                         | yes                        | `~/.config/goose/skills/<name>/`                 | `.goose/skills/<name>/`       |
+| Zed                           | yes (only)                 | (none, uses `~/.agents/skills/`)                 | `.agents/skills/<name>/`      |
+| JetBrains Junie               | tracking                   | `~/.junie/skills/<name>/`                        | `.junie/skills/<name>/`       |
+| Cline                         | yes                        | `~/.cline/skills/<name>/`                        | (varies)                      |
+| Roo Code                      | tracking                   | `~/.roo/skills/<name>/`                          | (varies)                      |
 
-All tools above also read `AGENTS.md` (the cross-tool instruction file) at the repo root. The skill looks for `<paper_context>` there first.
+All tools above also read [AGENTS.md](https://agents.md), the cross-tool instruction file at the repo root. The skill looks for `<paper_context>` in `AGENTS.md` first, then `CLAUDE.md`, then `paper-meta.md`.
 
 ## Quickstart
 
+One line. The installer clones the repo into `~/.local/share/paper-revision-editor`, then symlinks it into `~/.agents/skills/` plus every other detected agent's skills directory:
+
 ```bash
-# 1. Clone the repo once.
-git clone https://github.com/ipeirotis/paper-revision-editor.git
-cd paper-revision-editor
-
-# 2. Install for every detected agent on this machine.
-make install-all
-
-# 3. Drop the AGENTS.md template into your paper repo.
-cp examples/AGENTS.md.template /path/to/your/paper/AGENTS.md
-# (Edit the placeholders for venue, audience, thesis, revision_stage.)
-
-# 4. Open the paper repo in any supported agent and ask it to revise a section.
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
 ```
 
-The installer uses symlinks, so updates to the cloned repo propagate to every tool. Run `git pull` in the clone and you are done.
+Or if you prefer to clone the repo yourself (recommended for contributors):
+
+```bash
+git clone https://github.com/ipeirotis/paper-revision-editor.git
+cd paper-revision-editor
+make install-all
+```
+
+Then scaffold the per-paper context inside your paper repo:
+
+```bash
+cd /path/to/your/paper
+~/.local/share/paper-revision-editor/install.sh --init   # or `make init` from the clone
+```
+
+The init step writes `AGENTS.md` from the template, prompting for venue, audience, thesis, and revision stage. Open the paper repo in any supported agent and ask it to revise a section.
+
+Updates propagate automatically because the install is a symlink. To pull new versions:
+
+```bash
+git -C ~/.local/share/paper-revision-editor pull
+# Or, if you cloned the repo manually:
+git -C /path/to/paper-revision-editor pull
+```
 
 ## Per-tool install
 
-If you only use one tool, install for that one:
+The default install hits the cross-tool location plus every detected tool. If you want a narrower install, name the tools explicitly:
 
 ```bash
-make install-claude     # ~/.claude/skills/paper-revision-editor
-make install-codex      # ~/.codex/skills/paper-revision-editor
-make install-gemini     # ~/.gemini/skills/paper-revision-editor
-make install-openclaw   # ~/.openclaw/skills/paper-revision-editor
-make install-cursor     # $PWD/.cursor/skills/paper-revision-editor (project-scope; run inside the paper repo)
-make install-copilot    # ~/.config/github-copilot/skills/paper-revision-editor
+make install-agents     # ~/.agents/skills/ only (cross-tool standard)
+make install-claude     # ~/.claude/skills/
+make install-codex      # ~/.codex/skills/
+make install-gemini     # ~/.gemini/skills/
+make install-openclaw   # ~/.openclaw/skills/
+make install-cursor     # $PWD/.cursor/skills/ (project-scope; run inside the paper repo)
+make install-copilot    # ~/.config/github-copilot/skills/
+make install-opencode   # ~/.config/opencode/skills/
+make install-goose      # ~/.config/goose/skills/
+make install-zed        # alias for install-agents (Zed reads ~/.agents/skills/ only)
+make install-junie      # ~/.junie/skills/
+make install-cline      # ~/.cline/skills/
+make install-roo        # ~/.roo/skills/
 ```
 
 Or use the underlying script directly:
 
 ```bash
-./install.sh                # install for every detected tool
-./install.sh claude codex   # install for the listed tools only
+./install.sh                # cross-tool plus every detected tool
+./install.sh agents         # only ~/.agents/skills/
+./install.sh claude codex   # only the listed tools
 ./install.sh --check        # detect which tools are present
+./install.sh --init         # scaffold AGENTS.md (run inside the paper repo)
 ./install.sh --uninstall    # remove every symlink
-FORCE_COPY=1 ./install.sh   # copy files instead of symlinking
+FORCE=1 ./install.sh codex  # install even if codex was not detected
+FORCE_COPY=1 ./install.sh   # copy files instead of symlinking (Windows)
 ```
+
+### Windows note
+
+The installer is bash plus `ln -s`. On Windows it works under WSL or under Git Bash with developer mode enabled. If symlinking fails the installer automatically falls back to copying, but copy-mode updates require re-running the installer.
 
 ## Per-repo install via git submodule (version pinning)
 

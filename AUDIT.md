@@ -1,6 +1,6 @@
 # Audit: paper-revision-editor portability pass
 
-Date: 2026-05-21. Pre-revision baseline for the v1.7.0 portability pass.
+Date: 2026-05-21. Pre-revision baseline for the v1.7.0 portability pass. Updated in v1.8.0 with a cross-tool-first install strategy; see CHANGELOG.md for that diff.
 
 ## 1. Current structure
 

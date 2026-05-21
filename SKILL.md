@@ -4,7 +4,7 @@ description: Revise, polish, or respond to reviewer comments on an academic pape
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.7.0"
+  version: "1.8.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---

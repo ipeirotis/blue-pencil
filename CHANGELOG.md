@@ -3,6 +3,30 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.8.0] - 2026-05-21
+
+### Added
+
+- `~/.agents/skills/` is now the primary install target. This is the cross-tool standard read natively by Zed (which reads only this path), Goose, Codex CLI, Gemini CLI, OpenCode, Cline, and any other Agent-Skills-compatible tool that follows the spec. `make install-all` and `./install.sh` (no args) symlink into `~/.agents/skills/paper-revision-editor` first, then into the native global directory of every other detected agent.
+- New install targets: `install-opencode`, `install-goose`, `install-zed` (alias for `install-agents`), `install-junie`, `install-cline`, `install-roo`. Plus matching `uninstall-*` targets and `make install-agents` for cross-tool-only installs.
+- `./install.sh --init` (or `make init`) scaffolds `AGENTS.md` in the current paper repo, prompting for venue, audience, thesis, and revision stage and substituting them into the template. Restores the interactive setup that v1.6 had and that v1.7 dropped. Also writes `CLAUDE.md` as a one-line bridge when missing.
+- `./install.sh --bootstrap` and automatic `curl | bash` support. When the installer is piped via `curl ... | bash` (no SKILL.md beside the script) it clones the repo into `$PAPER_REVISION_EDITOR_HOME` (default `~/.local/share/paper-revision-editor`) and re-executes from there. Future `git -C` pulls in that location update every linked tool. Restores the one-line install that v1.6 had.
+- Installer detection for `opencode`, `goose`, `zed`, `junie`, `cline`, `roo`.
+- Installer auto-falls-back to copy mode when symlink creation fails (Windows without developer mode), instead of erroring.
+- `FORCE=1` flag to install for a tool that detection missed. Also recognised by `uninstall` to clean up copy-mode installs.
+- Same-destination de-duplication: `install-zed` and `install-agents` resolve to the same path, so `install-all` does not double-write.
+
+### Changed
+
+- `install-all` default order now starts with `agents`, ensuring the cross-tool location is always populated.
+- Makefile generates per-tool targets from a single list, so adding a tool is one line.
+- `README.md` updated with the new support matrix (which tools read `~/.agents/skills/` natively), one-line `curl | bash` quickstart, and the full per-tool target list. Windows note added.
+- SKILL.md `metadata.version` bumped to 1.8.0.
+
+### Rationale
+
+After v1.7.0 the installer covered six tools but lost two features the v1.6 install had: the interactive paper-context prompt and the one-line `curl | bash` install. The brief also listed several Agent-Skills tools that v1.7.0 did not target (OpenCode, Goose, Zed, Junie, Cline, Roo Code). v1.8.0 closes both gaps. The bigger conceptual change is leaning into `~/.agents/skills/` as the primary install location: the spec calls for it, the newest tools (Zed) read only that path, and most other Agent-Skills tools (Codex, Gemini, OpenCode, Goose, Cline) read it as an alias. Installing there first means one symlink covers most of the ecosystem, and the per-tool targets exist as compatibility shims for tools that ignore `~/.agents/skills/` (Claude Code, Cursor, Copilot).
+
 ## [1.7.0] - 2026-05-21
 
 ### Added

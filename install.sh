@@ -1,21 +1,39 @@
 #!/usr/bin/env bash
 # Cross-tool installer for the paper-revision-editor skill.
 #
-# Default: install the skill into every SKILL.md-compatible agent detected on
-# this machine, by symlinking this repository into each tool's skills directory.
+# Default behaviour: install into ~/.agents/skills/paper-revision-editor (the
+# cross-tool standard read by Zed, Goose, Codex, Gemini CLI, OpenCode, Cline,
+# and other Agent-Skills-compatible tools), plus the native skills directory
+# of every other detected agent.
 #
 # Usage:
-#   ./install.sh                       # install for all detected tools
-#   ./install.sh claude                # install for Claude Code only
+#   ./install.sh                       # install for every detected agent
+#   ./install.sh agents                # install only to ~/.agents/skills/ (cross-tool)
 #   ./install.sh claude codex gemini   # install for the listed tools
 #   ./install.sh --check               # detect tools; do not install
-#   ./install.sh --uninstall           # remove symlinks
+#   ./install.sh --uninstall           # remove every symlink
 #   ./install.sh --uninstall claude    # remove for Claude Code only
+#   ./install.sh --init                # scaffold AGENTS.md in the current repo
+#   ./install.sh --bootstrap           # for curl|bash: clone the repo, then install
 #
-# Tool keys: claude codex openclaw cursor gemini copilot
+# Tool keys:
+#   agents      ~/.agents/skills/      (cross-tool standard; read by many tools)
+#   claude      ~/.claude/skills/
+#   codex       ~/.codex/skills/
+#   openclaw    ~/.openclaw/skills/
+#   cursor      $PWD/.cursor/skills/   (project-scope only)
+#   gemini      ~/.gemini/skills/
+#   copilot     ~/.config/github-copilot/skills/
+#   opencode    ~/.config/opencode/skills/
+#   goose       ~/.config/goose/skills/
+#   zed         (uses agents only)
+#   junie       ~/.junie/skills/
+#   cline       ~/.cline/skills/
+#   roo         ~/.roo/skills/
 #
-# Symlinks are used by default so updates to this repo propagate to every
-# installed location. Pass FORCE_COPY=1 to copy files instead.
+# Symlinks are used by default so updates to the source repo propagate to every
+# installed location. Pass FORCE_COPY=1 to copy files instead. Pass FORCE=1 to
+# install for a tool that was not detected.
 #
 # This script is idempotent. Re-running it is safe.
 
@@ -24,78 +42,134 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_NAME="paper-revision-editor"
 SOURCE_DIR="$SCRIPT_DIR"
+REPO_URL="https://github.com/ipeirotis/paper-revision-editor.git"
+CACHE_DIR="${PAPER_REVISION_EDITOR_HOME:-$HOME/.local/share/paper-revision-editor}"
 
-# Tool keys understood by this installer.
-TOOL_KEYS=(claude codex openclaw cursor gemini copilot)
+# All tool keys understood by this installer. `agents` is intentionally first
+# so install-all hits the cross-tool standard before any tool-specific path.
+TOOL_KEYS=(agents claude codex openclaw cursor gemini copilot opencode goose zed junie cline roo)
 
-# Per-tool detection commands or filesystem markers.
-detect_claude() {
-  command -v claude >/dev/null 2>&1 || [ -d "$HOME/.claude" ]
-}
-detect_codex() {
-  command -v codex >/dev/null 2>&1 || [ -d "$HOME/.codex" ]
-}
-detect_openclaw() {
-  command -v openclaw >/dev/null 2>&1 || [ -d "$HOME/.openclaw" ]
-}
+# --- Detection ---------------------------------------------------------------
+# Each detector returns 0 when the tool appears to be installed. `agents` is
+# always considered detected: it is the cross-tool destination and does not
+# require a specific agent on this machine.
+
+detect_agents()   { return 0; }
+detect_claude()   { command -v claude   >/dev/null 2>&1 || [ -d "$HOME/.claude"   ]; }
+detect_codex()    { command -v codex    >/dev/null 2>&1 || [ -d "$HOME/.codex"    ]; }
+detect_openclaw() { command -v openclaw >/dev/null 2>&1 || [ -d "$HOME/.openclaw" ]; }
 detect_cursor() {
   command -v cursor >/dev/null 2>&1 \
     || [ -d "$HOME/.cursor" ] \
     || [ -d "/Applications/Cursor.app" ] \
     || [ -d "$HOME/AppData/Local/Programs/cursor" ]
 }
-detect_gemini() {
-  command -v gemini >/dev/null 2>&1 || [ -d "$HOME/.gemini" ]
-}
+detect_gemini()   { command -v gemini   >/dev/null 2>&1 || [ -d "$HOME/.gemini"   ]; }
 detect_copilot() {
-  command -v gh >/dev/null 2>&1 && gh extension list 2>/dev/null | grep -q copilot \
+  { command -v gh >/dev/null 2>&1 && gh extension list 2>/dev/null | grep -q copilot; } \
     || command -v code >/dev/null 2>&1 \
     || [ -d "$HOME/.config/github-copilot" ]
 }
+detect_opencode() { command -v opencode >/dev/null 2>&1 || [ -d "$HOME/.config/opencode" ]; }
+detect_goose()    { command -v goose    >/dev/null 2>&1 || [ -d "$HOME/.config/goose"    ]; }
+detect_zed() {
+  command -v zed >/dev/null 2>&1 \
+    || [ -d "$HOME/.config/zed" ] \
+    || [ -d "$HOME/Library/Application Support/Zed" ] \
+    || [ -d "/Applications/Zed.app" ]
+}
+detect_junie() {
+  [ -d "$HOME/.junie" ] \
+    || command -v junie >/dev/null 2>&1 \
+    || ls -d "$HOME"/.JetBrains* 2>/dev/null | head -n1 | grep -q . \
+    || ls -d "$HOME"/Library/Application\ Support/JetBrains 2>/dev/null | head -n1 | grep -q .
+}
+detect_cline() {
+  command -v code >/dev/null 2>&1 \
+    || [ -d "$HOME/.cline" ] \
+    || [ -d "$HOME/.vscode" ]
+}
+detect_roo() {
+  [ -d "$HOME/.roo" ] \
+    || command -v code >/dev/null 2>&1 \
+    || [ -d "$HOME/.vscode" ]
+}
 
-# Per-tool install paths.
+# --- Per-tool paths ----------------------------------------------------------
+
+path_agents()   { echo "$HOME/.agents/skills/$SKILL_NAME"; }
 path_claude()   { echo "$HOME/.claude/skills/$SKILL_NAME"; }
 path_codex()    { echo "$HOME/.codex/skills/$SKILL_NAME"; }
 path_openclaw() { echo "$HOME/.openclaw/skills/$SKILL_NAME"; }
 path_gemini()   { echo "$HOME/.gemini/skills/$SKILL_NAME"; }
 path_copilot()  { echo "$HOME/.config/github-copilot/skills/$SKILL_NAME"; }
-# Cursor is project-scope only; install into the current working directory if
-# it looks like a project root, otherwise warn and skip.
+path_opencode() { echo "$HOME/.config/opencode/skills/$SKILL_NAME"; }
+path_goose()    { echo "$HOME/.config/goose/skills/$SKILL_NAME"; }
+path_junie()    { echo "$HOME/.junie/skills/$SKILL_NAME"; }
+path_cline()    { echo "$HOME/.cline/skills/$SKILL_NAME"; }
+path_roo()      { echo "$HOME/.roo/skills/$SKILL_NAME"; }
+# Cursor is project-scope only.
 path_cursor()   { echo "$PWD/.cursor/skills/$SKILL_NAME"; }
+# Zed reads only ~/.agents/skills/ globally, so the `zed` key is an alias for
+# the `agents` install. We keep the key so users can type install-zed.
+path_zed()      { echo "$HOME/.agents/skills/$SKILL_NAME"; }
 
 human_name() {
   case "$1" in
+    agents)   echo "Cross-tool standard (~/.agents/skills/)" ;;
     claude)   echo "Claude Code (~/.claude/skills/)" ;;
-    codex)    echo "Codex CLI (~/.codex/skills/)" ;;
+    codex)    echo "Codex CLI (~/.codex/skills/; also reads ~/.agents/skills/)" ;;
     openclaw) echo "OpenClaw (~/.openclaw/skills/)" ;;
-    gemini)   echo "Gemini CLI (~/.gemini/skills/)" ;;
+    gemini)   echo "Gemini CLI (~/.gemini/skills/; also reads ~/.agents/skills/)" ;;
     cursor)   echo "Cursor (\$PWD/.cursor/skills/, project-scope only)" ;;
     copilot)  echo "GitHub Copilot Agent Mode (~/.config/github-copilot/skills/)" ;;
+    opencode) echo "OpenCode (~/.config/opencode/skills/; also reads ~/.agents/skills/)" ;;
+    goose)    echo "Goose (~/.config/goose/skills/; also reads ~/.agents/skills/)" ;;
+    zed)      echo "Zed (reads ~/.agents/skills/ only; covered by agents install)" ;;
+    junie)    echo "JetBrains Junie (~/.junie/skills/)" ;;
+    cline)    echo "Cline (~/.cline/skills/; reads ~/.agents/skills/ on newer builds)" ;;
+    roo)      echo "Roo Code (~/.roo/skills/)" ;;
   esac
 }
 
 is_detected() {
   case "$1" in
+    agents)   detect_agents ;;
     claude)   detect_claude ;;
     codex)    detect_codex ;;
     openclaw) detect_openclaw ;;
     cursor)   detect_cursor ;;
     gemini)   detect_gemini ;;
     copilot)  detect_copilot ;;
+    opencode) detect_opencode ;;
+    goose)    detect_goose ;;
+    zed)      detect_zed ;;
+    junie)    detect_junie ;;
+    cline)    detect_cline ;;
+    roo)      detect_roo ;;
     *) return 1 ;;
   esac
 }
 
 dest_path() {
   case "$1" in
+    agents)   path_agents ;;
     claude)   path_claude ;;
     codex)    path_codex ;;
     openclaw) path_openclaw ;;
     cursor)   path_cursor ;;
     gemini)   path_gemini ;;
     copilot)  path_copilot ;;
+    opencode) path_opencode ;;
+    goose)    path_goose ;;
+    zed)      path_zed ;;
+    junie)    path_junie ;;
+    cline)    path_cline ;;
+    roo)      path_roo ;;
   esac
 }
+
+# --- Symlink helpers ---------------------------------------------------------
 
 ensure_link() {
   local dest="$1"
@@ -120,9 +194,12 @@ ensure_link() {
   if [ "${FORCE_COPY:-0}" = "1" ]; then
     cp -R "$SOURCE_DIR" "$dest"
     echo "  copied: $dest"
-  else
-    ln -s "$SOURCE_DIR" "$dest"
+  elif ln -s "$SOURCE_DIR" "$dest" 2>/dev/null; then
     echo "  linked: $dest -> $SOURCE_DIR"
+  else
+    echo "  symlink failed (Windows without developer mode?); copying instead"
+    cp -R "$SOURCE_DIR" "$dest"
+    echo "  copied: $dest"
   fi
 }
 
@@ -131,21 +208,34 @@ remove_link() {
   if [ -L "$dest" ]; then
     rm "$dest"
     echo "  removed: $dest"
+  elif [ -d "$dest" ] && [ "${FORCE:-0}" = "1" ]; then
+    rm -rf "$dest"
+    echo "  removed (copy): $dest"
   elif [ -e "$dest" ]; then
-    echo "  skipped (not a symlink): $dest"
+    echo "  skipped (not a symlink; pass FORCE=1 to remove a copy): $dest"
   else
     echo "  not installed: $dest"
   fi
 }
 
+# Many keys resolve to ~/.agents/skills/. Skip duplicates within a single run.
+declare -A INSTALLED_DESTS=()
+
 install_one() {
   local key="$1"
   local dest
   dest="$(dest_path "$key")"
+
+  if [ -n "${INSTALLED_DESTS[$dest]:-}" ]; then
+    echo "[$key] $(human_name "$key")"
+    echo "  alias of ${INSTALLED_DESTS[$dest]}; nothing to do"
+    return 0
+  fi
+
   echo "[$key] $(human_name "$key")"
-  if ! is_detected "$key"; then
-    echo "  not detected; skipping. (Use FORCE=1 ./install.sh $key to install anyway.)"
-    [ "${FORCE:-0}" = "1" ] || return 0
+  if ! is_detected "$key" && [ "${FORCE:-0}" != "1" ]; then
+    echo "  not detected; skipping. (Use FORCE=1 to install anyway.)"
+    return 0
   fi
   if [ "$key" = "cursor" ]; then
     if [ ! -d "$PWD/.git" ] && [ ! -f "$PWD/package.json" ] && [ ! -f "$PWD/pyproject.toml" ]; then
@@ -155,6 +245,7 @@ install_one() {
     fi
   fi
   ensure_link "$dest"
+  INSTALLED_DESTS[$dest]="$key"
 }
 
 uninstall_one() {
@@ -165,18 +256,128 @@ uninstall_one() {
   remove_link "$dest"
 }
 
+# --- Interactive AGENTS.md scaffolding ---------------------------------------
+
+read_field() {
+  local prompt="$1"
+  local var=""
+  printf "  %s: " "$prompt" >&2
+  if [ -t 0 ]; then
+    read -r var || true
+  elif exec 3</dev/tty 2>/dev/null; then
+    read -r var <&3 || true
+    exec 3<&-
+  fi
+  printf '%s' "$var"
+}
+
+run_init() {
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "ERROR: --init must run inside a git repository (your paper repo)." >&2
+    exit 1
+  fi
+
+  local repo_root
+  repo_root="$(git rev-parse --show-toplevel)"
+  local target="$repo_root/AGENTS.md"
+
+  if [ -f "$target" ] && grep -q "<paper_context>" "$target"; then
+    echo "AGENTS.md already contains a <paper_context> block. Nothing to do."
+    return 0
+  fi
+
+  echo "Scaffolding AGENTS.md in $repo_root"
+  echo "Press Enter to skip a field; you can edit AGENTS.md later."
+  echo
+
+  local venue audience thesis stage
+  venue=$(read_field "Target venue (e.g. Information Systems Research)")
+  audience=$(read_field "Primary audience (e.g. empirical IS researchers)")
+  thesis=$(read_field "Core thesis (1 to 2 sentences)")
+  echo "  Revision stage options: first draft | response to reviewers | final polish" >&2
+  stage=$(read_field "Revision stage")
+
+  local template="$SOURCE_DIR/examples/AGENTS.md.template"
+  if [ ! -f "$template" ]; then
+    echo "ERROR: cannot find $template" >&2
+    exit 1
+  fi
+
+  if [ -f "$target" ]; then
+    echo "" >> "$target"
+    sed -n '/<paper_context>/,/<\/paper_context>/p' "$template" >> "$target"
+  else
+    cp "$template" "$target"
+  fi
+
+  # Substitute placeholders.
+  local v_venue="${venue:-[fill in]}"
+  local v_audience="${audience:-[fill in]}"
+  local v_thesis="${thesis:-[fill in]}"
+  local v_stage="${stage:-first draft}"
+
+  awk \
+    -v venue="$v_venue" -v audience="$v_audience" \
+    -v thesis="$v_thesis" -v stage="$v_stage" '
+    function replace(line, val,    i, j) {
+      i = index(line, "[REPLACE:")
+      if (i == 0) return line
+      j = index(substr(line, i), "]")
+      if (j == 0) return line
+      return substr(line, 1, i - 1) val substr(line, i + j)
+    }
+    /^target_venue:/   { print replace($0, venue);    next }
+    /^audience:/       { print replace($0, audience); next }
+    /^core_thesis:/    { print replace($0, thesis);   next }
+    /^revision_stage:/ { print replace($0, stage);    next }
+    { print }
+  ' "$target" > "$target.tmp" && mv "$target.tmp" "$target"
+
+  echo
+  echo "Wrote $target. Review and edit as needed."
+
+  if [ ! -f "$repo_root/CLAUDE.md" ] && [ -f "$SOURCE_DIR/examples/CLAUDE.md.template" ]; then
+    cp "$SOURCE_DIR/examples/CLAUDE.md.template" "$repo_root/CLAUDE.md"
+    echo "Wrote $repo_root/CLAUDE.md (bridge to AGENTS.md)."
+  fi
+}
+
+# --- Bootstrap for `curl | bash` ---------------------------------------------
+# When running via `curl ... | bash`, the script has no repo around it. The
+# bootstrap path clones the repo into $CACHE_DIR, then re-execs from there.
+
+run_bootstrap() {
+  if [ -d "$CACHE_DIR/.git" ]; then
+    echo "Updating existing clone at $CACHE_DIR"
+    git -C "$CACHE_DIR" fetch --quiet origin
+    git -C "$CACHE_DIR" reset --hard --quiet origin/main
+  else
+    echo "Cloning $REPO_URL to $CACHE_DIR"
+    mkdir -p "$(dirname "$CACHE_DIR")"
+    git clone --quiet "$REPO_URL" "$CACHE_DIR"
+  fi
+  echo
+  echo "Running installer from $CACHE_DIR"
+  echo
+  exec "$CACHE_DIR/install.sh" "$@"
+}
+
+# --- Check ------------------------------------------------------------------
+
 run_check() {
   echo "Detected tools on this machine:"
   echo
   for key in "${TOOL_KEYS[@]}"; do
+    local dest
+    dest="$(dest_path "$key")"
     if is_detected "$key"; then
-      printf "  %-9s yes  -> %s\n" "$key" "$(dest_path "$key")"
+      printf "  %-9s yes  -> %s\n" "$key" "$dest"
     else
       printf "  %-9s no\n" "$key"
     fi
   done
   echo
-  echo "Run ./install.sh to install for every detected tool."
+  echo "Run ./install.sh to install for the cross-tool location plus every detected tool."
   echo "Run ./install.sh <tool> to install for a specific tool."
 }
 
@@ -186,21 +387,40 @@ MODE="install"
 ARGS=()
 for arg in "$@"; do
   case "$arg" in
-    --check|-c|check) MODE="check" ;;
-    --uninstall|-u|uninstall) MODE="uninstall" ;;
+    --check|-c|check)             MODE="check" ;;
+    --uninstall|-u|uninstall)     MODE="uninstall" ;;
+    --init|init)                  MODE="init" ;;
+    --bootstrap|bootstrap)        MODE="bootstrap" ;;
     --help|-h|help)
-      sed -n '2,20p' "$0"
+      sed -n '2,30p' "$0"
       exit 0
       ;;
     *) ARGS+=("$arg") ;;
   esac
 done
 
+if [ "$MODE" = "bootstrap" ]; then
+  run_bootstrap "${ARGS[@]}"
+fi
+
+# If invoked outside a clone (no SKILL.md beside the script) and not in --check
+# or --init mode, fall through to bootstrap so `curl | bash` Just Works.
+if [ ! -f "$SOURCE_DIR/SKILL.md" ] && [ "$MODE" != "check" ] && [ "$MODE" != "init" ]; then
+  echo "No SKILL.md found beside install.sh; bootstrapping a clone."
+  run_bootstrap "${ARGS[@]}"
+fi
+
 if [ "$MODE" = "check" ]; then
   run_check
   exit 0
 fi
 
+if [ "$MODE" = "init" ]; then
+  run_init
+  exit 0
+fi
+
+# Default targets: agents (cross-tool) plus every detected tool.
 if [ ${#ARGS[@]} -eq 0 ]; then
   TARGETS=("${TOOL_KEYS[@]}")
 else
@@ -234,3 +454,4 @@ for key in "${TARGETS[@]}"; do
 done
 echo
 echo "Done. Run './install.sh --check' to see which tools are installed."
+echo "Run './install.sh --init' inside a paper repo to scaffold AGENTS.md."
