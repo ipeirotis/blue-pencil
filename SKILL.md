@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-version: 1.4.0
+version: 1.5.0
 allowed-tools: Read, Edit, Grep, Glob
 description: Editorial review of academic paper sections. Diagnoses structural and stylistic problems first, then revises while preserving voice, technical content, and empirical claims. Use when the user asks to revise, edit, polish, copy-edit, tighten, or get editorial feedback on a paper section (introduction, related work, methodology, results, discussion, conclusion), or when responding to reviewer comments.
 ---
@@ -148,12 +148,32 @@ Two principles that govern all style choices:
 
 ## Preflight checks before finalizing output
 
-Before returning the final answer, run this checklist:
+Run this checklist before returning the final answer:
 
 - Confirm every diagnosis item references a concrete paragraph index or stable label.
 - Confirm no protected content changed (numbers, citations, math, cross-references, macros).
 - Confirm requested scope is respected (feedback-only vs rewrite; whole section vs selected paragraphs).
 - Confirm `Author questions` includes all unresolved evidence or reviewer-request gaps.
+
+### Read-cold pass on the revised text
+
+After producing the revised text but before returning the four-section output, re-read the revised text alone, without referring back to the original. Apply these checks to the rewrite in isolation:
+
+- For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the revised text alone. The rewrite often loses an antecedent present in the original phrasing. Supply a noun if the referent is not obvious.
+- Run the diagnostic checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory of the rules: em-dashes, banned transition words, banned hedging phrases, banned promotional adjectives, `We show that` frames, `navigate` and `leverage` used as throat-clearing, decorative triads.
+- Confirm the rewrite did not introduce new nominalizations, new hedge stacks, or new noun pile-ups while fixing other problems. A rewrite that trades one pattern for another is not an improvement.
+
+If any check fails, fix the rewrite before returning the output. Do not ship a known defect and flag the defect in `Change rationale`.
+
+### Length budget
+
+After the revised text passes the read-cold pass, count words in the original and in the rewrite. Exclude citation commands, math environments, and LaTeX macros from the count.
+
+- A rewrite shorter than the original needs no length justification.
+- A rewrite within 5% of the original length is acceptable when the original was already tight; otherwise consider another subtractive pass.
+- A rewrite longer than the original requires a one-line justification in `Change rationale` (for example: "expanded a noun pile-up into a prepositional phrase for clarity").
+
+Good academic editing is subtractive by default. A rewrite that grows the section is suspect.
 
 ## Output format (strict)
 
@@ -175,9 +195,12 @@ The revised section in a single fenced block. No commentary inside the block. If
 
 ### 3. Change rationale
 
-One line per non-trivial change, in the form `before → after, why`. If no rewrite was requested, include brief rationale bullets for the top diagnosis items instead. If a rewrite was requested but no safe edits are possible under constraints, write `No safe edits under current constraints.` and explain why in one line.
+Open with a single word-count line: `Word count: <before> → <after> (<signed percent change>).` Apply the thresholds in "Length budget" under Preflight checks; if the rewrite grew, add a one-line justification immediately after the word-count line.
+
+Then one line per non-trivial change, in the form `before → after, why`. If no rewrite was requested, include brief rationale bullets for the top diagnosis items instead of `before → after` lines, and omit the word-count line. If a rewrite was requested but no safe edits are possible under constraints, write `No safe edits under current constraints.` and explain why in one line.
 
 ```
+Word count: 412 → 348 (-16%).
 "Furthermore, we find" → "We also find", removed banned transition word
 "performed an analysis of" → "analyzed", removed nominalization
 ```

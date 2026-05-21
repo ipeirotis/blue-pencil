@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Claude Skill](https://img.shields.io/badge/Claude_Code-Skill-blueviolet.svg)](https://code.claude.com/docs/en/skills)
 [![Stage](https://img.shields.io/badge/Use-Academic_writing-orange.svg)](#)
@@ -72,7 +72,7 @@ The installer prompts you for target venue, audience, core thesis, and revision 
 **Pinning to a release** (recommended for reproducible installs):
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/v1.4.0/install.sh | REF=v1.4.0 bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/v1.5.0/install.sh | REF=v1.5.0 bash
 ```
 
 `REF` defaults to `main`. Pin it to any release tag to install a frozen version of the skill content. Pass the same tag in the URL and in `REF` so the installer and the files it fetches stay in sync.
