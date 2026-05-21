@@ -3,6 +3,34 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.7.0] - 2026-05-21
+
+### Added
+
+- Cross-tool installer at the repo root (`install.sh`) plus a `Makefile` with per-tool targets (`install-claude`, `install-codex`, `install-openclaw`, `install-cursor`, `install-gemini`, `install-copilot`, and the matching `uninstall-*` targets). `make check` detects which agents are present on the current machine. Symlinks are the default so a single `git pull` in the cloned repo updates every installed tool.
+- `.claude/agents/paper-reviser.md`: Claude Code subagent that dispatches to the skill in an isolated context. Restricted to `Read, Edit, Glob, Grep, Write` (no `Bash`). The skill remains the source of truth; the subagent is a thin wrapper so the main session sees only the four-section output.
+- `examples/AGENTS.md.template`: drop-in `AGENTS.md` for paper repos. Defines `<paper_context>`, editing conventions, and the skill-invocation policy in the cross-tool format read by Claude Code, Codex, Gemini CLI, Cursor, Copilot Agent Mode, OpenCode, Goose, Cline, and Roo Code.
+- `examples/CLAUDE.md.template`: one-line bridge that points Claude Code at `AGENTS.md`.
+- `scripts/README.md`: documents the helper scripts and explains the v1.7 symlink update path.
+- `AUDIT.md`: portability audit captured during this pass.
+
+### Changed
+
+- `SKILL.md` frontmatter is now spec-compliant against the Agent Skills open standard (https://agentskills.io/specification.md). The non-standard `version:` field moves to `metadata.version`. `license: MIT` is set explicitly. `allowed-tools` uses space separation as the spec requires. The `description` is rewritten to 169 characters, under 200, with the strongest trigger phrases first.
+- `SKILL.md` body trimmed from 267 lines to under 200. Adds an explicit "When NOT to use this skill" section, an explicit "Constraints (hard rules)" list (no em-dashes, no meaning changes, no invented or removed citations, no silent deletes, preserve LaTeX, flag numerical-claim and figure-reference changes, do not rewrite quoted material, preserve author framing choices), and short good-vs-bad edit examples under "Editing principles". Existing semantics (revision-stage controls, reviewer-response branch, restraint, voice extraction, read-cold pass, length budget, four-section output) preserved.
+- `SKILL.md` paper-context gate now reads `AGENTS.md` first (cross-tool standard), then `CLAUDE.md`, then `paper-meta.md`. Previously only `CLAUDE.md` and `paper-meta.md` were considered.
+- `README.md` rewritten as a cross-tool guide: support matrix, per-tool install commands, per-repo git-submodule pin pattern, per-tool invocation syntax, and updated update instructions. Drops Claude-Code-only framing.
+- `scripts/update.sh` moved from the repo root and re-labelled as the legacy updater for pre-v1.7 copy-based installs.
+- `references/ai-tells-to-avoid.md`: em-dashes removed (replaced with alternative punctuation that demonstrates the rule it teaches).
+
+### Removed
+
+- Em-dashes throughout the repository (10 in the old README, 5 in the AI-tells reference). The skill bans em-dashes; the source files now obey their own rule.
+
+### Rationale
+
+The skill was operationally complete but marketed and packaged as a Claude-Code-only product. Every Agent-Skills-compatible tool can read the same `SKILL.md`, so the v1.7.0 pass keeps the skill semantics intact and ships the missing portability layer: a spec-compliant frontmatter, a cross-tool installer, a Makefile, a subagent dispatcher for Claude Code, an `AGENTS.md` template paper repos can drop in, and a submodule pin pattern for camera-ready freeze. The skill body picks up an explicit consolidated constraint list and good-vs-bad edit examples so readers do not need to open the references just to see what the skill enforces.
+
 ## [1.6.0] - 2026-05-21
 
 ### Added

@@ -1,183 +1,161 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.7.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Claude Skill](https://img.shields.io/badge/Claude_Code-Skill-blueviolet.svg)](https://code.claude.com/docs/en/skills)
-[![Stage](https://img.shields.io/badge/Use-Academic_writing-orange.svg)](#)
+[![Standard: Agent Skills](https://img.shields.io/badge/Agent_Skills-SKILL.md-blueviolet.svg)](https://agentskills.io)
 
-**An editorial workflow for academic papers that diagnoses structural and stylistic problems first, then revises while preserving voice and technical content.**
+A portable SKILL.md skill that turns any Agent-Skills-compatible coding agent into a top-tier academic editor. The skill diagnoses structural and stylistic problems first, then revises while preserving the author's voice, citations, math, and numerical claims.
 
-A skill for [Claude Code on the Web](https://claude.com/product/claude-code) and the Claude Code terminal that turns Claude into a top-tier academic editor. One install per paper repo, and every revision request goes through the same disciplined diagnose-then-revise pipeline instead of a surface-level grammar pass.
+## What this skill does
 
----
+When you ask an agent to "revise the introduction" or "respond to reviewer 2", the skill runs a disciplined diagnose-then-revise pipeline: load the paper context, triage the request, apply a section-specific diagnostic lens, extract voice tics from the original prose, produce a rewrite, run a read-cold pass on the rewrite, check the length budget, and return a strict four-section output (Diagnosis, Revised text, Change rationale, Author questions). Numerical claims, citations, and analytical conclusions are never edited; changes to them come back as questions for you. No em-dashes, no banned transitions, no throat-clearing.
 
-## Features at a Glance
+## Cross-tool support matrix
 
-- **Diagnose-then-revise pipeline** — Claude lists structural problems before touching prose, so you see the reasoning, not just a black-box rewrite
-- **Per-paper context** — Reads target venue, audience, thesis, and revision stage from `CLAUDE.md` once per repo
-- **Section-specific lens** — Different criteria for Introduction, Related Work, Methodology, Results, Discussion, and Conclusion
-- **Author voice preserved** — Empirical claims, numerical results, and analytical conclusions are never altered; only the prose around them
-- **Style constraints baked in** — No em-dashes, no AI transition words, no hedging filler
-- **Author-question flagging** — Unverifiable claims and logical gaps come back as questions, not guesses
-- **Principled grounding on demand** — Williams, Gopen and Swan, Pinker, McEnerney, and Mensh and Kording loaded as a reference file when an edit needs justification beyond "reads better"
-- **Pass-level edit-checks** — Ten checklist questions plus two meta-rules (layered audience passes, default 20% cut) drawn from writers whose papers are widely cited as a pleasure to read (Coase, Akerlof, Kleinberg, Schelling, Brooks, Lampson, Chetty)
-- **One-line install** — `curl | bash` and the skill is committed to the paper repo
-- **Travels with the repo** — Works in Claude Code on the Web because the skill lives inside `.claude/skills/`
+The skill follows the [Agent Skills open standard](https://agentskills.io). Every tool below reads the same `SKILL.md` file from its own skills directory.
 
----
+| Tool                            | Skills directory                                | Personal scope | Project scope |
+| ------------------------------- | ----------------------------------------------- | -------------- | ------------- |
+| Claude Code                     | `~/.claude/skills/<name>/`                      | Yes            | `.claude/skills/<name>/` |
+| Codex CLI                       | `~/.codex/skills/<name>/`                       | Yes            | `.codex/skills/<name>/`  |
+| Gemini CLI                      | `~/.gemini/skills/<name>/`                      | Yes            | `.gemini/skills/<name>/` |
+| Cursor                          | (project only) `.cursor/skills/<name>/`         | No             | Yes |
+| GitHub Copilot (Agent Mode)     | `~/.config/github-copilot/skills/<name>/`       | Yes            | `.github/skills/<name>/` |
+| OpenClaw                        | `~/.openclaw/skills/<name>/`                    | Yes            | `.openclaw/skills/<name>/` |
+| OpenCode, Goose, Cline, Roo Code, Zed, Junie | reads SKILL.md from the same paths as the tools above per the [Agent Skills spec](https://agentskills.io/specification.md) and bridges via [AGENTS.md](https://agents.md) | varies | varies |
 
-## The Problem
+All tools above also read `AGENTS.md` (the cross-tool instruction file) at the repo root. The skill looks for `<paper_context>` there first.
 
-LLMs default to surface-level edits when asked to "improve" academic prose. They polish sentences in paragraphs whose purpose is unclear, smooth over arguments that contradict each other, and reach for em-dashes and "Furthermore" as transition glue. The result reads fluent but does not actually improve the paper.
-
-Real editorial work happens in a specific order: structure first, paragraph purpose second, sentence-level cohesion third, surface polish last. This skill enforces that order on every invocation.
-
-## How It Works
-
-**One-time setup per paper repo:**
-
-1. Run the installer from the paper's repo root.
-2. The script prompts for target venue, audience, core thesis, and revision stage, writes a `<paper_context>` block to `CLAUDE.md`, copies `SKILL.md` and supporting references into `.claude/skills/paper-revision-editor/`, and commits.
-
-**Every revision after that:**
-
-1. Open a section file or paste a section into chat
-2. Ask Claude to revise it (any phrasing the TRIGGER list catches)
-3. Claude reads the paper context from `CLAUDE.md`, applies the diagnostic lens, and returns: diagnosis, revised text, change rationale, and any author questions
-
-## Quick Start
+## Quickstart
 
 ```bash
-# 1. Install the skill (from your paper's repo root).
-#    The installer prompts for target venue, audience, thesis, and revision
-#    stage, then writes a <paper_context> block to CLAUDE.md.
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
+# 1. Clone the repo once.
+git clone https://github.com/ipeirotis/paper-revision-editor.git
+cd paper-revision-editor
 
-# 2. Tell Claude:
-#    "Revise the introduction."
+# 2. Install for every detected agent on this machine.
+make install-all
 
-# That's it. Every revision request goes through the diagnose-then-revise pipeline.
+# 3. Drop the AGENTS.md template into your paper repo.
+cp examples/AGENTS.md.template /path/to/your/paper/AGENTS.md
+# (Edit the placeholders for venue, audience, thesis, revision_stage.)
+
+# 4. Open the paper repo in any supported agent and ask it to revise a section.
 ```
 
-## Install
+The installer uses symlinks, so updates to the cloned repo propagate to every tool. Run `git pull` in the clone and you are done.
 
-**One-liner** (from your paper's repo root):
+## Per-tool install
+
+If you only use one tool, install for that one:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
+make install-claude     # ~/.claude/skills/paper-revision-editor
+make install-codex      # ~/.codex/skills/paper-revision-editor
+make install-gemini     # ~/.gemini/skills/paper-revision-editor
+make install-openclaw   # ~/.openclaw/skills/paper-revision-editor
+make install-cursor     # $PWD/.cursor/skills/paper-revision-editor (project-scope; run inside the paper repo)
+make install-copilot    # ~/.config/github-copilot/skills/paper-revision-editor
 ```
 
-The installer prompts you for target venue, audience, core thesis, and revision stage, then writes a `<paper_context>` block to `CLAUDE.md` at the repo root.
-
-**Pinning to a release** (recommended for reproducible installs):
+Or use the underlying script directly:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/v1.6.0/install.sh | REF=v1.6.0 bash
+./install.sh                # install for every detected tool
+./install.sh claude codex   # install for the listed tools only
+./install.sh --check        # detect which tools are present
+./install.sh --uninstall    # remove every symlink
+FORCE_COPY=1 ./install.sh   # copy files instead of symlinking
 ```
 
-`REF` defaults to `main`. Pin it to any release tag to install a frozen version of the skill content. Pass the same tag in the URL and in `REF` so the installer and the files it fetches stay in sync.
+## Per-repo install via git submodule (version pinning)
 
-**Manual install** (if you prefer to see each step):
+If you want a paper repo to use a specific commit or tag of the skill, vendor it as a submodule. This is the right pattern for camera-ready revisions where you want the skill frozen.
 
 ```bash
-# From the repo root. Replace `main` with `v1.4.0` (or any release tag) to pin.
-BASE=https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
-DEST=.claude/skills/paper-revision-editor
+cd /path/to/your/paper
 
-mkdir -p "$DEST/references"
+# Add the submodule under .claude/skills/ for Claude Code:
+git submodule add https://github.com/ipeirotis/paper-revision-editor.git .claude/skills/paper-revision-editor
 
-for FILE in \
-  SKILL.md VERSION \
-  references/sentence-cohesion.md \
-  references/ai-tells-to-avoid.md \
-  references/principles.md \
-  references/sentence-patterns.md \
-  references/structural-patterns.md \
-  references/edit-checks.md; do
-  curl -sSL "$BASE/$FILE" -o "$DEST/$FILE"
-done
+# Pin to a release tag:
+cd .claude/skills/paper-revision-editor
+git checkout v1.7.0
+cd ../../..
+git add .claude/skills/paper-revision-editor
+git commit -m "Pin paper-revision-editor to v1.7.0"
 
-git add "$DEST"
-git commit -m "Add paper-revision-editor skill"
+# Later, to update to the latest commit on main:
+git submodule update --remote .claude/skills/paper-revision-editor
+git commit -am "Bump paper-revision-editor"
+
+# Or pin to a different tag:
+cd .claude/skills/paper-revision-editor
+git fetch --tags
+git checkout v1.8.0
+cd ../../..
+git commit -am "Pin paper-revision-editor to v1.8.0"
 ```
 
-You will then need to add the `<paper_context>` block to `CLAUDE.md` yourself (see below).
+The same submodule pattern works for any other tool's skills directory: swap `.claude/skills/` for `.codex/skills/`, `.gemini/skills/`, `.cursor/skills/`, etc. A multi-tool paper repo can add the submodule once and then symlink it into each tool's directory.
 
-**Or** just tell Claude Code on the Web:
+## Per-paper context
 
-> "Clone the paper-revision-editor skill from https://github.com/ipeirotis/paper-revision-editor into `.claude/skills/paper-revision-editor/` in this repo and commit it."
+Drop `examples/AGENTS.md.template` into your paper repo as `AGENTS.md` and fill in the placeholders. Every Agent-Skills-compatible tool reads `AGENTS.md`, so the same file briefs Claude Code, Codex, Gemini, Cursor, Copilot, and others.
+
+If you also want Claude Code to load the same context (Claude Code reads both `CLAUDE.md` and `AGENTS.md`, but some setups prefer `CLAUDE.md` only), drop in `examples/CLAUDE.md.template` as `CLAUDE.md`. It is a one-liner that points at `AGENTS.md`.
+
+## How to invoke the skill from each agent
+
+Once installed, every agent can pick up the skill automatically from your phrasing ("revise this section", "polish the introduction", "respond to reviewer 2"). You can also invoke it explicitly:
+
+| Agent                       | Explicit invocation                                                        |
+| --------------------------- | -------------------------------------------------------------------------- |
+| Claude Code                 | `/paper-revision-editor` or use the `paper-reviser` subagent (auto-loaded from `.claude/agents/`) |
+| Codex CLI                   | `/paper-revision-editor`                                                   |
+| Gemini CLI                  | `/paper-revision-editor`                                                   |
+| Cursor                      | Mention the skill by name in chat ("use the paper-revision-editor skill on the introduction"), or rely on auto-invocation |
+| GitHub Copilot (Agent Mode) | Mention the skill by name; Copilot loads it when the description matches   |
+| OpenClaw                    | `/paper-revision-editor`                                                   |
+
+The skill description is identical across tools, so auto-invocation works the same way: any phrasing that contains "revise", "polish", "copy-edit", "tighten", or "reviewer comments" applied to a paper section will trigger the skill.
+
+## Files in this repository
+
+| Path | Purpose |
+|------|---------|
+| `SKILL.md` | The skill itself: frontmatter plus instructions |
+| `references/` | Load-on-demand reference material (principles, sentence patterns, structural patterns, edit-checks, AI tells, sentence cohesion) |
+| `.claude/agents/paper-reviser.md` | Claude Code subagent that dispatches to the skill in an isolated context |
+| `install.sh` | Cross-tool installer (symlinks the repo into each tool's skills directory) |
+| `Makefile` | `make install-claude`, `make install-codex`, etc. |
+| `scripts/update.sh` | Legacy updater for the pre-v1.7 copy-based install pattern |
+| `examples/AGENTS.md.template` | Drop into a paper repo as `AGENTS.md` |
+| `examples/CLAUDE.md.template` | Drop into a paper repo as `CLAUDE.md` if you want a Claude-Code-only bridge |
+| `CHANGELOG.md`, `VERSION` | Release history and current version |
+| `AUDIT.md` | Portability audit captured during the v1.7.0 pass |
 
 ## Updating
 
-Check which version you have and whether a newer one is available:
+If you installed via symlink (the v1.7+ default):
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/update.sh | bash
+cd /path/to/paper-revision-editor
+git pull
 ```
 
-This will:
+Every linked tool sees the updated content on the next invocation. No reinstall needed.
 
-1. Show your installed version and the latest version
-2. Display the changelog entries you would be getting
-3. Ask for confirmation before updating
+If you installed via submodule in a paper repo:
 
-You can also check your installed version at any time: `cat .claude/skills/paper-revision-editor/VERSION`.
-
-## Per-Paper Context (CLAUDE.md)
-
-Add this to `CLAUDE.md` at the root of each paper repo. Claude Code loads `CLAUDE.md` automatically at session start, so the skill always has the paper's context available.
-
-```markdown
-# Paper context
-
-<paper_context>
-target_venue: Information Systems Research
-audience: empirical IS researchers
-core_thesis: [1-2 sentences stating the paper's main contribution]
-revision_stage: response to reviewers
-</paper_context>
-
-# Editing conventions
-
-- No em-dashes anywhere in the manuscript.
-- Avoid: Furthermore, Moreover, Crucially, Importantly, Notably, Ultimately, Delving.
-- Avoid: "It's worth noting", "That said".
+```bash
+cd /path/to/your/paper
+git submodule update --remote .claude/skills/paper-revision-editor
+git commit -am "Bump paper-revision-editor"
 ```
 
-The `revision_stage` field changes how aggressive the revision is. A first-draft pass tolerates broad rewriting; a response-to-reviewers pass preserves the structure reviewers already accepted; a final-polish pass leaves structure alone and focuses on sentence-level work.
-
-## Files Created in Your Repo
-
-| File | Purpose | Committed? |
-|------|---------|------------|
-| `.claude/skills/paper-revision-editor/SKILL.md` | The skill router | Yes |
-| `.claude/skills/paper-revision-editor/VERSION` | Installed version | Yes |
-| `.claude/skills/paper-revision-editor/references/sentence-cohesion.md` | Deep guidance on flow | Yes |
-| `.claude/skills/paper-revision-editor/references/ai-tells-to-avoid.md` | Style constraints | Yes |
-| `.claude/skills/paper-revision-editor/references/principles.md` | Williams, Gopen-Swan, Pinker, McEnerney, Mensh-Kording exposition | Yes |
-| `.claude/skills/paper-revision-editor/references/sentence-patterns.md` | 12-pattern catalog with before-and-after tables | Yes |
-| `.claude/skills/paper-revision-editor/references/structural-patterns.md` | Section-specific deep guidance (abstract, intro, methods, results, discussion, conclusion, rebuttal, grant) | Yes |
-| `.claude/skills/paper-revision-editor/references/edit-checks.md` | Ten pass-level edit-checks plus two meta-rules, drawn from exemplary writers (Coase, Akerlof, Kleinberg, Schelling, Brooks, Lampson, Chetty, others) | Yes |
-| `CLAUDE.md` (paper context) | Venue, thesis, audience, stage | Yes (you create this) |
-
-## What Gets Edited and What Does Not
-
-**Edited:** prose, sentence structure, paragraph organization, transitions, topic sentences, redundancy, hedging, AI tells, em-dashes, banned transition words.
-
-**Not edited:** numerical results, citations, equations, empirical claims, analytical conclusions, author choices about which findings to emphasize.
-
-When the skill is unsure whether a claim is supported, it flags it as a question for the author rather than guessing.
-
-## Troubleshooting
-
-| Symptom | Likely Cause | Fix |
-|---------|-------------|-----|
-| Skill doesn't activate when expected | TRIGGER phrase didn't match | Use one of the TRIGGER phrases in `SKILL.md` (e.g., "revise this section", "polish the introduction") |
-| Skill activates on non-paper content | Working in a repo with academic-looking prose that isn't a paper | Adjust `CLAUDE.md` to clarify the repo's purpose, or remove `paper_context` |
-| Revision rewrites things you didn't want changed | Revision stage set too aggressive | Set `revision_stage: final polish` in `CLAUDE.md` |
-| Claude asks for paper context every time | `CLAUDE.md` missing or has no `<paper_context>` block | Add the block (see Per-Paper Context above) |
-| Updates not pulling | `VERSION` file out of sync | Run `update.sh` again or do a manual reinstall |
+If you installed via the legacy `curl | bash` copy pattern (pre-v1.7), use `scripts/update.sh`.
 
 ## License
 
-MIT
+MIT. See `LICENSE`. Author: ipeirotis. Repository: https://github.com/ipeirotis/paper-revision-editor.

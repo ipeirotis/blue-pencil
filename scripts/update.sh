@@ -1,9 +1,17 @@
 #!/bin/bash
 # Check for updates to paper-revision-editor and optionally apply them.
-# Usage: curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/update.sh | bash
+#
+# This script is the legacy update path for installs that copied files into
+# .claude/skills/paper-revision-editor (the v1.x pre-symlink install pattern).
+# If you installed via `./install.sh` from the repo (the v1.7+ symlink path),
+# update by running `git pull` inside the repo; every linked tool sees the
+# new content immediately.
+#
+# Usage: curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/scripts/update.sh | bash
 set -e
 
 REPO_URL="https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main"
+RAW_BASE="$REPO_URL"
 DEST=".claude/skills/paper-revision-editor"
 
 if ! git rev-parse --is-inside-work-tree &>/dev/null; then

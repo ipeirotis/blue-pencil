@@ -1,0 +1,25 @@
+# AGENTS.md
+
+This file gives every Agent-Skills-compatible tool (Claude Code, Codex CLI, Gemini CLI, Cursor, GitHub Copilot Agent Mode, OpenCode, Goose, Cline, Roo Code) the context it needs to work on this paper.
+
+## Paper context
+
+<paper_context>
+target_venue: [REPLACE: e.g. Information Systems Research, NeurIPS, Nature]
+audience: [REPLACE: e.g. empirical IS researchers, ML methods researchers]
+core_thesis: [REPLACE: one or two sentences naming the paper's main contribution]
+revision_stage: [REPLACE: first draft | response to reviewers | final polish]
+</paper_context>
+
+## Editing conventions
+
+- No em-dashes anywhere in the manuscript.
+- Avoid: Furthermore, Moreover, Crucially, Importantly, Notably, Ultimately, Delving.
+- Avoid: "It's worth noting", "That said", "It is important to note that".
+- Cite inside the sentence, not as a wall at the end of a paragraph.
+
+## Skill
+
+Use the `paper-revision-editor` skill for any revision, polish, copy-edit, or reviewer-response task on a section of this paper. The skill enforces a diagnose-then-revise workflow with a four-section output (Diagnosis, Revised text, Change rationale, Author questions) and preserves voice, citations, math, and numerical claims.
+
+Do not use the skill for proofreading, citation formatting, LaTeX compilation, or drafting new content from notes.
