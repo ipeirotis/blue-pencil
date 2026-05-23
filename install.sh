@@ -243,6 +243,13 @@ install_one() {
       echo "  cd into your project, then run: $0 cursor"
       return 0
     fi
+    # Do not install Cursor into the skill repo itself; it should go into the
+    # user's paper project. Check by looking for SKILL.md at the repo root.
+    if [ -f "$PWD/SKILL.md" ] && grep -q "paper-revision-editor" "$PWD/SKILL.md" 2>/dev/null; then
+      echo "  current directory is the skill repo, not a paper project; skipping."
+      echo "  cd into your paper project, then run: $0 cursor"
+      return 0
+    fi
   fi
   ensure_link "$dest"
   INSTALLED_DESTS[$dest]="$key"
@@ -399,15 +406,27 @@ for arg in "$@"; do
   esac
 done
 
+# Build the full argument list for bootstrap re-exec. MODE was parsed out of
+# ARGS, so we must re-inject it; otherwise `curl ... | bash -s -- --uninstall`
+# silently becomes an install.
+bootstrap_args() {
+  local a=()
+  [ "$MODE" != "install" ] && a+=("--$MODE")
+  a+=("${ARGS[@]}")
+  printf '%s\0' "${a[@]}"
+}
+
 if [ "$MODE" = "bootstrap" ]; then
-  run_bootstrap "${ARGS[@]}"
+  mapfile -d '' BA < <(bootstrap_args)
+  run_bootstrap "${BA[@]}"
 fi
 
 # If invoked outside a clone (no SKILL.md beside the script) and not in --check
 # or --init mode, fall through to bootstrap so `curl | bash` Just Works.
 if [ ! -f "$SOURCE_DIR/SKILL.md" ] && [ "$MODE" != "check" ] && [ "$MODE" != "init" ]; then
   echo "No SKILL.md found beside install.sh; bootstrapping a clone."
-  run_bootstrap "${ARGS[@]}"
+  mapfile -d '' BA < <(bootstrap_args)
+  run_bootstrap "${BA[@]}"
 fi
 
 if [ "$MODE" = "check" ]; then
