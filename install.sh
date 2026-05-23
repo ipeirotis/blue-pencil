@@ -252,7 +252,8 @@ install_one() {
   fi
 
   echo "[$key] $(human_name "$key")"
-  if ! is_detected "$key" && [ "${FORCE:-0}" != "1" ]; then
+  # `zed` is an unconditional alias for `agents`; skip detection.
+  if [ "$key" != "zed" ] && ! is_detected "$key" && [ "${FORCE:-0}" != "1" ]; then
     echo "  not detected; skipping. (Use FORCE=1 to install anyway.)"
     return 0
   fi
@@ -465,9 +466,9 @@ if [ "$MODE" = "bootstrap" ]; then
   run_bootstrap "${_BA[@]}"
 fi
 
-# If invoked outside a clone (no SKILL.md beside the script) and not in --check
-# or --init mode, fall through to bootstrap so `curl | bash` Just Works.
-if [ ! -f "$SOURCE_DIR/SKILL.md" ] && [ "$MODE" != "check" ] && [ "$MODE" != "init" ]; then
+# If invoked outside a clone (no SKILL.md beside the script), bootstrap first
+# so `curl | bash` works for any mode including --init.
+if [ ! -f "$SOURCE_DIR/SKILL.md" ] && [ "$MODE" != "check" ]; then
   echo "No SKILL.md found beside install.sh; bootstrapping a clone."
   _build_bootstrap_args
   run_bootstrap "${_BA[@]}"
