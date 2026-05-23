@@ -380,8 +380,8 @@ run_init() {
 run_bootstrap() {
   if [ -d "$CACHE_DIR/.git" ]; then
     echo "Updating existing clone at $CACHE_DIR"
-    git -C "$CACHE_DIR" fetch --quiet origin
-    git -C "$CACHE_DIR" reset --hard --quiet origin/main
+    git -C "$CACHE_DIR" pull --quiet --ff-only origin main 2>/dev/null \
+      || echo "  (pull skipped; local changes present. Run 'git -C $CACHE_DIR pull' manually.)"
   else
     echo "Cloning $REPO_URL to $CACHE_DIR"
     mkdir -p "$(dirname "$CACHE_DIR")"

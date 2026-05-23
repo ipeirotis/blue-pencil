@@ -23,7 +23,7 @@ INSTALLED_VERSION=""
 if [ -f "$DEST/VERSION" ]; then
   INSTALLED_VERSION=$(tr -d '[:space:]' < "$DEST/VERSION")
 elif [ -f "$DEST/SKILL.md" ]; then
-  INSTALLED_VERSION=$(grep -m1 '^version:' "$DEST/SKILL.md" 2>/dev/null | awk '{print $2}')
+  INSTALLED_VERSION=$(grep -m1 '^\s*version:' "$DEST/SKILL.md" 2>/dev/null | awk '{print $2}' | tr -d '"')
 fi
 
 if [ -z "$INSTALLED_VERSION" ]; then
