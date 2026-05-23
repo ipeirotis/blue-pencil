@@ -468,9 +468,14 @@ fi
 
 echo "Installing $SKILL_NAME from $SOURCE_DIR"
 echo
+FAILURES=0
 for key in "${TARGETS[@]}"; do
-  install_one "$key" || true
+  install_one "$key" || FAILURES=$((FAILURES + 1))
 done
 echo
+if [ "$FAILURES" -gt 0 ]; then
+  echo "$FAILURES target(s) failed. Review the output above."
+  exit 1
+fi
 echo "Done. Run './install.sh --check' to see which tools are installed."
 echo "Run './install.sh --init' inside a paper repo to scaffold AGENTS.md."
