@@ -1,0 +1,6 @@
+# CLAUDE.md
+
+This file bridges Claude Code to the cross-tool AGENTS.md configuration.
+Read and follow all instructions in AGENTS.md at the repo root. That file
+contains the paper context, editing conventions, and skill usage policy.
+Apply those instructions as if they were written directly in this file.
