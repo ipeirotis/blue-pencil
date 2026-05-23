@@ -218,17 +218,30 @@ remove_link() {
   fi
 }
 
-# Many keys resolve to ~/.agents/skills/. Skip duplicates within a single run.
-declare -A INSTALLED_DESTS=()
+# Track installed destinations to skip duplicates (e.g. zed = agents).
+# Uses a delimited string instead of an associative array for bash 3.2
+# compatibility (macOS ships bash 3.2).
+_INSTALLED_DESTS=""
+
+_dest_already_done() {
+  case "$_INSTALLED_DESTS" in
+    *"|$1|"*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+_dest_record() {
+  _INSTALLED_DESTS="${_INSTALLED_DESTS}|$1|"
+}
 
 install_one() {
   local key="$1"
   local dest
   dest="$(dest_path "$key")"
 
-  if [ -n "${INSTALLED_DESTS[$dest]:-}" ]; then
+  if _dest_already_done "$dest"; then
     echo "[$key] $(human_name "$key")"
-    echo "  alias of ${INSTALLED_DESTS[$dest]}; nothing to do"
+    echo "  alias of a previous target; nothing to do"
     return 0
   fi
 
@@ -252,7 +265,7 @@ install_one() {
     fi
   fi
   ensure_link "$dest"
-  INSTALLED_DESTS[$dest]="$key"
+  _dest_record "$dest"
 }
 
 uninstall_one() {
@@ -288,8 +301,16 @@ run_init() {
   repo_root="$(git rev-parse --show-toplevel)"
   local target="$repo_root/AGENTS.md"
 
+  # Always ensure the CLAUDE.md bridge exists, even when AGENTS.md is already
+  # configured. Repos that already have AGENTS.md are the exact migration case
+  # where Claude-specific loading needs the bridge.
+  if [ ! -f "$repo_root/CLAUDE.md" ] && [ -f "$SOURCE_DIR/examples/CLAUDE.md.template" ]; then
+    cp "$SOURCE_DIR/examples/CLAUDE.md.template" "$repo_root/CLAUDE.md"
+    echo "Wrote $repo_root/CLAUDE.md (bridge to AGENTS.md)."
+  fi
+
   if [ -f "$target" ] && grep -q "<paper_context>" "$target"; then
-    echo "AGENTS.md already contains a <paper_context> block. Nothing to do."
+    echo "AGENTS.md already contains a <paper_context> block. Skipping scaffolding."
     return 0
   fi
 
@@ -342,11 +363,6 @@ run_init() {
 
   echo
   echo "Wrote $target. Review and edit as needed."
-
-  if [ ! -f "$repo_root/CLAUDE.md" ] && [ -f "$SOURCE_DIR/examples/CLAUDE.md.template" ]; then
-    cp "$SOURCE_DIR/examples/CLAUDE.md.template" "$repo_root/CLAUDE.md"
-    echo "Wrote $repo_root/CLAUDE.md (bridge to AGENTS.md)."
-  fi
 }
 
 # --- Bootstrap for `curl | bash` ---------------------------------------------
@@ -409,24 +425,23 @@ done
 # Build the full argument list for bootstrap re-exec. MODE was parsed out of
 # ARGS, so we must re-inject it; otherwise `curl ... | bash -s -- --uninstall`
 # silently becomes an install.
-bootstrap_args() {
-  local a=()
-  [ "$MODE" != "install" ] && a+=("--$MODE")
-  a+=("${ARGS[@]}")
-  printf '%s\0' "${a[@]}"
+_build_bootstrap_args() {
+  _BA=()
+  [ "$MODE" != "install" ] && _BA+=("--$MODE")
+  _BA+=("${ARGS[@]}")
 }
 
 if [ "$MODE" = "bootstrap" ]; then
-  mapfile -d '' BA < <(bootstrap_args)
-  run_bootstrap "${BA[@]}"
+  _build_bootstrap_args
+  run_bootstrap "${_BA[@]}"
 fi
 
 # If invoked outside a clone (no SKILL.md beside the script) and not in --check
 # or --init mode, fall through to bootstrap so `curl | bash` Just Works.
 if [ ! -f "$SOURCE_DIR/SKILL.md" ] && [ "$MODE" != "check" ] && [ "$MODE" != "init" ]; then
   echo "No SKILL.md found beside install.sh; bootstrapping a clone."
-  mapfile -d '' BA < <(bootstrap_args)
-  run_bootstrap "${BA[@]}"
+  _build_bootstrap_args
+  run_bootstrap "${_BA[@]}"
 fi
 
 if [ "$MODE" = "check" ]; then
