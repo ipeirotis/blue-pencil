@@ -28,7 +28,7 @@ help:
 	@echo "  make install-gemini   ~/.gemini/skills/paper-revision-editor"
 	@echo "  make install-openclaw ~/.openclaw/skills/paper-revision-editor"
 	@echo "  make install-cursor   \$$PWD/.cursor/skills/paper-revision-editor (run inside paper repo)"
-	@echo "  make install-copilot  ~/.config/github-copilot/skills/paper-revision-editor"
+	@echo "  make install-copilot  ~/.copilot/skills/paper-revision-editor"
 	@echo "  make install-opencode ~/.config/opencode/skills/paper-revision-editor"
 	@echo "  make install-goose    ~/.config/goose/skills/paper-revision-editor"
 	@echo "  make install-zed      alias for install-agents (Zed reads ~/.agents/skills/ only)"
@@ -43,6 +43,9 @@ check:
 	@$(INSTALL) --check
 
 init:
+	@echo "NOTE: run 'make init' from your paper repo, not from this skill repo."
+	@echo "  cd /path/to/your/paper && $(CURDIR)/install.sh --init"
+	@echo
 	@$(INSTALL) --init
 
 install: install-all

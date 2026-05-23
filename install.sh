@@ -23,7 +23,7 @@
 #   openclaw    ~/.openclaw/skills/
 #   cursor      $PWD/.cursor/skills/   (project-scope only)
 #   gemini      ~/.gemini/skills/
-#   copilot     ~/.config/github-copilot/skills/
+#   copilot     ~/.copilot/skills/
 #   opencode    ~/.config/opencode/skills/
 #   goose       ~/.config/goose/skills/
 #   zed         (uses agents only)
@@ -74,6 +74,7 @@ detect_gemini()   { command -v gemini   >/dev/null 2>&1 || [ -d "$HOME/.gemini" 
 detect_copilot() {
   { command -v gh >/dev/null 2>&1 && gh extension list 2>/dev/null | grep -q copilot; } \
     || command -v code >/dev/null 2>&1 \
+    || [ -d "$HOME/.copilot" ] \
     || [ -d "$HOME/.config/github-copilot" ]
 }
 detect_opencode() { command -v opencode >/dev/null 2>&1 || [ -d "$HOME/.config/opencode" ]; }
@@ -108,7 +109,7 @@ path_claude()   { echo "$HOME/.claude/skills/$SKILL_NAME"; }
 path_codex()    { echo "$HOME/.codex/skills/$SKILL_NAME"; }
 path_openclaw() { echo "$HOME/.openclaw/skills/$SKILL_NAME"; }
 path_gemini()   { echo "$HOME/.gemini/skills/$SKILL_NAME"; }
-path_copilot()  { echo "$HOME/.config/github-copilot/skills/$SKILL_NAME"; }
+path_copilot()  { echo "$HOME/.copilot/skills/$SKILL_NAME"; }
 path_opencode() { echo "$HOME/.config/opencode/skills/$SKILL_NAME"; }
 path_goose()    { echo "$HOME/.config/goose/skills/$SKILL_NAME"; }
 path_junie()    { echo "$HOME/.junie/skills/$SKILL_NAME"; }
@@ -128,7 +129,7 @@ human_name() {
     openclaw) echo "OpenClaw (~/.openclaw/skills/)" ;;
     gemini)   echo "Gemini CLI (~/.gemini/skills/; also reads ~/.agents/skills/)" ;;
     cursor)   echo "Cursor (\$PWD/.cursor/skills/, project-scope only)" ;;
-    copilot)  echo "GitHub Copilot Agent Mode (~/.config/github-copilot/skills/)" ;;
+    copilot)  echo "GitHub Copilot Agent Mode (~/.copilot/skills/)" ;;
     opencode) echo "OpenCode (~/.config/opencode/skills/; also reads ~/.agents/skills/)" ;;
     goose)    echo "Goose (~/.config/goose/skills/; also reads ~/.agents/skills/)" ;;
     zed)      echo "Zed (reads ~/.agents/skills/ only; covered by agents install)" ;;
@@ -258,7 +259,7 @@ install_one() {
     return 0
   fi
   if [ "$key" = "cursor" ]; then
-    if [ ! -d "$PWD/.git" ] && [ ! -f "$PWD/package.json" ] && [ ! -f "$PWD/pyproject.toml" ]; then
+    if [ ! -e "$PWD/.git" ] && [ ! -f "$PWD/package.json" ] && [ ! -f "$PWD/pyproject.toml" ]; then
       echo "  Cursor uses project-scope skills only. Current directory does not look like a project root."
       echo "  cd into your project, then run: $0 cursor"
       return 0
@@ -383,6 +384,15 @@ run_bootstrap() {
     echo "Updating existing clone at $CACHE_DIR"
     git -C "$CACHE_DIR" pull --quiet --ff-only origin main 2>/dev/null \
       || echo "  (pull skipped; local changes present. Run 'git -C $CACHE_DIR pull' manually.)"
+  elif [ -d "$CACHE_DIR" ]; then
+    # Non-empty directory without .git (partial prior run, etc.). Clone into
+    # a temp dir and move it into place so git clone does not fail.
+    echo "Existing non-git directory at $CACHE_DIR; re-cloning."
+    local tmpdir
+    tmpdir="$(mktemp -d "${CACHE_DIR}.XXXXXX")"
+    git clone --quiet "$REPO_URL" "$tmpdir"
+    rm -rf "$CACHE_DIR"
+    mv "$tmpdir" "$CACHE_DIR"
   else
     echo "Cloning $REPO_URL to $CACHE_DIR"
     mkdir -p "$(dirname "$CACHE_DIR")"

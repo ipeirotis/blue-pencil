@@ -20,7 +20,7 @@ The skill follows the [Agent Skills open standard](https://agentskills.io). The 
 | Codex CLI                     | yes                        | `~/.codex/skills/<name>/`                        | `.codex/skills/<name>/`       |
 | Gemini CLI                    | yes                        | `~/.gemini/skills/<name>/`                       | `.gemini/skills/<name>/`      |
 | Cursor                        | no                         | (none, project-scope only)                       | `.cursor/skills/<name>/`      |
-| GitHub Copilot (Agent Mode)   | no                         | `~/.config/github-copilot/skills/<name>/`        | `.github/skills/<name>/`      |
+| GitHub Copilot (Agent Mode)   | no                         | `~/.copilot/skills/<name>/`        | `.github/skills/<name>/`      |
 | OpenClaw                      | yes                        | `~/.openclaw/skills/<name>/`                     | `.openclaw/skills/<name>/`    |
 | OpenCode                      | yes                        | `~/.config/opencode/skills/<name>/`              | `.opencode/skills/<name>/`    |
 | Goose                         | yes                        | `~/.config/goose/skills/<name>/`                 | `.goose/skills/<name>/`       |
@@ -75,7 +75,7 @@ make install-codex      # ~/.codex/skills/
 make install-gemini     # ~/.gemini/skills/
 make install-openclaw   # ~/.openclaw/skills/
 make install-cursor     # $PWD/.cursor/skills/ (project-scope; run inside the paper repo)
-make install-copilot    # ~/.config/github-copilot/skills/
+make install-copilot    # ~/.copilot/skills/
 make install-opencode   # ~/.config/opencode/skills/
 make install-goose      # ~/.config/goose/skills/
 make install-zed        # alias for install-agents (Zed reads ~/.agents/skills/ only)
