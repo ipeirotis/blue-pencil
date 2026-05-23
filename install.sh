@@ -39,7 +39,13 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# When piped via `curl | bash`, BASH_SOURCE[0] is unset. Default to a
+# sentinel that will trigger the bootstrap path (no SKILL.md beside it).
+if [ -n "${BASH_SOURCE[0]:-}" ] && [ -f "${BASH_SOURCE[0]}" ]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+else
+  SCRIPT_DIR="$(pwd)"
+fi
 SKILL_NAME="paper-revision-editor"
 SOURCE_DIR="$SCRIPT_DIR"
 REPO_URL="https://github.com/ipeirotis/paper-revision-editor.git"
@@ -264,7 +270,9 @@ install_one() {
       return 0
     fi
   fi
-  ensure_link "$dest"
+  if ! ensure_link "$dest"; then
+    return 1
+  fi
   _dest_record "$dest"
 }
 
@@ -415,7 +423,24 @@ for arg in "$@"; do
     --init|init)                  MODE="init" ;;
     --bootstrap|bootstrap)        MODE="bootstrap" ;;
     --help|-h|help)
-      sed -n '2,30p' "$0"
+      cat <<'HELPTEXT'
+Cross-tool installer for the paper-revision-editor skill.
+
+Usage:
+  ./install.sh                       Install for every detected agent
+  ./install.sh agents                Install only to ~/.agents/skills/ (cross-tool)
+  ./install.sh claude codex gemini   Install for the listed tools
+  ./install.sh --check               Detect tools; do not install
+  ./install.sh --uninstall           Remove every symlink
+  ./install.sh --init                Scaffold AGENTS.md in the current repo
+  ./install.sh --bootstrap           Clone the repo, then install
+
+Tool keys: agents claude codex openclaw cursor gemini copilot
+           opencode goose zed junie cline roo
+
+Set FORCE=1 to install for a tool that was not detected.
+Set FORCE_COPY=1 to copy files instead of symlinking.
+HELPTEXT
       exit 0
       ;;
     *) ARGS+=("$arg") ;;
@@ -427,7 +452,11 @@ done
 # silently becomes an install.
 _build_bootstrap_args() {
   _BA=()
-  [ "$MODE" != "install" ] && _BA+=("--$MODE")
+  # Re-inject MODE, but never --bootstrap itself (the re-exec'd script will
+  # already be running from a clone, so it should proceed normally).
+  if [ "$MODE" != "install" ] && [ "$MODE" != "bootstrap" ]; then
+    _BA+=("--$MODE")
+  fi
   _BA+=("${ARGS[@]}")
 }
 
