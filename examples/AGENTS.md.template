@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file gives every Agent-Skills-compatible tool (Claude Code, Codex CLI, Gemini CLI, Cursor, GitHub Copilot Agent Mode, OpenCode, Goose, Cline, Roo Code) the context it needs to work on this paper.
+This file gives Claude Code (and any other agent that reads `~/.agents/skills/`) the context it needs to work on this paper.
 
 ## Paper context
 

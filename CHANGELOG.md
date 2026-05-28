@@ -3,6 +3,27 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.9.0] - 2026-05-28
+
+### Removed
+
+- Cross-tool detection and per-tool install paths for Codex, Gemini, Cursor, Copilot, OpenClaw, OpenCode, Goose, Zed, Junie, Cline, and Roo. The installer now targets exactly two locations: `~/.agents/skills/paper-revision-editor/` and `~/.claude/skills/paper-revision-editor/`.
+- `update.sh` at the repo root and `scripts/update.sh` legacy updater. Update is now `./install.sh --update` (or the equivalent `curl ... | bash -s -- --update`).
+- Per-tool `make install-*` and `make uninstall-*` targets.
+- `--bootstrap`, `FORCE`, and `FORCE_COPY` flags. The installer always clones to `$PAPER_REVISION_EDITOR_HOME` (default `~/.local/share/paper-revision-editor`) when not running from a clone, and falls back to copy mode automatically when symlink creation fails.
+
+### Changed
+
+- `install.sh` rewritten as a single ~250-line script with five modes: install (default), `--update`, `--uninstall`, `--init`, `--check`. No tool detection, no aliases, no per-tool branching.
+- `Makefile` reduced to five targets: `install`, `update`, `uninstall`, `init`, `check`.
+- `README.md` rewritten without the cross-tool support matrix, and now documents the simple "ask the agent to install/update" UX.
+- `examples/AGENTS.md.template` and `examples/CLAUDE.md.template` reworded to drop the cross-tool tool list.
+- SKILL.md `metadata.version` bumped to 1.9.0.
+
+### Rationale
+
+The cross-tool install machinery in v1.7 and v1.8 added detection, aliases, bootstrap, copy fallbacks, force flags, dual update scripts, and an eleven-tool Makefile matrix in service of supporting tools nobody on this project actually uses. The maintained surface is Claude Code plus the `~/.agents/skills/` standard. Stripping the rest cuts `install.sh` roughly in half, removes a redundant `update.sh`, removes the `scripts/` directory, and reduces the README from a support matrix into a five-command quickstart. Install and update are now short enough to fit in a single chat prompt to an agent.
+
 ## [1.8.0] - 2026-05-21
 
 ### Added
