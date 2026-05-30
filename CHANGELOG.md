@@ -3,6 +3,25 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.12.0] - 2026-05-30
+
+A research-paper copyediting pass. The skill already handled structure, sentence cohesion, and final polish; this release makes copyediting explicit so grammar and consistency fixes protect precision instead of becoming untracked rewrites.
+
+### Added
+
+- `references/copyediting.md`: a dedicated copyediting guide for research manuscripts. It covers grammar and agreement, punctuation for parsing, parallelism, terminology consistency, abbreviation handling, capitalization, hyphenation, units and symbols, tense and aspect, table and figure callouts, and citation punctuation. It adds a safe-fix / consistency-risk / evidence-risk triage, a consistency inventory, common high-value fixes, a list of items not to normalize silently, and a final copyediting checklist.
+- `SKILL.md`: an explicit **Copyediting** editing principle with a before/after example, plus instructions to load `references/copyediting.md` for copy-edit requests, final-polish passes, and revisions that touch sentence mechanics.
+
+### Changed
+
+- `SKILL.md`: the trigger and non-trigger guidance now distinguishes research-paper copyediting from mechanical typo-only proofreading.
+- `SKILL.md`: `final polish`, restraint, preflight, and read-cold checks now include terminology, abbreviations, capitalization, hyphenation, unit notation, tense, punctuation, and parallelism.
+- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.12.0.
+
+### Rationale
+
+Research-paper copyediting is a precision pass, not a cosmetic pass. The previous skill could polish sentences, but it did not name the mechanical consistency checks that often matter in manuscripts: terms that drift across a section, abbreviations introduced unevenly, nonparallel contribution lists, tense shifts between prior work and results, unit-format drift, and vague table or figure callouts. Making those checks explicit gives the agent permission to fix safe mechanics while preserving the hard boundary around technical claims, citations, numerical values, and author framing.
+
 ## [1.11.0] - 2026-05-30
 
 A subtractive-editing pass. The skill already defaulted to "shorter is better"; this release gives it a test for *which* units are safe to cut, so the Strunk-and-White instinct does not become a wood chipper.

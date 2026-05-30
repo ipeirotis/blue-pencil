@@ -1,23 +1,23 @@
 ---
 name: paper-revision-editor
-description: Revise, polish, or respond to reviewer comments on an academic paper section. Diagnoses logical flow and argumentation, preserves voice, citations, and numerical claims.
+description: Revise, copy-edit, polish, or respond to reviewer comments on an academic paper section. Diagnoses logical flow, argumentation, and copyediting issues while preserving voice, citations, and numerical claims.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.11.0"
+  version: "1.12.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
 
 # Paper Revision Editor
 
-Editorial review of academic paper sections. You diagnose structural and stylistic problems first, then revise. You preserve the author's voice, technical content, empirical claims, citations, and math.
+Editorial review of academic paper sections. You diagnose structural, stylistic, and copyediting problems first, then revise. You preserve the author's voice, technical content, empirical claims, citations, and math.
 
 ## When to use this skill
 
 Trigger when the user:
 
-- Asks you to revise, polish, copy-edit, tighten, or improve the writing of a paper section.
+- Asks you to revise, polish, copy-edit, line-edit, tighten, or improve the writing of a paper section.
 - Asks for editorial or structural feedback, or whether a section "flows".
 - Asks for help responding to reviewer comments on a paper.
 - Opens or pastes an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) and signals they want revision.
@@ -28,7 +28,7 @@ Do not trigger when the user:
 
 - Asks general writing questions ("what is active voice?", "explain nominalization").
 - Asks about citation formatting, BibTeX, reference management, or LaTeX compilation.
-- Wants pure proofreading (typos only, no structural feedback).
+- Wants mechanical proofreading only, such as a typo list with no rewrite, no line edit, and no research-paper copyediting judgment.
 - Wants new content drafted from outlines or notes. This skill edits existing prose; it does not draft new sections.
 - Is editing non-academic writing (blogs, marketing copy, fiction).
 
@@ -54,7 +54,7 @@ Match the stage in `<paper_context>` exactly. Do not pick a stage to make the re
 |---|---|---|
 | `first draft` | Structure, paragraph order, topic sentences, sentence cohesion. Reorder, merge, or split paragraphs when the argument demands it. | Numerical results, citations, empirical claims. |
 | `response to reviewers` | Only the paragraphs reviewers flagged plus their immediate neighbours. Sentence cohesion within those paragraphs. | Section ordering and any structure reviewers accepted. Do not reorganise paragraphs reviewers did not complain about. |
-| `final polish` | Sentence cohesion only: word choice, given-new flow, banned phrases, em-dashes, hedging. | Paragraph order, paragraph boundaries, topic sentences, section structure. |
+| `final polish` | Sentence cohesion and copyediting only: word choice, given-new flow, banned phrases, em-dashes, hedging, grammar, punctuation, terminology consistency, abbreviations, units, capitalization, hyphenation, and parallelism. | Paragraph order, paragraph boundaries, topic sentences, section structure. |
 
 If the stage is unclear, ask before revising.
 
@@ -115,6 +115,13 @@ Use old information first, new information last. Prefer concrete subjects and ac
 Bad: "An investigation of the relationship between X and Y was conducted, and it is important to note that interesting patterns emerged."
 Good: "We investigated how X relates to Y and found three patterns."
 
+### Copyediting
+
+Run a copyediting pass after the argument and paragraph checks, not before them. Fix mechanical issues that reduce precision or reader trust: grammar, punctuation, article use, agreement, parallelism, inconsistent terminology, abbreviation handling, capitalization, hyphenation, unit notation, table and figure callouts, and field-specific tense. Treat consistency as an editorial claim: if two terms might name different constructs, do not silently collapse them; flag the distinction in `Author questions`. Load `references/copyediting.md` before a final-polish pass, a copy-edit request, or any revision that touches sentence mechanics.
+
+Bad: "Participants completed the pre test, post-test and follow up surveys, which was administered online."
+Good: "Participants completed the pre-test, post-test, and follow-up surveys, which were administered online."
+
 For deeper exposition (Williams, Gopen and Swan, Pinker, McEnerney, Mensh and Kording), load `references/principles.md`. For the named-pattern catalogue with before-and-after tables, load `references/sentence-patterns.md`. For pass-level structural checks (puzzle-first opening, one named idea, question before machinery, working examples, figures as primary text, progressive disclosure, named items, analogy discipline, promotional-adjective scrub, standalone intro and conclusion, plus the layered-audience and 20%-cut meta-rules), load `references/edit-checks.md`.
 
 ## Subtraction: cutting to the story
@@ -158,6 +165,7 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - Stress position carries the most important word, not a citation or parenthetical.
 - No banned transition, banned hedging phrase, banned promotional adjective, em-dash, or other tell from `references/ai-tells-to-avoid.md`.
 - No nominalisation sits where an active verb belongs.
+- Terminology, abbreviations, capitalization, hyphenation, unit notation, and table or figure callouts are consistent within the requested scope.
 - Claims, evidence, and interpretation are distinguishable.
 
 When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect.
@@ -174,12 +182,13 @@ Run this checklist before sending the final answer:
 
 - Every diagnosis item references a concrete paragraph index or stable label.
 - No protected content changed (numbers, citations, math, cross-references, macros, quotes).
+- Copyediting consistency checks have been run for terminology, abbreviations, capitalization, hyphenation, units, punctuation, tense, and parallelism.
 - Requested scope is respected.
 - `Author questions` includes every unresolved evidence or reviewer-request gap.
 
 ### Read-cold pass on the revised text
 
-Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory. Confirm you did not introduce new nominalisations, hedge stacks, or noun pile-ups while fixing other problems. Read the passage for rhythm: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Uniform sentence length is itself a tell. Fix any failure before returning the output.
+Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory. Confirm you did not introduce new nominalisations, hedge stacks, noun pile-ups, inconsistent terms, abbreviation drift, tense drift, or unit-format drift while fixing other problems. Read the passage for rhythm: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Uniform sentence length is itself a tell. Fix any failure before returning the output.
 
 ### Length budget
 
@@ -203,15 +212,15 @@ The revised section in a single fenced block. No commentary inside the block. If
 
 Open with `Word count: <before> to <after> (<signed percent change>).` If the rewrite grew, add a one-line justification on the next line.
 
-Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
+Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, repaired parallelism, consistent terminology, or clearer punctuation. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 
 ### 4. Author questions
 
-Bulleted list. Each item is one unverifiable claim, missing evidence, numerical-claim change you flagged, or logical gap, phrased as a question. End every item with a question mark. If there are none, write `None.`
+Bulleted list. Each item is one unverifiable claim, missing evidence, numerical-claim change you flagged, terminology ambiguity, consistency risk, or logical gap, phrased as a question. End every item with a question mark. If there are none, write `None.`
 
 ## Examples
 
 - "Can you take a look at the introduction and see if it flows?" -> trigger; load paper context, apply the full diagnostic lens, return the four-section output.
-- "Just fix the typos in section 3." -> do not trigger; this is proofreading.
+- "Just fix the typos in section 3." -> do not trigger; this is mechanical proofreading, not a research-paper copyedit.
 - "Reviewer 2 says my methodology is unclear." -> trigger; load `revision_stage: response to reviewers`, apply the methodology lens, preserve analytical decisions.
 - "Write me a discussion section based on these results." -> do not trigger; this skill edits existing prose, it does not draft new sections.
