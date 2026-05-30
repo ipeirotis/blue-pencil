@@ -61,21 +61,23 @@ HELP
 }
 
 ensure_clone() {
+  # All status output goes to stderr so this function is safe to call inside
+  # $(resolve_source), where stdout is captured into the symlink target path.
   if [ -d "$CACHE_DIR/.git" ]; then
     return
   fi
   if [ -d "$CACHE_DIR" ] && [ "$(ls -A "$CACHE_DIR" 2>/dev/null)" ]; then
-    echo "Existing non-git directory at $CACHE_DIR; re-cloning."
+    echo "Existing non-git directory at $CACHE_DIR; re-cloning." >&2
     local tmpdir
     tmpdir="$(mktemp -d "${CACHE_DIR}.XXXXXX")"
-    git clone --quiet "$REPO_URL" "$tmpdir"
+    git clone --quiet "$REPO_URL" "$tmpdir" >&2
     rm -rf "$CACHE_DIR"
     mv "$tmpdir" "$CACHE_DIR"
     return
   fi
-  echo "Cloning $REPO_URL into $CACHE_DIR"
+  echo "Cloning $REPO_URL into $CACHE_DIR" >&2
   mkdir -p "$(dirname "$CACHE_DIR")"
-  git clone --quiet "$REPO_URL" "$CACHE_DIR"
+  git clone --quiet "$REPO_URL" "$CACHE_DIR" >&2
 }
 
 # Pick the directory the symlinks should point at. Inside a clone, point at
@@ -100,8 +102,11 @@ link_one() {
       return 0
     fi
     rm "$dest"
+  elif [ -d "$dest" ] && [ -f "$dest/SKILL.md" ] && [ -f "$dest/VERSION" ]; then
+    # Prior copy-mode install (the ln -s fallback). Safe to replace.
+    rm -rf "$dest"
   elif [ -e "$dest" ]; then
-    echo "  ERROR: $dest exists and is not a symlink. Refusing to overwrite." >&2
+    echo "  ERROR: $dest exists and is not a symlink or a prior install. Refusing to overwrite." >&2
     return 1
   fi
   if ln -s "$src" "$dest" 2>/dev/null; then
@@ -118,8 +123,11 @@ unlink_one() {
   if [ -L "$dest" ]; then
     rm "$dest"
     echo "  removed: $dest"
+  elif [ -d "$dest" ] && [ -f "$dest/SKILL.md" ] && [ -f "$dest/VERSION" ]; then
+    rm -rf "$dest"
+    echo "  removed (copy-mode install): $dest"
   elif [ -e "$dest" ]; then
-    echo "  skipped (not a symlink, remove manually if intended): $dest"
+    echo "  skipped (not a symlink or prior install; remove manually if intended): $dest"
   else
     echo "  not installed: $dest"
   fi
@@ -266,7 +274,7 @@ run_init() {
 MODE="install"
 for arg in "$@"; do
   case "$arg" in
-    --update|-u|update)         MODE="update" ;;
+    --update|update)            MODE="update" ;;
     --uninstall|uninstall)      MODE="uninstall" ;;
     --init|init)                MODE="init" ;;
     --check|-c|check)           MODE="check" ;;
