@@ -36,6 +36,29 @@ Promotional adjectives perform certainty rather than earning it. If the substanc
 
 Edit move: delete the adjective and reread the sentence. If the substance survives, leave it deleted. If the sentence collapses, the underlying claim was weak; flag in Author questions rather than restoring the adjective.
 
+## More filler adjectives
+
+These join the promotional list above. Each has a legitimate technical use; the ban is on the decorative use. Apply the same test: delete the word, reread, and leave it deleted if the substance survives.
+
+- comprehensive (legitimate only when the coverage is literally exhaustive: "a comprehensive survey of all 412 papers")
+- holistic, multifaceted (almost always decorative; name the facets instead)
+- nuanced (show the nuance; do not label a claim as nuanced)
+- key, central, vital, pivotal (as in "a key insight", "a vital factor"; usually deletable, or replace with the specific reason the thing matters)
+- rich, deep, powerful, vast (as generic intensifiers)
+- seamless, streamlined (rarely true; describe what actually happens)
+
+## Importance-signaling verbs
+
+These verbs tell the reader that something matters instead of showing why. They are the verb form of the promotional adjectives.
+
+- underscores, highlights, emphasizes (when the object is "the importance of" or "the need for")
+- showcases, demonstrates the importance of, speaks to
+- "plays a [key / central / crucial / vital / pivotal] role in"
+
+Edit move: replace the signal with the mechanism. "X underscores the importance of Y" becomes "X fails whenever Y is absent", or whatever the concrete relationship is. If you cannot name the mechanism, the sentence was asserting importance it had not earned; flag it in Author questions.
+
+Exception: "highlights" is fine in its literal sense ("Figure 2 highlights the outlier region in red").
+
 ## Banned framing phrases
 
 - "We show that...": replace with the result itself. "We show that X improves accuracy by 12 points" becomes "X improves accuracy by 12 points."
@@ -54,6 +77,27 @@ Do not use em-dashes in this manuscript. (The em-dash character itself is intent
 - Two sentences, when both halves can stand alone
 
 Every em-dash in a draft should be replaced with one of these alternatives.
+
+## Inflated noun phrases and dead metaphors
+
+- "the landscape of X", "the X landscape", "the realm of", "the world of", "the sphere of"
+- "a myriad of", "a plethora of", "a wide array of", "a host of", "a wealth of" (replace with a count or with "many")
+- "rich tapestry", "tapestry of", "mosaic of"
+- "the intersection of X and Y" (fine when two literatures genuinely meet; decorative when it just means "X and Y")
+- "paradigm shift", "game-changer", "sea change", "watershed moment"
+- "in today's [fast-paced / data-driven / increasingly digital] world" and other scene-setting openers
+
+Edit move: replace with the plain count, the specific object, or nothing. "A myriad of factors" becomes "four factors" when you can name four, and gets cut when you cannot.
+
+## Template sentence shapes
+
+LLM prose falls into a few rhetorical molds. Used once, deliberately, any of these is fine; as a reflex they flatten the writing.
+
+- The false-modesty antithesis: "It is not just about X, it is about Y." / "This is not merely X; it is Y."
+- The range-gesture opener: "From X to Y, [sweeping claim]."
+- "Not only ... but also ..." more than once in a section.
+- "Firstly, Secondly, Thirdly" for a list meant to be remembered. Name the items instead (see `references/edit-checks.md`, check 7).
+- The decorative triad: three parallel items where two would do or a real list is needed (see the rule-of-three note below).
 
 ## Other LLM tells to watch for
 
@@ -78,6 +122,10 @@ Before approving any revised passage, scan for:
 - [ ] Any banned transition words? Rebuild the transition.
 - [ ] Any banned hedging phrases? Cut.
 - [ ] Any banned promotional adjectives ("important", "novel", "interesting", "significant", "crucial")? Delete; verify the substance survives.
+- [ ] Filler adjectives ("comprehensive", "holistic", "nuanced", "key", "seamless")? Delete; verify the substance survives.
+- [ ] Importance-signaling verbs ("underscores", "highlights the importance of", "plays a crucial role")? Replace with the mechanism.
+- [ ] Inflated noun phrases ("the landscape of", "a myriad of", "rich tapestry")? Replace with a count or the specific object.
+- [ ] Template shapes ("not just X but Y", "From X to Y", "Firstly/Secondly")? Rewrite or name the items.
 - [ ] "We show that..." or "It is well known that..." frames? Replace with the claim itself.
 - [ ] "Navigate" or "leverage" used as throat-clearing? Replace with simpler verb.
 - [ ] Triads that exist only for rhythm? Cut to two or expand to a real list.

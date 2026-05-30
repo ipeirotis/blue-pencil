@@ -75,6 +75,19 @@ Hedges (modal verbs and adverbs that qualify a claim) are useful for honesty. St
 
 Rule: one hedge per claim, maximum. If a claim is too uncertain to make with one hedge, do not make it. If a claim is solid enough to make, make it with one hedge or none.
 
+## Overclaiming
+
+The opposite failure: language stronger than the evidence supports. Where hedge-stacking dilutes a sound claim, overclaiming inflates a weak one. Both are miscalibration; the editor flags the change rather than rewriting the claim, because only the author knows what the evidence will bear.
+
+| Before | After (flag for the author) |
+|---|---|
+| X causes Y. | X is associated with Y. (Is the design causal, or correlational?) |
+| Our method proves that ... | Our results are consistent with ... (Does the evidence prove, or support?) |
+| This holds in all settings. | This holds on the three datasets we tested. (Was it tested beyond these?) |
+| The model is robust. | The model's accuracy stays within 2 points under perturbation P. (Robust to what?) |
+
+Diagnostic: for each strong verb ("causes", "proves", "demonstrates", "establishes", "guarantees") and each universal ("all", "always", "any", "every"), check that the evidence in the section reaches that far. If it does not, surface the gap as an Author question rather than silently weakening the claim.
+
 ## Misplaced stress
 
 The end of an English sentence carries emphasis. When the important word lands mid-sentence and trivia lands at the end, the sentence reads backwards.
@@ -110,6 +123,11 @@ Common multi-word phrases that have shorter equivalents. Cutting them is the eas
 | it is often the case that | often |
 | the majority of | most |
 | in addition to the fact that | besides |
+| the fact that | (recast: "due to the fact that" -> "because"; "aware of the fact that" -> "aware that") |
+| in terms of | (name the dimension, or delete) |
+| a number of | several, many |
+| the way in which | how |
+| serves to [verb] | [verb] ("serves to clarify" -> "clarifies") |
 
 These are search-and-replace targets. Run them first; they almost always shorten without loss.
 

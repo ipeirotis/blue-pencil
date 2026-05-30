@@ -4,7 +4,7 @@ description: Revise, polish, or respond to reviewer comments on an academic pape
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.9.0"
+  version: "1.10.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -85,7 +85,7 @@ When revising LaTeX source, return LaTeX in the revised-text block, not rendered
 
 ## Editing principles
 
-Apply in order. Earlier categories outrank later ones. Do not polish sentences in a paragraph whose purpose is unclear.
+Apply in order. Earlier categories outrank later ones. Do not polish sentences in a paragraph whose purpose is unclear. Change a passage only when the result is clearly better than the original, not merely different: a synonym swap or a reshuffle that does not buy clarity, brevity, or flow is not an edit, and the original stays.
 
 ### Logical flow
 
@@ -96,10 +96,17 @@ Good: "Section 3 introduces our method; Section 4 compares it to baseline B and 
 
 ### Argumentation
 
-Distinguish claims, evidence, and interpretation. Calibrate confidence to the evidence. Anticipate the reader's next question.
+Distinguish claims, evidence, and interpretation. Calibrate confidence to the evidence in both directions: do not let causal language ride on correlational evidence, a universal claim ride on one dataset, or "proves" ride on "is consistent with"; equally, do not bury a result the evidence supports under a stack of hedges. Anticipate the reader's next question.
 
 Bad: "Our crucial finding shows the method is significantly better."
 Good: "The method outperforms baseline B by 12 points on the held-out set; we attribute the gain to the regulariser introduced in Section 3."
+
+### Paragraph craft
+
+One paragraph carries one idea, stated in a topic sentence within the first sentence or two. Keep the subjects of consecutive sentences in a related set (the topic string) so the reader stays oriented, and build the transition to the next paragraph from the idea itself, not from a connective bolted on the front.
+
+Bad: "Accuracy rose to 91%. Furthermore, inference is faster. Moreover, memory use fell. The annotators, meanwhile, were recruited online."
+Good: "Accuracy rose to 91%, and the same model is cheaper to run: inference is faster and memory use falls."
 
 ### Writing quality
 
@@ -125,7 +132,7 @@ Identify the section type from the file name or heading. Load `references/struct
 
 The canonical banned-word, banned-phrase, and em-dash list lives in `references/ai-tells-to-avoid.md`. Load it before producing the revised text and the change rationale. Two governing principles:
 
-- Build transitions from the content itself. If a transition word would make the connection clear, the underlying argument is the part that needs work.
+- Build transitions from the content itself, using the given-new chain in `references/sentence-cohesion.md`: end a sentence on the term the next sentence will pick up. If a transition word is the only thing making the connection clear, the underlying argument is the part that needs work.
 - Avoid jargon that does not earn its place. If a plain word will do, use it.
 
 ## Restraint: leaving prose unchanged
@@ -160,7 +167,7 @@ Run this checklist before sending the final answer:
 
 ### Read-cold pass on the revised text
 
-Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory. Confirm you did not introduce new nominalisations, hedge stacks, or noun pile-ups while fixing other problems. Fix any failure before returning the output.
+Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory. Confirm you did not introduce new nominalisations, hedge stacks, or noun pile-ups while fixing other problems. Read the passage for rhythm: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Uniform sentence length is itself a tell. Fix any failure before returning the output.
 
 ### Length budget
 
@@ -184,7 +191,7 @@ The revised section in a single fenced block. No commentary inside the block. If
 
 Open with `Word count: <before> to <after> (<signed percent change>).` If the rewrite grew, add a one-line justification on the next line.
 
-Then one line per non-trivial change in the form `before -> after, why`. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
+Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 
 ### 4. Author questions
 
