@@ -4,7 +4,7 @@ description: Revise, polish, or respond to reviewer comments on an academic pape
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.10.0"
+  version: "1.11.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -117,6 +117,18 @@ Good: "We investigated how X relates to Y and found three patterns."
 
 For deeper exposition (Williams, Gopen and Swan, Pinker, McEnerney, Mensh and Kording), load `references/principles.md`. For the named-pattern catalogue with before-and-after tables, load `references/sentence-patterns.md`. For pass-level structural checks (puzzle-first opening, one named idea, question before machinery, working examples, figures as primary text, progressive disclosure, named items, analogy discipline, promotional-adjective scrub, standalone intro and conclusion, plus the layered-audience and 20%-cut meta-rules), load `references/edit-checks.md`.
 
+## Subtraction: cutting to the story
+
+Subtraction is the highest-yield edit and the easiest to botch. Two operations carry different risk: *compress* (fewer words, same content) is near zero-risk, so apply it freely; *delete* (remove a whole unit) changes what the text says, so apply the keep-test first.
+
+Most drafts carry 15 to 25% that does not serve the story. Treat that figure as a prior, not a quota: cut by test, never to hit a number, and never manufacture cuts from a draft that is already tight.
+
+Keep-test, before deleting any unit: if this goes, what does the reader lose? A unit earns its place if it advances the thesis, makes a claim believable (an example that rules out a misreading, not one that only illustrates), links two ideas the reader would not otherwise connect, serves a reader the other sentences do not, pre-empts a predictable objection, or sets rhythm. If it does none, cut it; if it does one, compress but keep.
+
+Scale the action to the unit, because that scales to risk. Word or phrase: cut in the rewrite. Sentence: cut and log the loss in `Change rationale`. Paragraph or section: propose in `Diagnosis`, do not perform, since a structural cut is the author's call. The revision stage still binds: at `final polish`, compress only.
+
+For the failure modes a naive cut destroys, the blind spot (subtraction never finds the missing step), and a worked example, load `references/subtraction.md`.
+
 ## Section-specific lens
 
 Identify the section type from the file name or heading. Load `references/structural-patterns.md` for deeper guidance (abstract architecture, the McEnerney test for introductions, related-work-by-position, methodology pathologies, results structure, discussion structure, conclusions, rebuttal letters, grant proposals).
@@ -171,7 +183,7 @@ Re-read the revised text alone, without referring back to the original. For ever
 
 ### Length budget
 
-Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Shorter: no justification. Within 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default.
+Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Shorter: no justification. Within 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default. Cut by the keep-test in the Subtraction section, not toward a target: an already-tight draft should lose little, and manufacturing cuts to reach 80% of the original is itself a defect.
 
 ## Output format (strict)
 

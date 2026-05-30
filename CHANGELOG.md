@@ -3,6 +3,24 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.11.0] - 2026-05-30
+
+A subtractive-editing pass. The skill already defaulted to "shorter is better"; this release gives it a test for *which* units are safe to cut, so the Strunk-and-White instinct does not become a wood chipper.
+
+### Added
+
+- `references/subtraction.md`: a guide to cutting to the story without destructive effects. Separates *compress* (fewer words, same content, near zero-risk) from *delete* (remove a unit, real risk), and gates deletion behind a six-function keep-test: a unit earns its place if it advances the thesis, makes a claim believable, links two ideas, serves a reader the others do not, pre-empts an objection, or sets rhythm. The same six functions are presented as the catalogue of what a naive cut destroys. Adds unit-size scaling (perform word and sentence cuts, propose paragraph and section cuts), the revision-stage interaction, the curse-of-knowledge blind spot (subtraction never finds the missing step), and a worked example that cuts 60% safely and 90% destructively from the same sentence.
+- `SKILL.md`: a **Subtraction: cutting to the story** section carrying the compress/delete split, the prior-not-quota rule, the keep-test, and the perform-vs-propose scaling, pointing to `references/subtraction.md` for depth.
+
+### Changed
+
+- `SKILL.md`: the Length-budget preflight now cuts by the keep-test rather than toward a target, and names quota-chasing (manufacturing cuts to reach 80% of the original) as a defect in its own right.
+- `SKILL.md` `metadata.version` and `VERSION` bumped to 1.11.0; `README.md` badge updated.
+
+### Rationale
+
+Cutting to the story is the highest-yield edit and the easiest to over-apply. The skill had the subtractive default (the length budget, the 20% cut meta-rule in `edit-checks.md`) but no test for which units are load-bearing, which is exactly where over-cutting does its damage: an editor removes a hedge that was calibration, a transition that carried the thread, a gloss the non-expert needed, or a limitation that pre-empted a reviewer. The keep-test makes "needless" operational, and tying the action to the unit size keeps the human in the loop on anything structural: compression is unconditional, sentence deletion is logged, and paragraph- or section-level cuts are proposed rather than performed. Framing the 80% as a prior rather than a quota closes the specific failure where an editor cuts good tissue out of an already-tight draft to hit a number.
+
 ## [1.10.0] - 2026-05-30
 
 A writing-quality pass. Earlier releases (1.7-1.9) reworked packaging and portability; this one sharpens the editorial guidance so the prose the skill produces is better, not just the way the skill ships.
