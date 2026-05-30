@@ -1,13 +1,13 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.9.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.11.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A SKILL.md skill that turns Claude Code (and any other agent that reads `~/.agents/skills/`) into a top-tier academic editor. The skill diagnoses structural and stylistic problems first, then revises while preserving the author's voice, citations, math, and numerical claims.
 
 ## What this skill does
 
-When you ask an agent to "revise the introduction" or "respond to reviewer 2", the skill runs a disciplined diagnose-then-revise pipeline: load the paper context, triage the request, apply a section-specific diagnostic lens, extract voice tics from the original prose, produce a rewrite, run a read-cold pass on the rewrite, check the length budget, and return a strict four-section output (Diagnosis, Revised text, Change rationale, Author questions). Numerical claims, citations, and analytical conclusions are never edited; changes to them come back as questions for you. No em-dashes, no banned transitions, no throat-clearing.
+When you ask an agent to "revise the introduction" or "respond to reviewer 2", the skill runs a disciplined diagnose-then-revise pipeline: load the paper context, triage the request, apply a section-specific diagnostic lens, extract voice tics from the original prose, produce a rewrite, run a read-cold pass on the rewrite, check the length budget, and return a strict four-section output (Diagnosis, Revised text, Change rationale, Author questions). Numerical claims, citations, and analytical conclusions are never edited; changes to them come back as questions for you. No em-dashes, no banned transitions, no throat-clearing, no filler adjectives or importance-signaling verbs, and no change that is merely different rather than better.
 
 ## Install
 
@@ -19,8 +19,8 @@ curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
 
 This installs to:
 
-- `~/.agents/skills/paper-revision-editor/` — cross-tool standard
-- `~/.claude/skills/paper-revision-editor/` — Claude Code
+- `~/.agents/skills/paper-revision-editor/` (cross-tool standard)
+- `~/.claude/skills/paper-revision-editor/` (Claude Code)
 
 That's it. Two locations, one clone, one symlink each.
 

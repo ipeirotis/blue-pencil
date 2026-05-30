@@ -3,6 +3,47 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.11.0] - 2026-05-30
+
+A subtractive-editing pass. The skill already defaulted to "shorter is better"; this release gives it a test for *which* units are safe to cut, so the Strunk-and-White instinct does not become a wood chipper.
+
+### Added
+
+- `references/subtraction.md`: a guide to cutting to the story without destructive effects. Separates *compress* (fewer words, same content, near zero-risk) from *delete* (remove a unit, real risk), and gates deletion behind a six-function keep-test: a unit earns its place if it advances the thesis, makes a claim believable, links two ideas, serves a reader the others do not, pre-empts an objection, or sets rhythm. The same six functions are presented as the catalogue of what a naive cut destroys. Adds unit-size scaling (perform word and sentence cuts, propose paragraph and section cuts), the revision-stage interaction, the curse-of-knowledge blind spot (subtraction never finds the missing step), and a worked example that cuts 60% safely and 90% destructively from the same sentence.
+- `SKILL.md`: a **Subtraction: cutting to the story** section carrying the compress/delete split, the prior-not-quota rule, the keep-test, and the perform-vs-propose scaling, pointing to `references/subtraction.md` for depth.
+
+### Changed
+
+- `SKILL.md`: the Length-budget preflight now cuts by the keep-test rather than toward a target, and names quota-chasing (manufacturing cuts to reach 80% of the original) as a defect in its own right.
+- `SKILL.md` `metadata.version` and `VERSION` bumped to 1.11.0; `README.md` badge updated.
+
+### Rationale
+
+Cutting to the story is the highest-yield edit and the easiest to over-apply. The skill had the subtractive default (the length budget, the 20% cut meta-rule in `edit-checks.md`) but no test for which units are load-bearing, which is exactly where over-cutting does its damage: an editor removes a hedge that was calibration, a transition that carried the thread, a gloss the non-expert needed, or a limitation that pre-empted a reviewer. The keep-test makes "needless" operational, and tying the action to the unit size keeps the human in the loop on anything structural: compression is unconditional, sentence deletion is logged, and paragraph- or section-level cuts are proposed rather than performed. Framing the 80% as a prior rather than a quota closes the specific failure where an editor cuts good tissue out of an already-tight draft to hit a number.
+
+## [1.10.0] - 2026-05-30
+
+A writing-quality pass. Earlier releases (1.7-1.9) reworked packaging and portability; this one sharpens the editorial guidance so the prose the skill produces is better, not just the way the skill ships.
+
+### Added
+
+- `SKILL.md`: a **Paragraph craft** editing principle, inserted between Argumentation and Writing quality. It fills the gap between the section-level "Logical flow" principle and the sentence-level "Writing quality" principle: one idea per paragraph, a topic sentence in the first sentence or two, a coherent topic string across consecutive sentences, and transitions built from the content rather than from a connective bolted on the front. Includes a before/after pair.
+- `SKILL.md`: a lateral-edit guard. The editing-principles preamble now states that a passage changes only when the result is clearly better, not merely different, and the `Change rationale` output spec now requires every change's `why` to name a concrete reader benefit (a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position). "Reads better" or "smoother" with no named mechanism is not a reason, and the original stays.
+- `SKILL.md`: a sentence-rhythm check in the read-cold pass. Uniform sentence length is now named as a tell to fix before returning output.
+- `references/ai-tells-to-avoid.md`: four new categories of contemporary tell. **More filler adjectives** (comprehensive, holistic, multifaceted, nuanced, key, central, vital, pivotal, rich, deep, powerful, vast, seamless, streamlined), each with its legitimate technical exception. **Importance-signaling verbs** (underscores, highlights, emphasizes, showcases, "plays a key/central/crucial role in"), with an edit move that swaps the signal for the mechanism. **Inflated noun phrases and dead metaphors** ("the landscape of", "a myriad of", "rich tapestry", "paradigm shift", scene-setting openers). **Template sentence shapes** (the "not just X, it's Y" antithesis, the "From X to Y" opener, repeated "not only ... but also", "Firstly/Secondly" for lists meant to be remembered). The bottom-of-file diagnostic checklist picks up four matching scan items.
+- `references/sentence-patterns.md`: an **Overclaiming** entry, the sibling to the existing Hedge-stacking entry, so both sides of confidence miscalibration sit together. Covers causal language on correlational evidence, "proves" versus "is consistent with", universal claims from a bounded test, and "robust" without a referent. Each row flags the gap as an Author question rather than silently weakening the claim. Five high-frequency wordiness compounds added to the search-and-replace table ("the fact that", "in terms of", "a number of", "the way in which", "serves to").
+
+### Changed
+
+- `SKILL.md`: the Argumentation principle now calibrates confidence in both directions, naming overclaiming (causal language on correlational evidence, a universal claim on one dataset, "proves" on "is consistent with") alongside the existing hedge-stacking concern.
+- `SKILL.md`: the transition style rule now points at the given-new chain in `references/sentence-cohesion.md` and gives the positive technique (end a sentence on the term the next sentence picks up), where before it gave only the negative rule.
+- `README.md`: version badge to 1.10.0; the "what this skill does" summary mentions the new filler-adjective, importance-signaling-verb, and lateral-edit guards.
+- `SKILL.md` `metadata.version` and `VERSION` bumped to 1.10.0.
+
+### Rationale
+
+The skill was procedurally complete (context gate, revision stages, reviewer-response branch, constraints, voice extraction, read-cold pass, length budget) but had four gaps that capped the quality of its output. First, nothing forbade a lateral edit, the most common LLM-editor failure mode: swapping a synonym or reshuffling a clause without buying clarity, brevity, or flow. The guard makes "clearly better, not merely different" an enforceable bar at the point where each change is justified. Second, the editing principles jumped from section structure to sentence mechanics with no paragraph layer, so topic sentences, one-idea-per-paragraph, topic strings, and content-based transitions had no home in the always-loaded lens. Third, the AI-tells list predated the current crop of model defaults; the filler adjectives, importance-signaling verbs, inflated noun phrases, and template sentence shapes are what a careful reader now reacts to first, and they were going uncaught. Fourth, calibration was one-sided, catching the hedge-stacker but not the overclaimer, even though overclaiming is the version reviewers punish. Each addition keeps the skill's subtractive ethos: the new tells are deletions, the calibration entries flag rather than rewrite, and the lateral-edit guard reverts to the original by default.
+
 ## [1.9.0] - 2026-05-28
 
 ### Removed

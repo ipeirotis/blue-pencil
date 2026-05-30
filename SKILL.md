@@ -4,7 +4,7 @@ description: Revise, polish, or respond to reviewer comments on an academic pape
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.9.0"
+  version: "1.11.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -85,7 +85,7 @@ When revising LaTeX source, return LaTeX in the revised-text block, not rendered
 
 ## Editing principles
 
-Apply in order. Earlier categories outrank later ones. Do not polish sentences in a paragraph whose purpose is unclear.
+Apply in order. Earlier categories outrank later ones. Do not polish sentences in a paragraph whose purpose is unclear. Change a passage only when the result is clearly better than the original, not merely different: a synonym swap or a reshuffle that does not buy clarity, brevity, or flow is not an edit, and the original stays.
 
 ### Logical flow
 
@@ -96,10 +96,17 @@ Good: "Section 3 introduces our method; Section 4 compares it to baseline B and 
 
 ### Argumentation
 
-Distinguish claims, evidence, and interpretation. Calibrate confidence to the evidence. Anticipate the reader's next question.
+Distinguish claims, evidence, and interpretation. Calibrate confidence to the evidence in both directions: do not let causal language ride on correlational evidence, a universal claim ride on one dataset, or "proves" ride on "is consistent with"; equally, do not bury a result the evidence supports under a stack of hedges. Anticipate the reader's next question.
 
 Bad: "Our crucial finding shows the method is significantly better."
 Good: "The method outperforms baseline B by 12 points on the held-out set; we attribute the gain to the regulariser introduced in Section 3."
+
+### Paragraph craft
+
+One paragraph carries one idea, stated in a topic sentence within the first sentence or two. Keep the subjects of consecutive sentences in a related set (the topic string) so the reader stays oriented, and build the transition to the next paragraph from the idea itself, not from a connective bolted on the front.
+
+Bad: "Accuracy rose to 91%. Furthermore, inference is faster. Moreover, memory use fell. The annotators, meanwhile, were recruited online."
+Good: "Accuracy rose to 91%, and the same model is cheaper to run: inference is faster and memory use falls."
 
 ### Writing quality
 
@@ -109,6 +116,18 @@ Bad: "An investigation of the relationship between X and Y was conducted, and it
 Good: "We investigated how X relates to Y and found three patterns."
 
 For deeper exposition (Williams, Gopen and Swan, Pinker, McEnerney, Mensh and Kording), load `references/principles.md`. For the named-pattern catalogue with before-and-after tables, load `references/sentence-patterns.md`. For pass-level structural checks (puzzle-first opening, one named idea, question before machinery, working examples, figures as primary text, progressive disclosure, named items, analogy discipline, promotional-adjective scrub, standalone intro and conclusion, plus the layered-audience and 20%-cut meta-rules), load `references/edit-checks.md`.
+
+## Subtraction: cutting to the story
+
+Subtraction is the highest-yield edit and the easiest to botch. Two operations carry different risk: *compress* (fewer words, same content) is near zero-risk, so apply it freely; *delete* (remove a whole unit) changes what the text says, so apply the keep-test first.
+
+Most drafts carry 15 to 25% that does not serve the story. Treat that figure as a prior, not a quota: cut by test, never to hit a number, and never manufacture cuts from a draft that is already tight.
+
+Keep-test, before deleting any unit: if this goes, what does the reader lose? A unit earns its place if it advances the thesis, makes a claim believable (an example that rules out a misreading, not one that only illustrates), links two ideas the reader would not otherwise connect, serves a reader the other sentences do not, pre-empts a predictable objection, or sets rhythm. If it does none, cut it; if it does one, compress but keep.
+
+Scale the action to the unit, because that scales to risk. Word or phrase: cut in the rewrite. Sentence: cut and log the loss in `Change rationale`. Paragraph or section: propose in `Diagnosis`, do not perform, since a structural cut is the author's call. The revision stage still binds: at `final polish`, compress only.
+
+For the failure modes a naive cut destroys, the blind spot (subtraction never finds the missing step), and a worked example, load `references/subtraction.md`.
 
 ## Section-specific lens
 
@@ -125,7 +144,7 @@ Identify the section type from the file name or heading. Load `references/struct
 
 The canonical banned-word, banned-phrase, and em-dash list lives in `references/ai-tells-to-avoid.md`. Load it before producing the revised text and the change rationale. Two governing principles:
 
-- Build transitions from the content itself. If a transition word would make the connection clear, the underlying argument is the part that needs work.
+- Build transitions from the content itself, using the given-new chain in `references/sentence-cohesion.md`: end a sentence on the term the next sentence will pick up. If a transition word is the only thing making the connection clear, the underlying argument is the part that needs work.
 - Avoid jargon that does not earn its place. If a plain word will do, use it.
 
 ## Restraint: leaving prose unchanged
@@ -160,11 +179,11 @@ Run this checklist before sending the final answer:
 
 ### Read-cold pass on the revised text
 
-Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory. Confirm you did not introduce new nominalisations, hedge stacks, or noun pile-ups while fixing other problems. Fix any failure before returning the output.
+Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory. Confirm you did not introduce new nominalisations, hedge stacks, or noun pile-ups while fixing other problems. Read the passage for rhythm: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Uniform sentence length is itself a tell. Fix any failure before returning the output.
 
 ### Length budget
 
-Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Shorter: no justification. Within 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default.
+Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Shorter: no justification. Within 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default. Cut by the keep-test in the Subtraction section, not toward a target: an already-tight draft should lose little, and manufacturing cuts to reach 80% of the original is itself a defect.
 
 ## Output format (strict)
 
@@ -184,7 +203,7 @@ The revised section in a single fenced block. No commentary inside the block. If
 
 Open with `Word count: <before> to <after> (<signed percent change>).` If the rewrite grew, add a one-line justification on the next line.
 
-Then one line per non-trivial change in the form `before -> after, why`. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
+Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 
 ### 4. Author questions
 
