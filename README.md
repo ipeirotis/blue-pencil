@@ -32,7 +32,7 @@ Track a tagged release, branch, or commit instead of `main`:
 curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --ref v1.15.0
 ```
 
-Setting `PAPER_REVISION_EDITOR_REF=v1.15.0` does the same thing. To move an existing install onto a different ref, run `--update --ref <ref>`.
+Setting `PAPER_REVISION_EDITOR_REF=v1.15.0` does the same thing. The pin is sticky: install or reinstall with `--ref` moves an existing clone onto that ref, and a plain `--update` keeps it there. Pass a new `--ref` to move off it (for example `--ref main` to follow the latest again).
 
 You can also tell your agent in chat:
 
@@ -58,7 +58,7 @@ Or in chat:
 
 Because both targets are symlinks into the same clone, a single `git pull` (or `--update`) refreshes both at once.
 
-`--update` reports the change (`Updated 1.14.0 -> 1.15.0.`, or `Already up to date (1.15.0).` when nothing moved). To see what you have without updating, run `install.sh --version` or `install.sh --check`.
+`--update` reports the change (`Updated 1.14.0 -> 1.15.0 (ref main).`, or `Already up to date (1.15.0, ref main).` when nothing moved). To see what you have without updating, run `install.sh --version` or `install.sh --check`.
 
 ## Uninstall
 

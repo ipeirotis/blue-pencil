@@ -10,7 +10,7 @@ A technical pass on installing, updating, and maintaining the skill. The install
 ### Added
 
 - `LICENSE`: the MIT text the README badge and `SKILL.md` already pointed to but the repo was missing.
-- `install.sh`: `--ref <tag|branch|commit>` and `PAPER_REVISION_EDITOR_REF` to pin a version, a `--version` subcommand, a `git` preflight with an actionable message, before-and-after version reporting on `--update`, an `Already up to date` path, and `BROKEN` symlink plus tracked-ref detection in `--check`.
+- `install.sh`: `--ref <tag|branch|commit>` and `PAPER_REVISION_EDITOR_REF` pin a version. The pin is sticky: it is honored on install and reinstall, and a plain `--update` keeps the clone on the pinned tag or commit (pass a new `--ref`, for example `--ref main`, to move off it). Also a `--version` subcommand, a `git` preflight with an actionable message, before-and-after version reporting on `--update`, an `Already up to date` path, and `BROKEN` symlink plus tracked-ref detection in `--check`.
 - `scripts/`: `check-version.sh` (assert the version matches in `VERSION`, `SKILL.md`, and the README badge), `bump-version.sh` (update all three in lockstep), and `lint.sh` (em-dash and en-dash scan, frontmatter validation, reference-link resolution), with a `scripts/README.md`.
 - `.github/workflows/ci.yml`: shellcheck, the version-consistency check, the lint, and an install smoke test on every push and pull request.
 

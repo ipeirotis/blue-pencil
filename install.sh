@@ -35,8 +35,16 @@ TARGETS=(
   "$HOME/.agents/skills/$SKILL_NAME"
   "$HOME/.claude/skills/$SKILL_NAME"
 )
-# Git ref (tag, branch, or commit) to install or update to. Defaults to main.
+# Git ref (tag, branch, or commit) to install or update to. An explicit value
+# (here or via --ref) is "sticky": it is honored on install and reinstall and
+# is preserved across a plain --update. Without one, the clone stays on
+# whatever it already tracks, defaulting to main only when there is no signal.
 REF="${PAPER_REVISION_EDITOR_REF:-main}"
+if [ -n "${PAPER_REVISION_EDITOR_REF:-}" ]; then
+  REF_EXPLICIT=1
+else
+  REF_EXPLICIT=0
+fi
 
 # Where to read templates and where the symlinks should point. If install.sh
 # is running from inside a real clone, prefer that. Otherwise use CACHE_DIR
@@ -98,11 +106,42 @@ ensure_clone() {
     mkdir -p "$(dirname "$CACHE_DIR")"
     git clone --quiet "$REPO_URL" "$CACHE_DIR" >&2
   fi
-  if [ "$REF" != "main" ]; then
-    echo "Checking out $REF" >&2
-    git -C "$CACHE_DIR" checkout --quiet "$REF" >&2 \
-      || { echo "ERROR: ref '$REF' not found in $REPO_URL." >&2; exit 1; }
+}
+
+# Fetch and move <repo> onto <ref>: fast-forward for a branch, or a detached
+# checkout for a tag or commit. Used by install (explicit --ref) and update.
+sync_to_ref() {
+  local repo="$1" ref="$2"
+  git -C "$repo" fetch --quiet --tags origin
+  if git -C "$repo" show-ref --verify --quiet "refs/remotes/origin/$ref"; then
+    git -C "$repo" checkout --quiet "$ref"
+    git -C "$repo" merge --ff-only --quiet "origin/$ref" \
+      || { echo "ERROR: cannot fast-forward $ref; the clone has local changes." >&2; exit 1; }
+  else
+    git -C "$repo" checkout --quiet "$ref" \
+      || { echo "ERROR: ref '$ref' not found." >&2; exit 1; }
   fi
+}
+
+# The ref to act on. An explicit --ref (or env) wins. Otherwise stay on
+# whatever <repo> already tracks, so a pinned tag or commit survives a plain
+# update; fall back to main when there is no clone or no better signal.
+resolve_ref() {
+  local repo="$1"
+  if [ "$REF_EXPLICIT" -eq 1 ]; then
+    echo "$REF"
+    return
+  fi
+  if [ -d "$repo/.git" ]; then
+    local tag branch sha
+    tag="$(git -C "$repo" describe --tags --exact-match 2>/dev/null || true)"
+    if [ -n "$tag" ]; then echo "$tag"; return; fi
+    branch="$(git -C "$repo" symbolic-ref --short -q HEAD 2>/dev/null || true)"
+    if [ -n "$branch" ]; then echo "$branch"; return; fi
+    sha="$(git -C "$repo" rev-parse --verify -q HEAD 2>/dev/null || true)"
+    if [ -n "$sha" ]; then echo "$sha"; return; fi
+  fi
+  echo "main"
 }
 
 # Pick the directory the symlinks should point at. Inside a clone, point at
@@ -161,6 +200,18 @@ unlink_one() {
 run_install() {
   local src
   src="$(resolve_source)"
+  # An explicit --ref moves the managed clone onto that ref, on first install
+  # or reinstall. A local developer clone is linked as-is; we never move
+  # someone's own working tree out from under them.
+  if [ "$REF_EXPLICIT" -eq 1 ]; then
+    if [ "$src" = "$CACHE_DIR" ]; then
+      echo "Pinning $src to $REF"
+      sync_to_ref "$src" "$REF"
+    else
+      echo "Note: --ref is ignored when installing from a local clone ($src)." >&2
+      echo "      It applies to the managed clone at $CACHE_DIR." >&2
+    fi
+  fi
   echo "Installing $SKILL_NAME from $src"
   for dest in "${TARGETS[@]}"; do
     link_one "$src" "$dest"
@@ -181,22 +232,13 @@ run_update() {
     src="$CACHE_DIR"
   fi
 
-  local before before_sha
+  local before before_sha ref
   before="$(cat "$src/VERSION" 2>/dev/null || echo unknown)"
   before_sha="$(git -C "$src" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+  ref="$(resolve_ref "$src")"
 
-  echo "Updating $src to $REF"
-  git -C "$src" fetch --quiet --tags origin
-  if git -C "$src" show-ref --verify --quiet "refs/remotes/origin/$REF"; then
-    # REF names a branch: move onto it and fast-forward only.
-    git -C "$src" checkout --quiet "$REF"
-    git -C "$src" merge --ff-only --quiet "origin/$REF" \
-      || { echo "ERROR: cannot fast-forward $REF; the clone has local changes." >&2; exit 1; }
-  else
-    # REF names a tag or commit: check it out directly (detached HEAD).
-    git -C "$src" checkout --quiet "$REF" \
-      || { echo "ERROR: ref '$REF' not found." >&2; exit 1; }
-  fi
+  echo "Updating $src to $ref"
+  sync_to_ref "$src" "$ref"
 
   local after after_sha
   after="$(cat "$src/VERSION" 2>/dev/null || echo unknown)"
@@ -209,9 +251,9 @@ run_update() {
 
   echo
   if [ "$before_sha" = "$after_sha" ]; then
-    echo "Already up to date ($after)."
+    echo "Already up to date ($after, ref $ref)."
   else
-    echo "Updated $before -> $after."
+    echo "Updated $before -> $after (ref $ref)."
   fi
 }
 
@@ -356,9 +398,9 @@ while [ $# -gt 0 ]; do
     --ref)
       shift
       [ $# -gt 0 ] || { echo "ERROR: --ref requires a value." >&2; exit 1; }
-      REF="$1"
+      REF="$1"; REF_EXPLICIT=1
       ;;
-    --ref=*)                    REF="${1#--ref=}" ;;
+    --ref=*)                    REF="${1#--ref=}"; REF_EXPLICIT=1 ;;
     --help|-h|help)             print_help; exit 0 ;;
     *)
       echo "Unknown argument: $1" >&2
