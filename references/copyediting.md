@@ -1,6 +1,6 @@
 # Research-paper copyediting pass
 
-Use this file when the request asks for copyediting, line editing, final polish, or sentence-mechanics work. This pass happens after the argument, paragraph, and claim-calibration checks in `SKILL.md`. Do not let mechanical polish hide an unresolved logic problem.
+Use this file when the request asks for copyediting, line editing, final polish, or sentence-mechanics work. This pass happens after the argument, paragraph, reader-experience, and claim-calibration checks in `SKILL.md`; it is the final mechanical pass before output. Do not let mechanical polish hide an unresolved logic problem.
 
 ## What copyediting means here
 
