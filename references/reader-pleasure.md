@@ -1,6 +1,6 @@
 # Reader-pleasure pass
 
-Use this file when the user asks whether the paper is enjoyable, compelling, elegant, a pleasure to read, or when a full-section revision has already passed the logic and copyediting checks. This pass is about reader experience, not decoration. It must never outrank the hard constraints in `SKILL.md`.
+Use this file when the user asks whether the paper is enjoyable, compelling, elegant, a pleasure to read, or when a full-section revision has already passed the logic, paragraph, and line-edit checks. The copyediting pass runs after this one, so this is not a prerequisite. This pass is about reader experience, not decoration. It must never outrank the hard constraints in `SKILL.md`.
 
 A research paper is a pleasure to read when the reader always knows why the next sentence is worth reading. The goal is not charm, flourish, or a magazine voice. The goal is earned momentum: each sentence reduces effort, creates a question the next sentence answers, or delivers a payoff the section has prepared.
 
