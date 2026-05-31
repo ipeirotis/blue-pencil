@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, or respond to reviewer comments on an ac
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.14.0"
+  version: "1.15.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---

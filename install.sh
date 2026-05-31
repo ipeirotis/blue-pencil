@@ -16,10 +16,15 @@
 #
 # Or, from a local clone:
 #   ./install.sh              # install
-#   ./install.sh --update     # git pull the clone (every linked tool sees the new content)
+#   ./install.sh --update     # update the clone (every linked tool sees the new content)
 #   ./install.sh --uninstall  # remove both symlinks
 #   ./install.sh --init       # scaffold AGENTS.md in the current paper repo
 #   ./install.sh --check      # show install state
+#   ./install.sh --version    # print the installed version
+#
+# Pin to a tag, branch, or commit (applies to install and update):
+#   ./install.sh --ref v1.15.0
+#   PAPER_REVISION_EDITOR_REF=v1.15.0 ./install.sh --update
 
 set -euo pipefail
 
@@ -30,6 +35,16 @@ TARGETS=(
   "$HOME/.agents/skills/$SKILL_NAME"
   "$HOME/.claude/skills/$SKILL_NAME"
 )
+# Git ref (tag, branch, or commit) to install or update to. An explicit value
+# (here or via --ref) is "sticky": it is honored on install and reinstall and
+# is preserved across a plain --update. Without one, the clone stays on
+# whatever it already tracks, defaulting to main only when there is no signal.
+REF="${PAPER_REVISION_EDITOR_REF:-main}"
+if [ -n "${PAPER_REVISION_EDITOR_REF:-}" ]; then
+  REF_EXPLICIT=1
+else
+  REF_EXPLICIT=0
+fi
 
 # Where to read templates and where the symlinks should point. If install.sh
 # is running from inside a real clone, prefer that. Otherwise use CACHE_DIR
@@ -46,23 +61,36 @@ paper-revision-editor installer.
 
 Usage:
   install.sh              Install (clones if needed, symlinks both targets)
-  install.sh --update     git pull the clone (both targets update at once)
+  install.sh --update     Update the clone (both targets update at once)
   install.sh --uninstall  Remove both symlinks
   install.sh --init       Scaffold AGENTS.md in the current paper repo
-  install.sh --check      Show install state
+  install.sh --check      Show install state and the tracked ref
+  install.sh --version    Print the installed version
+  install.sh --ref REF    Install or update to a tag, branch, or commit
   install.sh --help       This help
 
 Targets:
   ~/.agents/skills/paper-revision-editor   (cross-tool standard)
   ~/.claude/skills/paper-revision-editor   (Claude Code)
 
-Override the clone location with PAPER_REVISION_EDITOR_HOME.
+Environment:
+  PAPER_REVISION_EDITOR_HOME   Override the clone location
+  PAPER_REVISION_EDITOR_REF    Default git ref (same as --ref)
 HELP
+}
+
+require_git() {
+  if ! command -v git >/dev/null 2>&1; then
+    echo "ERROR: git is required but was not found on PATH." >&2
+    echo "Install git from https://git-scm.com/downloads, then re-run." >&2
+    exit 1
+  fi
 }
 
 ensure_clone() {
   # All status output goes to stderr so this function is safe to call inside
   # $(resolve_source), where stdout is captured into the symlink target path.
+  require_git
   if [ -d "$CACHE_DIR/.git" ]; then
     return
   fi
@@ -73,11 +101,47 @@ ensure_clone() {
     git clone --quiet "$REPO_URL" "$tmpdir" >&2
     rm -rf "$CACHE_DIR"
     mv "$tmpdir" "$CACHE_DIR"
+  else
+    echo "Cloning $REPO_URL into $CACHE_DIR" >&2
+    mkdir -p "$(dirname "$CACHE_DIR")"
+    git clone --quiet "$REPO_URL" "$CACHE_DIR" >&2
+  fi
+}
+
+# Fetch and move <repo> onto <ref>: fast-forward for a branch, or a detached
+# checkout for a tag or commit. Used by install (explicit --ref) and update.
+sync_to_ref() {
+  local repo="$1" ref="$2"
+  git -C "$repo" fetch --quiet --tags origin
+  if git -C "$repo" show-ref --verify --quiet "refs/remotes/origin/$ref"; then
+    git -C "$repo" checkout --quiet "$ref"
+    git -C "$repo" merge --ff-only --quiet "origin/$ref" \
+      || { echo "ERROR: cannot fast-forward $ref; the clone has local changes." >&2; exit 1; }
+  else
+    git -C "$repo" checkout --quiet "$ref" \
+      || { echo "ERROR: ref '$ref' not found." >&2; exit 1; }
+  fi
+}
+
+# The ref to act on. An explicit --ref (or env) wins. Otherwise stay on
+# whatever <repo> already tracks, so a pinned tag or commit survives a plain
+# update; fall back to main when there is no clone or no better signal.
+resolve_ref() {
+  local repo="$1"
+  if [ "$REF_EXPLICIT" -eq 1 ]; then
+    echo "$REF"
     return
   fi
-  echo "Cloning $REPO_URL into $CACHE_DIR" >&2
-  mkdir -p "$(dirname "$CACHE_DIR")"
-  git clone --quiet "$REPO_URL" "$CACHE_DIR" >&2
+  if [ -d "$repo/.git" ]; then
+    local tag branch sha
+    tag="$(git -C "$repo" describe --tags --exact-match 2>/dev/null || true)"
+    if [ -n "$tag" ]; then echo "$tag"; return; fi
+    branch="$(git -C "$repo" symbolic-ref --short -q HEAD 2>/dev/null || true)"
+    if [ -n "$branch" ]; then echo "$branch"; return; fi
+    sha="$(git -C "$repo" rev-parse --verify -q HEAD 2>/dev/null || true)"
+    if [ -n "$sha" ]; then echo "$sha"; return; fi
+  fi
+  echo "main"
 }
 
 # Pick the directory the symlinks should point at. Inside a clone, point at
@@ -136,6 +200,18 @@ unlink_one() {
 run_install() {
   local src
   src="$(resolve_source)"
+  # An explicit --ref moves the managed clone onto that ref, on first install
+  # or reinstall. A local developer clone is linked as-is; we never move
+  # someone's own working tree out from under them.
+  if [ "$REF_EXPLICIT" -eq 1 ]; then
+    if [ "$src" = "$CACHE_DIR" ]; then
+      echo "Pinning $src to $REF"
+      sync_to_ref "$src" "$REF"
+    else
+      echo "Note: --ref is ignored when installing from a local clone ($src)." >&2
+      echo "      It applies to the managed clone at $CACHE_DIR." >&2
+    fi
+  fi
   echo "Installing $SKILL_NAME from $src"
   for dest in "${TARGETS[@]}"; do
     link_one "$src" "$dest"
@@ -145,6 +221,7 @@ run_install() {
 }
 
 run_update() {
+  require_git
   # Update whichever clone the install points at. If we are inside a clone,
   # update that. Otherwise update CACHE_DIR.
   local src
@@ -154,14 +231,30 @@ run_update() {
     ensure_clone
     src="$CACHE_DIR"
   fi
-  echo "Updating $src"
-  git -C "$src" pull --ff-only --quiet origin main
+
+  local before before_sha ref
+  before="$(cat "$src/VERSION" 2>/dev/null || echo unknown)"
+  before_sha="$(git -C "$src" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+  ref="$(resolve_ref "$src")"
+
+  echo "Updating $src to $ref"
+  sync_to_ref "$src" "$ref"
+
+  local after after_sha
+  after="$(cat "$src/VERSION" 2>/dev/null || echo unknown)"
+  after_sha="$(git -C "$src" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+
   # Re-link in case symlinks were missing or pointed elsewhere.
   for dest in "${TARGETS[@]}"; do
     link_one "$src" "$dest"
   done
+
   echo
-  echo "Updated to $(cat "$src/VERSION" 2>/dev/null || echo unknown)."
+  if [ "$before_sha" = "$after_sha" ]; then
+    echo "Already up to date ($after, ref $ref)."
+  else
+    echo "Updated $before -> $after (ref $ref)."
+  fi
 }
 
 run_uninstall() {
@@ -174,7 +267,11 @@ run_check() {
   echo "Targets:"
   for dest in "${TARGETS[@]}"; do
     if [ -L "$dest" ]; then
-      printf "  %s -> %s\n" "$dest" "$(readlink "$dest")"
+      if [ -e "$dest" ]; then
+        printf "  %s -> %s\n" "$dest" "$(readlink "$dest")"
+      else
+        printf "  %s -> %s (BROKEN: target missing)\n" "$dest" "$(readlink "$dest")"
+      fi
     elif [ -e "$dest" ]; then
       printf "  %s (exists, not a symlink)\n" "$dest"
     else
@@ -182,8 +279,27 @@ run_check() {
     fi
   done
   if [ -d "$CACHE_DIR/.git" ]; then
+    local ref
+    ref="$(git -C "$CACHE_DIR" describe --tags --exact-match 2>/dev/null \
+      || git -C "$CACHE_DIR" symbolic-ref --short -q HEAD 2>/dev/null \
+      || git -C "$CACHE_DIR" rev-parse --short HEAD 2>/dev/null || echo unknown)"
     echo
-    echo "Clone: $CACHE_DIR ($(cat "$CACHE_DIR/VERSION" 2>/dev/null || echo unknown))"
+    echo "Clone: $CACHE_DIR ($(cat "$CACHE_DIR/VERSION" 2>/dev/null || echo unknown), ref $ref)"
+  fi
+}
+
+run_version() {
+  local src=""
+  if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/VERSION" ]; then
+    src="$SCRIPT_DIR"
+  elif [ -f "$CACHE_DIR/VERSION" ]; then
+    src="$CACHE_DIR"
+  fi
+  if [ -n "$src" ]; then
+    cat "$src/VERSION"
+  else
+    echo "not installed" >&2
+    return 1
   fi
 }
 
@@ -272,19 +388,27 @@ run_init() {
 }
 
 MODE="install"
-for arg in "$@"; do
-  case "$arg" in
+while [ $# -gt 0 ]; do
+  case "$1" in
     --update|update)            MODE="update" ;;
     --uninstall|uninstall)      MODE="uninstall" ;;
     --init|init)                MODE="init" ;;
     --check|-c|check)           MODE="check" ;;
+    --version|version)          MODE="version" ;;
+    --ref)
+      shift
+      [ $# -gt 0 ] || { echo "ERROR: --ref requires a value." >&2; exit 1; }
+      REF="$1"; REF_EXPLICIT=1
+      ;;
+    --ref=*)                    REF="${1#--ref=}"; REF_EXPLICIT=1 ;;
     --help|-h|help)             print_help; exit 0 ;;
     *)
-      echo "Unknown argument: $arg" >&2
+      echo "Unknown argument: $1" >&2
       echo "Run with --help for usage." >&2
       exit 1
       ;;
   esac
+  shift
 done
 
 case "$MODE" in
@@ -293,4 +417,5 @@ case "$MODE" in
   uninstall) run_uninstall ;;
   init)      run_init ;;
   check)     run_check ;;
+  version)   run_version ;;
 esac
