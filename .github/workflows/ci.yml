@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version consistency
+        run: ./scripts/check-version.sh
+
+      - name: Lint (em-dashes, frontmatter, reference links)
+        run: ./scripts/lint.sh
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: ShellCheck
+        run: shellcheck install.sh scripts/*.sh
+
+      - name: Install smoke test (symlink into a throwaway HOME)
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          HOME="$tmp" ./install.sh
+          HOME="$tmp" ./install.sh --check
+          HOME="$tmp" ./install.sh --version
+          test -e "$tmp/.agents/skills/paper-revision-editor/SKILL.md"
+          test -e "$tmp/.claude/skills/paper-revision-editor/SKILL.md"
+          HOME="$tmp" ./install.sh --uninstall
+          test ! -e "$tmp/.agents/skills/paper-revision-editor"

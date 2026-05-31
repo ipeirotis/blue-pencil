@@ -3,6 +3,27 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.15.0] - 2026-05-31
+
+A technical pass on installing, updating, and maintaining the skill. The installer now pins to a version, reports what changed on update, and fails early with a clear message when git is missing. A `scripts/` directory plus CI keep the version strings and the no-em-dash rule from drifting.
+
+### Added
+
+- `LICENSE`: the MIT text the README badge and `SKILL.md` already pointed to but the repo was missing.
+- `install.sh`: `--ref <tag|branch|commit>` and `PAPER_REVISION_EDITOR_REF` to pin a version, a `--version` subcommand, a `git` preflight with an actionable message, before-and-after version reporting on `--update`, an `Already up to date` path, and `BROKEN` symlink plus tracked-ref detection in `--check`.
+- `scripts/`: `check-version.sh` (assert the version matches in `VERSION`, `SKILL.md`, and the README badge), `bump-version.sh` (update all three in lockstep), and `lint.sh` (em-dash and en-dash scan, frontmatter validation, reference-link resolution), with a `scripts/README.md`.
+- `.github/workflows/ci.yml`: shellcheck, the version-consistency check, the lint, and an install smoke test on every push and pull request.
+
+### Changed
+
+- `Makefile`: added `version`, `lint`, `check-version`, `bump`, and `test` targets; the help text now separates user targets from maintenance targets.
+- `README.md`: documents version pinning, `--version`, a verify-and-troubleshoot path, and a maintainers section; the Files table lists `LICENSE`, `scripts/`, and the CI workflow.
+- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.15.0.
+
+### Rationale
+
+The skill installed with one curl line, but a few technical gaps made it harder to trust and maintain: the advertised LICENSE file did not exist, the version lived in three places with nothing guarding against drift, the installer could not pin to a release or say what an update changed, and the no-em-dash standing constraint relied on manual vigilance. The new scripts and CI turn those into checks that run on every change, and the installer improvements make install, update, and verification legible to the user.
+
 ## [1.14.0] - 2026-05-30
 
 An exemplar-technique pass for pleasurable research prose. The reader-experience pass now names writers whose papers are widely treated as pleasurable to read and, more importantly, extracts the techniques an editor can safely borrow without imitating their voices.

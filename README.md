@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.14.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.15.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A SKILL.md skill that turns Claude Code (and any other agent that reads `~/.agents/skills/`) into a top-tier academic editor. The skill diagnoses structural, stylistic, copyediting, and reader-experience problems first, then revises while preserving the author's voice, citations, math, and numerical claims.
@@ -11,7 +11,7 @@ When you ask an agent to "revise the introduction" or "respond to reviewer 2", t
 
 ## Install
 
-One line. Clones the repo into `~/.local/share/paper-revision-editor`, then symlinks it into both skill directories:
+One line. Requires only `git` and `bash`. It clones the repo into `~/.local/share/paper-revision-editor`, then symlinks it into both skill directories:
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
@@ -23,6 +23,16 @@ This installs to:
 - `~/.claude/skills/paper-revision-editor/` (Claude Code)
 
 That's it. Two locations, one clone, one symlink each.
+
+### Pin to a version
+
+Track a tagged release, branch, or commit instead of `main`:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --ref v1.15.0
+```
+
+Setting `PAPER_REVISION_EDITOR_REF=v1.15.0` does the same thing. To move an existing install onto a different ref, run `--update --ref <ref>`.
 
 You can also tell your agent in chat:
 
@@ -48,6 +58,8 @@ Or in chat:
 
 Because both targets are symlinks into the same clone, a single `git pull` (or `--update`) refreshes both at once.
 
+`--update` reports the change (`Updated 1.14.0 -> 1.15.0.`, or `Already up to date (1.15.0).` when nothing moved). To see what you have without updating, run `install.sh --version` or `install.sh --check`.
+
 ## Uninstall
 
 ```bash
@@ -55,6 +67,18 @@ curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main
 ```
 
 Removes both symlinks. The clone at `~/.local/share/paper-revision-editor` is left alone; delete it manually if you want.
+
+## Verify and troubleshoot
+
+```bash
+~/.local/share/paper-revision-editor/install.sh --check
+```
+
+`--check` lists both targets, flags a `BROKEN` symlink if the clone moved, and prints the clone's version and tracked ref. Common cases:
+
+- `git is required but was not found`: install `git`, then re-run.
+- A target shows `(exists, not a symlink)`: an unmanaged file or directory is in the way. Move it aside, then re-run install.
+- Symlinks are unsupported on the filesystem: the installer copies the files instead and says so. `--update` still refreshes the copy.
 
 ## Per-paper setup
 
@@ -75,9 +99,10 @@ If you'd rather clone the repo yourself:
 git clone https://github.com/ipeirotis/paper-revision-editor.git
 cd paper-revision-editor
 make install      # symlink into ~/.agents/skills/ and ~/.claude/skills/
-make update       # git pull and re-link
+make update       # update the clone and re-link
 make uninstall    # remove both symlinks
-make check        # show install state
+make check        # show install state and tracked ref
+make version      # print the installed version
 make init         # scaffold AGENTS.md (run from your paper repo)
 ```
 
@@ -95,11 +120,25 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 | `SKILL.md` | The skill itself (frontmatter + instructions) |
 | `references/` | Load-on-demand reference material, including reader-experience and research-paper copyediting checks |
 | `.claude/agents/paper-reviser.md` | Claude Code subagent that dispatches to the skill |
-| `install.sh` | Installer / updater / uninstaller |
-| `Makefile` | `make install`, `make update`, `make uninstall`, `make init`, `make check` |
+| `install.sh` | Installer, updater, uninstaller; supports `--ref`, `--version`, `--check` |
+| `scripts/` | Maintenance helpers: `check-version.sh`, `bump-version.sh`, `lint.sh` |
+| `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
+| `Makefile` | Thin wrapper over `install.sh` and `scripts/` |
 | `examples/AGENTS.md.template` | Drop into a paper repo as `AGENTS.md` |
 | `examples/CLAUDE.md.template` | Drop into a paper repo as `CLAUDE.md` (bridge to AGENTS.md) |
 | `CHANGELOG.md`, `VERSION` | Release history and current version |
+| `LICENSE` | MIT license text |
+
+## For maintainers
+
+The version lives in three places (`VERSION`, `SKILL.md` `metadata.version`, and the README badge). Keep them in lockstep with the helper scripts:
+
+```bash
+make bump VERSION=1.16.0   # update all three at once
+make test                  # check-version + lint (em-dashes, frontmatter, refs)
+```
+
+CI (`.github/workflows/ci.yml`) runs shellcheck, the version check, the lint, and an install smoke test on every push and pull request. See `scripts/README.md` for the full release steps, including tagging.
 
 ## License
 
