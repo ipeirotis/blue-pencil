@@ -3,6 +3,20 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.16.0] - 2026-06-05
+
+A documentation pass that shows the skill working end to end. The repo described the strict four-section output and gave isolated good-and-bad sentence pairs, but it never demonstrated a full run on a realistic draft. The new worked example closes that gap and doubles as a quality anchor: its output honors every constraint, so a reader and the agent both have a concrete reference for what a correct invocation looks like.
+
+### Added
+
+- `examples/worked-example.md`: a complete run of the skill on a flawed first-draft introduction. It shows the paper context, the request, a triage message kept separate from the strict four-section return, the two-paragraph input, and the exact four-section output (Diagnosis with voice tics, Revised text, Change rationale with a word-count line and per-change reasons, Author questions), plus a short note mapping the result back to the skill's rules. The example removes throat-clearing and banned transitions, carries the effect-size claim and sample size ("1.2 million") over word for word, keeps the author's underspecified "significant effect" and the tentative managerial recommendation unchanged while raising the open points as questions, and logs a 38% subtractive cut (visible prose citations counted, since the example uses plain author-year citations rather than LaTeX commands).
+
+### Changed
+
+- `README.md`: a new "See it in action" section points to the worked example, and the Files table lists it.
+- `SKILL.md`: the output-format section points to `examples/worked-example.md` for a complete worked example.
+- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.16.0.
+
 ## [1.15.0] - 2026-05-31
 
 A technical pass on installing, updating, and maintaining the skill. The installer now pins to a version, reports what changed on update, and fails early with a clear message when git is missing. A `scripts/` directory plus CI keep the version strings and the no-em-dash rule from drifting.

@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.15.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.16.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A SKILL.md skill that turns Claude Code (and any other agent that reads `~/.agents/skills/`) into a top-tier academic editor. The skill diagnoses structural, stylistic, copyediting, and reader-experience problems first, then revises while preserving the author's voice, citations, math, and numerical claims.
@@ -29,10 +29,10 @@ That's it. Two locations, one clone, one symlink each.
 Track a tagged release, branch, or commit instead of `main`:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --ref v1.15.0
+curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --ref v1.16.0
 ```
 
-Setting `PAPER_REVISION_EDITOR_REF=v1.15.0` does the same thing. The pin is sticky: install or reinstall with `--ref` moves an existing clone onto that ref, and a plain `--update` keeps it there. Pass a new `--ref` to move off it (for example `--ref main` to follow the latest again).
+Setting `PAPER_REVISION_EDITOR_REF=v1.16.0` does the same thing. The pin is sticky: install or reinstall with `--ref` moves an existing clone onto that ref, and a plain `--update` keeps it there. Pass a new `--ref` to move off it (for example `--ref main` to follow the latest again).
 
 You can also tell your agent in chat:
 
@@ -58,7 +58,7 @@ Or in chat:
 
 Because both targets are symlinks into the same clone, a single `git pull` (or `--update`) refreshes both at once.
 
-`--update` reports the change (`Updated 1.14.0 -> 1.15.0 (ref main).`, or `Already up to date (1.15.0, ref main).` when nothing moved). To see what you have without updating, run `install.sh --version` or `install.sh --check`.
+`--update` reports the change (`Updated 1.15.0 -> 1.16.0 (ref main).`, or `Already up to date (1.16.0, ref main).` when nothing moved). To see what you have without updating, run `install.sh --version` or `install.sh --check`.
 
 ## Uninstall
 
@@ -106,6 +106,12 @@ make version      # print the installed version
 make init         # scaffold AGENTS.md (run from your paper repo)
 ```
 
+## See it in action
+
+`examples/worked-example.md` shows a full run: a flawed first-draft introduction
+goes in, and the strict four-section output (Diagnosis, Revised text, Change
+rationale, Author questions) comes back, with every constraint honored.
+
 ## Invoking the skill
 
 Any prompt that mentions revising, polishing, copy-editing, tightening, or responding to reviewer comments on a paper section will auto-trigger the skill. Explicit invocation:
@@ -124,6 +130,7 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 | `scripts/` | Maintenance helpers: `check-version.sh`, `bump-version.sh`, `lint.sh` |
 | `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
 | `Makefile` | Thin wrapper over `install.sh` and `scripts/` |
+| `examples/worked-example.md` | A complete run of the skill: flawed draft in, four-section output out |
 | `examples/AGENTS.md.template` | Drop into a paper repo as `AGENTS.md` |
 | `examples/CLAUDE.md.template` | Drop into a paper repo as `CLAUDE.md` (bridge to AGENTS.md) |
 | `CHANGELOG.md`, `VERSION` | Release history and current version |

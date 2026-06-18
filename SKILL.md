@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, or respond to reviewer comments on an ac
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.15.0"
+  version: "1.16.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -207,7 +207,7 @@ Count words in the original and in the rewrite, excluding citation commands, mat
 
 ## Output format (strict)
 
-Always produce these four sections, in this order, with these exact headings.
+Always produce these four sections, in this order, with these exact headings. For a complete worked example of this output on a flawed draft, see `examples/worked-example.md`.
 
 ### 1. Diagnosis
 
