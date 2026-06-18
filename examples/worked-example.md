@@ -104,44 +104,50 @@ reviewer credentials.
 
 Word count: 139 to 86 (-38%).
 
-- "It is important to note that the proliferation of online platforms has
-  fundamentally transformed the way in which consumers make purchasing
-  decisions" -> "Online platforms have changed how consumers decide what to
-  buy", removed throat-clearing and "the way in which"; concrete subject, active
-  verb.
-- "Furthermore ... Moreover ... Crucially" -> removed; the connections now ride
-  on given-new order instead of connectives bolted on the front.
-- "an investigation ... was conducted by several researchers" plus the trailing
-  citation group -> folded into the sentence stating the effect size; citations
-  kept and grouped inside the claim they support.
-- "reviews matter, a one-star increase leads to a 5-9% increase in revenue" ->
-  "reviews are part of that decision: a one-star increase leads to a 5-9%
-  increase in revenue", colon repairs the comma splice; the numerical claim
-  itself ("a one-star increase leads to a 5-9% increase in revenue") is carried
-  over word for word, since numerical claims are never edited.
-- "the question of whether the identity of reviewers affects this relationship
-  remains, to the best of our knowledge, somewhat underexplored in the existing
-  literature" -> "What these studies leave open is who wrote the review. We ask
-  whether a reviewer's identity changes how much the review moves sales",
-  removed the hedge stack and put the contribution in the stress position as a
-  short, direct claim.
-- "In order to investigate this question, we leverage a novel dataset comprising
-  of" -> "To answer this, we use a dataset of", tightened "in order to" to "to"
-  and "leverage" to "use", fixed the ungrammatical "comprising of", and dropped
-  the promotional adjective "novel" rather than swapping it for a synonym; if the
-  dataset's novelty is part of the contribution, that is raised in Author
-  questions.
-- "The results of our analysis demonstrate that reviewer identity has a
-  significant effect" -> "Reviewer identity has a significant effect", removed
-  only the nominalization wrapper; the claim is left exactly as underspecified as
-  the author wrote it (both "significant" and the unstated outcome), with both
-  gaps raised in Author questions rather than filled in.
-- "It should be noted that this finding has important implications for platform
-  design: managers should consider highlighting reviewer credentials" -> "For
-  platform design, managers should consider highlighting reviewer credentials",
-  removed throat-clearing and the promotional "important implications"; the
-  author's recommendation, including its tentative "should consider" modality, is
-  kept unchanged.
+"It is important to note that the proliferation of online platforms has
+fundamentally transformed the way in which consumers make purchasing decisions"
+-> "Online platforms have changed how consumers decide what to buy", removed
+throat-clearing and "the way in which"; concrete subject, active verb.
+
+"Furthermore ... Moreover ... Crucially" -> removed; the connections now ride on
+given-new order instead of connectives bolted on the front.
+
+"an investigation ... was conducted by several researchers" plus the trailing
+citation group -> folded into the sentence stating the effect size; citations
+kept and grouped inside the claim they support.
+
+"reviews matter, a one-star increase leads to a 5-9% increase in revenue" ->
+"reviews are part of that decision: a one-star increase leads to a 5-9% increase
+in revenue", colon repairs the comma splice; the numerical claim itself ("a
+one-star increase leads to a 5-9% increase in revenue") is carried over word for
+word, since numerical claims are never edited.
+
+"the question of whether the identity of reviewers affects this relationship
+remains, to the best of our knowledge, somewhat underexplored in the existing
+literature" -> "What these studies leave open is who wrote the review. We ask
+whether a reviewer's identity changes how much the review moves sales", removed
+the hedge stack and put the contribution in the stress position as a short,
+direct claim.
+
+"In order to investigate this question, we leverage a novel dataset comprising
+of" -> "To answer this, we use a dataset of", tightened "in order to" to "to"
+and "leverage" to "use", fixed the ungrammatical "comprising of", and dropped
+the promotional adjective "novel" rather than swapping it for a synonym; if the
+dataset's novelty is part of the contribution, that is raised in Author
+questions.
+
+"The results of our analysis demonstrate that reviewer identity has a
+significant effect" -> "Reviewer identity has a significant effect", removed only
+the nominalization wrapper; the claim is left exactly as underspecified as the
+author wrote it (both "significant" and the unstated outcome), with both gaps
+raised in Author questions rather than filled in.
+
+"It should be noted that this finding has important implications for platform
+design: managers should consider highlighting reviewer credentials" -> "For
+platform design, managers should consider highlighting reviewer credentials",
+removed throat-clearing and the promotional "important implications"; the
+author's recommendation, including its tentative "should consider" modality, is
+kept unchanged.
 
 ### 4. Author questions
 
@@ -159,8 +165,9 @@ Word count: 139 to 86 (-38%).
 
 ## What this demonstrates
 
-- **Orientation first.** The rewrite leads with the paper's question instead of
-  a platitude, so the reader knows what is being answered from the first line.
+- **Orientation early.** The rewrite cuts the opening platitude and surfaces the
+  paper's question by the second sentence, where the draft had buried it under
+  hedges at the very end of the paragraph.
 - **Transitions from content.** The banned connectives are gone; each sentence
   hands the next its subject through given-new order.
 - **Numbers and claims are protected.** The whole effect-size claim ("a one-star
