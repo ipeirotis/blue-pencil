@@ -49,11 +49,20 @@ highlighting reviewer credentials.
 
 ## Skill output
 
+### Triage (one short message before diagnosis)
+
+> Scope: direct rewrite, not feedback only. Unit: the two paragraphs you pasted.
+> Aggressiveness: the stage is `first draft`, so I will reorder, merge, and cut
+> where the argument needs it, not just polish sentences. Proceeding on that
+> basis.
+
+The four-section output follows.
+
 ### 1. Diagnosis
 
 Voice tics: first-person plural for the authors' own work; author-year
 citations grouped in one parenthetical; effects stated as concrete numbers
-(the 5-to-9% figure, the 1.2 million reviews).
+(the 5-9% figure, the 1.2 million reviews).
 
 1. [P1] The paragraph opens with throat-clearing and a generic platitude; the
    reader does not see the paper's actual question until the final sentence.
@@ -76,20 +85,19 @@ citations grouped in one parenthetical; effects stated as concrete numbers
 
 ```
 Online platforms have changed how consumers decide what to buy, and reviews are
-part of that decision: a one-star increase raises revenue by 5 to 9%
+part of that decision: a one-star increase raises revenue by 5-9%
 (Chevalier and Mayzlin 2006; Forman et al. 2008; Dellarocas 2003). What these
 studies leave open is who wrote the review. We ask whether a reviewer's
 identity changes how much the review moves sales.
 
 To answer this, we use a new dataset of 1.2 million reviews. Reviewer identity
-does move sales, and the size of the effect depends on who the reviewer is. The
-result gives platforms a concrete lever: surface the reviewer credentials that
-buyers actually weigh.
+has a significant effect on sales. For platform design, managers can highlight
+reviewer credentials.
 ```
 
 ### 3. Change rationale
 
-Word count: 129 to 93 (-28%).
+Word count: 130 to 76 (-42%).
 
 - "It is important to note that the proliferation of online platforms has
   fundamentally transformed the way in which consumers make purchasing
@@ -102,8 +110,9 @@ Word count: 129 to 93 (-28%).
   citation group -> folded into the sentence stating the effect size; citations
   kept and grouped inside the claim they support.
 - "reviews matter, a one-star increase leads to a 5-9% increase in revenue" ->
-  "reviews are part of that decision: a one-star increase raises revenue by 5 to
-  9%", colon repairs the comma splice; active "raises".
+  "reviews are part of that decision: a one-star increase raises revenue by
+  5-9%", colon repairs the comma splice; active "raises"; the "5-9%" figure is
+  reproduced verbatim, since numerical claims are never edited.
 - "the question of whether the identity of reviewers affects this relationship
   remains, to the best of our knowledge, somewhat underexplored in the existing
   literature" -> "What these studies leave open is who wrote the review. We ask
@@ -114,26 +123,25 @@ Word count: 129 to 93 (-28%).
   of" -> "To answer this, we use a new dataset of", tightened "in order to" to
   "to", "leverage" to "use", and fixed the ungrammatical "comprising of".
 - "The results of our analysis demonstrate that reviewer identity has a
-  significant effect" -> "Reviewer identity does move sales, and the size of the
-  effect depends on who the reviewer is", removed the nominalization and the
-  ambiguous "significant" (see Author questions).
+  significant effect" -> "Reviewer identity has a significant effect on sales",
+  removed the nominalization and supplied the missing referent; "significant" is
+  kept verbatim and the ambiguity is flagged, not resolved (see Author
+  questions).
 - "It should be noted that this finding has important implications for platform
-  design: managers should consider highlighting reviewer credentials" -> "The
-  result gives platforms a concrete lever: surface the reviewer credentials that
-  buyers actually weigh", removed throat-clearing and the promotional "important
-  implications"; the paragraph now ends on a payoff.
+  design: managers should consider highlighting reviewer credentials" -> "For
+  platform design, managers can highlight reviewer credentials", removed
+  throat-clearing and the promotional "important implications"; the author's
+  managerial framing is kept unchanged.
 
 ### 4. Author questions
 
-- I reformatted the effect size "5-9%" as "5 to 9%" for prose; does that
-  preserve your intended figure?
-- "significant effect" was ambiguous: do you mean statistically significant,
-  practically large, or both? I replaced it with a plain claim and left the
-  magnitude to your results, is that the right scope for the introduction?
+- "significant effect" is ambiguous: do you mean statistically significant,
+  practically large, or both? I kept your wording and did not resolve it; should
+  the final text say which?
 - Should "1.2 million reviews" name the platform and time window so the reader
   can judge representativeness?
-- The original implication addressed "managers"; I generalized to "platforms".
-  Is the managerial framing one you want to keep?
+- The implication is framed for "managers"; do you also want to name the
+  platform-side action, or keep the managerial framing as written?
 
 ## What this demonstrates
 
@@ -141,10 +149,15 @@ Word count: 129 to 93 (-28%).
   a platitude, so the reader knows what is being answered from the first line.
 - **Transitions from content.** The banned connectives are gone; each sentence
   hands the next its subject through given-new order.
-- **Numbers and citations are protected.** "1.2 million" is untouched, the
-  citation group is preserved, and the one numerical reformat is raised as a
-  question rather than applied silently.
-- **Claims are calibrated, not flattened.** An ambiguous "significant" becomes a
-  question for the author, not a guess.
-- **Subtraction by test.** The cut is 28%, logged line by line, with no content
+- **Numbers and citations are protected.** "5-9%" and "1.2 million" are
+  reproduced verbatim and the citation group is preserved; no numerical text is
+  rewritten, not even cosmetically.
+- **Ambiguous claims are flagged, not resolved.** The author's "significant" is
+  kept as written and raised as a question rather than rewritten into a stronger
+  or weaker claim.
+- **Author framing is preserved.** The managerial framing stays; the rewrite
+  tightens the wording without changing who acts or inventing a new claim.
+- **Triage first.** The skill confirms scope, unit, and aggressiveness before it
+  diagnoses, rather than jumping straight into edits.
+- **Subtraction by test.** The cut is 42%, logged line by line, with no content
   removed without a stated reason.
