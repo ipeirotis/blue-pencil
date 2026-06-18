@@ -95,14 +95,14 @@ part of that decision: a one-star increase leads to a 5-9% increase in revenue
 studies leave open is who wrote the review. We ask whether a reviewer's
 identity changes how much the review moves sales.
 
-To answer this, we use a new dataset of 1.2 million reviews. Reviewer identity
-has a significant effect. For platform design, managers should consider
-highlighting reviewer credentials.
+To answer this, we use a dataset of 1.2 million reviews. Reviewer identity has a
+significant effect. For platform design, managers should consider highlighting
+reviewer credentials.
 ```
 
 ### 3. Change rationale
 
-Word count: 139 to 87 (-37%).
+Word count: 139 to 86 (-38%).
 
 - "It is important to note that the proliferation of online platforms has
   fundamentally transformed the way in which consumers make purchasing
@@ -126,8 +126,11 @@ Word count: 139 to 87 (-37%).
   removed the hedge stack and put the contribution in the stress position as a
   short, direct claim.
 - "In order to investigate this question, we leverage a novel dataset comprising
-  of" -> "To answer this, we use a new dataset of", tightened "in order to" to
-  "to", "leverage" to "use", and fixed the ungrammatical "comprising of".
+  of" -> "To answer this, we use a dataset of", tightened "in order to" to "to"
+  and "leverage" to "use", fixed the ungrammatical "comprising of", and dropped
+  the promotional adjective "novel" rather than swapping it for a synonym; if the
+  dataset's novelty is part of the contribution, that is raised in Author
+  questions.
 - "The results of our analysis demonstrate that reviewer identity has a
   significant effect" -> "Reviewer identity has a significant effect", removed
   only the nominalization wrapper; the claim is left exactly as underspecified as
@@ -148,6 +151,9 @@ Word count: 139 to 87 (-37%).
   should the final text read?
 - Should "1.2 million reviews" name the platform and time window so the reader
   can judge representativeness?
+- Is the dataset's novelty part of your contribution? I dropped the adjective
+  "novel"; if the dataset is genuinely new, the introduction should say what
+  makes it so rather than assert it with an adjective.
 - The implication is framed for "managers"; do you also want to name the
   platform-side action, or keep the managerial framing as written?
 
@@ -170,5 +176,5 @@ Word count: 139 to 87 (-37%).
 - **Triage first.** The skill confirms scope, unit, and aggressiveness in a short
   message before the four-section return, rather than jumping straight into
   edits.
-- **Subtraction by test.** The cut is 37%, logged line by line, with no content
+- **Subtraction by test.** The cut is 38%, logged line by line, with no content
   removed without a stated reason.
