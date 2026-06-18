@@ -9,7 +9,7 @@ A documentation pass that shows the skill working end to end. The repo described
 
 ### Added
 
-- `examples/worked-example.md`: a complete run of the skill on a flawed first-draft introduction. It shows the paper context, the request, the triage message, the two-paragraph input, and the exact four-section output (Diagnosis with voice tics, Revised text, Change rationale with a word-count line and per-change reasons, Author questions), plus a short note mapping the result back to the skill's rules. The example removes throat-clearing and banned transitions, reproduces the effect size ("5-9%") and sample size ("1.2 million") verbatim, keeps the author's ambiguous "significant" and managerial framing unchanged while raising them as questions, and logs a 42% subtractive cut.
+- `examples/worked-example.md`: a complete run of the skill on a flawed first-draft introduction. It shows the paper context, the request, a triage message kept separate from the strict four-section return, the two-paragraph input, and the exact four-section output (Diagnosis with voice tics, Revised text, Change rationale with a word-count line and per-change reasons, Author questions), plus a short note mapping the result back to the skill's rules. The example removes throat-clearing and banned transitions, carries the effect-size claim and sample size ("1.2 million") over word for word, keeps the author's ambiguous "significant" and the tentative managerial recommendation unchanged while raising the open points as questions, and logs a 38% subtractive cut.
 
 ### Changed
 

@@ -47,16 +47,21 @@ important implications for platform design: managers should consider
 highlighting reviewer credentials.
 ```
 
-## Skill output
+## Triage
 
-### Triage (one short message before diagnosis)
+Before diagnosing, the skill confirms scope, unit, and aggressiveness in one
+short message. This triage is not part of the strict four-section return; it
+comes first.
 
 > Scope: direct rewrite, not feedback only. Unit: the two paragraphs you pasted.
 > Aggressiveness: the stage is `first draft`, so I will reorder, merge, and cut
 > where the argument needs it, not just polish sentences. Proceeding on that
 > basis.
 
-The four-section output follows.
+## Skill output
+
+The strict four-section return, exactly as `SKILL.md` requires: these four
+headings, in this order, and nothing else.
 
 ### 1. Diagnosis
 
@@ -85,19 +90,19 @@ citations grouped in one parenthetical; effects stated as concrete numbers
 
 ```
 Online platforms have changed how consumers decide what to buy, and reviews are
-part of that decision: a one-star increase raises revenue by 5-9%
+part of that decision: a one-star increase leads to a 5-9% increase in revenue
 (Chevalier and Mayzlin 2006; Forman et al. 2008; Dellarocas 2003). What these
 studies leave open is who wrote the review. We ask whether a reviewer's
 identity changes how much the review moves sales.
 
 To answer this, we use a new dataset of 1.2 million reviews. Reviewer identity
-has a significant effect on sales. For platform design, managers can highlight
-reviewer credentials.
+has a significant effect on sales. For platform design, managers should consider
+highlighting reviewer credentials.
 ```
 
 ### 3. Change rationale
 
-Word count: 130 to 76 (-42%).
+Word count: 130 to 80 (-38%).
 
 - "It is important to note that the proliferation of online platforms has
   fundamentally transformed the way in which consumers make purchasing
@@ -110,9 +115,10 @@ Word count: 130 to 76 (-42%).
   citation group -> folded into the sentence stating the effect size; citations
   kept and grouped inside the claim they support.
 - "reviews matter, a one-star increase leads to a 5-9% increase in revenue" ->
-  "reviews are part of that decision: a one-star increase raises revenue by
-  5-9%", colon repairs the comma splice; active "raises"; the "5-9%" figure is
-  reproduced verbatim, since numerical claims are never edited.
+  "reviews are part of that decision: a one-star increase leads to a 5-9%
+  increase in revenue", colon repairs the comma splice; the numerical claim
+  itself ("a one-star increase leads to a 5-9% increase in revenue") is carried
+  over word for word, since numerical claims are never edited.
 - "the question of whether the identity of reviewers affects this relationship
   remains, to the best of our knowledge, somewhat underexplored in the existing
   literature" -> "What these studies leave open is who wrote the review. We ask
@@ -129,9 +135,10 @@ Word count: 130 to 76 (-42%).
   questions).
 - "It should be noted that this finding has important implications for platform
   design: managers should consider highlighting reviewer credentials" -> "For
-  platform design, managers can highlight reviewer credentials", removed
-  throat-clearing and the promotional "important implications"; the author's
-  managerial framing is kept unchanged.
+  platform design, managers should consider highlighting reviewer credentials",
+  removed throat-clearing and the promotional "important implications"; the
+  author's recommendation, including its tentative "should consider" modality, is
+  kept unchanged.
 
 ### 4. Author questions
 
@@ -149,15 +156,18 @@ Word count: 130 to 76 (-42%).
   a platitude, so the reader knows what is being answered from the first line.
 - **Transitions from content.** The banned connectives are gone; each sentence
   hands the next its subject through given-new order.
-- **Numbers and citations are protected.** "5-9%" and "1.2 million" are
-  reproduced verbatim and the citation group is preserved; no numerical text is
-  rewritten, not even cosmetically.
+- **Numbers and claims are protected.** The whole effect-size claim ("a one-star
+  increase leads to a 5-9% increase in revenue") and "1.2 million" are carried
+  over word for word, and the citation group is preserved; the editor tightens
+  the prose around the claim without touching the claim itself.
 - **Ambiguous claims are flagged, not resolved.** The author's "significant" is
   kept as written and raised as a question rather than rewritten into a stronger
   or weaker claim.
-- **Author framing is preserved.** The managerial framing stays; the rewrite
-  tightens the wording without changing who acts or inventing a new claim.
-- **Triage first.** The skill confirms scope, unit, and aggressiveness before it
-  diagnoses, rather than jumping straight into edits.
-- **Subtraction by test.** The cut is 42%, logged line by line, with no content
+- **Author framing is preserved.** The managerial recommendation stays, modality
+  and all; the rewrite drops the throat-clearing around it without changing who
+  acts, softening or hardening the recommendation, or inventing a new claim.
+- **Triage first.** The skill confirms scope, unit, and aggressiveness in a short
+  message before the four-section return, rather than jumping straight into
+  edits.
+- **Subtraction by test.** The cut is 38%, logged line by line, with no content
   removed without a stated reason.
