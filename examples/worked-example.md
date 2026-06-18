@@ -151,9 +151,9 @@ Word count: 139 to 86 (-38%).
   should the final text read?
 - Should "1.2 million reviews" name the platform and time window so the reader
   can judge representativeness?
-- Is the dataset's novelty part of your contribution? I dropped the adjective
-  "novel"; if the dataset is genuinely new, the introduction should say what
-  makes it so rather than assert it with an adjective.
+- Is the dataset's novelty part of your contribution, and if so, should the
+  introduction state what makes it new rather than rely on the adjective "novel"
+  I removed?
 - The implication is framed for "managers"; do you also want to name the
   platform-side action, or keep the managerial framing as written?
 
