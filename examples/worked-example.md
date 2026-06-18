@@ -96,13 +96,13 @@ studies leave open is who wrote the review. We ask whether a reviewer's
 identity changes how much the review moves sales.
 
 To answer this, we use a new dataset of 1.2 million reviews. Reviewer identity
-has a significant effect on sales. For platform design, managers should consider
+has a significant effect. For platform design, managers should consider
 highlighting reviewer credentials.
 ```
 
 ### 3. Change rationale
 
-Word count: 130 to 80 (-38%).
+Word count: 139 to 87 (-37%).
 
 - "It is important to note that the proliferation of online platforms has
   fundamentally transformed the way in which consumers make purchasing
@@ -129,10 +129,10 @@ Word count: 130 to 80 (-38%).
   of" -> "To answer this, we use a new dataset of", tightened "in order to" to
   "to", "leverage" to "use", and fixed the ungrammatical "comprising of".
 - "The results of our analysis demonstrate that reviewer identity has a
-  significant effect" -> "Reviewer identity has a significant effect on sales",
-  removed the nominalization and supplied the missing referent; "significant" is
-  kept verbatim and the ambiguity is flagged, not resolved (see Author
-  questions).
+  significant effect" -> "Reviewer identity has a significant effect", removed
+  only the nominalization wrapper; the claim is left exactly as underspecified as
+  the author wrote it (both "significant" and the unstated outcome), with both
+  gaps raised in Author questions rather than filled in.
 - "It should be noted that this finding has important implications for platform
   design: managers should consider highlighting reviewer credentials" -> "For
   platform design, managers should consider highlighting reviewer credentials",
@@ -142,9 +142,10 @@ Word count: 130 to 80 (-38%).
 
 ### 4. Author questions
 
-- "significant effect" is ambiguous: do you mean statistically significant,
-  practically large, or both? I kept your wording and did not resolve it; should
-  the final text say which?
+- "significant effect" is underspecified in two ways: do you mean statistically
+  significant, practically large, or both, and an effect on which outcome (sales,
+  helpfulness, something else)? I kept your wording and filled neither gap; how
+  should the final text read?
 - Should "1.2 million reviews" name the platform and time window so the reader
   can judge representativeness?
 - The implication is framed for "managers"; do you also want to name the
@@ -160,14 +161,14 @@ Word count: 130 to 80 (-38%).
   increase leads to a 5-9% increase in revenue") and "1.2 million" are carried
   over word for word, and the citation group is preserved; the editor tightens
   the prose around the claim without touching the claim itself.
-- **Ambiguous claims are flagged, not resolved.** The author's "significant" is
-  kept as written and raised as a question rather than rewritten into a stronger
-  or weaker claim.
+- **Ambiguous claims are flagged, not resolved.** The author's underspecified
+  "significant effect" is kept exactly as written, with both the kind of
+  significance and the missing outcome raised as questions rather than guessed.
 - **Author framing is preserved.** The managerial recommendation stays, modality
   and all; the rewrite drops the throat-clearing around it without changing who
   acts, softening or hardening the recommendation, or inventing a new claim.
 - **Triage first.** The skill confirms scope, unit, and aggressiveness in a short
   message before the four-section return, rather than jumping straight into
   edits.
-- **Subtraction by test.** The cut is 38%, logged line by line, with no content
+- **Subtraction by test.** The cut is 37%, logged line by line, with no content
   removed without a stated reason.
