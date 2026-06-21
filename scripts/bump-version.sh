@@ -39,7 +39,8 @@ sed "s#badge/version-${old_re}-#badge/version-${new}-#" \
   "$ROOT/README.md" > "$tmp" && mv "$tmp" "$ROOT/README.md"
 
 echo "Bumped $old -> $new in VERSION, SKILL.md, README.md."
-"$ROOT/scripts/check-version.sh" >/dev/null
+# Skip the CHANGELOG check: its "## [$new]" entry is written in the next step.
+"$ROOT/scripts/check-version.sh" --no-changelog >/dev/null
 
 cat <<NEXT
 

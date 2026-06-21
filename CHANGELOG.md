@@ -40,57 +40,24 @@ The skill installed with one curl line, but a few technical gaps made it harder 
 
 ## [1.14.0] - 2026-05-30
 
-An exemplar-technique pass for pleasurable research prose. The reader-experience pass now names writers whose papers are widely treated as pleasurable to read and, more importantly, extracts the techniques an editor can safely borrow without imitating their voices.
-
-### Added
-
-- `references/reader-pleasure.md`: an **Exemplars and transferable techniques** section covering Coase, Akerlof, Schelling, Hirschman, Kleinberg, Roth, Lampson, Brooks, Chetty, Varian, Angrist-Pischke, Dijkstra, and McCloskey. The table maps each exemplar to a concrete editing check for ordinary papers.
-
-### Changed
-
-- `SKILL.md`: the reader-experience principle now says to use the exemplar catalog for techniques to borrow, not voices to imitate.
-- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.14.0.
-
-### Rationale
-
-A paper can be a pleasure to read even when the result is mundane if the writer uses the right technique at the right moment: puzzle before literature, question before machinery, named ideas, examples that do argumentative work, figures as the empirical spine, progressive disclosure, and exact claims instead of importance signaling. Naming exemplars helps the skill recognize these moves, while the technique-not-voice rule prevents pastiche.
-
-## [1.13.0] - 2026-05-30
-
-A reader-experience pass. The skill was strong on clarity, safety, and copyediting, but those qualities do not automatically make a paper a pleasure to read. This release makes enjoyment operational through orientation, momentum, payoff, rhythm, concrete anchors, and useful surprise.
-
-### Added
-
-- `references/reader-pleasure.md`: a dedicated guide for making research prose a pleasure to read without hype or decorative flourish. It defines a five-part pleasure test, safe edit moves, anti-patterns, stage boundaries, and concrete rationale language.
-- `SKILL.md`: an explicit **Reader experience** editing principle, with instructions to load `references/reader-pleasure.md` when the user asks whether prose is enjoyable, compelling, elegant, readable, or a pleasure to read.
-
-### Changed
-
-- `SKILL.md`: stage controls, restraint checks, preflight, read-cold, change-rationale, and author-question rules now include reader-experience concerns: visible questions, momentum, payoff, rhythm, concrete anchors, restored contrast, and unclear reader payoff.
-- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.13.0.
-
-### Rationale
-
-The previous copyediting pass could make prose correct and consistent, but correct prose can still be airless. A paper becomes pleasurable when the reader is oriented, feels forward motion, gets a payoff at the end of paragraphs, receives relief after dense material, and encounters useful tension rather than smoothed-over generality. The new pass keeps the skill's safety model: pleasure edits must name the reader-experience mechanism they improve, and anything that would require adding evidence, changing emphasis, or inventing an example becomes an author question instead of an edit.
-
-## [1.12.0] - 2026-05-30
-
-A research-paper copyediting pass. The skill already handled structure, sentence cohesion, and final polish; this release makes copyediting explicit so grammar and consistency fixes protect precision instead of becoming untracked rewrites.
+Three editorial passes that shipped together: a research-paper copyediting pass, a reader-experience pass, and an exemplar-technique pass for pleasurable prose. Copyediting makes grammar and consistency fixes explicit so they protect precision instead of becoming untracked rewrites. The reader-experience pass makes enjoyment operational through orientation, momentum, payoff, rhythm, concrete anchors, and useful surprise. The exemplar pass then names writers whose papers are widely treated as pleasurable to read and extracts the techniques an editor can borrow without imitating their voices.
 
 ### Added
 
 - `references/copyediting.md`: a dedicated copyediting guide for research manuscripts. It covers grammar and agreement, punctuation for parsing, parallelism, terminology consistency, abbreviation handling, capitalization, hyphenation, units and symbols, tense and aspect, table and figure callouts, and citation punctuation. It adds a safe-fix / consistency-risk / evidence-risk triage, a consistency inventory, common high-value fixes, a list of items not to normalize silently, and a final copyediting checklist.
-- `SKILL.md`: an explicit **Copyediting** editing principle with a before/after example, plus instructions to load `references/copyediting.md` for copy-edit requests, final-polish passes, and revisions that touch sentence mechanics.
+- `references/reader-pleasure.md`: a dedicated guide for making research prose a pleasure to read without hype or decorative flourish. It defines a five-part pleasure test, safe edit moves, anti-patterns, stage boundaries, concrete rationale language, and an **Exemplars and transferable techniques** section covering Coase, Akerlof, Schelling, Hirschman, Kleinberg, Roth, Lampson, Brooks, Chetty, Varian, Angrist-Pischke, Dijkstra, and McCloskey, with a table mapping each exemplar to a concrete editing check for ordinary papers.
+- `SKILL.md`: explicit **Copyediting** and **Reader experience** editing principles. The copyediting principle carries a before/after example and loads `references/copyediting.md` for copy-edit requests, final-polish passes, and revisions that touch sentence mechanics. The reader-experience principle loads `references/reader-pleasure.md` when the user asks whether prose is enjoyable, compelling, elegant, readable, or a pleasure to read, and uses the exemplar catalog for techniques to borrow, not voices to imitate.
 
 ### Changed
 
-- `SKILL.md`: the trigger and non-trigger guidance now distinguishes research-paper copyediting from mechanical typo-only proofreading.
-- `SKILL.md`: `final polish`, restraint, preflight, and read-cold checks now include terminology, abbreviations, capitalization, hyphenation, unit notation, tense, punctuation, and parallelism.
-- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.12.0.
+- `SKILL.md`: the trigger and non-trigger guidance now distinguishes research-paper copyediting from mechanical typo-only proofreading. Stage controls, restraint checks, preflight, read-cold, change-rationale, and author-question rules now include copyediting concerns (terminology, abbreviations, capitalization, hyphenation, unit notation, tense, punctuation, parallelism) and reader-experience concerns (visible questions, momentum, payoff, rhythm, concrete anchors, restored contrast, unclear reader payoff).
+- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.14.0.
 
 ### Rationale
 
-Research-paper copyediting is a precision pass, not a cosmetic pass. The previous skill could polish sentences, but it did not name the mechanical consistency checks that often matter in manuscripts: terms that drift across a section, abbreviations introduced unevenly, nonparallel contribution lists, tense shifts between prior work and results, unit-format drift, and vague table or figure callouts. Making those checks explicit gives the agent permission to fix safe mechanics while preserving the hard boundary around technical claims, citations, numerical values, and author framing.
+These passes build on one another. Research-paper copyediting is a precision pass, not a cosmetic one: it names the mechanical consistency checks that matter in manuscripts (terms that drift across a section, abbreviations introduced unevenly, nonparallel contribution lists, tense shifts between prior work and results, unit-format drift, vague table or figure callouts) while preserving the hard boundary around technical claims, citations, numerical values, and author framing. Correct prose can still be airless, so the reader-experience pass makes a paper pleasurable when the reader is oriented, feels forward motion, gets a payoff at the end of paragraphs, receives relief after dense material, and meets useful tension rather than smoothed-over generality. Naming exemplars helps the skill recognize the moves that create that experience (puzzle before literature, question before machinery, named ideas, examples that do argumentative work, figures as the empirical spine, progressive disclosure, exact claims instead of importance signaling), while the technique-not-voice rule prevents pastiche. Pleasure and copyedit moves must name the mechanism they improve; anything that would require adding evidence, changing emphasis, or inventing an example becomes an author question instead of an edit.
+
+Note: earlier drafts of this changelog split this release into 1.12.0 (copyediting) and 1.13.0 (reader experience), but the repository only ever reported 1.14.0, which shipped all three passes. The two entries are consolidated here so the changelog matches the version history and the release tags.
 
 ## [1.11.0] - 2026-05-30
 
@@ -312,3 +279,19 @@ Initial versioned release.
 - Per-paper context loaded from CLAUDE.md or paper-meta.md at the repo root
 - One-line installer (`install.sh`) and version-aware updater (`update.sh`)
 - `REF` environment variable in `install.sh` for pinning skill content to a release tag (e.g. `REF=v1.0.0`); defaults to `main`
+
+[1.16.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.15.0...v1.16.0
+[1.15.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.14.0...v1.15.0
+[1.14.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.11.0...v1.14.0
+[1.11.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.10.0...v1.11.0
+[1.10.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.9.0...v1.10.0
+[1.9.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.8.0...v1.9.0
+[1.8.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.7.0...v1.8.0
+[1.7.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.6.0...v1.7.0
+[1.6.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.5.0...v1.6.0
+[1.5.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.2.1...v1.4.0
+[1.2.1]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/ipeirotis/paper-revision-editor/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/ipeirotis/paper-revision-editor/releases/tag/v1.0.0
