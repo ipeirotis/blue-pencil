@@ -80,10 +80,10 @@ Reviews and sales move together, but that does not mean reviews cause sales: a
 better product earns both higher ratings and more buyers, so the correlation could
 be product quality talking, not the review. Breaking that deadlock needs variation
 in reviews that is unrelated to the product. We find it in how platforms moderate.
-Platforms do not moderate every review the same way, and among reviews that look
-alike on the characteristics we observe, which ones get moderated turns on platform
-policy rather than on the product. That lets us compare otherwise similar reviews
-that platforms happened to treat differently and read off the effect of a review's
+Platforms apply different moderation policies to different cohorts of reviews, and
+among cohorts that look alike on what we observe, which policy a cohort gets is set
+by platform rules rather than by the product. That lets us compare otherwise similar
+reviews in differently moderated cohorts and read off the effect of a review's
 valence. On 3.4 million
 reviews, the effect is positive and significant. Where earlier work leaned on
 instruments whose validity was contested, here the variation comes from
@@ -106,12 +106,13 @@ term "endogeneity" into the concrete mechanism it denotes.
 
 "We exploit platform-level heterogeneity in content moderation as a source of
 exogenous variation ... generates quasi-random assignment conditional on observed
-covariates" -> "Platforms do not moderate every review the same way, and among
-reviews that look alike on the characteristics we observe, which ones get moderated
-turns on platform policy rather than on the product", restored the missing inference
-while keeping the draft's "conditional on observed covariates" qualifier, so the
-bridge explains the design without strengthening the identifying assumption beyond
-what the input claims.
+covariates" -> "Platforms apply different moderation policies to different cohorts of
+reviews, and among cohorts that look alike on what we observe, which policy a cohort
+gets is set by platform rules rather than by the product", restored the missing
+inference while keeping the draft's cohort-level unit and its "conditional on observed
+covariates" qualifier, so the bridge explains the design without changing the
+assignment unit or strengthening the identifying assumption beyond what the input
+claims.
 
 "Our identification strategy improves upon prior approaches that rely on
 instrumental variables of questionable validity" -> "Where earlier work leaned on

@@ -51,7 +51,7 @@ specific table columns; star rating used as the reference effect.
 Reader map: starts with knowing the regression was run; must learn that disclosed
 reviewer identity moves sales on its own and survives controls, and that it adds to
 the rating rather than just proxying for it; should leave able to say identity is a
-second lever on sales, smaller than the rating but real.
+second lever on sales alongside the rating, not just metadata.
 
 1. [P1] Payoff inversion: every sentence leads with the table location or the
    coefficient and never with the claim the number supports. The reader assembles
