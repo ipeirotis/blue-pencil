@@ -62,9 +62,9 @@ Buried lede: stores adopt the program on different dates, so never-treated and
 not-yet-treated stores both supply controls for the already-treated ones, and that
 staggered timing, not the estimator, is what makes the comparison credible.
 
-Concrete anchor: the stores that adopted on different dates, some not yet treated,
-already in the draft, which the rewrite uses to build the picture before the
-specification.
+Concrete anchor: the stores in the draft that adopted on different dates, together
+with the never-treated and not-yet-treated stores that serve as controls, which the
+rewrite uses to build the picture before the specification.
 
 1. [P1] Machinery before motive: the paragraph opens on the two-way fixed effects
    specification and its controls before the reader knows what identifies the

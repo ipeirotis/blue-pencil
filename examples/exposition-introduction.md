@@ -58,7 +58,8 @@ nuisance (uneven moderation) into the very thing that identifies the effect.
 
 Jargon to unpack: "exogenous variation" and "quasi-random assignment", both used as
 the design's load-bearing terms before the reader is told, in plain words, why
-moderation differing across review cohorts would isolate the effect.
+moderation differing across review cohorts would isolate the effect, conditional on
+observed covariates.
 
 Buried lede: uneven platform moderation, normally a nuisance, is exactly what lets
 the paper compare otherwise similar reviews that fall into differently moderated

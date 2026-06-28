@@ -98,7 +98,7 @@ rather than a synonym swap, when there is a gap to repair. The extraction does n
 override the restraint rule in `SKILL.md`: if all three lines come back `none` and
 the passage clears the verbatim-return checks, the extraction has found nothing to
 fix, so return the passage unchanged and say so in `Change rationale`. Request
-wording alone (clearer, more readable, more educational) never licenses a rewrite the
+wording alone (clearer, more readable, more educational, easier to understand) never licenses a rewrite the
 extraction does not justify. The discipline behind the three is the educator's lens:
 find the single hardest concept for an outsider to grasp (the jargon and the buried
 lede locate it), then build the cognitive bridge to it (the concrete anchor is the
