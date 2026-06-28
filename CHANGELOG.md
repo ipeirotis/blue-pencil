@@ -24,6 +24,16 @@ An exposition pass. The skill already made prose flow (reader-pleasure), gave it
 
 The skill was an excellent line editor and a strong narrative editor, but a strong line edit can smooth over a teaching gap instead of repairing it: smoother prose hides the missing step rather than supplying it. The exposition pass makes that gap visible and assigns it a fix or a flag. The dividing line is the one that keeps the pass safe: surfacing an idea already on the page is editing, supplying an idea the page lacks is drafting, and drafting stays out of scope as an `Author questions` item. The pass also unifies machinery the skill already carried. The curse of knowledge in `principles.md` and the layered-audience and question-before-machinery checks in `edit-checks.md` were supporting references; here they become an enforceable pass with its own ladder, preflight checks, and rationale vocabulary. And it closes the loop with reader-pleasure: pleasure and teaching are the same property seen from two sides, so the delight checklist and the exposition ladder point at the same edits. As with every pass, it is stage-bound: a first draft may add bridges from existing material, a final polish repairs only referents, order, and stress position, and a reviewer response touches only flagged paragraphs and their neighbours.
 
+## [1.17.1] - 2026-06-28
+
+A consistency pass on the dispatcher and the promotional-adjective check, fixing three places where an instruction pulled against the skill's own rules.
+
+### Changed
+
+- `.claude/agents/paper-reviser.md`: add `sentence-cohesion.md` to the reference-trigger list so flow and cohesion requests reach the given-new guidance, and let the skill's triage clarifying question (scope, unit, aggressiveness) be returned before the strict four-section output instead of revising under guessed assumptions.
+- `references/edit-checks.md`: rework check 9 so it strips the promotional adjective or frame and applies the keep-test before any deletion, rather than deleting the whole sentence, keeping it consistent with the no-silent-deletion and preserve-emphasis rules.
+- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.17.1.
+
 ## [1.17.0] - 2026-06-28
 
 A narrative pass. The skill already made prose locally pleasurable (reader-pleasure) and stripped sentence-level AI tells, but it had no tool for the property that most separates human-written papers from LLM-drafted ones: a spine. A clean paper can still read as machine-written when it enumerates equally weighted points and announces that they matter. This release adds disciplined narrative structure and, just as important, bans the decorative storytelling that a naive "add a story" instruction produces, because that decoration is itself a top LLM tell.
