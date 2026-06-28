@@ -154,6 +154,31 @@ identify the paper's memorable idea. If the paper has only a topic, a method, or
 numbered contribution list, flag it in `Diagnosis` as a structural gap. Do not
 invent a slogan; ask the author what phrase they want readers to carry away.
 
+## Exemplars and transferable techniques
+
+Borrow the move, not the mannerism. These writers are studied for anticipating
+where a reader becomes confused and removing the obstacle one step ahead. Use them
+as technique sources for the ladder above, not as voices to imitate.
+
+| Exemplar | Transferable technique | What to check in a dense passage |
+|---|---|---|
+| Hamming | State what an idea is for before how it works; lead with the problem it solves. | Does the reader know what the construction is for before seeing it built? |
+| Pearl | Carry one running concrete example through the formal development. | Is there a single example the section returns to, or a fresh one each time? |
+| Knuth | Introduce notation once, at the point of first real use, then reuse it. | Is any symbol introduced before the prose needs to compute with it? |
+| MacKay | Teach the intuition and the simplest case before the general theorem. | Does the simple version arrive before the caveats and the general form? |
+| Nielsen | Build one concept at a time, anchoring each before the next. | Does any paragraph ask the reader to hold two new ideas at once? |
+| Varian | Strip a model to the smallest version that still shows the effect. | Is the model carrying assumptions the point does not need? |
+| Tufte | Let the figure and caption carry the explanation rather than restate the text. | Could the main idea be grasped from the figure and its caption alone? |
+| Strunk and White | Remove every word the sentence does not need. | What can be cut without losing a claim, an anchor, or the rhythm? |
+
+The common pattern is not simplification that loses content. These writers reduce
+the reader's effort at the moment it would otherwise spike: they motivate before
+they formalise, name a construct's role before its symbol, keep one example alive
+across the argument, and translate each result back into plain terms. Delaying
+notation is a special case of role before name: a symbol is a high-cost object, so
+carry the idea in named words (the *cheap screener*) before the prose introduces
+the symbol (`S`) it abbreviates.
+
 ## Safe boundaries
 
 Do not invent examples, mechanisms, definitions, or implications. If the manuscript

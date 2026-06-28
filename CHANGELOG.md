@@ -3,6 +3,24 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.18.1] - 2026-06-28
+
+A small enrichment of the exposition pass shipped in 1.18.0, salvaged from a parallel branch that proposed the same idea before 1.18.0 landed. The bulk of that branch duplicated the exposition pass and is dropped; these three additions did not exist on `main` and earn their place.
+
+### Added
+
+- `references/exposition.md`: an exemplar table (Hamming, Pearl, Knuth, MacKay, Nielsen, Varian, Tufte for figures, Strunk and White for concision), mapping each writer to a transferable technique and a check over the exposition ladder, in the same borrow-the-move-not-the-mannerism format the reader-pleasure and narrative-spine passes already use. A closing note frames notation delay as a special case of "role before name": a symbol is a high-cost object, so carry the idea in named words before introducing the symbol that abbreviates it.
+
+### Changed
+
+- `SKILL.md`: a **Primary objective** statement under the title (maximize reader understanding, not textual polish; treat every revision as an act of teaching), explicitly subordinated to the hard constraints and pointing at the exposition pass as where the objective becomes operational.
+- `references/ai-tells-to-avoid.md`: the storytelling-tells section now distinguishes a load-bearing concrete instance from a manufactured hook, so the exposition pass's call for concrete cases and the standing ban on "Imagine a world where..." openers no longer read as contradicting each other. The ban targets the dramatizing frame; the domain case keeps its substance.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.18.1.
+
+### Rationale
+
+While the exposition pass was in review, a separate branch independently proposed a teaching pass with the same core (instance before intuition before formalism, one new idea at a time, concrete over abstract). Rather than merge a second overlapping reference and a colliding 1.18.0, that branch was reset onto the shipped pass and only its non-duplicate parts were kept. The exemplar table fills a real gap: the exposition pass was the one reader-facing pass without an exemplar catalog, and the named writers were the specific communicators the request asked the skill to emulate. The Primary objective statement states at the top what the exposition pass already does, so the teaching aim is visible before any reference is loaded. The hook reconciliation closes a genuine seam: a pass that asks for concrete instances and a style rule that bans "Imagine..." openers needed one sentence to agree on where the line falls.
+
 ## [1.18.0] - 2026-06-28
 
 An exposition pass. The skill already made prose flow (reader-pleasure), gave it a spine (narrative-spine), and stripped AI tells, but it had no first-class tool for the property that turns a correct paper into a paper that teaches: whether the reader can acquire the idea with less effort than expected. A paragraph can have a clean ABT spine and a pleasant rhythm and still fail to teach, because it skips the inferential steps the author has internalised. This release promotes the curse-of-knowledge fix from supporting references (principles.md, edit-checks.md) into a first-class editing pass that asks, of every load-bearing paragraph, what mental model the reader has before it and what model they should have after.
