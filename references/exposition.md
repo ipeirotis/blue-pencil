@@ -64,8 +64,10 @@ ladder is worth more than three failures high on it.
 
 The ladder diagnoses; this step converts the diagnosis into a rewrite that teaches
 rather than a thesaurus swap of the original. Before drafting the revised text, and
-except at `final polish` (where the stage forbids restructuring; see Safe boundaries
-below), when the exposition pass surfaces any teaching gap (any ladder or common
+except at `final polish` and on a response-to-reviewers pass (constrained stages that
+do not emit the structured extraction header, though the exposition pass still applies
+to flagged paragraphs; see Safe boundaries below), when the exposition pass surfaces
+any teaching gap (any ladder or common
 failure in this file, for example definition debt, compressed inference, machinery
 before motive, expert-only contrast, abstract stack, concept overload from too many
 new objects at once, an unanchored abstraction, or a buried or missing payoff where

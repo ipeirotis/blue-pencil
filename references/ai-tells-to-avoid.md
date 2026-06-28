@@ -160,7 +160,8 @@ Before approving any revised passage, scan for:
 - [ ] Inflated noun phrases ("the landscape of", "a myriad of", "rich tapestry")? Replace with a count or the specific object.
 - [ ] Template shapes ("not just X but Y", "From X to Y", "Firstly/Secondly")? Rewrite or name the items.
 - [ ] "We show that..." or "It is well known that..." frames? Replace with the claim itself.
-- [ ] "Navigate", "leverage", or "utilize" used where "use" would do? Replace with the simpler verb.
+- [ ] "Leverage" or "utilize" used where "use" would do? Replace with "use".
+- [ ] "Navigate" as a metaphor for a non-trivial activity (navigating a literature, navigating uncertainty)? Replace with a plain verb for the actual action.
 - [ ] Manufactured hook or scene-setting opener ("Imagine...", "In an era of...")? Replace with the paper's real question.
 - [ ] Journey metaphor or anthropomorphized data ("our journey", "the data tells a story")? Cut.
 - [ ] Triads that exist only for rhythm? Cut to two or expand to a real list.
