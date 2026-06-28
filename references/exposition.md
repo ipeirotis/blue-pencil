@@ -65,9 +65,10 @@ ladder is worth more than three failures high on it.
 The ladder diagnoses; this step converts the diagnosis into a rewrite that teaches
 rather than a thesaurus swap of the original. Before drafting the revised text, when
 the exposition pass surfaces a teaching gap (definition debt, compressed inference,
-machinery before motive, expert-only contrast, or abstract stack) or the request is
-to make the section clearer to non-specialists, more educational, more readable, or
-easier to understand, extract three things into the `Diagnosis` block, each grounded
+machinery before motive, expert-only contrast, abstract stack, or a buried or missing
+payoff where the paragraph ends on procedure or never states the takeaway) or the
+request is to make the section clearer to non-specialists, more educational, more
+readable, or easier to understand, extract three things into the `Diagnosis` block, each grounded
 only in material already on the page. Any of the three may be `none` when the passage
 does not exhibit that particular gap; record `none` rather than manufacturing an item
 to fill the line.

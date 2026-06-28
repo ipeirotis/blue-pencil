@@ -54,8 +54,9 @@ the rating rather than just proxying for it; should leave able to say identity i
 second lever on sales alongside the rating, not just metadata.
 
 Jargon to unpack: "product fixed effects", reported as a column change before the
-reader is told it tests whether the identity effect is just unobserved product
-quality in disguise.
+reader is told what they absorb (stable differences between products), with the
+specific confound they are meant to address left to Author questions rather than
+asserted in the Diagnosis.
 
 Buried lede: disclosed reviewer identity moves sales on its own (0.18), survives
 product controls, and sits alongside the star-rating effect (0.42) as a second lever
