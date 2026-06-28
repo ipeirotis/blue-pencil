@@ -22,6 +22,15 @@ A narrative pass. The skill already made prose locally pleasurable (reader-pleas
 
 The instinct to fix LLM-flat prose by "adding storytelling" is half right and dangerous if taken literally. What reads as machine-written is the absence of a through-line: a setup, a tension, a turn, and a payoff carried by one question. That is structural, and it is what `narrative-spine.md` supplies through the ABT spine and the OCAR arc. The literal reading of "tell a story", by contrast, reaches for hooks, scene-setting, research-as-journey, and data that "tells a story", and those are themselves AI tells; adding them moves prose in the wrong direction. So the two halves ship together: add structure, ban decoration. The structural half also unifies rules the skill already had. Showing stakes through consequence rather than announcing them is the same discipline as the ban on importance-signaling verbs and promotional adjectives, seen from the story side; protecting the turn is the reader-pleasure pass's "useful surprise" raised to a structural duty; and putting characters in the subject slot is the character-action sentence from Williams. The pass is stage-bound: arc restructuring belongs to a first draft, while a final polish only surfaces an existing tension in the stress position and tightens the ABT of topic sentences already present. As with every pass, a narrative move that would need material the author did not write becomes an `Author questions` item, not an edit.
 
+## [1.16.1] - 2026-06-28
+
+A consistency fix in the edit-check pass. The meta-rule on cutting read as a quota ("Default to a 20% cut", "When in doubt about whether to cut, cut"), which pulled against the main skill's rule to cut by the keep-test and never toward a target. On an already-tight section that bias risks removing load-bearing sentences just to approach 80%. The section now frames the 20% as an expectation to test, not a default action.
+
+### Changed
+
+- `references/edit-checks.md`: retitle the "Default to a 20% cut" meta-rule to "Expect roughly a 20% cut, then test for it", and replace "When in doubt about whether to cut, cut" with the keep-test framing from the Subtraction section, so the reference no longer contradicts SKILL.md's length-budget rule that "manufacturing cuts to reach 80% of the original is itself a defect".
+- `README.md`, `SKILL.md` `metadata.version`, and `VERSION` now report 1.16.1.
+
 ## [1.16.0] - 2026-06-05
 
 A documentation pass that shows the skill working end to end. The repo described the strict four-section output and gave isolated good-and-bad sentence pairs, but it never demonstrated a full run on a realistic draft. The new worked example closes that gap and doubles as a quality anchor: its output honors every constraint, so a reader and the agent both have a concrete reference for what a correct invocation looks like.
