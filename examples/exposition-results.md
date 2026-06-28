@@ -76,7 +76,8 @@ product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05). It
 also grows with the reviewer: the interaction with reviewer tenure is 0.09 (SE =
 0.03, column 4), so a disclosed identity counts for more when the reviewer has a
 longer track record. All coefficients are significant at the 1% level except the
-tenure interaction (5%), and R-squared rises from 0.31 to 0.47 across the columns.
+tenure interaction, which is significant at the 5% level, and R-squared rises from
+0.31 to 0.47 across the columns.
 For comparison, the star rating carries a coefficient of 0.42 (SE = 0.02) in the same
 models, a benchmark for these estimates once the scales are comparable: identity is a
 second lever on sales, not just metadata.
@@ -84,7 +85,7 @@ second lever on sales, not just metadata.
 
 ### 3. Change rationale
 
-Word count: 87 to 151 (+74%). This is a large expansion, at the high end of what the
+Word count: 87 to 157 (+80%). This is a large expansion, at the high end of what the
 length budget tolerates, and is flagged for the author: the input is a bare list of
 estimates, and each one gains a leading claim and a closing consequence. No number,
 standard error, table or column reference, or significance level was added, removed,
@@ -119,9 +120,10 @@ since the two regressors may be on different scales (raised in Author questions)
 ended the paragraph on the takeaway.
 
 "R-squared rises from 0.31 to 0.47 across the columns. All coefficients are
-significant ..." -> compressed (the significance exception to "(5%)") and placed
-before the closing line, so the fit and significance statistics leave the stress
-position and the paragraph ends on what the effects mean.
+significant ..." -> carried over verbatim but moved before the closing line, so the
+fit and significance statistics leave the stress position and the paragraph ends on
+what the effects mean. The "5% level" phrasing is kept word for word, since
+shortening a significance level would be a change to a statistical claim.
 
 ### 4. Author questions
 
