@@ -72,36 +72,41 @@ comparison credible before they see the regression that implements it.
 ### 2. Revised text
 
 ```
-The loyalty program has no clean control group: every store eventually gets it. What
-saves the comparison is timing. Stores adopted the program on different dates, so on
-any given week some stores already have it and others do not yet, and a store that
-has not yet adopted stands in as a control for one that has. That is what we
-estimate: comparing repeat purchase at adopting stores against stores not yet
-adopting, before and after each rollout date. We implement it with a two-way fixed
-effects model with store and week fixed effects, controlling for foot traffic, local
-unemployment, and promotional intensity, and we cluster standard errors at the store
-level. Because the simple two-way estimate can be biased when stores adopt at
-different times, we also report the Callaway and Sant'Anna estimator, which compares
-each adopting group only against stores not yet treated.
+The loyalty program was not randomly assigned, so there is no ready control group.
+What saves the comparison is timing. Stores adopted on different dates, so on any
+given week some already have the program while others do not, either because they
+adopt later or never adopt at all. Those not-yet-treated and never-treated stores are
+the controls. We compare repeat purchase at adopting stores against them before and
+after each rollout date, reading the effect off the interaction between the
+post-rollout and treatment indicators. We estimate it with a two-way fixed effects
+model with store and week fixed effects, controlling for foot traffic, local
+unemployment, and promotional intensity, and cluster standard errors at the store
+level. Because that simple two-way estimate can be biased when adoption is staggered,
+we also report the Callaway and Sant'Anna estimator, which compares each adopting
+group only against stores not yet treated.
 ```
 
 ### 3. Change rationale
 
-Word count: 96 to 134 (+40%). The rewrite is longer because the draft stated the
-identification idea in one trailing clause; the added sentences move it to the front
-and unpack it, using only facts already in the paragraph (staggered dates,
-not-yet-treated controls, timing heterogeneity). Flagged under the length budget.
+Word count: 88 to 147 (+67%). The rewrite is longer because the draft compressed the
+identification logic into trailing clauses; the added sentences move it to the front
+and unpack it, using only facts already in the paragraph (staggered dates, the
+never-treated and not-yet-treated controls, the interaction estimand, timing
+heterogeneity). No technical claim is dropped. Flagged under the length budget.
 
-"We estimate a two-way fixed effects model ... The coefficient of interest is the
-interaction ..." (opening) -> moved after the identification logic; the
-specification now follows the question it answers rather than leading the paragraph.
+"We estimate a two-way fixed effects model ..." and "The coefficient of interest is
+the interaction between the post-rollout indicator and the treatment indicator" ->
+moved after the identification logic and kept intact; the specification and its
+estimand now follow the question they answer rather than leading the paragraph. The
+interaction is preserved as the coefficient of interest, not dropped.
 
 "Because the loyalty program was rolled out to stores on different dates, we use the
-never-treated and not-yet-treated stores as controls" -> "Stores adopted the program
-on different dates, so on any given week some stores already have it and others do
-not yet, and a store that has not yet adopted stands in as a control for one that
-has", put the intuition before the formalism and translated "not-yet-treated" into
-the picture it names.
+never-treated and not-yet-treated stores as controls" -> "Stores adopted on different
+dates, so on any given week some already have the program while others do not, either
+because they adopt later or never adopt at all. Those not-yet-treated and
+never-treated stores are the controls", put the intuition before the formalism and
+unpacked the labels while keeping both the never-treated and not-yet-treated control
+groups the draft named.
 
 "report the Callaway and Sant'Anna estimator alongside the two-way fixed effects
 estimate to address heterogeneity in treatment timing" -> "Because the simple
@@ -113,9 +118,10 @@ for.
 
 ### 4. Author questions
 
-- The bridge I added says "a store that has not yet adopted stands in as a control".
-  Is the not-yet-treated group your actual comparison set throughout, or only for
-  the Callaway and Sant'Anna estimate? I want the intuition to match the design.
+- The rewrite treats both not-yet-treated and never-treated stores as controls for
+  the two-way estimate and only the not-yet-treated stores for the Callaway and
+  Sant'Anna estimate. Is that the split you intend, or do both groups serve as
+  controls throughout?
 - Should the paragraph state the identifying assumption (parallel trends in repeat
   purchase absent the program) explicitly, or is that argued elsewhere?
 - Are foot traffic, local unemployment, and promotional intensity measured at the
@@ -129,8 +135,12 @@ for.
   comparison credible before they see the regression that implements it.
 - **Intuition before formalism.** The staggered-rollout picture, the engine of the
   whole design, moves from the last clause to the first sentences.
-- **Vocabulary earned, not assumed.** "Not-yet-treated controls" arrives only after
-  the reader has the picture that gives the label meaning.
+- **Vocabulary earned, not assumed.** The "not-yet-treated" and "never-treated"
+  labels arrive only after the reader has the picture that gives them meaning.
+- **Protected claims preserved.** Both control groups the draft named (not-yet-treated
+  and never-treated) and the interaction estimand are carried into the rewrite, not
+  dropped; the pass reorders and explains the technical content without removing any
+  of it.
 - **The added bridge is flagged.** The control-group intuition the rewrite makes
   explicit is raised for the author to confirm, since the draft stated it only in
   passing.

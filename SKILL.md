@@ -236,7 +236,7 @@ Always produce these four sections, in this order, with these exact headings. Fo
 
 ### 1. Diagnosis
 
-For a whole-section rewrite or a first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines for single-paragraph requests and final-polish passes.
+For a whole-section rewrite or any first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines only for a single-paragraph request that is not a first-draft pass, and for final-polish passes. When a request is both single-paragraph and first draft, the first-draft rule wins: include both lines, as the exposition examples do.
 
 Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items. Order by category (structure first, sentence-level last).
 

@@ -80,10 +80,11 @@ Reviews and sales move together, but that does not mean reviews cause sales: a
 better product earns both higher ratings and more buyers, so the correlation could
 be product quality talking, not the review. Breaking that deadlock needs variation
 in reviews that is unrelated to the product. We find it in how platforms moderate.
-Platforms do not moderate every review the same way, and which reviews get moderated
-turns on platform policy rather than on the product, so otherwise similar reviews
-end up treated differently for reasons external to quality. That difference is what
-lets us compare them and read off the effect of the review itself. On 3.4 million
+Platforms do not moderate every review the same way, and among reviews that look
+alike on the characteristics we observe, which ones get moderated turns on platform
+policy rather than on the product. That lets us compare otherwise similar reviews
+that platforms happened to treat differently and read off the effect of the review
+itself. On 3.4 million
 reviews, the effect is positive and significant. Where earlier work leaned on
 instruments whose link to reviews was hard to defend, here the variation comes from
 the platform's own behaviour, which we can observe directly.
@@ -91,7 +92,7 @@ the platform's own behaviour, which we can observe directly.
 
 ### 3. Change rationale
 
-Word count: 92 to 132 (+43%). The rewrite is longer because the draft's
+Word count: 92 to 135 (+47%). The rewrite is longer because the draft's
 identification logic was compressed to an assertion; the added sentences are the
 inferential bridge, built only from claims already in the paragraph (moderation
 varies by policy, the dataset, the prior-work contrast). Flagged for the author
@@ -104,10 +105,13 @@ more buyers", moved the question before the machinery and translated the abstrac
 term "endogeneity" into the concrete mechanism it denotes.
 
 "We exploit platform-level heterogeneity in content moderation as a source of
-exogenous variation ... generates quasi-random assignment" -> "Platforms do not
-moderate every review the same way, and which reviews get moderated turns on
-platform policy rather than on the product", restored the missing inference: named
-why the variation is unrelated to quality instead of asserting that it is.
+exogenous variation ... generates quasi-random assignment conditional on observed
+covariates" -> "Platforms do not moderate every review the same way, and among
+reviews that look alike on the characteristics we observe, which ones get moderated
+turns on platform policy rather than on the product", restored the missing inference
+while keeping the draft's "conditional on observed covariates" qualifier, so the
+bridge explains the design without strengthening the identifying assumption beyond
+what the input claims.
 
 "Our identification strategy improves upon prior approaches that rely on
 instrumental variables of questionable validity" -> "Where earlier work leaned on
@@ -140,7 +144,9 @@ filled.
   reader can feel (correlation is not causation here) before any term of art arrives.
 - **Restored inference, not smoother assertion.** The draft asserted quasi-random
   assignment; the rewrite shows the step that makes it so, using only the draft's
-  own claim that moderation follows policy.
+  own claim that moderation follows policy, and it keeps the draft's "conditional on
+  observed covariates" qualifier rather than strengthening the assumption to hold
+  unconditionally.
 - **Contrast made legible.** "Instruments of questionable validity" becomes a
   contrast a non-specialist can see: the old link was hard to defend, the new
   variation is directly observed.

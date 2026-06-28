@@ -70,7 +70,7 @@ second lever on sales, smaller than the rating but real.
 
 ```
 Disclosing who wrote a review moves sales on its own, not just through the rating it
-carries. When a reviewer's identity is shown, sales rise by 0.18 (SE = 0.04, column
+carries. In Table 3, the coefficient on disclosed identity is 0.18 (SE = 0.04, column
 2). The effect is not an artefact of which products attract identified reviewers:
 adding product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05). It
 also grows with the reviewer: the interaction with reviewer tenure is 0.09 (SE =
@@ -92,9 +92,11 @@ length budget. Every numerical claim is carried over verbatim per constraint 6.
 
 "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator
 is 0.18 (SE = 0.04) in column 2." -> "Disclosing who wrote a review moves sales on
-its own, not just through the rating it carries. When a reviewer's identity is
-shown, sales rise by 0.18 (SE = 0.04, column 2).", led with the claim, then the
-evidence; the number and its standard error are unchanged.
+its own, not just through the rating it carries. In Table 3, the coefficient on
+disclosed identity is 0.18 (SE = 0.04, column 2).", led with the claim, then the
+evidence; the Table 3 reference, the coefficient, and the standard error are kept,
+and the estimate stays a coefficient rather than being restated as a rise in sales,
+since the outcome scale is not given.
 
 "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE =
 0.05)." -> "The effect is not an artefact of which products attract identified
@@ -122,9 +124,9 @@ footnotes.
 
 ### 4. Author questions
 
-- The rewrite reads 0.18 as "sales rise by 0.18". In what units is the outcome
-  (log sales, units, a standardised measure)? I kept the number but described its
-  direction; the phrasing should match the scale.
+- I report 0.18 as a coefficient, not as a rise in sales, because the outcome scale
+  is not given. In what units is the dependent variable (log sales, units, a
+  standardised measure), so the prose can say what the coefficient means?
 - I described the star-rating coefficient as a yardstick for the identity effect.
   Are identity disclosure and star rating on comparable scales, so that 0.18 versus
   0.42 is a fair size comparison, or would that mislead the reader?
@@ -137,9 +139,11 @@ footnotes.
 - **Claim, then evidence, then teaching.** Each result now opens on the claim the
   number supports and closes on what it shows, the structure a results paragraph
   owes the reader.
-- **Numbers untouched.** Every coefficient, standard error, column reference, and
-  significance level is carried over verbatim; the exposition pass reorders the
-  prose around the numbers, never the numbers.
+- **Numbers untouched.** Every coefficient, standard error, table and column
+  reference, and significance level is carried over verbatim; the exposition pass
+  reorders the prose around the numbers, never the numbers, and reports each estimate
+  as a coefficient rather than restating it as a sales change the outcome scale would
+  not support.
 - **Existing numbers made to teach.** The star-rating coefficient already in the
   draft becomes the yardstick that tells the reader how big the identity effect is,
   without importing anything new.
