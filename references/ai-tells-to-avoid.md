@@ -133,6 +133,15 @@ narrative pull should come from structure, never from a bolted-on hook. If a
 passage needs a hook to be interesting, the question it is built on is the part
 that needs work.
 
+A load-bearing concrete instance is not a hook. The exposition pass
+(`references/exposition.md`) and `references/edit-checks.md` check 4 both ask for
+a specific case that the formalism generalizes and that carries the intuition. The
+ban targets the dramatizing opener that does no work ("Imagine a world where...",
+"Consider the following scenario:"), not the domain case itself. Keep the
+substance of such an instance and drop the frame in front of it: lead with the
+case ("A hiring pipeline screens applicants twice..."), not with an instruction to
+imagine one.
+
 ## Manuscript style preferences
 
 - Technical terms get defined on first use, including acronyms. Reuse the same term consistently; do not introduce synonyms for variety.
