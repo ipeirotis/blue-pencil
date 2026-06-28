@@ -109,6 +109,30 @@ LLM prose falls into a few rhetorical molds. Used once, deliberately, any of the
 - "Leverage" as a verb when "use" would do.
 - "Robust" as a generic positive descriptor. Robust to what?
 
+## Storytelling tells (decorative narrative)
+
+"Tell a story" is sound advice for structure and ruinous advice for surface. The
+structural version, a spine built from the ABT, the knowledge gap, and the turn,
+lives in `references/narrative-spine.md`. The surface version below is a set of
+LLM tells. Banning them is what keeps a narrative pass from making prose more
+LLM-like instead of less.
+
+- Manufactured hooks: "Imagine a world where...", "Imagine if...", "Picture
+  this:", "Consider the following scenario:".
+- Scene-setting stakes openers: "In an era of...", "In today's [fast-paced /
+  data-driven] world", "As [field] continues to evolve...", "Now more than ever".
+- The journey or quest metaphor for research: "our journey", "we embark", "we
+  set out on a quest", "a deep dive into" (see also "navigate" above).
+- Anthropomorphized data and results: "the data tells a story", "the numbers
+  speak for themselves", "the results reveal their secrets".
+- The dramatic reveal: "Enter [X]." as a standalone reveal, "But here is the
+  catch:", "Here is the twist:".
+
+Edit move: replace the flourish with the paper's actual question or gap. The
+narrative pull should come from structure, never from a bolted-on hook. If a
+passage needs a hook to be interesting, the question it is built on is the part
+that needs work.
+
 ## Manuscript style preferences
 
 - Technical terms get defined on first use, including acronyms. Reuse the same term consistently; do not introduce synonyms for variety.
@@ -128,5 +152,7 @@ Before approving any revised passage, scan for:
 - [ ] Template shapes ("not just X but Y", "From X to Y", "Firstly/Secondly")? Rewrite or name the items.
 - [ ] "We show that..." or "It is well known that..." frames? Replace with the claim itself.
 - [ ] "Navigate" or "leverage" used as throat-clearing? Replace with simpler verb.
+- [ ] Manufactured hook or scene-setting opener ("Imagine...", "In an era of...")? Replace with the paper's real question.
+- [ ] Journey metaphor or anthropomorphized data ("our journey", "the data tells a story")? Cut.
 - [ ] Triads that exist only for rhythm? Cut to two or expand to a real list.
 - [ ] Topic sentence in the first two sentences of the paragraph? If not, restructure.

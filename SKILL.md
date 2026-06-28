@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, or respond to reviewer comments on an ac
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.16.0"
+  version: "1.17.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -19,6 +19,7 @@ Trigger when the user:
 
 - Asks you to revise, polish, copy-edit, line-edit, tighten, or improve the writing of a paper section.
 - Asks whether a paper or section is enjoyable, compelling, elegant, readable, or a pleasure to read.
+- Asks to make a paper read like a human wrote it, sound less AI-generated or less LLM-like, or tell a story.
 - Asks for editorial or structural feedback, or whether a section "flows".
 - Asks for help responding to reviewer comments on a paper.
 - Opens or pastes an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) and signals they want revision.
@@ -123,6 +124,13 @@ A paper is a pleasure to read when the reader always knows what question is bein
 Bad: "This section describes our model. The dataset is introduced. The results are discussed."
 Good: "The model has to solve two problems at once: sparse labels and shifting topics. We therefore evaluate it on a dataset that exposes both failures before turning to the results."
 
+### Narrative spine
+
+A paper reads as human-written when it carries one question through the section: a setup, a tension, a turn, and a payoff. LLM-drafted prose tends to enumerate equally weighted points and announce that they matter; the cure is a spine, not surface storytelling. Find the section's one-sentence spine in the form "X and Y, but Z, therefore W", surface the tension the draft smoothed over, and show stakes through consequence rather than announcing them. Add structure, never decoration: manufactured hooks, journey metaphors, and anthropomorphized data are themselves AI tells, so a narrative pass that adds them makes prose more LLM-like, not less. Load `references/narrative-spine.md` on a first-draft or whole-section pass, and whenever the user asks to make the paper tell a story, read like a human wrote it, or sound less LLM-like; load `references/ai-tells-to-avoid.md` with it so added narrative does not become decoration.
+
+Bad: "We introduce a method. It has two components. We test it on two datasets. It beats the baseline."
+Good: "The standard solution needs an expensive component; ours drops it and matches the baseline, so the field has been paying for that component without return."
+
 ### Copyediting
 
 Run a copyediting pass after the argument, paragraph, and reader-experience checks, not before them. Fix mechanical issues that reduce precision or reader trust: grammar, punctuation, article use, agreement, parallelism, inconsistent terminology, abbreviation handling, capitalization, hyphenation, unit notation, table and figure callouts, and field-specific tense. Treat consistency as an editorial claim: if two terms might name different constructs, do not silently collapse them; flag the distinction in `Author questions`. Load `references/copyediting.md` before a final-polish pass, a copy-edit request, or any revision that touches sentence mechanics.
@@ -157,7 +165,7 @@ Identify the section type from the file name or heading. Load `references/struct
 
 ## Style rules
 
-The canonical banned-word, banned-phrase, and em-dash list lives in `references/ai-tells-to-avoid.md`. Load it before producing the revised text and the change rationale. Two governing principles:
+The canonical banned-word, banned-phrase, em-dash, and storytelling-tell list lives in `references/ai-tells-to-avoid.md`. Load it before producing the revised text and the change rationale, and run its storytelling-tell checklist on any narrative pass so added story does not become decoration. Two governing principles:
 
 - Build transitions from the content itself, using the given-new chain in `references/sentence-cohesion.md`: end a sentence on the term the next sentence will pick up. If a transition word is the only thing making the connection clear, the underlying argument is the part that needs work.
 - Avoid jargon that does not earn its place. If a plain word will do, use it.
@@ -173,6 +181,7 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - The local question or purpose is visible before technical machinery arrives.
 - Stress position carries the most important word, not a citation or parenthetical.
 - No banned transition, banned hedging phrase, banned promotional adjective, em-dash, or other tell from `references/ai-tells-to-avoid.md`.
+- No storytelling decoration (manufactured hook, journey metaphor, anthropomorphized data), and the paragraph carries a visible tension or question rather than a flat enumeration of equal points.
 - No nominalisation sits where an active verb belongs.
 - Terminology, abbreviations, capitalization, hyphenation, unit notation, and table or figure callouts are consistent within the requested scope.
 - Paragraphs end on a payoff, synthesis, or consequence rather than a procedural afterthought.
@@ -193,13 +202,14 @@ Run this checklist before sending the final answer:
 - Every diagnosis item references a concrete paragraph index or stable label.
 - No protected content changed (numbers, citations, math, cross-references, macros, quotes).
 - Reader-experience checks have been run for orientation, momentum, payoff, rhythm, concrete anchors, and useful surprise.
+- Narrative checks have been run: the section has a findable spine (one ABT), the tension is surfaced rather than smoothed, and no decorative storytelling tells were introduced.
 - Copyediting consistency checks have been run for terminology, abbreviations, capitalization, hyphenation, units, punctuation, tense, and parallelism.
 - Requested scope is respected.
 - `Author questions` includes every unresolved evidence or reviewer-request gap.
 
 ### Read-cold pass on the revised text
 
-Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory. Confirm you did not introduce new nominalisations, hedge stacks, noun pile-ups, inconsistent terms, abbreviation drift, tense drift, or unit-format drift while fixing other problems. Read the passage for rhythm and momentum: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Confirm that each paragraph makes its local question visible and ends on a payoff, synthesis, or consequence. Uniform sentence length is itself a tell. Fix any failure before returning the output.
+Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory, including the storytelling tells (confirm no manufactured hook, journey metaphor, or anthropomorphized data was introduced). Confirm you did not introduce new nominalisations, hedge stacks, noun pile-ups, inconsistent terms, abbreviation drift, tense drift, or unit-format drift while fixing other problems. Read the passage for rhythm and momentum: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Confirm that each paragraph makes its local question visible and ends on a payoff, synthesis, or consequence. Uniform sentence length is itself a tell. Fix any failure before returning the output.
 
 ### Length budget
 
@@ -223,7 +233,7 @@ The revised section in a single fenced block. No commentary inside the block. If
 
 Open with `Word count: <before> to <after> (<signed percent change>).` If the rewrite grew, add a one-line justification on the next line.
 
-Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, restored contrast, varied rhythm, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
+Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, surfaced tension, an opened knowledge gap, an ABT spine in place of a list, stakes shown by consequence, a character in the subject slot, restored contrast, varied rhythm, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 
 ### 4. Author questions
 
