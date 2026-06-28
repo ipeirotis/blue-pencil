@@ -65,8 +65,9 @@ the paper compare otherwise similar reviews and identify the causal effect of
 valence on sales.
 
 Concrete anchor: platforms applying moderation differently across review cohorts,
-already in the draft, which the rewrite turns into the picture of two otherwise
-similar reviews that received different treatment.
+already in the draft, which the rewrite turns into the picture of otherwise similar
+review cohorts that received different moderation, keeping assignment at the cohort
+level the manuscript specifies.
 
 1. [P1] Machinery before motive: the paragraph opens on "endogeneity of review
    valence" and "identification" before the reader knows what question those terms

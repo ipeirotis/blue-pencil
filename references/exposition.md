@@ -66,14 +66,18 @@ The ladder diagnoses; this step converts the diagnosis into a rewrite that teach
 rather than a thesaurus swap of the original. Before drafting the revised text, when
 the exposition pass surfaces a teaching gap (definition debt, compressed inference,
 machinery before motive, expert-only contrast, or abstract stack) or the request is
-to make the section clearer to non-specialists or more educational, extract three
-things into the `Diagnosis` block, each grounded only in material already on the
-page:
+to make the section clearer to non-specialists, more educational, more readable, or
+easier to understand, extract three things into the `Diagnosis` block, each grounded
+only in material already on the page. Any of the three may be `none` when the passage
+does not exhibit that particular gap; record `none` rather than manufacturing an item
+to fill the line.
 
 - **Jargon to unpack.** One to three terms the reader of the broad venue meets
   before they know the role or the plain-language meaning. These get defined inline
   at first serious use. If a term cannot be defined from the manuscript, it becomes
-  an `Author questions` item instead.
+  an `Author questions` item instead. When the gap is not terminological (machinery
+  before motive, an expert-only contrast, a compressed inference) and the passage
+  already uses plain language, write `none`; do not invent a term to unpack.
 - **Buried lede.** The single most useful idea in the passage that the current
   prose suffocates under setup, caveats, literature, or procedure. The rewrite
   front-loads it; the secondary sentences carry the background. Name the idea
@@ -83,12 +87,18 @@ page:
   tangible. It must already exist in the manuscript; if none does, ask for it in
   `Author questions` rather than inventing one.
 
-Extracting these three first is what forces a structural rewrite. The discipline
-behind the three is the educator's lens: find the single hardest concept for an
-outsider to grasp (the jargon and the buried lede locate it), then build the
-cognitive bridge to it (the concrete anchor is the bridge). Write to teach the
-reader, not to prove the author's command of the field. These three lines do not
-replace the diagnosis items; they precede the rewrite and the items still follow.
+Extracting these three first is what turns the diagnosis into a structural rewrite
+rather than a synonym swap, when there is a gap to repair. The extraction does not
+override the restraint rule in `SKILL.md`: if all three lines come back `none` and
+the passage clears the verbatim-return checks, the extraction has found nothing to
+fix, so return the passage unchanged and say so in `Change rationale`. Request
+wording alone (clearer, more readable, more educational) never licenses a rewrite the
+extraction does not justify. The discipline behind the three is the educator's lens:
+find the single hardest concept for an outsider to grasp (the jargon and the buried
+lede locate it), then build the cognitive bridge to it (the concrete anchor is the
+bridge). Write to teach the reader, not to prove the author's command of the field.
+These three lines do not replace the diagnosis items; they precede the rewrite and
+the items still follow.
 
 ## Common failures
 
