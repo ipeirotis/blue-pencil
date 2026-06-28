@@ -58,8 +58,10 @@ reader is told it tests whether the identity effect is just unobserved product
 quality in disguise.
 
 Buried lede: disclosed reviewer identity moves sales on its own (0.18), survives
-product controls, and runs at roughly 40% of the star-rating effect (0.42), so it is
-a second lever, not a proxy for the rating.
+product controls, and sits alongside the star-rating effect (0.42) as a second lever
+on sales, not a proxy for the rating. Both coefficients are carried over verbatim; the
+rewrite places them side by side without computing a ratio the manuscript does not
+state.
 
 Concrete anchor: the star-rating coefficient (0.42) already in the table, which the
 rewrite uses as the yardstick that tells the reader how large the 0.18 identity
