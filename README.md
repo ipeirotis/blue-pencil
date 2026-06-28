@@ -126,10 +126,14 @@ reader benefit; reject edits that are merely different. The checkpoint is
 recurring: every pass (`revise`, and the `clarify` and `human` passes in Step 3)
 can surface new `Author questions`, so stop and resolve them in the source before
 the next pass on the section or the move to the next section, since later edits
-depend on the answers. Rewrite in this order, since the abstract and introduction
-are compressed versions of the whole paper and go stale once the body changes:
+depend on the answers. Rewrite in this order:
 
-`abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion -> abstract again -> introduction again`
+`abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion`
+
+The abstract and introduction get a first pass here, to set the spine the body
+must serve, and a second pass in Step 5, after the body is stable, because they
+are compressed views of the whole paper and go stale once the body changes. Do
+not rerun them at the end of this order; Step 5 is where the second pass lives.
 
 ### Step 3: Use targeted passes only when needed
 

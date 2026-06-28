@@ -81,15 +81,17 @@ Recommended loop:
 Diagnose every section first (feedback only) and resolve the Author questions
 collected across all sections, then rewrite in this order:
 
-`abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion -> abstract again -> introduction again`
+`abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion`
 
-The abstract and introduction appear twice on purpose. The first pass sets the
-spine and contribution frame the body must serve; they are rewritten again at
-the end because they are compressed views of the whole paper and go stale once
-the body changes. Because that second pass lands after the Step D consistency
-check, Step E re-runs the consistency pass over the front matter so any drift the
-rerun introduces is caught before the sentence-only final polish, which cannot
-repair it. Confirm the mapping onto the actual files with the author before
+The abstract and introduction are edited twice across the loop, but each pass
+appears exactly once in the steps so the driver never double-runs them. This
+first pass (here, at the front of the order) sets the spine and contribution
+frame the body must serve. The second pass is Step E, after the body is stable
+and the Step D consistency check has run, so it reflects the final paper; Step E
+then re-validates with `/paper:consistency` so any drift that second pass
+introduces is caught before the sentence-only final polish, which cannot repair
+it. Do not add a second abstract or introduction pass to this order; that is
+Step E's job. Confirm the mapping onto the actual files with the author before
 editing.
 
 ## Step C: Per-section loop (run for each section, in the Step B order)
