@@ -12,9 +12,12 @@ the staged plan first, and you stop at every author checkpoint. The governing
 principle is **diagnose globally, edit locally, validate globally, then polish
 conservatively.**
 
-`$ARGUMENTS` names the manuscript: a root directory to scan for section files,
-or an explicit list of section files. If it is empty, ask for the manuscript
-location before doing anything else.
+`$ARGUMENTS` names the manuscript: a root directory to scan for section files, an
+explicit list of section files, or a root or wrapper TeX file (for example
+`paper.tex` or `main.tex`). When it is a wrapper, follow its `\input{...}` and
+`\include{...}` graph recursively to find the actual section files rather than
+treating the wrapper as one section; that graph is the paper. If it is empty, ask
+for the manuscript location before doing anything else.
 
 ## Hard guardrails (do not violate)
 
@@ -37,7 +40,8 @@ location before doing anything else.
 ## Step A: Emit the staged plan first (no editing)
 
 Read `<paper_context>` from `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`,
-scan the manuscript for sections, and return a plan with exactly these parts:
+scan the manuscript for sections (following `\input`/`\include` from a wrapper
+file as described above), and return a plan with exactly these parts:
 
 1. **Paper context:** found or missing. If missing or any of `target_venue`,
    `audience`, `core_thesis`, `revision_stage` is absent or ambiguous, stop here
@@ -45,7 +49,13 @@ scan the manuscript for sections, and return a plan with exactly these parts:
    hand. Do not guess.
 2. **Current revision stage**, and one line on what it permits (first draft:
    restructuring allowed; response to reviewers: only flagged paragraphs and
-   their neighbours; final polish: sentence-level only).
+   their neighbours; final polish: sentence-level only). If the stage is
+   `response to reviewers`, do not run this whole-paper loop: it would diagnose
+   and rewrite sections the reviewers accepted, which that stage gate forbids.
+   Stop here and route the author to `/paper:rebut` (which edits only
+   reviewer-flagged paragraphs and their neighbours), or ask them to move the
+   stage to `first draft` or `final polish` first. Do not change the stage
+   yourself.
 3. **Detected sections**, mapped to files.
 4. **Recommended pass order** for the whole paper.
 5. **First command to run.**

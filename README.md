@@ -103,7 +103,10 @@ Run once per paper, and fill in `target_venue`, `audience`, `core_thesis`, and
 The skill stops rather than guessing when these are missing. `revision_stage` is
 the master dial: `first draft` permits restructuring, `response to reviewers`
 limits edits to reviewer-flagged paragraphs and their neighbours, and `final
-polish` permits only sentence-level changes.
+polish` permits only sentence-level changes. If your stage is `response to
+reviewers`, do not run this whole-paper loop (it would edit sections the
+reviewers accepted); use `/paper:rebut` per section instead, and come back to the
+loop once you move to `first draft` or `final polish`.
 
 ### Step 1: Diagnose before rewriting
 
@@ -137,6 +140,11 @@ the next pass on the section or the move to the next section, since later edits
 depend on the answers. Rewrite in this order:
 
 `abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion`
+
+This order is a template for the canonical sections. If your paper has others
+(Background, Experiments, Limitations, an Appendix), insert each at its
+reading-order position and rewrite it too; do not validate and polish a paper
+whose non-canonical sections were never revised.
 
 The abstract and introduction get a first pass here, to set the spine the body
 must serve, and a second pass in Step 5, after the body is stable, because they
