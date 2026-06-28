@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.18.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.19.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A SKILL.md skill that turns Claude Code (and any other agent that reads `~/.agents/skills/`) into a top-tier academic editor. The skill diagnoses structural, stylistic, copyediting, and reader-experience problems first, then revises while preserving the author's voice, citations, math, and numerical claims.
@@ -119,6 +119,22 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 - Claude Code: `/paper-revision-editor`, or use the `paper-reviser` subagent under `.claude/agents/`.
 - Any other agent reading `~/.agents/skills/`: mention the skill by name or use that agent's slash-command convention.
 
+### Structured slash commands (Claude Code)
+
+For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. Each command pre-sets the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatches to the `paper-reviser` subagent. None of them override the `revision_stage` in your `<paper_context>`.
+
+| Command | What it does |
+|---------|--------------|
+| `/paper:revise` | Full diagnose-then-rewrite pass, four-section output. |
+| `/paper:feedback` | Diagnosis only, no rewrite (`Revised text` reads `No rewrite requested.`). |
+| `/paper:clarify` | Exposition pass: make the section clearer to a non-specialist. |
+| `/paper:human` | Narrative-spine plus AI-tell scrub: read more human, less LLM. |
+| `/paper:rebut` | Response-to-reviewers workflow: map comments, edit only flagged paragraphs. |
+
+Each takes the section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`.
+
+Like the `paper-reviser` subagent, these commands are Claude-Code conveniences discovered from a project's `.claude/` directory. To use them in your own paper repo, copy `.claude/commands/paper/` (and `.claude/agents/paper-reviser.md`) into that repo's `.claude/`, or into `~/.claude/` to make them available in every project. The skill itself stays the cross-tool source of truth and needs none of this.
+
 ## Files
 
 | Path | Purpose |
@@ -126,6 +142,7 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 | `SKILL.md` | The skill itself (frontmatter + instructions) |
 | `references/` | Load-on-demand reference material, including reader-experience and research-paper copyediting checks |
 | `.claude/agents/paper-reviser.md` | Claude Code subagent that dispatches to the skill |
+| `.claude/commands/paper/` | Claude Code slash commands with preset triage (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`) |
 | `install.sh` | Installer, updater, uninstaller; supports `--ref`, `--version`, `--check` |
 | `scripts/` | Maintenance helpers: `check-version.sh`, `bump-version.sh`, `lint.sh` |
 | `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
@@ -134,6 +151,8 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 | `examples/exposition-introduction.md` | Exposition run: an introduction that assumes the reader knows the gap |
 | `examples/exposition-methods.md` | Exposition run: a methods paragraph that opens on machinery |
 | `examples/exposition-results.md` | Exposition run: a results paragraph that reports numbers but no takeaway |
+| `examples/reviewer-response-example.md` | Reviewer-response run: comment mapping, flagged-paragraph-only edits, gaps flagged |
+| `examples/restraint-example.md` | Restraint run: strong prose returned almost verbatim, declined edits logged |
 | `examples/AGENTS.md.template` | Drop into a paper repo as `AGENTS.md` |
 | `examples/CLAUDE.md.template` | Drop into a paper repo as `CLAUDE.md` (bridge to AGENTS.md) |
 | `CHANGELOG.md`, `VERSION` | Release history and current version |

@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, make less AI-generated and more human to
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.18.0"
+  version: "1.19.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -70,6 +70,8 @@ When `revision_stage: response to reviewers` or the user pastes reviewer comment
 3. Label each diagnosis item with the reviewer concern, for example `[R2.3, paragraph 4]`.
 4. Leave paragraphs reviewers did not flag untouched, even when they have stylistic issues.
 5. Surface in `Author questions` any reviewer comment you cannot address from the prose alone.
+
+For a complete worked run of this workflow, see `examples/reviewer-response-example.md`.
 
 ## Constraints (hard rules)
 
@@ -199,7 +201,7 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - Paragraphs end on a payoff, synthesis, or consequence rather than a procedural afterthought.
 - Claims, evidence, and interpretation are distinguishable.
 
-When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect.
+When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect. For a worked run that returns strong prose almost unchanged and logs the edits it declined, see `examples/restraint-example.md`.
 
 ## Voice extraction before rewriting
 
