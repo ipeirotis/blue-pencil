@@ -106,7 +106,7 @@ LLM prose falls into a few rhetorical molds. Used once, deliberately, any of the
 - Empty meta-commentary ("This paragraph discusses..."). Just discuss.
 - Aphoristic closers ("In the end, the data speaks for itself."). Endings should land specific points, not gesture at universal truths.
 - "Navigate" as a metaphor for any non-trivial activity. People navigate ships and websites. They do not "navigate the literature on labor markets".
-- "Leverage" as a verb when "use" would do.
+- "Leverage" or "utilize" (and "utilizes", "utilizing") as a verb when "use" would do.
 - "Robust" as a generic positive descriptor. Robust to what?
 
 ## Storytelling tells (decorative narrative)
@@ -151,7 +151,7 @@ Before approving any revised passage, scan for:
 - [ ] Inflated noun phrases ("the landscape of", "a myriad of", "rich tapestry")? Replace with a count or the specific object.
 - [ ] Template shapes ("not just X but Y", "From X to Y", "Firstly/Secondly")? Rewrite or name the items.
 - [ ] "We show that..." or "It is well known that..." frames? Replace with the claim itself.
-- [ ] "Navigate" or "leverage" used as throat-clearing? Replace with simpler verb.
+- [ ] "Navigate", "leverage", or "utilize" used where "use" would do? Replace with the simpler verb.
 - [ ] Manufactured hook or scene-setting opener ("Imagine...", "In an era of...")? Replace with the paper's real question.
 - [ ] Journey metaphor or anthropomorphized data ("our journey", "the data tells a story")? Cut.
 - [ ] Triads that exist only for rhythm? Cut to two or expand to a real list.

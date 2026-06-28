@@ -54,6 +54,18 @@ no obvious control group; must learn that stores adopting the program on differe
 dates supply each other's controls; should leave able to say what makes the
 comparison credible before they see the regression that implements it.
 
+Jargon to unpack: "two-way fixed effects", "never-treated and not-yet-treated", and
+the "Callaway and Sant'Anna" estimator, each named before the reader has the picture
+that makes the label mean something.
+
+Buried lede: stores adopt the program on different dates, so the not-yet-treated
+stores supply controls for the already-treated ones, and that staggered timing, not
+the estimator, is what makes the comparison credible.
+
+Concrete anchor: the stores that adopted on different dates, some not yet treated,
+already in the draft, which the rewrite uses to build the picture before the
+specification.
+
 1. [P1] Machinery before motive: the paragraph opens on the two-way fixed effects
    specification and its controls before the reader knows what identifies the
    effect. The "why this design" arrives only in the last sentence.

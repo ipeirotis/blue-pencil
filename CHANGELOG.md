@@ -3,6 +3,25 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.19.0] - 2026-06-28
+
+A forced-extraction step for the exposition pass. The 1.18.0 exposition pass already set the reader model, the six-rung ladder, and the teaching-benefit rationale vocabulary, but the diagnosis-to-rewrite handoff still let a teaching gap be smoothed over with a thesaurus swap instead of repaired. This release makes the pass extract three things into the `Diagnosis` block before any rewrite is drafted, so the rewrite is structural by construction: it front-loads the buried idea, unpacks the jargon inline, and anchors the abstraction in something already on the page.
+
+### Added
+
+- `references/exposition.md`: a **Forced extraction before the rewrite** section. When the exposition pass surfaces a teaching gap (definition debt, compressed inference, machinery before motive, expert-only contrast, or abstract stack) or the request is to make the section clearer to non-specialists or more educational, the editor extracts three grounded handles first: `Jargon to unpack` (one to three terms to define inline, or flag if undefinable from the manuscript), `Buried lede` (the most useful idea the prose suffocates, front-loaded in the rewrite), and `Concrete anchor` (the example, dataset feature, mechanism, figure, or number that makes the abstraction tangible). The section names the educator's lens behind the three: find the single hardest concept for an outsider (jargon and lede locate it), then build the bridge to it (the anchor), and write to teach the reader rather than to prove the author's command of the field.
+
+### Changed
+
+- `SKILL.md`: the Diagnosis output format now requires the three extraction lines (`Jargon to unpack:`, `Buried lede:`, `Concrete anchor:`) after `Reader map:` whenever the exposition pass surfaces a teaching gap or the request is to make the section clearer to non-specialists, each grounded only in material already in the manuscript and routing the rest to `Author questions`.
+- `examples/exposition-introduction.md`, `examples/exposition-methods.md`, `examples/exposition-results.md`: each Diagnosis now carries the three extraction lines, grounded in the draft each example already contains (the identification logic of uneven moderation, the staggered-rollout controls, the star-rating yardstick for the identity effect), so the examples stay valid quality anchors under the new output contract.
+- `references/ai-tells-to-avoid.md`: the "leverage" tell and its checklist item now also cover "utilize" / "utilizes" / "utilizing" used where "use" would do.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.19.0.
+
+### Rationale
+
+The exposition pass diagnoses well, but a strong line editor can satisfy a diagnosis item with a smoother sentence that still hides the missing step. Forcing the editor to name the buried lede, the jargon, and the concrete anchor before writing converts the diagnosis into a structural rewrite: there is a specific idea to front-load, a specific term to define, and a specific anchor to reach for, so the rewrite cannot collapse into a polite synonym swap. The three stay inside the existing safety boundary, each must come from material already on the page, and anything the manuscript lacks becomes an `Author questions` item rather than an invented example or definition. The step is scoped to the exposition pass, so flow-only and final-polish passes keep their lean two-line Diagnosis header.
+
 ## [1.18.0] - 2026-06-28
 
 An exposition pass. The skill already made prose flow (reader-pleasure), gave it a spine (narrative-spine), and stripped AI tells, but it had no first-class tool for the property that turns a correct paper into a paper that teaches: whether the reader can acquire the idea with less effort than expected. A paragraph can have a clean ABT spine and a pleasant rhythm and still fail to teach, because it skips the inferential steps the author has internalised. This release promotes the curse-of-knowledge fix from supporting references (principles.md, edit-checks.md) into a first-class editing pass that asks, of every load-bearing paragraph, what mental model the reader has before it and what model they should have after.

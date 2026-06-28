@@ -53,6 +53,18 @@ reviewer identity moves sales on its own and survives controls, and that it adds
 the rating rather than just proxying for it; should leave able to say identity is a
 second lever on sales alongside the rating, not just metadata.
 
+Jargon to unpack: "product fixed effects", reported as a column change before the
+reader is told it tests whether the identity effect is just unobserved product
+quality in disguise.
+
+Buried lede: disclosed reviewer identity moves sales on its own (0.18), survives
+product controls, and runs at roughly 40% of the star-rating effect (0.42), so it is
+a second lever, not a proxy for the rating.
+
+Concrete anchor: the star-rating coefficient (0.42) already in the table, which the
+rewrite uses as the yardstick that tells the reader how large the 0.18 identity
+effect is.
+
 1. [P1] Payoff inversion: every sentence leads with the table location or the
    coefficient and never with the claim the number supports. The reader assembles
    the finding instead of being handed it.

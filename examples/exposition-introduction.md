@@ -56,6 +56,18 @@ why that correlation does not establish a causal effect and how unequal platform
 moderation breaks the deadlock; should leave able to say that the paper turns a
 nuisance (uneven moderation) into the very thing that identifies the effect.
 
+Jargon to unpack: "exogenous variation" and "quasi-random assignment", both used as
+the design's load-bearing terms before the reader is told, in plain words, why
+moderation differing across reviews would isolate the effect.
+
+Buried lede: uneven platform moderation, normally a nuisance, is exactly what lets
+the paper compare otherwise similar reviews and identify the causal effect of
+valence on sales.
+
+Concrete anchor: platforms applying moderation differently across review cohorts,
+already in the draft, which the rewrite turns into the picture of two otherwise
+similar reviews that received different treatment.
+
 1. [P1] Machinery before motive: the paragraph opens on "endogeneity of review
    valence" and "identification" before the reader knows what question those terms
    serve. A general reader cannot tell what is at stake by sentence two.

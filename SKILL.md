@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, make less AI-generated and more human to
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.18.0"
+  version: "1.19.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -237,6 +237,8 @@ Always produce these four sections, in this order, with these exact headings. Fo
 ### 1. Diagnosis
 
 For a whole-section rewrite or any first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines only for a single-paragraph request that is not a first-draft pass, and for final-polish passes. When a request is both single-paragraph and first draft, the first-draft rule wins: include both lines, as the exposition examples do.
+
+When the exposition pass surfaces a teaching gap (definition debt, compressed inference, machinery before motive, expert-only contrast, or abstract stack) or the request is to make the section clearer to non-specialists or more educational, add three extraction lines after `Reader map:` (`Jargon to unpack:`, `Buried lede:`, and `Concrete anchor:`), each defined in `references/exposition.md`. Extract these before drafting the revised text: they force a structural rewrite that teaches rather than a thesaurus swap of the original. Each must draw only on material already in the manuscript; route anything the manuscript lacks to `Author questions`.
 
 Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items. Order by category (structure first, sentence-level last).
 
