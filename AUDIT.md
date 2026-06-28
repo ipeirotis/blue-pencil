@@ -1,5 +1,16 @@
 # Audit: paper-revision-editor portability pass
 
+> **Historical document.** This is the pre-revision baseline captured for the
+> v1.7.0 portability pass (2026-05-21) and lightly updated for v1.8.0. The gaps
+> it lists were the work plan for those releases and are now resolved: the
+> frontmatter uses `metadata.version` and space-separated `allowed-tools`,
+> `license: MIT` is present, `scripts/` and `scripts/README.md` exist, context
+> loading reads `AGENTS.md` first, the installer targets `~/.agents/skills/` and
+> `~/.claude/skills/`, the `Makefile` and `paper-reviser` subagent are in place,
+> and the no-em-dash constraint is enforced by `scripts/lint.sh` in CI. It is
+> kept for provenance, not as an open to-do list. For the current state of the
+> repo, see `README.md`; for what changed since, see `CHANGELOG.md`.
+
 Date: 2026-05-21. Pre-revision baseline for the v1.7.0 portability pass. Updated in v1.8.0 with a cross-tool-first install strategy; see CHANGELOG.md for that diff.
 
 ## 1. Current structure

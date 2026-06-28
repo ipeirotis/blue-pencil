@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, make less AI-generated and more human to
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.18.1"
+  version: "1.19.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -72,6 +72,8 @@ When `revision_stage: response to reviewers` or the user pastes reviewer comment
 3. Label each diagnosis item with the reviewer concern, for example `[R2.3, paragraph 4]`.
 4. Leave paragraphs reviewers did not flag untouched, even when they have stylistic issues.
 5. Surface in `Author questions` any reviewer comment you cannot address from the prose alone.
+
+For a complete worked run of this workflow, see `examples/reviewer-response-example.md`.
 
 ## Constraints (hard rules)
 
@@ -201,13 +203,13 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - Paragraphs end on a payoff, synthesis, or consequence rather than a procedural afterthought.
 - Claims, evidence, and interpretation are distinguishable.
 
-When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect.
+When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect. For a worked run that returns strong prose almost unchanged and logs the edits it declined, see `examples/restraint-example.md`.
 
 ## Voice extraction before rewriting
 
 Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, and hedge stacks are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic.
 
-For a whole-section rewrite or a first-draft pass, list the tics at the top of the `Diagnosis` block so the author can confirm the read.
+For a whole-section rewrite or a first-draft pass, list the tics at the top of the `Diagnosis` block so the author can confirm the read. A response-to-reviewers pass does not list them, since it edits only the flagged paragraphs rather than rewriting the section.
 
 ## Preflight checks before returning output
 
@@ -238,7 +240,7 @@ Always produce these four sections, in this order, with these exact headings. Fo
 
 ### 1. Diagnosis
 
-For a whole-section rewrite or any first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines only for a single-paragraph request that is not a first-draft pass, and for final-polish passes. When a request is both single-paragraph and first draft, the first-draft rule wins: include both lines, as the exposition examples do.
+For a whole-section rewrite or any first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines for a single-paragraph request that is not a first-draft pass, for final-polish passes, and for response-to-reviewers passes, since a reviewer-limited edit revises only the flagged paragraphs rather than rewriting the section. When a request is both single-paragraph and first draft, the first-draft rule wins: include both lines, as the exposition examples do.
 
 Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items. Order by category (structure first, sentence-level last).
 
