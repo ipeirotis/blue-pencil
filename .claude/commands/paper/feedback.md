@@ -1,6 +1,6 @@
 ---
 description: Get editorial diagnosis of a paper section without a rewrite (feedback only).
-argument-hint: [section file path, or paste the section text]
+argument-hint: "[section file path, or paste the section text]"
 ---
 
 Dispatch the request below to the `paper-reviser` subagent, which loads the

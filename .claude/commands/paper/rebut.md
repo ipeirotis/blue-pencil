@@ -1,6 +1,6 @@
 ---
 description: Revise a paper section to address specific reviewer comments (response-to-reviewers workflow).
-argument-hint: [paste reviewer comments and the section, or give file paths]
+argument-hint: "[paste reviewer comments and the section, or give file paths]"
 ---
 
 Dispatch the request below to the `paper-reviser` subagent, which loads the
@@ -25,7 +25,7 @@ Run the workflow exactly:
 
 Preset triage:
 
-- **Scope:** direct rewrite of the flagged paragraphs only.
+- **Scope:** direct rewrite of the flagged paragraphs and their immediate neighbours (per step 2 above). Touch a neighbour only when the fix for a reviewer comment belongs in its transition or setup sentence; leave every other paragraph verbatim.
 - **Unit:** the section in `$ARGUMENTS` (file path or pasted text), with the
   reviewer comments alongside it.
 - **Aggressiveness:** response-to-reviewers semantics regardless of the stored

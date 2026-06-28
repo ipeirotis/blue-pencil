@@ -196,7 +196,7 @@ For predictable, one-shot invocation, the repo ships a `paper:` command namespac
 
 Each takes the section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`.
 
-Like the `paper-reviser` subagent, these commands are Claude-Code conveniences discovered from a project's `.claude/` directory. To use them in your own paper repo, copy `.claude/commands/paper/` (and `.claude/agents/paper-reviser.md`) into that repo's `.claude/`, or into `~/.claude/` to make them available in every project. The skill itself stays the cross-tool source of truth and needs none of this.
+Like the `paper-reviser` subagent, these commands are Claude-Code conveniences. Claude Code discovers commands under `.claude/commands/` and subagents under `.claude/agents/` (project level), or the same paths under `~/.claude/` (all projects). To use them in your own paper repo, copy the `paper/` directory to `<your-repo>/.claude/commands/paper/` and `paper-reviser.md` to `<your-repo>/.claude/agents/paper-reviser.md`; or copy them to `~/.claude/commands/paper/` and `~/.claude/agents/paper-reviser.md` to make them available in every project. Keep the `paper/` directory under `commands/`, since it is the subdirectory name that produces the `paper:` namespace. The skill itself stays the cross-tool source of truth and needs none of this.
 
 ## How it works (under the hood)
 

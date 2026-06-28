@@ -1,6 +1,6 @@
 ---
 description: Make a paper section read like a human wrote it (narrative spine, fewer AI tells) with the paper-revision-editor skill.
-argument-hint: [section file path, or paste the section text]
+argument-hint: "[section file path, or paste the section text]"
 ---
 
 Dispatch the request below to the `paper-reviser` subagent, which loads the
