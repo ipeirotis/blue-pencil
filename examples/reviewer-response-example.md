@@ -91,10 +91,11 @@ carries a reviewer label.
    baseline revenue level, so the reader cannot judge economic magnitude as R2
    asks. The section does not state the baseline, and supplying one is new
    substance, not an edit, so this is flagged rather than written.
-3. [P1, P3, P5] Stylistic issues sit outside the flagged paragraphs:
-   throat-clearing in P1 ("The purpose of this section is to", "It is important
-   to note that") and banned transitions in P5 ("Furthermore", "Moreover").
-   Reviewers did not raise them, so under this stage they are left unchanged.
+
+(Only two items, both reviewer-labelled. P1 and P5 have stylistic issues
+reviewers did not raise; under this stage they stay out of the Diagnosis block
+and are noted in `Change rationale` as returned verbatim, not added here as
+non-reviewer diagnoses.)
 
 ### 2. Revised text
 
@@ -107,10 +108,11 @@ those who do not in ways that also affect revenue.
 [P2] Identification requires that the timing of the badge rollout move seller
 revenue only through badge receipt. We instrument badge receipt with the rollout
 date of the badge program in a seller's primary category, which the platform
-rolled out on a staggered schedule. Because that schedule was set by engineering
-team availability rather than by category revenue, rollout timing is plausibly
-unrelated to category-level revenue trends, which is what the exclusion
-restriction needs.
+rolled out on a staggered schedule. That schedule was set by the platform's
+engineering capacity, allocated by team availability, which is plausibly
+unrelated to category-level revenue trends. Rollout timing is therefore
+plausibly unrelated to those trends, which is what the exclusion restriction
+needs.
 
 [P3] We estimate a two-stage least squares model with seller and quarter fixed
 effects, clustering standard errors at the category level.
@@ -125,7 +127,7 @@ reported in Appendix C. Moreover, we find no evidence of pre-trends.
 
 ### 3. Change rationale
 
-Word count: 177 to 190 (+7%). Longer because the one substantive edit (P2)
+Word count: 177 to 197 (+11%). Longer because the one substantive edit (P2)
 surfaces an argument the draft had compressed into trailing clauses; addressing
 R2.1 legitimately adds words to the flagged paragraph while the rest of the
 section is unchanged.
@@ -141,11 +143,15 @@ justification invented.
 
 "set by the platform's engineering capacity ... Engineering capacity was
 allocated by team availability, which is plausibly unrelated to category-level
-revenue trends." -> "Because that schedule was set by engineering team
-availability rather than by category revenue, rollout timing is plausibly
-unrelated to category-level revenue trends, which is what the exclusion
-restriction needs.", folded the two sentences into the exclusion argument and
-named what they establish, keeping the original claims intact.
+revenue trends." -> "That schedule was set by the platform's engineering
+capacity, allocated by team availability, which is plausibly unrelated to
+category-level revenue trends. Rollout timing is therefore plausibly unrelated
+to those trends, which is what the exclusion restriction needs.", drew the
+exclusion conclusion the draft's own sentences imply, carrying the original
+claims (engineering capacity, team availability, plausibly unrelated to
+category-level revenue trends) over verbatim. No new premise was added: the
+draft never says timing was set "rather than by category revenue", so neither
+does the rewrite.
 
 Paragraphs P1, P3, P5: returned verbatim. P1 and P5 carry stylistic issues
 (throat-clearing, banned transitions), but reviewers did not flag them and the

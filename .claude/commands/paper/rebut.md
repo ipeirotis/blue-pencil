@@ -30,8 +30,11 @@ Preset triage:
 - **Scope:** direct rewrite of the flagged paragraphs and their immediate neighbours (per step 2 above). Touch a neighbour only when the fix for a reviewer comment belongs in its transition or setup sentence; leave every other paragraph verbatim.
 - **Unit:** the section in `$ARGUMENTS` (file path or pasted text), with the
   reviewer comments alongside it.
-- **Aggressiveness:** response-to-reviewers semantics regardless of the stored
-  stage; do not reorganize structure reviewers accepted.
+- **Aggressiveness:** apply response-to-reviewers scope, since pasting reviewer
+  comments is itself a trigger for that workflow in the skill. If the stored
+  `revision_stage` in `<paper_context>` is not `response to reviewers`, tell the
+  user about the mismatch rather than silently overriding it. Do not reorganize
+  structure reviewers accepted.
 
 Return the strict four-section output. For the rebuttal letter itself, the skill
 can draft per-comment phrasing on request using the rebuttal conventions in
