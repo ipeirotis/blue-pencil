@@ -74,7 +74,7 @@ Hirschman and Schelling argue heavily by analogy without letting the analogy out
 
 "Important", "novel", "interesting", "significant" (outside the statistical sense), "crucial", and the "we show that..." preface all perform certainty rather than earning it. Let the work demonstrate.
 
-**Edit check.** Search for these terms. Delete the sentence; if the substance survives without it, the original sentence was throat-clearing. For "we show that X" replace with X directly. See `references/ai-tells-to-avoid.md` for the canonical list.
+**Edit check.** Search for these terms. Strip the adjective or frame, not the sentence: reread without the word, and if the substance survives, the word was throat-clearing. If removing it would gut a load-bearing claim or result, keep the claim and apply the keep-test from the Subtraction section before cutting anything. For "we show that X" replace with X directly. See `references/ai-tells-to-avoid.md` for the canonical list.
 
 McCloskey on economists and Dijkstra on computer scientists both argued that promotional language signals weak claims.
 
