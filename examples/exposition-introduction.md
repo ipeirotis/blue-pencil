@@ -86,13 +86,13 @@ policy rather than on the product. That lets us compare otherwise similar review
 that platforms happened to treat differently and read off the effect of the review
 itself. On 3.4 million
 reviews, the effect is positive and significant. Where earlier work leaned on
-instruments whose link to reviews was hard to defend, here the variation comes from
+instruments whose validity was contested, here the variation comes from
 the platform's own behaviour, which we can observe directly.
 ```
 
 ### 3. Change rationale
 
-Word count: 92 to 135 (+47%). The rewrite is longer because the draft's
+Word count: 89 to 143 (+61%). The rewrite is longer because the draft's
 identification logic was compressed to an assertion; the added sentences are the
 inferential bridge, built only from claims already in the paragraph (moderation
 varies by policy, the dataset, the prior-work contrast). Flagged for the author
@@ -115,10 +115,11 @@ what the input claims.
 
 "Our identification strategy improves upon prior approaches that rely on
 instrumental variables of questionable validity" -> "Where earlier work leaned on
-instruments whose link to reviews was hard to defend, here the variation comes from
-the platform's own behaviour, which we can observe directly", exposed the contrast
-with prior work: said what was weak (the instrument's link to reviews) and what this
-design substitutes.
+instruments whose validity was contested, here the variation comes from the
+platform's own behaviour, which we can observe directly", exposed the structure of the
+contrast (contested instrument validity versus directly observed variation) at the
+level the input supports, without inventing which validity condition the prior
+instruments failed.
 
 "find it to be positive and significant" -> "the effect is positive and
 significant", kept the author's claim exactly as written, including its
@@ -133,6 +134,10 @@ filled.
 - The bridge I added says moderation "turns on platform policy rather than on the
   product". Is that the actual exclusion logic, or does moderation also respond to
   review content in a way the reader should be warned about here?
+- Which validity condition did the prior instruments fail (relevance, the exclusion
+  restriction, monotonicity, measurement)? I kept the contrast general ("contested
+  validity") rather than name a specific weakness the draft does not state; what
+  exactly was wrong?
 - Should the introduction name the platforms and the time window for the 3.4
   million reviews so the reader can judge how far the identification generalises?
 - Is there a phrase you want readers to carry away for this design (the way "natural
@@ -147,9 +152,10 @@ filled.
   own claim that moderation follows policy, and it keeps the draft's "conditional on
   observed covariates" qualifier rather than strengthening the assumption to hold
   unconditionally.
-- **Contrast made legible.** "Instruments of questionable validity" becomes a
-  contrast a non-specialist can see: the old link was hard to defend, the new
-  variation is directly observed.
+- **Contrast made legible, not invented.** "Instruments of questionable validity"
+  becomes a contrast a non-specialist can see (contested instrument validity versus
+  directly observed variation), while which validity condition failed is left as an
+  Author question rather than guessed.
 - **The bridge is flagged, not trusted.** The added exclusion logic is surfaced for
   the author to confirm, because an exposition edit may expose an idea on the page
   but must not invent the identification argument.

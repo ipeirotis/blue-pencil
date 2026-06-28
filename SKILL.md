@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, polish, make less AI-generated and more human to read, or respond to reviewer comments on an academic paper section. Diagnoses logical flow, argumentation, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims.
+description: Revise, copy-edit, polish, make less AI-generated and more human to read, make a section clearer to non-specialists, or respond to reviewer comments on an academic paper section. Diagnoses logical flow, argumentation, exposition and reader education, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
@@ -110,7 +110,7 @@ A research paper educates when it gives the reader a usable mental model, not ju
 
 Use the reader ladder, low rungs first: (1) name the question before the machinery; (2) give the simplest version before the full technical version; (3) define terms at first serious use; (4) introduce one new conceptual object at a time; (5) pair each abstraction with a concrete anchor already present in the manuscript (an example, dataset feature, mechanism, figure, failure case, or measured consequence); (6) end each paragraph with what the reader now understands, not with procedure. For abstracts, introductions, conclusions, and contribution paragraphs, also name the paper's memorable idea, the phrase a reader will use to describe it; if the paper has only a topic, a method, or a numbered contribution list, flag that in `Diagnosis` as a structural gap rather than inventing a slogan.
 
-Load `references/exposition.md` for abstracts, introductions, theory sections, methods sections with unfamiliar machinery, and any request to make the paper clearer to non-specialists, more educational, more readable, or easier to understand.
+Load `references/exposition.md` for abstracts, introductions, theory sections, methods sections with unfamiliar machinery, results and discussion sections, and any request to make the paper clearer to non-specialists, more educational, more readable, or easier to understand.
 
 Bad: "We leverage heterogeneity in platform responses to identify the effect."
 Good: "Platforms do not respond to every review in the same way. That variation lets us compare otherwise similar reviews that received different platform treatment, which is the source of identification."

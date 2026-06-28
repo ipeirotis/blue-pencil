@@ -72,27 +72,30 @@ comparison credible before they see the regression that implements it.
 ### 2. Revised text
 
 ```
-The loyalty program was not randomly assigned, so there is no ready control group.
-What saves the comparison is timing. Stores adopted on different dates, so on any
-given week some already have the program while others do not, either because they
-adopt later or never adopt at all. Those not-yet-treated and never-treated stores are
-the controls. We compare repeat purchase at adopting stores against them before and
-after each rollout date, reading the effect off the interaction between the
-post-rollout and treatment indicators. We estimate it with a two-way fixed effects
-model with store and week fixed effects, controlling for foot traffic, local
-unemployment, and promotional intensity, and cluster standard errors at the store
-level. Because that simple two-way estimate can be biased when adoption is staggered,
-we also report the Callaway and Sant'Anna estimator, which compares each adopting
-group only against stores not yet treated.
+The loyalty program had no clean control group. What saves the comparison is timing.
+Stores adopted on different dates, so on any given week some already have the program
+while others do not, either because they adopt later or never adopt at all. Those
+not-yet-treated and never-treated stores are the controls. We compare repeat purchase
+at adopting stores against them before and after each rollout date, reading the effect
+off the interaction between the post-rollout and treatment indicators. We estimate it
+with a two-way fixed effects model with store and week fixed effects, controlling for
+foot traffic, local unemployment, and promotional intensity, and cluster standard
+errors at the store level. Because that simple two-way estimate can be biased when
+adoption is staggered, we also report the Callaway and Sant'Anna estimator, which is
+built for staggered adoption.
 ```
 
 ### 3. Change rationale
 
-Word count: 88 to 147 (+67%). The rewrite is longer because the draft compressed the
+Word count: 88 to 136 (+55%). The rewrite is longer because the draft compressed the
 identification logic into trailing clauses; the added sentences move it to the front
 and unpack it, using only facts already in the paragraph (staggered dates, the
 never-treated and not-yet-treated controls, the interaction estimand, timing
 heterogeneity). No technical claim is dropped. Flagged under the length budget.
+
+"(opening)" -> "The loyalty program had no clean control group", drawn from the paper
+context ("without a clean control group"); the rewrite motivates the design without
+asserting whether assignment was random, since the manuscript does not say.
 
 "We estimate a two-way fixed effects model ..." and "The coefficient of interest is
 the interaction between the post-rollout indicator and the treatment indicator" ->
@@ -109,19 +112,18 @@ unpacked the labels while keeping both the never-treated and not-yet-treated con
 groups the draft named.
 
 "report the Callaway and Sant'Anna estimator alongside the two-way fixed effects
-estimate to address heterogeneity in treatment timing" -> "Because the simple
-two-way estimate can be biased when stores adopt at different times, we also report
-the Callaway and Sant'Anna estimator, which compares each adopting group only
-against stores not yet treated", restored the missing inference: named why staggered
-timing threatens the simple estimate so the reader sees what the second estimator is
-for.
+estimate to address heterogeneity in treatment timing" -> "Because that simple
+two-way estimate can be biased when adoption is staggered, we also report the
+Callaway and Sant'Anna estimator, which is built for staggered adoption", restored
+the missing inference (why staggered timing threatens the simple estimate) without
+specifying which control group the second estimator uses, since the draft does not
+say.
 
 ### 4. Author questions
 
-- The rewrite treats both not-yet-treated and never-treated stores as controls for
-  the two-way estimate and only the not-yet-treated stores for the Callaway and
-  Sant'Anna estimate. Is that the split you intend, or do both groups serve as
-  controls throughout?
+- For the Callaway and Sant'Anna estimate, should the comparison use never-treated
+  stores, not-yet-treated stores, or both? The draft does not say, and the choice
+  changes the estimand, so I left it unspecified rather than guess.
 - Should the paragraph state the identifying assumption (parallel trends in repeat
   purchase absent the program) explicitly, or is that argued elsewhere?
 - Are foot traffic, local unemployment, and promotional intensity measured at the
@@ -141,6 +143,7 @@ for.
   and never-treated) and the interaction estimand are carried into the rewrite, not
   dropped; the pass reorders and explains the technical content without removing any
   of it.
-- **The added bridge is flagged.** The control-group intuition the rewrite makes
-  explicit is raised for the author to confirm, since the draft stated it only in
-  passing.
+- **Nothing invented to fill a gap.** Where the draft is silent (whether assignment
+  was random, which control group the Callaway and Sant'Anna estimate uses), the
+  rewrite stays silent and raises the point in Author questions rather than inventing
+  a design detail to make the prose flow.

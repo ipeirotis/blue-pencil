@@ -75,20 +75,20 @@ carries. In Table 3, the coefficient on disclosed identity is 0.18 (SE = 0.04, c
 adding product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05). It
 also grows with the reviewer: the interaction with reviewer tenure is 0.09 (SE =
 0.03, column 4), so a disclosed identity counts for more when the reviewer has a
-longer track record. To gauge the size of these effects, the star rating itself
-carries a coefficient of 0.42 (SE = 0.02) across all specifications: identity is a
-second lever on sales, smaller than the rating but the same kind of thing. All
-coefficients are significant at the 1% level except the tenure interaction, which is
-significant at the 5% level, and R-squared rises from 0.31 to 0.47 across the
-columns.
+longer track record. All coefficients are significant at the 1% level except the
+tenure interaction (5%), and R-squared rises from 0.31 to 0.47 across the columns.
+For comparison, the star rating carries a coefficient of 0.42 (SE = 0.02) in the same
+models, a benchmark for these estimates once the scales are comparable: identity is a
+second lever on sales, not just metadata.
 ```
 
 ### 3. Change rationale
 
-Word count: 86 to 128 (+49%). The rewrite is longer because each bare estimate gains
-a leading claim and a closing consequence; no number, standard error, column
-reference, or significance level was added, removed, or altered. Flagged under the
-length budget. Every numerical claim is carried over verbatim per constraint 6.
+Word count: 87 to 152 (+75%). This is a large expansion, at the high end of what the
+length budget tolerates, and is flagged for the author: the input is a bare list of
+estimates, and each one gains a leading claim and a closing consequence. No number,
+standard error, table or column reference, or significance level was added, removed,
+or altered; every numerical claim is carried over verbatim per constraint 6.
 
 "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator
 is 0.18 (SE = 0.04) in column 2." -> "Disclosing who wrote a review moves sales on
@@ -111,16 +111,17 @@ column 4), so a disclosed identity counts for more when the reviewer has a longe
 track record.", added the reader takeaway the interaction encodes.
 
 "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications." ->
-"To gauge the size of these effects, the star rating itself carries a coefficient of
-0.42 (SE = 0.02) across all specifications: identity is a second lever on sales,
-smaller than the rating but the same kind of thing.", turned an orphan number into
-the yardstick that anchors the identity effect's size, using the rating coefficient
-already in the paragraph.
+"For comparison, the star rating carries a coefficient of 0.42 (SE = 0.02) in the
+same models, a benchmark for these estimates once the scales are comparable: identity
+is a second lever on sales, not just metadata.", offered the rating coefficient as a
+benchmark for the identity estimates rather than asserting that identity is smaller,
+since the two regressors may be on different scales (raised in Author questions), and
+ended the paragraph on the takeaway.
 
 "R-squared rises from 0.31 to 0.47 across the columns. All coefficients are
-significant ..." -> moved to the end and demoted below the substantive results, so
-the paragraph lands on what the effects mean rather than on fit and significance
-footnotes.
+significant ..." -> compressed (the significance exception to "(5%)") and placed
+before the closing line, so the fit and significance statistics leave the stress
+position and the paragraph ends on what the effects mean.
 
 ### 4. Author questions
 
@@ -145,8 +146,12 @@ footnotes.
   as a coefficient rather than restating it as a sales change the outcome scale would
   not support.
 - **Existing numbers made to teach.** The star-rating coefficient already in the
-  draft becomes the yardstick that tells the reader how big the identity effect is,
-  without importing anything new.
+  draft becomes a benchmark for reading the identity estimates against, with the
+  scale caveat flagged rather than glossed, so no size ranking is asserted that the
+  raw coefficients may not support.
+- **Payoff after effort.** The paragraph now ends on the takeaway (identity as a
+  second lever), with the significance and fit statistics compressed and moved out of
+  the stress position, so it stops landing on the facts that teach the reader least.
 - **Interpretations flagged.** The size comparison and the tenure reading are raised
   for the author, because an exposition edit may foreground a number already present
   but must not assert an interpretation the author has not endorsed.
