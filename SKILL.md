@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, make less AI-generated and more human to
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.19.0"
+  version: "1.20.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -72,6 +72,8 @@ When `revision_stage: response to reviewers` or the user pastes reviewer comment
 3. Label each diagnosis item with the reviewer concern, for example `[R2.3, paragraph 4]`.
 4. Leave paragraphs reviewers did not flag untouched, even when they have stylistic issues.
 5. Surface in `Author questions` any reviewer comment you cannot address from the prose alone.
+
+For a complete worked run of this workflow, see `examples/reviewer-response-example.md`.
 
 ## Constraints (hard rules)
 
@@ -201,13 +203,13 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - Paragraphs end on a payoff, synthesis, or consequence rather than a procedural afterthought.
 - Claims, evidence, and interpretation are distinguishable.
 
-When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect.
+When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect. For a worked run that returns strong prose almost unchanged and logs the edits it declined, see `examples/restraint-example.md`.
 
 ## Voice extraction before rewriting
 
 Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, and hedge stacks are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic.
 
-For a whole-section rewrite or a first-draft pass, list the tics at the top of the `Diagnosis` block so the author can confirm the read.
+For a whole-section rewrite or a first-draft pass, list the tics at the top of the `Diagnosis` block so the author can confirm the read. A response-to-reviewers pass does not list them, since it edits only the flagged paragraphs rather than rewriting the section.
 
 ## Preflight checks before returning output
 
@@ -238,9 +240,9 @@ Always produce these four sections, in this order, with these exact headings. Fo
 
 ### 1. Diagnosis
 
-For a whole-section rewrite or any first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines only for a single-paragraph request that is not a first-draft pass, and for final-polish passes. When a request is both single-paragraph and first draft, the first-draft rule wins: include both lines, as the exposition examples do.
+For a whole-section rewrite or any first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines for a single-paragraph request that is not a first-draft pass, for final-polish passes, and for response-to-reviewers passes, since a reviewer-limited edit revises only the flagged paragraphs rather than rewriting the section. When a request is both single-paragraph and first draft, the first-draft rule wins: include both lines, as the exposition examples do.
 
-Except at `final polish`, when the exposition pass surfaces any teaching gap (any ladder or common failure in `references/exposition.md`, for example definition debt, compressed inference, machinery before motive, expert-only contrast, abstract stack, concept overload from too many new objects at once, an unanchored abstraction, or a buried or missing payoff where the paragraph ends on procedure or never states the takeaway) or the request is to make the section clearer to non-specialists, more educational, more readable, or easier to understand, add three extraction lines (`Jargon to unpack:`, `Buried lede:`, and `Concrete anchor:`), each defined in `references/exposition.md`. Place them after the `Reader map:` line when that line is present; when it is skipped (a single-paragraph request that is not a first-draft pass), put the three lines at the top of the Diagnosis block, before the numbered list. These three are required by the exposition trigger above even when `Voice tics:` and `Reader map:` are skipped. Extract them before drafting the revised text so the rewrite repairs the gap structurally rather than swapping synonyms. Each must draw only on material already in the manuscript; route anything the manuscript lacks to `Author questions`. Any line may read `none` when the passage does not exhibit that gap; if all three are `none` and the passage clears the restraint checks below, return it verbatim and note that in `Change rationale` rather than rewriting on the strength of the request wording alone.
+Except at `final polish`, when the exposition pass surfaces any teaching gap (any ladder or common failure in `references/exposition.md`, for example definition debt, compressed inference, machinery before motive, expert-only contrast, abstract stack, concept overload from too many new objects at once, an unanchored abstraction, or a buried or missing payoff where the paragraph ends on procedure or never states the takeaway) or the request is to make the section clearer to non-specialists, more educational, more readable, or easier to understand, add three extraction lines (`Jargon to unpack:`, `Buried lede:`, and `Concrete anchor:`), each defined in `references/exposition.md`. Place them after the `Reader map:` line when that line is present; when it is skipped (a single-paragraph non-first-draft request, or a response-to-reviewers pass), put the three lines at the top of the Diagnosis block, before the numbered list. These three are required by the exposition trigger above even when `Voice tics:` and `Reader map:` are skipped. Extract them before drafting the revised text so the rewrite repairs the gap structurally rather than swapping synonyms. Each must draw only on material already in the manuscript; route anything the manuscript lacks to `Author questions`. Any line may read `none` when the passage does not exhibit that gap; if all three are `none` and the passage clears the restraint checks below, return it verbatim and note that in `Change rationale` rather than rewriting on the strength of the request wording alone.
 
 Do not add these three lines at `final polish`. That stage forbids paragraph and section restructuring, so the structural exposition rewrite they drive is out of scope; a final-polish request to make text clearer to non-specialists is limited to the sentence-level repairs the stage allows (referents, definitions already implied, sentence order, stress position), per the stage-bound boundaries in `references/exposition.md`. Surface any deeper teaching gap in `Author questions` instead.
 
