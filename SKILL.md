@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, polish, or respond to reviewer comments on an academic paper section. Diagnoses logical flow, argumentation, copyediting, and reader experience while preserving voice, citations, and numerical claims.
+description: Revise, copy-edit, polish, make less AI-generated and more human to read, or respond to reviewer comments on an academic paper section. Diagnoses logical flow, argumentation, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
@@ -126,10 +126,10 @@ Good: "The model has to solve two problems at once: sparse labels and shifting t
 
 ### Narrative spine
 
-A paper reads as human-written when it carries one question through the section: a setup, a tension, a turn, and a payoff. LLM-drafted prose tends to enumerate equally weighted points and announce that they matter; the cure is a spine, not surface storytelling. Find the section's one-sentence spine in the form "X and Y, but Z, therefore W", surface the tension the draft smoothed over, and show stakes through consequence rather than announcing them. Add structure, never decoration: manufactured hooks, journey metaphors, and anthropomorphized data are themselves AI tells, so a narrative pass that adds them makes prose more LLM-like, not less. Load `references/narrative-spine.md` on a first-draft or whole-section pass, and whenever the user asks to make the paper tell a story, read like a human wrote it, or sound less LLM-like; load `references/ai-tells-to-avoid.md` with it so added narrative does not become decoration.
+A paper reads as human-written when it carries one question through the section: a setup, a tension, a turn, and a payoff. LLM-drafted prose tends to enumerate equally weighted points and announce that they matter; the cure is a spine, not surface storytelling. Find the section's one-sentence spine in the form "X and Y, but Z, therefore W", surface the tension the draft smoothed over, and show stakes through consequence rather than announcing them. Add structure, never decoration: manufactured hooks, journey metaphors, and anthropomorphized data are themselves AI tells, so a narrative pass that adds them makes prose more LLM-like, not less. Load `references/narrative-spine.md` on a first-draft or whole-section pass, and whenever the user asks to make the paper tell a story, read like a human wrote it, or sound less AI-generated or less LLM-like; load `references/ai-tells-to-avoid.md` with it so added narrative does not become decoration.
 
 Bad: "We introduce a method. It has two components. We test it on two datasets. It beats the baseline."
-Good: "The standard solution needs an expensive component; ours drops it and matches the baseline, so the field has been paying for that component without return."
+Good: "Our method adds only two components, yet on both datasets that is enough to beat the baseline."
 
 ### Copyediting
 
