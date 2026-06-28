@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.20.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.21.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -69,7 +69,136 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
 
 4. **Read the four sections, then decide.** Skim the Diagnosis, compare the Revised text against your original, check the rationale for anything you disagree with, and answer the Author questions. You stay the author; the skill never has the last word on your claims.
 
-The rest of this README covers installation options, updating, and the internals.
+The rest of this README covers the complete paper-edit loop, installation options, updating, and the internals.
+
+## Complete paper-edit loop (editing a whole paper)
+
+The Quickstart shows single-section requests. A full edit of a paper is a
+*loop*, not a one-shot rewrite, and which sub-command to run, in what order, and
+when to stop is not obvious from the commands alone. The governing principle is
+**diagnose globally, edit locally, validate globally, then polish
+conservatively.** Run the steps below by hand in any agent that reads the skill
+(no command setup needed), or, in Claude Code, run `/paper:loop` to have the
+agent emit this plan for your paper (with the sections detected and the first
+command filled in) and walk it with you, pausing at each author checkpoint.
+`/paper:loop` plans and drives the loop; the skill stays the source of truth for
+every actual edit.
+
+Note that `/paper:loop` and the other `paper:` slash commands it calls are not
+registered by the standard install; they need the one-time copy into
+`.claude/commands/` described in [Structured slash
+commands](#structured-slash-commands-claude-code). Until you do that copy, follow
+the steps by hand with the plain-English prompts (for example "give me editorial
+feedback on `sections/intro.tex`") instead of the slash commands.
+
+### Step 0: Set context
+
+Run once per paper, and fill in `target_venue`, `audience`, `core_thesis`, and
+`revision_stage`:
+
+```bash
+~/.local/share/paper-revision-editor/install.sh --init
+```
+
+The skill stops rather than guessing when these are missing. `revision_stage` is
+the master dial: `first draft` permits restructuring, `response to reviewers`
+limits edits to reviewer-flagged paragraphs and their neighbours, and `final
+polish` permits only sentence-level changes. If your stage is `response to
+reviewers`, do not run this whole-paper loop (it would edit sections the
+reviewers accepted); use `/paper:rebut` per section instead, and come back to the
+loop once you move to `first draft` or `final polish`.
+
+### Step 1: Diagnose before rewriting
+
+Run feedback-only passes over every section first, so you understand the
+structural problems before the agent polishes anything locally:
+
+```text
+/paper:feedback sections/abstract.tex
+/paper:feedback sections/intro.tex
+/paper:feedback sections/related_work.tex
+/paper:feedback sections/methods.tex
+/paper:feedback sections/results.tex
+/paper:feedback sections/discussion.tex
+/paper:feedback sections/conclusion.tex
+```
+
+Collect the `Author questions` from every section and answer them before asking
+for any rewrite. They flag missing claims, evidence, examples, mechanisms,
+definitions, or reviewer-response gaps that the skill is not allowed to invent,
+because it edits existing prose rather than drafting new content.
+
+### Step 2: Rewrite section by section
+
+`/paper:revise` is the default and dispatches the complete internal pipeline.
+For each section, read all four output blocks (Diagnosis, Revised text, Change
+rationale, Author questions). Accept only edits whose rationale names a concrete
+reader benefit; reject edits that are merely different. The checkpoint is
+recurring: every pass (`revise`, and the `clarify` and `human` passes in Step 3)
+can surface new `Author questions`, so stop and resolve them in the source before
+the next pass on the section or the move to the next section, since later edits
+depend on the answers. Rewrite in this order:
+
+`abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion`
+
+This order is a template for the canonical sections. If your paper has others
+(Background, Experiments, Limitations, an Appendix), insert each at its
+reading-order position and rewrite it too; do not validate and polish a paper
+whose non-canonical sections were never revised.
+
+The abstract and introduction get a first pass here, to set the spine the body
+must serve, and a second pass in Step 5, after the body is stable, because they
+are compressed views of the whole paper and go stale once the body changes. Do
+not rerun them at the end of this order; Step 5 is where the second pass lives.
+
+### Step 3: Use targeted passes only when needed
+
+Reach for these as second passes when the diagnosis points to their specific
+problem, not on every section:
+
+- `/paper:clarify <section>` when the reader lacks definitions, intuition,
+  motive, inferential bridges, concrete anchors, or paragraph payoff. Repeat
+  only until the reader can state the question, the motive, each object's role,
+  the evidence, and the payoff, not to make prose smoother.
+- `/paper:human <section>` when the section is flat, list-like, or LLM-sounding.
+  It adds a setup, tension, turn, and payoff spine, not decoration. Repeat only
+  if the section still has no findable turn.
+- `/paper:rebut <reviewer comments + section>` for response-to-reviewers work
+  only. It edits the reviewer-flagged paragraphs and their immediate neighbours.
+
+### Step 4: Repeat only under clear conditions
+
+Repeat a pass when the author has answered an `Author question`, the section was
+substantially restructured, a targeted problem remains (machinery before motive,
+missing payoff, list rhythm, terminology drift), or the paper changed enough that
+the abstract or introduction is now stale. Do not repeat a pass merely to get a
+different rewrite. Unchanged prose is a valid successful result, and a rewrite
+that touches every paragraph is suspect.
+
+### Step 5: Validate, then polish
+
+When the body is stable, run a cross-section consistency check, then re-open the
+front matter, then polish:
+
+```text
+/paper:consistency paper.tex          # whole-paper, no rewrite: drift and stale-summary check
+/paper:revise sections/abstract.tex   # front matter reflects the final paper
+/paper:revise sections/intro.tex
+/paper:consistency paper.tex          # re-check: the front-matter rewrites can introduce fresh drift
+/paper:polish sections/<each>.tex      # sentence-level only, no restructuring
+```
+
+The consistency check runs twice on purpose. The abstract and introduction
+rewrites can change contribution wording or result summaries after the first
+whole-paper check, and `/paper:polish` is sentence-level only, so it cannot
+repair fresh cross-section drift; the second check catches it before polishing.
+`/paper:consistency` flags terminology drift, claim drift, inconsistent
+contribution framing, result overstatement, missing forward references, and
+stale summaries without rewriting. `/paper:polish` applies final-polish
+constraints: copyediting, referents, terminology consistency, punctuation,
+rhythm, and the AI tells allowed at that stage, with no paragraph reordering or
+new content. Stop when the remaining changes are only safe copyediting,
+consistency, referents, punctuation, rhythm, and minor compression.
 
 ## Install
 
@@ -186,7 +315,7 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 
 ### Structured slash commands (Claude Code)
 
-For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. Each command pre-sets the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatches to the `paper-reviser` subagent. `revise`, `feedback`, `clarify`, and `human` follow the `revision_stage` in your `<paper_context>`; `rebut` applies response-to-reviewers scope (pasting reviewer comments is itself a trigger in the skill) and tells you if your stored stage says otherwise.
+For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. The section commands pre-set the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatch to the `paper-reviser` subagent. `revise`, `feedback`, `clarify`, `human`, and `polish` follow or, for `polish`, pin the `revision_stage` in your `<paper_context>`; `rebut` applies response-to-reviewers scope (pasting reviewer comments is itself a trigger in the skill) and tells you if your stored stage says otherwise, and `polish` likewise warns when the stored stage is not `final polish`. `consistency` is a whole-paper diagnosis only (no rewrite). `loop` is different in kind: it emits the staged whole-paper plan, then drives it one section at a time, calling the other commands and pausing at each author checkpoint, rather than running a single pass itself. See [the complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) for the steps it drives.
 
 | Command | What it does |
 |---------|--------------|
@@ -195,8 +324,11 @@ For predictable, one-shot invocation, the repo ships a `paper:` command namespac
 | `/paper:clarify` | Exposition pass: make the section clearer to a non-specialist. |
 | `/paper:human` | Narrative-spine plus AI-tell scrub: read more human, less LLM. |
 | `/paper:rebut` | Response-to-reviewers workflow: map comments, edit only flagged paragraphs. |
+| `/paper:polish` | Final-polish pass: sentence-level copyediting only, no restructuring. |
+| `/paper:consistency` | Whole-paper cross-section check (no rewrite): terminology, claim, and contribution drift, stale summaries. |
+| `/paper:loop` | Emits the staged whole-paper edit plan and drives it section by section, pausing at each author checkpoint. |
 
-Each takes the section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`.
+The section commands take a section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`. `/paper:consistency` and `/paper:loop` take the manuscript root or a list of section files; `/paper:loop` drives the [complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) above.
 
 Like the `paper-reviser` subagent, these commands are Claude-Code conveniences. Claude Code discovers commands under `.claude/commands/` and subagents under `.claude/agents/` (project level), or the same paths under `~/.claude/` (all projects). To use them in your own paper repo, copy the `paper/` directory to `<your-repo>/.claude/commands/paper/` and `paper-reviser.md` to `<your-repo>/.claude/agents/paper-reviser.md`; or copy them to `~/.claude/commands/paper/` and `~/.claude/agents/paper-reviser.md` to make them available in every project. Keep the `paper/` directory under `commands/`, since it is the subdirectory name that produces the `paper:` namespace. The skill itself stays the cross-tool source of truth and needs none of this.
 
@@ -211,7 +343,7 @@ When you ask an agent to "revise the introduction" or "respond to reviewer 2", t
 | `SKILL.md` | The skill itself (frontmatter + instructions) |
 | `references/` | Load-on-demand reference material, including reader-experience and research-paper copyediting checks |
 | `.claude/agents/paper-reviser.md` | Claude Code subagent that dispatches to the skill |
-| `.claude/commands/paper/` | Claude Code slash commands with preset triage (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`) |
+| `.claude/commands/paper/` | Claude Code slash commands: section passes (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`), the whole-paper `/paper:consistency` check, and the `/paper:loop` planner-driver |
 | `install.sh` | Installer, updater, uninstaller; supports `--ref`, `--version`, `--check` |
 | `scripts/` | Maintenance helpers: `check-version.sh`, `bump-version.sh`, `lint.sh` |
 | `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
