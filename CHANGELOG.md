@@ -3,6 +3,25 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.17.0] - 2026-06-28
+
+A narrative pass. The skill already made prose locally pleasurable (reader-pleasure) and stripped sentence-level AI tells, but it had no tool for the property that most separates human-written papers from LLM-drafted ones: a spine. A clean paper can still read as machine-written when it enumerates equally weighted points and announces that they matter. This release adds disciplined narrative structure and, just as important, bans the decorative storytelling that a naive "add a story" instruction produces, because that decoration is itself a top LLM tell.
+
+### Added
+
+- `references/narrative-spine.md`: a guide to the global through-line of a section. It defines the ABT spine (And, But, Therefore) with its two failure modes (AAA list rhythm, the LLM default; DHY tension overload), the OCAR arc (Opening, Challenge, Action, Resolution) with LD and LDR for shorter units, the knowledge gap as the engine that pulls a reader forward, characters and agency in the subject slot, protecting the turn, and showing stakes through consequence instead of announcing them. It carries an exemplar table (Olson, Schimel, Akerlof and Coase, Schelling and Hirschman, Gopen and Swan, McEnerney) mapping each source to a check, an anti-pattern list, stage boundaries, and rationale language. The reader-pleasure pass manages local momentum; this file manages the section-level through-line.
+- `references/ai-tells-to-avoid.md`: a "Storytelling tells (decorative narrative)" section that bans manufactured hooks ("Imagine a world where..."), scene-setting stakes openers ("In an era of..."), the journey or quest metaphor for research, anthropomorphized data ("the data tells a story"), and the dramatic reveal ("Enter X."), plus two new diagnostic-checklist lines. This is the half that keeps a narrative pass from making prose more LLM-like instead of less.
+
+### Changed
+
+- `SKILL.md`: a new **Narrative spine** editing principle between Reader experience and Copyediting, with a bad/good example and load triggers; a new trigger under "When to use this skill" for requests to make a paper read like a human wrote it or sound less LLM-like; the style-rules loader now names the storytelling-tell checklist; and the restraint checklist, preflight checks, read-cold pass, and change-rationale reasons now carry narrative items (a findable ABT spine, surfaced tension, stakes shown by consequence, no decorative storytelling tells).
+- `README.md`: the "What this skill does" pipeline now lists the narrative-spine pass, and the constraint summary adds "no manufactured hooks or anthropomorphized data".
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.17.0.
+
+### Rationale
+
+The instinct to fix LLM-flat prose by "adding storytelling" is half right and dangerous if taken literally. What reads as machine-written is the absence of a through-line: a setup, a tension, a turn, and a payoff carried by one question. That is structural, and it is what `narrative-spine.md` supplies through the ABT spine and the OCAR arc. The literal reading of "tell a story", by contrast, reaches for hooks, scene-setting, research-as-journey, and data that "tells a story", and those are themselves AI tells; adding them moves prose in the wrong direction. So the two halves ship together: add structure, ban decoration. The structural half also unifies rules the skill already had. Showing stakes through consequence rather than announcing them is the same discipline as the ban on importance-signaling verbs and promotional adjectives, seen from the story side; protecting the turn is the reader-pleasure pass's "useful surprise" raised to a structural duty; and putting characters in the subject slot is the character-action sentence from Williams. The pass is stage-bound: arc restructuring belongs to a first draft, while a final polish only surfaces an existing tension in the stress position and tightens the ABT of topic sentences already present. As with every pass, a narrative move that would need material the author did not write becomes an `Author questions` item, not an edit.
+
 ## [1.16.1] - 2026-06-28
 
 A consistency fix in the edit-check pass. The meta-rule on cutting read as a quota ("Default to a 20% cut", "When in doubt about whether to cut, cut"), which pulled against the main skill's rule to cut by the keep-test and never toward a target. On an already-tight section that bias risks removing load-bearing sentences just to approach 80%. The section now frames the 20% as an expectation to test, not a default action.
