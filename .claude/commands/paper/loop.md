@@ -51,30 +51,46 @@ scan the manuscript for sections, and return a plan with exactly these parts:
 5. **First command to run.**
 6. **Stop and repeat criteria** (the convergence rule in the last step).
 
-Present this and stop. Do not edit anything yet. Example shape:
+Present this and stop. Do not edit anything yet. The example diagnoses every
+section before any rewrite, so global problems (thesis, terminology) surface
+before a single edit is baked in:
 
 ```
 Detected revision_stage: first draft.
 Recommended loop:
-  1. /paper:feedback sections/intro.tex
-  2. Resolve Author questions
-  3. /paper:revise sections/intro.tex
-  4. If exposition gaps remain: /paper:clarify sections/intro.tex
-  5. If list rhythm or AI-flatness remains: /paper:human sections/intro.tex
-  6. Move to the next section
-  ...
-  Final step: rerun the abstract and introduction, then a final polish.
+  Phase 1, diagnose every section (feedback only, no rewriting):
+    /paper:feedback sections/abstract.tex
+    /paper:feedback sections/intro.tex
+    /paper:feedback sections/results.tex
+    ... (one per section)
+    Then resolve the Author questions collected across all sections.
+  Phase 2, rewrite section by section in the Step B order:
+    /paper:revise sections/abstract.tex
+    If exposition gaps remain: /paper:clarify sections/abstract.tex
+    If list rhythm or AI-flatness remains: /paper:human sections/abstract.tex
+    Resolve any new Author questions, re-run feedback, then move on.
+    ... (repeat per section)
+  Phase 3, validate and polish:
+    /paper:consistency paper.tex
+    Rerun the abstract and introduction, re-check consistency,
+    then /paper:polish each section.
 ```
 
 ## Step B: Recommended pass order
 
-Diagnose every section first (feedback only), then rewrite in this order, since
-the abstract and introduction are compressed versions of the whole paper and go
-stale once the body changes:
+Diagnose every section first (feedback only) and resolve the Author questions
+collected across all sections, then rewrite in this order:
 
 `abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion -> abstract again -> introduction again`
 
-Confirm the mapping onto the actual files with the author before editing.
+The abstract and introduction appear twice on purpose. The first pass sets the
+spine and contribution frame the body must serve; they are rewritten again at
+the end because they are compressed views of the whole paper and go stale once
+the body changes. Because that second pass lands after the Step D consistency
+check, Step E re-runs the consistency pass over the front matter so any drift the
+rerun introduces is caught before the sentence-only final polish, which cannot
+repair it. Confirm the mapping onto the actual files with the author before
+editing.
 
 ## Step C: Per-section loop (run for each section, in the Step B order)
 
@@ -82,23 +98,33 @@ Confirm the mapping onto the actual files with the author before editing.
 are second passes, run only when the diagnosis points to their specific problem,
 not on every section.
 
+The author checkpoint is recurring, not a single gate. Every pass below
+(`feedback`, `revise`, `clarify`, and `human`) can surface new `Author
+questions`, so after any pass that returns them, stop and resolve them before the
+next pass on this section or the move to the next section. The edits depend on
+the answers, so unresolved questions must not flow into a later pass.
+
 1. **Diagnose:** `feedback` on the section. Always first. Collect its `Author
    questions`.
 2. **Author checkpoint:** the author answers the `Author questions` and folds
    the answers into the source (the missing number, definition, example, or
    mechanism the skill is not allowed to invent). Do not proceed until they are
    resolved or explicitly deferred.
-3. **Rewrite:** `revise` for the full diagnose-then-rewrite pass.
+3. **Rewrite:** `revise` for the full diagnose-then-rewrite pass. Then stop at
+   the checkpoint and resolve any new `Author questions` it raised.
 4. **Clarify (only if needed):** `clarify` when the reader lacks definitions,
    intuition, motive, inferential bridges, concrete anchors, or paragraph
    payoff. Repeat only until the reader can state the question, the motive, each
    object's role, the evidence, and the payoff, or until the remaining issues
    are all `Author questions` needing new substance. Do not repeat it just to
-   make prose smoother.
+   make prose smoother. Resolve any new `Author questions` before continuing.
 5. **Humanize (only if needed):** `human` when the section is flat, list-like,
    or LLM-sounding. Repeat only if the section still has no findable turn; stop
    once it has a visible setup, tension, therefore-response spine. Add structure,
-   not decoration.
+   not decoration. Resolve any new `Author questions` before continuing.
+6. **Converge:** with every `Author question` for this section resolved or
+   deferred, re-run `feedback`. Move to the next section only when no structural
+   item remains and `Author questions` reads `None`.
 
 Reviewer-driven work uses `rebut` instead of this loop, edited only on the
 reviewer-flagged paragraphs and their immediate neighbours.
@@ -113,12 +139,18 @@ whether the abstract, introduction, methods, results, discussion, and conclusion
 describe the same paper. Resolve its `Author questions` and fold fixes back into
 the relevant sections.
 
-## Step E: Re-run abstract and introduction
+## Step E: Re-run abstract and introduction, then re-validate
 
 With the body stable, re-run `revise` on the abstract and the introduction so
 they reflect the final argument, emphasis, results, and contribution frame.
 Where a section lacks a memorable idea, the skill flags that as a structural gap
 rather than inventing a slogan; surface it to the author.
+
+This rerun can change contribution wording or result summaries after the Step D
+consistency check, so run `/paper:consistency` once more over the abstract and
+introduction against the body before polishing. The final polish in Step F is
+sentence-level only and cannot repair fresh cross-section drift, so any drift
+this rerun introduced must be caught and resolved here.
 
 ## Step F: Final polish (conservative)
 

@@ -8,9 +8,13 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 This is a paper-level consistency pass, not a section edit. Read every section
-named in `$ARGUMENTS` (treat paths as files to read; if `$ARGUMENTS` names a
-root or directory, scan it for the section files). If no manuscript is present,
-ask for it before proceeding.
+named in `$ARGUMENTS`. Treat paths as files to read. If `$ARGUMENTS` names a root
+or wrapper file (for example `paper.tex` or `main.tex`), do not stop at the
+wrapper: follow every `\input{...}` and `\include{...}` it pulls in, recursively,
+and also scan sibling section files (for example a `sections/` directory), so the
+abstract, results, and discussion are actually read rather than missed behind an
+include. If `$ARGUMENTS` names a directory, scan it for the section files. If no
+manuscript is present, ask for it before proceeding.
 
 Do not rewrite. Check whether the abstract, introduction, contribution claims,
 methods, results, discussion, and conclusion describe the same paper, and flag:
