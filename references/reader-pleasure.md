@@ -4,6 +4,17 @@ Use this file when the user asks whether the paper is enjoyable, compelling, ele
 
 A research paper is a pleasure to read when the reader always knows why the next sentence is worth reading. The goal is not charm, flourish, or a magazine voice. The goal is earned momentum: each sentence reduces effort, creates a question the next sentence answers, or delivers a payoff the section has prepared.
 
+A research paper is delightful when the reader feels their understanding growing sentence by sentence. That is the link to the exposition pass (`references/exposition.md`): pleasure and teaching are the same property felt from two sides. A delightful paragraph usually does at least one of these:
+
+- resolves a question the previous paragraph opened
+- gives a name to something the reader had only sensed
+- turns an abstract claim into a concrete mechanism
+- shows why a familiar assumption fails
+- lets a result change the reader's view of the problem
+- gives the reader a sentence they can repeat to explain the paper to someone else
+
+The last test matters most: if no sentence in the introduction is repeatable, the paper is hard to remember. Do not manufacture a quotable line; surface the one the paper already earns.
+
 ## Pleasure test
 
 Read the revised text cold and ask five questions.

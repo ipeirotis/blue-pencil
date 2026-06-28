@@ -1,13 +1,13 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.17.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.18.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A SKILL.md skill that turns Claude Code (and any other agent that reads `~/.agents/skills/`) into a top-tier academic editor. The skill diagnoses structural, stylistic, copyediting, and reader-experience problems first, then revises while preserving the author's voice, citations, math, and numerical claims.
 
 ## What this skill does
 
-When you ask an agent to "revise the introduction" or "respond to reviewer 2", the skill runs a disciplined diagnose-then-revise pipeline: load the paper context, triage the request, apply a section-specific diagnostic lens, run reader-experience, narrative-spine, and research-paper copyediting passes when prose quality matters, including exemplar-based technique checks, extract voice tics from the original prose, produce a rewrite, run a read-cold pass on the rewrite, check the length budget, and return a strict four-section output (Diagnosis, Revised text, Change rationale, Author questions). Numerical claims, citations, and analytical conclusions are never edited; changes to them come back as questions for you. No em-dashes, no banned transitions, no throat-clearing, no filler adjectives or importance-signaling verbs, no decorative flourish, no manufactured hooks or anthropomorphized data, and no change that is merely different rather than better.
+When you ask an agent to "revise the introduction" or "respond to reviewer 2", the skill runs a disciplined diagnose-then-revise pipeline: load the paper context, triage the request, apply a section-specific diagnostic lens, run exposition, reader-experience, narrative-spine, and research-paper copyediting passes when prose quality matters, including exemplar-based technique checks, extract voice tics from the original prose, produce a rewrite, run a read-cold pass on the rewrite, check the length budget, and return a strict four-section output (Diagnosis, Revised text, Change rationale, Author questions). The exposition pass makes the paper teach: it repairs missing definitions, skipped inferential steps, and machinery introduced before intuition, using only material already in the manuscript and flagging the rest as questions. Numerical claims, citations, and analytical conclusions are never edited; changes to them come back as questions for you. No em-dashes, no banned transitions, no throat-clearing, no filler adjectives or importance-signaling verbs, no decorative flourish, no manufactured hooks or anthropomorphized data, no explanatory bridge built from anything but material already in the manuscript, and no change that is merely different rather than better.
 
 ## Install
 
@@ -131,6 +131,9 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 | `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
 | `Makefile` | Thin wrapper over `install.sh` and `scripts/` |
 | `examples/worked-example.md` | A complete run of the skill: flawed draft in, four-section output out |
+| `examples/exposition-introduction.md` | Exposition run: an introduction that assumes the reader knows the gap |
+| `examples/exposition-methods.md` | Exposition run: a methods paragraph that opens on machinery |
+| `examples/exposition-results.md` | Exposition run: a results paragraph that reports numbers but no takeaway |
 | `examples/AGENTS.md.template` | Drop into a paper repo as `AGENTS.md` |
 | `examples/CLAUDE.md.template` | Drop into a paper repo as `CLAUDE.md` (bridge to AGENTS.md) |
 | `CHANGELOG.md`, `VERSION` | Release history and current version |
