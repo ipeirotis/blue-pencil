@@ -3,6 +3,24 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.21.0] - 2026-06-28
+
+A top-level orchestration layer. Until now every command operated on one section, one pass, one entry point, and an author doing a full edit had to infer the sequencing (which sub-command, in what order, when to repeat, when to stop) from the sub-commands themselves. This release makes the whole-paper loop explicit: a documented protocol and a command that drives it, built on the governing principle "diagnose globally, edit locally, validate globally, then polish conservatively."
+
+### Added
+
+- `.claude/commands/paper/full-edit.md`: a `/paper:full-edit` orchestrator. It does not rewrite the manuscript in one blind pass. It runs a ten-step protocol: initialize paper context, produce a whole-paper diagnostic plan with no rewriting, fix the section order (`introduction -> contribution framing -> method/setup -> results -> discussion/implications -> abstract -> title`, never abstract-first), run a per-section loop that calls `feedback` then conditionally `clarify`, `revise`, and `human`, stop at an author checkpoint for the `Author questions` after each section, repeat until an explicit convergence rule (no structural problems, no unexplained terms, no missing transitions, no unresolved author questions), then a cross-section consistency pass, a subtraction pass, a conservative final-polish pass run only after switching `revision_stage` to `final polish`, and a cold-reader simulation. It dispatches each per-section pass to the `paper-reviser` subagent and carries the skill's hard constraints (no em-dash, no silent change to numbers, citations, math, claims, or quotes) through every step.
+- `README.md`: a new user-facing "The full revision protocol (editing a whole paper)" section that documents the same ten steps for any agent, so the loop is followable by hand and not only through the Claude Code command. It states the stopping rule explicitly so the loop does not keep rewriting for cosmetic variation.
+
+### Changed
+
+- `README.md`: the `paper:` command table and the Structured-slash-commands prose now list `/paper:full-edit` and explain that it differs in kind from the five single-section commands (it orchestrates them one section at a time rather than running a single pass). The Quickstart hand-off line and the Files table point at the new protocol section and command.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.21.0.
+
+### Rationale
+
+The skill was strong per section but silent about the loop. Authors had the pieces (diagnose, clarify, revise, humanize, rebut) without a protocol telling them to diagnose the whole paper first, edit one section at a time to convergence, validate across sections, and only then polish. Encoding the loop once, as both prose and a command, removes that inference burden and gives the model an explicit stopping rule, while keeping every actual edit inside the existing single-section skill and its safety constraints.
+
 ## [1.20.0] - 2026-06-28
 
 A forced-extraction step for the exposition pass. The 1.18.0 exposition pass already set the reader model, the six-rung ladder, and the teaching-benefit rationale vocabulary, but the diagnosis-to-rewrite handoff still let a teaching gap be smoothed over with a thesaurus swap instead of repaired. This release makes the pass extract three things into the `Diagnosis` block before any rewrite is drafted, so the rewrite is structural by construction: it front-loads the buried idea, unpacks the jargon inline, and anchors the abstraction in something already on the page.

@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.20.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.21.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -69,7 +69,65 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
 
 4. **Read the four sections, then decide.** Skim the Diagnosis, compare the Revised text against your original, check the rationale for anything you disagree with, and answer the Author questions. You stay the author; the skill never has the last word on your claims.
 
-The rest of this README covers installation options, updating, and the internals.
+The rest of this README covers the full-paper protocol, installation options, updating, and the internals.
+
+## The full revision protocol (editing a whole paper)
+
+The Quickstart shows single-section requests. But a full edit of a paper is a
+*loop*, and which sub-command to run, in what order, and when to stop is not
+obvious from the commands alone. This is the explicit protocol. Claude Code
+users can run it as one command, `/paper:full-edit`, which orchestrates the loop
+and pauses at each author checkpoint; everyone else can follow the same steps by
+hand. The governing principle is **diagnose globally, edit locally, validate
+globally, then polish conservatively.**
+
+1. **Initialize paper context.** Run `install.sh --init` and define venue,
+   audience, thesis, and revision stage. Every pass below depends on these four
+   fields, and the revision stage is the master dial for how aggressive the edits
+   may be.
+2. **Whole-paper diagnostic pass, no rewriting.** Ask the agent to read the whole
+   manuscript and return a plan, not edits: what is the paper trying to say,
+   where does the reader get lost, and which sections need structural work,
+   exposition work, humanization, tightening, or only copyediting.
+3. **Section ordering.** Edit in this order, *not* abstract-first:
+   `introduction -> contribution framing -> method/setup -> results -> discussion/implications -> abstract -> title`.
+   The abstract and title come last, after the paper has stabilized, so they
+   describe the paper that now exists.
+4. **Per-section loop.** For each section, run the passes its diagnosis calls
+   for: `/paper:feedback` first (always), then `/paper:clarify` if the reader
+   needs help understanding it, then `/paper:revise` for the full rewrite, and
+   `/paper:human` if the prose still reads generic or LLM-like. A
+   copyediting-only section skips ahead to step 9. (Reviewer-driven edits use
+   `/paper:rebut` instead.)
+5. **Author decision checkpoint.** After each section, answer the `Author
+   questions` and accept or reject changes before the next rewrite. The skill is
+   built to never silently change claims, numbers, citations, math, or
+   conclusions, so this checkpoint is the gate.
+6. **Repeat until convergence.** Loop steps 4 and 5 until the diagnosis shows no
+   structural problems, no unexplained terms, no missing transitions, and no
+   unresolved author questions. Then stop. The explicit stopping rule keeps the
+   model from rewriting for cosmetic variation; when paragraphs start coming back
+   unchanged, the section has converged.
+7. **Cross-section consistency pass.** Once every section has converged, run one
+   whole-paper pass for terminology consistency, contribution consistency,
+   repeated claims, promise-delivery gaps, figure and table references, theorem
+   and result naming, citation placeholders, and whether the introduction
+   accurately previews the final paper.
+8. **Subtraction pass.** Tighten across the full manuscript: cut repetition,
+   throat-clearing, generic motivation, duplicated contribution statements, and
+   paragraphs that do not earn their space.
+9. **Final polish pass.** Only now switch the revision stage to `final polish`
+   and run sentence-level copyediting, conservatively: preserve structure,
+   claims, citations, math, and author voice.
+10. **Cold-reader simulation.** Final check: read the paper as a smart reviewer
+    seeing it for the first time, and note where you slow down, doubt a claim,
+    lose the thread, or feel oversold.
+
+`/paper:full-edit` is a Claude Code convenience like the other `paper:` commands;
+it needs the same one-time copy into your repo (see [Structured slash
+commands](#structured-slash-commands-claude-code)). The skill itself stays the
+cross-tool source of truth, so the ten steps above work in any agent that reads
+the skill, run by hand.
 
 ## Install
 
@@ -186,7 +244,7 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 
 ### Structured slash commands (Claude Code)
 
-For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. Each command pre-sets the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatches to the `paper-reviser` subagent. `revise`, `feedback`, `clarify`, and `human` follow the `revision_stage` in your `<paper_context>`; `rebut` applies response-to-reviewers scope (pasting reviewer comments is itself a trigger in the skill) and tells you if your stored stage says otherwise.
+For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. The first five are single-section commands: each pre-sets the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatches to the `paper-reviser` subagent. `revise`, `feedback`, `clarify`, and `human` follow the `revision_stage` in your `<paper_context>`; `rebut` applies response-to-reviewers scope (pasting reviewer comments is itself a trigger in the skill) and tells you if your stored stage says otherwise. `full-edit` is different in kind: it orchestrates the whole-paper protocol, calling the single-section commands one section at a time and pausing at each author checkpoint, rather than running a single pass itself. See [The full revision protocol](#the-full-revision-protocol-editing-a-whole-paper) for the ten steps it drives.
 
 | Command | What it does |
 |---------|--------------|
@@ -195,8 +253,9 @@ For predictable, one-shot invocation, the repo ships a `paper:` command namespac
 | `/paper:clarify` | Exposition pass: make the section clearer to a non-specialist. |
 | `/paper:human` | Narrative-spine plus AI-tell scrub: read more human, less LLM. |
 | `/paper:rebut` | Response-to-reviewers workflow: map comments, edit only flagged paragraphs. |
+| `/paper:full-edit` | Orchestrates the whole-paper revision protocol: global diagnosis, a section-by-section loop, cross-section validation, then a conservative polish. |
 
-Each takes the section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`.
+The first five take a section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`. `/paper:full-edit` takes the manuscript root or a list of section files, and drives the [full revision protocol](#the-full-revision-protocol-editing-a-whole-paper) below.
 
 Like the `paper-reviser` subagent, these commands are Claude-Code conveniences. Claude Code discovers commands under `.claude/commands/` and subagents under `.claude/agents/` (project level), or the same paths under `~/.claude/` (all projects). To use them in your own paper repo, copy the `paper/` directory to `<your-repo>/.claude/commands/paper/` and `paper-reviser.md` to `<your-repo>/.claude/agents/paper-reviser.md`; or copy them to `~/.claude/commands/paper/` and `~/.claude/agents/paper-reviser.md` to make them available in every project. Keep the `paper/` directory under `commands/`, since it is the subdirectory name that produces the `paper:` namespace. The skill itself stays the cross-tool source of truth and needs none of this.
 
@@ -211,7 +270,7 @@ When you ask an agent to "revise the introduction" or "respond to reviewer 2", t
 | `SKILL.md` | The skill itself (frontmatter + instructions) |
 | `references/` | Load-on-demand reference material, including reader-experience and research-paper copyediting checks |
 | `.claude/agents/paper-reviser.md` | Claude Code subagent that dispatches to the skill |
-| `.claude/commands/paper/` | Claude Code slash commands with preset triage (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`) |
+| `.claude/commands/paper/` | Claude Code slash commands with preset triage (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`) plus the `/paper:full-edit` whole-paper orchestrator |
 | `install.sh` | Installer, updater, uninstaller; supports `--ref`, `--version`, `--check` |
 | `scripts/` | Maintenance helpers: `check-version.sh`, `bump-version.sh`, `lint.sh` |
 | `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
