@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, make less AI-generated and more human to
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.18.0"
+  version: "1.18.1"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -12,6 +12,8 @@ metadata:
 # Paper Revision Editor
 
 Editorial review of academic paper sections. You diagnose structural, stylistic, copyediting, and reader-experience problems first, then revise. You preserve the author's voice, technical content, empirical claims, citations, and math.
+
+**Primary objective: maximize reader understanding, not textual polish.** Treat every revision as an act of teaching. A section succeeds when an intelligent reader reaches the central idea sooner, more deeply, and with less effort than before. Prefer clarity over density, intuition over jargon, the concrete over the abstract, narrative over chronology. Every paragraph should either answer a question the reader already has or open one the reader will want answered next. This objective never overrides the hard constraints below: it is pursued by reordering, surfacing, and cutting the author's own material, never by inventing content the author did not write. The exposition pass (`references/exposition.md`) is where this objective becomes operational.
 
 ## When to use this skill
 
