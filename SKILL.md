@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, make less AI-generated and more human to
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.17.0"
+  version: "1.18.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -20,6 +20,7 @@ Trigger when the user:
 - Asks you to revise, polish, copy-edit, line-edit, tighten, or improve the writing of a paper section.
 - Asks whether a paper or section is enjoyable, compelling, elegant, readable, or a pleasure to read.
 - Asks to make a paper read like a human wrote it, sound less AI-generated or less LLM-like, or tell a story.
+- Asks to make a section clearer to non-specialists, more educational, more readable, or easier to understand.
 - Asks for editorial or structural feedback, or whether a section "flows".
 - Asks for help responding to reviewer comments on a paper.
 - Opens or pastes an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) and signals they want revision.
@@ -31,7 +32,7 @@ Do not trigger when the user:
 - Asks general writing questions ("what is active voice?", "explain nominalization").
 - Asks about citation formatting, BibTeX, reference management, or LaTeX compilation.
 - Wants mechanical proofreading only, such as a typo list with no rewrite, no line edit, and no research-paper copyediting judgment.
-- Wants new content drafted from outlines or notes. This skill edits existing prose; it does not draft new sections.
+- Wants new content drafted from outlines or notes. This skill edits existing prose; it does not draft new sections. It may add short explanatory bridges, definitions, or reader-orientation sentences when the needed material is already present in the supplied manuscript, but if a bridge would require new substance (a claim, example, mechanism, or implication the manuscript does not contain), it flags that in `Author questions` instead of writing it.
 - Is editing non-academic writing (blogs, marketing copy, fiction).
 
 ## Before you start: load paper context
@@ -102,6 +103,17 @@ Distinguish claims, evidence, and interpretation. Calibrate confidence to the ev
 
 Bad: "Our crucial finding shows the method is significantly better."
 Good: "The method outperforms baseline B by 12 points on the held-out set; we attribute the gain to the regulariser introduced in Section 3."
+
+### Exposition and reader education
+
+A research paper educates when it gives the reader a usable mental model, not just a sequence of correct claims. Assume the reader is intelligent and trained in the broad venue area, but not already expert in this paper's exact topic, dataset, method, or theoretical frame. Before polishing a paragraph, ask what the reader knows at the start, what the paragraph asks them to learn, and what they should be able to say after reading it. If the inferential bridge is missing, do not hide the gap with smoother prose: repair the bridge when the needed material is already present, otherwise flag it in `Author questions`. This is the cure for Pinker's curse of knowledge (`references/principles.md`): the author skips the steps they have internalised, and the fix is to restore them, not to write down to the reader.
+
+Use the reader ladder, low rungs first: (1) name the question before the machinery; (2) give the simplest version before the full technical version; (3) define terms at first serious use; (4) introduce one new conceptual object at a time; (5) pair each abstraction with a concrete anchor already present in the manuscript (an example, dataset feature, mechanism, figure, failure case, or measured consequence); (6) end each paragraph with what the reader now understands, not with procedure. For abstracts, introductions, conclusions, and contribution paragraphs, also name the paper's memorable idea, the phrase a reader will use to describe it; if the paper has only a topic, a method, or a numbered contribution list, flag that in `Diagnosis` as a structural gap rather than inventing a slogan.
+
+Load `references/exposition.md` for abstracts, introductions, theory sections, methods sections with unfamiliar machinery, and any request to make the paper clearer to non-specialists, more educational, more readable, or easier to understand.
+
+Bad: "We leverage heterogeneity in platform responses to identify the effect."
+Good: "Platforms do not respond to every review in the same way. That variation lets us compare otherwise similar reviews that received different platform treatment, which is the source of identification."
 
 ### Paragraph craft
 
@@ -178,7 +190,7 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 
 - Topic sentence in the first two sentences.
 - Coherent topic string across consecutive sentences.
-- The local question or purpose is visible before technical machinery arrives.
+- The local question or purpose is visible before technical machinery arrives, and no key term, construct, or dataset is used before the reader knows its role.
 - Stress position carries the most important word, not a citation or parenthetical.
 - No banned transition, banned hedging phrase, banned promotional adjective, em-dash, or other tell from `references/ai-tells-to-avoid.md`.
 - No storytelling decoration (manufactured hook, journey metaphor, anthropomorphized data), and the paragraph carries a visible tension or question rather than a flat enumeration of equal points.
@@ -202,6 +214,9 @@ Run this checklist before sending the final answer:
 - Every diagnosis item references a concrete paragraph index or stable label.
 - No protected content changed (numbers, citations, math, cross-references, macros, quotes).
 - Reader-experience checks have been run for orientation, momentum, payoff, rhythm, concrete anchors, and useful surprise.
+- Reader-transformation check: after reading the revised section cold, a smart non-specialist in the venue area can answer what the question is, why it is hard, what the paper does, what was learned, and why it should change how the reader thinks.
+- Definition-debt check: no key term, construct, dataset, model, treatment, or mechanism is used before the reader knows its role.
+- Machinery-before-motive check: no formalism, method detail, regression specification, or algorithm appears before the reader knows why it is needed.
 - On a narrative or whole-section pass, the section has a findable spine (one ABT) and its tension is surfaced rather than smoothed; on any pass, confirm no decorative storytelling tells were introduced.
 - Copyediting consistency checks have been run for terminology, abbreviations, capitalization, hyphenation, units, punctuation, tense, and parallelism.
 - Requested scope is respected.
@@ -221,7 +236,7 @@ Always produce these four sections, in this order, with these exact headings. Fo
 
 ### 1. Diagnosis
 
-For a whole-section rewrite or a first-draft pass, open with one `Voice tics:` line listing three to five tics. Skip the line for single-paragraph requests and final-polish passes.
+For a whole-section rewrite or a first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines for single-paragraph requests and final-polish passes.
 
 Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items. Order by category (structure first, sentence-level last).
 
@@ -233,16 +248,17 @@ The revised section in a single fenced block. No commentary inside the block. If
 
 Open with `Word count: <before> to <after> (<signed percent change>).` If the rewrite grew, add a one-line justification on the next line.
 
-Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, surfaced tension, an opened knowledge gap, an ABT spine in place of a list, stakes shown by consequence, a character in the subject slot, restored contrast, varied rhythm, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
+Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, surfaced tension, an opened knowledge gap, an ABT spine in place of a list, stakes shown by consequence, a character in the subject slot, restored contrast, varied rhythm, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. For an exposition edit, name the teaching benefit: a restored inference, a term defined at first serious use, role before name, question before machinery, a concrete anchor from existing material, two stacked concepts separated, an explicit reader payoff, an abstract claim translated into its mechanism, or an exposed contrast with prior work. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 
 ### 4. Author questions
 
-Bulleted list. Each item is one unverifiable claim, missing evidence, numerical-claim change you flagged, terminology ambiguity, consistency risk, missing concrete anchor, unclear reader payoff, or logical gap, phrased as a question. End every item with a question mark. If there are none, write `None.`
+Bulleted list. Each item is one unverifiable claim, missing evidence, numerical-claim change you flagged, terminology ambiguity, consistency risk, missing concrete anchor, unclear reader payoff, or logical gap, phrased as a question. Teaching gaps belong here too when the manuscript lacks the material to fix them in prose: a missing definition, missing intuition, missing example, missing mechanism, missing contrast with prior work, missing explanation of why the problem is hard, or missing reader takeaway. End every item with a question mark. If there are none, write `None.`
 
 ## Examples
 
 - "Can you take a look at the introduction and see if it flows?" -> trigger; load paper context, apply the full diagnostic lens, return the four-section output.
 - "Can you make this section a pleasure to read?" -> trigger; run the reader-experience pass after the logic checks, then revise without decorative flourish.
+- "Make my introduction clearer for a non-specialist; it assumes too much." -> trigger; load `references/exposition.md`, run the exposition pass after argumentation, repair missing definitions and inferential bridges from material already present, and flag the rest in Author questions.
 - "Just fix the typos in section 3." -> do not trigger; this is mechanical proofreading, not a research-paper copyedit.
 - "Reviewer 2 says my methodology is unclear." -> trigger; load `revision_stage: response to reviewers`, apply the methodology lens, preserve analytical decisions.
 - "Write me a discussion section based on these results." -> do not trigger; this skill edits existing prose, it does not draft new sections.

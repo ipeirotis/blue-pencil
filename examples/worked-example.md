@@ -69,6 +69,11 @@ Voice tics: first-person plural for the authors' own work; author-year
 citations grouped in one parenthetical; effects stated as concrete numbers
 (the 5-9% figure, the 1.2 million reviews).
 
+Reader map: starts with knowing that online reviews move sales; must learn
+that who wrote the review, not just the star rating, changes how much it moves
+sales; should leave seeing reviewer identity as a lever a platform can act on,
+not just metadata.
+
 1. [P1] The paragraph opens with throat-clearing and a generic platitude; the
    reader does not see the paper's actual question until the final sentence.
 2. [P1] Three bolted-on transitions (Furthermore, Moreover, Crucially) carry

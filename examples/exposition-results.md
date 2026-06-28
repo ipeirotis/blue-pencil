@@ -1,0 +1,148 @@
+# Exposition example: results
+
+A results paragraph that reports numbers but never says what the reader learns from
+them. The estimates are all there and every figure reference is correct, but the
+paragraph reads as a table narrated aloud: it never leads with the claim or closes
+on the consequence. The exposition pass reorders each result into claim, then
+evidence, then what it teaches, without touching a single number. The output follows
+the strict four-section format in `SKILL.md`.
+
+## Scenario
+
+```
+<paper_context>
+target_venue: Information Systems Research
+audience: empirical IS researchers
+core_thesis: A reviewer's identity, not just the rating, shapes how much an online review moves sales.
+revision_stage: first draft
+</paper_context>
+```
+
+The request:
+
+> My results paragraph is accurate but feels flat. Can you make it land?
+
+## Input
+
+```
+Table 3 reports the estimates. The coefficient on the identity-disclosed indicator
+is 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,
+the coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09
+(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across
+all specifications. R-squared rises from 0.31 to 0.47 across the columns. All
+coefficients are significant at the 1% level except the interaction, which is
+significant at the 5% level.
+```
+
+## Triage
+
+> Scope: direct rewrite. Unit: the one results paragraph you pasted. Aggressiveness:
+> stage is `first draft`, so I will reorder each result to lead with the claim and
+> close on what it shows, while carrying every number over verbatim. Proceeding on
+> that basis.
+
+## Skill output
+
+### 1. Diagnosis
+
+Voice tics: estimates reported with standard errors in parentheses; results keyed to
+specific table columns; star rating used as the reference effect.
+
+Reader map: starts with knowing the regression was run; must learn that disclosed
+reviewer identity moves sales on its own and survives controls, and that it adds to
+the rating rather than just proxying for it; should leave able to say identity is a
+second lever on sales, smaller than the rating but real.
+
+1. [P1] Payoff inversion: every sentence leads with the table location or the
+   coefficient and never with the claim the number supports. The reader assembles
+   the finding instead of being handed it.
+2. [P1] No reader takeaway: the paragraph ends on R-squared and a significance
+   footnote, the two facts that teach the reader least, rather than on what the
+   identity effect means relative to the rating.
+3. [P1] Compressed inference: the move from column 2 to column 3 (adding product
+   fixed effects) is reported as two numbers with no statement that the effect
+   barely changes, which is the point of running the second specification.
+4. [P1] Missing contrast carried by an existing number: the star-rating coefficient
+   (0.42) sits in the list as one more estimate, when it is the natural yardstick
+   that tells the reader how big the 0.18 identity effect is.
+
+### 2. Revised text
+
+```
+Disclosing who wrote a review moves sales on its own, not just through the rating it
+carries. When a reviewer's identity is shown, sales rise by 0.18 (SE = 0.04, column
+2). The effect is not an artefact of which products attract identified reviewers:
+adding product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05). It
+also grows with the reviewer: the interaction with reviewer tenure is 0.09 (SE =
+0.03, column 4), so a disclosed identity counts for more when the reviewer has a
+longer track record. To gauge the size of these effects, the star rating itself
+carries a coefficient of 0.42 (SE = 0.02) across all specifications: identity is a
+second lever on sales, smaller than the rating but the same kind of thing. All
+coefficients are significant at the 1% level except the tenure interaction, which is
+significant at the 5% level, and R-squared rises from 0.31 to 0.47 across the
+columns.
+```
+
+### 3. Change rationale
+
+Word count: 86 to 128 (+49%). The rewrite is longer because each bare estimate gains
+a leading claim and a closing consequence; no number, standard error, column
+reference, or significance level was added, removed, or altered. Flagged under the
+length budget. Every numerical claim is carried over verbatim per constraint 6.
+
+"Table 3 reports the estimates. The coefficient on the identity-disclosed indicator
+is 0.18 (SE = 0.04) in column 2." -> "Disclosing who wrote a review moves sales on
+its own, not just through the rating it carries. When a reviewer's identity is
+shown, sales rise by 0.18 (SE = 0.04, column 2).", led with the claim, then the
+evidence; the number and its standard error are unchanged.
+
+"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE =
+0.05)." -> "The effect is not an artefact of which products attract identified
+reviewers: adding product fixed effects in column 3 barely moves it, to 0.15 (SE =
+0.05).", restored the missing inference: said what the second specification rules out
+and that the effect survives it, which the bare two-number report left for the
+reader to infer.
+
+"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4." -> "It also
+grows with the reviewer: the interaction with reviewer tenure is 0.09 (SE = 0.03,
+column 4), so a disclosed identity counts for more when the reviewer has a longer
+track record.", added the reader takeaway the interaction encodes.
+
+"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications." ->
+"To gauge the size of these effects, the star rating itself carries a coefficient of
+0.42 (SE = 0.02) across all specifications: identity is a second lever on sales,
+smaller than the rating but the same kind of thing.", turned an orphan number into
+the yardstick that anchors the identity effect's size, using the rating coefficient
+already in the paragraph.
+
+"R-squared rises from 0.31 to 0.47 across the columns. All coefficients are
+significant ..." -> moved to the end and demoted below the substantive results, so
+the paragraph lands on what the effects mean rather than on fit and significance
+footnotes.
+
+### 4. Author questions
+
+- The rewrite reads 0.18 as "sales rise by 0.18". In what units is the outcome
+  (log sales, units, a standardised measure)? I kept the number but described its
+  direction; the phrasing should match the scale.
+- I described the star-rating coefficient as a yardstick for the identity effect.
+  Are identity disclosure and star rating on comparable scales, so that 0.18 versus
+  0.42 is a fair size comparison, or would that mislead the reader?
+- Is "disclosed identity counts for more when the reviewer has a longer track
+  record" the reading you want for the tenure interaction, or do you interpret it
+  differently?
+
+## What this demonstrates
+
+- **Claim, then evidence, then teaching.** Each result now opens on the claim the
+  number supports and closes on what it shows, the structure a results paragraph
+  owes the reader.
+- **Numbers untouched.** Every coefficient, standard error, column reference, and
+  significance level is carried over verbatim; the exposition pass reorders the
+  prose around the numbers, never the numbers.
+- **Existing numbers made to teach.** The star-rating coefficient already in the
+  draft becomes the yardstick that tells the reader how big the identity effect is,
+  without importing anything new.
+- **Interpretations flagged.** The size comparison and the tenure reading are raised
+  for the author, because an exposition edit may foreground a number already present
+  but must not assert an interpretation the author has not endorsed.
