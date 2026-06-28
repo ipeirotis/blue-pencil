@@ -83,6 +83,13 @@ collected across all sections, then rewrite in this order:
 
 `abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion`
 
+This order is a template for the canonical sections. Insert every other section
+Step A detected (for example Background, Experiments, Limitations, an Appendix)
+at its reading-order position, so the loop rewrites each detected file. The stop
+condition in Step G is not satisfied while any detected section is still
+unprocessed; do not skip a detected section just because it is not one of the
+seven labels above.
+
 The abstract and introduction are edited twice across the loop, but each pass
 appears exactly once in the steps so the driver never double-runs them. This
 first pass (here, at the front of the order) sets the spine and contribution
@@ -124,9 +131,13 @@ the answers, so unresolved questions must not flow into a later pass.
    or LLM-sounding. Repeat only if the section still has no findable turn; stop
    once it has a visible setup, tension, therefore-response spine. Add structure,
    not decoration. Resolve any new `Author questions` before continuing.
-6. **Converge:** with every `Author question` for this section resolved or
-   deferred, re-run `feedback`. Move to the next section only when no structural
-   item remains and `Author questions` reads `None`.
+6. **Converge:** re-run `feedback`, and move to the next section when no
+   structural item remains and every `Author question` is either resolved or
+   explicitly deferred. Record each deferral in the manuscript (for example as a
+   short `% TODO` comment at the relevant spot) and treat it as cleared for
+   progression, so a later `feedback` re-reporting the same open question does not
+   trap the loop on this section. Convergence requires the structural items to be
+   gone, not the deferred questions.
 
 Reviewer-driven work uses `rebut` instead of this loop, edited only on the
 reviewer-flagged paragraphs and their immediate neighbours.

@@ -8,13 +8,22 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 This is a paper-level consistency pass, not a section edit. Read every section
-named in `$ARGUMENTS`. Treat paths as files to read. If `$ARGUMENTS` names a root
-or wrapper file (for example `paper.tex` or `main.tex`), do not stop at the
-wrapper: follow every `\input{...}` and `\include{...}` it pulls in, recursively,
-and also scan sibling section files (for example a `sections/` directory), so the
-abstract, results, and discussion are actually read rather than missed behind an
-include. If `$ARGUMENTS` names a directory, scan it for the section files. If no
-manuscript is present, ask for it before proceeding.
+named in `$ARGUMENTS`. Treat paths as files to read. Choose the file set by what
+`$ARGUMENTS` is:
+
+- **A root or wrapper file** (for example `paper.tex` or `main.tex`): follow its
+  `\input{...}` and `\include{...}` graph recursively and check exactly the files
+  that graph reaches. That graph is the paper. Do not also sweep in sibling files
+  the wrapper does not include: a repo often holds `sections/old_results.tex`,
+  abandoned drafts, or supplementary fragments, and checking those produces false
+  claim-drift and stale-summary findings.
+- **A directory**: scan it for the section files; here a broad scan is what the
+  author asked for.
+- **A wrapper with no resolvable includes** (or includes you cannot locate): say
+  so, then ask the author which files are in scope rather than guessing from a
+  broad sibling scan.
+
+If no manuscript is present, ask for it before proceeding.
 
 Do not rewrite. Check whether the abstract, introduction, contribution claims,
 methods, results, discussion, and conclusion describe the same paper, and flag:

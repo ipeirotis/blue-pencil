@@ -77,11 +77,19 @@ The Quickstart shows single-section requests. A full edit of a paper is a
 *loop*, not a one-shot rewrite, and which sub-command to run, in what order, and
 when to stop is not obvious from the commands alone. The governing principle is
 **diagnose globally, edit locally, validate globally, then polish
-conservatively.** Run the steps below by hand in any agent that reads the skill,
-or, in Claude Code, run `/paper:loop` to have the agent emit this plan for your
-paper (with the sections detected and the first command filled in) and walk it
-with you, pausing at each author checkpoint. `/paper:loop` plans and drives the
-loop; the skill stays the source of truth for every actual edit.
+conservatively.** Run the steps below by hand in any agent that reads the skill
+(no command setup needed), or, in Claude Code, run `/paper:loop` to have the
+agent emit this plan for your paper (with the sections detected and the first
+command filled in) and walk it with you, pausing at each author checkpoint.
+`/paper:loop` plans and drives the loop; the skill stays the source of truth for
+every actual edit.
+
+Note that `/paper:loop` and the other `paper:` slash commands it calls are not
+registered by the standard install; they need the one-time copy into
+`.claude/commands/` described in [Structured slash
+commands](#structured-slash-commands-claude-code). Until you do that copy, follow
+the steps by hand with the plain-English prompts (for example "give me editorial
+feedback on `sections/intro.tex`") instead of the slash commands.
 
 ### Step 0: Set context
 
