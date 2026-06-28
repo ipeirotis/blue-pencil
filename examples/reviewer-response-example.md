@@ -107,12 +107,12 @@ those who do not in ways that also affect revenue.
 
 [P2] Identification requires that the timing of the badge rollout move seller
 revenue only through badge receipt. We instrument badge receipt with the rollout
-date of the badge program in a seller's primary category, which the platform
-rolled out on a staggered schedule. That schedule was set by the platform's
-engineering capacity, allocated by team availability, which is plausibly
-unrelated to category-level revenue trends. Rollout timing is therefore
-plausibly unrelated to those trends, which is what the exclusion restriction
-needs.
+date of the badge program in a seller's primary category. The platform rolled
+out that program on a staggered schedule. That schedule was set by the
+platform's engineering capacity, allocated by team availability, which is
+plausibly unrelated to category-level revenue trends. Rollout timing is
+therefore plausibly unrelated to those trends, which is what the exclusion
+restriction needs.
 
 [P3] We estimate a two-stage least squares model with seller and quarter fixed
 effects, clustering standard errors at the category level.
@@ -127,7 +127,7 @@ reported in Appendix C. Moreover, we find no evidence of pre-trends.
 
 ### 3. Change rationale
 
-Word count: 177 to 197 (+11%). Longer because the one substantive edit (P2)
+Word count: 177 to 198 (+12%). Longer because the one substantive edit (P2)
 surfaces an argument the draft had compressed into trailing clauses; addressing
 R2.1 legitimately adds words to the flagged paragraph while the rest of the
 section is unchanged.
