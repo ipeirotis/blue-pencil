@@ -1,5 +1,5 @@
 ---
-description: Final-polish a paper section with the paper-revision-editor skill: sentence-level copyediting only, no restructuring.
+description: "Final-polish a paper section with the paper-revision-editor skill: sentence-level copyediting only, no restructuring."
 argument-hint: "[section file path, or paste the section text]"
 ---
 

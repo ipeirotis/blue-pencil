@@ -1,5 +1,5 @@
 ---
-description: Drive the whole-paper revision loop with the paper-revision-editor skill: emit a staged edit plan first, then process sections one at a time with author checkpoints. Diagnose globally, edit locally, validate globally, polish conservatively.
+description: "Drive the whole-paper revision loop with the paper-revision-editor skill: emit a staged edit plan first, then process sections one at a time with author checkpoints. Diagnose globally, edit locally, validate globally, polish conservatively."
 argument-hint: "[manuscript root dir, or a list of section files in reading order]"
 ---
 
