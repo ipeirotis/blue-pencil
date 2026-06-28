@@ -53,6 +53,22 @@ reviewer identity moves sales on its own and survives controls, and that it adds
 the rating rather than just proxying for it; should leave able to say identity is a
 second lever on sales alongside the rating, not just metadata.
 
+Jargon to unpack: "product fixed effects", reported as a column change before the
+reader is told what they absorb (stable differences between products), with the
+specific confound they are meant to address left to Author questions rather than
+asserted in the Diagnosis.
+
+Buried lede: disclosed reviewer identity moves sales on its own (0.18), survives
+product controls, and sits alongside the star-rating effect (0.42) as a second lever
+on sales, not a proxy for the rating. Both coefficients are carried over verbatim; the
+rewrite places them side by side without computing a ratio the manuscript does not
+state.
+
+Concrete anchor: the star-rating coefficient (0.42) already in the table, which the
+rewrite places next to the 0.18 identity coefficient as a reference point, leaving
+whether the two are on comparable scales (and so whether their sizes can be compared)
+to Author questions.
+
 1. [P1] Payoff inversion: every sentence leads with the table location or the
    coefficient and never with the claim the number supports. The reader assembles
    the finding instead of being handed it.

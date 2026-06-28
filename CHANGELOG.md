@@ -3,6 +3,25 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.20.0] - 2026-06-28
+
+A forced-extraction step for the exposition pass. The 1.18.0 exposition pass already set the reader model, the six-rung ladder, and the teaching-benefit rationale vocabulary, but the diagnosis-to-rewrite handoff still let a teaching gap be smoothed over with a thesaurus swap instead of repaired. This release makes the pass extract three things into the `Diagnosis` block before any rewrite is drafted, so the rewrite is structural by construction: it front-loads the buried idea, unpacks the jargon inline, and anchors the abstraction in something already on the page.
+
+### Added
+
+- `references/exposition.md`: a **Forced extraction before the rewrite** section. When the exposition pass surfaces any teaching gap (any ladder or common failure, for example definition debt, compressed inference, machinery before motive, expert-only contrast, abstract stack, concept overload, an unanchored abstraction, or a buried or missing payoff) or the request is to make the section clearer to non-specialists, more educational, more readable, or easier to understand, the editor extracts three grounded handles first: `Jargon to unpack` (one to three terms to define inline, or `none` when the gap is non-terminological), `Buried lede` (the most useful idea the prose suffocates, front-loaded in the rewrite), and `Concrete anchor` (the example, dataset feature, mechanism, figure, or number that makes the abstraction tangible). The section names the educator's lens behind the three: find the single hardest concept for an outsider (jargon and lede locate it), then build the bridge to it (the anchor), and write to teach the reader rather than to prove the author's command of the field.
+
+### Changed
+
+- `SKILL.md`: the Diagnosis output format now adds the three extraction lines (`Jargon to unpack:`, `Buried lede:`, `Concrete anchor:`) whenever the exposition pass surfaces a teaching gap or the request is to make the section clearer to non-specialists, more educational, more readable, or easier to understand. They are placed after `Reader map:` when present, otherwise at the top of the Diagnosis block; each is grounded only in material already in the manuscript, any line may read `none`, and when all three are `none` and the passage clears the restraint checks it is returned verbatim. The step is excluded at `final polish`, where the stage forbids restructuring.
+- `examples/exposition-introduction.md`, `examples/exposition-methods.md`, `examples/exposition-results.md`: each Diagnosis now carries the three extraction lines, grounded in the draft each example already contains (cohort-level moderation as the identification source, both never-treated and not-yet-treated staggered controls, the star-rating coefficient as a yardstick without deriving a ratio), so the examples stay valid quality anchors under the new output contract.
+- `references/ai-tells-to-avoid.md`: the "leverage" tell and its checklist item now also cover "utilize" / "utilizes" / "utilizing" used where "use" would do.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.20.0.
+
+### Rationale
+
+The exposition pass diagnoses well, but a strong line editor can satisfy a diagnosis item with a smoother sentence that still hides the missing step. Forcing the editor to name the buried lede, the jargon, and the concrete anchor before writing converts the diagnosis into a structural rewrite: there is a specific idea to front-load, a specific term to define, and a specific anchor to reach for, so the rewrite cannot collapse into a polite synonym swap. The three stay inside the existing safety boundary, each must come from material already on the page, and anything the manuscript lacks becomes an `Author questions` item rather than an invented example or definition. The step is scoped to the exposition pass and excluded at `final polish`, so flow-only and final-polish passes keep their lean Diagnosis header.
+
 ## [1.19.0] - 2026-06-28
 
 A usability and coverage pass. The skill's behaviour did not change; what changed is how easy it is to invoke deliberately and how well the examples cover the skill's harder-to-get-right modes. Two behaviours that the skill describes at length but never demonstrated, returning strong prose nearly untouched and working a response-to-reviewers edit, now have full worked examples, and a `paper:` slash-command namespace gives Claude Code users predictable one-shot entry points that pre-set the triage.
