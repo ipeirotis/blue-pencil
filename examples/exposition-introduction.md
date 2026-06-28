@@ -61,8 +61,8 @@ the design's load-bearing terms before the reader is told, in plain words, why
 moderation differing across review cohorts would isolate the effect.
 
 Buried lede: uneven platform moderation, normally a nuisance, is exactly what lets
-the paper compare otherwise similar reviews and identify the causal effect of
-valence on sales.
+the paper compare otherwise similar reviews that fall into differently moderated
+cohorts and identify the causal effect of valence on sales.
 
 Concrete anchor: platforms applying moderation differently across review cohorts,
 already in the draft, which the rewrite turns into the picture of otherwise similar
