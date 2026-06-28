@@ -102,7 +102,10 @@ find the single hardest concept for an outsider to grasp (the jargon and the bur
 lede locate it), then build the cognitive bridge to it (the concrete anchor is the
 bridge). Write to teach the reader, not to prove the author's command of the field.
 These three lines do not replace the diagnosis items; they precede the rewrite and
-the items still follow.
+the items still follow. One set captures the section's primary teaching gap; when a
+whole-section pass has several paragraphs with distinct gaps, repeat the set per
+affected paragraph with a paragraph label so each diagnosed gap gets the structural
+handoff rather than falling back to sentence polish.
 
 ## Common failures
 

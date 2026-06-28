@@ -65,8 +65,9 @@ rewrite places them side by side without computing a ratio the manuscript does n
 state.
 
 Concrete anchor: the star-rating coefficient (0.42) already in the table, which the
-rewrite uses as the yardstick that tells the reader how large the 0.18 identity
-effect is.
+rewrite places next to the 0.18 identity coefficient as a reference point, leaving
+whether the two are on comparable scales (and so whether their sizes can be compared)
+to Author questions.
 
 1. [P1] Payoff inversion: every sentence leads with the table location or the
    coefficient and never with the claim the number supports. The reader assembles
