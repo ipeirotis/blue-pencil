@@ -2,8 +2,9 @@
 
 Load this file when a section must teach an idea, not merely report it: abstracts,
 introductions, theory and conceptual-framework sections, methods that carry
-unfamiliar machinery, and any request to make the paper clearer to non-specialists,
-more educational, more readable, or easier to understand. This pass protects the
+unfamiliar machinery, results and discussion sections, conclusions and contribution
+paragraphs, and any request to make the paper clearer to non-specialists, more
+educational, more readable, or easier to understand. This pass protects the
 reader from the author's curse of knowledge (`references/principles.md`, Pinker).
 It runs after the logical-flow and argumentation checks and before the
 reader-pleasure, narrative-spine, and copyediting passes: a paragraph can have a
@@ -105,6 +106,9 @@ quality.
 
 - Fix when safe: replace at least one abstraction with the concrete thing it
   denotes, drawn from the manuscript.
+- Flag when unsafe: if no concrete object for the stack is present in the manuscript,
+  ask the author for the example, mechanism, or dataset feature instead of inventing
+  one.
 
 ## Section-specific exposition checks
 

@@ -214,7 +214,7 @@ Run this checklist before sending the final answer:
 - Every diagnosis item references a concrete paragraph index or stable label.
 - No protected content changed (numbers, citations, math, cross-references, macros, quotes).
 - Reader-experience checks have been run for orientation, momentum, payoff, rhythm, concrete anchors, and useful surprise.
-- Reader-transformation check: after reading the revised section cold, a smart non-specialist in the venue area can answer what the question is, why it is hard, what the paper does, what was learned, and why it should change how the reader thinks.
+- Reader-transformation check: scope it to the requested unit. For a whole-section or first-draft pass, after reading the revised text cold a smart non-specialist in the venue area can answer what the question is, why it is hard, what the paper does, what was learned, and why it should change how the reader thinks. For a single paragraph, a final-polish, or a reviewer-limited edit, ask only the paragraph's local job (what the reader should understand after it), not the whole-paper questions, and never add orientation outside the requested scope to pass.
 - Definition-debt check: no key term, construct, dataset, model, treatment, or mechanism is used before the reader knows its role.
 - Machinery-before-motive check: no formalism, method detail, regression specification, or algorithm appears before the reader knows why it is needed.
 - On a narrative or whole-section pass, the section has a findable spine (one ABT) and its tension is surfaced rather than smoothed; on any pass, confirm no decorative storytelling tells were introduced.

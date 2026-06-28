@@ -1,6 +1,6 @@
 ---
 name: paper-reviser
-description: Use proactively when the user asks to revise, polish, copy-edit, tighten, or improve an academic paper section, to make a section more readable, compelling, enjoyable, or elegant (a pleasure to read), to make it read like a human wrote it, sound less AI-generated or less LLM-like, or tell a story, or to respond to reviewer comments. Loads the paper-revision-editor skill and applies it in an isolated context, returning the four-section output (Diagnosis, Revised text, Change rationale, Author questions).
+description: Use proactively when the user asks to revise, polish, copy-edit, tighten, or improve an academic paper section, to make a section more readable, compelling, enjoyable, or elegant (a pleasure to read), to make it clearer to non-specialists, more educational, or easier to understand, to make it read like a human wrote it, sound less AI-generated or less LLM-like, or tell a story, or to respond to reviewer comments. Loads the paper-revision-editor skill and applies it in an isolated context, returning the four-section output (Diagnosis, Revised text, Change rationale, Author questions).
 tools: Read, Edit, Glob, Grep, Write
 ---
 

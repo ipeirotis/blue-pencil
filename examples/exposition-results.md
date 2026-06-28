@@ -75,17 +75,17 @@ carries. In Table 3, the coefficient on disclosed identity is 0.18 (SE = 0.04, c
 product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05). It
 also grows with the reviewer: the interaction with reviewer tenure is 0.09 (SE =
 0.03, column 4), so a disclosed identity counts for more when the reviewer has a
-longer track record. All coefficients are significant at the 1% level except the
-tenure interaction, which is significant at the 5% level, and R-squared rises from
-0.31 to 0.47 across the columns.
-For comparison, the star rating carries a coefficient of 0.42 (SE = 0.02) in the same
-models, a benchmark for these estimates once the scales are comparable: identity is a
-second lever on sales, not just metadata.
+longer track record. For comparison, the star rating carries a coefficient of 0.42
+(SE = 0.02) across all specifications, a benchmark for these estimates once the scales
+are comparable. All coefficients are significant at the 1% level except the tenure
+interaction, which is significant at the 5% level, and R-squared rises from 0.31 to
+0.47 across the columns. Identity is a second lever on sales alongside the rating, not
+just metadata.
 ```
 
 ### 3. Change rationale
 
-Word count: 87 to 157 (+80%). This is a large expansion, at the high end of what the
+Word count: 87 to 159 (+83%). This is a large expansion, at the high end of what the
 length budget tolerates, and is flagged for the author: the input is a bare list of
 estimates, and each one gains a leading claim and a closing consequence. No number,
 standard error, table or column reference, or significance level was added, removed,
@@ -112,18 +112,20 @@ column 4), so a disclosed identity counts for more when the reviewer has a longe
 track record.", added the reader takeaway the interaction encodes.
 
 "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications." ->
-"For comparison, the star rating carries a coefficient of 0.42 (SE = 0.02) in the
-same models, a benchmark for these estimates once the scales are comparable: identity
-is a second lever on sales, not just metadata.", offered the rating coefficient as a
-benchmark for the identity estimates rather than asserting that identity is smaller,
-since the two regressors may be on different scales (raised in Author questions), and
-ended the paragraph on the takeaway.
+"For comparison, the star rating carries a coefficient of 0.42 (SE = 0.02) across all
+specifications, a benchmark for these estimates once the scales are comparable.",
+offered the rating coefficient as a benchmark for the identity estimates rather than
+asserting that identity is smaller, since the two regressors may be on different
+scales (raised in Author questions); the "across all specifications" scope is kept
+verbatim.
 
 "R-squared rises from 0.31 to 0.47 across the columns. All coefficients are
-significant ..." -> carried over verbatim but moved before the closing line, so the
-fit and significance statistics leave the stress position and the paragraph ends on
-what the effects mean. The "5% level" phrasing is kept word for word, since
-shortening a significance level would be a change to a statistical claim.
+significant ..." -> carried over verbatim and placed after every coefficient it
+covers (including the star rating) but before the closing line, so its scope still
+spans all estimates while the fit and significance statistics leave the stress
+position and the paragraph ends on the takeaway ("identity is a second lever on
+sales"). The "5% level" phrasing is kept word for word, since shortening a
+significance level would be a change to a statistical claim.
 
 ### 4. Author questions
 

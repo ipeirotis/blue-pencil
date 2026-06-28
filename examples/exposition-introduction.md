@@ -13,7 +13,7 @@ output follows the strict four-section format in `SKILL.md`.
 <paper_context>
 target_venue: Management Science
 audience: empirical economists and IS researchers
-core_thesis: Platforms moderate reviews unequally, and that unequal moderation is what lets us identify the causal effect of a review on sales.
+core_thesis: Platforms moderate reviews unequally, and that unequal moderation is what lets us identify the causal effect of a review's valence on sales.
 revision_stage: first draft
 </paper_context>
 ```
@@ -76,33 +76,35 @@ nuisance (uneven moderation) into the very thing that identifies the effect.
 ### 2. Revised text
 
 ```
-Reviews and sales move together, but that does not mean reviews cause sales: a
-better product earns both higher ratings and more buyers, so the correlation could
-be product quality talking, not the review. Breaking that deadlock needs variation
-in reviews that is unrelated to the product. We find it in how platforms moderate.
+A review's valence, how positive its rating is, moves with sales, but that does not
+mean valence drives sales: a better product earns both higher ratings and more
+buyers, so the correlation could be product quality talking, not the valence.
+Breaking that deadlock needs variation in valence that is unrelated to the product.
+We find it in how platforms moderate.
 Platforms apply different moderation policies to different cohorts of reviews, and
 among cohorts that look alike on what we observe, which policy a cohort gets is set
 by platform rules rather than by the product. That lets us compare otherwise similar
 reviews in differently moderated cohorts and read off the effect of a review's
 valence. On 3.4 million
 reviews, the effect is positive and significant. Where earlier work leaned on
-instruments whose validity was contested, here the variation comes from
-the platform's own behaviour, which we can observe directly.
+instruments whose validity was contested, here the variation comes from the
+platform's own moderation behaviour rather than from a constructed instrument.
 ```
 
 ### 3. Change rationale
 
-Word count: 89 to 143 (+61%). The rewrite is longer because the draft's
+Word count: 89 to 151 (+70%). The rewrite is longer because the draft's
 identification logic was compressed to an assertion; the added sentences are the
 inferential bridge, built only from claims already in the paragraph (moderation
 varies by policy, the dataset, the prior-work contrast). Flagged for the author
 under the length budget.
 
 "The endogeneity of review valence with respect to unobserved product quality is a
-well-known obstacle to identification" -> "Reviews and sales move together, but that
-does not mean reviews cause sales: a better product earns both higher ratings and
-more buyers", moved the question before the machinery and translated the abstract
-term "endogeneity" into the concrete mechanism it denotes.
+well-known obstacle to identification" -> "A review's valence, how positive its rating
+is, moves with sales, but that does not mean valence drives sales: a better product
+earns both higher ratings and more buyers", moved the question before the machinery,
+defined the estimand "valence" at first use, and translated the abstract term
+"endogeneity" into the concrete mechanism it denotes.
 
 "We exploit platform-level heterogeneity in content moderation as a source of
 exogenous variation ... generates quasi-random assignment conditional on observed
@@ -117,10 +119,11 @@ claims.
 "Our identification strategy improves upon prior approaches that rely on
 instrumental variables of questionable validity" -> "Where earlier work leaned on
 instruments whose validity was contested, here the variation comes from the
-platform's own behaviour, which we can observe directly", exposed the structure of the
-contrast (contested instrument validity versus directly observed variation) at the
-level the input supports, without inventing which validity condition the prior
-instruments failed.
+platform's own moderation behaviour rather than from a constructed instrument",
+exposed the structure of the contrast (contested instrument validity versus the
+platform's own moderation) at the level the input supports, without inventing which
+validity condition the prior instruments failed or claiming the moderation is
+directly observed when the draft does not say so.
 
 "estimate the effect" -> "read off the effect of a review's valence", carried the
 draft's estimand ("review valence") into the payoff rather than generalising it to
@@ -163,7 +166,7 @@ filled.
   unconditionally.
 - **Contrast made legible, not invented.** "Instruments of questionable validity"
   becomes a contrast a non-specialist can see (contested instrument validity versus
-  directly observed variation), while which validity condition failed is left as an
+  the platform's own moderation), while which validity condition failed is left as an
   Author question rather than guessed.
 - **The bridge is flagged, not trusted.** The added exclusion logic is surfaced for
   the author to confirm, because an exposition edit may expose an idea on the page
