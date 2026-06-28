@@ -16,7 +16,7 @@ A usability and coverage pass. The skill's behaviour did not change; what change
 ### Changed
 
 - `SKILL.md`: the reviewer-response workflow and the restraint section now cross-link their new worked examples; `metadata.version` reports 1.19.0.
-- `README.md`: a new "Structured slash commands" subsection documents the `paper:` namespace and how to copy it into another repo or `~/.claude/`; the Files table lists the two new examples and the commands directory; the badge reports 1.19.0.
+- `README.md`: rewritten for newcomers. The top now opens with a plain-language description of what the skill is and who it is for, a "Why use it" section, a "What you can ask for" use-case table with example prompts, a four-section output guide, and a numbered "Quickstart: use it on your own paper" walkthrough. The dense pipeline paragraph moved into a "How it works (under the hood)" section so it is still available without being the first thing a beginner reads. A new "Structured slash commands" subsection documents the `paper:` namespace and how to copy it into another repo or `~/.claude/`; the Files table lists the two new examples and the commands directory; the badge reports 1.19.0.
 - `AUDIT.md`: marked as a historical v1.7.0 baseline with a header noting that its listed gaps are resolved, so it no longer reads as an open to-do list.
 - `VERSION`: 1.19.0.
 
