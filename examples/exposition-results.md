@@ -71,8 +71,8 @@ second lever on sales, smaller than the rating but real.
 ```
 Disclosing who wrote a review moves sales on its own, not just through the rating it
 carries. In Table 3, the coefficient on disclosed identity is 0.18 (SE = 0.04, column
-2). The effect is not an artefact of which products attract identified reviewers:
-adding product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05). It
+2). The effect is not an artefact of stable differences between products: adding
+product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05). It
 also grows with the reviewer: the interaction with reviewer tenure is 0.09 (SE =
 0.03, column 4), so a disclosed identity counts for more when the reviewer has a
 longer track record. All coefficients are significant at the 1% level except the
@@ -84,7 +84,7 @@ second lever on sales, not just metadata.
 
 ### 3. Change rationale
 
-Word count: 87 to 152 (+75%). This is a large expansion, at the high end of what the
+Word count: 87 to 151 (+74%). This is a large expansion, at the high end of what the
 length budget tolerates, and is flagged for the author: the input is a bare list of
 estimates, and each one gains a leading claim and a closing consequence. No number,
 standard error, table or column reference, or significance level was added, removed,
@@ -99,11 +99,11 @@ and the estimate stays a coefficient rather than being restated as a rise in sal
 since the outcome scale is not given.
 
 "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE =
-0.05)." -> "The effect is not an artefact of which products attract identified
-reviewers: adding product fixed effects in column 3 barely moves it, to 0.15 (SE =
-0.05).", restored the missing inference: said what the second specification rules out
-and that the effect survives it, which the bare two-number report left for the
-reader to infer.
+0.05)." -> "The effect is not an artefact of stable differences between products:
+adding product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05).",
+named what product fixed effects absorb (stable between-product differences) and that
+the effect survives them, without claiming they rule out every selection story, which
+the bare two-number report left for the reader to infer.
 
 "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4." -> "It also
 grows with the reviewer: the interaction with reviewer tenure is 0.09 (SE = 0.03,
@@ -134,6 +134,9 @@ position and the paragraph ends on what the effects mean.
 - Is "disclosed identity counts for more when the reviewer has a longer track
   record" the reading you want for the tenure interaction, or do you interpret it
   differently?
+- Column 3's product fixed effects absorb stable differences between products; is
+  that the confound you mean to address, and should the text flag that within-product
+  selection of identified reviewers is not ruled out?
 
 ## What this demonstrates
 

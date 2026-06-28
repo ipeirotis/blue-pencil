@@ -83,8 +83,8 @@ in reviews that is unrelated to the product. We find it in how platforms moderat
 Platforms do not moderate every review the same way, and among reviews that look
 alike on the characteristics we observe, which ones get moderated turns on platform
 policy rather than on the product. That lets us compare otherwise similar reviews
-that platforms happened to treat differently and read off the effect of the review
-itself. On 3.4 million
+that platforms happened to treat differently and read off the effect of a review's
+valence. On 3.4 million
 reviews, the effect is positive and significant. Where earlier work leaned on
 instruments whose validity was contested, here the variation comes from
 the platform's own behaviour, which we can observe directly.
@@ -121,6 +121,11 @@ contrast (contested instrument validity versus directly observed variation) at t
 level the input supports, without inventing which validity condition the prior
 instruments failed.
 
+"estimate the effect" -> "read off the effect of a review's valence", carried the
+draft's estimand ("review valence") into the payoff rather than generalising it to
+"the review", since valence, review presence, and review content are different
+treatments.
+
 "find it to be positive and significant" -> "the effect is positive and
 significant", kept the author's claim exactly as written, including its
 underspecified "significant"; the gap is raised in Author questions rather than
@@ -134,6 +139,9 @@ filled.
 - The bridge I added says moderation "turns on platform policy rather than on the
   product". Is that the actual exclusion logic, or does moderation also respond to
   review content in a way the reader should be warned about here?
+- The draft's endogenous variable is "review valence", which I carried into the
+  payoff; does the paper study the effect of a review's valence specifically, or of
+  review presence or content, which would be different treatments?
 - Which validity condition did the prior instruments fail (relevance, the exclusion
   restriction, monotonicity, measurement)? I kept the contrast general ("contested
   validity") rather than name a specific weakness the draft does not state; what
@@ -141,7 +149,7 @@ filled.
 - Should the introduction name the platforms and the time window for the 3.4
   million reviews so the reader can judge how far the identification generalises?
 - Is there a phrase you want readers to carry away for this design (the way "natural
-  experiment" travels)? The paper currently has a method but no handle for it.
+  experiment" travels), given the paper currently has a method but no handle for it?
 
 ## What this demonstrates
 

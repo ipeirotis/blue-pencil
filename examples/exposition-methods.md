@@ -121,14 +121,13 @@ say.
 
 ### 4. Author questions
 
-- For the Callaway and Sant'Anna estimate, should the comparison use never-treated
-  stores, not-yet-treated stores, or both? The draft does not say, and the choice
-  changes the estimand, so I left it unspecified rather than guess.
+- The draft does not say whether the Callaway and Sant'Anna estimate should compare
+  against never-treated stores, not-yet-treated stores, or both, and the choice
+  changes the estimand, so which did you intend?
 - Should the paragraph state the identifying assumption (parallel trends in repeat
   purchase absent the program) explicitly, or is that argued elsewhere?
 - Are foot traffic, local unemployment, and promotional intensity measured at the
-  store-week level? The controls read as time-varying, but the draft does not say,
-  and it affects how a reader reads the fixed effects.
+  store-week level, as the time-varying reading assumes, or at the store level?
 
 ## What this demonstrates
 
