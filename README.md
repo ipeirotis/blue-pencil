@@ -122,9 +122,12 @@ because it edits existing prose rather than drafting new content.
 `/paper:revise` is the default and dispatches the complete internal pipeline.
 For each section, read all four output blocks (Diagnosis, Revised text, Change
 rationale, Author questions). Accept only edits whose rationale names a concrete
-reader benefit; reject edits that are merely different. Rewrite in this order,
-since the abstract and introduction are compressed versions of the whole paper
-and go stale once the body changes:
+reader benefit; reject edits that are merely different. The checkpoint is
+recurring: every pass (`revise`, and the `clarify` and `human` passes in Step 3)
+can surface new `Author questions`, so stop and resolve them in the source before
+the next pass on the section or the move to the next section, since later edits
+depend on the answers. Rewrite in this order, since the abstract and introduction
+are compressed versions of the whole paper and go stale once the body changes:
 
 `abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion -> abstract again -> introduction again`
 
@@ -161,9 +164,14 @@ front matter, then polish:
 /paper:consistency paper.tex          # whole-paper, no rewrite: drift and stale-summary check
 /paper:revise sections/abstract.tex   # front matter reflects the final paper
 /paper:revise sections/intro.tex
+/paper:consistency paper.tex          # re-check: the front-matter rewrites can introduce fresh drift
 /paper:polish sections/<each>.tex      # sentence-level only, no restructuring
 ```
 
+The consistency check runs twice on purpose. The abstract and introduction
+rewrites can change contribution wording or result summaries after the first
+whole-paper check, and `/paper:polish` is sentence-level only, so it cannot
+repair fresh cross-section drift; the second check catches it before polishing.
 `/paper:consistency` flags terminology drift, claim drift, inconsistent
 contribution framing, result overstatement, missing forward references, and
 stale summaries without rewriting. `/paper:polish` applies final-polish

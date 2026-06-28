@@ -24,12 +24,22 @@ Preset triage:
   only).
 - **Unit:** the section in `$ARGUMENTS` (a file path to read, or pasted text).
   If neither is present, ask which section before proceeding.
-- **Aggressiveness:** apply `final polish` constraints regardless of the request
-  wording. If the stored `revision_stage` in `<paper_context>` (read
-  `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`) is not `final polish`,
-  tell the user about the mismatch rather than silently overriding it, then
-  proceed under final-polish constraints. Surface any deeper structural or
-  exposition gap in `Author questions` instead of fixing it here.
+- **Aggressiveness:** apply `final polish` constraints, never looser ones.
+  Read the stored `revision_stage` in `<paper_context>` (`AGENTS.md`, then
+  `CLAUDE.md`, then `paper-meta.md`) and branch on it:
+  - `final polish`: proceed.
+  - `first draft`: proceed. Final-polish constraints are strictly narrower than
+    what this stage permits, so applying them bypasses no gate; note that you are
+    polishing a draft still marked `first draft`.
+  - `response to reviewers`: do not proceed with a whole-section polish. That
+    stage gate limits edits to reviewer-flagged paragraphs and their neighbours,
+    and a section-wide copyedit would touch accepted paragraphs the stage
+    protects. Stop and ask the author to either confirm the reviewer round is
+    closed and update `revision_stage` to `final polish`, or to keep
+    reviewer-response scope and use `/paper:rebut` instead. Do not override the
+    stage on your own.
+  Surface any deeper structural or exposition gap in `Author questions` instead
+  of fixing it here.
 
 Return the strict four-section output. Per the skill's conditional Diagnosis
 header rules, a final-polish pass skips the `Voice tics:` and `Reader map:`
