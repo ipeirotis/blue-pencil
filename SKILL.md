@@ -202,7 +202,7 @@ Run this checklist before sending the final answer:
 - Every diagnosis item references a concrete paragraph index or stable label.
 - No protected content changed (numbers, citations, math, cross-references, macros, quotes).
 - Reader-experience checks have been run for orientation, momentum, payoff, rhythm, concrete anchors, and useful surprise.
-- Narrative checks have been run: the section has a findable spine (one ABT), the tension is surfaced rather than smoothed, and no decorative storytelling tells were introduced.
+- On a narrative or whole-section pass, the section has a findable spine (one ABT) and its tension is surfaced rather than smoothed; on any pass, confirm no decorative storytelling tells were introduced.
 - Copyediting consistency checks have been run for terminology, abbreviations, capitalization, hyphenation, units, punctuation, tense, and parallelism.
 - Requested scope is respected.
 - `Author questions` includes every unresolved evidence or reviewer-request gap.

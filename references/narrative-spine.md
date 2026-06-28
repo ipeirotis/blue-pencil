@@ -41,13 +41,15 @@ section is a list; find the real tension already in the text (a gap, a surprise,
 a result that defies the obvious expectation) and build the paragraph around it.
 If there are three *buts*, cut to the load-bearing one.
 
-Before (AAA): "We introduce M. M uses components A and B. We evaluate M on
+Before (AAA): "We introduce M. The standard approach to this task uses an
+expensive component C. M uses only components A and B. We evaluate M on
 benchmarks X and Y. M improves accuracy by 4 points."
 
-After (ABT): "The standard solution needs component C, which is expensive to run.
-M drops C and still matches the baseline within 4 points, so the cost the field
-has been paying for C buys little." (The numerical claim stays the author's to
-set; see `SKILL.md` constraint 6.)
+After (ABT): "The standard approach to this task pays for an expensive component
+C, but M keeps only A and B and still improves accuracy by 4 points, so
+component C was not what carried the gain." (The result claim, "improves accuracy
+by 4 points", is carried over word for word: an ABT pass restructures the
+framing, never the numbers. See `SKILL.md` constraint 6.)
 
 ## OCAR: the arc of the whole
 
