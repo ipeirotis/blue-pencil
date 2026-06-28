@@ -100,8 +100,8 @@ Make three passes over the section, each from a different reader's perspective:
 
 Most academic prose fails the first pass because it has been written only for the third. Fix each failure at the layer where it occurs; do not paper over an audience-one problem with audience-three machinery.
 
-### Default to a 20% cut
+### Expect roughly a 20% cut, then test for it
 
 Dijkstra, Solow, Akerlof, and Schelling all share concision. "The Market for Lemons" is 13 pages, "The Nature of the Firm" is 18, and Lampson's "Hints" is short relative to its influence. The published version of a paper usually says it in roughly 80% of the draft's space, and the cut almost always improves the argument.
 
-When in doubt about whether to cut, cut. Flag substantial cuts in the `Change rationale` block of the four-section output so the author can override them.
+Treat that 80% as a prior, not a quota. Apply the keep-test from the Subtraction section to each candidate cut, expect an already-tight section to lose little, and remember that manufacturing cuts to reach a target is itself a defect. Flag substantial cuts in the `Change rationale` block of the four-section output so the author can override them.
