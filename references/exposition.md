@@ -63,12 +63,15 @@ ladder is worth more than three failures high on it.
 ## Forced extraction before the rewrite
 
 The ladder diagnoses; this step converts the diagnosis into a rewrite that teaches
-rather than a thesaurus swap of the original. Before drafting the revised text, when
-the exposition pass surfaces a teaching gap (definition debt, compressed inference,
-machinery before motive, expert-only contrast, abstract stack, or a buried or missing
-payoff where the paragraph ends on procedure or never states the takeaway) or the
-request is to make the section clearer to non-specialists, more educational, more
-readable, or easier to understand, extract three things into the `Diagnosis` block, each grounded
+rather than a thesaurus swap of the original. Before drafting the revised text, and
+except at `final polish` (where the stage forbids restructuring; see Safe boundaries
+below), when the exposition pass surfaces any teaching gap (any ladder or common
+failure in this file, for example definition debt, compressed inference, machinery
+before motive, expert-only contrast, abstract stack, concept overload from too many
+new objects at once, an unanchored abstraction, or a buried or missing payoff where
+the paragraph ends on procedure or never states the takeaway) or the request is to
+make the section clearer to non-specialists, more educational, more readable, or
+easier to understand, extract three things into the `Diagnosis` block, each grounded
 only in material already on the page. Any of the three may be `none` when the passage
 does not exhibit that particular gap; record `none` rather than manufacturing an item
 to fill the line.
