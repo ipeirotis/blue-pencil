@@ -61,10 +61,11 @@ reported in Appendix C. Moreover, we find no evidence of pre-trends.
 
 ## Triage and comment mapping
 
-> Scope: direct rewrite of the flagged paragraphs only. Unit: the empirical
-> section, but at `response to reviewers` I edit only the paragraphs R2 flagged
-> plus immediate neighbours, and leave the rest untouched. Here is the mapping I
-> will work from before diagnosing:
+> Scope: direct rewrite, limited to the paragraphs R2 flagged plus any
+> immediate neighbour a fix needs. Unit: the empirical section, but at `response
+> to reviewers` I touch only those paragraphs and leave the rest untouched; here
+> both fixes fit inside the flagged paragraphs, so no neighbour needs editing.
+> Here is the mapping I will work from before diagnosing:
 >
 > - **R2.1** (exclusion restriction unclear) -> **P2**.
 > - **R2.2** (is the 12% economically meaningful) -> **P4**.
@@ -157,9 +158,9 @@ baseline revenue level the section does not contain; see Author questions. The
 ### 4. Author questions
 
 - R2.2 asks whether the 12% effect is economically meaningful relative to the
-  baseline, but the section never states baseline seller revenue. What is the
-  baseline level (or rate), and how would you like the comparison phrased? I did
-  not invent a number.
+  baseline, but the section never states baseline seller revenue, and I did not
+  invent one: what is the baseline level (or rate), and how would you like the
+  comparison phrased?
 - R2.1 now rests P2's exclusion argument on engineering team availability being
   unrelated to category revenue trends. Do you have evidence you can cite for
   that (for example, a balance check showing no differential pre-rollout revenue
@@ -170,10 +171,12 @@ baseline revenue level the section does not contain; see Author questions. The
 
 ## What this demonstrates
 
-- **Scope is bound to the reviewer.** Only the two flagged paragraphs are
-  considered; P1, P3, and P5 are returned verbatim despite genuine stylistic
-  flaws, because the response-to-reviewers stage does not touch what reviewers
-  accepted.
+- **Scope is bound to the reviewer.** Edits stay within the flagged paragraphs
+  and any immediate neighbour a fix requires. Here both fixes fit inside the
+  flagged paragraphs, so P1, P3, and P5 are returned verbatim despite genuine
+  stylistic flaws. The stage leaves untouched what reviewers accepted, but an
+  immediate neighbour stays eligible when a fix belongs in its transition or
+  setup sentence.
 - **Comment mapping comes first.** Each reviewer comment is tied to a paragraph
   before any diagnosis, and every diagnosis item carries its reviewer label, so
   the author can check coverage at a glance.

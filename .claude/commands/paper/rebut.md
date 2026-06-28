@@ -7,9 +7,11 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
-This invokes the skill's reviewer-response workflow. Do not infer reviewer
-concerns from the section: if the reviewer text is not in `$ARGUMENTS` or the
-conversation, ask for it before doing anything else.
+This invokes the skill's reviewer-response workflow. `$ARGUMENTS` may hold the
+reviewer text directly or file paths to read; if it names files, read them
+first. Do not infer reviewer concerns from the section: only when no reviewer
+text is present in `$ARGUMENTS`, the named files, or the conversation, ask for it
+before doing anything else.
 
 Run the workflow exactly:
 

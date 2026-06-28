@@ -63,7 +63,7 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
 
    > Revise the introduction in `intro.tex` so it flows better.
 
-   The skill runs automatically. (In Claude Code you can also use a ready-made command such as `/paper:revise intro.tex`; see [Structured slash commands](#structured-slash-commands-claude-code).)
+   The skill runs automatically, so the plain-English request above needs no extra setup. (Claude Code users can optionally enable ready-made commands such as `/paper:revise intro.tex`. The standard install does not register these; the one-time copy step is in [Structured slash commands](#structured-slash-commands-claude-code).)
 
 4. **Read the four sections, then decide.** Skim the Diagnosis, compare the Revised text against your original, check the rationale for anything you disagree with, and answer the Author questions. You stay the author; the skill never has the last word on your claims.
 

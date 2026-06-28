@@ -128,9 +128,9 @@ questions instead.
   consistent term throughout; if not, can the distinct sets be named so the
   reader can tell them apart?
 - The in-domain tail-class gain is 62% to 74% (12 points), and the
-  out-of-domain "12-point edge on rare labels" is also 12 points. Is that the
-  same measured quantity, a coincidence, or a number carried over by mistake?
-  I left both figures exactly as written.
+  out-of-domain "12-point edge on rare labels" is also 12 points, both of which
+  I left exactly as written: is that the same measured quantity, a coincidence,
+  or a number carried over by mistake?
 
 ## What this demonstrates
 
