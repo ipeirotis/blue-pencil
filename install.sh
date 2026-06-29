@@ -233,13 +233,17 @@ unlink_one() {
 # /paper:* names would resolve to nothing. Idempotent (link_one is a no-op when
 # the link already exists).
 ensure_skill_linked() {
-  local src="$1" dest
+  local src="$1" dest failures=0
   for dest in "${TARGETS[@]}"; do
-    # Tolerate a conflict on one target (e.g. an unmanaged ~/.agents dir from
-    # another tool) so the other target, the one Claude Code needs, is still
-    # linked. link_one prints an explanatory error for the conflicting target.
-    link_one "$src" "$dest" || true
+    # Attempt every target without aborting mid-loop, so a conflict on one (e.g.
+    # an unmanaged ~/.agents dir from another tool) does not prevent linking the
+    # other, the one Claude Code needs. link_one prints an explanatory error for a
+    # conflicting target. Return non-zero if any target failed, so callers that
+    # require a full link (install/update) report it instead of claiming success,
+    # while command-registration callers can tolerate a partial link.
+    link_one "$src" "$dest" || failures=$((failures + 1))
   done
+  [ "$failures" -eq 0 ]
 }
 
 # An installer path that resolves from any directory. $0 is unreliable: under
@@ -270,7 +274,8 @@ run_install() {
     ensure_source_current "$src"
   fi
   echo "Installing $SKILL_NAME from $src"
-  ensure_skill_linked "$src"
+  ensure_skill_linked "$src" \
+    || { echo "ERROR: could not link $SKILL_NAME into all targets (see above)." >&2; exit 1; }
   echo
   local installer
   installer="$(installer_path "$src")"
@@ -304,13 +309,16 @@ run_update() {
   after_sha="$(git -C "$src" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 
   # Re-link in case symlinks were missing or pointed elsewhere.
-  ensure_skill_linked "$src"
+  ensure_skill_linked "$src" \
+    || { echo "ERROR: could not link $SKILL_NAME into all targets (see above)." >&2; exit 1; }
 
   # If the global paper: commands were enabled with --commands, refresh them too.
   # The skill symlink alone does not carry command changes, since Claude Code does
   # not read commands from inside the skill; without this, a new or changed command
-  # would be missing even though --update reports the skill is current.
-  if [ -d "$HOME/.claude/commands/paper" ]; then
+  # would be missing even though --update reports the skill is current. Skip when
+  # the target ref does not ship command files (e.g. pinning an older release),
+  # so the documented ref change does not abort half-applied.
+  if [ -d "$HOME/.claude/commands/paper" ] && [ -d "$src/.claude/commands/paper" ]; then
     install_commands "$HOME" "$src"
   fi
 
@@ -412,6 +420,21 @@ read_field() {
   printf '%s' "$var"
 }
 
+# Back up a pre-existing file before we overwrite it, but only when it differs
+# from what we install and this installer did not record it as managed. A
+# hand-written same-named command, or a customized agent, is preserved as .bak on
+# first overwrite; our own managed files (listed in the prior manifest) are
+# refreshed silently. $3 is the path relative to .claude/; $4 is the prior
+# manifest content.
+backup_if_unmanaged() {
+  local dest="$1" src_file="$2" rel="$3" old_manifest="$4"
+  [ -f "$dest" ] || return 0
+  cmp -s "$src_file" "$dest" && return 0
+  printf '%s\n' "$old_manifest" | grep -qxF -- "$rel" && return 0
+  cp "$dest" "$dest.bak"
+  echo "  backed up existing $dest -> $dest.bak"
+}
+
 # Copy the paper: slash commands and the paper-reviser subagent out of the
 # skill and into a .claude/ tree. Claude Code registers commands from
 # <project>/.claude/commands/ or ~/.claude/commands/ and subagents from the
@@ -448,31 +471,36 @@ install_commands() {
   done
   [ -f "$agent_src" ] && new_list+=("agents/paper-reviser.md")
 
+  # Prior manifest content, used both to drop stale managed files and to decide
+  # which pre-existing files are ours to overwrite silently.
+  local old_manifest=""
+  [ -f "$manifest" ] && old_manifest="$(cat "$manifest")"
+
   # Remove files a previous run installed that are no longer shipped (a command
-  # renamed or dropped in a later release), using the manifest. Files not in the
-  # manifest (a user's own command, or a manual copy we never recorded) are left
-  # untouched, so a refresh never deletes anything this installer did not place.
-  if [ -f "$manifest" ]; then
+  # renamed or dropped in a later release). Files not in the manifest (a user's
+  # own command, or a manual copy we never recorded) are left untouched, so a
+  # refresh never deletes anything this installer did not place.
+  if [ -n "$old_manifest" ]; then
     local old
     while IFS= read -r old; do
       [ -n "$old" ] || continue
-      if ! printf '%s\n' "${new_list[@]}" | grep -qxF -- "$old"; then
-        rm -f "$claude_dir/$old"
-      fi
-    done < "$manifest"
+      printf '%s\n' "${new_list[@]}" | grep -qxF -- "$old" || rm -f "$claude_dir/$old"
+    done <<< "$old_manifest"
   fi
 
   mkdir -p "$claude_dir/commands/paper" "$claude_dir/agents"
-  cp "$cmd_src"/*.md "$claude_dir/commands/paper/"
+  local bn dest
+  for f in "$cmd_src"/*.md; do
+    [ -e "$f" ] || continue
+    bn="$(basename "$f")"
+    dest="$claude_dir/commands/paper/$bn"
+    backup_if_unmanaged "$dest" "$f" "commands/paper/$bn" "$old_manifest"
+    cp "$f" "$dest"
+  done
   echo "  registered paper: commands -> $claude_dir/commands/paper/"
   if [ -f "$agent_src" ]; then
     local agent_dest="$claude_dir/agents/paper-reviser.md"
-    # The agent lives in the shared agents/ namespace (not a dedicated dir), so a
-    # user may have a file there. Preserve a differing copy before overwriting.
-    if [ -f "$agent_dest" ] && ! cmp -s "$agent_src" "$agent_dest"; then
-      cp "$agent_dest" "$agent_dest.bak"
-      echo "  backed up existing paper-reviser agent -> $agent_dest.bak"
-    fi
+    backup_if_unmanaged "$agent_dest" "$agent_src" "agents/paper-reviser.md" "$old_manifest"
     cp "$agent_src" "$agent_dest"
     echo "  registered paper-reviser agent -> $agent_dest"
   fi
@@ -528,8 +556,9 @@ run_commands() {
   # The agent loads the skill from ~/.claude/skills, so install the skill too;
   # otherwise the commands would resolve but every invocation would dead-end on
   # a missing skill. Idempotent, so running --commands after a normal install is
-  # harmless.
-  ensure_skill_linked "$src"
+  # harmless. Tolerate a partial link (e.g. an unmanaged ~/.agents dir): the
+  # ~/.claude link is what these commands need, and the commands still get copied.
+  ensure_skill_linked "$src" || true
   install_commands "$HOME" "$src"
   echo
   echo "Done. /paper:loop and the other paper: commands now resolve in every project."
@@ -550,8 +579,9 @@ run_init() {
   # The copied agent loads the skill from ~/.claude/skills, so ensure the skill
   # is linked even when --init is run as a standalone mode (curl ... | bash -s --
   # --init, or a clone's install.sh --init) before a normal install. Idempotent,
-  # so the common install-then-init flow re-links a no-op.
-  ensure_skill_linked "$src"
+  # so the common install-then-init flow re-links a no-op. Tolerate a partial link
+  # (e.g. an unmanaged ~/.agents dir); the commands still get registered.
+  ensure_skill_linked "$src" || true
   echo "Registering paper: commands in $repo_root/.claude"
   install_commands "$repo_root" "$src"
   echo
