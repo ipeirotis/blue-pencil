@@ -245,6 +245,10 @@ run_install() {
       echo "Note: --ref is ignored when installing from a local clone ($src)." >&2
       echo "      It applies to the managed clone at $CACHE_DIR." >&2
     fi
+  else
+    # Refresh a pre-existing managed cache so the linked skill, and the install.sh
+    # the hint below points at, are current (an old cache may predate --commands).
+    ensure_source_current "$src"
   fi
   echo "Installing $SKILL_NAME from $src"
   ensure_skill_linked "$src"
@@ -282,6 +286,14 @@ run_update() {
 
   # Re-link in case symlinks were missing or pointed elsewhere.
   ensure_skill_linked "$src"
+
+  # If the global paper: commands were enabled with --commands, refresh them too.
+  # The skill symlink alone does not carry command changes, since Claude Code does
+  # not read commands from inside the skill; without this, a new or changed command
+  # would be missing even though --update reports the skill is current.
+  if [ -d "$HOME/.claude/commands/paper" ]; then
+    install_commands "$HOME" "$src"
+  fi
 
   echo
   if [ "$before_sha" = "$after_sha" ]; then
@@ -386,6 +398,14 @@ install_commands() {
     echo "ERROR: cannot find $cmd_src" >&2
     return 1
   fi
+  # If the target tree IS the source (a developer running --init from the skill
+  # checkout itself, e.g. `make init` at the repo root), the commands are already
+  # in place. Bail out before the wholesale replace below, which would otherwise
+  # delete the source command files and then fail to copy them back.
+  if [ "$base" -ef "$src" ]; then
+    echo "  paper: commands already present in $base/.claude (this is the source checkout)"
+    return 0
+  fi
   mkdir -p "$base/.claude/commands" "$base/.claude/agents"
   # Replace the managed paper/ command set wholesale so a command removed or
   # renamed in a later release does not linger as a stale entry after a refresh.
@@ -396,27 +416,47 @@ install_commands() {
   cp "$cmd_src"/*.md "$base/.claude/commands/paper/"
   echo "  registered paper: commands -> $base/.claude/commands/paper/"
   if [ -f "$agent_src" ]; then
-    cp "$agent_src" "$base/.claude/agents/paper-reviser.md"
-    echo "  registered paper-reviser agent -> $base/.claude/agents/paper-reviser.md"
+    local agent_dest="$base/.claude/agents/paper-reviser.md"
+    # The agent lives in the shared agents/ namespace (not a dedicated dir), so a
+    # user may have customized it. Preserve a differing copy before overwriting.
+    if [ -f "$agent_dest" ] && ! cmp -s "$agent_src" "$agent_dest"; then
+      cp "$agent_dest" "$agent_dest.bak"
+      echo "  backed up existing paper-reviser agent -> $agent_dest.bak"
+    fi
+    cp "$agent_src" "$agent_dest"
+    echo "  registered paper-reviser agent -> $agent_dest"
   fi
 }
 
-# When the command source is the managed clone, sync it before copying files
-# out of it. A piped `curl ... | bash -s -- --commands` (or --init) on a machine
-# that already has an older cached clone would otherwise copy a stale command
-# set: the success message would promise /paper:loop while loop.md is still
-# missing from the old cache (or install_commands aborts on a pre-command cache).
-# A local developer checkout (src != CACHE_DIR) is never touched, so a developer
-# can register their working-tree commands without a network round-trip. The
-# resolved ref is sticky, so a pinned --ref stays pinned.
+# Best-effort sync of the managed clone to its tracked ref before we copy files
+# out of it or point the user at its install.sh. A piped `curl ... | bash` on a
+# machine that already has an older cached clone would otherwise leave the cache
+# (and its bundled install.sh) stale: command copies would promise /paper:loop
+# while loop.md is missing, and the post-install hint would point at a cached
+# installer that predates --commands. A local developer checkout (src != CACHE_DIR)
+# is never touched, so a developer registers their working-tree commands with no
+# network round-trip. The resolved ref is sticky, so a pinned --ref stays pinned.
+# Unlike sync_to_ref (used by --update, where a failure is fatal), this never
+# aborts the run: an offline machine falls back to whatever is already cached.
 ensure_source_current() {
   local src="$1"
   [ "$src" = "$CACHE_DIR" ] || return 0
   [ -d "$src/.git" ] || return 0
   local ref
   ref="$(resolve_ref "$src")"
-  echo "Updating managed clone ($src) to $ref before copying commands"
-  sync_to_ref "$src" "$ref"
+  echo "Updating managed clone ($src) to $ref"
+  if ! git -C "$src" fetch --quiet --tags origin 2>/dev/null; then
+    echo "  warning: could not reach origin (offline?); using the cached clone as-is." >&2
+    return 0
+  fi
+  if git -C "$src" show-ref --verify --quiet "refs/remotes/origin/$ref"; then
+    git -C "$src" checkout --quiet "$ref" 2>/dev/null || true
+    git -C "$src" merge --ff-only --quiet "origin/$ref" 2>/dev/null \
+      || echo "  warning: could not fast-forward $ref; using the cached clone as-is." >&2
+  else
+    git -C "$src" checkout --quiet "$ref" 2>/dev/null \
+      || echo "  warning: ref '$ref' not found on origin; using the cached clone as-is." >&2
+  fi
 }
 
 run_commands() {
