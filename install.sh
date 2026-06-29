@@ -50,8 +50,13 @@ fi
 # Where to read templates and where the symlinks should point. If install.sh
 # is running from inside a real clone, prefer that. Otherwise use CACHE_DIR
 # (the curl|bash path), cloning if needed.
+# `pwd -P` resolves symlinks to the physical clone. This matters when the script
+# is launched through an install symlink (e.g. ~/.claude/skills/<name>/install.sh):
+# without it, src would be the symlink path, which is also a relink target, so
+# ensure_skill_linked would remove that target and recreate it pointing at
+# itself, breaking the skill link and hiding the bundled command files.
 if [ -n "${BASH_SOURCE[0]:-}" ] && [ -f "${BASH_SOURCE[0]}" ]; then
-  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 else
   SCRIPT_DIR=""
 fi
@@ -408,6 +413,11 @@ run_init() {
   local src
   src="$(resolve_source)"
 
+  # The copied agent loads the skill from ~/.claude/skills, so ensure the skill
+  # is linked even when --init is run as a standalone mode (curl ... | bash -s --
+  # --init, or a clone's install.sh --init) before a normal install. Idempotent,
+  # so the common install-then-init flow re-links a no-op.
+  ensure_skill_linked "$src"
   echo "Registering paper: commands in $repo_root/.claude"
   install_commands "$repo_root" "$src"
   echo
