@@ -36,6 +36,12 @@ TARGETS=(
   "$HOME/.agents/skills/$SKILL_NAME"
   "$HOME/.claude/skills/$SKILL_NAME"
 )
+# Hidden manifest, written under a `.claude/` tree, recording exactly which command
+# and agent files this installer placed there (paths relative to that `.claude/`).
+# Refresh and uninstall act only on listed files, so a user's own files in the
+# paper: namespace, or an older manual copy we never recorded, are never touched.
+# Not a *.md file, so Claude Code's command scan ignores it.
+MANIFEST_REL=".paper-revision-editor-manifest"
 # Git ref (tag, branch, or commit) to install or update to. An explicit value
 # (here or via --ref) is "sticky": it is honored on install and reinstall and
 # is preserved across a plain --update. Without one, the clone stays on
@@ -227,9 +233,12 @@ unlink_one() {
 # /paper:* names would resolve to nothing. Idempotent (link_one is a no-op when
 # the link already exists).
 ensure_skill_linked() {
-  local src="$1"
+  local src="$1" dest
   for dest in "${TARGETS[@]}"; do
-    link_one "$src" "$dest"
+    # Tolerate a conflict on one target (e.g. an unmanaged ~/.agents dir from
+    # another tool) so the other target, the one Claude Code needs, is still
+    # linked. link_one prints an explanatory error for the conflicting target.
+    link_one "$src" "$dest" || true
   done
 }
 
@@ -314,51 +323,33 @@ run_update() {
 }
 
 # Remove the global paper: commands and the paper-reviser agent that --commands
-# installs under ~/.claude. We delete only files this installer ships, enumerated
-# from the clone, so a user's own files in the paper/ namespace (a custom command,
-# or an older manual copy) and a customized agent are preserved. Project-level
-# copies made by --init live in individual repos and are left to the user:
-# uninstall takes no repo argument and must not guess which repos to touch.
+# installs under ~/.claude, using the manifest written at install time. Only the
+# files we recorded are removed, so a user's own files in the paper/ namespace and
+# an older manual copy we never recorded are preserved. The manifest is local, so
+# this works even when the clone is gone (e.g. a copy-mode install whose skill dir
+# was just unlinked). Project-level copies made by --init live in individual repos
+# and are left to the user: uninstall takes no repo argument.
 remove_commands() {
   local base="$1"
-  local cmd_dir="$base/.claude/commands/paper"
-  local agent_file="$base/.claude/agents/paper-reviser.md"
-
-  # Locate the clone so we can list the files we ship. SCRIPT_DIR wins (running
-  # from a checkout); otherwise the managed clone, if it still exists.
-  local src=""
-  if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/SKILL.md" ]; then
-    src="$SCRIPT_DIR"
-  elif [ -d "$CACHE_DIR/.git" ]; then
-    src="$CACHE_DIR"
-  fi
-
-  if [ -d "$cmd_dir" ]; then
-    if [ -n "$src" ] && [ -d "$src/.claude/commands/paper" ]; then
-      local f
-      for f in "$src/.claude/commands/paper/"*.md; do
-        [ -e "$f" ] || continue
-        rm -f "$cmd_dir/$(basename "$f")"
-      done
-      if rmdir "$cmd_dir" 2>/dev/null; then
-        echo "  removed: $cmd_dir"
-      else
-        echo "  removed this installer's commands from $cmd_dir (kept files it did not install)"
-      fi
-    else
-      echo "  note: leaving $cmd_dir (no clone available to identify managed files); remove it manually if desired."
+  local claude_dir="$base/.claude"
+  local manifest="$claude_dir/$MANIFEST_REL"
+  if [ ! -f "$manifest" ]; then
+    if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ]; then
+      echo "  note: no install manifest at $manifest; leaving global paper: files in place (remove by hand if you copied them yourself)."
     fi
+    return 0
   fi
-
-  if [ -f "$agent_file" ]; then
-    if [ -n "$src" ] && [ -f "$src/.claude/agents/paper-reviser.md" ] \
-       && cmp -s "$src/.claude/agents/paper-reviser.md" "$agent_file"; then
-      rm -f "$agent_file"
-      echo "  removed: $agent_file"
-    else
-      echo "  note: leaving $agent_file (customized or unverifiable); remove it manually if desired."
+  local p
+  while IFS= read -r p; do
+    [ -n "$p" ] || continue
+    if [ -e "$claude_dir/$p" ]; then
+      rm -f "$claude_dir/$p"
+      echo "  removed: $claude_dir/$p"
     fi
-  fi
+  done < "$manifest"
+  rm -f "$manifest"
+  # Drop the paper/ command dir only if nothing unmanaged is left in it.
+  rmdir "$claude_dir/commands/paper" 2>/dev/null || true
 }
 
 run_uninstall() {
@@ -439,25 +430,45 @@ install_commands() {
   fi
   # If the target tree IS the source (a developer running --init from the skill
   # checkout itself, e.g. `make init` at the repo root), the commands are already
-  # in place. Bail out before the wholesale replace below, which would otherwise
-  # delete the source command files and then fail to copy them back.
+  # in place. Bail out before touching anything, which would otherwise delete the
+  # source command files.
   if [ "$base" -ef "$src" ]; then
     echo "  paper: commands already present in $base/.claude (this is the source checkout)"
     return 0
   fi
-  mkdir -p "$base/.claude/commands" "$base/.claude/agents"
-  # Replace the managed paper/ command set wholesale so a command removed or
-  # renamed in a later release does not linger as a stale entry after a refresh.
-  # The paper/ directory is entirely ours (it is the namespace), so clearing it
-  # is safe; anything else under commands/ is left untouched.
-  rm -rf "$base/.claude/commands/paper"
-  mkdir -p "$base/.claude/commands/paper"
-  cp "$cmd_src"/*.md "$base/.claude/commands/paper/"
-  echo "  registered paper: commands -> $base/.claude/commands/paper/"
+
+  local claude_dir="$base/.claude"
+  local manifest="$claude_dir/$MANIFEST_REL"
+
+  # Build the list of files this run installs, as paths relative to .claude/.
+  local new_list=() f
+  for f in "$cmd_src"/*.md; do
+    [ -e "$f" ] || continue
+    new_list+=("commands/paper/$(basename "$f")")
+  done
+  [ -f "$agent_src" ] && new_list+=("agents/paper-reviser.md")
+
+  # Remove files a previous run installed that are no longer shipped (a command
+  # renamed or dropped in a later release), using the manifest. Files not in the
+  # manifest (a user's own command, or a manual copy we never recorded) are left
+  # untouched, so a refresh never deletes anything this installer did not place.
+  if [ -f "$manifest" ]; then
+    local old
+    while IFS= read -r old; do
+      [ -n "$old" ] || continue
+      if ! printf '%s\n' "${new_list[@]}" | grep -qxF -- "$old"; then
+        rm -f "$claude_dir/$old"
+      fi
+    done < "$manifest"
+  fi
+
+  mkdir -p "$claude_dir/commands/paper" "$claude_dir/agents"
+  cp "$cmd_src"/*.md "$claude_dir/commands/paper/"
+  echo "  registered paper: commands -> $claude_dir/commands/paper/"
   if [ -f "$agent_src" ]; then
-    local agent_dest="$base/.claude/agents/paper-reviser.md"
+    local agent_dest="$claude_dir/agents/paper-reviser.md"
     # The agent lives in the shared agents/ namespace (not a dedicated dir), so a
-    # user may have customized it. Preserve a differing copy before overwriting.
+    # user may have a file there. Preserve a differing copy before overwriting.
     if [ -f "$agent_dest" ] && ! cmp -s "$agent_src" "$agent_dest"; then
       cp "$agent_dest" "$agent_dest.bak"
       echo "  backed up existing paper-reviser agent -> $agent_dest.bak"
@@ -465,6 +476,9 @@ install_commands() {
     cp "$agent_src" "$agent_dest"
     echo "  registered paper-reviser agent -> $agent_dest"
   fi
+
+  # Record exactly what we installed, so refresh and uninstall touch only these.
+  printf '%s\n' "${new_list[@]}" > "$manifest"
 }
 
 # Best-effort sync of the managed clone to its tracked ref before we copy files
