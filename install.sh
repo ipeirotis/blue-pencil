@@ -171,6 +171,16 @@ resolve_source() {
 
 link_one() {
   local src="$1" dest="$2"
+  # If the destination already IS the source, there is nothing to do. This guards
+  # the case where the installer runs from a copy-mode install at the target path
+  # itself (e.g. ~/.claude/skills/<name>/install.sh, the ln -s fallback): without
+  # it, the prior-copy-install branch below would delete the source and recreate a
+  # self-referential link, corrupting the install. -ef also covers a symlink that
+  # already points at src.
+  if [ -e "$dest" ] && [ "$src" -ef "$dest" ]; then
+    echo "  already in place: $dest"
+    return 0
+  fi
   mkdir -p "$(dirname "$dest")"
   if [ -L "$dest" ]; then
     local current
@@ -304,21 +314,50 @@ run_update() {
 }
 
 # Remove the global paper: commands and the paper-reviser agent that --commands
-# installs under ~/.claude. The whole paper/ command directory is ours (it is the
-# namespace), so it is safe to remove wholesale. Project-level copies made by
-# --init live in individual repos and are left to the user: uninstall takes no
-# repo argument and must not guess which repos to touch.
+# installs under ~/.claude. We delete only files this installer ships, enumerated
+# from the clone, so a user's own files in the paper/ namespace (a custom command,
+# or an older manual copy) and a customized agent are preserved. Project-level
+# copies made by --init live in individual repos and are left to the user:
+# uninstall takes no repo argument and must not guess which repos to touch.
 remove_commands() {
   local base="$1"
   local cmd_dir="$base/.claude/commands/paper"
   local agent_file="$base/.claude/agents/paper-reviser.md"
-  if [ -d "$cmd_dir" ]; then
-    rm -rf "$cmd_dir"
-    echo "  removed: $cmd_dir"
+
+  # Locate the clone so we can list the files we ship. SCRIPT_DIR wins (running
+  # from a checkout); otherwise the managed clone, if it still exists.
+  local src=""
+  if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/SKILL.md" ]; then
+    src="$SCRIPT_DIR"
+  elif [ -d "$CACHE_DIR/.git" ]; then
+    src="$CACHE_DIR"
   fi
+
+  if [ -d "$cmd_dir" ]; then
+    if [ -n "$src" ] && [ -d "$src/.claude/commands/paper" ]; then
+      local f
+      for f in "$src/.claude/commands/paper/"*.md; do
+        [ -e "$f" ] || continue
+        rm -f "$cmd_dir/$(basename "$f")"
+      done
+      if rmdir "$cmd_dir" 2>/dev/null; then
+        echo "  removed: $cmd_dir"
+      else
+        echo "  removed this installer's commands from $cmd_dir (kept files it did not install)"
+      fi
+    else
+      echo "  note: leaving $cmd_dir (no clone available to identify managed files); remove it manually if desired."
+    fi
+  fi
+
   if [ -f "$agent_file" ]; then
-    rm -f "$agent_file"
-    echo "  removed: $agent_file"
+    if [ -n "$src" ] && [ -f "$src/.claude/agents/paper-reviser.md" ] \
+       && cmp -s "$src/.claude/agents/paper-reviser.md" "$agent_file"; then
+      rm -f "$agent_file"
+      echo "  removed: $agent_file"
+    else
+      echo "  note: leaving $agent_file (customized or unverifiable); remove it manually if desired."
+    fi
   fi
 }
 
@@ -445,6 +484,14 @@ ensure_source_current() {
   local ref
   ref="$(resolve_ref "$src")"
   echo "Updating managed clone ($src) to $ref"
+  if [ "$REF_EXPLICIT" -eq 1 ]; then
+    # An explicit --ref must be honored exactly. Failing to reach it is fatal, so
+    # we never register a command set from a different (cached) ref than requested.
+    sync_to_ref "$src" "$ref"
+    return
+  fi
+  # No explicit pin: best-effort, so an offline machine falls back to the cached
+  # clone rather than aborting the run.
   if ! git -C "$src" fetch --quiet --tags origin 2>/dev/null; then
     echo "  warning: could not reach origin (offline?); using the cached clone as-is." >&2
     return 0
