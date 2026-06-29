@@ -388,9 +388,28 @@ install_commands() {
   fi
 }
 
+# When the command source is the managed clone, sync it before copying files
+# out of it. A piped `curl ... | bash -s -- --commands` (or --init) on a machine
+# that already has an older cached clone would otherwise copy a stale command
+# set: the success message would promise /paper:loop while loop.md is still
+# missing from the old cache (or install_commands aborts on a pre-command cache).
+# A local developer checkout (src != CACHE_DIR) is never touched, so a developer
+# can register their working-tree commands without a network round-trip. The
+# resolved ref is sticky, so a pinned --ref stays pinned.
+ensure_source_current() {
+  local src="$1"
+  [ "$src" = "$CACHE_DIR" ] || return 0
+  [ -d "$src/.git" ] || return 0
+  local ref
+  ref="$(resolve_ref "$src")"
+  echo "Updating managed clone ($src) to $ref before copying commands"
+  sync_to_ref "$src" "$ref"
+}
+
 run_commands() {
   local src
   src="$(resolve_source)"
+  ensure_source_current "$src"
   echo "Registering paper: commands and the paper-reviser agent for all projects (~/.claude)"
   # The agent loads the skill from ~/.claude/skills, so install the skill too;
   # otherwise the commands would resolve but every invocation would dead-end on
@@ -412,6 +431,7 @@ run_init() {
 
   local src
   src="$(resolve_source)"
+  ensure_source_current "$src"
 
   # The copied agent loads the skill from ~/.claude/skills, so ensure the skill
   # is linked even when --init is run as a standalone mode (curl ... | bash -s --
