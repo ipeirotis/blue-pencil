@@ -386,7 +386,13 @@ install_commands() {
     echo "ERROR: cannot find $cmd_src" >&2
     return 1
   fi
-  mkdir -p "$base/.claude/commands/paper" "$base/.claude/agents"
+  mkdir -p "$base/.claude/commands" "$base/.claude/agents"
+  # Replace the managed paper/ command set wholesale so a command removed or
+  # renamed in a later release does not linger as a stale entry after a refresh.
+  # The paper/ directory is entirely ours (it is the namespace), so clearing it
+  # is safe; anything else under commands/ is left untouched.
+  rm -rf "$base/.claude/commands/paper"
+  mkdir -p "$base/.claude/commands/paper"
   cp "$cmd_src"/*.md "$base/.claude/commands/paper/"
   echo "  registered paper: commands -> $base/.claude/commands/paper/"
   if [ -f "$agent_src" ]; then
