@@ -18,7 +18,8 @@
 #   ./install.sh              # install
 #   ./install.sh --update     # update the clone (every linked tool sees the new content)
 #   ./install.sh --uninstall  # remove both symlinks
-#   ./install.sh --init       # scaffold AGENTS.md in the current paper repo
+#   ./install.sh --init       # scaffold AGENTS.md and register paper: commands in the current paper repo
+#   ./install.sh --commands   # register paper: commands and the paper-reviser agent for all projects (~/.claude)
 #   ./install.sh --check      # show install state
 #   ./install.sh --version    # print the installed version
 #
@@ -35,6 +36,12 @@ TARGETS=(
   "$HOME/.agents/skills/$SKILL_NAME"
   "$HOME/.claude/skills/$SKILL_NAME"
 )
+# Hidden manifest, written under a `.claude/` tree, recording exactly which command
+# and agent files this installer placed there (paths relative to that `.claude/`).
+# Refresh and uninstall act only on listed files, so a user's own files in the
+# paper: namespace, or an older manual copy we never recorded, are never touched.
+# Not a *.md file, so Claude Code's command scan ignores it.
+MANIFEST_REL=".paper-revision-editor-manifest"
 # Git ref (tag, branch, or commit) to install or update to. An explicit value
 # (here or via --ref) is "sticky": it is honored on install and reinstall and
 # is preserved across a plain --update. Without one, the clone stays on
@@ -49,8 +56,13 @@ fi
 # Where to read templates and where the symlinks should point. If install.sh
 # is running from inside a real clone, prefer that. Otherwise use CACHE_DIR
 # (the curl|bash path), cloning if needed.
+# `pwd -P` resolves symlinks to the physical clone. This matters when the script
+# is launched through an install symlink (e.g. ~/.claude/skills/<name>/install.sh):
+# without it, src would be the symlink path, which is also a relink target, so
+# ensure_skill_linked would remove that target and recreate it pointing at
+# itself, breaking the skill link and hiding the bundled command files.
 if [ -n "${BASH_SOURCE[0]:-}" ] && [ -f "${BASH_SOURCE[0]}" ]; then
-  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 else
   SCRIPT_DIR=""
 fi
@@ -63,7 +75,8 @@ Usage:
   install.sh              Install (clones if needed, symlinks both targets)
   install.sh --update     Update the clone (both targets update at once)
   install.sh --uninstall  Remove both symlinks
-  install.sh --init       Scaffold AGENTS.md in the current paper repo
+  install.sh --init       Scaffold AGENTS.md and register paper: commands in the current paper repo
+  install.sh --commands   Register paper: commands and the paper-reviser agent for all projects (~/.claude)
   install.sh --check      Show install state and the tracked ref
   install.sh --version    Print the installed version
   install.sh --ref REF    Install or update to a tag, branch, or commit
@@ -133,11 +146,18 @@ resolve_ref() {
     return
   fi
   if [ -d "$repo/.git" ]; then
-    local tag branch sha
-    tag="$(git -C "$repo" describe --tags --exact-match 2>/dev/null || true)"
-    if [ -n "$tag" ]; then echo "$tag"; return; fi
+    local branch tag sha
+    # Prefer the tracked branch. A clone on a branch wants that branch's latest,
+    # even when its current tip happens to sit on a tagged release commit (a fresh
+    # default install made right after a release). Only fall back to an exact tag
+    # when HEAD is detached, which is how an explicit --ref pin to a tag or commit
+    # is checked out, so such pins still survive a plain update. (Checking the tag
+    # first would freeze an on-branch clone at a coincidental release tag and copy
+    # a stale command set, or never update.)
     branch="$(git -C "$repo" symbolic-ref --short -q HEAD 2>/dev/null || true)"
     if [ -n "$branch" ]; then echo "$branch"; return; fi
+    tag="$(git -C "$repo" describe --tags --exact-match 2>/dev/null || true)"
+    if [ -n "$tag" ]; then echo "$tag"; return; fi
     sha="$(git -C "$repo" rev-parse --verify -q HEAD 2>/dev/null || true)"
     if [ -n "$sha" ]; then echo "$sha"; return; fi
   fi
@@ -157,6 +177,16 @@ resolve_source() {
 
 link_one() {
   local src="$1" dest="$2"
+  # If the destination already IS the source, there is nothing to do. This guards
+  # the case where the installer runs from a copy-mode install at the target path
+  # itself (e.g. ~/.claude/skills/<name>/install.sh, the ln -s fallback): without
+  # it, the prior-copy-install branch below would delete the source and recreate a
+  # self-referential link, corrupting the install. -ef also covers a symlink that
+  # already points at src.
+  if [ -e "$dest" ] && [ "$src" -ef "$dest" ]; then
+    echo "  already in place: $dest"
+    return 0
+  fi
   mkdir -p "$(dirname "$dest")"
   if [ -L "$dest" ]; then
     local current
@@ -197,6 +227,33 @@ unlink_one() {
   fi
 }
 
+# Link the skill into the standard targets. The copied commands and agent load
+# the skill from ~/.claude/skills (or ~/.agents/skills), so any path that
+# registers commands must make sure the skill itself is present first, or
+# /paper:* names would resolve to nothing. Idempotent (link_one is a no-op when
+# the link already exists).
+ensure_skill_linked() {
+  local src="$1" dest failures=0
+  for dest in "${TARGETS[@]}"; do
+    # Attempt every target without aborting mid-loop, so a conflict on one (e.g.
+    # an unmanaged ~/.agents dir from another tool) does not prevent linking the
+    # other, the one Claude Code needs. link_one prints an explanatory error for a
+    # conflicting target. Return non-zero if any target failed, so callers that
+    # require a full link (install/update) report it instead of claiming success,
+    # while command-registration callers can tolerate a partial link.
+    link_one "$src" "$dest" || failures=$((failures + 1))
+  done
+  [ "$failures" -eq 0 ]
+}
+
+# An installer path that resolves from any directory. $0 is unreliable: under
+# `curl ... | bash` it is "bash", and a relative "./install.sh" stops resolving
+# once the user changes into their paper repo. The copy in $src (the managed
+# clone or the local checkout) is always reachable by absolute path.
+installer_path() {
+  echo "$1/install.sh"
+}
+
 run_install() {
   local src
   src="$(resolve_source)"
@@ -211,13 +268,20 @@ run_install() {
       echo "Note: --ref is ignored when installing from a local clone ($src)." >&2
       echo "      It applies to the managed clone at $CACHE_DIR." >&2
     fi
+  else
+    # Refresh a pre-existing managed cache so the linked skill, and the install.sh
+    # the hint below points at, are current (an old cache may predate --commands).
+    ensure_source_current "$src"
   fi
   echo "Installing $SKILL_NAME from $src"
-  for dest in "${TARGETS[@]}"; do
-    link_one "$src" "$dest"
-  done
+  ensure_skill_linked "$src" \
+    || { echo "ERROR: could not link $SKILL_NAME into all targets (see above)." >&2; exit 1; }
   echo
-  echo "Done. Run '$0 --check' to verify."
+  local installer
+  installer="$(installer_path "$src")"
+  echo "Done. Run '$installer --check' to verify."
+  echo "For Claude Code /paper: slash commands, run '$installer --init' in your paper repo"
+  echo "(or '$installer --commands' to enable them in every project)."
 }
 
 run_update() {
@@ -245,9 +309,18 @@ run_update() {
   after_sha="$(git -C "$src" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 
   # Re-link in case symlinks were missing or pointed elsewhere.
-  for dest in "${TARGETS[@]}"; do
-    link_one "$src" "$dest"
-  done
+  ensure_skill_linked "$src" \
+    || { echo "ERROR: could not link $SKILL_NAME into all targets (see above)." >&2; exit 1; }
+
+  # If the global paper: commands were enabled with --commands, refresh them too.
+  # The skill symlink alone does not carry command changes, since Claude Code does
+  # not read commands from inside the skill; without this, a new or changed command
+  # would be missing even though --update reports the skill is current. Skip when
+  # the target ref does not ship command files (e.g. pinning an older release),
+  # so the documented ref change does not abort half-applied.
+  if [ -d "$HOME/.claude/commands/paper" ] && [ -d "$src/.claude/commands/paper" ]; then
+    install_commands "$HOME" "$src"
+  fi
 
   echo
   if [ "$before_sha" = "$after_sha" ]; then
@@ -257,10 +330,42 @@ run_update() {
   fi
 }
 
+# Remove the global paper: commands and the paper-reviser agent that --commands
+# installs under ~/.claude, using the manifest written at install time. Only the
+# files we recorded are removed, so a user's own files in the paper/ namespace and
+# an older manual copy we never recorded are preserved. The manifest is local, so
+# this works even when the clone is gone (e.g. a copy-mode install whose skill dir
+# was just unlinked). Project-level copies made by --init live in individual repos
+# and are left to the user: uninstall takes no repo argument.
+remove_commands() {
+  local base="$1"
+  local claude_dir="$base/.claude"
+  local manifest="$claude_dir/$MANIFEST_REL"
+  if [ ! -f "$manifest" ]; then
+    if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ]; then
+      echo "  note: no install manifest at $manifest; leaving global paper: files in place (remove by hand if you copied them yourself)."
+    fi
+    return 0
+  fi
+  local p
+  while IFS= read -r p; do
+    [ -n "$p" ] || continue
+    if [ -e "$claude_dir/$p" ]; then
+      rm -f "$claude_dir/$p"
+      echo "  removed: $claude_dir/$p"
+    fi
+  done < "$manifest"
+  rm -f "$manifest"
+  # Drop the paper/ command dir only if nothing unmanaged is left in it.
+  rmdir "$claude_dir/commands/paper" 2>/dev/null || true
+}
+
 run_uninstall() {
   for dest in "${TARGETS[@]}"; do
     unlink_one "$dest"
   done
+  remove_commands "$HOME"
+  echo "Note: paper: commands copied into a repo by --init stay in that repo; remove them there if you want them gone."
 }
 
 run_check() {
@@ -315,6 +420,150 @@ read_field() {
   printf '%s' "$var"
 }
 
+# Back up a pre-existing file before we overwrite it, but only when it differs
+# from what we install and this installer did not record it as managed. A
+# hand-written same-named command, or a customized agent, is preserved as .bak on
+# first overwrite; our own managed files (listed in the prior manifest) are
+# refreshed silently. $3 is the path relative to .claude/; $4 is the prior
+# manifest content.
+backup_if_unmanaged() {
+  local dest="$1" src_file="$2" rel="$3" old_manifest="$4"
+  [ -f "$dest" ] || return 0
+  cmp -s "$src_file" "$dest" && return 0
+  printf '%s\n' "$old_manifest" | grep -qxF -- "$rel" && return 0
+  cp "$dest" "$dest.bak"
+  echo "  backed up existing $dest -> $dest.bak"
+}
+
+# Copy the paper: slash commands and the paper-reviser subagent out of the
+# skill and into a .claude/ tree. Claude Code registers commands from
+# <project>/.claude/commands/ or ~/.claude/commands/ and subagents from the
+# matching agents/ dirs; it never registers either from inside an installed
+# skill directory. So even though the skill ships these files, they take effect
+# only once copied here. Idempotent: it refreshes the paper/ command set and the
+# paper-reviser agent in place. $1 is the .claude parent (a repo root or $HOME);
+# $2 is the skill source dir.
+install_commands() {
+  local base="$1" src="$2"
+  local cmd_src="$src/.claude/commands/paper"
+  local agent_src="$src/.claude/agents/paper-reviser.md"
+  if [ ! -d "$cmd_src" ]; then
+    echo "ERROR: cannot find $cmd_src" >&2
+    return 1
+  fi
+  # If the target tree IS the source (a developer running --init from the skill
+  # checkout itself, e.g. `make init` at the repo root), the commands are already
+  # in place. Bail out before touching anything, which would otherwise delete the
+  # source command files.
+  if [ "$base" -ef "$src" ]; then
+    echo "  paper: commands already present in $base/.claude (this is the source checkout)"
+    return 0
+  fi
+
+  local claude_dir="$base/.claude"
+  local manifest="$claude_dir/$MANIFEST_REL"
+
+  # Build the list of files this run installs, as paths relative to .claude/.
+  local new_list=() f
+  for f in "$cmd_src"/*.md; do
+    [ -e "$f" ] || continue
+    new_list+=("commands/paper/$(basename "$f")")
+  done
+  [ -f "$agent_src" ] && new_list+=("agents/paper-reviser.md")
+
+  # Prior manifest content, used both to drop stale managed files and to decide
+  # which pre-existing files are ours to overwrite silently.
+  local old_manifest=""
+  [ -f "$manifest" ] && old_manifest="$(cat "$manifest")"
+
+  # Remove files a previous run installed that are no longer shipped (a command
+  # renamed or dropped in a later release). Files not in the manifest (a user's
+  # own command, or a manual copy we never recorded) are left untouched, so a
+  # refresh never deletes anything this installer did not place.
+  if [ -n "$old_manifest" ]; then
+    local old
+    while IFS= read -r old; do
+      [ -n "$old" ] || continue
+      printf '%s\n' "${new_list[@]}" | grep -qxF -- "$old" || rm -f "$claude_dir/$old"
+    done <<< "$old_manifest"
+  fi
+
+  mkdir -p "$claude_dir/commands/paper" "$claude_dir/agents"
+  local bn dest
+  for f in "$cmd_src"/*.md; do
+    [ -e "$f" ] || continue
+    bn="$(basename "$f")"
+    dest="$claude_dir/commands/paper/$bn"
+    backup_if_unmanaged "$dest" "$f" "commands/paper/$bn" "$old_manifest"
+    cp "$f" "$dest"
+  done
+  echo "  registered paper: commands -> $claude_dir/commands/paper/"
+  if [ -f "$agent_src" ]; then
+    local agent_dest="$claude_dir/agents/paper-reviser.md"
+    backup_if_unmanaged "$agent_dest" "$agent_src" "agents/paper-reviser.md" "$old_manifest"
+    cp "$agent_src" "$agent_dest"
+    echo "  registered paper-reviser agent -> $agent_dest"
+  fi
+
+  # Record exactly what we installed, so refresh and uninstall touch only these.
+  printf '%s\n' "${new_list[@]}" > "$manifest"
+}
+
+# Best-effort sync of the managed clone to its tracked ref before we copy files
+# out of it or point the user at its install.sh. A piped `curl ... | bash` on a
+# machine that already has an older cached clone would otherwise leave the cache
+# (and its bundled install.sh) stale: command copies would promise /paper:loop
+# while loop.md is missing, and the post-install hint would point at a cached
+# installer that predates --commands. A local developer checkout (src != CACHE_DIR)
+# is never touched, so a developer registers their working-tree commands with no
+# network round-trip. The resolved ref is sticky, so a pinned --ref stays pinned.
+# Unlike sync_to_ref (used by --update, where a failure is fatal), this never
+# aborts the run: an offline machine falls back to whatever is already cached.
+ensure_source_current() {
+  local src="$1"
+  [ "$src" = "$CACHE_DIR" ] || return 0
+  [ -d "$src/.git" ] || return 0
+  local ref
+  ref="$(resolve_ref "$src")"
+  echo "Updating managed clone ($src) to $ref"
+  if [ "$REF_EXPLICIT" -eq 1 ]; then
+    # An explicit --ref must be honored exactly. Failing to reach it is fatal, so
+    # we never register a command set from a different (cached) ref than requested.
+    sync_to_ref "$src" "$ref"
+    return
+  fi
+  # No explicit pin: best-effort, so an offline machine falls back to the cached
+  # clone rather than aborting the run.
+  if ! git -C "$src" fetch --quiet --tags origin 2>/dev/null; then
+    echo "  warning: could not reach origin (offline?); using the cached clone as-is." >&2
+    return 0
+  fi
+  if git -C "$src" show-ref --verify --quiet "refs/remotes/origin/$ref"; then
+    git -C "$src" checkout --quiet "$ref" 2>/dev/null || true
+    git -C "$src" merge --ff-only --quiet "origin/$ref" 2>/dev/null \
+      || echo "  warning: could not fast-forward $ref; using the cached clone as-is." >&2
+  else
+    git -C "$src" checkout --quiet "$ref" 2>/dev/null \
+      || echo "  warning: ref '$ref' not found on origin; using the cached clone as-is." >&2
+  fi
+}
+
+run_commands() {
+  local src
+  src="$(resolve_source)"
+  ensure_source_current "$src"
+  echo "Registering paper: commands and the paper-reviser agent for all projects (~/.claude)"
+  # The agent loads the skill from ~/.claude/skills, so install the skill too;
+  # otherwise the commands would resolve but every invocation would dead-end on
+  # a missing skill. Idempotent, so running --commands after a normal install is
+  # harmless. Tolerate a partial link (e.g. an unmanaged ~/.agents dir): the
+  # ~/.claude link is what these commands need, and the commands still get copied.
+  ensure_skill_linked "$src" || true
+  install_commands "$HOME" "$src"
+  echo
+  echo "Done. /paper:loop and the other paper: commands now resolve in every project."
+}
+
 run_init() {
   if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "ERROR: --init must run inside a git repository (your paper repo)." >&2
@@ -325,6 +574,18 @@ run_init() {
 
   local src
   src="$(resolve_source)"
+  ensure_source_current "$src"
+
+  # The copied agent loads the skill from ~/.claude/skills, so ensure the skill
+  # is linked even when --init is run as a standalone mode (curl ... | bash -s --
+  # --init, or a clone's install.sh --init) before a normal install. Idempotent,
+  # so the common install-then-init flow re-links a no-op. Tolerate a partial link
+  # (e.g. an unmanaged ~/.agents dir); the commands still get registered.
+  ensure_skill_linked "$src" || true
+  echo "Registering paper: commands in $repo_root/.claude"
+  install_commands "$repo_root" "$src"
+  echo
+
   local template="$src/examples/AGENTS.md.template"
   local claude_template="$src/examples/CLAUDE.md.template"
   if [ ! -f "$template" ]; then
@@ -393,6 +654,7 @@ while [ $# -gt 0 ]; do
     --update|update)            MODE="update" ;;
     --uninstall|uninstall)      MODE="uninstall" ;;
     --init|init)                MODE="init" ;;
+    --commands|commands)        MODE="commands" ;;
     --check|-c|check)           MODE="check" ;;
     --version|version)          MODE="version" ;;
     --ref)
@@ -416,6 +678,7 @@ case "$MODE" in
   update)    run_update ;;
   uninstall) run_uninstall ;;
   init)      run_init ;;
+  commands)  run_commands ;;
   check)     run_check ;;
   version)   run_version ;;
 esac
