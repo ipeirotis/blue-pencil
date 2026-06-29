@@ -140,11 +140,18 @@ resolve_ref() {
     return
   fi
   if [ -d "$repo/.git" ]; then
-    local tag branch sha
-    tag="$(git -C "$repo" describe --tags --exact-match 2>/dev/null || true)"
-    if [ -n "$tag" ]; then echo "$tag"; return; fi
+    local branch tag sha
+    # Prefer the tracked branch. A clone on a branch wants that branch's latest,
+    # even when its current tip happens to sit on a tagged release commit (a fresh
+    # default install made right after a release). Only fall back to an exact tag
+    # when HEAD is detached, which is how an explicit --ref pin to a tag or commit
+    # is checked out, so such pins still survive a plain update. (Checking the tag
+    # first would freeze an on-branch clone at a coincidental release tag and copy
+    # a stale command set, or never update.)
     branch="$(git -C "$repo" symbolic-ref --short -q HEAD 2>/dev/null || true)"
     if [ -n "$branch" ]; then echo "$branch"; return; fi
+    tag="$(git -C "$repo" describe --tags --exact-match 2>/dev/null || true)"
+    if [ -n "$tag" ]; then echo "$tag"; return; fi
     sha="$(git -C "$repo" rev-parse --verify -q HEAD 2>/dev/null || true)"
     if [ -n "$sha" ]; then echo "$sha"; return; fi
   fi
