@@ -199,6 +199,26 @@ unlink_one() {
   fi
 }
 
+# Link the skill into the standard targets. The copied commands and agent load
+# the skill from ~/.claude/skills (or ~/.agents/skills), so any path that
+# registers commands must make sure the skill itself is present first, or
+# /paper:* names would resolve to nothing. Idempotent (link_one is a no-op when
+# the link already exists).
+ensure_skill_linked() {
+  local src="$1"
+  for dest in "${TARGETS[@]}"; do
+    link_one "$src" "$dest"
+  done
+}
+
+# An installer path that resolves from any directory. $0 is unreliable: under
+# `curl ... | bash` it is "bash", and a relative "./install.sh" stops resolving
+# once the user changes into their paper repo. The copy in $src (the managed
+# clone or the local checkout) is always reachable by absolute path.
+installer_path() {
+  echo "$1/install.sh"
+}
+
 run_install() {
   local src
   src="$(resolve_source)"
@@ -215,13 +235,13 @@ run_install() {
     fi
   fi
   echo "Installing $SKILL_NAME from $src"
-  for dest in "${TARGETS[@]}"; do
-    link_one "$src" "$dest"
-  done
+  ensure_skill_linked "$src"
   echo
-  echo "Done. Run '$0 --check' to verify."
-  echo "For Claude Code /paper: slash commands, run '$0 --init' in your paper repo"
-  echo "(or '$0 --commands' to enable them in every project)."
+  local installer
+  installer="$(installer_path "$src")"
+  echo "Done. Run '$installer --check' to verify."
+  echo "For Claude Code /paper: slash commands, run '$installer --init' in your paper repo"
+  echo "(or '$installer --commands' to enable them in every project)."
 }
 
 run_update() {
@@ -249,9 +269,7 @@ run_update() {
   after_sha="$(git -C "$src" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 
   # Re-link in case symlinks were missing or pointed elsewhere.
-  for dest in "${TARGETS[@]}"; do
-    link_one "$src" "$dest"
-  done
+  ensure_skill_linked "$src"
 
   echo
   if [ "$before_sha" = "$after_sha" ]; then
@@ -261,10 +279,31 @@ run_update() {
   fi
 }
 
+# Remove the global paper: commands and the paper-reviser agent that --commands
+# installs under ~/.claude. The whole paper/ command directory is ours (it is the
+# namespace), so it is safe to remove wholesale. Project-level copies made by
+# --init live in individual repos and are left to the user: uninstall takes no
+# repo argument and must not guess which repos to touch.
+remove_commands() {
+  local base="$1"
+  local cmd_dir="$base/.claude/commands/paper"
+  local agent_file="$base/.claude/agents/paper-reviser.md"
+  if [ -d "$cmd_dir" ]; then
+    rm -rf "$cmd_dir"
+    echo "  removed: $cmd_dir"
+  fi
+  if [ -f "$agent_file" ]; then
+    rm -f "$agent_file"
+    echo "  removed: $agent_file"
+  fi
+}
+
 run_uninstall() {
   for dest in "${TARGETS[@]}"; do
     unlink_one "$dest"
   done
+  remove_commands "$HOME"
+  echo "Note: paper: commands copied into a repo by --init stay in that repo; remove them there if you want them gone."
 }
 
 run_check() {
@@ -348,6 +387,11 @@ run_commands() {
   local src
   src="$(resolve_source)"
   echo "Registering paper: commands and the paper-reviser agent for all projects (~/.claude)"
+  # The agent loads the skill from ~/.claude/skills, so install the skill too;
+  # otherwise the commands would resolve but every invocation would dead-end on
+  # a missing skill. Idempotent, so running --commands after a normal install is
+  # harmless.
+  ensure_skill_linked "$src"
   install_commands "$HOME" "$src"
   echo
   echo "Done. /paper:loop and the other paper: commands now resolve in every project."

@@ -9,13 +9,14 @@ The installer now registers the `paper:` slash commands, closing a gap where `/p
 
 ### Added
 
-- `install.sh`: a `--commands` mode that copies the `paper/` command directory and the `paper-reviser` agent into `~/.claude/`, registering `/paper:loop`, `/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`, and `/paper:consistency` for every project. It is idempotent and safe to re-run after an `--update` to pick up new or changed commands.
+- `install.sh`: a `--commands` mode that copies the `paper/` command directory and the `paper-reviser` agent into `~/.claude/`, registering `/paper:loop`, `/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`, and `/paper:consistency` for every project. It also links the skill into the standard targets first (the agent loads the skill from `~/.claude/skills`, so registering commands without the skill would leave names that resolve to nothing), and is idempotent and safe to re-run after an `--update` to pick up new or changed commands.
 - `install.sh`: an `install_commands` helper shared by `--init` and `--commands`. It resolves the command and agent files from the skill source (a local clone, or the managed clone the symlinks point at) and refreshes them in place under the target `.claude/` tree.
 
 ### Changed
 
 - `install.sh`: `--init` now registers the `paper:` commands and the `paper-reviser` agent in the current paper repo (`<repo>/.claude/`) in addition to scaffolding `AGENTS.md`/`CLAUDE.md`, so a single setup step makes the slash commands resolve. The registration runs even when `AGENTS.md` already has a `<paper_context>` block.
-- `install.sh`: the default `install` now prints a hint pointing at `--init` (this repo) and `--commands` (all projects) so the command-registration step is discoverable instead of buried in the README.
+- `install.sh`: the default `install` now prints a hint pointing at `--init` (this repo) and `--commands` (all projects) so the command-registration step is discoverable instead of buried in the README. The hint uses the installer's absolute path rather than `$0`, which is unusable under `curl ... | bash` (where `$0` is `bash`) or after the user changes into their paper repo (where a relative `./install.sh` no longer resolves).
+- `install.sh`: `--uninstall` now also removes the global `paper:` commands and the `paper-reviser` agent that `--commands` installs under `~/.claude`, so uninstall fully reverses the new registration path. Commands copied into a specific repo by `--init` are left in place, since uninstall takes no repo argument.
 - `README.md`: the Quickstart, the complete-paper-edit-loop note, and the "Structured slash commands" section now describe `install.sh --init` / `--commands` as the supported way to register the commands (with the manual copy kept as an alternative), and explain why a skill-bundled command file does not register on its own.
 - `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.22.0.
 

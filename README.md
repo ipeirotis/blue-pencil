@@ -259,7 +259,7 @@ Because both targets are symlinks into the same clone, a single `git pull` (or `
 curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --uninstall
 ```
 
-Removes both symlinks. The clone at `~/.local/share/paper-revision-editor` is left alone; delete it manually if you want.
+Removes both symlinks and the global `paper:` commands and `paper-reviser` agent that `--commands` installs under `~/.claude`. Commands copied into a specific repo by `--init` stay in that repo (uninstall takes no repo argument); remove them there if you want them gone. The clone at `~/.local/share/paper-revision-editor` is left alone; delete it manually if you want.
 
 ## Verify and troubleshoot
 
