@@ -3,6 +3,26 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.22.0] - 2026-06-29
+
+The installer now registers the `paper:` slash commands, closing a gap where `/paper:loop` (and the rest) came back as "Unknown command" on a machine that had the skill installed. Claude Code discovers commands under `.claude/commands/` in a repo or `~/.claude/`, never from inside an installed skill directory, so shipping the command files in the skill was not enough: they had to be copied into one of those trees. Previously that copy was a documented manual step, easy to miss, and a marketplace or symlink install left no obvious source to copy from. The installer now does it.
+
+### Added
+
+- `install.sh`: a `--commands` mode that copies the `paper/` command directory and the `paper-reviser` agent into `~/.claude/`, registering `/paper:loop`, `/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`, and `/paper:consistency` for every project. It is idempotent and safe to re-run after an `--update` to pick up new or changed commands.
+- `install.sh`: an `install_commands` helper shared by `--init` and `--commands`. It resolves the command and agent files from the skill source (a local clone, or the managed clone the symlinks point at) and refreshes them in place under the target `.claude/` tree.
+
+### Changed
+
+- `install.sh`: `--init` now registers the `paper:` commands and the `paper-reviser` agent in the current paper repo (`<repo>/.claude/`) in addition to scaffolding `AGENTS.md`/`CLAUDE.md`, so a single setup step makes the slash commands resolve. The registration runs even when `AGENTS.md` already has a `<paper_context>` block.
+- `install.sh`: the default `install` now prints a hint pointing at `--init` (this repo) and `--commands` (all projects) so the command-registration step is discoverable instead of buried in the README.
+- `README.md`: the Quickstart, the complete-paper-edit-loop note, and the "Structured slash commands" section now describe `install.sh --init` / `--commands` as the supported way to register the commands (with the manual copy kept as an alternative), and explain why a skill-bundled command file does not register on its own.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.22.0.
+
+### Rationale
+
+The commands existed and were documented, but the path from "skill installed" to "`/paper:loop` works" required a manual copy that most installs never performed, and a marketplace install gave the user no local source to copy from at all. Making the installer perform the copy (per-repo with `--init`, globally with `--commands`) turns a silent failure into a one-command fix, while the skill stays the cross-tool source of truth and the manual copy remains available for anyone who wants it.
+
 ## [1.21.0] - 2026-06-28
 
 An outer author loop over the existing single-section passes. Until now every command operated on one section, one pass, one entry point, and an author doing a full edit had to infer the sequencing (which sub-command, in what order, when to repeat, when to stop) from the sub-commands themselves. This release makes the whole-paper loop explicit, on the governing principle "diagnose globally, edit locally, validate globally, then polish conservatively," while keeping the skill the source of truth for every individual edit.

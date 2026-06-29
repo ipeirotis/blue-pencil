@@ -18,7 +18,8 @@
 #   ./install.sh              # install
 #   ./install.sh --update     # update the clone (every linked tool sees the new content)
 #   ./install.sh --uninstall  # remove both symlinks
-#   ./install.sh --init       # scaffold AGENTS.md in the current paper repo
+#   ./install.sh --init       # scaffold AGENTS.md and register paper: commands in the current paper repo
+#   ./install.sh --commands   # register paper: commands and the paper-reviser agent for all projects (~/.claude)
 #   ./install.sh --check      # show install state
 #   ./install.sh --version    # print the installed version
 #
@@ -63,7 +64,8 @@ Usage:
   install.sh              Install (clones if needed, symlinks both targets)
   install.sh --update     Update the clone (both targets update at once)
   install.sh --uninstall  Remove both symlinks
-  install.sh --init       Scaffold AGENTS.md in the current paper repo
+  install.sh --init       Scaffold AGENTS.md and register paper: commands in the current paper repo
+  install.sh --commands   Register paper: commands and the paper-reviser agent for all projects (~/.claude)
   install.sh --check      Show install state and the tracked ref
   install.sh --version    Print the installed version
   install.sh --ref REF    Install or update to a tag, branch, or commit
@@ -218,6 +220,8 @@ run_install() {
   done
   echo
   echo "Done. Run '$0 --check' to verify."
+  echo "For Claude Code /paper: slash commands, run '$0 --init' in your paper repo"
+  echo "(or '$0 --commands' to enable them in every project)."
 }
 
 run_update() {
@@ -315,6 +319,40 @@ read_field() {
   printf '%s' "$var"
 }
 
+# Copy the paper: slash commands and the paper-reviser subagent out of the
+# skill and into a .claude/ tree. Claude Code registers commands from
+# <project>/.claude/commands/ or ~/.claude/commands/ and subagents from the
+# matching agents/ dirs; it never registers either from inside an installed
+# skill directory. So even though the skill ships these files, they take effect
+# only once copied here. Idempotent: it refreshes the paper/ command set and the
+# paper-reviser agent in place. $1 is the .claude parent (a repo root or $HOME);
+# $2 is the skill source dir.
+install_commands() {
+  local base="$1" src="$2"
+  local cmd_src="$src/.claude/commands/paper"
+  local agent_src="$src/.claude/agents/paper-reviser.md"
+  if [ ! -d "$cmd_src" ]; then
+    echo "ERROR: cannot find $cmd_src" >&2
+    return 1
+  fi
+  mkdir -p "$base/.claude/commands/paper" "$base/.claude/agents"
+  cp "$cmd_src"/*.md "$base/.claude/commands/paper/"
+  echo "  registered paper: commands -> $base/.claude/commands/paper/"
+  if [ -f "$agent_src" ]; then
+    cp "$agent_src" "$base/.claude/agents/paper-reviser.md"
+    echo "  registered paper-reviser agent -> $base/.claude/agents/paper-reviser.md"
+  fi
+}
+
+run_commands() {
+  local src
+  src="$(resolve_source)"
+  echo "Registering paper: commands and the paper-reviser agent for all projects (~/.claude)"
+  install_commands "$HOME" "$src"
+  echo
+  echo "Done. /paper:loop and the other paper: commands now resolve in every project."
+}
+
 run_init() {
   if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "ERROR: --init must run inside a git repository (your paper repo)." >&2
@@ -325,6 +363,11 @@ run_init() {
 
   local src
   src="$(resolve_source)"
+
+  echo "Registering paper: commands in $repo_root/.claude"
+  install_commands "$repo_root" "$src"
+  echo
+
   local template="$src/examples/AGENTS.md.template"
   local claude_template="$src/examples/CLAUDE.md.template"
   if [ ! -f "$template" ]; then
@@ -393,6 +436,7 @@ while [ $# -gt 0 ]; do
     --update|update)            MODE="update" ;;
     --uninstall|uninstall)      MODE="uninstall" ;;
     --init|init)                MODE="init" ;;
+    --commands|commands)        MODE="commands" ;;
     --check|-c|check)           MODE="check" ;;
     --version|version)          MODE="version" ;;
     --ref)
@@ -416,6 +460,7 @@ case "$MODE" in
   update)    run_update ;;
   uninstall) run_uninstall ;;
   init)      run_init ;;
+  commands)  run_commands ;;
   check)     run_check ;;
   version)   run_version ;;
 esac

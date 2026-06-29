@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, make less AI-generated and more human to
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.21.0"
+  version: "1.22.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---

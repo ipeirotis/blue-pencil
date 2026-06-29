@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.21.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.22.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -57,7 +57,7 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
    ~/.local/share/paper-revision-editor/install.sh --init
    ```
 
-   It asks four short questions (your target venue, your audience, your paper's main point, and how far along you are: `first draft`, `response to reviewers`, or `final polish`) and saves the answers so the editor tailors its work to your paper. The revision stage matters: a `first draft` may be restructured, while a `final polish` only gets light sentence-level edits.
+   It asks four short questions (your target venue, your audience, your paper's main point, and how far along you are: `first draft`, `response to reviewers`, or `final polish`) and saves the answers so the editor tailors its work to your paper. The revision stage matters: a `first draft` may be restructured, while a `final polish` only gets light sentence-level edits. It also registers the Claude Code `/paper:` slash commands in this repo so `/paper:loop`, `/paper:revise`, and the rest resolve.
 
    `--init` runs inside a git repository (it writes `AGENTS.md` at the repo root). If your paper folder is not a git repo yet, run `git init` first, or skip the script and copy [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md` and fill in the four fields by hand.
 
@@ -65,7 +65,7 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
 
    > Revise the introduction in `intro.tex` so it flows better.
 
-   The skill runs automatically, so the plain-English request above needs no extra setup. (Claude Code users can optionally enable ready-made commands such as `/paper:revise intro.tex`. The standard install does not register these; the one-time copy step is in [Structured slash commands](#structured-slash-commands-claude-code).)
+   The skill runs automatically, so the plain-English request above needs no extra setup. (Claude Code users also get ready-made commands such as `/paper:revise intro.tex`. Running `--init` in step 2 registers them in this repo; to enable them in every project instead, run `install.sh --commands`. See [Structured slash commands](#structured-slash-commands-claude-code).)
 
 4. **Read the four sections, then decide.** Skim the Diagnosis, compare the Revised text against your original, check the rationale for anything you disagree with, and answer the Author questions. You stay the author; the skill never has the last word on your claims.
 
@@ -84,12 +84,14 @@ command filled in) and walk it with you, pausing at each author checkpoint.
 `/paper:loop` plans and drives the loop; the skill stays the source of truth for
 every actual edit.
 
-Note that `/paper:loop` and the other `paper:` slash commands it calls are not
-registered by the standard install; they need the one-time copy into
-`.claude/commands/` described in [Structured slash
-commands](#structured-slash-commands-claude-code). Until you do that copy, follow
-the steps by hand with the plain-English prompts (for example "give me editorial
-feedback on `sections/intro.tex`") instead of the slash commands.
+Note that `/paper:loop` and the other `paper:` slash commands it calls live in
+`.claude/commands/`, which Claude Code reads from your repo (or `~/.claude/`),
+not from inside the installed skill. Run `install.sh --init` in your paper repo
+to register them there, or `install.sh --commands` to register them for every
+project; see [Structured slash commands](#structured-slash-commands-claude-code).
+Until you do, follow the steps by hand with the plain-English prompts (for
+example "give me editorial feedback on `sections/intro.tex`") instead of the
+slash commands.
 
 ### Step 0: Set context
 
@@ -330,7 +332,7 @@ For predictable, one-shot invocation, the repo ships a `paper:` command namespac
 
 The section commands take a section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`. `/paper:consistency` and `/paper:loop` take the manuscript root or a list of section files; `/paper:loop` drives the [complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) above.
 
-Like the `paper-reviser` subagent, these commands are Claude-Code conveniences. Claude Code discovers commands under `.claude/commands/` and subagents under `.claude/agents/` (project level), or the same paths under `~/.claude/` (all projects). To use them in your own paper repo, copy the `paper/` directory to `<your-repo>/.claude/commands/paper/` and `paper-reviser.md` to `<your-repo>/.claude/agents/paper-reviser.md`; or copy them to `~/.claude/commands/paper/` and `~/.claude/agents/paper-reviser.md` to make them available in every project. Keep the `paper/` directory under `commands/`, since it is the subdirectory name that produces the `paper:` namespace. The skill itself stays the cross-tool source of truth and needs none of this.
+Like the `paper-reviser` subagent, these commands are Claude-Code conveniences. Claude Code discovers commands under `.claude/commands/` and subagents under `.claude/agents/` (project level), or the same paths under `~/.claude/` (all projects). It never discovers them inside an installed skill directory, so the skill ships the files but they take effect only once copied into one of those trees. The installer does the copy for you: run `install.sh --init` in your paper repo to register them there, or `install.sh --commands` to register them for every project (`~/.claude/`). Both copy the `paper/` command directory and `paper-reviser.md`, and are safe to re-run after an update to pick up new or changed commands. To do it by hand instead, copy the `paper/` directory to `<your-repo>/.claude/commands/paper/` (or `~/.claude/commands/paper/`) and `paper-reviser.md` to the matching `agents/` dir; keep the `paper/` directory name, since it is what produces the `paper:` namespace. The skill itself stays the cross-tool source of truth and needs none of this.
 
 ## How it works (under the hood)
 
@@ -344,7 +346,7 @@ When you ask an agent to "revise the introduction" or "respond to reviewer 2", t
 | `references/` | Load-on-demand reference material, including reader-experience and research-paper copyediting checks |
 | `.claude/agents/paper-reviser.md` | Claude Code subagent that dispatches to the skill |
 | `.claude/commands/paper/` | Claude Code slash commands: section passes (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`), the whole-paper `/paper:consistency` check, and the `/paper:loop` planner-driver |
-| `install.sh` | Installer, updater, uninstaller; supports `--ref`, `--version`, `--check` |
+| `install.sh` | Installer, updater, uninstaller; registers `paper:` commands via `--init` (this repo) or `--commands` (all projects); supports `--ref`, `--version`, `--check` |
 | `scripts/` | Maintenance helpers: `check-version.sh`, `bump-version.sh`, `lint.sh` |
 | `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
 | `Makefile` | Thin wrapper over `install.sh` and `scripts/` |
