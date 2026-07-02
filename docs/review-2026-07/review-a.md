@@ -186,7 +186,7 @@ Fix: replace both prose blocks with one decision table in `SKILL.md` and have
 **C6. Messy input has no guidance.**
 Severity: Medium. Audience: everyone with a real manuscript.
 Nothing covers: an OCR-mangled PDF extraction (ligature garbage, broken
-hyphenation — should the skill fix "mo del" or flag extraction quality?); a
+hyphenation: should the skill fix "mo del" or flag extraction quality?); a
 Word manuscript (`Read` cannot open `.docx`; the workflow is paste-in, but
 that is nowhere stated, and constraint 5's protections are LaTeX-only, see D5);
 reviewer comments with no manuscript; a 40-page paper that strains one context
@@ -369,7 +369,7 @@ revisions hit in round one.
    the most error-prone instruction block. Files: `SKILL.md` "1. Diagnosis",
    `references/exposition.md` (drop the duplicated gating, keep the line
    semantics). Change: G4. Risk: table must be kept in sync with exposition.md
-   triggers — mitigated by making SKILL.md the *only* place gating lives.
+   triggers, mitigated by making SKILL.md the *only* place gating lives.
 5. **Soften the word-count requirement to approximate** (C8). File:
    `SKILL.md` "Change rationale". Change: one phrase. Risk: none.
 6. **Add reviewer-conflict, reviewer-overclaim, and bridge-marking bullets**
@@ -377,7 +377,7 @@ revisions hit in round one.
    "Constraints". Change: G6. Risk: none.
 7. **Exempt `/paper:consistency` from the seven-item cap** (C7). Files:
    `SKILL.md` "1. Diagnosis", `consistency.md`. Risk: verbose output on messy
-   papers — acceptable for a diagnosis-only pass.
+   papers, acceptable for a diagnosis-only pass.
 8. **Emit the comment-to-change status table in rebut output** (E). File:
    `rebut.md`. Change: G9. Risk: none.
 
@@ -386,7 +386,7 @@ revisions hit in round one.
 9. **Graceful context intake** (C1, C4). Solves cold-start friction and
    chat-surface unusability. Files: `SKILL.md` "Before you start" (replace, per
    G2), README (add "Using it in claude.ai / without install", per G8). Risk:
-   defaults can be wrong — mitigated by always *stating* the assumed context in
+   defaults can be wrong, mitigated by always *stating* the assumed context in
    the triage line so the author can veto.
 10. **`/paper:triage` command** (E). Input: the full decision letter (+
     optionally the manuscript). Output: the four-section format with
@@ -395,7 +395,7 @@ revisions hit in round one.
     unclear), and a recommended order of work mapped onto the other
     `/paper:` commands. Files: new `.claude/commands/paper/triage.md`, README
     table, loop.md cross-reference. Risk: scope creep into promising analysis
-    work — bounded by "diagnosis only" and the existing no-drafting rules.
+    work, bounded by "diagnosis only" and the existing no-drafting rules.
 11. **`/paper:letter` command + example** (E). Drafts or improves a
     response-to-reviewers letter from: the comment set, the (revised)
     manuscript, and the author's decisions. Reuses
@@ -404,7 +404,7 @@ revisions hit in round one.
     Change rationale; Author questions for every promised-but-unverified
     change). Hard rule: every claimed manuscript change must point at a real
     location, and changes the letter promises but the manuscript lacks go to
-    `Author questions` — the letter must never promise what was not done.
+    `Author questions`; the letter must never promise what was not done.
     Files: new command, new `examples/response-letter-example.md`, README.
     Risk: tone calibration is subjective; anchor it to the existing
     "respectful but not abject" guidance.
@@ -413,7 +413,7 @@ revisions hit in round one.
 13. **`scripts/check-protected.sh` + CI over examples** (D6). Deterministic
     diff of citation keys, numbers, math spans, refs between example inputs
     and outputs; wire into `make test`. Risk: false positives on legitimate
-    flagged changes — allow an exceptions list per example.
+    flagged changes; allow an exceptions list per example.
 14. **Author-edit preservation rule** (D7). File: `SKILL.md` (two sentences in
     "Restraint" or a new "Across rounds" note), `loop.md` Step C. Risk: none.
 
@@ -436,7 +436,7 @@ revisions hit in round one.
    `first draft`), fills the rest with stated defaults, and says so in the
    triage line. It asks a blocking question *only* when the request is
    stage-sensitive and the signal conflicts.
-3. Triage line (scope / unit / aggressiveness / assumed context) — announce and
+3. Triage line (scope / unit / aggressiveness / assumed context): announce and
    proceed, exactly as the current examples already do.
 4. Diagnose → rewrite → four-section output, returned as text. **No file is
    modified.**
@@ -697,7 +697,7 @@ constraint on framing); verification of every "we changed X at location Y"
 claim against the manuscript, with unverifiable promises routed to `Author
 questions` rather than left standing; no invented changes. (Today this
 prompt lands in a gap: the genre guidance exists, but no command, output
-format, or example covers it — the strongest argument for F11.)
+format, or example covers it, the strongest argument for F11.)
 
 ---
 
@@ -708,7 +708,7 @@ format, or example covers it — the strongest argument for F11.)
 Should invoke:
 1. "Revise my introduction so it flows." (baseline)
 2. "Tighten Section 4 per Reviewer 2." (currently at risk: no
-   revise/polish token — C2)
+   revise/polish token, per C2)
 3. "Does my methods section flow, or is it choppy?" (feedback phrasing)
 4. "Make my discussion sound less like ChatGPT wrote it."
 5. "Here are R1's comments on our results section, help me address them."
@@ -724,7 +724,7 @@ Should NOT invoke:
 12. "Just list the typos in section 3, change nothing."
 13. "Polish this blog post about our new paper."
 14. "Review this paper I'm refereeing for ICIS and draft my referee report."
-    (adjacent vocabulary, wrong direction — the user is the reviewer)
+    (adjacent vocabulary, wrong direction: the user is the reviewer)
 
 ### Behavioral goldens (property checks, not exact-text matches)
 
@@ -745,7 +745,7 @@ Should NOT invoke:
     two documented exits rather than polishing.
 20. **Missing context**: no `AGENTS.md`, pasted paragraph, "make this flow";
     assert (post-G2) one message that states assumed stage/audience and
-    proceeds — not a four-question interrogation, and never a silent guess.
+    proceeds: not a four-question interrogation, and never a silent guess.
 21. **Output format conformance**: every run emits the four headings in
     order; `feedback`/`consistency` runs emit `No rewrite requested.`; every
     `Author questions` item ends in `?`. (Cheap to lint from transcripts.)

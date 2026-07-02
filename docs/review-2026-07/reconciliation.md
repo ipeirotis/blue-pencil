@@ -1,7 +1,7 @@
 # Reconciliation of the two skill reviews (v1.22.0)
 
-Date: 2026-07-02. Inputs: `REVIEW.md` on this branch ("review A", mine) and a second
-independently produced review ("review B", the uploaded `REVIEW.md` with the
+Date: 2026-07-02. Inputs: `review-a.md` in this directory ("review A") and a second
+independently produced review (`review-b.md`, "review B", the one with the
 multi-agent method note and the "reading companion" addendum). Method: every finding
 unique to review B was re-verified against the repo source before adoption; the two
 conflicts between the reviews are adjudicated explicitly below, including one place
@@ -87,7 +87,7 @@ Every item below was checked against the repo before adoption. All confirmed.
   attribution decision. Confirmed. Adopt: propose in `Author questions`, never
   perform.
 - **B-D7 details.** (a) `loop.md`'s carried-guardrails list omits "never change the
-  meaning of a technical claim" — the single most important rule. Confirmed
+  meaning of a technical claim", the single most important rule. Confirmed
   (`loop.md:30-33`). (b) "Replace **any** em-dash" collides with "quotes stay
   verbatim" when a quote contains one. Confirmed. Adopt both fixes.
 - **B-D10(d), `[P1]`-style labels inside the `Revised text` fenced block**
@@ -149,7 +149,7 @@ Every item below was checked against the repo before adoption. All confirmed.
   methods example's metadata injection; A flagged the introduction example deriving
   an exclusion-restriction argument the draft only asserts. Both stand. Merged
   finding: **two of the three exposition examples bend the no-new-substance rule in
-  different ways, and the third misdescribes an edit as verbatim** — the exposition
+  different ways, and the third misdescribes an edit as verbatim**: the exposition
   example set needs a consistency pass as a unit, against the new constraint 1
   (B-G2) once adopted.
 - **A's adversarial evals** ("make p = 0.06 sound significant", quota-cut,
@@ -196,7 +196,7 @@ block stays clean; the flag stays adjacent to what the author reads.
 Middle path. The genuinely broken state is the superposition
 (`structural-patterns.md` ships grant guidance while scope excludes it). Resolution:
 keep the reference section but mark grants **explicit-request only, never an
-auto-trigger** — the description stays paper-scoped, "When NOT to use" says grants
+auto-trigger**: the description stays paper-scoped, "When NOT to use" says grants
 are served only on explicit request with the same constraints, and B's trigger-eval
 #5 gets its pinned expected answer (no auto-invoke). This preserves the useful
 guidance without scope creep, and fits the addendum's paper-centric reading lanes.
@@ -205,7 +205,7 @@ guidance without scope creep, and fits the addendum's paper-centric reading lane
 venue compliance light; B addendum: in scope when tools exist).** Not a true
 conflict once conditioned on the tool surface. A's verdicts were correct *under
 `allowed-tools: Read Edit Grep Glob`*: with no retrieval, a "citation check" is
-memory, and memory-cited references are fabrication — precisely why A said "declare
+memory, and memory-cited references are fabrication, precisely why A said "declare
 out of scope so users don't assume it happened." The addendum removes the premise
 (capability-gated lanes, "retrieved, not remembered", "provenance or it does not
 exist"), and its no-forking-paths norm addresses the HARKing risk head-on. Adopt
@@ -279,7 +279,7 @@ feeds.
 
 **Larger (the addendum, sequenced as B proposes, with refinement 1 above):**
 17. `/paper:read` + `references/cold-read.md`; replace loop Step 1.
-18. Master-rule split (B-A2 wording) — lands naturally on top of the new
+18. Master-rule split (B-A2 wording), which lands naturally on top of the new
     constraint 1.
 19. `/paper:verify-numbers` (verification only) + `analysis-integrity.md`, as its
     own gated agent.
@@ -288,7 +288,7 @@ feeds.
 21. Analyst capabilities 2-3 (figures, new analyses) last. B's response-suite
     redesign (triage → rebut → consistency → letter) ships alongside, since items
     11-12 provide its parts.
-22. Installer test harness (B) — or shrink the installer surface to fit the testing
+22. Installer test harness (B), or shrink the installer surface to fit the testing
     budget; either resolves the "684 lines, zero CI on its highest-churn logic"
     finding.
 
