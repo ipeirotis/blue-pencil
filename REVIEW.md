@@ -703,3 +703,210 @@ this has no route at all.
    `paper/mine.md` preserved; skill symlinks gone.
 3. `git -C clone pull` path: assert the README-documented drift (registered commands
    vs. symlinked skill) is either refreshed or warned about.
+
+---
+
+## Addendum (2026-07-02): from section editor to reading companion
+
+Author feedback on this review challenged its framing: the per-section,
+edit-existing-prose-only scope is itself a product limitation. The editor should read
+the paper the way an end user does and ensure the whole thing flows and is a delight
+to read; and where the repo contains data and analysis code, or where literature
+access exists, the skill should not refrain from running new analyses, producing
+better plots, or consulting the literature to settle novelty questions. This addendum
+accepts that framing, revises the affected verdicts above, and specifies how to expand
+the scope without losing the safety properties that make the current skill
+trustworthy.
+
+### A1. What changes in the diagnosis
+
+The review above treated the section-scoped, no-new-substance design as a given and
+evaluated execution against it. Under the expanded framing, three of its verdicts are
+superseded:
+
+- **E5 (citation and claim integrity: "mostly defer, out of scope")** becomes **in
+  scope when literature access exists**. Verifying that a cited work says what the
+  manuscript claims, and scanning for prior work that bears on a novelty claim, are
+  retrieval tasks, not judgment calls, and they are exactly the questions the current
+  skill bounces back as `Author questions` that the author then has to settle by hand.
+- **E6 (venue compliance: "cheap pieces only")** widens: with whole-paper reading as
+  the default posture, length, structure, and anonymization checks belong to the
+  cold-read pass rather than being bolted onto `/paper:consistency`.
+- **The A-item framing of `/paper:loop` as the flagship** inverts. The loop is a
+  sequencing protocol for per-section passes; under the new framing the flagship is a
+  whole-paper cold read that produces the reading experience the loop never actually
+  measures. "Diagnose globally" (the loop's own principle) is currently implemented as
+  per-section feedback stitched together; nothing in the repo ever reads the
+  manuscript front to back as the target reader.
+
+Everything in section D (safety and correctness) stands unchanged, and matters more:
+the per-claim protections are what make the expansion safe.
+
+### A2. The rule that must be split, not deleted
+
+The current master rule ("this skill edits existing prose; it does not draft new
+sections", plus `exposition.md`'s "supplying an idea the page does not contain is
+drafting, and drafting is out of scope") conflates two different acts:
+
+1. **Fabrication**: asserting a number, citation, or finding that was never computed
+   or retrieved. This stays absolutely banned in every lane.
+2. **Computation and retrieval**: running the author's own analysis code on the
+   author's own data, or reading actual papers, to produce verified substance. This
+   becomes allowed, with provenance.
+
+Proposed replacement for the master rule, usable verbatim in `SKILL.md`:
+
+```markdown
+Never assert unverified substance. Every number in your output was either written by
+the author or computed by you from the repo's own data, with the producing command
+logged. Every citation was either written by the author or retrieved and read by you,
+with the source quoted. Every other claim is the author's. Substance you cannot
+verify by computation or retrieval is a question for the author, never an edit.
+```
+
+This is a strictly stronger honesty standard than "never invent": it also covers the
+new lanes' outputs, and it reframes constraint 6 (numbers) and constraint 3
+(citations) as two instances of one principle.
+
+### A3. Proposed architecture: four lanes, one reader
+
+**Lane 1: Reader (new, and the new default entry point).** `/paper:read` (or the bare
+"is this paper good?" trigger): read the full manuscript, cold, as the
+`<paper_context>` audience. No edits. Output, reusing the existing four-section frame:
+
+- A **reading log**: at each section boundary, what question the reader is carrying,
+  whether the next section answers it, and the first sentence at which a
+  venue-competent non-specialist stops following or stops caring. This is
+  `reader-pleasure.md`'s five tests (orientation, momentum, payoff, texture, relief)
+  applied at paper scale instead of paragraph scale.
+- The **colleague test**: the one-sentence summary the reader would give a colleague,
+  stated blind and then compared against `core_thesis`. A mismatch here is the
+  paper's most important defect and outranks every sentence-level finding.
+- A **delight audit**: where the paper rewards the reader (a genuine surprise, a
+  figure that carries the argument, a memorable phrase) and where it taxes them, so
+  "a pleasure to read" is measured, not asserted.
+- A **prioritized dispatch list** into the other lanes: which sections need the
+  editor, which numbers need the analyst, which claims need the scholar.
+
+Edits stay per-section (that is what keeps them reviewable and the diff legible); the
+*diagnosis* becomes genuinely global. `loop.md` Step 1 (per-section feedback over
+every file) is replaced by one cold read.
+
+**Lane 2: Editor.** The current skill, unchanged, including its constraints. All
+section C, D, and G items above still apply to it.
+
+**Lane 3: Analyst (new; gated on the repo containing data or analysis code).**
+Allowed, in rising order of ambition:
+
+1. **Verify reported numbers**: rerun the existing pipeline and diff its outputs
+   against every number in the manuscript. Catches the stale-number-in-the-abstract
+   class of error that no prose pass can see. Likely the highest-value new capability
+   per unit of risk.
+2. **Regenerate figures**: the repo already holds that figures are primary text
+   (`edit-checks.md` check 5, Chetty exemplar); the analyst can act on it by
+   re-rendering plots with better visual design from the same data and scripts,
+   proposing them side by side with the originals.
+3. **Run new analyses**: a robustness check a reviewer demanded, a baseline the
+   author names, a subgroup cut that settles an `Author question`.
+
+Integrity norms the lane must carry (this is where naive expansion goes wrong):
+
+```markdown
+- Provenance or it does not exist: every number and figure you produce is logged with
+  the exact script, command, and data version that produced it. Nothing enters the
+  manuscript that the author cannot reproduce with one command.
+- No garden of forking paths: state the analysis before running it, and report the
+  result whichever way it points. Never scan specifications, subgroups, or outcome
+  definitions for a favorable result; if you ran a grid (a reviewer-demanded
+  robustness sweep), report the whole grid. Label exploratory analyses as
+  exploratory.
+- New results are proposals: present them in `Revised text` as clearly marked
+  candidate additions with their provenance, never silently woven into existing
+  claims. The author decides what enters the paper.
+- A changed number changes the paper: any verified correction or new result triggers
+  the cross-section consistency check, since the abstract, intro, and discussion may
+  all repeat the stale value.
+```
+
+The no-forking-paths rule is the load-bearing one. An assistant with data access and
+an instruction to "strengthen the results" is otherwise a HARKing machine, and the
+skill would go from protecting scientific integrity to industrializing its failure.
+
+**Lane 4: Scholar (new; gated on web/literature access).** Allowed:
+
+1. **Citation verification**: does the cited work actually say what the sentence
+   claims? (Upgrades E5.)
+2. **Novelty scan**: for a claimed contribution, search for prior work that overlaps,
+   and report leads.
+3. **Gap filling**: find the missing citation for an "it is well known that" claim,
+   or the related-work position a reviewer says was ignored.
+
+Integrity norms:
+
+```markdown
+- Retrieved, not remembered: cite only sources you fetched and read in this session,
+  with title, venue, year, and the specific passage that supports the use. A
+  citation from model memory is treated as fabricated.
+- Leads, not verdicts: a novelty scan returns "X (2023) appears to do Y; read
+  sections 3-4" for the author to judge. Never rewrite the paper's novelty claim on
+  your own conclusion; propose the recalibrated claim and cite the evidence.
+- Additions are flagged: a new citation enters the text only as a proposed edit with
+  the retrieved source attached, honoring the existing rule that citation changes are
+  author decisions.
+```
+
+### A4. Degradation and portability
+
+Lanes 3 and 4 require tools (`Bash` for analysis, web fetch/search for literature)
+that not every environment grants, and `allowed-tools` currently forbids both. The
+lanes must therefore be capability-gated, not assumed: detect the tools at run time,
+and when absent, degrade to the current behavior (flag the question in `Author
+questions`, with a note that data or literature access would settle it). This keeps
+the skill honest in claude.ai/Cowork sessions and keeps the cross-tool story intact.
+Concretely: `allowed-tools` gains `Bash`, `WebFetch`, `WebSearch` (environments that
+do not grant them simply will not offer them), and each new reference file opens with
+its gate condition.
+
+### A5. Concrete change list (supersedes parts of section F)
+
+Quick wins stay as listed in F. The expansion adds, in order:
+
+1. **`/paper:read`** command + `references/cold-read.md` (the reading-log, colleague
+   test, and delight-audit protocol; most content lifts from `reader-pleasure.md` and
+   `edit-checks.md`'s meta-rules, applied at paper scale). Replace `loop.md` Step 1
+   with it.
+2. **The master-rule split** (A2 wording) in `SKILL.md`, replacing the current
+   drafting-ban sentence in "When NOT to use" and threading through
+   `paper-reviser.md`'s hard rules.
+3. **`/paper:verify-numbers`** (analyst capability 1 only) + the provenance and
+   forking-paths norms in a new `references/analysis-integrity.md`. Ship this before
+   the more ambitious analyst features; it is pure verification and carries almost no
+   integrity risk.
+4. **`/paper:scholar`** + `references/literature-checks.md` (retrieval-grounding
+   norms). Citation verification first, novelty scan second.
+5. **Analyst capabilities 2 and 3** (figure regeneration, new analyses) last, once
+   the integrity norms have been exercised by the verification-only command.
+6. Frontmatter description gains the new triggers ("read my paper as a reviewer
+   would", "is the contribution actually novel", "check my numbers against the
+   data", "make Figure 3 carry the result").
+
+The revised end-to-end workflow, whole-paper first:
+
+```
+/paper:read paper.tex                # cold read: reading log, colleague test,
+                                     # delight audit, dispatch list
+[author confirms priorities]
+/paper:verify-numbers                # if data present: manuscript numbers vs pipeline
+/paper:scholar "contribution 2"      # if web present: novelty leads, citation checks
+/paper:revise sections/<flagged>     # editor lane, per section, as today
+/paper:consistency paper.tex         # unchanged
+/paper:read paper.tex                # exit criterion: the cold read comes back clean,
+                                     # and the colleague test matches core_thesis
+/paper:polish sections/<each>
+```
+
+The exit criterion changes character: today the loop stops when "remaining edits
+would be merely different rather than better"; under this architecture it stops when
+a cold read of the whole paper, by its intended reader, comes back delighted. That is
+the framing the author asked for, and the safety architecture above is what lets the
+skill pursue it with data and literature in hand rather than with prose alone.
