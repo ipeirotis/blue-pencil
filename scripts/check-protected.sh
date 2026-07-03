@@ -106,8 +106,11 @@ revised_block_of() {
   ' "$1"
 }
 
+# Editor labels sit at the start of a paragraph's first line, which is
+# where the skill adds them; a [P1]-style marker in the middle of running
+# manuscript text is the author's content and stays protected.
 strip_labels() {
-  sed -E 's/\[[PR][0-9]+(\.[0-9]+)?\]//g'
+  sed -E 's/^\[[PR][0-9]+(\.[0-9]+)?\] ?//'
 }
 
 # Print one token per line for the requested class; grep exits 1 on zero
@@ -119,7 +122,7 @@ tokens_of() {
   text="$(cat)"
   # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
-    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|@[A-Za-z0-9_:-]+' || true ;;
+    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
     authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?|&)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
     crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}|\[[^]]*\]\([^)]*\)' || true ;;
     callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
@@ -191,36 +194,45 @@ tokens_of() {
       ;;
     macros)
       # Every \command with its bracket and brace arguments, brace-counted
-      # so a nested group ({baseline {nested} tail}) is captured whole;
-      # commands whose argument is editable prose under the constraints
-      # keep only their name (the caption carve-out: caption text is
-      # prose, the macro itself must survive).
-      printf '%s\n' "$text" | awk '{
-        s = $0
-        while (match(s, /\\[A-Za-z]+\*?/)) {
-          tok = substr(s, RSTART, RLENGTH)
-          rest = substr(s, RSTART + RLENGTH)
-          while (1) {
-            c = substr(rest, 1, 1)
-            if (c == "[") {
-              p = index(rest, "]")
-              if (p == 0) break
-              tok = tok substr(rest, 1, p); rest = substr(rest, p + 1)
-            } else if (c == "{") {
-              depth = 0; p = 0
-              for (k = 1; k <= length(rest); k++) {
-                ch = substr(rest, k, 1)
-                if (ch == "{") depth++
-                else if (ch == "}") { depth--; if (depth == 0) { p = k; break } }
-              }
-              if (p == 0) break
-              tok = tok substr(rest, 1, p); rest = substr(rest, p + 1)
-            } else break
-          }
-          print tok
-          s = rest
+      # so a nested group ({baseline {nested} tail}) is captured whole.
+      # Commands whose argument is editable prose under the constraints
+      # emit only their name and scanning continues INSIDE the argument,
+      # so a protected macro nested in a caption, footnote, or emphasis
+      # span still gets its own token (the caption carve-out frees the
+      # prose, never the markup inside it).
+      printf '%s\n' "$text" | awk '
+        BEGIN {
+          split("caption emph textbf textit footnote section subsection subsubsection paragraph", a, " ")
+          for (i in a) prose[a[i]] = 1
         }
-      }' | sed -E 's/^\\(caption|emph|textbf|textit|footnote|section|subsection|subsubsection|paragraph)(\*?).*/\\\1\2/'
+        {
+          s = $0
+          while (match(s, /\\[A-Za-z]+\*?/)) {
+            tok = substr(s, RSTART, RLENGTH)
+            rest = substr(s, RSTART + RLENGTH)
+            name = tok; sub(/^\\/, "", name); sub(/\*$/, "", name)
+            if (name in prose) { print tok; s = rest; continue }
+            while (1) {
+              c = substr(rest, 1, 1)
+              if (c == "[") {
+                p = index(rest, "]")
+                if (p == 0) break
+                tok = tok substr(rest, 1, p); rest = substr(rest, p + 1)
+              } else if (c == "{") {
+                depth = 0; p = 0
+                for (k = 1; k <= length(rest); k++) {
+                  ch = substr(rest, k, 1)
+                  if (ch == "{") depth++
+                  else if (ch == "}") { depth--; if (depth == 0) { p = k; break } }
+                }
+                if (p == 0) break
+                tok = tok substr(rest, 1, p); rest = substr(rest, p + 1)
+              } else break
+            }
+            print tok
+            s = rest
+          }
+        }'
       printf '%s\n' "$text" | grep -oE '\\[^A-Za-z0-9[:space:]]' || true
       ;;
     quotes)
@@ -276,8 +288,10 @@ while IFS= read -r f; do
     # class reads the flattened text.
     src_in="$input"; src_out="$output"
     case "$class" in
-      comments|code) src_in="$input_raw"; src_out="$output_raw" ;;
-      environments)  src_in="$input_marked"; src_out="$output_marked" ;;
+      comments|code)     src_in="$input_raw"; src_out="$output_raw" ;;
+      # Math content is opaque and markup-preserved, so line breaks inside
+      # a span are part of the token, same as environments.
+      environments|math) src_in="$input_marked"; src_out="$output_marked" ;;
     esac
     in_tokens="$(printf '%s\n' "$src_in" | tokens_of "$class" | sort)"
     out_tokens="$(printf '%s\n' "$src_out" | tokens_of "$class" | sort)"
