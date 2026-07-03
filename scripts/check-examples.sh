@@ -162,10 +162,12 @@ while IFS= read -r f; do
     feedback_only=1
   fi
 
-  # 2. Word-count line.
+  # 2. Word-count line, and it must OPEN the rationale (SKILL.md: "Open
+  #    with `Word count: ...`"), not sit buried after prose.
   if [ "$feedback_only" -eq 0 ]; then
-    if ! rationale_of "$f" | grep -qE "$WC_RE"; then
-      err "$f: 'Change rationale' has no 'Word count: <before> to <after> (<signed percent>).' line."
+    first_rationale="$(rationale_of "$f" | sed '/^[[:space:]]*$/d' | head -1)"
+    if ! printf '%s\n' "$first_rationale" | grep -qE "$WC_RE"; then
+      err "$f: 'Change rationale' must open with a 'Word count: <before> to <after> (<signed percent>).' line (got: ${first_rationale:-nothing})."
     fi
   fi
 
@@ -220,8 +222,9 @@ while IFS= read -r f; do
   if [ -n "$block" ]; then
     first_after="$(after_block_of "$f" | sed '/^[[:space:]]*$/d' | head -1)"
     case "$first_after" in
-      "Added bridges:"*) : ;;
-      *) err "$f: the line after the Revised text block must start with 'Added bridges:' (got: ${first_after:-nothing})." ;;
+      "Added bridges: None.") : ;;
+      "Added bridges: \""*) : ;;
+      *) err "$f: the line after the Revised text block must be 'Added bridges:' quoting each added bridge or 'None.' (got: ${first_after:-nothing})." ;;
     esac
     if hit="$(printf '%s\n' "$block" | grep -nE '\[(P|R)[0-9]' | head -1)"; then
       err "$f: editor label inside the Revised text block (no commentary in the block): $hit"
@@ -239,6 +242,18 @@ while IFS= read -r f; do
         err "$f: a first-draft Diagnosis must open with a '$line' line."
       fi
     done
+    # The headers must OPEN the block: 'Voice tics:' is the first content
+    # line and 'Reader map:' precedes the numbered list.
+    first_diag="$(printf '%s\n' "$diagnosis" | sed '/^[[:space:]]*$/d' | head -1)"
+    case "$first_diag" in
+      "Voice tics:"*) : ;;
+      *) err "$f: a first-draft Diagnosis must open with 'Voice tics:' (got: ${first_diag:-nothing})." ;;
+    esac
+    rm_line="$(printf '%s\n' "$diagnosis" | grep -n '^Reader map:' | head -1 | cut -d: -f1)"
+    item_line="$(printf '%s\n' "$diagnosis" | grep -nE '^1\. ' | head -1 | cut -d: -f1)"
+    if [ -n "$rm_line" ] && [ -n "$item_line" ] && [ "$rm_line" -gt "$item_line" ]; then
+      err "$f: 'Reader map:' must precede the numbered Diagnosis list."
+    fi
     diagnosis_flat="$(printf '%s\n' "$diagnosis" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
     gap_found=0
     for g in "${GAP_TERMS[@]}"; do

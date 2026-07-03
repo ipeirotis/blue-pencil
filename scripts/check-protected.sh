@@ -12,9 +12,10 @@
 #                          (\citep[see][p. 4]{smith2020}), and every pandoc
 #                          @key, bare or bracketed ([see @smith2020],
 #                          [-@smith2020])
-#   - author-year runs     plain-prose citations ("Forman et al. 2008"),
-#                          matched as capitalized-word runs ending in a year
-#                          so an author swap is caught, not just a year swap
+#   - author-year runs     plain-prose citations ("Forman et al. 2008",
+#                          "Smith (2020)", "(Smith, 2020)"), matched as
+#                          capitalized-word runs ending in a year so an
+#                          author swap is caught, not just a year swap
 #   - cross-reference keys \ref/\eqref/\autoref/\cref/\Cref/\label{...}
 #   - prose callouts       "Table 4", "Appendix C", "column 3", ... matched
 #                          case-insensitively so a callout-type swap is
@@ -23,19 +24,27 @@
 #                          \begin{...}...\end{...} spans including their
 #                          contents, so a formula edit cannot hide in a
 #                          non-dollar span or inside an environment
-#   - macros               every remaining \command with its arguments, so
-#                          a custom-macro argument swap (\methodName{...})
-#                          is caught; macros whose argument is editable
-#                          prose under the constraints (\caption, \emph,
-#                          \textbf, \textit, \footnote, sectioning) are
-#                          diffed by name only, honoring the caption
-#                          carve-out in constraint 5
-#   - quoted text          "..." and TeX ``...'' spans, since constraint 7
-#                          keeps direct quotes verbatim
+#   - macros               every remaining \command with its arguments,
+#                          including one-character commands (\&, \%, \,),
+#                          so a custom-macro argument swap (\methodName{...})
+#                          or a dropped markup command is caught; macros
+#                          whose argument is editable prose under the
+#                          constraints (\caption, \emph, \textbf, \textit,
+#                          \footnote, sectioning) are diffed by name only,
+#                          honoring the caption carve-out in constraint 5
+#   - quoted text          "...", TeX ``...'', and curly double-quote
+#                          spans, since constraint 7 keeps direct quotes
+#                          verbatim
+#   - comment lines        lines starting with %, protected markup under
+#                          constraint 5 (extracted before flattening)
 #   - numbers              every digit token with its sign, thousands
-#                          separators, range ("5-9%"), and percent context,
-#                          so a sign flip or a range rewrite is caught, not
-#                          just a digit change
+#                          separators, range ("5-9%"), percent, and any
+#                          adjacent unit word from a fixed lexicon
+#                          ("6 points", "1.2 million"), so a sign flip, a
+#                          range rewrite, or a points-to-percent unit swap
+#                          is caught, not just a digit change (an arbitrary
+#                          noun after a number stays prose: binding it
+#                          would flag legitimate edits near numbers)
 # [P1]-style paragraph labels are stripped first: they are editor
 # bookkeeping, not manuscript content. Blocks are flattened to one line
 # before extraction because example prose is hard-wrapped and a token can
@@ -87,11 +96,29 @@ tokens_of() {
   # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
     citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|@[A-Za-z0-9_:-]+' || true ;;
-    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?))* [12][0-9]{3}" || true ;;
+    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?))*,? \(?[12][0-9]{3}\)?" || true ;;
     crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}' || true ;;
     callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|column|panel|equation|eq\.) ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
-      printf '%s\n' "$text" | grep -oE '\$[^$]+\$|\\\([^)]*\\\)|\\\[[^]]*\\\]' || true
+      printf '%s\n' "$text" | grep -oE '\$[^$]+\$' || true
+      # \(...\) and \[...\] spans by delimiter search, so ordinary ) or ]
+      # inside a formula (f(x), \mathbb{E}[Y]) does not truncate the span.
+      printf '%s\n' "$text" | awk '{
+        s = $0
+        while ((i = index(s, "\\(")) > 0) {
+          s = substr(s, i)
+          j = index(s, "\\)")
+          if (j > 0) { print substr(s, 1, j + 1); s = substr(s, j + 2) } else { print s; break }
+        }
+      }'
+      printf '%s\n' "$text" | awk '{
+        s = $0
+        while ((i = index(s, "\\[")) > 0) {
+          s = substr(s, i)
+          j = index(s, "\\]")
+          if (j > 0) { print substr(s, 1, j + 1); s = substr(s, j + 2) } else { print s; break }
+        }
+      }'
       # Whole environment spans, contents included: split at each \begin{
       # and take through the first following \end{...}. Nested or unpaired
       # environments split coarsely but deterministically on both sides.
@@ -111,11 +138,18 @@ tokens_of() {
       # argument is editable prose under the constraints keep only their
       # name (the caption carve-out: caption text is prose, the macro
       # itself must survive).
-      printf '%s\n' "$text" | grep -oE '\\[A-Za-z]+\*?(\[[^]]*\])*(\{[^}]*\})*' \
+      printf '%s\n' "$text" | grep -oE '\\[A-Za-z]+\*?(\[[^]]*\])*(\{[^}]*\})*|\\[^A-Za-z0-9[:space:]]' \
         | sed -E 's/^\\(caption|emph|textbf|textit|footnote|section|subsection|subsubsection|paragraph)(\*?)(\[[^]]*\]|\{[^}]*\})*$/\\\1\2/' || true
       ;;
-    quotes)     printf '%s\n' "$text" | grep -oE '"[^"]+"|``[^`]+'\'\''' || true ;;
-    numbers)    printf '%s\n' "$text" | grep -oE '[+-]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(-[0-9]+(,[0-9]{3})*(\.[0-9]+)?)?%?' || true ;;
+    quotes)
+      printf '%s\n' "$text" | grep -oE '"[^"]+"|``[^`]+'\'\''' || true
+      # Curly double quotes, built from bytes so this script stays ASCII.
+      ldq="$(printf '\xe2\x80\x9c')"
+      rdq="$(printf '\xe2\x80\x9d')"
+      printf '%s\n' "$text" | grep -oE "${ldq}[^${ldq}${rdq}]*${rdq}" || true
+      ;;
+    comments)   printf '%s\n' "$text" | grep -E '^[[:space:]]*%' || true ;;
+    numbers)    printf '%s\n' "$text" | grep -oE '[+-]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(-[0-9]+(,[0-9]{3})*(\.[0-9]+)?)?%?( (percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold))?' || true ;;
   esac
 }
 
@@ -128,8 +162,10 @@ while IFS= read -r f; do
   grep -q '^## Skill output' "$f" || continue
   checked=$((checked + 1))
 
-  input="$(input_block_of "$f" | strip_labels | tr '\n' ' ' | tr -s '[:space:]' ' ')"
-  output="$(revised_block_of "$f" | strip_labels | tr '\n' ' ' | tr -s '[:space:]' ' ')"
+  input_raw="$(input_block_of "$f" | strip_labels)"
+  output_raw="$(revised_block_of "$f" | strip_labels)"
+  input="$(printf '%s\n' "$input_raw" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
+  output="$(printf '%s\n' "$output_raw" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
   if [ -z "$input" ] || [ -z "$output" ]; then
     # Feedback-only examples return no rewrite; nothing to diff.
     if ! grep -qF 'No rewrite requested.' "$f"; then
@@ -141,9 +177,13 @@ while IFS= read -r f; do
 
   allow="$(allowed_for "$f")"
 
-  for class in citations authoryear crossrefs callouts math macros quotes numbers; do
-    in_tokens="$(printf '%s\n' "$input" | tokens_of "$class" | sort)"
-    out_tokens="$(printf '%s\n' "$output" | tokens_of "$class" | sort)"
+  for class in citations authoryear crossrefs callouts math macros quotes comments numbers; do
+    # Comment lines are a line-level construct, so they diff on the raw
+    # (unflattened) blocks; every other class reads the flattened text.
+    src_in="$input"; src_out="$output"
+    if [ "$class" = "comments" ]; then src_in="$input_raw"; src_out="$output_raw"; fi
+    in_tokens="$(printf '%s\n' "$src_in" | tokens_of "$class" | sort)"
+    out_tokens="$(printf '%s\n' "$src_out" | tokens_of "$class" | sort)"
     if [ -n "$allow" ]; then
       in_tokens="$(printf '%s\n' "$in_tokens" | grep -vxF -f <(printf '%s\n' "$allow") || true)"
       out_tokens="$(printf '%s\n' "$out_tokens" | grep -vxF -f <(printf '%s\n' "$allow") || true)"
