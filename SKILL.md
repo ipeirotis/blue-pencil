@@ -45,7 +45,7 @@ Look for a `<paper_context>` block in the following files, in order. Use the fir
 2. `CLAUDE.md` at the repo root (Claude-Code bridge).
 3. `paper-meta.md` at the repo root.
 
-The block must include `target_venue`, `audience`, `core_thesis`, and `revision_stage`. If any value is missing or ambiguous, stop and ask the user. Do not guess venue or audience from prose style.
+The block must include `target_venue`, `audience`, `core_thesis`, and `revision_stage`. If any value is missing or ambiguous, stop and ask the user. Do not guess venue or audience from prose style. The block may also carry an optional `style_overrides:` line naming house-style rules (the em-dash ban, entries on the banned-phrase list) the author deliberately sets aside for this paper; only an explicit line there overrides house style, and the protection constraints never yield to it.
 
 ## Triage before full diagnosis
 
@@ -83,14 +83,37 @@ Never violate these. If a candidate edit would violate a rule, flag it in `Autho
    mechanism, definition, implication, or justification. Surfacing and reordering
    the author's material is editing; supplying material is drafting, and drafting
    is out of scope. Route every needed-but-missing piece to `Author questions`.
-2. Never introduce an em-dash. Replace any em-dash with a comma, colon, parentheses, or two sentences.
-3. Never change the meaning of a technical claim. If a claim is unclear, flag it as a question.
-4. Never invent or remove citations. You may move a citation within a sentence for stress position; do not add or alter cited keys.
-5. Never silently delete content. Cuts must appear in `Change rationale` with a one-line reason.
-6. Preserve LaTeX structure verbatim. This covers `\begin{...}...\end{...}` environments, custom macros, `\cite{...}`, `\ref{...}`, `\label{...}`, `\eqref{...}`, inline `$...$` and display `$$...$$` math, and lines starting with `%`. Treat math content as opaque.
-7. Flag every change to a numerical claim, statistic, p-value, effect size, sample size, figure reference, or table reference for human review. Do not silently rewrite numerical text.
-8. Do not rewrite quoted material. Direct quotes stay verbatim.
-9. Preserve the author's choices about which findings to emphasise, which limitations to acknowledge, and how to frame contributions.
+2. Never change the meaning of a technical claim. If a claim is unclear, flag
+   it as a question.
+3. Never invent or remove citations. You may move a citation within a sentence
+   for stress position; do not add or alter cited keys. Redistributing a
+   paragraph-end citation wall across sentences assigns citations to claims,
+   which is the author's call: propose the redistribution in `Author
+   questions`, do not perform it.
+4. Flag every change to a numerical claim, statistic, p-value, effect size,
+   sample size, figure reference, or table reference for human review. Do not
+   silently rewrite numerical text.
+5. Preserve markup verbatim in whatever format the manuscript uses, and treat
+   math content as opaque. In LaTeX this covers `\begin{...}...\end{...}`
+   environments, custom macros, `\cite{...}`, `\ref{...}`, `\label{...}`,
+   `\eqref{...}`, inline `$...$` and display `$$...$$` math, and lines starting
+   with `%`. In Markdown or pandoc sources it covers `[@key]` citations, code
+   fences, and math spans; in any format it covers whatever encodes citations,
+   cross-references, and math. Caption text (for example inside
+   `\caption{...}`) is editable prose under the other constraints; the rest of
+   the environment stays opaque.
+6. Never silently delete content. Cuts must appear in `Change rationale` with
+   a one-line reason. A qualifier is content: removing a scope or calibration
+   qualifier is a deletion, never a compression (see the Subtraction section).
+7. Do not rewrite quoted material. Direct quotes stay verbatim.
+8. Preserve the author's choices about which findings to emphasise, which
+   limitations to acknowledge, and how to frame contributions.
+9. Never introduce an em-dash; replace any em-dash with a comma, colon,
+   parentheses, or two sentences, except inside a direct quote, which rule 7
+   keeps verbatim. This and the banned-phrase list in
+   `references/ai-tells-to-avoid.md` are house style: they yield only to an
+   explicit `style_overrides:` line in `<paper_context>`, never to inferred
+   preference.
 
 When revising LaTeX source, return LaTeX in the revised-text block, not rendered prose. Preserve line breaks inside environments where the source formatting matters (for example `tabular`, `lstlisting`).
 
@@ -170,6 +193,13 @@ Keep-test, before deleting any unit: if this goes, what does the reader lose? A 
 
 Scale the action to the unit, because that scales to risk. Word or phrase: cut in the rewrite. Sentence: cut and log the loss in `Change rationale`. Paragraph or section: propose in `Diagnosis`, do not perform, since a structural cut is the author's call. The revision stage still binds: at `final polish`, compress only.
 
+A qualifier is content. Scope and calibration qualifiers ("on the held-out set", "in
+our sample", "correlational", a hedge that marks uncertainty) are part of the claim
+they modify: removing one changes the claim's meaning in either direction, so it is a
+deletion, never a compression, whatever its length. Log it in `Change rationale`, and
+when it touches a numerical or statistical claim, flag it under the numerical-claim
+constraint as well.
+
 For the failure modes a naive cut destroys, the blind spot (subtraction never finds the missing step), and a worked example, load `references/subtraction.md`.
 
 ## Section-specific lens
@@ -211,7 +241,7 @@ When a passage clears every check, return it verbatim and add `Paragraph N: no s
 
 ## Voice extraction before rewriting
 
-Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, and hedge stacks are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic.
+Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, and hedge stacks are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic unless an explicit `style_overrides:` line in `<paper_context>` sets them aside (see the Constraints section; protection rules never yield).
 
 For a whole-section rewrite or a first-draft pass, list the tics at the top of the `Diagnosis` block so the author can confirm the read. A response-to-reviewers pass does not list them, since it edits only the flagged paragraphs rather than rewriting the section.
 

@@ -145,7 +145,7 @@ imagine one.
 ## Manuscript style preferences
 
 - Technical terms get defined on first use, including acronyms. Reuse the same term consistently; do not introduce synonyms for variety.
-- Citations go inside the sentence, not at the end of a paragraph as a wall: "Smith (2020) showed X. Building on this, Jones (2022) extended Y." not "X has been shown, and Y has been extended (Smith, 2020; Jones, 2022)."
+- Citations go inside the sentence, not at the end of a paragraph as a wall: "Smith (2020) showed X. Building on this, Jones (2022) extended Y." not "X has been shown, and Y has been extended (Smith, 2020; Jones, 2022)." For an existing wall, propose the redistribution in `Author questions`; do not perform it, since assigning citations to claims is the author's call.
 
 ## Diagnostic checklist
 
