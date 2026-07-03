@@ -49,7 +49,7 @@ After (ABT): "The standard approach to this task pays for an expensive component
 C, but M keeps only A and B and still improves accuracy by 4 points, so
 component C was not what carried the gain." (The result claim, "improves accuracy
 by 4 points", is carried over word for word: an ABT pass restructures the
-framing, never the numbers. See `SKILL.md` constraint 6.)
+framing, never the numbers. See `SKILL.md` constraint 4.)
 
 ## OCAR: the arc of the whole
 

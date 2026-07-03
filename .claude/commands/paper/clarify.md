@@ -26,8 +26,8 @@ Preset triage:
   `<paper_context>` (read `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`).
   Do not override the stage.
 
-Return the strict four-section output, following the skill's conditional
-Diagnosis-header rules: a whole-section or first-draft pass opens with a
+Return the strict four-section output, following the skill's Diagnosis-header
+decision table: a whole-section or first-draft pass opens with a
 `Voice tics:` line and then a `Reader map:` line, while a final-polish pass and
 a single-paragraph request that is not a first draft skip both. Use
 teaching-benefit rationales in `Change rationale`.

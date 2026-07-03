@@ -3,6 +3,31 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.24.0] - 2026-07-03
+
+Batch 2 of the 2026-07 skill review: the one behavioral release. Rewrites the constraint block and the output contract. Item IDs refer to `review-a.md` (A-), `review-b.md` (B-), and their adjudication in `docs/review-2026-07/reconciliation.md`; before/after adversarial-eval evidence is in the batch PR body.
+
+### Added
+
+- B-G2: new hard constraint 1, "never add substance the manuscript does not contain" (no new claim, example, mechanism, definition, implication, or justification; gaps route to `Author questions`). The rule that separates editing from drafting previously lived only in "When NOT to use" and `references/exposition.md`, so the numbered constraints, the commands, and the subagent never restated it. Threaded through `paper-reviser.md`'s hard rules and `loop.md`'s carried guardrails.
+- Conflict 3 resolution: a mandatory `Added bridges:` line immediately after the `Revised text` fenced block, quoting every added sentence that states why an assumption, identification strategy, or validity claim holds (or `None.`), each with a matching `Author questions` item. Inline bracketed editor tags inside the fenced block are explicitly forbidden (review B's D10(d) copy-paste-hazard evidence invalidated review A's inline-tag mechanism). Enforced by a new preflight bullet.
+- B-G3: a "Where the revision goes" section. By default the revision is returned in `Revised text` and no manuscript file is modified; files are written only on an explicit apply request, exactly as shown, scoped to the requested section, logged in `Change rationale`, and never with unresolved `Author questions` touching the applied content. `loop.md` Step C now tells the author an unapplied revision re-reports the same items by design; `paper-reviser.md` scopes its `Edit`/`Write` tools to the explicit apply step.
+- B-G6: reviewer-workflow rules 6 and 7. A reviewer request for a stronger, broader, or more causal claim never licenses text beyond the stated evidence (write the strongest licensed version; the gap goes to `Author questions`), and two incompatible reviewer demands on the same passage get neither edit (both readings and a proposed resolution go to `Author questions`).
+- A-D1: an optional `style_overrides:` line in `<paper_context>` is now the one way to set aside house style (the em-dash ban, banned-phrase entries) for a paper; protection constraints never yield. Documented in the context gate, the constraints, and the voice-extraction rule.
+
+### Changed
+
+- A-G7: the constraints block is reordered science-first. No-added-substance and technical-claim meaning lead; the em-dash rule moves from first to last and gains the direct-quote exception (B-D7a). The markup constraint is generalized beyond LaTeX to whatever encodes citations, cross-references, and math in any source format, with a caption carve-out (B-E8: `\caption{...}` text is editable prose, the rest of the environment stays opaque, resolving the collision with `edit-checks.md` check 5).
+- B-D6: redistributing a paragraph-end citation wall is now explicitly an author decision: constraint 3, the style bullet in `references/ai-tells-to-avoid.md`, and `AGENTS.md.template` all say to propose it in `Author questions`, never perform it, since assigning citations to claims is attribution.
+- B-G5: "a qualifier is content." Removing a scope or calibration qualifier ("on the held-out set", "in our sample", a hedge that marks uncertainty) is a deletion, never a compression, whatever its length; logged in `Change rationale` and flagged under the numerical-claim constraint when it touches one. Stated in the Subtraction section and constraint 6.
+- B-G10: the three conditional Diagnosis-header paragraphs are replaced by a four-row decision table (whole-section/first-draft, single-paragraph non-first-draft, final polish, response to reviewers). `references/exposition.md` is now the single owner of the extraction-line definitions and teaching-gap catalogue, and the second, conflicting statement of the voice-tics exception set (old line 212) now defers to the table.
+- Conflict 1 resolution: the frontmatter description is review B's G1 text plus review A's "line-edit" token, adding the feedback-only, consistency, and length-fit triggers and an explicit negative scope. Per conflict 4, grant proposals stay out of the description and auto-trigger: a new "When NOT to use" bullet serves grant narratives on explicit request only.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.24.0.
+
+### Fixed
+
+- Constraint renumbering fallout: `references/narrative-spine.md` now points at the renumbered numerical-claim constraint. The same stale pointer in `examples/exposition-results.md` is deferred to Batch 3, which rewrites that file's rationale line (B-D10b).
+
 ## [1.23.0] - 2026-07-03
 
 Batch 1 of the 2026-07 skill review (`docs/review-2026-07/`): plumbing bugs and documentation corrections that do not change editorial behavior, plus three narrowly scoped `SKILL.md` wording repairs the review found internally inconsistent. Item IDs refer to `review-a.md` (A-), `review-b.md` (B-), and their adjudication in `reconciliation.md`; the batch checklist lives in `PLAN.md`.

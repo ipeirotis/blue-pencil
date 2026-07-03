@@ -1,10 +1,10 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, polish, make less AI-generated and more human to read, make a section clearer to non-specialists, or respond to reviewer comments on an academic paper section. Diagnoses logical flow, argumentation, exposition and reader education, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; check cross-section consistency; cut a section toward a length limit; or respond to reviewer comments. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.23.0"
+  version: "1.24.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -36,6 +36,7 @@ Do not trigger when the user:
 - Wants mechanical proofreading only, such as a typo list with no rewrite, no line edit, and no research-paper copyediting judgment.
 - Wants new content drafted from outlines or notes. This skill edits existing prose; it does not draft new sections. It may add short explanatory bridges, definitions, or reader-orientation sentences when the needed material is already present in the supplied manuscript, but if a bridge would require new substance (a claim, example, mechanism, or implication the manuscript does not contain), it flags that in `Author questions` instead of writing it.
 - Is editing non-academic writing (blogs, marketing copy, fiction).
+- Is working on a grant proposal, unless they explicitly ask for this skill by name or for its editorial passes on the grant text. Grant narratives are served on explicit request only, under the same constraints, using the grant guidance in `references/structural-patterns.md`; never auto-trigger on grant material.
 
 ## Before you start: load paper context
 
@@ -45,7 +46,7 @@ Look for a `<paper_context>` block in the following files, in order. Use the fir
 2. `CLAUDE.md` at the repo root (Claude-Code bridge).
 3. `paper-meta.md` at the repo root.
 
-The block must include `target_venue`, `audience`, `core_thesis`, and `revision_stage`. If any value is missing or ambiguous, stop and ask the user. Do not guess venue or audience from prose style.
+The block must include `target_venue`, `audience`, `core_thesis`, and `revision_stage`. If any value is missing or ambiguous, stop and ask the user. Do not guess venue or audience from prose style. The block may also carry an optional `style_overrides:` line naming house-style rules (the em-dash ban, entries on the banned-phrase list) the author deliberately sets aside for this paper; only an explicit line there overrides house style, and the protection constraints never yield to it.
 
 ## Triage before full diagnosis
 
@@ -72,6 +73,13 @@ When `revision_stage: response to reviewers` or the user pastes reviewer comment
 3. Label each diagnosis item with the reviewer concern, for example `[R2.3, paragraph 4]`.
 4. Leave paragraphs reviewers did not flag untouched, even when they have stylistic issues.
 5. Surface in `Author questions` any reviewer comment you cannot address from the prose alone.
+6. When a reviewer asks for a stronger, broader, or more causal claim, do not
+   strengthen the text beyond what its stated evidence supports. Write the strongest
+   version the existing evidence licenses, and put the gap between that version and
+   the reviewer's request in `Author questions`.
+7. When two reviewer comments demand incompatible edits to the same passage, make
+   neither edit. Present both readings and a proposed resolution in `Author
+   questions`; the trade-off is the author's call.
 
 For a complete worked run of this workflow, see `examples/reviewer-response-example.md`.
 
@@ -79,14 +87,41 @@ For a complete worked run of this workflow, see `examples/reviewer-response-exam
 
 Never violate these. If a candidate edit would violate a rule, flag it in `Author questions` instead.
 
-1. Never introduce an em-dash. Replace any em-dash with a comma, colon, parentheses, or two sentences.
-2. Never change the meaning of a technical claim. If a claim is unclear, flag it as a question.
-3. Never invent or remove citations. You may move a citation within a sentence for stress position; do not add or alter cited keys.
-4. Never silently delete content. Cuts must appear in `Change rationale` with a one-line reason.
-5. Preserve LaTeX structure verbatim. This covers `\begin{...}...\end{...}` environments, custom macros, `\cite{...}`, `\ref{...}`, `\label{...}`, `\eqref{...}`, inline `$...$` and display `$$...$$` math, and lines starting with `%`. Treat math content as opaque.
-6. Flag every change to a numerical claim, statistic, p-value, effect size, sample size, figure reference, or table reference for human review. Do not silently rewrite numerical text.
+1. Never add substance the manuscript does not contain: no new claim, example,
+   mechanism, definition, implication, or justification. Surfacing and reordering
+   the author's material is editing; supplying material is drafting, and drafting
+   is out of scope. Route every needed-but-missing piece to `Author questions`.
+2. Never change the meaning of a technical claim. If a claim is unclear, flag
+   it as a question.
+3. Never invent or remove citations. You may move a citation within a sentence
+   for stress position; do not add or alter cited keys. Redistributing a
+   paragraph-end citation wall across sentences assigns citations to claims,
+   which is the author's call: propose the redistribution in `Author
+   questions`, do not perform it.
+4. Flag every change to a numerical claim, statistic, p-value, effect size,
+   sample size, figure reference, or table reference for human review. Do not
+   silently rewrite numerical text.
+5. Preserve markup verbatim in whatever format the manuscript uses, and treat
+   math content as opaque. In LaTeX this covers `\begin{...}...\end{...}`
+   environments, custom macros, `\cite{...}`, `\ref{...}`, `\label{...}`,
+   `\eqref{...}`, inline `$...$` and display `$$...$$` math, and lines starting
+   with `%`. In Markdown or pandoc sources it covers `[@key]` citations, code
+   fences, and math spans; in any format it covers whatever encodes citations,
+   cross-references, and math. Caption text (for example inside
+   `\caption{...}`) is editable prose under the other constraints; the rest of
+   the environment stays opaque.
+6. Never silently delete content. Cuts must appear in `Change rationale` with
+   a one-line reason. A qualifier is content: removing a scope or calibration
+   qualifier is a deletion, never a compression (see the Subtraction section).
 7. Do not rewrite quoted material. Direct quotes stay verbatim.
-8. Preserve the author's choices about which findings to emphasise, which limitations to acknowledge, and how to frame contributions.
+8. Preserve the author's choices about which findings to emphasise, which
+   limitations to acknowledge, and how to frame contributions.
+9. Never introduce an em-dash; replace any em-dash with a comma, colon,
+   parentheses, or two sentences, except inside a direct quote, which rule 7
+   keeps verbatim. This and the banned-phrase list in
+   `references/ai-tells-to-avoid.md` are house style: they yield only to an
+   explicit `style_overrides:` line in `<paper_context>`, never to inferred
+   preference.
 
 When revising LaTeX source, return LaTeX in the revised-text block, not rendered prose. Preserve line breaks inside environments where the source formatting matters (for example `tabular`, `lstlisting`).
 
@@ -166,6 +201,13 @@ Keep-test, before deleting any unit: if this goes, what does the reader lose? A 
 
 Scale the action to the unit, because that scales to risk. Word or phrase: cut in the rewrite. Sentence: cut and log the loss in `Change rationale`. Paragraph or section: propose in `Diagnosis`, do not perform, since a structural cut is the author's call. The revision stage still binds: at `final polish`, compress only.
 
+A qualifier is content. Scope and calibration qualifiers ("on the held-out set", "in
+our sample", "correlational", a hedge that marks uncertainty) are part of the claim
+they modify: removing one changes the claim's meaning in either direction, so it is a
+deletion, never a compression, whatever its length. Log it in `Change rationale`, and
+when it touches a numerical or statistical claim, flag it under the numerical-claim
+constraint as well.
+
 For the failure modes a naive cut destroys, the blind spot (subtraction never finds the missing step), and a worked example, load `references/subtraction.md`.
 
 ## Section-specific lens
@@ -207,9 +249,9 @@ When a passage clears every check, return it verbatim and add `Paragraph N: no s
 
 ## Voice extraction before rewriting
 
-Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, and hedge stacks are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic.
+Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, and hedge stacks are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic unless an explicit `style_overrides:` line in `<paper_context>` sets them aside (see the Constraints section; protection rules never yield).
 
-For a whole-section rewrite or a first-draft pass, list the tics at the top of the `Diagnosis` block so the author can confirm the read. A response-to-reviewers pass does not list them, since it edits only the flagged paragraphs rather than rewriting the section.
+When the table in Output format calls for a `Voice tics:` line, list the tics at the top of the `Diagnosis` block so the author can confirm the read.
 
 ## Preflight checks before returning output
 
@@ -224,6 +266,7 @@ Run this checklist before sending the final answer:
 - On a narrative or whole-section pass, the section has a findable spine (one ABT) and its tension is surfaced rather than smoothed; on any pass, confirm no decorative storytelling tells were introduced.
 - Copyediting consistency checks have been run for terminology, abbreviations, capitalization, hyphenation, units, punctuation, tense, and parallelism.
 - Requested scope is respected.
+- The `Added bridges:` line after the `Revised text` block quotes every added sentence that states why an assumption, identification strategy, or validity claim holds, or reads `None.`
 - `Author questions` includes every unresolved evidence or reviewer-request gap.
 
 ### Read-cold pass on the revised text
@@ -234,23 +277,39 @@ Re-read the revised text alone, without referring back to the original. For ever
 
 Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Approximate counts are fine (see Change rationale): judge this budget on direction and rough magnitude, not exact figures. Shorter: no justification. Within roughly 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default. Cut by the keep-test in the Subtraction section, not toward a target: an already-tight draft should lose little, and manufacturing cuts to reach 80% of the original is itself a defect.
 
+## Where the revision goes
+
+By default, return the revision in the `Revised text` block and do not modify any
+manuscript file, even when you have file-editing tools. Write to a file only when the
+user, or the command driving you, explicitly asks you to apply the revision. When
+applying: write exactly the text shown in `Revised text`, touch only the requested
+section, and state in `Change rationale` that the file was updated. Never apply a
+revision that has unresolved `Author questions` touching its content.
+
 ## Output format (strict)
 
 Always produce these four sections, in this order, with these exact headings. For a complete worked example of this output on a flawed draft, see `examples/worked-example.md`.
 
 ### 1. Diagnosis
 
-For a whole-section rewrite or any first-draft pass, open with one `Voice tics:` line listing three to five tics, then one `Reader map:` line in the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Skip both lines for a single-paragraph request that is not a first-draft pass, for final-polish passes, and for response-to-reviewers passes, since a reviewer-limited edit revises only the flagged paragraphs rather than rewriting the section. When a request is both single-paragraph and first draft, the first-draft rule wins: include both lines, as the exposition examples do.
+Open the Diagnosis with header lines according to this table, then the numbered list.
 
-Except at `final polish` and on a response-to-reviewers pass, when the exposition pass surfaces any teaching gap (any ladder or common failure in `references/exposition.md`, for example definition debt, compressed inference, machinery before motive, expert-only contrast, abstract stack, concept overload from too many new objects at once, an unanchored abstraction, or a buried or missing payoff where the paragraph ends on procedure or never states the takeaway) or the request is to make the section clearer to non-specialists, more educational, more readable, or easier to understand, add three extraction lines (`Jargon to unpack:`, `Buried lede:`, and `Concrete anchor:`), each defined in `references/exposition.md`. Place them after the `Reader map:` line when that line is present; when it is skipped (a single-paragraph non-first-draft request), put the three lines at the top of the Diagnosis block, before the numbered list. One set covers the section's primary teaching gap; in a whole-section pass where several paragraphs carry distinct gaps, repeat the set per affected paragraph with a paragraph label (for example `Jargon to unpack [P3]:`) so no diagnosed teaching gap falls back to sentence polish. These three are required by the exposition trigger above even when `Voice tics:` and `Reader map:` are skipped. Extract them before drafting the revised text so the rewrite repairs the gap structurally rather than swapping synonyms. Each must draw only on material already in the manuscript; route anything the manuscript lacks to `Author questions`. Any line may read `none` when the passage does not exhibit that gap; if all three are `none` and the passage clears the restraint checks below, return it verbatim and note that in `Change rationale` rather than rewriting on the strength of the request wording alone.
+| Pass | `Voice tics:` + `Reader map:` | Extraction lines (`Jargon to unpack:` / `Buried lede:` / `Concrete anchor:`) |
+|---|---|---|
+| Whole-section rewrite, or any first-draft pass (including single-paragraph first draft) | Yes | Yes, when the exposition pass finds a teaching gap or the request is a clarity request; place after `Reader map:`. Repeat per paragraph with labels (`Jargon to unpack [P3]:`) when several paragraphs carry distinct gaps. |
+| Single-paragraph request, not first draft | No | Same trigger; place at the top of the Diagnosis block. |
+| Final polish | No | No. Sentence-level repairs only; route deeper teaching gaps to `Author questions`. |
+| Response to reviewers | No | No. Repair exposition gaps inside flagged paragraphs under their reviewer labels; route section-level gaps to `Author questions`. |
 
-Do not add these three lines at `final polish` or on a response-to-reviewers pass. Final polish forbids paragraph and section restructuring, and a reviewer-response pass edits only the flagged paragraphs under their reviewer labels rather than running a section-level exposition rewrite, so in both the structured extraction header is out of scope. A final-polish request to make text clearer to non-specialists is limited to the sentence-level repairs the stage allows (referents, definitions already implied, sentence order, stress position); a reviewer-response edit still repairs an exposition gap inside a flagged paragraph (per the exposition pass and the stage-bound boundaries in `references/exposition.md`) but keeps the reviewer-labelled Diagnosis format rather than emitting the three lines. Surface any deeper teaching gap in `Author questions` instead.
+The `Voice tics:` line lists three to five tics; the `Reader map:` line takes the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Each extraction line may read `none`; if all three are `none` and the passage clears the restraint checks, return it verbatim and say so in `Change rationale`. Extract the three before drafting the rewrite, from manuscript material only; anything the manuscript lacks goes to `Author questions`. The full definitions and the teaching-gap catalogue live in `references/exposition.md`; that file is the single source for this mechanism.
 
 Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
 
 ### 2. Revised text
 
-The revised section in a single fenced block. No commentary inside the block. If the user asked for feedback only, write `No rewrite requested.`
+The revised section in a single fenced block. No commentary inside the block: never mark an edit with an inline bracketed tag or editor label, which contradicts the clean block and creates a copy-paste hazard. If the user asked for feedback only, write `No rewrite requested.`
+
+Immediately after the fenced block, add one mandatory `Added bridges:` line. Quote on it each sentence you added that states why an assumption, identification strategy, or validity claim holds (each such sentence must be built from material already in the manuscript per constraint 1, and each also gets an `Author questions` item asking the author to confirm it); write `Added bridges: None.` when there are none. The author reads the rewrite before the questions, so this flag lives next to what they read.
 
 ### 3. Change rationale
 

@@ -24,6 +24,13 @@ Run the workflow exactly:
 4. Where a comment needs substance the manuscript does not contain (a number, an
    analysis, a claim), do not write it; flag it in `Author questions` with what
    is needed.
+5. Where a reviewer asks for a stronger, broader, or more causal claim, do not
+   strengthen the text beyond what its stated evidence supports: write the
+   strongest version the existing evidence licenses and put the gap in
+   `Author questions`.
+6. Where two reviewer comments demand incompatible edits to the same passage,
+   make neither edit; present both readings and a proposed resolution in
+   `Author questions`, since the trade-off is the author's call.
 
 Preset triage:
 
