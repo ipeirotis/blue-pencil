@@ -83,6 +83,10 @@
 #   would flag every legitimate edit near a protected token.
 # - Straight single quotes are not a quote class (apostrophes make them
 #   undecidable by grep).
+# - Manuscript code fences inside examples use ~~~ by repo convention:
+#   the example's own triple-backtick fences delimit the input and
+#   output blocks, so a nested triple-backtick fence is not parseable
+#   here.
 # - Constructs outside the token grammars above (exotic markup, prose
 #   paraphrases of quantities beyond the cardinal lexicon) are the
 #   reviewer's job, not this script's; extend a class when a real
@@ -134,6 +138,12 @@ strip_labels() {
   sed -E 's/^\[[PR][0-9]+(\.[0-9]+)?\] ?//'
 }
 
+# True when the triage affirmatively declares a direct rewrite; negated
+# wording ("Scope: feedback only, not a direct rewrite") does not count.
+declares_rewrite() {
+  grep -iE '^> *scope:.*direct rewrite' "$1" | grep -qivE 'not a direct rewrite'
+}
+
 # Print one token per line for the requested class; grep exits 1 on zero
 # matches, which is a valid empty result, hence the '|| true'.
 tokens_of() {
@@ -143,8 +153,14 @@ tokens_of() {
   text="$(cat)"
   # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
-    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*? ?(\[[^]]*\] ?)*\{[^}]*\}|-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
-    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)(,? ([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&))*,? \(?[12][0-9]{3}[a-z]?\)?" || true ;;
+    # Bracketed pandoc citations are captured whole so demoting
+    # [@smith2020] to bare @smith2020 (a markup change) is a difference,
+    # not just the key.
+    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*? ?(\[[^]]*\] ?)*\{[^}]*\}|\[[^]@]*@[^]]*\]|-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
+    # The trailing filter drops date prose ("In 2020,", "By March 2020")
+    # that would otherwise mint a spurious citation token and flag a
+    # legitimate rewrite; the year itself stays protected as a number.
+    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)(,? ([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&))*,? \(?[12][0-9]{3}[a-z]?\)?" | grep -vE '^(In|On|At|By|For|From|Since|After|Before|During|Until|Between|Around|Over|Under|The|A|An|As|Of|To|With|When|While|January|February|March|April|May|June|July|August|September|October|November|December|Early|Late|Mid) ' || true ;;
     # Markdown links protect the DESTINATION only: link text is editable
     # prose (its callouts and numbers are covered by the other classes),
     # while a retargeted link with unchanged text still fails.
@@ -323,10 +339,16 @@ while IFS= read -r f; do
     # Feedback-only examples return no rewrite; nothing to diff. A file
     # whose triage declares a direct rewrite cannot claim that exemption
     # by carrying the phrase, so a deleted rewrite still fails.
-    if ! grep -qF 'No rewrite requested.' "$f" || grep -qiF "direct rewrite" "$f"; then
+    if ! grep -qF 'No rewrite requested.' "$f" || declares_rewrite "$f"; then
       echo "ERROR: $f: could not extract an input and a revised block." >&2
       fail=1
     fi
+    continue
+  fi
+
+  # A feedback-only run's block carries the sentinel sentence instead of a
+  # rewrite; there is no output to diff protected content against.
+  if printf '%s\n' "$output_raw" | grep -qF 'No rewrite requested.' && ! declares_rewrite "$f"; then
     continue
   fi
 

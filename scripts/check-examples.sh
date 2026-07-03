@@ -74,6 +74,12 @@ input_block_of() {
   ' "$1"
 }
 
+# True when the triage affirmatively declares a direct rewrite; negated
+# wording ("Scope: feedback only, not a direct rewrite") does not count.
+declares_rewrite() {
+  grep -iE '^> *scope:.*direct rewrite' "$1" | grep -qivE 'not a direct rewrite'
+}
+
 # Normalize for paragraph comparison: drop [P1]-style editor labels, then
 # flatten each blank-line-separated paragraph to one whitespace-collapsed
 # line (example prose is hard-wrapped).
@@ -98,6 +104,7 @@ TELL_WORDS=(
   leverage leverages leveraged leveraging
   utilize utilizes utilized utilizing
   novel holistic multifaceted nuanced seamless streamlined
+  showcase showcases showcased showcasing
 )
 TELL_PHRASES=(
   "it is important to note"
@@ -152,6 +159,7 @@ TELL_PHRASES=(
   "demonstrates the importance of"
   "underscores the need for"
   "highlights the need for"
+  "speaks to"
 )
 
 # Teaching-gap vocabulary from the references/exposition.md catalogue; any
@@ -226,7 +234,7 @@ while IFS= read -r f; do
     # A file whose triage declares a direct rewrite cannot claim the
     # feedback-only exemption: a deleted rewrite must fail, not skip the
     # block checks.
-    if grep -qiF "direct rewrite" "$f"; then
+    if declares_rewrite "$f"; then
       err "$f: the Revised text says 'No rewrite requested.' but the triage declares a direct rewrite."
     else
       feedback_only=1
@@ -325,6 +333,10 @@ while IFS= read -r f; do
     # read exactly 'None.' or open with a quote and keep its quotation
     # marks balanced, so a truncated or unterminated bridge quote fails.
     ab_para="$(after_block_of "$f" | awk 'BEGIN{RS=""} NR==1{gsub(/\n/," "); gsub(/[[:space:]]+/," "); print; exit}')"
+    para_count="$(after_block_of "$f" | awk 'BEGIN{RS=""} END{print NR}')"
+    if [ "${para_count:-0}" -gt 1 ]; then
+      err "$f: the Revised text section carries extra content after the Added bridges paragraph."
+    fi
     case "$ab_para" in
       "Added bridges: None.") : ;;
       "Added bridges: \""*)
