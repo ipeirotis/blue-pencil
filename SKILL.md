@@ -73,6 +73,13 @@ When `revision_stage: response to reviewers` or the user pastes reviewer comment
 3. Label each diagnosis item with the reviewer concern, for example `[R2.3, paragraph 4]`.
 4. Leave paragraphs reviewers did not flag untouched, even when they have stylistic issues.
 5. Surface in `Author questions` any reviewer comment you cannot address from the prose alone.
+6. When a reviewer asks for a stronger, broader, or more causal claim, do not
+   strengthen the text beyond what its stated evidence supports. Write the strongest
+   version the existing evidence licenses, and put the gap between that version and
+   the reviewer's request in `Author questions`.
+7. When two reviewer comments demand incompatible edits to the same passage, make
+   neither edit. Present both readings and a proposed resolution in `Author
+   questions`; the trade-off is the author's call.
 
 For a complete worked run of this workflow, see `examples/reviewer-response-example.md`.
 
