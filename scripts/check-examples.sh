@@ -53,6 +53,13 @@ questions_of()  { awk '/^### 4\. Author questions$/{f=1;next} f && /^## /{exit} 
 revised_block_of() { revised_of "$1" | awk '/^```/{fence++;next} fence==1{print} fence>=2{exit}'; }
 after_block_of()   { revised_of "$1" | awk '/^```/{fence++;next} fence>=2{print}'; }
 
+# The user's request: the blockquote following 'The request:'. Used to
+# detect clarity requests, which trigger the extraction lines at first
+# draft regardless of the Diagnosis wording.
+request_of() {
+  awk '/^The request:/{f=1;next} f && /^> /{print substr($0,3)} f && !/^>/ && !/^[[:space:]]*$/{exit}' "$1"
+}
+
 # The input block: the last fenced block before '## Skill output'. Used to
 # detect paragraphs the pass returned verbatim.
 input_block_of() {
@@ -263,6 +270,13 @@ while IFS= read -r f; do
         if [ "$qcount" -lt 2 ] || [ $((qcount % 2)) -ne 0 ]; then
           err "$f: the Added bridges line has an incomplete or unbalanced quotation."
         fi
+        # The bridge contract pairs every quoted bridge with an Author
+        # questions item confirming it; matching bridge to question is
+        # semantic, but a quoted bridge with NO questions at all is a
+        # mechanical violation.
+        if ! printf '%s\n' "$questions" | grep -q '^- '; then
+          err "$f: Added bridges quotes a bridge but Author questions has no item to confirm it."
+        fi
         ;;
       *) err "$f: the Revised text block must be followed by 'Added bridges:' quoting each added bridge or 'None.' (got: ${ab_para:-nothing})." ;;
     esac
@@ -303,10 +317,16 @@ while IFS= read -r f; do
     for g in "${GAP_TERMS[@]}"; do
       if printf '%s\n' "$diagnosis_flat" | grep -qiF "$g"; then gap_found=1; break; fi
     done
+    # A clarity request triggers the lines too (SKILL.md Diagnosis table),
+    # whatever the Diagnosis prose happens to say.
+    request_flat="$(request_of "$f" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
+    if printf '%s\n' "$request_flat" | grep -qiE 'clear|clarity|readab|educational|easier to understand|non-specialist'; then
+      gap_found=1
+    fi
     if [ "$gap_found" -eq 1 ]; then
       for line in 'Jargon to unpack' 'Buried lede:' 'Concrete anchor:'; do
         if ! printf '%s\n' "$diagnosis" | grep -qF "$line"; then
-          err "$f: Diagnosis names a teaching gap at first draft but lacks the '$line' extraction line."
+          err "$f: Diagnosis names a teaching gap (or the request asks for clarity) at first draft but lacks the '$line' extraction line."
         fi
       done
     fi

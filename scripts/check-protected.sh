@@ -17,6 +17,9 @@
 #                          capitalized-word runs ending in a year so an
 #                          author swap is caught, not just a year swap
 #   - cross-reference keys \ref/\eqref/\autoref/\cref/\Cref/\label{...}
+#                          and Markdown link references [text](target),
+#                          so a retargeted link with unchanged visible
+#                          text is caught
 #   - prose callouts       "Table 4", "Appendix C", "column 3", ... matched
 #                          case-insensitively so a callout-type swap is
 #                          caught, not just a number swap
@@ -43,6 +46,10 @@
 #                          verbatim
 #   - comment lines        lines starting with %, protected markup under
 #                          constraint 5 (extracted before flattening)
+#   - code                 ~~~ fence lines and inline `...` code spans,
+#                          protected markup under constraint 5 (extracted
+#                          before flattening; an inline span hard-wrapped
+#                          across lines is not seen, a known limit)
 #   - numbers              every digit token with its sign, thousands
 #                          separators, range ("5-9%"), percent, and any
 #                          adjacent unit word from a fixed lexicon
@@ -55,6 +62,13 @@
 # bookkeeping, not manuscript content. Blocks are flattened to one line
 # before extraction because example prose is hard-wrapped and a token can
 # straddle a line break ("Chevalier and Mayzlin\n2006").
+#
+# Known limit, by design: each class is compared as a MULTISET, so the
+# check cannot see which claim a preserved value is attached to (swapping
+# two coefficients between sentences passes). Binding tokens to their
+# surrounding prose would flag every legitimate edit near a protected
+# token; the association between a value and its claim stays with the
+# human review of the example diff.
 #
 # Exceptions: a legitimate, flagged change may alter a protected token. List
 # it in ALLOW below as '<file> <token>' and that token is ignored on both
@@ -103,7 +117,7 @@ tokens_of() {
   case "$class" in
     citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|@[A-Za-z0-9_:-]+' || true ;;
     authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?))*,? \(?[12][0-9]{3}\)?" || true ;;
-    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}' || true ;;
+    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}|\[[^]]*\]\([^)]*\)' || true ;;
     callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|column|panel|equation|eq\.) ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
       printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' || true
@@ -158,6 +172,11 @@ tokens_of() {
       printf '%s\n' "$text" | grep -oE "${ldq}[^${ldq}${rdq}]*${rdq}" || true
       ;;
     comments)   printf '%s\n' "$text" | grep -E '^[[:space:]]*%' || true ;;
+    code)
+      # ~~~ fence delimiter lines and every line inside the fence.
+      printf '%s\n' "$text" | awk '/^~~~/{inb=!inb; print; next} inb{print}'
+      printf '%s\n' "$text" | grep -oE '`[^`]+`' || true
+      ;;
     numbers)    printf '%s\n' "$text" | grep -oE '[+-]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(-[0-9]+(,[0-9]{3})*(\.[0-9]+)?)?%?( (percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold))?' || true ;;
   esac
 }
@@ -186,11 +205,12 @@ while IFS= read -r f; do
 
   allow="$(allowed_for "$f")"
 
-  for class in citations authoryear crossrefs callouts math macros quotes comments numbers; do
-    # Comment lines are a line-level construct, so they diff on the raw
-    # (unflattened) blocks; every other class reads the flattened text.
+  for class in citations authoryear crossrefs callouts math macros quotes comments code numbers; do
+    # Comment lines and code fences are line-level constructs, so they
+    # diff on the raw (unflattened) blocks; every other class reads the
+    # flattened text.
     src_in="$input"; src_out="$output"
-    if [ "$class" = "comments" ]; then src_in="$input_raw"; src_out="$output_raw"; fi
+    if [ "$class" = "comments" ] || [ "$class" = "code" ]; then src_in="$input_raw"; src_out="$output_raw"; fi
     in_tokens="$(printf '%s\n' "$src_in" | tokens_of "$class" | sort)"
     out_tokens="$(printf '%s\n' "$src_out" | tokens_of "$class" | sort)"
     if [ -n "$allow" ]; then
