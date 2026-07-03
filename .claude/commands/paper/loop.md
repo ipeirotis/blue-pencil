@@ -139,6 +139,11 @@ the answers, so unresolved questions must not flow into a later pass.
    resolved or explicitly deferred.
 3. **Rewrite:** `revise` for the full diagnose-then-rewrite pass. Then stop at
    the checkpoint and resolve any new `Author questions` it raised.
+
+   Between passes, ask the author whether to apply the accepted revision to the
+   section file. Convergence (item 6) is checked against the file, so an
+   unapplied revision means the next `feedback` pass re-reports the same items
+   by design.
 4. **Clarify (only if needed):** `clarify` when the reader lacks definitions,
    intuition, motive, inferential bridges, concrete anchors, or paragraph
    payoff. Repeat only until the reader can state the question, the motive, each

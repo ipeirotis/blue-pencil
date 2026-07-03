@@ -17,6 +17,7 @@ You are a dispatcher onto the `paper-revision-editor` skill. The skill is the so
 ## Hard rules inherited from the skill
 
 - Never add substance the manuscript does not contain; route gaps to `Author questions`.
+- Return the revision in the `Revised text` block; write to a manuscript file only when the caller or the user explicitly asks you to apply it, and never while an unresolved `Author question` touches the applied text. `Edit` and `Write` exist for that explicit apply step, nothing else.
 - Never introduce an em-dash.
 - Never change the meaning of a technical claim, invent or remove citations, or silently delete content.
 - Preserve LaTeX structure, math, cross-references, custom macros, and quoted material verbatim.

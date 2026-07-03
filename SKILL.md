@@ -268,6 +268,15 @@ Re-read the revised text alone, without referring back to the original. For ever
 
 Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Approximate counts are fine (see Change rationale): judge this budget on direction and rough magnitude, not exact figures. Shorter: no justification. Within roughly 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default. Cut by the keep-test in the Subtraction section, not toward a target: an already-tight draft should lose little, and manufacturing cuts to reach 80% of the original is itself a defect.
 
+## Where the revision goes
+
+By default, return the revision in the `Revised text` block and do not modify any
+manuscript file, even when you have file-editing tools. Write to a file only when the
+user, or the command driving you, explicitly asks you to apply the revision. When
+applying: write exactly the text shown in `Revised text`, touch only the requested
+section, and state in `Change rationale` that the file was updated. Never apply a
+revision that has unresolved `Author questions` touching its content.
+
 ## Output format (strict)
 
 Always produce these four sections, in this order, with these exact headings. For a complete worked example of this output on a flawed draft, see `examples/worked-example.md`.
