@@ -20,6 +20,9 @@ jobs:
       - name: Example format conformance
         run: ./scripts/check-examples.sh
 
+      - name: Protected content unchanged in examples
+        run: ./scripts/check-protected.sh
+
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
 
