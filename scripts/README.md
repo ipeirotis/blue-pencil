@@ -9,9 +9,10 @@ root, kept there so the documented `curl | bash` URL stays stable.
 | `check-version.sh` | Assert `VERSION`, `SKILL.md` `metadata.version`, the README badge, and the latest `CHANGELOG.md` entry all match. Exits non-zero on drift. | `make check-version` |
 | `bump-version.sh <x.y.z>` | Update all three version strings in lockstep, then self-check. Prints the CHANGELOG and tag steps. | `make bump VERSION=x.y.z` |
 | `lint.sh` | Enforce the no-em-dash standing constraint, validate `SKILL.md` frontmatter, and confirm every `references/*.md` the skill loads exists. | `make lint` |
+| `check-examples.sh` | Lock `examples/` to the strict output format in `SKILL.md`: heading order, `Word count:` shape, question marks, banned tells in `Revised text` blocks (with a verbatim-return whitelist), extraction-line consistency, the `Added bridges:` line, and the `Reader map:` template. | `make check-examples` |
 
-All three are plain bash and depend only on `git`, `grep`, and `sed`, so they
-run the same locally and in CI (`.github/workflows/ci.yml`).
+All of these are plain bash and depend only on `git`, `grep`, `awk`, and
+`sed`, so they run the same locally and in CI (`.github/workflows/ci.yml`).
 
 ## Releasing
 

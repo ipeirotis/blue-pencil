@@ -17,6 +17,9 @@ jobs:
       - name: Lint (em-dashes, frontmatter, reference links)
         run: ./scripts/lint.sh
 
+      - name: Example format conformance
+        run: ./scripts/check-examples.sh
+
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
 

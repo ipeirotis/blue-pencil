@@ -6,7 +6,7 @@
 SHELL := /usr/bin/env bash
 INSTALL := ./install.sh
 
-.PHONY: help install update uninstall init check version lint check-version bump test
+.PHONY: help install update uninstall init check version lint check-version check-examples bump test
 
 help:
 	@echo "paper-revision-editor"
@@ -22,8 +22,9 @@ help:
 	@echo "Maintenance targets:"
 	@echo "  make lint           Em-dash, frontmatter, and reference-link checks"
 	@echo "  make check-version  Assert VERSION, SKILL.md, and README agree"
+	@echo "  make check-examples Lock examples/ to the strict output format"
 	@echo "  make bump VERSION=x.y.z   Bump the version in all three sites"
-	@echo "  make test           Run check-version and lint"
+	@echo "  make test           Run check-version, lint, and check-examples"
 
 install:
 	@$(INSTALL)
@@ -49,9 +50,12 @@ lint:
 check-version:
 	@./scripts/check-version.sh
 
+check-examples:
+	@./scripts/check-examples.sh
+
 bump:
 	@if [ -z "$(VERSION)" ]; then echo "Usage: make bump VERSION=x.y.z" >&2; exit 1; fi
 	@./scripts/bump-version.sh $(VERSION)
 
-test: check-version lint
+test: check-version lint check-examples
 	@echo "All checks passed."
