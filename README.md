@@ -53,6 +53,14 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
    curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
    ```
 
+   > **Using claude.ai, Cowork, or another chat surface instead of Claude Code?**
+   > You do not need the installer. Attach or paste `SKILL.md` (plus any
+   > reference file it names for your task) into the conversation, or add this
+   > repo as a skill/knowledge source where your tool supports it, then paste
+   > your section and ask as usual. Without an `AGENTS.md`, the skill will ask
+   > for your venue, audience, core thesis, and revision stage before editing;
+   > answer in the conversation.
+
 2. **Tell the editor about your paper.** From your paper's folder, run the setup once:
 
    ```bash
