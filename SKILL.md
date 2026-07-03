@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, polish, make less AI-generated and more human to read, make a section clearer to non-specialists, or respond to reviewer comments on an academic paper section. Diagnoses logical flow, argumentation, exposition and reader education, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; check cross-section consistency; cut a section toward a length limit; or respond to reviewer comments. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
@@ -36,6 +36,7 @@ Do not trigger when the user:
 - Wants mechanical proofreading only, such as a typo list with no rewrite, no line edit, and no research-paper copyediting judgment.
 - Wants new content drafted from outlines or notes. This skill edits existing prose; it does not draft new sections. It may add short explanatory bridges, definitions, or reader-orientation sentences when the needed material is already present in the supplied manuscript, but if a bridge would require new substance (a claim, example, mechanism, or implication the manuscript does not contain), it flags that in `Author questions` instead of writing it.
 - Is editing non-academic writing (blogs, marketing copy, fiction).
+- Is working on a grant proposal, unless they explicitly ask for this skill by name or for its editorial passes on the grant text. Grant narratives are served on explicit request only, under the same constraints, using the grant guidance in `references/structural-patterns.md`; never auto-trigger on grant material.
 
 ## Before you start: load paper context
 
