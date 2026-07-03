@@ -7,11 +7,11 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
-This invokes the skill's reviewer-response workflow. `$ARGUMENTS` may hold the
-reviewer text directly or file paths to read; if it names files, read them
-first. Do not infer reviewer concerns from the section: only when no reviewer
-text is present in `$ARGUMENTS`, the named files, or the conversation, ask for it
-before doing anything else.
+This invokes the skill's reviewer-response workflow. The text provided below
+may hold the reviewer text directly or file paths to read; if it names files,
+read them first. Do not infer reviewer concerns from the section: only when no
+reviewer text is present in the provided text, the named files, or the
+conversation, ask for it before doing anything else.
 
 Run the workflow exactly:
 
@@ -28,7 +28,7 @@ Run the workflow exactly:
 Preset triage:
 
 - **Scope:** direct rewrite of the flagged paragraphs and their immediate neighbours (per step 2 above). Touch a neighbour only when the fix for a reviewer comment belongs in its transition or setup sentence; leave every other paragraph verbatim.
-- **Unit:** the section in `$ARGUMENTS` (file path or pasted text), with the
+- **Unit:** the section provided below (file path or pasted text), with the
   reviewer comments alongside it.
 - **Aggressiveness:** apply response-to-reviewers scope, since pasting reviewer
   comments is itself a trigger for that workflow in the skill. If the stored

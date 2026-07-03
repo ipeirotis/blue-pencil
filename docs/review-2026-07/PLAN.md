@@ -23,7 +23,7 @@ flag it in the PR rather than improvising a new design.
 
 | Batch | PR | Version | Status |
 |---|---|---|---|
-| 1. Plumbing + docs | (open one) | v1.23.0 | not started |
+| 1. Plumbing + docs | #28 | v1.23.0 | in review |
 | 2. Rule-system rewrite | | v1.24.0 | not started |
 | 3. Examples + CI (atomic) | | v1.25.0 | not started |
 | 4. Capability: triage, letter, fallback | | v1.26.0 | not started |
@@ -54,28 +54,29 @@ then tag after merge).
 Goal: bug fixes and doc corrections that cannot change editorial behavior, plus
 merging this directory into `main` so later sessions can read it.
 
-- [ ] Merge `docs/review-2026-07/` (this directory) into main
-- [ ] B-C9: single `$ARGUMENTS` interpolation per command (all 8 files under
+- [x] Merge `docs/review-2026-07/` (this directory) into main (landed via PR #27)
+- [x] B-C9: single `$ARGUMENTS` interpolation per command (all 8 files under
       `.claude/commands/paper/`; bullets say "the section provided below")
-- [ ] B-G8: `install.sh` skipped stage writes `[fill in]`, not `first draft`;
+- [x] B-G8: `install.sh` skipped stage writes `[fill in]`, not `first draft`;
       warn on unrecognized stage values (`install.sh` ~line 628 and the
       `read_field` block)
-- [ ] B-D7b: `loop.md` guardrails gain "no change to the meaning of any technical
+- [x] B-D7b: `loop.md` guardrails gain "no change to the meaning of any technical
       claim"
-- [ ] B-D5: scope the read-cold pass to "text you were allowed to edit at this
+- [x] B-D5: scope the read-cold pass to "text you were allowed to edit at this
       stage" (`SKILL.md`, read-cold section)
-- [ ] A-C8/B-D9: word counts become approximate ("~139 to ~86"); keep direction
+- [x] A-C8/B-D9: word counts become approximate ("~139 to ~86"); keep direction
       and rough magnitude (`SKILL.md`, Change rationale + Length budget)
-- [ ] A-C7: exempt whole-paper diagnosis-only passes from the seven-item
+- [x] A-C7: exempt whole-paper diagnosis-only passes from the seven-item
       Diagnosis cap (`SKILL.md` + `consistency.md`)
-- [ ] B-G11: README fixes (`make init` wording, `--check` copy-mode
+- [x] B-G11: README fixes (`make init` wording, `--check` copy-mode
       troubleshooting, "preserves citations, does not verify them" line)
-- [ ] A-G8: README note for claude.ai/Cowork users (use the skill without the
-      installer)
-- [ ] B-C10: document `paper-meta.md` as the non-git escape hatch; add the
+- [x] A-G8: README note for claude.ai/Cowork users (use the skill without the
+      installer; the closing sentence states current ask-first behavior until
+      the Batch 4 context fallback lands)
+- [x] B-C10: document `paper-meta.md` as the non-git escape hatch; add the
       `~/.agents/skills` path to `paper-reviser.md` step 1; allow an
       author-approved section skip list in `loop.md` Step A
-- [ ] Release: CHANGELOG entry, `make bump VERSION=1.23.0`, `make test`
+- [x] Release: CHANGELOG entry, `make bump VERSION=1.23.0`, `make test`
 
 Acceptance: CI green; no behavioral wording in `SKILL.md` changed beyond the
 three items listed; diff reviewable in one sitting.

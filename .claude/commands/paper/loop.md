@@ -12,9 +12,9 @@ the staged plan first, and you stop at every author checkpoint. The governing
 principle is **diagnose globally, edit locally, validate globally, then polish
 conservatively.**
 
-`$ARGUMENTS` names the manuscript: a root directory to scan for section files, an
-explicit list of section files, or a root or wrapper TeX file (for example
-`paper.tex` or `main.tex`). When it is a wrapper, follow its `\input{...}` and
+The value provided below names the manuscript: a root directory to scan for
+section files, an explicit list of section files, or a root or wrapper TeX file
+(for example `paper.tex` or `main.tex`). When it is a wrapper, follow its `\input{...}` and
 `\include{...}` graph recursively to find the actual section files rather than
 treating the wrapper as one section; that graph is the paper. If it is empty, ask
 for the manuscript location before doing anything else.
@@ -27,10 +27,11 @@ for the manuscript location before doing anything else.
 - Honor `revision_stage` from `<paper_context>` throughout. Do not flip it to
   `final polish` until the final-polish step, and only with the author's
   go-ahead.
-- Carry the skill's hard rules through every pass: no em-dash, no invented or
-  removed citations, no silent deletion, no change to a numerical claim,
-  statistic, citation, equation, cross-reference, or quoted text. Anything that
-  would touch those comes back as an `Author question`, never a silent edit.
+- Carry the skill's hard rules through every pass: no change to the meaning of
+  any technical claim, no em-dash, no invented or removed citations, no silent
+  deletion, no change to a numerical claim, statistic, citation, equation,
+  cross-reference, or quoted text. Anything that would touch those comes back
+  as an `Author question`, never a silent edit.
 - Stop at each author checkpoint and wait. Do not advance past unresolved
   `Author questions`.
 - Do not repeat a pass merely to get a different rewrite. Unchanged prose is a
@@ -56,7 +57,12 @@ file as described above), and return a plan with exactly these parts:
    reviewer-flagged paragraphs and their neighbours), or ask them to move the
    stage to `first draft` or `final polish` first. Do not change the stage
    yourself.
-3. **Detected sections**, mapped to files.
+3. **Detected sections**, mapped to files. The author may name detected
+   sections to leave out (for example appendices, or low-priority sections
+   under a deadline); record that author-approved skip list in the plan and
+   treat the skipped sections as out of scope for every later step: the
+   Step B pass order, the Step D consistency check, the Step E rerun and
+   re-validation, the Step F polish, and the Step G stop condition.
 4. **Recommended pass order** for the whole paper.
 5. **First command to run.**
 6. **Stop and repeat criteria** (the convergence rule in the last step).
@@ -98,7 +104,8 @@ Step A detected (for example Background, Experiments, Limitations, an Appendix)
 at its reading-order position, so the loop rewrites each detected file. The stop
 condition in Step G is not satisfied while any detected section is still
 unprocessed; do not skip a detected section just because it is not one of the
-seven labels above.
+seven labels above. The only sections the loop may skip are the ones on the
+author-approved skip list recorded in Step A.
 
 The abstract and introduction are edited twice across the loop, but each pass
 appears exactly once in the steps so the driver never double-runs them. This
@@ -159,34 +166,42 @@ whole paper. It does not rewrite; it flags terminology drift, claim drift,
 inconsistent contribution framing, result overstatement, missing forward
 references, stale summaries, and figure or table callout problems, and asks
 whether the abstract, introduction, methods, results, discussion, and conclusion
-describe the same paper. Resolve its `Author questions` and fold fixes back into
-the relevant sections.
+describe the same paper. When Step A recorded a skip list, hand this check only
+the in-scope section files, so a skipped section cannot generate findings or
+`Author questions` that block the loop. Resolve its `Author questions` and fold
+fixes back into the relevant sections.
 
 ## Step E: Re-run abstract and introduction, then re-validate
 
 With the body stable, re-run `revise` on the abstract and the introduction so
-they reflect the final argument, emphasis, results, and contribution frame.
-Where a section lacks a memorable idea, the skill flags that as a structural gap
-rather than inventing a slogan; surface it to the author.
+they reflect the final argument, emphasis, results, and contribution frame; if
+either is on the Step A skip list, leave it alone like any other skipped
+section. Where a section lacks a memorable idea, the skill flags that as a
+structural gap rather than inventing a slogan; surface it to the author.
 
 This rerun can change contribution wording or result summaries after the Step D
 consistency check, so run `/paper:consistency` once more over the abstract and
-introduction against the body before polishing. The final polish in Step F is
-sentence-level only and cannot repair fresh cross-section drift, so any drift
-this rerun introduced must be caught and resolved here.
+introduction against the body before polishing. Hand this re-validation only
+in-scope files, like Step D: a front-matter section on the Step A skip list
+stays out, and when both front-matter sections are skipped there was no rerun,
+so skip this re-validation too. The final polish in Step F is sentence-level
+only and cannot repair fresh cross-section drift, so any drift this rerun
+introduced must be caught and resolved here.
 
 ## Step F: Final polish (conservative)
 
 Only now, with the author's go-ahead, run `/paper:polish` section by section (or
 set `revision_stage` to `final polish` and run `revise`). Sentence-level
 copyediting only: no paragraph reordering, no new explanatory content, no
-structural cuts. One pass per section.
+structural cuts. One pass per section, skipping the sections on the Step A
+skip list.
 
 ## Step G: Stop condition
 
 Stop the loop when all of these hold:
 
-- Every section has had at least one `feedback` or `revise` pass.
+- Every section not on the author-approved skip list from Step A has had at
+  least one `feedback` or `revise` pass.
 - All `Author questions` are answered in the manuscript or explicitly deferred.
 - No section-level diagnosis remains that requires moving paragraphs, changing
   claims, adding evidence, defining terms, or supplying examples.

@@ -615,6 +615,15 @@ run_init() {
   echo "  Revision stage options: first draft | response to reviewers | final polish" >&2
   stage=$(read_field "Revision stage")
 
+  case "$stage" in
+    ""|"first draft"|"response to reviewers"|"final polish") : ;;
+    *)
+      echo "  '$stage' is not a recognized stage; writing it anyway." >&2
+      echo "  The skill will ask you to fix it before editing. Valid values:" >&2
+      echo "  first draft | response to reviewers | final polish" >&2
+      ;;
+  esac
+
   if [ -f "$target" ]; then
     echo "" >> "$target"
     sed -n '/<paper_context>/,/<\/paper_context>/p' "$template" >> "$target"
@@ -625,7 +634,7 @@ run_init() {
   local v_venue="${venue:-[fill in]}"
   local v_audience="${audience:-[fill in]}"
   local v_thesis="${thesis:-[fill in]}"
-  local v_stage="${stage:-first draft}"
+  local v_stage="${stage:-[fill in]}"
 
   awk \
     -v venue="$v_venue" -v audience="$v_audience" \

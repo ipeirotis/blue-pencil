@@ -8,8 +8,8 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 This is a paper-level consistency pass, not a section edit. Read every section
-named in `$ARGUMENTS`. Treat paths as files to read. Choose the file set by what
-`$ARGUMENTS` is:
+named in the manuscript reference provided below. Treat paths as files to read.
+Choose the file set by what the provided value is:
 
 - **A root or wrapper file** (for example `paper.tex` or `main.tex`): follow its
   `\input{...}` and `\include{...}` graph recursively and check exactly the files
@@ -46,7 +46,7 @@ Preset triage:
 - **Scope:** feedback only, no rewrite. The `Revised text` block must read
   `No rewrite requested.`, and `Change rationale` carries brief rationale
   bullets for the top diagnosis items instead of change lines.
-- **Unit:** the whole paper in `$ARGUMENTS`.
+- **Unit:** the whole paper provided below.
 - **Aggressiveness:** bound by the `revision_stage` in `<paper_context>`. Since
   this pass only diagnoses, it never edits protected content; route every
   cross-section conflict that needs an author decision (which wording is
@@ -54,8 +54,10 @@ Preset triage:
 
 Return the strict four-section output, with `No rewrite requested.` as the
 revised text. Each diagnosis item must name the sections in conflict (for
-example `[abstract vs. results]`). Each `Author question` ends with a question
-mark.
+example `[abstract vs. results]`). The skill's seven-item Diagnosis cap does
+not apply to this whole-paper diagnosis-only pass: report every finding, and
+group findings by type with counts when the list grows long. Each
+`Author question` ends with a question mark.
 
 Manuscript to check:
 

@@ -4,7 +4,7 @@ description: Revise, copy-edit, polish, make less AI-generated and more human to
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.22.0"
+  version: "1.23.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -228,11 +228,11 @@ Run this checklist before sending the final answer:
 
 ### Read-cold pass on the revised text
 
-Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory, including the storytelling tells (confirm no manufactured hook, journey metaphor, or anthropomorphized data was introduced). Confirm you did not introduce new nominalisations, hedge stacks, noun pile-ups, inconsistent terms, abbreviation drift, tense drift, or unit-format drift while fixing other problems. Read the passage for rhythm and momentum: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Confirm that each paragraph makes its local question visible and ends on a payoff, synthesis, or consequence. Uniform sentence length is itself a tell. Fix any failure before returning the output.
+Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory, including the storytelling tells (confirm no manufactured hook, journey metaphor, or anthropomorphized data was introduced). Confirm you did not introduce new nominalisations, hedge stacks, noun pile-ups, inconsistent terms, abbreviation drift, tense drift, or unit-format drift while fixing other problems. Read the passage for rhythm and momentum: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Confirm that each paragraph makes its local question visible and ends on a payoff, synthesis, or consequence. Uniform sentence length is itself a tell. Fix any failure before returning the output, but only in text you were allowed to edit at this stage: a passage the stage requires returning verbatim (for example an unflagged paragraph on a response-to-reviewers pass) keeps its tells.
 
 ### Length budget
 
-Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Shorter: no justification. Within 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default. Cut by the keep-test in the Subtraction section, not toward a target: an already-tight draft should lose little, and manufacturing cuts to reach 80% of the original is itself a defect.
+Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Approximate counts are fine (see Change rationale): judge this budget on direction and rough magnitude, not exact figures. Shorter: no justification. Within roughly 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default. Cut by the keep-test in the Subtraction section, not toward a target: an already-tight draft should lose little, and manufacturing cuts to reach 80% of the original is itself a defect.
 
 ## Output format (strict)
 
@@ -246,7 +246,7 @@ Except at `final polish` and on a response-to-reviewers pass, when the expositio
 
 Do not add these three lines at `final polish` or on a response-to-reviewers pass. Final polish forbids paragraph and section restructuring, and a reviewer-response pass edits only the flagged paragraphs under their reviewer labels rather than running a section-level exposition rewrite, so in both the structured extraction header is out of scope. A final-polish request to make text clearer to non-specialists is limited to the sentence-level repairs the stage allows (referents, definitions already implied, sentence order, stress position); a reviewer-response edit still repairs an exposition gap inside a flagged paragraph (per the exposition pass and the stage-bound boundaries in `references/exposition.md`) but keeps the reviewer-labelled Diagnosis format rather than emitting the three lines. Surface any deeper teaching gap in `Author questions` instead.
 
-Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items. Order by category (structure first, sentence-level last).
+Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
 
 ### 2. Revised text
 
@@ -254,7 +254,7 @@ The revised section in a single fenced block. No commentary inside the block. If
 
 ### 3. Change rationale
 
-Open with `Word count: <before> to <after> (<signed percent change>).` If the rewrite grew, add a one-line justification on the next line.
+Open with `Word count: ~<before> to ~<after> (<approximate signed percent change>).` Counts are approximate, to the nearest ~10 words (for example `~139 to ~86 (-38%)`): get the direction and rough magnitude right rather than the exact figure, and compute the counts with a tool when one is available. If the rewrite grew, add a one-line justification on the next line.
 
 Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, surfaced tension, an opened knowledge gap, an ABT spine in place of a list, stakes shown by consequence, a character in the subject slot, restored contrast, varied rhythm, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. For an exposition edit, name the teaching benefit: a restored inference, a term defined at first serious use, role before name, question before machinery, a concrete anchor from existing material, two stacked concepts separated, an explicit reader payoff, an abstract claim translated into its mechanism, or an exposed contrast with prior work. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 

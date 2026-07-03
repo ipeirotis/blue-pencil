@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.22.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.23.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -19,6 +19,9 @@ A generic "rewrite my paragraph" prompt hands the text back as a black box: you 
 - **It knows when to stop.** A paragraph that is already good is returned unchanged, not reworded to look busy.
 - **It keeps your voice.** It identifies your stylistic habits and preserves them, instead of flattening the section into generic prose.
 - **It strips the "AI tells."** No em-dashes, no "Furthermore / Moreover," no throat-clearing, no manufactured hooks, so the result reads human.
+
+One honest limit: the skill preserves your citations exactly; it does not verify that
+a cited work supports the claim it is attached to. That check stays with you.
 
 ## What you can ask for
 
@@ -50,6 +53,14 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
    curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
    ```
 
+   > **Using claude.ai, Cowork, or another chat surface instead of Claude Code?**
+   > You do not need the installer. Attach or paste `SKILL.md` (plus any
+   > reference file it names for your task) into the conversation, or add this
+   > repo as a skill/knowledge source where your tool supports it, then paste
+   > your section and ask as usual. Without an `AGENTS.md`, the skill will ask
+   > for your venue, audience, core thesis, and revision stage before editing;
+   > answer in the conversation.
+
 2. **Tell the editor about your paper.** From your paper's folder, run the setup once:
 
    ```bash
@@ -59,7 +70,7 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
 
    It asks four short questions (your target venue, your audience, your paper's main point, and how far along you are: `first draft`, `response to reviewers`, or `final polish`) and saves the answers so the editor tailors its work to your paper. The revision stage matters: a `first draft` may be restructured, while a `final polish` only gets light sentence-level edits. It also registers the Claude Code `/paper:` slash commands in this repo so `/paper:loop`, `/paper:revise`, and the rest resolve.
 
-   `--init` runs inside a git repository (it writes `AGENTS.md` at the repo root). If your paper folder is not a git repo yet, run `git init` first, or skip the script and copy [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md` and fill in the four fields by hand.
+   `--init` runs inside a git repository (it writes `AGENTS.md` at the repo root). If your paper folder is not a git repo yet, run `git init` first, or skip the script and copy [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md` and fill in the four fields by hand. If you would rather not add an `AGENTS.md` at all (for example the folder is not, and will not become, a git repository), put the same `<paper_context>` block in a file named `paper-meta.md` at the paper's root instead: the skill looks for the block in `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`, so `paper-meta.md` is the escape hatch for non-git papers.
 
 3. **Ask for a revision.** Open your paper in Claude Code and just say what you want:
 
@@ -270,7 +281,11 @@ Removes both symlinks and the global `paper:` commands and `paper-reviser` agent
 `--check` lists both targets, flags a `BROKEN` symlink if the clone moved, and prints the clone's version and tracked ref. Common cases:
 
 - `git is required but was not found`: install `git`, then re-run.
-- A target shows `(exists, not a symlink)`: an unmanaged file or directory is in the way. Move it aside, then re-run install.
+- A target shows `(exists, not a symlink)`: either an unmanaged file is in the way, or
+  your filesystem does not support symlinks and the installer fell back to copying.
+  If `install.sh --check` shows the directory's version matching the clone's, it is a
+  healthy copy-mode install and `--update` refreshes it. Only move it aside if you did
+  not install it.
 - Symlinks are unsupported on the filesystem: the installer copies the files instead and says so. `--update` still refreshes the copy.
 
 ## Per-paper setup
@@ -296,7 +311,8 @@ make update       # update the clone and re-link
 make uninstall    # remove both symlinks
 make check        # show install state and tracked ref
 make version      # print the installed version
-make init         # scaffold AGENTS.md (run from your paper repo)
+make init         # scaffold AGENTS.md (runs against the repo you are in; for your
+                  # paper, run: cd /path/to/your/paper && /path/to/clone/install.sh --init)
 ```
 
 ## See it in action
