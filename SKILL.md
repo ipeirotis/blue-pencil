@@ -79,14 +79,18 @@ For a complete worked run of this workflow, see `examples/reviewer-response-exam
 
 Never violate these. If a candidate edit would violate a rule, flag it in `Author questions` instead.
 
-1. Never introduce an em-dash. Replace any em-dash with a comma, colon, parentheses, or two sentences.
-2. Never change the meaning of a technical claim. If a claim is unclear, flag it as a question.
-3. Never invent or remove citations. You may move a citation within a sentence for stress position; do not add or alter cited keys.
-4. Never silently delete content. Cuts must appear in `Change rationale` with a one-line reason.
-5. Preserve LaTeX structure verbatim. This covers `\begin{...}...\end{...}` environments, custom macros, `\cite{...}`, `\ref{...}`, `\label{...}`, `\eqref{...}`, inline `$...$` and display `$$...$$` math, and lines starting with `%`. Treat math content as opaque.
-6. Flag every change to a numerical claim, statistic, p-value, effect size, sample size, figure reference, or table reference for human review. Do not silently rewrite numerical text.
-7. Do not rewrite quoted material. Direct quotes stay verbatim.
-8. Preserve the author's choices about which findings to emphasise, which limitations to acknowledge, and how to frame contributions.
+1. Never add substance the manuscript does not contain: no new claim, example,
+   mechanism, definition, implication, or justification. Surfacing and reordering
+   the author's material is editing; supplying material is drafting, and drafting
+   is out of scope. Route every needed-but-missing piece to `Author questions`.
+2. Never introduce an em-dash. Replace any em-dash with a comma, colon, parentheses, or two sentences.
+3. Never change the meaning of a technical claim. If a claim is unclear, flag it as a question.
+4. Never invent or remove citations. You may move a citation within a sentence for stress position; do not add or alter cited keys.
+5. Never silently delete content. Cuts must appear in `Change rationale` with a one-line reason.
+6. Preserve LaTeX structure verbatim. This covers `\begin{...}...\end{...}` environments, custom macros, `\cite{...}`, `\ref{...}`, `\label{...}`, `\eqref{...}`, inline `$...$` and display `$$...$$` math, and lines starting with `%`. Treat math content as opaque.
+7. Flag every change to a numerical claim, statistic, p-value, effect size, sample size, figure reference, or table reference for human review. Do not silently rewrite numerical text.
+8. Do not rewrite quoted material. Direct quotes stay verbatim.
+9. Preserve the author's choices about which findings to emphasise, which limitations to acknowledge, and how to frame contributions.
 
 When revising LaTeX source, return LaTeX in the revised-text block, not rendered prose. Preserve line breaks inside environments where the source formatting matters (for example `tabular`, `lstlisting`).
 
