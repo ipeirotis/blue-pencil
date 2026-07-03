@@ -116,6 +116,8 @@ significant effect. For platform design, managers should consider highlighting
 reviewer credentials.
 ```
 
+Added bridges: None.
+
 ### 3. Change rationale
 
 Word count: 139 to 86 (-38%).

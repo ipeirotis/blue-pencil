@@ -99,6 +99,11 @@ interaction, which is significant at the 5% level, and R-squared rises from 0.31
 just metadata.
 ```
 
+Added bridges: "The effect is not an artefact of stable differences between products:
+adding product fixed effects in column 3 barely moves it, to 0.15 (SE = 0.05)." Names
+what the draft's own move from column 2 to column 3 implies; confirmed in Author
+questions (the product-fixed-effects item).
+
 ### 3. Change rationale
 
 Word count: 87 to 159 (+83%). This is a large expansion, at the high end of what the

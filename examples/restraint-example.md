@@ -95,6 +95,8 @@ then, comes from the same mechanism as the in-domain gain, not from a separate
 effect.
 ```
 
+Added bridges: None.
+
 ### 3. Change rationale
 
 Word count: 120 to 118 (-2%). Within 5%, acceptable here because the original

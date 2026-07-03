@@ -125,6 +125,10 @@ Furthermore, the results hold across several robustness checks, which are
 reported in Appendix C. Moreover, we find no evidence of pre-trends.
 ```
 
+Added bridges: "Rollout timing is therefore plausibly unrelated to those trends,
+which is what the exclusion restriction needs." Draws the conclusion P2's own
+premises imply; confirmed in Author questions (the maintained-assumption item).
+
 ### 3. Change rationale
 
 Word count: 177 to 198 (+12%). Longer because the one substantive edit (P2)

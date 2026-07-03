@@ -96,6 +96,11 @@ adoption is staggered, we also report the Callaway and Sant'Anna estimator, whic
 built for staggered adoption.
 ```
 
+Added bridges: "Because that simple two-way estimate can be biased when adoption is
+staggered, we also report the Callaway and Sant'Anna estimator, which is built for
+staggered adoption." Unpacks the draft's own "to address heterogeneity in treatment
+timing"; confirmed in Author questions.
+
 ### 3. Change rationale
 
 Word count: 88 to 123 (+40%). The rewrite is longer because the draft compressed the
@@ -146,6 +151,9 @@ say.
   purchase absent the program) explicitly, or is that argued elsewhere?
 - Are foot traffic, local unemployment, and promotional intensity measured at the
   store-week level, as the time-varying reading assumes, or at the store level?
+- I explained the second estimator by saying the simple two-way estimate "can be
+  biased when adoption is staggered", unpacking your "to address heterogeneity in
+  treatment timing": is that the threat you had in mind?
 
 ## What this demonstrates
 
