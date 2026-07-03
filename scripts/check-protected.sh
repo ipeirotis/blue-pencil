@@ -169,7 +169,9 @@ tokens_of() {
     # Markdown links protect the DESTINATION only: link text is editable
     # prose (its callouts and numbers are covered by the other classes),
     # while a retargeted link with unchanged text still fails.
-    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\(([^()]|\([^()]*\))*\)' || true ;;
+    # Inline ](...) destinations, reference-style uses [text][label], and
+    # reference definitions [label]: target.
+    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\(([^()]|\([^()]*\))*\)|\]\[[^]]*\]|\[[^]]+\]: [^ ]+' || true ;;
     callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]\(?([0-9]+(\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
       # A dollar span whose content is only an amount and plain words is
@@ -307,27 +309,33 @@ tokens_of() {
       printf '%s\n' "$text" | grep -oE "${ldq}[^${ldq}${rdq}]*${rdq}" || true
       printf '%s\n' "$text" | grep -oE "${lsq}[^${lsq}${rsq}]*${rsq}" || true
       ;;
-    # Line-level protected markup: % comment lines (constraint 5) and
+    # Line-level protected markup: % comment lines (constraint 5),
     # Markdown block-quote lines (direct quotes stay verbatim, and the
-    # leading > is markup).
-    comments)   printf '%s\n' "$text" | grep -E '^[[:space:]]*(%|> )' || true ;;
+    # leading > is markup), Markdown heading lines (the marker level is
+    # markup), and pipe-table rows (table structure is markup).
+    comments)   printf '%s\n' "$text" | grep -E '^[[:space:]]*(%|> )|^#{1,6} |^\|' || true ;;
     code)
       # ~~~ fence delimiter lines and every line inside the fence.
       printf '%s\n' "$text" | awk '/^~~~/{inb=!inb; print; next} inb{print}'
       printf '%s\n' "$text" | grep -oE '`[^`]+`' || true
       ;;
     numbers)
-      # Unicode comparators and minus (built from bytes; script stays
-      # ASCII) ride with the token like their ASCII counterparts.
+      # Unicode comparators, minus, and currency symbols (built from
+      # bytes; script stays ASCII) ride with the token like their ASCII
+      # counterparts; so do prose comparators (less than, at most) and
+      # currency prefixes, since each is part of the numerical claim.
       ule="$(printf '\xe2\x89\xa4')"
       uge="$(printf '\xe2\x89\xa5')"
       umin="$(printf '\xe2\x88\x92')"
-      printf '%s\n' "$text" | grep -oE "([<>]=?|${ule}|${uge})?[ ~]?([+-]|${umin})?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?(( |-)(percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold|star|stars))?" || true
+      eur="$(printf '\xe2\x82\xac')"
+      gbp="$(printf '\xc2\xa3')"
+      yen="$(printf '\xc2\xa5')"
+      printf '%s\n' "$text" | grep -oiE "((less than|more than|greater than|fewer than|at least|at most|up to|approximately|about|around|roughly|nearly|exceeding|below|above) )?([<>]=?|${ule}|${uge})?[ ~]?([+-]|${umin})?(\\\$|${eur}|${gbp}|${yen})?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?(( |-)(percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold|star|stars))?" | tr '[:upper:]' '[:lower:]' || true
       ;;
     # Ordinals join only as hyphenated compounds (first-stage): standalone
     # ordinals are prose structure the real examples legitimately add
     # ("a second lever" appears in a rewrite whose input lacks it).
-    numberwords) printf '%s\n' "$text" | grep -oiwE '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(-[a-z]+)?|(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+' | tr '[:upper:]' '[:lower:]' || true ;;
+    numberwords) printf '%s\n' "$text" | grep -oiwE '(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(-[a-z]+)?|(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+' | tr '[:upper:]' '[:lower:]' || true ;;
   esac
 }
 

@@ -45,11 +45,14 @@ err() {
 # '## Skill output' to the next h2 (the commentary that follows every
 # example). A lookalike heading in the manuscript input or in the
 # commentary cannot hijack them.
-output_of()     { awk '/^## Skill output/{f=1; print; next} f && /^## /{exit} f' "$1"; }
-diagnosis_of()  { output_of "$1" | awk '/^### 1\. Diagnosis$/{f=1;next} /^### 2\. Revised text$/{f=0} f'; }
-revised_of()    { output_of "$1" | awk '/^### 2\. Revised text$/{f=1;next} /^### 3\. Change rationale$/{f=0} f'; }
-rationale_of()  { output_of "$1" | awk '/^### 3\. Change rationale$/{f=1;next} /^### 4\. Author questions$/{f=0} f'; }
-questions_of()  { output_of "$1" | awk '/^### 4\. Author questions$/{f=1;next} f'; }
+# All region and section boundaries ignore lines inside fenced blocks, so
+# a Markdown manuscript whose revised text carries its own ## or ###
+# headings does not terminate or hijack a section.
+output_of()     { awk '/^## Skill output/{f=1; print; next} f && /^```/{inb=!inb; print; next} f && !inb && /^## /{exit} f' "$1"; }
+diagnosis_of()  { output_of "$1" | awk '/^```/{inb=!inb} !inb && /^### 1\. Diagnosis$/{f=1;next} !inb && /^### 2\. Revised text$/{f=0} f'; }
+revised_of()    { output_of "$1" | awk '/^```/{inb=!inb} !inb && /^### 2\. Revised text$/{f=1;next} !inb && /^### 3\. Change rationale$/{f=0} f'; }
+rationale_of()  { output_of "$1" | awk '/^```/{inb=!inb} !inb && /^### 3\. Change rationale$/{f=1;next} !inb && /^### 4\. Author questions$/{f=0} f'; }
+questions_of()  { output_of "$1" | awk '/^```/{inb=!inb} !inb && /^### 4\. Author questions$/{f=1;next} f'; }
 
 # The fenced block inside the 'Revised text' section, and what follows it.
 revised_block_of() { revised_of "$1" | awk '/^```/{fence++;next} fence==1{print} fence>=2{exit}'; }
@@ -212,7 +215,7 @@ while IFS= read -r f; do
   positions=""
   ok=1
   for h in "$H1" "$H2" "$H3" "$H4"; do
-    n="$(printf '%s\n' "$output_region" | awk -v h="$h" '$0==h{print NR}' | head -2)"
+    n="$(printf '%s\n' "$output_region" | awk -v h="$h" '/^```/{inb=!inb;next} inb{next} $0==h{print NR}' | head -2)"
     if [ -z "$n" ] || [ "$(printf '%s\n' "$n" | wc -l)" -ne 1 ]; then
       err "$f: heading '$h' must appear exactly once."
       ok=0
