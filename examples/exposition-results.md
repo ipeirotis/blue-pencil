@@ -105,7 +105,7 @@ Word count: 87 to 159 (+83%). This is a large expansion, at the high end of what
 length budget tolerates, and is flagged for the author: the input is a bare list of
 estimates, and each one gains a leading claim and a closing consequence. No number,
 standard error, table or column reference, or significance level was added, removed,
-or altered; every numerical claim is carried over verbatim per constraint 6.
+or altered; every numerical claim is carried over verbatim per constraint 4.
 
 "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator
 is 0.18 (SE = 0.04) in column 2." -> "Disclosing who wrote a review moves sales on
@@ -136,12 +136,17 @@ scales (raised in Author questions); the "across all specifications" scope is ke
 verbatim.
 
 "R-squared rises from 0.31 to 0.47 across the columns. All coefficients are
-significant ..." -> carried over verbatim and placed after every coefficient it
-covers (including the star rating) but before the closing line, so its scope still
-spans all estimates while the fit and significance statistics leave the stress
-position and the paragraph ends on the takeaway ("identity is a second lever on
-sales"). The "5% level" phrasing is kept word for word, since shortening a
-significance level would be a change to a statistical claim.
+significant at the 1% level except the interaction, which is significant at the 5%
+level." -> "All coefficients are significant at the 1% level except the tenure
+interaction, which is significant at the 5% level, and R-squared rises from 0.31 to
+0.47 across the columns.", merged the two sentences in reversed order and placed them
+after every coefficient they cover (including the star rating) but before the closing
+line, so the fit and significance statistics leave the stress position and the
+paragraph ends on the takeaway ("identity is a second lever on sales"). "The
+interaction" is renamed "the tenure interaction" so the exception stays unambiguous
+now that the sentence sits three results away from the tenure estimate; every number,
+significance level, and the R-squared range is unchanged, and the renaming edits the
+prose around the statistic, not the statistic itself.
 
 ### 4. Author questions
 
