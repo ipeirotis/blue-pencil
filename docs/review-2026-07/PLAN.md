@@ -24,7 +24,7 @@ flag it in the PR rather than improvising a new design.
 | Batch | PR | Version | Status |
 |---|---|---|---|
 | 1. Plumbing + docs | #28 | v1.23.0 | merged |
-| 2. Rule-system rewrite | | v1.24.0 | in review |
+| 2. Rule-system rewrite | #29 | v1.24.0 | in review |
 | 3. Examples + CI (atomic) | | v1.25.0 | not started |
 | 4. Capability: triage, letter, fallback | | v1.26.0 | not started |
 | 5+. Addendum lanes (one PR each) | | v1.27.0+ | not started |
