@@ -3,6 +3,30 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.25.0] - 2026-07-03
+
+Batch 3 of the 2026-07 skill review: the four example defects plus the CI that locks the examples from then on, landed atomically because the new checks fail against the unrepaired examples by design. Item IDs refer to `review-a.md` (A-), `review-b.md` (B-), and their adjudication in `docs/review-2026-07/reconciliation.md`; the batch checklist lives in `PLAN.md`.
+
+### Fixed
+
+- B-D10a: `examples/worked-example.md` diagnoses a payoff teaching gap at `first draft`, which the Diagnosis table says triggers the three extraction lines; they were absent, so the flagship example violated the rule it anchors. The three lines are now present after `Reader map:` (`Jargon to unpack:` correctly reads none, per the record-none-rather-than-manufacture rule in `references/exposition.md`).
+- B-D8/B-G7: `examples/exposition-methods.md` built its opening bridge from `core_thesis` metadata ("no clean control group") while its closing section claimed nothing was invented, teaching exactly the leak the rules forbid. The rewrite now opens on the staggered-timing fact promoted from the paragraph itself, the "(opening)" rationale line is review B's G7 canonical text, and the missing motivation became an Author question instead of imported metadata. Word count recounted: 88 to 123 (+40%).
+- B-D10b: `examples/exposition-results.md` claimed the significance and R-squared passage was "carried over verbatim" when the rewrite had merged the two sentences in reversed order and renamed "the interaction" to "the tenure interaction". The rationale now describes the actual edit; the stale numerical-claim pointer the 1.24.0 entry deferred here now reads constraint 4.
+- B-D10d: `examples/reviewer-response-example.md` carried `[P1]`-style labels inside the `Revised text` fenced block, contradicting the no-commentary rule and creating a copy-paste hazard. The labels now live only in the mapping, the Diagnosis, and the rationale, and the example says so.
+- B-D10c: all four `Reader map:` lines drifted from the SKILL.md template ("should leave seeing", "should leave able to say"); every example now uses the template's "should leave with".
+
+### Changed
+
+- A-D2: the added identification bridge in `examples/exposition-introduction.md` was re-audited against constraint 1 and stands as a translation of the draft's own asserted quasi-randomness (conditional on observed covariates) into its mechanism, not new substance, provided the flag lives where the author reads. Accordingly every example now carries the mandatory `Added bridges:` line the Batch 2 output contract added (quoting each added why-it-holds sentence with a matching confirm question, or `None.`); the introduction's Author question now quotes the bridge's actual wording instead of a paraphrase, and `exposition-methods.md` gained the confirm question for its restored staggered-bias inference.
+
+### Added
+
+- B-M8: `scripts/check-examples.sh` (`make check-examples`, run in CI) locks the examples to the strict output format: the four exact headings once each and in order, the `Word count:` line regex, a question mark on every `Author questions` bullet, a banned-tell grep over `Revised text` fenced blocks with a per-file whitelist for tells deliberately returned verbatim, extraction-line consistency (which fails on the pre-B-D10a `worked-example.md` by design), the `Added bridges:` line, no editor labels inside the block, and the `Reader map:` template.
+- A-D6: `scripts/check-protected.sh` (`make check-protected`, run in CI) diffs the multisets of citation keys, cross-reference keys, math spans, and numbers between each example's input block and its `Revised text` block: the mechanical version of the "No protected content changed" preflight, with an in-script exceptions list for legitimate flagged changes (empty by design).
+- A-D8/B-I3: `scripts/lint.sh` link checking now resolves every `references/*.md` and `examples/*.md` path named in `SKILL.md`, `README.md`, the command files, the agent file, and the reference and example files themselves; it previously covered only SKILL.md-to-references links.
+- `make test` now runs check-version, lint, check-examples, and check-protected.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.25.0.
+
 ## [1.24.0] - 2026-07-03
 
 Batch 2 of the 2026-07 skill review: the one behavioral release. Rewrites the constraint block and the output contract. Item IDs refer to `review-a.md` (A-), `review-b.md` (B-), and their adjudication in `docs/review-2026-07/reconciliation.md`; before/after adversarial-eval evidence is in the batch PR body.
