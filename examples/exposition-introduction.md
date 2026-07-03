@@ -53,8 +53,8 @@ figures (3.4 million); methodological vocabulary used without hedging.
 
 Reader map: starts with knowing that reviews and sales are correlated; must learn
 why that correlation does not establish a causal effect and how unequal platform
-moderation breaks the deadlock; should leave able to say that the paper turns a
-nuisance (uneven moderation) into the very thing that identifies the effect.
+moderation breaks the deadlock; should leave with uneven moderation, normally a
+nuisance, as the very thing that identifies the effect.
 
 Jargon to unpack: "exogenous variation" and "quasi-random assignment", both used as
 the design's load-bearing terms before the reader is told, in plain words, why

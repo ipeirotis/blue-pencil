@@ -51,8 +51,8 @@ cited by author (Callaway and Sant'Anna); controls listed in a compact series.
 
 Reader map: starts with knowing the program might raise repeat purchase but having
 no obvious control group; must learn that stores adopting the program on different
-dates supply each other's controls; should leave able to say what makes the
-comparison credible before they see the regression that implements it.
+dates supply each other's controls; should leave with the reason the comparison is
+credible, before they see the regression that implements it.
 
 Jargon to unpack: "two-way fixed effects", "never-treated and not-yet-treated", and
 the "Callaway and Sant'Anna" estimator, each named before the reader has the picture

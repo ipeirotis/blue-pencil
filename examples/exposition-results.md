@@ -50,8 +50,8 @@ specific table columns; star rating used as the reference effect.
 
 Reader map: starts with knowing the regression was run; must learn that disclosed
 reviewer identity moves sales on its own and survives controls, and that it adds to
-the rating rather than just proxying for it; should leave able to say identity is a
-second lever on sales alongside the rating, not just metadata.
+the rating rather than just proxying for it; should leave with identity as a second
+lever on sales alongside the rating, not just metadata.
 
 Jargon to unpack: "product fixed effects", reported as a column change before the
 reader is told what they absorb (stable differences between products), with the

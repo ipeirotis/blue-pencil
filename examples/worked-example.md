@@ -71,7 +71,7 @@ citations grouped in one parenthetical; effects stated as concrete numbers
 
 Reader map: starts with knowing that online reviews move sales; must learn
 that who wrote the review, not just the star rating, changes how much it moves
-sales; should leave seeing reviewer identity as a lever a platform can act on,
+sales; should leave with reviewer identity as a lever a platform can act on,
 not just metadata.
 
 Jargon to unpack: none. The draft's obstacle is throat-clearing and hedging,
