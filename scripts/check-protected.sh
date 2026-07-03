@@ -24,15 +24,19 @@
 #                          case-insensitively so a callout-type swap is
 #                          caught, not just a number swap
 #   - math spans           $...$ and $$...$$ (kept distinct, so dropping a
-#                          display delimiter is caught), \(...\), \[...\],
-#                          and whole \begin{...}...\end{...} spans
-#                          including their contents, so a formula edit
-#                          cannot hide in a non-dollar span or inside an
-#                          environment; \caption{...} arguments are blanked
-#                          before the environment diff because caption text
-#                          is editable prose under constraint 5 (its
-#                          numbers, citations, and quotes stay covered by
-#                          the other classes)
+#                          display delimiter is caught), \(...\) and
+#                          \[...\], so a formula edit cannot hide in a
+#                          non-dollar span
+#   - environments         whole \begin{...}...\end{...} spans including
+#                          their contents, diffed with line-break markers
+#                          because SKILL.md says to preserve line breaks
+#                          inside formatting-sensitive environments
+#                          (tabular, lstlisting); \caption arguments,
+#                          including optional-argument and nested-brace
+#                          forms, are blanked first because caption text is
+#                          editable prose under constraint 5 (its numbers,
+#                          citations, and quotes stay covered by the other
+#                          classes)
 #   - macros               every remaining \command with its arguments,
 #                          including one-character commands (\&, \%, \,),
 #                          so a custom-macro argument swap (\methodName{...})
@@ -118,7 +122,7 @@ tokens_of() {
     citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|@[A-Za-z0-9_:-]+' || true ;;
     authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?|&)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
     crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}|\[[^]]*\]\([^)]*\)' || true ;;
-    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s? ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b(,? (and |to )?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
+    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
       printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' || true
       # \(...\) and \[...\] spans by delimiter search, so ordinary ) or ]
@@ -139,14 +143,36 @@ tokens_of() {
           if (j > 0) { print substr(s, 1, j + 1); s = substr(s, j + 2) } else { print s; break }
         }
       }'
+      ;;
+    environments)
       # Whole environment spans, contents included, closed at the \end
       # whose name matches the \begin so a nested inner environment (a
       # tabular inside a table) does not truncate the outer span. Nested
       # same-name environments still close at the first matching end tag,
-      # deterministically on both sides. Caption arguments are blanked
+      # deterministically on both sides. Caption constructs, including
+      # \caption*[Short]{Long {nested}} forms, are blanked to \caption{}
       # first: caption text is editable prose (constraint 5 carve-out), so
       # only the rest of the environment is frozen.
-      printf '%s\n' "$text" | sed -E 's/\\caption\{[^}]*\}/\\caption{}/g' | awk '{
+      printf '%s\n' "$text" | awk '{
+        s = $0; out = ""
+        while ((i = index(s, "\\caption")) > 0) {
+          out = out substr(s, 1, i - 1) "\\caption{}"
+          rest = substr(s, i + 8)
+          if (substr(rest, 1, 1) == "*") rest = substr(rest, 2)
+          if (substr(rest, 1, 1) == "[") { p = index(rest, "]"); if (p > 0) rest = substr(rest, p + 1) }
+          if (substr(rest, 1, 1) == "{") {
+            depth = 0; p = 0
+            for (k = 1; k <= length(rest); k++) {
+              ch = substr(rest, k, 1)
+              if (ch == "{") depth++
+              else if (ch == "}") { depth--; if (depth == 0) { p = k; break } }
+            }
+            if (p > 0) rest = substr(rest, p + 1)
+          }
+          s = rest
+        }
+        print out s
+      }' | awk '{
         s = $0
         while ((i = index(s, "\\begin{")) > 0) {
           s = substr(s, i)
@@ -227,6 +253,11 @@ while IFS= read -r f; do
   output_raw="$(revised_block_of "$f" | strip_labels)"
   input="$(printf '%s\n' "$input_raw" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
   output="$(printf '%s\n' "$output_raw" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
+  # One line with visible line-break markers, for classes where SKILL.md
+  # says source formatting matters (line breaks inside tabular/lstlisting
+  # environments): a re-wrapped environment body must change its token.
+  input_marked="$(printf '%s\n' "$input_raw" | awk '{printf "%s\\n", $0}')"
+  output_marked="$(printf '%s\n' "$output_raw" | awk '{printf "%s\\n", $0}')"
   if [ -z "$input" ] || [ -z "$output" ]; then
     # Feedback-only examples return no rewrite; nothing to diff.
     if ! grep -qF 'No rewrite requested.' "$f"; then
@@ -238,12 +269,16 @@ while IFS= read -r f; do
 
   allow="$(allowed_for "$f")"
 
-  for class in citations authoryear crossrefs callouts math macros quotes comments code numbers; do
+  for class in citations authoryear crossrefs callouts math environments macros quotes comments code numbers; do
     # Comment lines and code fences are line-level constructs, so they
-    # diff on the raw (unflattened) blocks; every other class reads the
-    # flattened text.
+    # diff on the raw (unflattened) blocks; environments keep line-break
+    # markers because their source formatting is protected; every other
+    # class reads the flattened text.
     src_in="$input"; src_out="$output"
-    if [ "$class" = "comments" ] || [ "$class" = "code" ]; then src_in="$input_raw"; src_out="$output_raw"; fi
+    case "$class" in
+      comments|code) src_in="$input_raw"; src_out="$output_raw" ;;
+      environments)  src_in="$input_marked"; src_out="$output_marked" ;;
+    esac
     in_tokens="$(printf '%s\n' "$src_in" | tokens_of "$class" | sort)"
     out_tokens="$(printf '%s\n' "$src_out" | tokens_of "$class" | sort)"
     if [ -n "$allow" ]; then

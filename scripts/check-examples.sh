@@ -246,7 +246,7 @@ while IFS= read -r f; do
   input_paras="$(input_block_of "$f" | strip_labels | flat_paras)"
   while IFS= read -r para; do
     [ -n "$para" ] || continue
-    if printf '%s\n' "$input_paras" | grep -qxF "$para"; then continue; fi
+    if printf '%s\n' "$input_paras" | grep -qxF -- "$para"; then continue; fi
     for w in "${TELL_WORDS[@]}"; do
       if printf '%s\n' "$para" | grep -qiwE "$w"; then
         err "$f: banned tell '$w' in an edited paragraph of the Revised text block."
