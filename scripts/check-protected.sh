@@ -8,7 +8,10 @@
 # the input block (the last fenced block before '## Skill output') and the
 # revised block (the first fenced block after '### 2. Revised text'), then
 # diff the multisets of:
-#   - citation keys        \cite*{...} and pandoc [@...]
+#   - citation keys        \cite variants including optional arguments
+#                          (\citep[see][p. 4]{smith2020}), and every pandoc
+#                          @key, bare or bracketed ([see @smith2020],
+#                          [-@smith2020])
 #   - author-year runs     plain-prose citations ("Forman et al. 2008"),
 #                          matched as capitalized-word runs ending in a year
 #                          so an author swap is caught, not just a year swap
@@ -16,9 +19,19 @@
 #   - prose callouts       "Table 4", "Appendix C", "column 3", ... matched
 #                          case-insensitively so a callout-type swap is
 #                          caught, not just a number swap
-#   - math spans           $...$, \(...\), \[...\], and \begin/\end
-#                          delimiters, so a formula edit cannot hide in a
-#                          non-dollar span
+#   - math spans           $...$, \(...\), \[...\], and whole
+#                          \begin{...}...\end{...} spans including their
+#                          contents, so a formula edit cannot hide in a
+#                          non-dollar span or inside an environment
+#   - macros               every remaining \command with its arguments, so
+#                          a custom-macro argument swap (\methodName{...})
+#                          is caught; macros whose argument is editable
+#                          prose under the constraints (\caption, \emph,
+#                          \textbf, \textit, \footnote, sectioning) are
+#                          diffed by name only, honoring the caption
+#                          carve-out in constraint 5
+#   - quoted text          "..." and TeX ``...'' spans, since constraint 7
+#                          keeps direct quotes verbatim
 #   - numbers              every digit token with its sign, thousands
 #                          separators, range ("5-9%"), and percent context,
 #                          so a sign flip or a range rewrite is caught, not
@@ -68,13 +81,41 @@ strip_labels() {
 # matches, which is a valid empty result, hence the '|| true'.
 tokens_of() {
   class="$1"
+  # Capture stdin once: a branch may run several extractors, and the first
+  # would otherwise consume the stream the second needs.
+  text="$(cat)"
+  # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
-    citations)  grep -oE '\\cite[a-zA-Z]*\*?\{[^}]*\}|\[@[^]]+\]' || true ;;
-    authoryear) grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?))* [12][0-9]{3}" || true ;;
-    crossrefs)  grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}' || true ;;
-    callouts)   grep -oiE '(table|figure|fig\.|section|appendix|column|panel|equation|eq\.) ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b' | tr '[:upper:]' '[:lower:]' || true ;;
-    math)       grep -oE '\$[^$]+\$|\\\([^)]*\\\)|\\\[[^]]*\\\]|\\(begin|end)\{[^}]*\}' || true ;;
-    numbers)    grep -oE '[+-]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(-[0-9]+(,[0-9]{3})*(\.[0-9]+)?)?%?' || true ;;
+    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|@[A-Za-z0-9_:-]+' || true ;;
+    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?))* [12][0-9]{3}" || true ;;
+    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}' || true ;;
+    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|column|panel|equation|eq\.) ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b' | tr '[:upper:]' '[:lower:]' || true ;;
+    math)
+      printf '%s\n' "$text" | grep -oE '\$[^$]+\$|\\\([^)]*\\\)|\\\[[^]]*\\\]' || true
+      # Whole environment spans, contents included: split at each \begin{
+      # and take through the first following \end{...}. Nested or unpaired
+      # environments split coarsely but deterministically on both sides.
+      printf '%s\n' "$text" | awk '{
+        s = $0
+        while ((i = index(s, "\\begin{")) > 0) {
+          s = substr(s, i)
+          if (match(s, /\\end\{[^}]*\}/)) {
+            print substr(s, 1, RSTART + RLENGTH - 1)
+            s = substr(s, RSTART + RLENGTH)
+          } else { print s; break }
+        }
+      }'
+      ;;
+    macros)
+      # Every \command with its bracket and brace arguments; commands whose
+      # argument is editable prose under the constraints keep only their
+      # name (the caption carve-out: caption text is prose, the macro
+      # itself must survive).
+      printf '%s\n' "$text" | grep -oE '\\[A-Za-z]+\*?(\[[^]]*\])*(\{[^}]*\})*' \
+        | sed -E 's/^\\(caption|emph|textbf|textit|footnote|section|subsection|subsubsection|paragraph)(\*?)(\[[^]]*\]|\{[^}]*\})*$/\\\1\2/' || true
+      ;;
+    quotes)     printf '%s\n' "$text" | grep -oE '"[^"]+"|``[^`]+'\'\''' || true ;;
+    numbers)    printf '%s\n' "$text" | grep -oE '[+-]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(-[0-9]+(,[0-9]{3})*(\.[0-9]+)?)?%?' || true ;;
   esac
 }
 
@@ -100,7 +141,7 @@ while IFS= read -r f; do
 
   allow="$(allowed_for "$f")"
 
-  for class in citations authoryear crossrefs callouts math numbers; do
+  for class in citations authoryear crossrefs callouts math macros quotes numbers; do
     in_tokens="$(printf '%s\n' "$input" | tokens_of "$class" | sort)"
     out_tokens="$(printf '%s\n' "$output" | tokens_of "$class" | sort)"
     if [ -n "$allow" ]; then

@@ -21,8 +21,8 @@
 #      three extraction lines (this failed on worked-example.md before
 #      review item B-D10a). A first-draft Diagnosis must also open with
 #      'Voice tics:' and 'Reader map:', and a final-polish or
-#      response-to-reviewers Diagnosis must carry neither (the SKILL.md
-#      Diagnosis table).
+#      response-to-reviewers Diagnosis must carry neither those headers
+#      nor any extraction line (the SKILL.md Diagnosis table).
 #   6. A mandatory 'Added bridges:' line immediately follows the
 #      'Revised text' fenced block, and no [P1]-style editor label sits
 #      inside the block (review item B-D10d).
@@ -252,7 +252,7 @@ while IFS= read -r f; do
       done
     fi
   elif [ "$stage" = "final polish" ] || [ "$stage" = "response to reviewers" ]; then
-    for line in 'Voice tics:' 'Reader map:'; do
+    for line in 'Voice tics:' 'Reader map:' 'Jargon to unpack' 'Buried lede:' 'Concrete anchor:'; do
       if printf '%s\n' "$diagnosis" | grep -qF "$line"; then
         err "$f: a '$stage' Diagnosis must not carry a '$line' line."
       fi
