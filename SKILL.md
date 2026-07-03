@@ -232,7 +232,7 @@ Re-read the revised text alone, without referring back to the original. For ever
 
 ### Length budget
 
-Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Shorter: no justification. Within 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default. Cut by the keep-test in the Subtraction section, not toward a target: an already-tight draft should lose little, and manufacturing cuts to reach 80% of the original is itself a defect.
+Count words in the original and in the rewrite, excluding citation commands, math environments, and LaTeX macros. Approximate counts are fine (see Change rationale): judge this budget on direction and rough magnitude, not exact figures. Shorter: no justification. Within roughly 5%: acceptable when the original was already tight, otherwise consider another subtractive pass. Longer: requires a one-line justification in `Change rationale`. Good academic editing is subtractive by default. Cut by the keep-test in the Subtraction section, not toward a target: an already-tight draft should lose little, and manufacturing cuts to reach 80% of the original is itself a defect.
 
 ## Output format (strict)
 
@@ -254,7 +254,7 @@ The revised section in a single fenced block. No commentary inside the block. If
 
 ### 3. Change rationale
 
-Open with `Word count: <before> to <after> (<signed percent change>).` If the rewrite grew, add a one-line justification on the next line.
+Open with `Word count: ~<before> to ~<after> (<approximate signed percent change>).` Counts are approximate, to the nearest ~10 words (for example `~139 to ~86 (-38%)`): get the direction and rough magnitude right rather than the exact figure, and compute the counts with a tool when one is available. If the rewrite grew, add a one-line justification on the next line.
 
 Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, surfaced tension, an opened knowledge gap, an ABT spine in place of a list, stakes shown by consequence, a character in the subject slot, restored contrast, varied rhythm, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. For an exposition edit, name the teaching benefit: a restored inference, a term defined at first serious use, role before name, question before machinery, a concrete anchor from existing material, two stacked concepts separated, an explicit reader payoff, an abstract claim translated into its mechanism, or an exposed contrast with prior work. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 
