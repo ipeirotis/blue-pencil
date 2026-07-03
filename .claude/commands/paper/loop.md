@@ -27,10 +27,11 @@ for the manuscript location before doing anything else.
 - Honor `revision_stage` from `<paper_context>` throughout. Do not flip it to
   `final polish` until the final-polish step, and only with the author's
   go-ahead.
-- Carry the skill's hard rules through every pass: no em-dash, no invented or
-  removed citations, no silent deletion, no change to a numerical claim,
-  statistic, citation, equation, cross-reference, or quoted text. Anything that
-  would touch those comes back as an `Author question`, never a silent edit.
+- Carry the skill's hard rules through every pass: no change to the meaning of
+  any technical claim, no em-dash, no invented or removed citations, no silent
+  deletion, no change to a numerical claim, statistic, citation, equation,
+  cross-reference, or quoted text. Anything that would touch those comes back
+  as an `Author question`, never a silent edit.
 - Stop at each author checkpoint and wait. Do not advance past unresolved
   `Author questions`.
 - Do not repeat a pass merely to get a different rewrite. Unchanged prose is a
