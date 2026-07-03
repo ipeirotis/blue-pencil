@@ -141,11 +141,18 @@ tokens_of() {
   # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
     citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
-    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)( ([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
-    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}|\[[^]]*\]\([^)]*\)' || true ;;
+    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)(,? ([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
+    # Markdown links protect the DESTINATION only: link text is editable
+    # prose (its callouts and numbers are covered by the other classes),
+    # while a retargeted link with unchanged text still fails.
+    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}|\]\([^)]*\)' || true ;;
     callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]\(?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
-      printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' || true
+      # A dollar span starting with "$<amount> " is prose currency, not
+      # math ("$5 million and $3 million" would otherwise fuse into one
+      # false span and freeze the prose between the amounts); the amounts
+      # themselves stay protected by the numbers class.
+      printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' | grep -vE '^\$[0-9][0-9,.]* ' || true
       # \(...\) and \[...\] spans by delimiter search, so ordinary ) or ]
       # inside a formula (f(x), \mathbb{E}[Y]) does not truncate the span.
       printf '%s\n' "$text" | awk '{
@@ -273,7 +280,7 @@ tokens_of() {
       printf '%s\n' "$text" | awk '/^~~~/{inb=!inb; print; next} inb{print}'
       printf '%s\n' "$text" | grep -oE '`[^`]+`' || true
       ;;
-    numbers)    printf '%s\n' "$text" | grep -oE '[+-]?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?( (percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold))?' || true ;;
+    numbers)    printf '%s\n' "$text" | grep -oE '([<>]=?[ ~]?)?[+-]?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?( (percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold))?' || true ;;
     numberwords) printf '%s\n' "$text" | grep -oiwE '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(-[a-z]+)?' | tr '[:upper:]' '[:lower:]' || true ;;
   esac
 }

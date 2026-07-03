@@ -135,7 +135,10 @@ TELL_PHRASES=(
   "reveal their secrets"
   "but here is the catch"
   "here is the twist"
-  "navigate the"
+  "navigate the literature"
+  "navigate the landscape"
+  "navigate the complexities"
+  "navigate uncertainty"
   "plays a key role"
   "plays a central role"
   "plays a crucial role"
@@ -242,6 +245,9 @@ while IFS= read -r f; do
   if ! printf '%s\n' "$questions" | grep -qE '^(- |None\.)'; then
     err "$f: 'Author questions' must carry bullets or 'None.'"
   fi
+  if printf '%s\n' "$questions" | grep -qE '^None\.' && printf '%s\n' "$questions" | grep -qE '^- '; then
+    err "$f: 'Author questions' mixes 'None.' with question bullets; it must be one or the other."
+  fi
 
   # 4. Banned tells inside the 'Revised text' fenced block, scanned per
   #    paragraph. A paragraph that also appears verbatim in the input block
@@ -287,15 +293,22 @@ while IFS= read -r f; do
         if [ "$qcount" -lt 2 ] || [ $((qcount % 2)) -ne 0 ]; then
           err "$f: the Added bridges line has an incomplete or unbalanced quotation."
         fi
-        # The first quoted span is the bridge itself (later quotes may
-        # cite the draft's wording); it must actually appear in the
-        # rewrite, or the line points the author at a nonexistent
-        # sentence.
-        bridge_quote="$(printf '%s\n' "$ab_para" | sed -E 's/^Added bridges: "([^"]*)".*/\1/')"
+        # Every quoted BRIDGE must appear in the rewrite, or the line
+        # points the author at a nonexistent sentence. Bridges are full
+        # sentences, so a quoted span ending in sentence punctuation is a
+        # bridge; a span without it quotes the draft's wording as
+        # commentary and is exempt.
         block_flat="$(printf '%s\n' "$block" | flat_paras | tr '\n' ' ')"
-        if [ -n "$bridge_quote" ] && ! printf '%s\n' "$block_flat" | grep -qF -- "$bridge_quote"; then
-          err "$f: the Added bridges quote does not appear in the Revised text block."
-        fi
+        while IFS= read -r span; do
+          quote="${span#\"}"; quote="${quote%\"}"
+          case "$quote" in
+            *. | *\? | *!)
+              if ! printf '%s\n' "$block_flat" | grep -qF -- "$quote"; then
+                err "$f: an Added bridges quote does not appear in the Revised text block: \"$(printf '%s' "$quote" | head -c 60)...\""
+              fi
+              ;;
+          esac
+        done < <(printf '%s\n' "$ab_para" | grep -oE '"[^"]*"' || true)
         # The bridge contract pairs every quoted bridge with an Author
         # questions item confirming it; matching bridge to question is
         # semantic, but a quoted bridge with NO questions at all is a
