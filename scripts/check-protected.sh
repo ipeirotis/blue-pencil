@@ -62,6 +62,11 @@
 #                          is caught, not just a digit change (an arbitrary
 #                          noun after a number stays prose: binding it
 #                          would flag legitimate edits near numbers)
+#   - number words         spelled-out cardinals with any hyphenated
+#                          compound ("two-stage", "three groups"), so a
+#                          worded quantity or method-arity change is
+#                          caught; a legitimate rephrasing that drops a
+#                          cardinal goes through the exceptions list
 # [P1]-style paragraph labels are stripped first: they are editor
 # bookkeeping, not manuscript content. Blocks are flattened to one line
 # before extraction because example prose is hard-wrapped and a token can
@@ -90,9 +95,13 @@ ALLOW="
 fail=0
 
 input_block_of() {
+  # The scenario's <paper_context> block also sits before '## Skill
+  # output'; it is never the manuscript input, so a file whose only
+  # pre-output block is the context block has no input and fails the
+  # emptiness guard instead of silently diffing metadata.
   awk '
     /^## Skill output/ { exit }
-    /^```/ { inb = !inb; if (inb) { buf = "" } else { last = buf }; next }
+    /^```/ { inb = !inb; if (inb) { buf = "" } else { if (buf !~ /revision_stage:/) last = buf }; next }
     inb { buf = buf $0 "\n" }
     END { printf "%s", last }
   ' "$1"
@@ -249,6 +258,7 @@ tokens_of() {
       printf '%s\n' "$text" | grep -oE '`[^`]+`' || true
       ;;
     numbers)    printf '%s\n' "$text" | grep -oE '[+-]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(-[0-9]+(,[0-9]{3})*(\.[0-9]+)?)?%?( (percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold))?' || true ;;
+    numberwords) printf '%s\n' "$text" | grep -oiwE '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(-[a-z]+)?' | tr '[:upper:]' '[:lower:]' || true ;;
   esac
 }
 
@@ -263,14 +273,9 @@ while IFS= read -r f; do
 
   input_raw="$(input_block_of "$f" | strip_labels)"
   output_raw="$(revised_block_of "$f" | strip_labels)"
-  input="$(printf '%s\n' "$input_raw" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
-  output="$(printf '%s\n' "$output_raw" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
-  # One line with visible line-break markers, for classes where SKILL.md
-  # says source formatting matters (line breaks inside tabular/lstlisting
-  # environments): a re-wrapped environment body must change its token.
-  input_marked="$(printf '%s\n' "$input_raw" | awk '{printf "%s\\n", $0}')"
-  output_marked="$(printf '%s\n' "$output_raw" | awk '{printf "%s\\n", $0}')"
-  if [ -z "$input" ] || [ -z "$output" ]; then
+  # Emptiness is tested on the raw blocks: the flattened copies below are
+  # never empty (an empty block flattens to a single space).
+  if [ -z "$input_raw" ] || [ -z "$output_raw" ]; then
     # Feedback-only examples return no rewrite; nothing to diff.
     if ! grep -qF 'No rewrite requested.' "$f"; then
       echo "ERROR: $f: could not extract an input and a revised block." >&2
@@ -279,9 +284,17 @@ while IFS= read -r f; do
     continue
   fi
 
+  input="$(printf '%s\n' "$input_raw" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
+  output="$(printf '%s\n' "$output_raw" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
+  # One line with visible line-break markers, for classes where SKILL.md
+  # says source formatting matters (line breaks inside tabular/lstlisting
+  # environments): a re-wrapped environment body must change its token.
+  input_marked="$(printf '%s\n' "$input_raw" | awk '{printf "%s\\n", $0}')"
+  output_marked="$(printf '%s\n' "$output_raw" | awk '{printf "%s\\n", $0}')"
+
   allow="$(allowed_for "$f")"
 
-  for class in citations authoryear crossrefs callouts math environments macros quotes comments code numbers; do
+  for class in citations authoryear crossrefs callouts math environments macros quotes comments code numbers numberwords; do
     # Comment lines and code fences are line-level constructs, so they
     # diff on the raw (unflattened) blocks; environments keep line-break
     # markers because their source formatting is protected; every other

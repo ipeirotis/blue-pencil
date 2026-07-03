@@ -60,12 +60,13 @@ request_of() {
   awk '/^The request:/{f=1;next} f && /^> /{print substr($0,3)} f && !/^>/ && !/^[[:space:]]*$/{exit}' "$1"
 }
 
-# The input block: the last fenced block before '## Skill output'. Used to
-# detect paragraphs the pass returned verbatim.
+# The input block: the last fenced block before '## Skill output' that is
+# not the scenario's <paper_context> block. Used to detect paragraphs the
+# pass returned verbatim.
 input_block_of() {
   awk '
     /^## Skill output/ { exit }
-    /^```/ { inb = !inb; if (inb) { buf = "" } else { last = buf }; next }
+    /^```/ { inb = !inb; if (inb) { buf = "" } else { if (buf !~ /revision_stage:/) last = buf }; next }
     inb { buf = buf $0 "\n" }
     END { printf "%s", last }
   ' "$1"
@@ -282,8 +283,12 @@ while IFS= read -r f; do
         ;;
       *) err "$f: the Revised text block must be followed by 'Added bridges:' quoting each added bridge or 'None.' (got: ${ab_para:-nothing})." ;;
     esac
-    if hit="$(printf '%s\n' "$block" | grep -nE '\[(P|R)[0-9]' | head -1)"; then
-      err "$f: editor label inside the Revised text block (no commentary in the block): $hit"
+    # Editor labels sit at the start of a paragraph, which is where the
+    # skill adds them; a [P1]-style token inside running manuscript text
+    # (a proposition or participant reference) is the author's content
+    # and is allowed.
+    if printf '%s\n' "$block" | awk 'BEGIN{RS=""} /^\[[PR][0-9]/{found=1} END{exit found ? 0 : 1}'; then
+      err "$f: editor label opening a paragraph of the Revised text block (no commentary in the block)."
     fi
   fi
 
