@@ -174,13 +174,12 @@ tokens_of() {
     crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\(([^()]|\([^()]*\))*\)|\]\[[^]]*\]|\[[^]]+\]: [^ ]+' || true ;;
     callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]\(?([0-9]+(\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
-      # A dollar span whose content is only an amount and plain words is
+      # A dollar span reading as an amount followed by a magnitude word is
       # prose currency, not math ("$5 million and $3 million" would
       # otherwise fuse into one false span and freeze the prose between
-      # the amounts); spans with operators or commands ($5 + x$,
-      # $0 \le p$) stay math. The amounts themselves stay protected by
-      # the numbers class.
-      printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' | grep -vE '^\$[0-9][0-9,.]*( [A-Za-z]+)* ?\$$' || true
+      # the amounts); any other span, including $5 x$ or $0 \le p$, stays
+      # math. The amounts themselves stay protected by the numbers class.
+      printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' | grep -vE '^\$[0-9][0-9,.]* (million|billion|trillion|thousand|hundred|k|bn|mn)( .*)?\$$' || true
       # \(...\) and \[...\] spans by delimiter search, so ordinary ) or ]
       # inside a formula (f(x), \mathbb{E}[Y]) does not truncate the span.
       printf '%s\n' "$text" | awk '{
@@ -311,9 +310,14 @@ tokens_of() {
       ;;
     # Line-level protected markup: % comment lines (constraint 5),
     # Markdown block-quote lines (direct quotes stay verbatim, and the
-    # leading > is markup), Markdown heading lines (the marker level is
-    # markup), and pipe-table rows (table structure is markup).
-    comments)   printf '%s\n' "$text" | grep -E '^[[:space:]]*(%|> )|^#{1,6} |^\|' || true ;;
+    # leading > is markup), and pipe-table rows (table structure is
+    # markup). Markdown headings contribute only their MARKER: the level
+    # is markup, but the heading text is editable prose whose protected
+    # tokens the other classes already cover.
+    comments)
+      printf '%s\n' "$text" | grep -E '^[[:space:]]*(%|> )|^\|' || true
+      printf '%s\n' "$text" | grep -oE '^#{1,6} ' || true
+      ;;
     code)
       # ~~~ fence delimiter lines and every line inside the fence.
       printf '%s\n' "$text" | awk '/^~~~/{inb=!inb; print; next} inb{print}'

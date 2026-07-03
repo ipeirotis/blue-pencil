@@ -230,6 +230,12 @@ while IFS= read -r f; do
       err "$f: the four output headings are out of order."
     fi
   fi
+  # The contract is exactly four sections: no other h3 may appear in the
+  # output region (fenced content excluded).
+  extra_heading="$(printf '%s\n' "$output_region" | awk '/^```/{inb=!inb;next} inb{next} /^### /' | grep -vxF -e "$H1" -e "$H2" -e "$H3" -e "$H4" | head -1 || true)"
+  if [ -n "$extra_heading" ]; then
+    err "$f: unexpected heading in the skill output: $extra_heading"
+  fi
 
   revised_section="$(revised_of "$f")"
   feedback_only=0
@@ -284,6 +290,11 @@ while IFS= read -r f; do
   if [ -n "$stray" ]; then
     err "$f: 'Author questions' carries non-bullet prose: $stray"
   fi
+  # Indented lines are bullet continuations; under 'None.' there is no
+  # bullet to continue, so any indented content is stray.
+  if printf '%s\n' "$questions" | grep -qE '^None\.' && printf '%s\n' "$questions" | grep -qE '^[[:space:]]+[^[:space:]]'; then
+    err "$f: 'Author questions' has content indented under 'None.'"
+  fi
 
   # 4. Banned tells inside the 'Revised text' fenced block, scanned per
   #    paragraph. Only at 'response to reviewers' is a paragraph returned
@@ -306,6 +317,8 @@ while IFS= read -r f; do
   input_paras="$(input_block_of "$f" | strip_labels | flat_paras)"
   ldq="$(printf '\xe2\x80\x9c')"
   rdq="$(printf '\xe2\x80\x9d')"
+  lsq="$(printf '\xe2\x80\x98')"
+  rsq="$(printf '\xe2\x80\x99')"
   while IFS= read -r para; do
     [ -n "$para" ] || continue
     if [ "$stage" = "response to reviewers" ] && printf '%s\n' "$input_paras" | grep -qxF -- "$para"; then continue; fi
@@ -314,7 +327,7 @@ while IFS= read -r f; do
     # those spans are excised before the scan (straight, curly, and TeX
     # quotes; inline code; dollar math).
     # shellcheck disable=SC2016  # regex characters, not expansions
-    para="$(printf '%s\n' "$para" | sed -E "s/\"[^\"]*\"//g; s/${ldq}[^${ldq}${rdq}]*${rdq}//g" | sed -E 's/``[^`]*'\'\''//g; s/`[^`]*`//g; s/\$[^$]*\$//g')"
+    para="$(printf '%s\n' "$para" | sed -E "s/\"[^\"]*\"//g; s/${ldq}[^${ldq}${rdq}]*${rdq}//g; s/${lsq}[^${lsq}${rsq}]*${rsq}//g" | sed -E 's/``[^`]*'\'\''//g; s/`[^`]*`//g; s/\$[^$]*\$//g')"
     for w in "${TELL_WORDS[@]}"; do
       if printf '%s\n' "$para" | grep -qiwE "$w"; then
         err "$f: banned tell '$w' in the Revised text block (only response-to-reviewers verbatim returns are exempt)."
@@ -334,6 +347,10 @@ while IFS= read -r f; do
     fence_count="$(printf '%s\n' "$revised_section" | grep -c '^```' || true)"
     if [ "$fence_count" -ne 2 ]; then
       err "$f: the Revised text section must contain exactly one fenced block (found $((fence_count / 2)))."
+    fi
+    pre_block="$(printf '%s\n' "$revised_section" | awk '/^```/{exit} {print}' | sed '/^[[:space:]]*$/d' | head -1 || true)"
+    if [ -n "$pre_block" ]; then
+      err "$f: prose before the Revised text fenced block: $pre_block"
     fi
     # The whole (hard-wrapped) Added bridges paragraph, flattened: it must
     # read exactly 'None.' or open with a quote and keep its quotation
@@ -453,6 +470,13 @@ while IFS= read -r f; do
         err "$f: a '$stage' Diagnosis must not carry a '$line' line."
       fi
     done
+    # The reviewer workflow labels every item with its reviewer concern.
+    if [ "$stage" = "response to reviewers" ]; then
+      no_rlabel="$(printf '%s\n' "$diagnosis" | grep -E '^[0-9]+\. ' | grep -vE '^[0-9]+\. \[R[0-9]' | head -1 || true)"
+      if [ -n "$no_rlabel" ]; then
+        err "$f: reviewer-response Diagnosis item lacks an [R#] reviewer label: $no_rlabel"
+      fi
+    fi
   fi
 
   # 7. Reader map template, scoped to the Diagnosis block so a
