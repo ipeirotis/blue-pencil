@@ -181,9 +181,12 @@ structural gap rather than inventing a slogan; surface it to the author.
 
 This rerun can change contribution wording or result summaries after the Step D
 consistency check, so run `/paper:consistency` once more over the abstract and
-introduction against the body before polishing. The final polish in Step F is
-sentence-level only and cannot repair fresh cross-section drift, so any drift
-this rerun introduced must be caught and resolved here.
+introduction against the body before polishing. Hand this re-validation only
+in-scope files, like Step D: a front-matter section on the Step A skip list
+stays out, and when both front-matter sections are skipped there was no rerun,
+so skip this re-validation too. The final polish in Step F is sentence-level
+only and cannot repair fresh cross-section drift, so any drift this rerun
+introduced must be caught and resolved here.
 
 ## Step F: Final polish (conservative)
 
