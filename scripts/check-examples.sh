@@ -41,15 +41,15 @@ err() {
   fail=1
 }
 
-# Section extractors, scoped to the region from '## Skill output' onward
-# so a lookalike heading inside the manuscript input cannot hijack them.
-# Sections are delimited by the strict headings; the 'Author questions'
-# section ends at the next h2 (every example follows the output with
-# commentary) or at end of file.
-diagnosis_of()  { awk '/^## Skill output/{o=1} o && /^### 1\. Diagnosis$/{f=1;next} /^### 2\. Revised text$/{f=0} f' "$1"; }
-revised_of()    { awk '/^## Skill output/{o=1} o && /^### 2\. Revised text$/{f=1;next} /^### 3\. Change rationale$/{f=0} f' "$1"; }
-rationale_of()  { awk '/^## Skill output/{o=1} o && /^### 3\. Change rationale$/{f=1;next} /^### 4\. Author questions$/{f=0} f' "$1"; }
-questions_of()  { awk '/^## Skill output/{o=1} o && /^### 4\. Author questions$/{f=1;next} f && /^## /{exit} f' "$1"; }
+# Section extractors, scoped to the skill-output region: from
+# '## Skill output' to the next h2 (the commentary that follows every
+# example). A lookalike heading in the manuscript input or in the
+# commentary cannot hijack them.
+output_of()     { awk '/^## Skill output/{f=1; print; next} f && /^## /{exit} f' "$1"; }
+diagnosis_of()  { output_of "$1" | awk '/^### 1\. Diagnosis$/{f=1;next} /^### 2\. Revised text$/{f=0} f'; }
+revised_of()    { output_of "$1" | awk '/^### 2\. Revised text$/{f=1;next} /^### 3\. Change rationale$/{f=0} f'; }
+rationale_of()  { output_of "$1" | awk '/^### 3\. Change rationale$/{f=1;next} /^### 4\. Author questions$/{f=0} f'; }
+questions_of()  { output_of "$1" | awk '/^### 4\. Author questions$/{f=1;next} f'; }
 
 # The fenced block inside the 'Revised text' section, and what follows it.
 revised_block_of() { revised_of "$1" | awk '/^```/{fence++;next} fence==1{print} fence>=2{exit}'; }
@@ -206,9 +206,9 @@ while IFS= read -r f; do
   checked=$((checked + 1))
 
   # 1. Four exact headings, once each, in order, scoped to the skill
-  #    output (a Markdown manuscript in the input block may legitimately
-  #    carry lookalike headings).
-  output_region="$(awk '/^## Skill output/{f=1} f' "$f")"
+  #    output (a Markdown manuscript in the input block or the commentary
+  #    after the output may legitimately carry lookalike headings).
+  output_region="$(output_of "$f")"
   positions=""
   ok=1
   for h in "$H1" "$H2" "$H3" "$H4"; do
@@ -306,9 +306,12 @@ while IFS= read -r f; do
   while IFS= read -r para; do
     [ -n "$para" ] || continue
     if [ "$stage" = "response to reviewers" ] && printf '%s\n' "$input_paras" | grep -qxF -- "$para"; then continue; fi
-    # Direct quotes stay verbatim under constraint 7, tells and all, so
-    # quoted spans are excised before the scan.
-    para="$(printf '%s\n' "$para" | sed -E "s/\"[^\"]*\"//g; s/${ldq}[^${ldq}${rdq}]*${rdq}//g")"
+    # Direct quotes stay verbatim under constraint 7, and code and math
+    # markup is preserved verbatim under constraint 5, tells and all, so
+    # those spans are excised before the scan (straight, curly, and TeX
+    # quotes; inline code; dollar math).
+    # shellcheck disable=SC2016  # regex characters, not expansions
+    para="$(printf '%s\n' "$para" | sed -E "s/\"[^\"]*\"//g; s/${ldq}[^${ldq}${rdq}]*${rdq}//g" | sed -E 's/``[^`]*'\'\''//g; s/`[^`]*`//g; s/\$[^$]*\$//g')"
     for w in "${TELL_WORDS[@]}"; do
       if printf '%s\n' "$para" | grep -qiwE "$w"; then
         err "$f: banned tell '$w' in the Revised text block (only response-to-reviewers verbatim returns are exempt)."
@@ -443,7 +446,7 @@ while IFS= read -r f; do
     fi
   elif [ "$stage" = "final polish" ] || [ "$stage" = "response to reviewers" ]; then
     for line in 'Voice tics' 'Reader map' 'Jargon to unpack' 'Buried lede' 'Concrete anchor'; do
-      if printf '%s\n' "$diagnosis" | grep -qE "^$line( \[P[0-9]+\])?:"; then
+      if printf '%s\n' "$diagnosis" | grep -qE "^$line( \[[PR][0-9][^]]*\])?:"; then
         err "$f: a '$stage' Diagnosis must not carry a '$line' line."
       fi
     done

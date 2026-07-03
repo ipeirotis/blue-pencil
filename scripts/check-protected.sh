@@ -83,6 +83,11 @@
 #   would flag every legitimate edit near a protected token.
 # - Straight single quotes are not a quote class (apostrophes make them
 #   undecidable by grep).
+# - Prose-argument macro contents (\emph, \footnote, \caption, sectioning)
+#   are editable prose by design: their embedded protected tokens stay
+#   covered by the other classes, but which word carries the emphasis is
+#   the reviewer's judgment, since freezing those spans would flag every
+#   legitimate copyedit inside them.
 # - Manuscript code fences inside examples use ~~~ by repo convention:
 #   the example's own triple-backtick fences delimit the input and
 #   output blocks, so a nested triple-backtick fence is not parseable
@@ -302,13 +307,23 @@ tokens_of() {
       printf '%s\n' "$text" | grep -oE "${ldq}[^${ldq}${rdq}]*${rdq}" || true
       printf '%s\n' "$text" | grep -oE "${lsq}[^${lsq}${rsq}]*${rsq}" || true
       ;;
-    comments)   printf '%s\n' "$text" | grep -E '^[[:space:]]*%' || true ;;
+    # Line-level protected markup: % comment lines (constraint 5) and
+    # Markdown block-quote lines (direct quotes stay verbatim, and the
+    # leading > is markup).
+    comments)   printf '%s\n' "$text" | grep -E '^[[:space:]]*(%|> )' || true ;;
     code)
       # ~~~ fence delimiter lines and every line inside the fence.
       printf '%s\n' "$text" | awk '/^~~~/{inb=!inb; print; next} inb{print}'
       printf '%s\n' "$text" | grep -oE '`[^`]+`' || true
       ;;
-    numbers)    printf '%s\n' "$text" | grep -oE '([<>]=?[ ~]?)?[+-]?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?(( |-)(percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold|star|stars))?' || true ;;
+    numbers)
+      # Unicode comparators and minus (built from bytes; script stays
+      # ASCII) ride with the token like their ASCII counterparts.
+      ule="$(printf '\xe2\x89\xa4')"
+      uge="$(printf '\xe2\x89\xa5')"
+      umin="$(printf '\xe2\x88\x92')"
+      printf '%s\n' "$text" | grep -oE "([<>]=?|${ule}|${uge})?[ ~]?([+-]|${umin})?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?(( |-)(percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold|star|stars))?" || true
+      ;;
     # Ordinals join only as hyphenated compounds (first-stage): standalone
     # ordinals are prose structure the real examples legitimately add
     # ("a second lever" appears in a rewrite whose input lacks it).
