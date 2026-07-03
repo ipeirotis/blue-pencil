@@ -284,7 +284,13 @@ allowed_for() {
 
 checked=0
 while IFS= read -r f; do
-  grep -q '^## Skill output' "$f" || continue
+  # Every tracked example is a complete run; a missing section must fail,
+  # not silently exempt the file from the protected-content diff.
+  if ! grep -q '^## Skill output' "$f"; then
+    echo "ERROR: $f: missing the '## Skill output' section." >&2
+    fail=1
+    continue
+  fi
   checked=$((checked + 1))
 
   input_raw="$(input_block_of "$f" | strip_labels)"

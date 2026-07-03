@@ -87,7 +87,9 @@ flat_paras() {
 # catalogue's judgment calls, words banned only in a generic or decorative
 # sense that grep cannot tell from the legitimate technical use ("robust"
 # vs "robust to X", statistical "significant", "key", "navigate a
-# website"): those belong to the read-cold pass, not CI.
+# website"), and position-dependent frames ("In this paper, we propose"
+# is banned only after the contribution paragraph): those belong to the
+# read-cold pass, not CI.
 TELL_WORDS=(
   furthermore moreover crucially importantly notably ultimately
   delve delves delved delving
@@ -102,6 +104,7 @@ TELL_PHRASES=(
   "having said that"
   "that said,"
   "it is well known that"
+  "we show that"
   "a myriad of"
   "a plethora of"
   "a wide array of"
@@ -175,7 +178,12 @@ H4='### 4. Author questions'
 
 checked=0
 while IFS= read -r f; do
-  grep -q '^## Skill output' "$f" || continue
+  # Every tracked example is a complete run; a missing section must fail,
+  # not silently exempt the file from every check below.
+  if ! grep -q '^## Skill output' "$f"; then
+    err "$f: missing the '## Skill output' section."
+    continue
+  fi
   checked=$((checked + 1))
 
   # 1. Four exact headings, once each, in order.
@@ -353,10 +361,15 @@ while IFS= read -r f; do
     if [ "$gap_found" -eq 1 ]; then
       # Labeled per-paragraph forms ('Buried lede [P3]:') satisfy the
       # requirement; the contract says to repeat the set with labels when
-      # several paragraphs carry distinct gaps.
+      # several paragraphs carry distinct gaps. The lines open the block
+      # with the headers, so each must precede the numbered list.
+      item_line="$(printf '%s\n' "$diagnosis" | grep -nE '^1\. ' | head -1 | cut -d: -f1)"
       for line in 'Jargon to unpack' 'Buried lede' 'Concrete anchor'; do
-        if ! printf '%s\n' "$diagnosis" | grep -qE "^$line( \[P[0-9]+\])?:"; then
+        ex_line="$(printf '%s\n' "$diagnosis" | grep -nE "^$line( \[P[0-9]+\])?:" | head -1 | cut -d: -f1)"
+        if [ -z "$ex_line" ]; then
           err "$f: Diagnosis names a teaching gap (or the request asks for clarity) at first draft but lacks the '$line' extraction line."
+        elif [ -n "$item_line" ] && [ "$ex_line" -gt "$item_line" ]; then
+          err "$f: the '$line' extraction line must precede the numbered Diagnosis list."
         fi
       done
     fi
@@ -368,9 +381,11 @@ while IFS= read -r f; do
     done
   fi
 
-  # 7. Reader map template.
-  if grep -q '^Reader map:' "$f"; then
-    reader_map="$(awk '/^Reader map:/{f=1} f && /^[[:space:]]*$/{exit} f{printf "%s ", $0}' "$f")"
+  # 7. Reader map template, scoped to the Diagnosis block so a
+  #    'Reader map:' line in the manuscript input or the commentary
+  #    around the output cannot trip the check.
+  if printf '%s\n' "$diagnosis" | grep -q '^Reader map:'; then
+    reader_map="$(printf '%s\n' "$diagnosis" | awk '/^Reader map:/{f=1} f && /^[[:space:]]*$/{exit} f{printf "%s ", $0}')"
     if ! printf '%s\n' "$reader_map" | grep -qE '^Reader map: starts with .*; must learn .*; should leave with .*'; then
       err "$f: 'Reader map:' line drifts from the template 'starts with ...; must learn ...; should leave with ...'."
     fi
