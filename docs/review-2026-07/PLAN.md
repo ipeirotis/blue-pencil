@@ -23,8 +23,8 @@ flag it in the PR rather than improvising a new design.
 
 | Batch | PR | Version | Status |
 |---|---|---|---|
-| 1. Plumbing + docs | #28 | v1.23.0 | in review |
-| 2. Rule-system rewrite | | v1.24.0 | not started |
+| 1. Plumbing + docs | #28 | v1.23.0 | merged |
+| 2. Rule-system rewrite | | v1.24.0 | in review |
 | 3. Examples + CI (atomic) | | v1.25.0 | not started |
 | 4. Capability: triage, letter, fallback | | v1.26.0 | not started |
 | 5+. Addendum lanes (one PR each) | | v1.27.0+ | not started |
@@ -86,33 +86,33 @@ three items listed; diff reviewable in one sitting.
 Goal: the one behavioral release. Rewrites the constraint block and output
 contract. Review this PR's `SKILL.md` diff line by line.
 
-- [ ] B-G2: new constraint 1 (never add substance the manuscript does not
+- [x] B-G2: new constraint 1 (never add substance the manuscript does not
       contain); thread through `paper-reviser.md` hard rules and `loop.md`
       guardrails
-- [ ] A-G7 structure: reorder constraints science-first, em-dash last, folding
+- [x] A-G7 structure: reorder constraints science-first, em-dash last, folding
       in: quote exception (B-D7a), caption carve-out (B-E8), citation-wall rule
       (B-D6: propose redistribution in Author questions, never perform),
       qualifier-is-content rule (B-G5), any-format markup generalization,
       `style_overrides:` opt-out (A-D1)
-- [ ] B-G3: output-destination rule (default: return text, never write files;
+- [x] B-G3: output-destination rule (default: return text, never write files;
       apply only on explicit request; never apply with unresolved Author
       questions) + `loop.md` Step C checkpoint note; align `paper-reviser.md`
       tools with the decision
-- [ ] Merged description: B-G1 base + "line-edit"; grants stay out of
+- [x] Merged description: B-G1 base + "line-edit"; grants stay out of
       auto-trigger (reconciliation conflict 4: explicit-request only, note in
       "When NOT to use")
-- [ ] B-G10: Diagnosis-header decision table replaces SKILL.md lines ~243-247;
+- [x] B-G10: Diagnosis-header decision table replaces SKILL.md lines ~243-247;
       `exposition.md` becomes single owner of the extraction-line spec; fix the
       line ~212 duplicate voice-tics statement
-- [ ] Conflict 3 resolution: mandatory `Added bridges:` line immediately after
+- [x] Conflict 3 resolution: mandatory `Added bridges:` line immediately after
       the `Revised text` block (quoting each added why-it-holds sentence, or
       `None.`); do NOT use inline bracketed tags inside the fenced block
-- [ ] B-G6: reviewer workflow gains the overclaim guard and the
+- [x] B-G6: reviewer workflow gains the overclaim guard and the
       contradictory-comments rule
-- [ ] Behavioral eval: run the adversarial set (both reviews, section I) against
+- [x] Behavioral eval: run the adversarial set (both reviews, section I) against
       the `paper-reviser` subagent before and after the rewrite; paste the
       before/after summary into the PR body
-- [ ] Release: CHANGELOG entry explaining each behavioral delta,
+- [x] Release: CHANGELOG entry explaining each behavioral delta,
       `make bump VERSION=1.24.0`, `make test`
 
 Acceptance: every changed rule traceable to a reconciliation item; eval results
