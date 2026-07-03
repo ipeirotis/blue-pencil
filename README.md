@@ -70,7 +70,7 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
 
    It asks four short questions (your target venue, your audience, your paper's main point, and how far along you are: `first draft`, `response to reviewers`, or `final polish`) and saves the answers so the editor tailors its work to your paper. The revision stage matters: a `first draft` may be restructured, while a `final polish` only gets light sentence-level edits. It also registers the Claude Code `/paper:` slash commands in this repo so `/paper:loop`, `/paper:revise`, and the rest resolve.
 
-   `--init` runs inside a git repository (it writes `AGENTS.md` at the repo root). If your paper folder is not a git repo yet, run `git init` first, or skip the script and copy [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md` and fill in the four fields by hand.
+   `--init` runs inside a git repository (it writes `AGENTS.md` at the repo root). If your paper folder is not a git repo yet, run `git init` first, or skip the script and copy [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md` and fill in the four fields by hand. If you would rather not add an `AGENTS.md` at all (for example the folder is not, and will not become, a git repository), put the same `<paper_context>` block in a file named `paper-meta.md` at the paper's root instead: the skill looks for the block in `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`, so `paper-meta.md` is the escape hatch for non-git papers.
 
 3. **Ask for a revision.** Open your paper in Claude Code and just say what you want:
 

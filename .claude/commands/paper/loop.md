@@ -57,7 +57,11 @@ file as described above), and return a plan with exactly these parts:
    reviewer-flagged paragraphs and their neighbours), or ask them to move the
    stage to `first draft` or `final polish` first. Do not change the stage
    yourself.
-3. **Detected sections**, mapped to files.
+3. **Detected sections**, mapped to files. The author may name detected
+   sections to leave out (for example appendices, or low-priority sections
+   under a deadline); record that author-approved skip list in the plan and
+   treat the skipped sections as out of scope for the pass order and the stop
+   condition.
 4. **Recommended pass order** for the whole paper.
 5. **First command to run.**
 6. **Stop and repeat criteria** (the convergence rule in the last step).
@@ -99,7 +103,8 @@ Step A detected (for example Background, Experiments, Limitations, an Appendix)
 at its reading-order position, so the loop rewrites each detected file. The stop
 condition in Step G is not satisfied while any detected section is still
 unprocessed; do not skip a detected section just because it is not one of the
-seven labels above.
+seven labels above. The only sections the loop may skip are the ones on the
+author-approved skip list recorded in Step A.
 
 The abstract and introduction are edited twice across the loop, but each pass
 appears exactly once in the steps so the driver never double-runs them. This
@@ -187,7 +192,8 @@ structural cuts. One pass per section.
 
 Stop the loop when all of these hold:
 
-- Every section has had at least one `feedback` or `revise` pass.
+- Every section not on the author-approved skip list from Step A has had at
+  least one `feedback` or `revise` pass.
 - All `Author questions` are answered in the manuscript or explicitly deferred.
 - No section-level diagnosis remains that requires moving paragraphs, changing
   claims, adding evidence, defining terms, or supplying examples.
