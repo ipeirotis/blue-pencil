@@ -8,7 +8,7 @@ root, kept there so the documented `curl | bash` URL stays stable.
 |--------|---------|---------|
 | `check-version.sh` | Assert `VERSION`, `SKILL.md` `metadata.version`, the README badge, and the latest `CHANGELOG.md` entry all match. Exits non-zero on drift. | `make check-version` |
 | `bump-version.sh <x.y.z>` | Update all three version strings in lockstep, then self-check. Prints the CHANGELOG and tag steps. | `make bump VERSION=x.y.z` |
-| `lint.sh` | Enforce the no-em-dash standing constraint, validate `SKILL.md` frontmatter, and confirm every `references/*.md` the skill loads exists. | `make lint` |
+| `lint.sh` | Enforce the no-em-dash standing constraint, validate `SKILL.md` frontmatter, and confirm every `references/*.md` and `examples/*.md` path named in `SKILL.md`, `README.md`, the commands, the agent, and the reference and example files resolves. | `make lint` |
 | `check-examples.sh` | Lock `examples/` to the strict output format in `SKILL.md`: heading order, `Word count:` shape, question marks, banned tells in `Revised text` blocks (with a verbatim-return whitelist), extraction-line consistency, the `Added bridges:` line, and the `Reader map:` template. | `make check-examples` |
 | `check-protected.sh` | Diff citation keys, cross-reference keys, math spans, and numbers between each example's input block and its `Revised text` block; the mechanical version of the skill's "No protected content changed" preflight, with an in-script exceptions list for legitimate flagged changes. | `make check-protected` |
 
