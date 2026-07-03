@@ -84,9 +84,8 @@ rewrite uses to build the picture before the specification.
 ### 2. Revised text
 
 ```
-The loyalty program had no clean control group. What saves the comparison is timing.
-Stores adopted on different dates, so on any given week some already have the program
-while others do not, either because they adopt later or never adopt at all. Those
+Stores adopted the program on different dates, so on any given week some already have
+it while others do not, either because they adopt later or never adopt at all. Those
 not-yet-treated and never-treated stores are the controls. We compare repeat purchase
 at adopting stores against them before and after each rollout date, reading the effect
 off the interaction between the post-rollout and treatment indicators. We estimate it
@@ -99,15 +98,18 @@ built for staggered adoption.
 
 ### 3. Change rationale
 
-Word count: 88 to 136 (+55%). The rewrite is longer because the draft compressed the
+Word count: 88 to 123 (+40%). The rewrite is longer because the draft compressed the
 identification logic into trailing clauses; the added sentences move it to the front
 and unpack it, using only facts already in the paragraph (staggered dates, the
 never-treated and not-yet-treated controls, the interaction estimand, timing
 heterogeneity). No technical claim is dropped. Flagged under the length budget.
 
-"(opening)" -> "The loyalty program had no clean control group", drawn from the paper
-context ("without a clean control group"); the rewrite motivates the design without
-asserting whether assignment was random, since the manuscript does not say.
+"(opening)" -> "Stores adopted the program on different dates", promoted from material
+already in the paragraph ("rolled out to stores on different dates") to open on the
+identification problem. The draft itself never states why a clean comparison is hard;
+whether the missing motivation ("no clean control group") should be added is raised in
+Author questions rather than imported from the paper's context metadata, which is not
+manuscript text.
 
 "We estimate a two-way fixed effects model ..." and "The coefficient of interest is
 the interaction between the post-rollout indicator and the treatment indicator" ->
@@ -116,9 +118,9 @@ estimand now follow the question they answer rather than leading the paragraph. 
 interaction is preserved as the coefficient of interest, not dropped.
 
 "Because the loyalty program was rolled out to stores on different dates, we use the
-never-treated and not-yet-treated stores as controls" -> "Stores adopted on different
-dates, so on any given week some already have the program while others do not, either
-because they adopt later or never adopt at all. Those not-yet-treated and
+never-treated and not-yet-treated stores as controls" -> "Stores adopted the program
+on different dates, so on any given week some already have it while others do not,
+either because they adopt later or never adopt at all. Those not-yet-treated and
 never-treated stores are the controls", put the intuition before the formalism and
 unpacked the labels while keeping both the never-treated and not-yet-treated control
 groups the draft named.
@@ -133,6 +135,10 @@ say.
 
 ### 4. Author questions
 
+- The paragraph never states why a clean comparison is hard (the paper context calls
+  it the lack of a clean control group, but that is metadata, not manuscript text):
+  do you want the paragraph to open on that motivation, and if so, how would you
+  state it?
 - The draft does not say whether the Callaway and Sant'Anna estimate should compare
   against never-treated stores, not-yet-treated stores, or both, and the choice
   changes the estimand, so which did you intend?
@@ -154,7 +160,8 @@ say.
   and never-treated) and the interaction estimand are carried into the rewrite, not
   dropped; the pass reorders and explains the technical content without removing any
   of it.
-- **Nothing invented to fill a gap.** Where the draft is silent (whether assignment
-  was random, which control group the Callaway and Sant'Anna estimate uses), the
-  rewrite stays silent and raises the point in Author questions rather than inventing
-  a design detail to make the prose flow.
+- **Nothing invented to fill a gap.** Where the draft is silent (why a clean
+  comparison is hard, whether assignment was random, which control group the Callaway
+  and Sant'Anna estimate uses), the rewrite stays silent and raises the point in
+  Author questions rather than importing it from context metadata or inventing a
+  design detail to make the prose flow.
