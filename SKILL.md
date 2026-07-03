@@ -259,6 +259,7 @@ Run this checklist before sending the final answer:
 - On a narrative or whole-section pass, the section has a findable spine (one ABT) and its tension is surfaced rather than smoothed; on any pass, confirm no decorative storytelling tells were introduced.
 - Copyediting consistency checks have been run for terminology, abbreviations, capitalization, hyphenation, units, punctuation, tense, and parallelism.
 - Requested scope is respected.
+- The `Added bridges:` line after the `Revised text` block quotes every added sentence that states why an assumption or identification claim holds, or reads `None.`
 - `Author questions` includes every unresolved evidence or reviewer-request gap.
 
 ### Read-cold pass on the revised text
@@ -299,7 +300,9 @@ Then a numbered list. Each item is one structural or stylistic problem with a pa
 
 ### 2. Revised text
 
-The revised section in a single fenced block. No commentary inside the block. If the user asked for feedback only, write `No rewrite requested.`
+The revised section in a single fenced block. No commentary inside the block: never mark an edit with an inline bracketed tag or editor label, which contradicts the clean block and creates a copy-paste hazard. If the user asked for feedback only, write `No rewrite requested.`
+
+Immediately after the fenced block, add one mandatory `Added bridges:` line. Quote on it each sentence you added that states why an assumption, identification strategy, or validity claim holds (each such sentence must be built from material already in the manuscript per constraint 1, and each also gets an `Author questions` item asking the author to confirm it); write `Added bridges: None.` when there are none. The author reads the rewrite before the questions, so this flag lives next to what they read.
 
 ### 3. Change rationale
 
