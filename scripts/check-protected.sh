@@ -9,11 +9,24 @@
 # revised block (the first fenced block after '### 2. Revised text'), then
 # diff the multisets of:
 #   - citation keys        \cite*{...} and pandoc [@...]
+#   - author-year runs     plain-prose citations ("Forman et al. 2008"),
+#                          matched as capitalized-word runs ending in a year
+#                          so an author swap is caught, not just a year swap
 #   - cross-reference keys \ref/\eqref/\autoref/\cref/\Cref/\label{...}
-#   - math spans           $...$
-#   - numbers              every digit token, including decimals
+#   - prose callouts       "Table 4", "Appendix C", "column 3", ... matched
+#                          case-insensitively so a callout-type swap is
+#                          caught, not just a number swap
+#   - math spans           $...$, \(...\), \[...\], and \begin/\end
+#                          delimiters, so a formula edit cannot hide in a
+#                          non-dollar span
+#   - numbers              every digit token with its sign, thousands
+#                          separators, range ("5-9%"), and percent context,
+#                          so a sign flip or a range rewrite is caught, not
+#                          just a digit change
 # [P1]-style paragraph labels are stripped first: they are editor
-# bookkeeping, not manuscript content.
+# bookkeeping, not manuscript content. Blocks are flattened to one line
+# before extraction because example prose is hard-wrapped and a token can
+# straddle a line break ("Chevalier and Mayzlin\n2006").
 #
 # Exceptions: a legitimate, flagged change may alter a protected token. List
 # it in ALLOW below as '<file> <token>' and that token is ignored on both
@@ -56,10 +69,12 @@ strip_labels() {
 tokens_of() {
   class="$1"
   case "$class" in
-    citations) grep -oE '\\cite[a-zA-Z]*\*?\{[^}]*\}|\[@[^]]+\]' || true ;;
-    crossrefs) grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}' || true ;;
-    math)      grep -oE '\$[^$]+\$' || true ;;
-    numbers)   grep -oE '[0-9]+(\.[0-9]+)?' || true ;;
+    citations)  grep -oE '\\cite[a-zA-Z]*\*?\{[^}]*\}|\[@[^]]+\]' || true ;;
+    authoryear) grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?))* [12][0-9]{3}" || true ;;
+    crossrefs)  grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}' || true ;;
+    callouts)   grep -oiE '(table|figure|fig\.|section|appendix|column|panel|equation|eq\.) ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b' | tr '[:upper:]' '[:lower:]' || true ;;
+    math)       grep -oE '\$[^$]+\$|\\\([^)]*\\\)|\\\[[^]]*\\\]|\\(begin|end)\{[^}]*\}' || true ;;
+    numbers)    grep -oE '[+-]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(-[0-9]+(,[0-9]{3})*(\.[0-9]+)?)?%?' || true ;;
   esac
 }
 
@@ -72,8 +87,8 @@ while IFS= read -r f; do
   grep -q '^## Skill output' "$f" || continue
   checked=$((checked + 1))
 
-  input="$(input_block_of "$f" | strip_labels)"
-  output="$(revised_block_of "$f" | strip_labels)"
+  input="$(input_block_of "$f" | strip_labels | tr '\n' ' ' | tr -s '[:space:]' ' ')"
+  output="$(revised_block_of "$f" | strip_labels | tr '\n' ' ' | tr -s '[:space:]' ' ')"
   if [ -z "$input" ] || [ -z "$output" ]; then
     # Feedback-only examples return no rewrite; nothing to diff.
     if ! grep -qF 'No rewrite requested.' "$f"; then
@@ -85,7 +100,7 @@ while IFS= read -r f; do
 
   allow="$(allowed_for "$f")"
 
-  for class in citations crossrefs math numbers; do
+  for class in citations authoryear crossrefs callouts math numbers; do
     in_tokens="$(printf '%s\n' "$input" | tokens_of "$class" | sort)"
     out_tokens="$(printf '%s\n' "$output" | tokens_of "$class" | sort)"
     if [ -n "$allow" ]; then

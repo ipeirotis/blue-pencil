@@ -11,13 +11,18 @@
 #   3. Every 'Author questions' bullet ends with a question mark ('None.'
 #      is the only alternative).
 #   4. The 'Revised text' fenced block contains no banned tell from
-#      references/ai-tells-to-avoid.md, minus a per-file whitelist for
-#      tells an example deliberately returns verbatim (unflagged
-#      paragraphs at 'response to reviewers' keep their tells).
+#      references/ai-tells-to-avoid.md in any paragraph the pass edited.
+#      A paragraph returned verbatim from the input is exempt: that is
+#      the deliberate-verbatim case (unflagged paragraphs at 'response
+#      to reviewers' keep their tells), detected by comparing flattened
+#      paragraphs instead of trusting a hand-kept whitelist.
 #   5. Extraction-line consistency: a first-draft example whose Diagnosis
 #      names a teaching gap from the exposition catalogue must carry the
 #      three extraction lines (this failed on worked-example.md before
-#      review item B-D10a).
+#      review item B-D10a). A first-draft Diagnosis must also open with
+#      'Voice tics:' and 'Reader map:', and a final-polish or
+#      response-to-reviewers Diagnosis must carry neither (the SKILL.md
+#      Diagnosis table).
 #   6. A mandatory 'Added bridges:' line immediately follows the
 #      'Revised text' fenced block, and no [P1]-style editor label sits
 #      inside the block (review item B-D10d).
@@ -47,6 +52,25 @@ questions_of()  { awk '/^### 4\. Author questions$/{f=1;next} f && /^## /{exit} 
 # The fenced block inside the 'Revised text' section, and what follows it.
 revised_block_of() { revised_of "$1" | awk '/^```/{fence++;next} fence==1{print} fence>=2{exit}'; }
 after_block_of()   { revised_of "$1" | awk '/^```/{fence++;next} fence>=2{print}'; }
+
+# The input block: the last fenced block before '## Skill output'. Used to
+# detect paragraphs the pass returned verbatim.
+input_block_of() {
+  awk '
+    /^## Skill output/ { exit }
+    /^```/ { inb = !inb; if (inb) { buf = "" } else { last = buf }; next }
+    inb { buf = buf $0 "\n" }
+    END { printf "%s", last }
+  ' "$1"
+}
+
+# Normalize for paragraph comparison: drop [P1]-style editor labels, then
+# flatten each blank-line-separated paragraph to one whitespace-collapsed
+# line (example prose is hard-wrapped).
+strip_labels() { sed -E 's/\[[PR][0-9]+(\.[0-9]+)?\]//g'; }
+flat_paras() {
+  awk 'BEGIN{RS=""} {gsub(/\n/," "); gsub(/[[:space:]]+/," "); sub(/^ +/,""); sub(/ +$/,""); print}'
+}
 
 # Banned tells scanned inside 'Revised text' blocks. Single words are
 # matched as whole words, phrases as case-insensitive substrings; both
@@ -81,17 +105,6 @@ TELL_PHRASES=(
   "we embark"
   "speak for themselves"
 )
-
-# Tells a given example deliberately returns verbatim, one per line,
-# lowercase. reviewer-response-example.md returns P1 and P5 unedited
-# because reviewers did not flag them; their tells are the point.
-whitelisted_tells() {
-  case "$1" in
-    examples/reviewer-response-example.md)
-      printf '%s\n' "furthermore" "moreover" "it is important to note"
-      ;;
-  esac
-}
 
 # Teaching-gap vocabulary from the references/exposition.md catalogue; any
 # of these in a first-draft Diagnosis triggers the three extraction lines.
@@ -178,27 +191,30 @@ while IFS= read -r f; do
     err "$f: 'Author questions' must carry bullets or 'None.'"
   fi
 
-  # 4. Banned tells inside the 'Revised text' fenced block. Prose in the
-  #    examples is hard-wrapped, so phrases are matched against a flattened
-  #    copy of the block.
+  # 4. Banned tells inside the 'Revised text' fenced block, scanned per
+  #    paragraph. A paragraph that also appears verbatim in the input block
+  #    was returned, not written, so its tells are exempt; every edited
+  #    paragraph must be clean. Paragraphs are flattened first because the
+  #    prose is hard-wrapped.
   block="$(revised_block_of "$f")"
   if [ -z "$block" ] && [ "$feedback_only" -eq 0 ]; then
     err "$f: no fenced block found under 'Revised text'."
   fi
-  block_flat="$(printf '%s\n' "$block" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
-  allow="$(whitelisted_tells "$f")"
-  for w in "${TELL_WORDS[@]}"; do
-    if printf '%s\n' "$allow" | grep -qxF "$w"; then continue; fi
-    if printf '%s\n' "$block_flat" | grep -qiwE "$w"; then
-      err "$f: banned tell '$w' inside the Revised text block."
-    fi
-  done
-  for p in "${TELL_PHRASES[@]}"; do
-    if printf '%s\n' "$allow" | grep -qxF "$p"; then continue; fi
-    if printf '%s\n' "$block_flat" | grep -qiF "$p"; then
-      err "$f: banned tell '$p' inside the Revised text block."
-    fi
-  done
+  input_paras="$(input_block_of "$f" | strip_labels | flat_paras)"
+  while IFS= read -r para; do
+    [ -n "$para" ] || continue
+    if printf '%s\n' "$input_paras" | grep -qxF "$para"; then continue; fi
+    for w in "${TELL_WORDS[@]}"; do
+      if printf '%s\n' "$para" | grep -qiwE "$w"; then
+        err "$f: banned tell '$w' in an edited paragraph of the Revised text block."
+      fi
+    done
+    for p in "${TELL_PHRASES[@]}"; do
+      if printf '%s\n' "$para" | grep -qiF "$p"; then
+        err "$f: banned tell '$p' in an edited paragraph of the Revised text block."
+      fi
+    done
+  done < <(printf '%s\n' "$block" | strip_labels | flat_paras)
 
   # 6. 'Added bridges:' immediately after the block; no editor labels inside.
   if [ -n "$block" ]; then
@@ -212,11 +228,17 @@ while IFS= read -r f; do
     fi
   fi
 
-  # 5. Extraction-line consistency (first draft + named teaching gap). The
+  # 5. Diagnosis headers by stage (the SKILL.md Diagnosis table), plus
+  #    extraction-line consistency (first draft + named teaching gap). The
   #    gap scan runs on a flattened copy so hard-wrapped phrases still match.
   stage="$(grep -m1 -E '^revision_stage:' "$f" | sed -E 's/^revision_stage:[[:space:]]*//')"
+  diagnosis="$(diagnosis_of "$f")"
   if [ "$stage" = "first draft" ]; then
-    diagnosis="$(diagnosis_of "$f")"
+    for line in 'Voice tics:' 'Reader map:'; do
+      if ! printf '%s\n' "$diagnosis" | grep -qF "$line"; then
+        err "$f: a first-draft Diagnosis must open with a '$line' line."
+      fi
+    done
     diagnosis_flat="$(printf '%s\n' "$diagnosis" | tr '\n' ' ' | tr -s '[:space:]' ' ')"
     gap_found=0
     for g in "${GAP_TERMS[@]}"; do
@@ -229,6 +251,12 @@ while IFS= read -r f; do
         fi
       done
     fi
+  elif [ "$stage" = "final polish" ] || [ "$stage" = "response to reviewers" ]; then
+    for line in 'Voice tics:' 'Reader map:'; do
+      if printf '%s\n' "$diagnosis" | grep -qF "$line"; then
+        err "$f: a '$stage' Diagnosis must not carry a '$line' line."
+      fi
+    done
   fi
 
   # 7. Reader map template.
