@@ -23,7 +23,7 @@ flag it in the PR rather than improvising a new design.
 
 | Batch | PR | Version | Status |
 |---|---|---|---|
-| 1. Plumbing + docs | (see below) | v1.23.0 | in review |
+| 1. Plumbing + docs | #28 | v1.23.0 | in review |
 | 2. Rule-system rewrite | | v1.24.0 | not started |
 | 3. Examples + CI (atomic) | | v1.25.0 | not started |
 | 4. Capability: triage, letter, fallback | | v1.26.0 | not started |
