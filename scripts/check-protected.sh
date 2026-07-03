@@ -117,8 +117,11 @@ input_block_of() {
 }
 
 revised_block_of() {
+  # Scoped past '## Skill output' so a lookalike heading inside the
+  # manuscript input cannot hijack the extraction.
   awk '
-    /^### 2\. Revised text$/ { f = 1 }
+    /^## Skill output/ { o = 1 }
+    o && /^### 2\. Revised text$/ { f = 1 }
     f && /^```/ { inb = !inb; if (!inb) exit; next }
     f && inb { print }
   ' "$1"
@@ -141,18 +144,20 @@ tokens_of() {
   # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
     citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*? ?(\[[^]]*\] ?)*\{[^}]*\}|-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
-    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)(,? ([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
+    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)(,? ([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&))*,? \(?[12][0-9]{3}[a-z]?\)?" || true ;;
     # Markdown links protect the DESTINATION only: link text is editable
     # prose (its callouts and numbers are covered by the other classes),
     # while a retargeted link with unchanged text still fails.
-    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\([^)]*\)' || true ;;
+    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\(([^()]|\([^()]*\))*\)' || true ;;
     callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]\(?([0-9]+(\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
-      # A dollar span starting with "$<amount> " is prose currency, not
-      # math ("$5 million and $3 million" would otherwise fuse into one
-      # false span and freeze the prose between the amounts); the amounts
-      # themselves stay protected by the numbers class.
-      printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' | grep -vE '^\$[0-9][0-9,.]* ' || true
+      # A dollar span whose content is only an amount and plain words is
+      # prose currency, not math ("$5 million and $3 million" would
+      # otherwise fuse into one false span and freeze the prose between
+      # the amounts); spans with operators or commands ($5 + x$,
+      # $0 \le p$) stay math. The amounts themselves stay protected by
+      # the numbers class.
+      printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' | grep -vE '^\$[0-9][0-9,.]*( [A-Za-z]+)* ?\$$' || true
       # \(...\) and \[...\] spans by delimiter search, so ordinary ) or ]
       # inside a formula (f(x), \mathbb{E}[Y]) does not truncate the span.
       printf '%s\n' "$text" | awk '{

@@ -41,13 +41,15 @@ err() {
   fail=1
 }
 
-# Section extractors. Sections are delimited by the strict headings; the
-# 'Author questions' section ends at the next h2 (every example follows the
-# output with commentary) or at end of file.
-diagnosis_of()  { awk '/^### 1\. Diagnosis$/{f=1;next} /^### 2\. Revised text$/{f=0} f' "$1"; }
-revised_of()    { awk '/^### 2\. Revised text$/{f=1;next} /^### 3\. Change rationale$/{f=0} f' "$1"; }
-rationale_of()  { awk '/^### 3\. Change rationale$/{f=1;next} /^### 4\. Author questions$/{f=0} f' "$1"; }
-questions_of()  { awk '/^### 4\. Author questions$/{f=1;next} f && /^## /{exit} f' "$1"; }
+# Section extractors, scoped to the region from '## Skill output' onward
+# so a lookalike heading inside the manuscript input cannot hijack them.
+# Sections are delimited by the strict headings; the 'Author questions'
+# section ends at the next h2 (every example follows the output with
+# commentary) or at end of file.
+diagnosis_of()  { awk '/^## Skill output/{o=1} o && /^### 1\. Diagnosis$/{f=1;next} /^### 2\. Revised text$/{f=0} f' "$1"; }
+revised_of()    { awk '/^## Skill output/{o=1} o && /^### 2\. Revised text$/{f=1;next} /^### 3\. Change rationale$/{f=0} f' "$1"; }
+rationale_of()  { awk '/^## Skill output/{o=1} o && /^### 3\. Change rationale$/{f=1;next} /^### 4\. Author questions$/{f=0} f' "$1"; }
+questions_of()  { awk '/^## Skill output/{o=1} o && /^### 4\. Author questions$/{f=1;next} f && /^## /{exit} f' "$1"; }
 
 # The fenced block inside the 'Revised text' section, and what follows it.
 revised_block_of() { revised_of "$1" | awk '/^```/{fence++;next} fence==1{print} fence>=2{exit}'; }
@@ -195,11 +197,14 @@ while IFS= read -r f; do
   fi
   checked=$((checked + 1))
 
-  # 1. Four exact headings, once each, in order.
+  # 1. Four exact headings, once each, in order, scoped to the skill
+  #    output (a Markdown manuscript in the input block may legitimately
+  #    carry lookalike headings).
+  output_region="$(awk '/^## Skill output/{f=1} f' "$f")"
   positions=""
   ok=1
   for h in "$H1" "$H2" "$H3" "$H4"; do
-    n="$(awk -v h="$h" '$0==h{print NR}' "$f" | head -2)"
+    n="$(printf '%s\n' "$output_region" | awk -v h="$h" '$0==h{print NR}' | head -2)"
     if [ -z "$n" ] || [ "$(printf '%s\n' "$n" | wc -l)" -ne 1 ]; then
       err "$f: heading '$h' must appear exactly once."
       ok=0
@@ -280,10 +285,22 @@ while IFS= read -r f; do
   if [ -z "$block" ] && [ "$feedback_only" -eq 0 ]; then
     err "$f: no fenced block found under 'Revised text'."
   fi
+  # A feedback-only run keeps the block structure: the fenced block exists
+  # and reads 'No rewrite requested.'.
+  if [ "$feedback_only" -eq 1 ]; then
+    if [ -z "$block" ] || ! printf '%s\n' "$block" | grep -qF 'No rewrite requested.'; then
+      err "$f: a feedback-only example must keep the fenced Revised text block reading 'No rewrite requested.'"
+    fi
+  fi
   input_paras="$(input_block_of "$f" | strip_labels | flat_paras)"
+  ldq="$(printf '\xe2\x80\x9c')"
+  rdq="$(printf '\xe2\x80\x9d')"
   while IFS= read -r para; do
     [ -n "$para" ] || continue
     if [ "$stage" = "response to reviewers" ] && printf '%s\n' "$input_paras" | grep -qxF -- "$para"; then continue; fi
+    # Direct quotes stay verbatim under constraint 7, tells and all, so
+    # quoted spans are excised before the scan.
+    para="$(printf '%s\n' "$para" | sed -E "s/\"[^\"]*\"//g; s/${ldq}[^${ldq}${rdq}]*${rdq}//g")"
     for w in "${TELL_WORDS[@]}"; do
       if printf '%s\n' "$para" | grep -qiwE "$w"; then
         err "$f: banned tell '$w' in the Revised text block (only response-to-reviewers verbatim returns are exempt)."
@@ -364,9 +381,9 @@ while IFS= read -r f; do
   if ! printf '%s\n' "$diagnosis" | grep -qE '^1\. '; then
     err "$f: the Diagnosis has no numbered item list."
   fi
-  unanchored="$(printf '%s\n' "$diagnosis" | grep -E '^[0-9]+\. ' | grep -v '\[' | head -1 || true)"
+  unanchored="$(printf '%s\n' "$diagnosis" | grep -E '^[0-9]+\. ' | grep -vE '^[0-9]+\. \[[PR][0-9]' | head -1 || true)"
   if [ -n "$unanchored" ]; then
-    err "$f: Diagnosis item lacks a bracketed paragraph reference: $unanchored"
+    err "$f: Diagnosis item does not open with a [P#] or [R#] reference: $unanchored"
   fi
   if [ "$stage" = "first draft" ]; then
     for line in 'Voice tics:' 'Reader map:'; do

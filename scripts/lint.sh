@@ -54,7 +54,7 @@ while IFS= read -r src; do
       missing=1
     fi
   done < <(grep -oE '(references|examples)/[A-Za-z0-9._-]+\.md(\.template)?' "$src" | sort -u)
-done < <({ printf '%s\n' SKILL.md README.md; git ls-files '.claude/commands' '.claude/agents' 'references' 'examples' | grep -E '\.md$'; })
+done < <({ printf '%s\n' SKILL.md README.md; git ls-files '.claude/commands' '.claude/agents' 'references' 'examples' | grep -E '\.md(\.template)?$'; })
 if [ "$missing" -eq 0 ]; then
   echo "  all referenced files exist"
 fi
