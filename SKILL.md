@@ -266,7 +266,7 @@ Run this checklist before sending the final answer:
 - On a narrative or whole-section pass, the section has a findable spine (one ABT) and its tension is surfaced rather than smoothed; on any pass, confirm no decorative storytelling tells were introduced.
 - Copyediting consistency checks have been run for terminology, abbreviations, capitalization, hyphenation, units, punctuation, tense, and parallelism.
 - Requested scope is respected.
-- The `Added bridges:` line after the `Revised text` block quotes every added sentence that states why an assumption or identification claim holds, or reads `None.`
+- The `Added bridges:` line after the `Revised text` block quotes every added sentence that states why an assumption, identification strategy, or validity claim holds, or reads `None.`
 - `Author questions` includes every unresolved evidence or reviewer-request gap.
 
 ### Read-cold pass on the revised text
