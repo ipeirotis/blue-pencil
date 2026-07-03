@@ -74,15 +74,18 @@ flat_paras() {
 
 # Banned tells scanned inside 'Revised text' blocks. Single words are
 # matched as whole words, phrases as case-insensitive substrings; both
-# lists are drawn from references/ai-tells-to-avoid.md. The lists are a
-# high-signal subset chosen to avoid false positives on legitimate
-# technical usage (so no bare "significant", which is fine statistically).
+# lists are drawn from references/ai-tells-to-avoid.md and cover every
+# entry that is mechanically decidable. Deliberately excluded are the
+# catalogue's judgment calls, words banned only in a generic or decorative
+# sense that grep cannot tell from the legitimate technical use ("robust"
+# vs "robust to X", statistical "significant", "key", "navigate a
+# website"): those belong to the read-cold pass, not CI.
 TELL_WORDS=(
   furthermore moreover crucially importantly notably ultimately
   delve delves delved delving
   leverage leverages leveraged leveraging
   utilize utilizes utilized utilizing
-  novel
+  novel holistic multifaceted nuanced seamless streamlined
 )
 TELL_PHRASES=(
   "it is important to note"
@@ -90,20 +93,49 @@ TELL_PHRASES=(
   "it should be mentioned"
   "having said that"
   "that said,"
+  "it is well known that"
   "a myriad of"
   "a plethora of"
+  "a wide array of"
+  "a host of"
+  "a wealth of"
   "rich tapestry"
+  "tapestry of"
+  "mosaic of"
   "the landscape of"
+  "the realm of"
+  "the sphere of"
   "paradigm shift"
   "game-changer"
+  "sea change"
+  "watershed moment"
   "in today's"
   "in an era of"
+  "now more than ever"
+  "continues to evolve"
   "imagine a world"
   "picture this:"
   "consider the following scenario"
   "deep dive"
   "we embark"
+  "our journey"
   "speak for themselves"
+  "tells a story"
+  "reveal their secrets"
+  "but here is the catch"
+  "here is the twist"
+  "navigate the"
+  "plays a key role"
+  "plays a central role"
+  "plays a crucial role"
+  "plays a vital role"
+  "plays a pivotal role"
+  "underscores the importance of"
+  "highlights the importance of"
+  "emphasizes the importance of"
+  "demonstrates the importance of"
+  "underscores the need for"
+  "highlights the need for"
 )
 
 # Teaching-gap vocabulary from the references/exposition.md catalogue; any
@@ -220,11 +252,19 @@ while IFS= read -r f; do
 
   # 6. 'Added bridges:' immediately after the block; no editor labels inside.
   if [ -n "$block" ]; then
-    first_after="$(after_block_of "$f" | sed '/^[[:space:]]*$/d' | head -1)"
-    case "$first_after" in
+    # The whole (hard-wrapped) Added bridges paragraph, flattened: it must
+    # read exactly 'None.' or open with a quote and keep its quotation
+    # marks balanced, so a truncated or unterminated bridge quote fails.
+    ab_para="$(after_block_of "$f" | awk 'BEGIN{RS=""} NR==1{gsub(/\n/," "); gsub(/[[:space:]]+/," "); print; exit}')"
+    case "$ab_para" in
       "Added bridges: None.") : ;;
-      "Added bridges: \""*) : ;;
-      *) err "$f: the line after the Revised text block must be 'Added bridges:' quoting each added bridge or 'None.' (got: ${first_after:-nothing})." ;;
+      "Added bridges: \""*)
+        qcount="$(printf '%s' "$ab_para" | tr -cd '"' | wc -c)"
+        if [ "$qcount" -lt 2 ] || [ $((qcount % 2)) -ne 0 ]; then
+          err "$f: the Added bridges line has an incomplete or unbalanced quotation."
+        fi
+        ;;
+      *) err "$f: the Revised text block must be followed by 'Added bridges:' quoting each added bridge or 'None.' (got: ${ab_para:-nothing})." ;;
     esac
     if hit="$(printf '%s\n' "$block" | grep -nE '\[(P|R)[0-9]' | head -1)"; then
       err "$f: editor label inside the Revised text block (no commentary in the block): $hit"
@@ -235,6 +275,10 @@ while IFS= read -r f; do
   #    extraction-line consistency (first draft + named teaching gap). The
   #    gap scan runs on a flattened copy so hard-wrapped phrases still match.
   stage="$(grep -m1 -E '^revision_stage:' "$f" | sed -E 's/^revision_stage:[[:space:]]*//')"
+  case "$stage" in
+    "first draft"|"final polish"|"response to reviewers") : ;;
+    *) err "$f: revision_stage is missing or not a legal stage (got: ${stage:-nothing}); the stage-specific Diagnosis checks cannot run." ;;
+  esac
   diagnosis="$(diagnosis_of "$f")"
   if [ "$stage" = "first draft" ]; then
     for line in 'Voice tics:' 'Reader map:'; do

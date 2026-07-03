@@ -20,10 +20,16 @@
 #   - prose callouts       "Table 4", "Appendix C", "column 3", ... matched
 #                          case-insensitively so a callout-type swap is
 #                          caught, not just a number swap
-#   - math spans           $...$, \(...\), \[...\], and whole
-#                          \begin{...}...\end{...} spans including their
-#                          contents, so a formula edit cannot hide in a
-#                          non-dollar span or inside an environment
+#   - math spans           $...$ and $$...$$ (kept distinct, so dropping a
+#                          display delimiter is caught), \(...\), \[...\],
+#                          and whole \begin{...}...\end{...} spans
+#                          including their contents, so a formula edit
+#                          cannot hide in a non-dollar span or inside an
+#                          environment; \caption{...} arguments are blanked
+#                          before the environment diff because caption text
+#                          is editable prose under constraint 5 (its
+#                          numbers, citations, and quotes stay covered by
+#                          the other classes)
 #   - macros               every remaining \command with its arguments,
 #                          including one-character commands (\&, \%, \,),
 #                          so a custom-macro argument swap (\methodName{...})
@@ -100,7 +106,7 @@ tokens_of() {
     crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}' || true ;;
     callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|column|panel|equation|eq\.) ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
-      printf '%s\n' "$text" | grep -oE '\$[^$]+\$' || true
+      printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' || true
       # \(...\) and \[...\] spans by delimiter search, so ordinary ) or ]
       # inside a formula (f(x), \mathbb{E}[Y]) does not truncate the span.
       printf '%s\n' "$text" | awk '{
@@ -122,7 +128,10 @@ tokens_of() {
       # Whole environment spans, contents included: split at each \begin{
       # and take through the first following \end{...}. Nested or unpaired
       # environments split coarsely but deterministically on both sides.
-      printf '%s\n' "$text" | awk '{
+      # Caption arguments are blanked first: caption text is editable prose
+      # (constraint 5 carve-out), so only the rest of the environment is
+      # frozen.
+      printf '%s\n' "$text" | sed -E 's/\\caption\{[^}]*\}/\\caption{}/g' | awk '{
         s = $0
         while ((i = index(s, "\\begin{")) > 0) {
           s = substr(s, i)
