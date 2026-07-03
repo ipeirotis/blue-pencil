@@ -61,8 +61,8 @@ file as described above), and return a plan with exactly these parts:
    sections to leave out (for example appendices, or low-priority sections
    under a deadline); record that author-approved skip list in the plan and
    treat the skipped sections as out of scope for every later step: the
-   Step B pass order, the Step D and Step E consistency checks, the Step F
-   polish, and the Step G stop condition.
+   Step B pass order, the Step D consistency check, the Step E rerun and
+   re-validation, the Step F polish, and the Step G stop condition.
 4. **Recommended pass order** for the whole paper.
 5. **First command to run.**
 6. **Stop and repeat criteria** (the convergence rule in the last step).
@@ -174,9 +174,10 @@ fixes back into the relevant sections.
 ## Step E: Re-run abstract and introduction, then re-validate
 
 With the body stable, re-run `revise` on the abstract and the introduction so
-they reflect the final argument, emphasis, results, and contribution frame.
-Where a section lacks a memorable idea, the skill flags that as a structural gap
-rather than inventing a slogan; surface it to the author.
+they reflect the final argument, emphasis, results, and contribution frame; if
+either is on the Step A skip list, leave it alone like any other skipped
+section. Where a section lacks a memorable idea, the skill flags that as a
+structural gap rather than inventing a slogan; surface it to the author.
 
 This rerun can change contribution wording or result summaries after the Step D
 consistency check, so run `/paper:consistency` once more over the abstract and
