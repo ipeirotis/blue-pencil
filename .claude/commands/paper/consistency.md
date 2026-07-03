@@ -54,8 +54,10 @@ Preset triage:
 
 Return the strict four-section output, with `No rewrite requested.` as the
 revised text. Each diagnosis item must name the sections in conflict (for
-example `[abstract vs. results]`). Each `Author question` ends with a question
-mark.
+example `[abstract vs. results]`). The skill's seven-item Diagnosis cap does
+not apply to this whole-paper diagnosis-only pass: report every finding, and
+group findings by type with counts when the list grows long. Each
+`Author question` ends with a question mark.
 
 Manuscript to check:
 

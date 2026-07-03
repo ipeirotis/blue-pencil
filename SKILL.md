@@ -246,7 +246,7 @@ Except at `final polish` and on a response-to-reviewers pass, when the expositio
 
 Do not add these three lines at `final polish` or on a response-to-reviewers pass. Final polish forbids paragraph and section restructuring, and a reviewer-response pass edits only the flagged paragraphs under their reviewer labels rather than running a section-level exposition rewrite, so in both the structured extraction header is out of scope. A final-polish request to make text clearer to non-specialists is limited to the sentence-level repairs the stage allows (referents, definitions already implied, sentence order, stress position); a reviewer-response edit still repairs an exposition gap inside a flagged paragraph (per the exposition pass and the stage-bound boundaries in `references/exposition.md`) but keeps the reviewer-labelled Diagnosis format rather than emitting the three lines. Surface any deeper teaching gap in `Author questions` instead.
 
-Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items. Order by category (structure first, sentence-level last).
+Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
 
 ### 2. Revised text
 
