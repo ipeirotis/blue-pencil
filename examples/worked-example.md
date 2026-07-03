@@ -120,7 +120,7 @@ Added bridges: None.
 
 ### 3. Change rationale
 
-Word count: 139 to 86 (-38%).
+Word count: ~139 to ~86 (-38%).
 
 "It is important to note that the proliferation of online platforms has
 fundamentally transformed the way in which consumers make purchasing decisions"

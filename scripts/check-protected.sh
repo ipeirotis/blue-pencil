@@ -116,9 +116,9 @@ tokens_of() {
   # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
     citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|@[A-Za-z0-9_:-]+' || true ;;
-    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?))*,? \(?[12][0-9]{3}\)?" || true ;;
+    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?|&)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
     crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}|\[[^]]*\]\([^)]*\)' || true ;;
-    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|column|panel|equation|eq\.) ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b' | tr '[:upper:]' '[:lower:]' || true ;;
+    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s? ([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b(,? (and |to )?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
       printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' || true
       # \(...\) and \[...\] spans by delimiter search, so ordinary ) or ]
@@ -139,30 +139,63 @@ tokens_of() {
           if (j > 0) { print substr(s, 1, j + 1); s = substr(s, j + 2) } else { print s; break }
         }
       }'
-      # Whole environment spans, contents included: split at each \begin{
-      # and take through the first following \end{...}. Nested or unpaired
-      # environments split coarsely but deterministically on both sides.
-      # Caption arguments are blanked first: caption text is editable prose
-      # (constraint 5 carve-out), so only the rest of the environment is
-      # frozen.
+      # Whole environment spans, contents included, closed at the \end
+      # whose name matches the \begin so a nested inner environment (a
+      # tabular inside a table) does not truncate the outer span. Nested
+      # same-name environments still close at the first matching end tag,
+      # deterministically on both sides. Caption arguments are blanked
+      # first: caption text is editable prose (constraint 5 carve-out), so
+      # only the rest of the environment is frozen.
       printf '%s\n' "$text" | sed -E 's/\\caption\{[^}]*\}/\\caption{}/g' | awk '{
         s = $0
         while ((i = index(s, "\\begin{")) > 0) {
           s = substr(s, i)
-          if (match(s, /\\end\{[^}]*\}/)) {
-            print substr(s, 1, RSTART + RLENGTH - 1)
-            s = substr(s, RSTART + RLENGTH)
+          if (match(s, /^\\begin\{[^}]*\}/)) {
+            name = substr(s, 8, RLENGTH - 8)
+            endtag = "\\end{" name "}"
+            j = index(substr(s, RLENGTH + 1), endtag)
+            if (j > 0) {
+              tot = RLENGTH + j - 1 + length(endtag)
+              print substr(s, 1, tot)
+              s = substr(s, tot + 1)
+            } else { print s; break }
           } else { print s; break }
         }
       }'
       ;;
     macros)
-      # Every \command with its bracket and brace arguments; commands whose
-      # argument is editable prose under the constraints keep only their
-      # name (the caption carve-out: caption text is prose, the macro
-      # itself must survive).
-      printf '%s\n' "$text" | grep -oE '\\[A-Za-z]+\*?(\[[^]]*\])*(\{[^}]*\})*|\\[^A-Za-z0-9[:space:]]' \
-        | sed -E 's/^\\(caption|emph|textbf|textit|footnote|section|subsection|subsubsection|paragraph)(\*?)(\[[^]]*\]|\{[^}]*\})*$/\\\1\2/' || true
+      # Every \command with its bracket and brace arguments, brace-counted
+      # so a nested group ({baseline {nested} tail}) is captured whole;
+      # commands whose argument is editable prose under the constraints
+      # keep only their name (the caption carve-out: caption text is
+      # prose, the macro itself must survive).
+      printf '%s\n' "$text" | awk '{
+        s = $0
+        while (match(s, /\\[A-Za-z]+\*?/)) {
+          tok = substr(s, RSTART, RLENGTH)
+          rest = substr(s, RSTART + RLENGTH)
+          while (1) {
+            c = substr(rest, 1, 1)
+            if (c == "[") {
+              p = index(rest, "]")
+              if (p == 0) break
+              tok = tok substr(rest, 1, p); rest = substr(rest, p + 1)
+            } else if (c == "{") {
+              depth = 0; p = 0
+              for (k = 1; k <= length(rest); k++) {
+                ch = substr(rest, k, 1)
+                if (ch == "{") depth++
+                else if (ch == "}") { depth--; if (depth == 0) { p = k; break } }
+              }
+              if (p == 0) break
+              tok = tok substr(rest, 1, p); rest = substr(rest, p + 1)
+            } else break
+          }
+          print tok
+          s = rest
+        }
+      }' | sed -E 's/^\\(caption|emph|textbf|textit|footnote|section|subsection|subsubsection|paragraph)(\*?).*/\\\1\2/'
+      printf '%s\n' "$text" | grep -oE '\\[^A-Za-z0-9[:space:]]' || true
       ;;
     quotes)
       printf '%s\n' "$text" | grep -oE '"[^"]+"|``[^`]+'\'\''' || true

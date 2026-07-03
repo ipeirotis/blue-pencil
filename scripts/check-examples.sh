@@ -163,7 +163,9 @@ GAP_TERMS=(
   "teaching gap"
 )
 
-WC_RE='^Word count: [0-9,~]+ to [0-9,~]+ \([+-][0-9]+%\)\.'
+# The contract's counts are approximate: the ~ marker is required
+# (SKILL.md Change rationale: "Word count: ~<before> to ~<after> ...").
+WC_RE='^Word count: ~[0-9][0-9,]* to ~[0-9][0-9,]* \([+-][0-9]+%\)\.'
 
 H1='### 1. Diagnosis'
 H2='### 2. Revised text'
@@ -206,7 +208,7 @@ while IFS= read -r f; do
   if [ "$feedback_only" -eq 0 ]; then
     first_rationale="$(rationale_of "$f" | sed '/^[[:space:]]*$/d' | head -1)"
     if ! printf '%s\n' "$first_rationale" | grep -qE "$WC_RE"; then
-      err "$f: 'Change rationale' must open with a 'Word count: <before> to <after> (<signed percent>).' line (got: ${first_rationale:-nothing})."
+      err "$f: 'Change rationale' must open with a 'Word count: ~<before> to ~<after> (<signed percent>).' line (got: ${first_rationale:-nothing})."
     fi
   fi
 
@@ -324,15 +326,18 @@ while IFS= read -r f; do
       gap_found=1
     fi
     if [ "$gap_found" -eq 1 ]; then
-      for line in 'Jargon to unpack' 'Buried lede:' 'Concrete anchor:'; do
-        if ! printf '%s\n' "$diagnosis" | grep -qF "$line"; then
+      # Labeled per-paragraph forms ('Buried lede [P3]:') satisfy the
+      # requirement; the contract says to repeat the set with labels when
+      # several paragraphs carry distinct gaps.
+      for line in 'Jargon to unpack' 'Buried lede' 'Concrete anchor'; do
+        if ! printf '%s\n' "$diagnosis" | grep -qE "^$line( \[P[0-9]+\])?:"; then
           err "$f: Diagnosis names a teaching gap (or the request asks for clarity) at first draft but lacks the '$line' extraction line."
         fi
       done
     fi
   elif [ "$stage" = "final polish" ] || [ "$stage" = "response to reviewers" ]; then
-    for line in 'Voice tics:' 'Reader map:' 'Jargon to unpack' 'Buried lede:' 'Concrete anchor:'; do
-      if printf '%s\n' "$diagnosis" | grep -qF "$line"; then
+    for line in 'Voice tics' 'Reader map' 'Jargon to unpack' 'Buried lede' 'Concrete anchor'; do
+      if printf '%s\n' "$diagnosis" | grep -qE "^$line( \[P[0-9]+\])?:"; then
         err "$f: a '$stage' Diagnosis must not carry a '$line' line."
       fi
     done

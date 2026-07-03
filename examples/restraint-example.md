@@ -99,7 +99,7 @@ Added bridges: None.
 
 ### 3. Change rationale
 
-Word count: 120 to 118 (-2%). Within 5%, acceptable here because the original
+Word count: ~120 to ~118 (-2%). Within 5%, acceptable here because the original
 was already tight; the brief asked for a hard cut, but cutting by the keep-test
 yields almost nothing to remove, and manufacturing cuts to look productive is
 itself a defect.

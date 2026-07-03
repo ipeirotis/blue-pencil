@@ -14,6 +14,7 @@ Batch 3 of the 2026-07 skill review: the four example defects plus the CI that l
 - B-D10b: `examples/exposition-results.md` claimed the significance and R-squared passage was "carried over verbatim" when the rewrite had merged the two sentences in reversed order and renamed "the interaction" to "the tenure interaction". The rationale now describes the actual edit; the stale numerical-claim pointer the 1.24.0 entry deferred here now reads constraint 4.
 - B-D10d: `examples/reviewer-response-example.md` carried `[P1]`-style labels inside the `Revised text` fenced block, contradicting the no-commentary rule and creating a copy-paste hazard. The labels now live only in the mapping, the Diagnosis, and the rationale, and the example says so.
 - B-D10c: all four `Reader map:` lines drifted from the SKILL.md template ("should leave seeing", "should leave able to say"); every example now uses the template's "should leave with".
+- All six `Word count:` lines now carry the approximate-count markers the Change rationale contract specifies (`~139 to ~86`), and `check-examples.sh` requires them; the counts themselves are unchanged and still verify exactly on recount.
 
 ### Changed
 

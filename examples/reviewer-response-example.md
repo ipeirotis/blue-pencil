@@ -131,7 +131,7 @@ premises imply; confirmed in Author questions (the maintained-assumption item).
 
 ### 3. Change rationale
 
-Word count: 177 to 198 (+12%). Longer because the one substantive edit (P2)
+Word count: ~177 to ~198 (+12%). Longer because the one substantive edit (P2)
 surfaces an argument the draft had compressed into trailing clauses; addressing
 R2.1 legitimately adds words to the flagged paragraph while the rest of the
 section is unchanged.

@@ -113,7 +113,7 @@ is quasi-random conditional on observed covariates); confirmed in Author questio
 
 ### 3. Change rationale
 
-Word count: 89 to 151 (+70%). The rewrite is longer because the draft's
+Word count: ~89 to ~151 (+70%). The rewrite is longer because the draft's
 identification logic was compressed to an assertion; the added sentences are the
 inferential bridge, built only from claims already in the paragraph (moderation
 varies by policy, the dataset, the prior-work contrast). Flagged for the author

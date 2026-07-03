@@ -106,7 +106,7 @@ questions (the product-fixed-effects item).
 
 ### 3. Change rationale
 
-Word count: 87 to 159 (+83%). This is a large expansion, at the high end of what the
+Word count: ~87 to ~159 (+83%). This is a large expansion, at the high end of what the
 length budget tolerates, and is flagged for the author: the input is a bare list of
 estimates, and each one gains a leading claim and a closing consequence. No number,
 standard error, table or column reference, or significance level was added, removed,

@@ -103,7 +103,7 @@ timing"; confirmed in Author questions.
 
 ### 3. Change rationale
 
-Word count: 88 to 123 (+40%). The rewrite is longer because the draft compressed the
+Word count: ~88 to ~123 (+40%). The rewrite is longer because the draft compressed the
 identification logic into trailing clauses; the added sentences move it to the front
 and unpack it, using only facts already in the paragraph (staggered dates, the
 never-treated and not-yet-treated controls, the interaction estimand, timing
