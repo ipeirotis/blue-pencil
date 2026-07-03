@@ -168,6 +168,12 @@ GAP_TERMS=(
   "concept overload"
   "unanchored abstraction"
   "teaching gap"
+  "question before machinery"
+  "intuition before formalism"
+  "role before name"
+  "payoff after effort"
+  "concrete anchor after abstraction"
+  "one new object at a time"
 )
 
 # The contract's counts are approximate: the ~ marker is required
@@ -212,8 +218,18 @@ while IFS= read -r f; do
   revised_section="$(revised_of "$f")"
   feedback_only=0
   if printf '%s\n' "$revised_section" | grep -qF 'No rewrite requested.'; then
-    feedback_only=1
+    # A file whose triage declares a direct rewrite cannot claim the
+    # feedback-only exemption: a deleted rewrite must fail, not skip the
+    # block checks.
+    if grep -qiF "direct rewrite" "$f"; then
+      err "$f: the Revised text says 'No rewrite requested.' but the triage declares a direct rewrite."
+    else
+      feedback_only=1
+    fi
   fi
+
+  # The stage gates several checks below (computed here, validated once).
+  stage="$(grep -m1 -E '^revision_stage:' "$f" | sed -E 's/^revision_stage:[[:space:]]*//')"
 
   # 2. Word-count line, and it must OPEN the rationale (SKILL.md: "Open
   #    with `Word count: ...`"), not sit buried after prose.
@@ -248,12 +264,18 @@ while IFS= read -r f; do
   if printf '%s\n' "$questions" | grep -qE '^None\.' && printf '%s\n' "$questions" | grep -qE '^- '; then
     err "$f: 'Author questions' mixes 'None.' with question bullets; it must be one or the other."
   fi
+  stray="$(printf '%s\n' "$questions" | grep -vE '^(- |[[:space:]]+[^[:space:]]|None\.$|[[:space:]]*$)' | head -1 || true)"
+  if [ -n "$stray" ]; then
+    err "$f: 'Author questions' carries non-bullet prose: $stray"
+  fi
 
   # 4. Banned tells inside the 'Revised text' fenced block, scanned per
-  #    paragraph. A paragraph that also appears verbatim in the input block
-  #    was returned, not written, so its tells are exempt; every edited
-  #    paragraph must be clean. Paragraphs are flattened first because the
-  #    prose is hard-wrapped.
+  #    paragraph. Only at 'response to reviewers' is a paragraph returned
+  #    verbatim from the input exempt (the stage forbids editing unflagged
+  #    paragraphs, tells and all); at every other stage the restraint
+  #    rules say a passage only comes back verbatim when it is clean, so
+  #    verbatim paragraphs are scanned too. Paragraphs are flattened first
+  #    because the prose is hard-wrapped.
   block="$(revised_block_of "$f")"
   if [ -z "$block" ] && [ "$feedback_only" -eq 0 ]; then
     err "$f: no fenced block found under 'Revised text'."
@@ -261,15 +283,15 @@ while IFS= read -r f; do
   input_paras="$(input_block_of "$f" | strip_labels | flat_paras)"
   while IFS= read -r para; do
     [ -n "$para" ] || continue
-    if printf '%s\n' "$input_paras" | grep -qxF -- "$para"; then continue; fi
+    if [ "$stage" = "response to reviewers" ] && printf '%s\n' "$input_paras" | grep -qxF -- "$para"; then continue; fi
     for w in "${TELL_WORDS[@]}"; do
       if printf '%s\n' "$para" | grep -qiwE "$w"; then
-        err "$f: banned tell '$w' in an edited paragraph of the Revised text block."
+        err "$f: banned tell '$w' in the Revised text block (only response-to-reviewers verbatim returns are exempt)."
       fi
     done
     for p in "${TELL_PHRASES[@]}"; do
       if printf '%s\n' "$para" | grep -qiF "$p"; then
-        err "$f: banned tell '$p' in an edited paragraph of the Revised text block."
+        err "$f: banned tell '$p' in the Revised text block (only response-to-reviewers verbatim returns are exempt)."
       fi
     done
   done < <(printf '%s\n' "$block" | strip_labels | flat_paras)
@@ -331,16 +353,20 @@ while IFS= read -r f; do
   # 5. Diagnosis headers by stage (the SKILL.md Diagnosis table), plus
   #    extraction-line consistency (first draft + named teaching gap). The
   #    gap scan runs on a flattened copy so hard-wrapped phrases still match.
-  stage="$(grep -m1 -E '^revision_stage:' "$f" | sed -E 's/^revision_stage:[[:space:]]*//')"
   case "$stage" in
     "first draft"|"final polish"|"response to reviewers") : ;;
     *) err "$f: revision_stage is missing or not a legal stage (got: ${stage:-nothing}); the stage-specific Diagnosis checks cannot run." ;;
   esac
   diagnosis="$(diagnosis_of "$f")"
   # Every Diagnosis ends in a numbered list of concrete problems; header
-  # and extraction lines alone do not satisfy the contract.
+  # and extraction lines alone do not satisfy the contract, and every item
+  # opens with a bracketed paragraph or reviewer reference.
   if ! printf '%s\n' "$diagnosis" | grep -qE '^1\. '; then
     err "$f: the Diagnosis has no numbered item list."
+  fi
+  unanchored="$(printf '%s\n' "$diagnosis" | grep -E '^[0-9]+\. ' | grep -v '\[' | head -1 || true)"
+  if [ -n "$unanchored" ]; then
+    err "$f: Diagnosis item lacks a bracketed paragraph reference: $unanchored"
   fi
   if [ "$stage" = "first draft" ]; then
     for line in 'Voice tics:' 'Reader map:'; do

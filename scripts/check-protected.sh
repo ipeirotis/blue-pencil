@@ -140,13 +140,13 @@ tokens_of() {
   text="$(cat)"
   # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
-    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
+    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*? ?(\[[^]]*\] ?)*\{[^}]*\}|-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
     authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)(,? ([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
     # Markdown links protect the DESTINATION only: link text is editable
     # prose (its callouts and numbers are covered by the other classes),
     # while a retargeted link with unchanged text still fails.
-    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}|\]\([^)]*\)' || true ;;
-    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]\(?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
+    crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\([^)]*\)' || true ;;
+    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]\(?([0-9]+(\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
       # A dollar span starting with "$<amount> " is prose currency, not
       # math ("$5 million and $3 million" would otherwise fuse into one
@@ -187,7 +187,9 @@ tokens_of() {
           out = out substr(s, 1, i - 1) "\\caption{}"
           rest = substr(s, i + 8)
           if (substr(rest, 1, 1) == "*") rest = substr(rest, 2)
+          while (substr(rest, 1, 1) == " ") rest = substr(rest, 2)
           if (substr(rest, 1, 1) == "[") { p = index(rest, "]"); if (p > 0) rest = substr(rest, p + 1) }
+          while (substr(rest, 1, 1) == " ") rest = substr(rest, 2)
           if (substr(rest, 1, 1) == "{") {
             depth = 0; p = 0
             for (k = 1; k <= length(rest); k++) {
@@ -239,6 +241,11 @@ tokens_of() {
             if (name in prose) { print tok; s = rest; continue }
             while (1) {
               c = substr(rest, 1, 1)
+              # LaTeX allows whitespace between a command and its argument.
+              if (c == " ") {
+                peek = substr(rest, 2, 1)
+                if (peek == "[" || peek == "{") { rest = substr(rest, 2); continue }
+              }
               if (c == "[") {
                 p = index(rest, "]")
                 if (p == 0) break
@@ -280,8 +287,11 @@ tokens_of() {
       printf '%s\n' "$text" | awk '/^~~~/{inb=!inb; print; next} inb{print}'
       printf '%s\n' "$text" | grep -oE '`[^`]+`' || true
       ;;
-    numbers)    printf '%s\n' "$text" | grep -oE '([<>]=?[ ~]?)?[+-]?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?( (percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold))?' || true ;;
-    numberwords) printf '%s\n' "$text" | grep -oiwE '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(-[a-z]+)?' | tr '[:upper:]' '[:lower:]' || true ;;
+    numbers)    printf '%s\n' "$text" | grep -oE '([<>]=?[ ~]?)?[+-]?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?(( |-)(percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold|star|stars))?' || true ;;
+    # Ordinals join only as hyphenated compounds (first-stage): standalone
+    # ordinals are prose structure the real examples legitimately add
+    # ("a second lever" appears in a rewrite whose input lacks it).
+    numberwords) printf '%s\n' "$text" | grep -oiwE '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(-[a-z]+)?|(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+' | tr '[:upper:]' '[:lower:]' || true ;;
   esac
 }
 
@@ -305,8 +315,10 @@ while IFS= read -r f; do
   # Emptiness is tested on the raw blocks: the flattened copies below are
   # never empty (an empty block flattens to a single space).
   if [ -z "$input_raw" ] || [ -z "$output_raw" ]; then
-    # Feedback-only examples return no rewrite; nothing to diff.
-    if ! grep -qF 'No rewrite requested.' "$f"; then
+    # Feedback-only examples return no rewrite; nothing to diff. A file
+    # whose triage declares a direct rewrite cannot claim that exemption
+    # by carrying the phrase, so a deleted rewrite still fails.
+    if ! grep -qF 'No rewrite requested.' "$f" || grep -qiF "direct rewrite" "$f"; then
       echo "ERROR: $f: could not extract an input and a revised block." >&2
       fail=1
     fi
