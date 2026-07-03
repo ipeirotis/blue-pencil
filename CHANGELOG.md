@@ -3,6 +3,30 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.23.0] - 2026-07-03
+
+Batch 1 of the 2026-07 skill review (`docs/review-2026-07/`): plumbing bugs and documentation corrections that do not change editorial behavior, plus three narrowly scoped `SKILL.md` wording repairs the review found internally inconsistent. Item IDs refer to `review-a.md` (A-), `review-b.md` (B-), and their adjudication in `reconciliation.md`; the batch checklist lives in `PLAN.md`.
+
+### Fixed
+
+- B-C9: all eight files under `.claude/commands/paper/` interpolated `$ARGUMENTS` twice (once in the body, once at the foot), so a pasted section was injected into the dispatched prompt twice. Body references now say "provided below" and only the foot interpolates.
+- B-G8: `install.sh --init` silently defaulted a skipped revision-stage prompt to `first draft`, the most permissive stage, and never validated a typed value. A skipped stage now writes the same gate-tripping `[fill in]` placeholder as the other skipped fields, and an unrecognized value gets a warning naming the three legal stages.
+- B-D7b: the carried-guardrails list in `loop.md` omitted "no change to the meaning of any technical claim", the skill's most important rule. It now leads that list.
+- B-D5: the read-cold pass said to fix every AI tell in the output, including in text the stage gates require returning verbatim (for example unflagged paragraphs on a response-to-reviewers pass). Its repairs are now scoped to text editable at the current stage.
+
+### Changed
+
+- A-C8/B-D9: the `Word count:` line in `Change rationale` and the length budget now use approximate counts to the nearest ~10 words (for example `~139 to ~86`), keeping direction and rough magnitude, with a tool-computed count when a tool is available. Exact counts were demanded from a system that miscounts, and a visibly wrong first line undermined the rationale below it.
+- A-C7: the seven-item Diagnosis cap no longer applies to whole-paper diagnosis-only passes such as `/paper:consistency`, whose value is exhaustiveness; long lists group findings by type with counts.
+- B-C10: `README.md` documents `paper-meta.md` as the paper-context escape hatch for non-git papers; `paper-reviser.md` step 1 also checks `~/.agents/skills/` so an `~/.agents`-only install resolves; `loop.md` Step A records an author-approved section skip list (for example appendices under deadline) that Step B and the Step G stop condition honor.
+- B-G11: `README.md` corrections: the Manual-install `make init` line no longer implies it scaffolds your paper repo when run from the clone; the `--check` troubleshooting bullet no longer tells copy-mode users to move aside a healthy fallback install; the "Why use it" section states the honest limit that citations are preserved exactly but not verified against the claims they support.
+- A-G8: the Quickstart gains a note for claude.ai, Cowork, and other chat-surface users on using the skill without the installer. Its closing sentence states the current ask-for-context behavior; the assumed-context fallback it will eventually describe is Batch 4 work.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.23.0.
+
+### Rationale
+
+The review plan (`docs/review-2026-07/PLAN.md`) lands the no-behavior-change fixes first so the behavioral release (Batch 2, the constraint-block rewrite) and the example and CI work (Batch 3) start from a clean plumbing and documentation base. Every change here traces to an item adopted in `reconciliation.md`; wording follows the canonical patch selection in its section 6.
+
 ## [1.22.0] - 2026-06-29
 
 The installer now registers the `paper:` slash commands, closing a gap where `/paper:loop` (and the rest) came back as "Unknown command" on a machine that had the skill installed. Claude Code discovers commands under `.claude/commands/` in a repo or `~/.claude/`, never from inside an installed skill directory, so shipping the command files in the skill was not enough: they had to be copied into one of those trees. Previously that copy was a documented manual step, easy to miss, and a marketplace or symlink install left no obvious source to copy from. The installer now does it.
