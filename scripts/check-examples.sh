@@ -260,8 +260,14 @@ while IFS= read -r f; do
     done
   done < <(printf '%s\n' "$block" | strip_labels | flat_paras)
 
-  # 6. 'Added bridges:' immediately after the block; no editor labels inside.
+  # 6. 'Added bridges:' immediately after the block; no editor labels
+  #    inside; exactly one fenced block in the section (a second block
+  #    would carry revised text the other checks never see).
   if [ -n "$block" ]; then
+    fence_count="$(printf '%s\n' "$revised_section" | grep -c '^```' || true)"
+    if [ "$fence_count" -ne 2 ]; then
+      err "$f: the Revised text section must contain exactly one fenced block (found $((fence_count / 2)))."
+    fi
     # The whole (hard-wrapped) Added bridges paragraph, flattened: it must
     # read exactly 'None.' or open with a quote and keep its quotation
     # marks balanced, so a truncated or unterminated bridge quote fails.
@@ -272,6 +278,15 @@ while IFS= read -r f; do
         qcount="$(printf '%s' "$ab_para" | tr -cd '"' | wc -c)"
         if [ "$qcount" -lt 2 ] || [ $((qcount % 2)) -ne 0 ]; then
           err "$f: the Added bridges line has an incomplete or unbalanced quotation."
+        fi
+        # The first quoted span is the bridge itself (later quotes may
+        # cite the draft's wording); it must actually appear in the
+        # rewrite, or the line points the author at a nonexistent
+        # sentence.
+        bridge_quote="$(printf '%s\n' "$ab_para" | sed -E 's/^Added bridges: "([^"]*)".*/\1/')"
+        block_flat="$(printf '%s\n' "$block" | flat_paras | tr '\n' ' ')"
+        if [ -n "$bridge_quote" ] && ! printf '%s\n' "$block_flat" | grep -qF -- "$bridge_quote"; then
+          err "$f: the Added bridges quote does not appear in the Revised text block."
         fi
         # The bridge contract pairs every quoted bridge with an Author
         # questions item confirming it; matching bridge to question is
@@ -301,6 +316,11 @@ while IFS= read -r f; do
     *) err "$f: revision_stage is missing or not a legal stage (got: ${stage:-nothing}); the stage-specific Diagnosis checks cannot run." ;;
   esac
   diagnosis="$(diagnosis_of "$f")"
+  # Every Diagnosis ends in a numbered list of concrete problems; header
+  # and extraction lines alone do not satisfy the contract.
+  if ! printf '%s\n' "$diagnosis" | grep -qE '^1\. '; then
+    err "$f: the Diagnosis has no numbered item list."
+  fi
   if [ "$stage" = "first draft" ]; then
     for line in 'Voice tics:' 'Reader map:'; do
       if ! printf '%s\n' "$diagnosis" | grep -qF "$line"; then

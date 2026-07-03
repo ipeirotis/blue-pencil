@@ -72,12 +72,21 @@
 # before extraction because example prose is hard-wrapped and a token can
 # straddle a line break ("Chevalier and Mayzlin\n2006").
 #
-# Known limit, by design: each class is compared as a MULTISET, so the
-# check cannot see which claim a preserved value is attached to (swapping
-# two coefficients between sentences passes). Binding tokens to their
-# surrounding prose would flag every legitimate edit near a protected
-# token; the association between a value and its claim stays with the
-# human review of the example diff.
+# Scope, stated once: this is a TRIPWIRE over a small, hand-maintained
+# example set, not a LaTeX or pandoc parser. It exists to make the most
+# likely silent mutations of protected content fail loudly in CI; the
+# human review of the example diff remains the real guarantee, and every
+# example change is reviewed. Known limits, by design:
+# - Each class is compared as a MULTISET, so the check cannot see which
+#   claim a preserved value is attached to (swapping two coefficients
+#   between sentences passes). Binding tokens to their surrounding prose
+#   would flag every legitimate edit near a protected token.
+# - Straight single quotes are not a quote class (apostrophes make them
+#   undecidable by grep).
+# - Constructs outside the token grammars above (exotic markup, prose
+#   paraphrases of quantities beyond the cardinal lexicon) are the
+#   reviewer's job, not this script's; extend a class when a real
+#   example starts using the construct rather than speculatively.
 #
 # Exceptions: a legitimate, flagged change may alter a protected token. List
 # it in ALLOW below as '<file> <token>' and that token is ignored on both
@@ -131,10 +140,10 @@ tokens_of() {
   text="$(cat)"
   # shellcheck disable=SC2016  # the quote patterns are regex, not expansions
   case "$class" in
-    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
-    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|and|et|al\.?|&)( ([A-Z][A-Za-z'.&-]+|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
+    citations)  printf '%s\n' "$text" | grep -oE '\\[Cc]ite[a-zA-Z]*\*?(\[[^]]*\])*\{[^}]*\}|-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(\.[A-Za-z0-9_:-]+)*' || true ;;
+    authoryear) printf '%s\n' "$text" | grep -oE "([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)( ([A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&))*,? \(?[12][0-9]{3}\)?" || true ;;
     crossrefs)  printf '%s\n' "$text" | grep -oE '\\(ref|eqref|autoref|cref|Cref|label)\{[^}]*\}|\[[^]]*\]\([^)]*\)' || true ;;
-    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
+    callouts)   printf '%s\n' "$text" | grep -oiE '(table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?[ ~]\(?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b(,?[ ~](and[ ~]|to[ ~])?([0-9]+(\.[0-9]+)?[a-z]?|[a-z])\b)*' | tr '[:upper:]' '[:lower:]' || true ;;
     math)
       printf '%s\n' "$text" | grep -oE '\$\$[^$]+\$\$|\$[^$]+\$' || true
       # \(...\) and \[...\] spans by delimiter search, so ordinary ) or ]
@@ -246,10 +255,17 @@ tokens_of() {
       ;;
     quotes)
       printf '%s\n' "$text" | grep -oE '"[^"]+"|``[^`]+'\'\''' || true
-      # Curly double quotes, built from bytes so this script stays ASCII.
+      # Curly double and single quotes, built from bytes so this script
+      # stays ASCII. Straight single quotes are deliberately NOT a quote
+      # class: an apostrophe (Sant'Anna, the draft's) is the same byte,
+      # so straight-single spans are undecidable by grep; a manuscript
+      # using them relies on the human diff review.
       ldq="$(printf '\xe2\x80\x9c')"
       rdq="$(printf '\xe2\x80\x9d')"
+      lsq="$(printf '\xe2\x80\x98')"
+      rsq="$(printf '\xe2\x80\x99')"
       printf '%s\n' "$text" | grep -oE "${ldq}[^${ldq}${rdq}]*${rdq}" || true
+      printf '%s\n' "$text" | grep -oE "${lsq}[^${lsq}${rsq}]*${rsq}" || true
       ;;
     comments)   printf '%s\n' "$text" | grep -E '^[[:space:]]*%' || true ;;
     code)
@@ -257,8 +273,8 @@ tokens_of() {
       printf '%s\n' "$text" | awk '/^~~~/{inb=!inb; print; next} inb{print}'
       printf '%s\n' "$text" | grep -oE '`[^`]+`' || true
       ;;
-    numbers)    printf '%s\n' "$text" | grep -oE '[+-]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(-[0-9]+(,[0-9]{3})*(\.[0-9]+)?)?%?( (percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold))?' || true ;;
-    numberwords) printf '%s\n' "$text" | grep -oiwE '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(-[a-z]+)?' | tr '[:upper:]' '[:lower:]' || true ;;
+    numbers)    printf '%s\n' "$text" | grep -oE '[+-]?([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+)(-([0-9]+(,[0-9]{3})*(\.[0-9]+)?|\.[0-9]+))?%?( (percentage points?|percentage|percent|points?|pp|bps|million|billion|thousand|fold))?' || true ;;
+    numberwords) printf '%s\n' "$text" | grep -oiwE '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(-[a-z]+)?' | tr '[:upper:]' '[:lower:]' || true ;;
   esac
 }
 
