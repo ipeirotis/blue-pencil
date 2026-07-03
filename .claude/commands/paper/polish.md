@@ -41,8 +41,8 @@ Preset triage:
   Surface any deeper structural or exposition gap in `Author questions` instead
   of fixing it here.
 
-Return the strict four-section output. Per the skill's conditional Diagnosis
-header rules, a final-polish pass skips the `Voice tics:` and `Reader map:`
+Return the strict four-section output. Per the skill's Diagnosis-header decision
+table, a final-polish pass skips the `Voice tics:` and `Reader map:`
 lines and the three exposition extraction lines. If the section already clears
 the restraint checks, return it verbatim and say so in `Change rationale`.
 
