@@ -60,8 +60,9 @@ file as described above), and return a plan with exactly these parts:
 3. **Detected sections**, mapped to files. The author may name detected
    sections to leave out (for example appendices, or low-priority sections
    under a deadline); record that author-approved skip list in the plan and
-   treat the skipped sections as out of scope for the pass order and the stop
-   condition.
+   treat the skipped sections as out of scope for every later step: the
+   Step B pass order, the Step D and Step E consistency checks, the Step F
+   polish, and the Step G stop condition.
 4. **Recommended pass order** for the whole paper.
 5. **First command to run.**
 6. **Stop and repeat criteria** (the convergence rule in the last step).
@@ -165,8 +166,10 @@ whole paper. It does not rewrite; it flags terminology drift, claim drift,
 inconsistent contribution framing, result overstatement, missing forward
 references, stale summaries, and figure or table callout problems, and asks
 whether the abstract, introduction, methods, results, discussion, and conclusion
-describe the same paper. Resolve its `Author questions` and fold fixes back into
-the relevant sections.
+describe the same paper. When Step A recorded a skip list, hand this check only
+the in-scope section files, so a skipped section cannot generate findings or
+`Author questions` that block the loop. Resolve its `Author questions` and fold
+fixes back into the relevant sections.
 
 ## Step E: Re-run abstract and introduction, then re-validate
 
@@ -186,7 +189,8 @@ this rerun introduced must be caught and resolved here.
 Only now, with the author's go-ahead, run `/paper:polish` section by section (or
 set `revision_stage` to `final polish` and run `revise`). Sentence-level
 copyediting only: no paragraph reordering, no new explanatory content, no
-structural cuts. One pass per section.
+structural cuts. One pass per section, skipping the sections on the Step A
+skip list.
 
 ## Step G: Stop condition
 
