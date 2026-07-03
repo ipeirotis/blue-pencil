@@ -12,9 +12,9 @@ the staged plan first, and you stop at every author checkpoint. The governing
 principle is **diagnose globally, edit locally, validate globally, then polish
 conservatively.**
 
-`$ARGUMENTS` names the manuscript: a root directory to scan for section files, an
-explicit list of section files, or a root or wrapper TeX file (for example
-`paper.tex` or `main.tex`). When it is a wrapper, follow its `\input{...}` and
+The value provided below names the manuscript: a root directory to scan for
+section files, an explicit list of section files, or a root or wrapper TeX file
+(for example `paper.tex` or `main.tex`). When it is a wrapper, follow its `\input{...}` and
 `\include{...}` graph recursively to find the actual section files rather than
 treating the wrapper as one section; that graph is the paper. If it is empty, ask
 for the manuscript location before doing anything else.

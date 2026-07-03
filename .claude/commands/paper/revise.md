@@ -10,7 +10,7 @@ subagent is unavailable, load the skill's `SKILL.md` directly instead.
 Preset triage, so the skill does not need to ask:
 
 - **Scope:** direct rewrite.
-- **Unit:** the section in `$ARGUMENTS` (treat it as a file path to read if it
+- **Unit:** the section provided below (treat it as a file path to read if it
   looks like one, otherwise as pasted text). If neither is present, ask which
   section before proceeding.
 - **Aggressiveness:** follow the `revision_stage` in the paper's

@@ -19,7 +19,7 @@ Preset triage:
 
 - **Scope:** direct rewrite. Surface the spine the draft already implies; do not
   invent events, stakes, or characters the manuscript does not contain.
-- **Unit:** the section in `$ARGUMENTS` (a file path to read, or pasted text).
+- **Unit:** the section provided below (a file path to read, or pasted text).
   If neither is present, ask which section before proceeding.
 - **Aggressiveness:** follow the `revision_stage` in the paper's
   `<paper_context>` (read `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`).

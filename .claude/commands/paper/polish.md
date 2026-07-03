@@ -22,7 +22,7 @@ Preset triage:
   under final-polish constraints. No paragraph reordering, no merging or
   splitting paragraphs, no new explanatory content, no structural cuts (compress
   only).
-- **Unit:** the section in `$ARGUMENTS` (a file path to read, or pasted text).
+- **Unit:** the section provided below (a file path to read, or pasted text).
   If neither is present, ask which section before proceeding.
 - **Aggressiveness:** apply `final polish` constraints, never looser ones.
   Read the stored `revision_stage` in `<paper_context>` (`AGENTS.md`, then

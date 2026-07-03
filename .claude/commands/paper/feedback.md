@@ -13,7 +13,7 @@ Preset triage, so the skill does not need to ask:
   `No rewrite requested.`, and `Change rationale` carries brief rationale
   bullets for the top diagnosis items instead of change lines (per the skill's
   output contract).
-- **Unit:** the section in `$ARGUMENTS` (a file path to read, or pasted text).
+- **Unit:** the section provided below (a file path to read, or pasted text).
   If neither is present, ask which section before proceeding.
 - **Aggressiveness:** diagnosis is bound by the `revision_stage` in the paper's
   `<paper_context>` (read `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`).

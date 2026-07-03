@@ -20,7 +20,7 @@ Preset triage:
   steps using only material already in the manuscript. Where a gap needs new
   substance (a claim, example, mechanism, or implication the manuscript does not
   contain), do not write it; flag it in `Author questions`.
-- **Unit:** the section in `$ARGUMENTS` (a file path to read, or pasted text).
+- **Unit:** the section provided below (a file path to read, or pasted text).
   If neither is present, ask which section before proceeding.
 - **Aggressiveness:** follow the `revision_stage` in the paper's
   `<paper_context>` (read `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`).
