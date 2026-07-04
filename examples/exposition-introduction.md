@@ -53,8 +53,8 @@ figures (3.4 million); methodological vocabulary used without hedging.
 
 Reader map: starts with knowing that reviews and sales are correlated; must learn
 why that correlation does not establish a causal effect and how unequal platform
-moderation breaks the deadlock; should leave able to say that the paper turns a
-nuisance (uneven moderation) into the very thing that identifies the effect.
+moderation breaks the deadlock; should leave with uneven moderation, normally a
+nuisance, as the very thing that identifies the effect.
 
 Jargon to unpack: "exogenous variation" and "quasi-random assignment", both used as
 the design's load-bearing terms before the reader is told, in plain words, why
@@ -105,9 +105,15 @@ instruments whose validity was contested, here the variation comes from the
 platform's own moderation behaviour rather than from a constructed instrument.
 ```
 
+Added bridges: "Platforms apply different moderation policies to different cohorts
+of reviews, and among cohorts that look alike on what we observe, which policy a
+cohort gets is set by platform rules rather than by the product." Built from the
+draft's own claims (platforms differentially apply moderation policies; assignment
+is quasi-random conditional on observed covariates); confirmed in Author questions.
+
 ### 3. Change rationale
 
-Word count: 89 to 151 (+70%). The rewrite is longer because the draft's
+Word count: ~89 to ~151 (+70%). The rewrite is longer because the draft's
 identification logic was compressed to an assertion; the added sentences are the
 inferential bridge, built only from claims already in the paragraph (moderation
 varies by policy, the dataset, the prior-work contrast). Flagged for the author
@@ -154,9 +160,9 @@ filled.
 - "positive and significant": do you mean statistically significant, practically
   large, or both, and significant for which outcome (units sold, revenue)? I kept
   your wording and filled neither gap; how should it read?
-- The bridge I added says moderation "turns on platform policy rather than on the
-  product". Is that the actual exclusion logic, or does moderation also respond to
-  review content in a way the reader should be warned about here?
+- The added bridge says which policy a cohort gets "is set by platform rules rather
+  than by the product". Is that the actual exclusion logic, or does moderation also
+  respond to review content in a way the reader should be warned about here?
 - The draft's endogenous variable is "review valence", which I carried into the
   payoff; does the paper study the effect of a review's valence specifically, or of
   review presence or content, which would be different treatments?
@@ -182,6 +188,8 @@ filled.
   becomes a contrast a non-specialist can see (contested instrument validity versus
   the platform's own moderation), while which validity condition failed is left as an
   Author question rather than guessed.
-- **The bridge is flagged, not trusted.** The added exclusion logic is surfaced for
-  the author to confirm, because an exposition edit may expose an idea on the page
-  but must not invent the identification argument.
+- **The bridge is flagged, not trusted.** The added exclusion logic is quoted on the
+  mandatory `Added bridges:` line right after the block and surfaced for the author
+  to confirm, because an exposition edit may translate a claim already on the page
+  (the no-added-substance rule, constraint 1) but must not invent the identification
+  argument; the flag lives next to what the author reads first.

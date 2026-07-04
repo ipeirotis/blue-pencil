@@ -71,8 +71,19 @@ citations grouped in one parenthetical; effects stated as concrete numbers
 
 Reader map: starts with knowing that online reviews move sales; must learn
 that who wrote the review, not just the star rating, changes how much it moves
-sales; should leave seeing reviewer identity as a lever a platform can act on,
+sales; should leave with reviewer identity as a lever a platform can act on,
 not just metadata.
+
+Jargon to unpack: none. The draft's obstacle is throat-clearing and hedging,
+not technical vocabulary; no term arrives before the reader knows its role.
+
+Buried lede: the paper's own question, whether who wrote a review changes how
+much it moves sales, sits in the last sentence of P1 under a hedge stack; the
+rewrite moves it to the front of the claim sequence.
+
+Concrete anchor: the 5-9% revenue effect and the 1.2 million reviews, both
+already in the draft, which the rewrite keeps as the concrete stakes attached
+to the identity question.
 
 1. [P1] The paragraph opens with throat-clearing and a generic platitude; the
    reader does not see the paper's actual question until the final sentence.
@@ -105,9 +116,11 @@ significant effect. For platform design, managers should consider highlighting
 reviewer credentials.
 ```
 
+Added bridges: None.
+
 ### 3. Change rationale
 
-Word count: 139 to 86 (-38%).
+Word count: ~139 to ~86 (-38%).
 
 "It is important to note that the proliferation of online platforms has
 fundamentally transformed the way in which consumers make purchasing decisions"

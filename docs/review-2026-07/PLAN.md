@@ -24,8 +24,8 @@ flag it in the PR rather than improvising a new design.
 | Batch | PR | Version | Status |
 |---|---|---|---|
 | 1. Plumbing + docs | #28 | v1.23.0 | merged |
-| 2. Rule-system rewrite | #29 | v1.24.0 | in review |
-| 3. Examples + CI (atomic) | | v1.25.0 | not started |
+| 2. Rule-system rewrite | #29 | v1.24.0 | merged |
+| 3. Examples + CI (atomic) | #30 | v1.25.0 | in review |
 | 4. Capability: triage, letter, fallback | | v1.26.0 | not started |
 | 5+. Addendum lanes (one PR each) | | v1.27.0+ | not started |
 
@@ -124,27 +124,28 @@ Goal: fix the four example defects and land the CI that locks the examples from
 then on. Must land together: the new CI checks fail against today's examples by
 design.
 
-- [ ] B-D10a: add the three extraction lines to `worked-example.md` (it diagnoses
+- [x] B-D10a: add the three extraction lines to `worked-example.md` (it diagnoses
       a payoff gap at `first draft`)
-- [ ] B-D8/B-G7: `exposition-methods.md` bridge rebuilt from manuscript text, not
+- [x] B-D8/B-G7: `exposition-methods.md` bridge rebuilt from manuscript text, not
       `core_thesis` metadata; the missing motivation becomes an Author question
-- [ ] B-D10b: `exposition-results.md` rationale stops claiming "carried over
+- [x] B-D10b: `exposition-results.md` rationale stops claiming "carried over
       verbatim" for an altered passage; describe the actual edit
-- [ ] B-D10d: move `[P#]` labels out of the `Revised text` fenced block in
+- [x] B-D10d: move `[P#]` labels out of the `Revised text` fenced block in
       `reviewer-response-example.md`
-- [ ] A-D2: re-audit `exposition-introduction.md`'s added identification bridge
+- [x] A-D2: re-audit `exposition-introduction.md`'s added identification bridge
       against the new constraint 1; add the `Added bridges:` line the Batch 2
-      contract now requires
-- [ ] B-D10c: align all `Reader map:` lines with the SKILL.md template wording
-- [ ] B-M8: CI example conformance (four exact headings in order; word-count line
+      contract now requires (the contract binds every output, so all six
+      examples gained the line)
+- [x] B-D10c: align all `Reader map:` lines with the SKILL.md template wording
+- [x] B-M8: CI example conformance (four exact headings in order; word-count line
       regex; every Author-questions bullet ends with `?`; banned-tell grep on
       `Revised text` blocks with a whitelist for deliberate verbatim returns;
       extraction-line consistency check)
-- [ ] A-D6: `scripts/check-protected.sh` (diff citation keys, numbers, math
+- [x] A-D6: `scripts/check-protected.sh` (diff citation keys, numbers, math
       spans, refs between example input and output) wired into `make test` and CI
-- [ ] Both: extend `lint.sh` link checking to commands, agent, references, and
+- [x] Both: extend `lint.sh` link checking to commands, agent, references, and
       examples (today it checks only SKILL.md-to-references)
-- [ ] Release: CHANGELOG, `make bump VERSION=1.25.0`, `make test`
+- [x] Release: CHANGELOG, `make bump VERSION=1.25.0`, `make test`
 
 Acceptance: new CI checks pass; deliberately breaking an example (e.g. removing a
 heading) fails CI locally.

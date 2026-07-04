@@ -2,7 +2,9 @@
 # Repo lint, pure bash plus git and grep, no external linters required:
 #   1. Enforce the no-em-dash / no-en-dash standing constraint on tracked files.
 #   2. Validate that SKILL.md frontmatter carries the required fields.
-#   3. Confirm every references/*.md file the skill loads actually exists.
+#   3. Confirm every references/*.md and examples/*.md path named in
+#      SKILL.md, README.md, the commands, the agent, and the reference and
+#      example files themselves actually exists.
 # Used by CI and `make lint`.
 set -euo pipefail
 
@@ -36,16 +38,23 @@ for field in name description license allowed-tools; do
 done
 echo "  done"
 
-# 3. Every references/<file>.md the skill names must exist on disk.
-echo "Checking reference links resolve..."
+# 3. Every references/*.md and examples/*.md path named across the skill
+#    surface must exist on disk. Scans SKILL.md, README.md, the command and
+#    agent files, and the reference and example files themselves; the check
+#    previously covered only SKILL.md-to-references links, so a broken link
+#    in a command, the agent, or a cross-reference went unnoticed.
+echo "Checking reference and example links resolve..."
 missing=0
-while IFS= read -r ref; do
-  if [ ! -f "$ref" ]; then
-    echo "ERROR: SKILL.md references a missing file: $ref" >&2
-    fail=1
-    missing=1
-  fi
-done < <(grep -oE 'references/[A-Za-z0-9_-]+\.md' SKILL.md | sort -u)
+while IFS= read -r src; do
+  while IFS= read -r ref; do
+    [ -n "$ref" ] || continue
+    if [ ! -f "$ref" ]; then
+      echo "ERROR: $src references a missing file: $ref" >&2
+      fail=1
+      missing=1
+    fi
+  done < <(grep -oE '(references|examples)/[A-Za-z0-9._-]+\.md(\.template)?' "$src" | sort -u)
+done < <({ printf '%s\n' SKILL.md README.md; git ls-files '.claude/commands' '.claude/agents' 'references' 'examples' | grep -E '\.md(\.template)?$'; })
 if [ "$missing" -eq 0 ]; then
   echo "  all referenced files exist"
 fi

@@ -100,12 +100,12 @@ non-reviewer diagnoses.)
 ### 2. Revised text
 
 ```
-[P1] The purpose of this section is to describe our empirical strategy. It is
+The purpose of this section is to describe our empirical strategy. It is
 important to note that estimating the causal effect of platform badges on seller
 revenue is complicated by selection: sellers who earn a badge may differ from
 those who do not in ways that also affect revenue.
 
-[P2] Identification requires that the timing of the badge rollout move seller
+Identification requires that the timing of the badge rollout move seller
 revenue only through badge receipt. We instrument badge receipt with the rollout
 date of the badge program in a seller's primary category. The platform rolled
 out that program on a staggered schedule. That schedule was set by the
@@ -114,23 +114,32 @@ plausibly unrelated to category-level revenue trends. Rollout timing is
 therefore plausibly unrelated to those trends, which is what the exclusion
 restriction needs.
 
-[P3] We estimate a two-stage least squares model with seller and quarter fixed
+We estimate a two-stage least squares model with seller and quarter fixed
 effects, clustering standard errors at the category level.
 
-[P4] Badge receipt raises seller revenue by 12% (Table 4). The effect is
+Badge receipt raises seller revenue by 12% (Table 4). The effect is
 statistically significant at the 1% level and is robust to the inclusion of
 seller-specific time trends.
 
-[P5] Furthermore, the results hold across several robustness checks, which are
+Furthermore, the results hold across several robustness checks, which are
 reported in Appendix C. Moreover, we find no evidence of pre-trends.
 ```
 
+Added bridges: "Rollout timing is therefore plausibly unrelated to those trends,
+which is what the exclusion restriction needs." Draws the conclusion P2's own
+premises imply; confirmed in Author questions (the maintained-assumption item).
+
 ### 3. Change rationale
 
-Word count: 177 to 198 (+12%). Longer because the one substantive edit (P2)
+Word count: ~177 to ~198 (+12%). Longer because the one substantive edit (P2)
 surfaces an argument the draft had compressed into trailing clauses; addressing
 R2.1 legitimately adds words to the flagged paragraph while the rest of the
 section is unchanged.
+
+The five paragraphs appear in their original order. Per the output contract, the
+`[P1]`-style labels from the mapping stay outside the `Revised text` block: they
+mark the input and the rationale lines below, and the block carries only
+manuscript text the author can paste back whole.
 
 "We instrument badge receipt with the rollout date ... The exclusion restriction
 requires that rollout timing affects revenue only through badge receipt." ->
@@ -186,6 +195,10 @@ baseline revenue level the section does not contain; see Author questions. The
 - **Comment mapping comes first.** Each reviewer comment is tied to a paragraph
   before any diagnosis, and every diagnosis item carries its reviewer label, so
   the author can check coverage at a glance.
+- **The block stays clean.** The `[P#]` labels live in the mapping, the
+  Diagnosis, and the rationale, never inside the `Revised text` block: the
+  output contract forbids inline tags and editor labels there, so the block is
+  safe to paste back whole.
 - **One comment is fixed, one is flagged.** R2.1 is answered by surfacing an
   argument already in the prose; R2.2 needs a number the manuscript lacks, so it
   becomes a question instead of a fabricated claim. Not every reviewer comment
