@@ -1,0 +1,40 @@
+name: tag-release
+
+# Create annotated release tags from a session that cannot push tags itself.
+# Dispatch with space-separated tag=sha pairs; existing tags are skipped.
+
+on:
+  workflow_dispatch:
+    inputs:
+      pairs:
+        description: "Space-separated tag=sha pairs, e.g. v1.28.0=688b697"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create annotated tags
+        env:
+          PAIRS: ${{ inputs.pairs }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for pair in $PAIRS; do
+            tag="${pair%%=*}"
+            sha="${pair#*=}"
+            if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+              echo "skip: $tag already exists"
+              continue
+            fi
+            git tag -a "$tag" -m "$tag" "$sha"
+            git push origin "$tag"
+            echo "created: $tag -> $sha"
+          done
