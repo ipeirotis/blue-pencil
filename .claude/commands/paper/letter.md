@@ -9,7 +9,10 @@ subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 The subagent is isolated: it sees only what the dispatch carries, not this
 conversation. Pass everything it needs in the dispatched request, including
-the user's answers to any prior clarifying question.
+the user's answers to any prior clarifying question and, on a repeat pass
+over the same text, the edits the author declined, reworded, or reverted
+since the last pass, so the across-rounds preservation rule can hold inside
+the isolated dispatch.
 
 This is the response-letter lane. The letter is a separate deliverable from the
 manuscript, with its own license (the skill's reviewer-response workflow states
@@ -29,8 +32,11 @@ decisions: when the input carries reviewer comments but no draft letter and no
 author decisions or change log, do not choose concessions, disagreements, or
 claimed changes yourself; ask for the author's per-comment decisions (agree or
 disagree, what changed, where) before drafting any reply text. If the
-manuscript is absent, say that the location checks cannot run and route every
-location claim to `Author questions` rather than letting it stand unverified.
+manuscript is absent, say that the verification checks cannot run and route
+every claimed manuscript change, result, analysis, or evidence statement to
+`Author questions` rather than letting it stand unverified; a claim without a
+location is not exempt, since it is just as unverifiable under the letter
+license.
 
 Run the letter pass:
 
@@ -82,7 +88,12 @@ Preset triage:
 Return the strict four-section output: `Diagnosis` of the letter, the full
 letter in `Revised text`, `Change rationale`, and `Author questions` carrying
 every promised-but-unverified change and every gap between a reviewer request
-and what the manuscript contains. For a complete worked run, see
+and what the manuscript contains. In assembly mode there is no original letter
+to count or diff, so adapt `Change rationale` the way the skill's no-rewrite
+runs do: omit the `Word count:` line, open with a one-line note that the
+letter was assembled, then give one line per reply naming the supplied
+decision or change-log entry it was built from, so the author can trace every
+reply to their own inputs. For a complete worked run, see
 `examples/response-letter-example.md`.
 
 Letter, comments, and manuscript:

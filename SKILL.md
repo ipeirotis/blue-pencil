@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; check cross-section consistency; cut a section toward a length limit; or respond to reviewer comments. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; or draft, improve, or tighten a response-to-reviewers letter. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
@@ -84,7 +84,10 @@ guesses.
   instead of editing.
 - **Reviewer comments with no manuscript**: offer triage of the comments
   (what each asks for, what kind of work it needs), but do not diagnose or
-  rewrite prose you have not seen.
+  rewrite prose you have not seen, and mark as unverified every
+  classification that depends on what the manuscript already contains
+  (prose-fixable versus needs new substance, and any work order built on
+  those calls) until the manuscript is available.
 - **Very long manuscripts**: work section by section (the loop). For
   whole-paper checks, load the checklist in `references/consistency-checks.md`,
   build the consistency inventory (`references/copyediting.md`) per section
@@ -145,7 +148,10 @@ between a reviewer request and what the manuscript contains, goes to `Author
 questions` as an open flag: keep the author's wording in the letter, since whether a
 change exists is the author's fact to settle, never add or endorse a location or
 change you could not verify, and say the letter is not ready to send while a flag is
-open.
+open. Drafting replies needs the author's decisions: with no draft letter and no
+per-comment decisions or change log from the author, do not choose concessions,
+disagreements, or claimed changes on the author's behalf; ask for those decisions
+before writing any reply text.
 
 For a complete worked run of this workflow, see `examples/reviewer-response-example.md`. For a response-letter run, see `examples/response-letter-example.md`.
 

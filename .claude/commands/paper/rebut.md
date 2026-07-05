@@ -9,7 +9,10 @@ subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 The subagent is isolated: it sees only what the dispatch carries, not this
 conversation. Pass everything it needs in the dispatched request, including
-the user's answers to any prior clarifying question.
+the user's answers to any prior clarifying question and, on a repeat pass
+over the same text, the edits the author declined, reworded, or reverted
+since the last pass, so the across-rounds preservation rule can hold inside
+the isolated dispatch.
 
 This invokes the skill's reviewer-response workflow. The text provided below
 may hold the reviewer text directly or file paths to read; if it names files,
@@ -63,7 +66,10 @@ request, draft or edit per-comment reply text following the rebuttal conventions
 reasoned disagreement, point to the revised paragraphs). Reply text may restate and
 cite what the revision did; it must never promise or assert analyses, results, or
 claims the manuscript does not contain, and every such gap goes to `Author questions`.
-`/paper:letter` runs that lane on the whole letter.
+Drafting replies needs the author's decisions: with no per-comment positions or
+change log from the author, ask for them rather than choosing concessions or
+disagreements on the author's behalf. `/paper:letter` runs that lane on the whole
+letter.
 
 Reviewer comments and section:
 

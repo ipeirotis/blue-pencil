@@ -9,7 +9,10 @@ subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 The subagent is isolated: it sees only what the dispatch carries, not this
 conversation. Pass everything it needs in the dispatched request, including
-the user's answers to any prior clarifying question.
+the user's answers to any prior clarifying question and, on a repeat pass
+over the same text, the edits the author declined, reworded, or reverted
+since the last pass, so the across-rounds preservation rule can hold inside
+the isolated dispatch.
 
 This is a conservative final-polish pass. Run it only when the section's
 structure, claims, and evidence are stable. Load `references/copyediting.md`,
