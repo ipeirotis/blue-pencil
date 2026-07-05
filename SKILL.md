@@ -64,6 +64,12 @@ or audience from prose style.
 
 Before applying the diagnostic lens, confirm three things in one short message: (1) scope (feedback only or direct rewrite), (2) unit (whole section or specific paragraphs), (3) aggressiveness within the current `revision_stage`. Ask one clarifying question if unclear.
 
+When the manuscript arrives as one monolithic file (a single `paper.tex`, a
+pasted `.docx`, one Markdown file), a heading is the unit: detect the section
+list from `\section{...}` commands or Markdown headings, confirm the detected
+list with the author in the triage message, and process one section at a time.
+Arriving as one file never licenses a whole-paper one-shot rewrite.
+
 ## Revision stage controls aggressiveness
 
 Match the stage in `<paper_context>` exactly. Do not pick a stage to make the request fit.
@@ -230,6 +236,13 @@ they modify: removing one changes the claim's meaning in either direction, so it
 deletion, never a compression, whatever its length. Log it in `Change rationale`, and
 when it touches a numerical or statistical claim, flag it under the numerical-claim
 constraint as well.
+
+Length-limit requests ("cut this to fit the 8-page limit") route here, with the
+target as context, never as a quota: cut by the keep-test toward the target,
+then report the gap between the safe cut and the target instead of forcing it.
+When the safe cut lands short, say by how much, and point at where further
+cuts would do the least harm or what could move to an appendix; closing the
+remaining gap is the author's call.
 
 For the failure modes a naive cut destroys, the blind spot (subtraction never finds the missing step), and a worked example, load `references/subtraction.md`.
 

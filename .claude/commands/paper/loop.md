@@ -16,8 +16,12 @@ The value provided below names the manuscript: a root directory to scan for
 section files, an explicit list of section files, or a root or wrapper TeX file
 (for example `paper.tex` or `main.tex`). When it is a wrapper, follow its `\input{...}` and
 `\include{...}` graph recursively to find the actual section files rather than
-treating the wrapper as one section; that graph is the paper. If it is empty, ask
-for the manuscript location before doing anything else.
+treating the wrapper as one section; that graph is the paper. When it is one
+monolithic file with no includes, treat `\section{...}` commands or Markdown
+headings as the section list: confirm that detected list with the author in
+Step A and process one heading at a time, exactly as the loop would process
+section files. If it is empty, ask for the manuscript location before doing
+anything else.
 
 ## Hard guardrails (do not violate)
 
