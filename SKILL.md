@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; or draft, improve, or tighten a response-to-reviewers letter. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; or draft, improve, or tighten a response-to-reviewers letter. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
@@ -21,6 +21,7 @@ Trigger when the user:
 
 - Asks you to revise, polish, copy-edit, line-edit, tighten, or improve the writing of a paper section.
 - Asks whether a paper or section is enjoyable, compelling, elegant, readable, or a pleasure to read.
+- Asks you to read the whole paper the way its intended reader (or a reviewer) would, or whether the paper works end to end (the whole-paper cold read).
 - Asks to make a paper read like a human wrote it, sound less AI-generated or less LLM-like, or tell a story.
 - Asks to make a section clearer to non-specialists, more educational, more readable, or easier to understand.
 - Asks for editorial or structural feedback, or whether a section "flows".
@@ -300,6 +301,23 @@ Identify the section type from the file name or heading. Load `references/struct
 - Discussion: honest limitations, scope of generalisation, links back to thesis.
 - Conclusion: synthesis, not summary.
 
+## Whole-paper cold read
+
+When the user asks you to read the whole paper the way its intended reader
+would, asks whether the paper works or is a pleasure to read end to end, or a
+`/paper:read` dispatch names it, run the cold-read pass: read the full
+manuscript front to back, once, as the `<paper_context>` audience, and diagnose
+the reading experience instead of editing. Load `references/cold-read.md`; that
+file owns the protocol (the reading log, the blind colleague test against
+`core_thesis`, the delight audit, the venue-compliance checks, the prioritized
+dispatch list) and its reporting conventions. Diagnosis only: the `Revised
+text` block reads `No rewrite requested.`, and the seven-item Diagnosis cap
+does not apply, as on any whole-paper diagnosis-only pass. The dispatch list
+feeds the whole-paper loop's pass order. Two stop rules compose: the cold read
+decides whether the loop dispatches another editing pass, while the editor's
+own stop rule (better, not merely different) still governs every dispatched
+pass, so a cold read chasing delight never justifies churn edits.
+
 ## Style rules
 
 The canonical banned-word, banned-phrase, em-dash, and storytelling-tell list lives in `references/ai-tells-to-avoid.md`. Load it before producing the revised text and the change rationale, and run its storytelling-tell checklist on any narrative pass so added story does not become decoration. Two governing principles:
@@ -392,7 +410,7 @@ Open the Diagnosis with header lines according to this table, then the numbered 
 
 The `Voice tics:` line lists three to five tics; the `Reader map:` line takes the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Each extraction line may read `none`; if all three are `none` and the passage clears the restraint checks, return it verbatim and say so in `Change rationale`. Extract the three before drafting the rewrite, from manuscript material only; anything the manuscript lacks goes to `Author questions`. The full definitions and the teaching-gap catalogue live in `references/exposition.md`; that file is the single source for this mechanism.
 
-Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check; that pass's checklist lives in `references/consistency-checks.md`), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
+Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check, whose checklist lives in `references/consistency-checks.md`, or the whole-paper cold read, whose protocol lives in `references/cold-read.md`), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
 
 ### 2. Revised text
 
