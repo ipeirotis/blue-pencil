@@ -31,6 +31,11 @@ Run the workflow exactly:
 6. Where two reviewer comments demand incompatible edits to the same passage,
    make neither edit; present both readings and a proposed resolution in
    `Author questions`, since the trade-off is the author's call.
+7. After the four-section output, append a comment-to-change table so the
+   author can carry it into the response letter: one row per reviewer comment
+   with columns Comment, Paragraph(s), Status (addressed in text / flagged in
+   Author questions / needs new analysis), and Where (the paragraph label or
+   question item). Every reviewer comment appears in exactly one row.
 
 Preset triage:
 
