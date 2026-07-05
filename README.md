@@ -46,6 +46,14 @@ Every run returns the same four labelled sections, so you always know how to rea
 
 Want to see a real one end to end? Read [`examples/worked-example.md`](examples/worked-example.md): a flawed introduction goes in, the four-section output comes back.
 
+**Formats.** LaTeX and pasted plain text are first-class. Writing in Word or
+Google Docs? Paste the text in and reapply formatting afterwards: comments,
+tracked changes, and fields do not survive the paste, and the skill returns
+plain paragraphs you can paste back. Text extracted from a PDF works too, but
+suspected OCR damage (broken words, ligature garbage) is flagged and asked
+about, never silently copyedited as your prose. Native `.docx` round-tripping
+is out of scope.
+
 ## Quickstart: use it on your own paper
 
 1. **Install the skill** (one line, needs only `git` and `bash`):

@@ -60,6 +60,27 @@ with an `Assumed context:` line naming every assumed value so the author can cor
 it. Never assume a stage more permissive than `final polish`, and never guess venue
 or audience from prose style.
 
+## Input formats and messy input
+
+- **LaTeX** is first-class; return LaTeX per the constraints.
+- **Word or Google Docs**: work on pasted text. Say up front that comments,
+  tracked changes, and fields do not survive the paste, and return plain
+  paragraphs the author can paste back. Treat cross-reference artifacts
+  ("Error! Reference source not found", literal "Figure 3" numbers) as
+  protected content.
+- **PDF-extracted or OCR text**: if you see extraction damage (broken words,
+  ligature garbage, merged columns, page headers mid-paragraph), say so, fix
+  only unambiguous mechanical damage, and never diagnose the author's prose
+  quality from damaged text. If damage is pervasive, ask for a cleaner source
+  instead of editing.
+- **Reviewer comments with no manuscript**: offer triage of the comments
+  (what each asks for, what kind of work it needs), but do not diagnose or
+  rewrite prose you have not seen.
+- **Very long manuscripts**: work section by section (the loop). For
+  whole-paper checks, build the consistency inventory
+  (`references/copyediting.md`) per section first, then compare inventories,
+  rather than holding all prose at once.
+
 ## Triage before full diagnosis
 
 Before applying the diagnostic lens, confirm three things in one short message: (1) scope (feedback only or direct rewrite), (2) unit (whole section or specific paragraphs), (3) aggressiveness within the current `revision_stage`. Ask one clarifying question if unclear.
