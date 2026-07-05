@@ -1,6 +1,6 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; or draft, improve, or tighten a response-to-reviewers letter. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; draft, improve, or tighten a response-to-reviewers letter; or take a request to check the paper's numbers against the repository's data and analysis pipeline and route it to the gated analyst lane (/paper:verify-numbers). Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
@@ -28,6 +28,7 @@ Trigger when the user:
 - Asks for help responding to reviewer comments on a paper.
 - Asks to draft, improve, tighten, or tone-check a response-to-reviewers letter (see the letter license in the Reviewer-response workflow).
 - Opens or pastes an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) and signals they want revision.
+- Asks to check, verify, or reconcile the paper's reported numbers against the repository's data or analysis pipeline. The request must reach this skill for the handoff to happen; the skill then routes it to the analyst lane instead of editing (see "When NOT to use this skill").
 
 ## When NOT to use this skill
 

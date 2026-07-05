@@ -168,8 +168,12 @@ numbers are caught before any prose pass repeats them. It requires a shell
 and your pipeline; where either is missing it says so rather than silently
 checking nothing.
 
-Answer the `Author questions` the cold read raises and confirm its dispatch
-list before asking for any rewrite. They flag missing claims, evidence,
+Answer the `Author questions` these global passes raise, not only the cold
+read's: when the verification ran, every mismatch (which value is correct?)
+and every unverifiable number is an author decision that must land in the
+source before any prose pass repeats the stale value. Then confirm the cold
+read's dispatch list before asking for any rewrite. The cold read's questions
+flag missing claims, evidence,
 examples, mechanisms, definitions, or a thesis mismatch that the skill is not
 allowed to resolve by inventing content: the skill's master rule is to never
 assert unverified substance, so material the manuscript lacks is a question
