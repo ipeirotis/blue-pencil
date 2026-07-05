@@ -33,7 +33,11 @@ Run the letter pass:
    at the highest level; per-comment responses that quote each comment; a
    change log with locations), tone (respectful but not abject; disagreements
    stated cleanly with evidence, not wishy-washy half-agreements), and coverage
-   (every reviewer comment answered exactly once).
+   (every reviewer comment answered exactly once). Coverage is verifiable only
+   against the full comment set: when only the draft letter is supplied, you
+   can check it solely against the comments the draft itself quotes, so mark
+   coverage as unverified, ask for the full decision letter, and never report
+   full coverage from the draft alone.
 2. Verify every claimed change: each "we changed X" line must point at a real
    location (page, section, or paragraph) in the manuscript provided. A
    claimed change you cannot locate is flagged in `Author questions` as
