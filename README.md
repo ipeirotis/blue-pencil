@@ -57,9 +57,11 @@ Want to see a real one end to end? Read [`examples/worked-example.md`](examples/
    > You do not need the installer. Attach or paste `SKILL.md` (plus any
    > reference file it names for your task) into the conversation, or add this
    > repo as a skill/knowledge source where your tool supports it, then paste
-   > your section and ask as usual. Without an `AGENTS.md`, the skill will ask
-   > for your venue, audience, core thesis, and revision stage before editing;
-   > answer in the conversation.
+   > your section and ask as usual. Without an `AGENTS.md`, the skill asks once
+   > for your venue, audience, core thesis, and revision stage; if you answer
+   > partially or skip the question, it proceeds at the most conservative stage
+   > (`final polish`) and opens its Diagnosis with an `Assumed context:` line
+   > you can correct.
 
 2. **Tell the editor about your paper.** From your paper's folder, run the setup once:
 

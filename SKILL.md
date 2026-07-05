@@ -48,6 +48,17 @@ Look for a `<paper_context>` block in the following files, in order. Use the fir
 
 The block must include `target_venue`, `audience`, `core_thesis`, and `revision_stage`. If any value is missing or ambiguous, stop and ask the user. Do not guess venue or audience from prose style. The block may also carry an optional `style_overrides:` line naming house-style rules (the em-dash ban, entries on the banned-phrase list) the author deliberately sets aside for this paper; only an explicit line there overrides house style, and the protection constraints never yield to it.
 
+If no `<paper_context>` block can exist (no repository: a chat session or a pasted
+section), ask once, in a single message, for the four fields. Infer the stage only
+toward more restrictive scopes, from unambiguous signals: pasted reviewer comments
+imply response-to-reviewers scope, and "camera-ready" or "proofs" language implies
+`final polish`; never assume `first draft` without the author's explicit
+confirmation. If the user answers partially or declines, proceed with the most
+conservative assumptions: treat the stage as `final polish`, and open the Diagnosis
+with an `Assumed context:` line naming every assumed value so the author can correct
+it. Never assume a stage more permissive than `final polish`, and never guess venue
+or audience from prose style.
+
 ## Triage before full diagnosis
 
 Before applying the diagnostic lens, confirm three things in one short message: (1) scope (feedback only or direct rewrite), (2) unit (whole section or specific paragraphs), (3) aggressiveness within the current `revision_stage`. Ask one clarifying question if unclear.
