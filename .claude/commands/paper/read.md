@@ -41,8 +41,9 @@ Choose the file set by what the provided value is:
 If no manuscript is present, ask for it before proceeding.
 
 Do not rewrite. Load the skill's `references/cold-read.md` and run its
-protocol: the reading log at each section boundary, the blind colleague test
-compared against `core_thesis`, the delight audit, the venue-compliance checks
+protocol: the reading log at each section boundary, the quote-grounded
+colleague test compared against `core_thesis`, the delight audit, the
+venue-compliance checks
 `target_venue` supports, and the closing prioritized dispatch list. That file
 owns the protocol and its reporting conventions; do not improvise a different
 report.

@@ -308,9 +308,9 @@ would, asks whether the paper works or is a pleasure to read end to end, or a
 `/paper:read` dispatch names it, run the cold-read pass: read the full
 manuscript front to back, once, as the `<paper_context>` audience, and diagnose
 the reading experience instead of editing. Load `references/cold-read.md`; that
-file owns the protocol (the reading log, the blind colleague test against
-`core_thesis`, the delight audit, the venue-compliance checks, the prioritized
-dispatch list) and its reporting conventions. Diagnosis only: the `Revised
+file owns the protocol (the reading log, the quote-grounded colleague test
+against `core_thesis`, the delight audit, the venue-compliance checks, the
+prioritized dispatch list) and its reporting conventions. Diagnosis only: the `Revised
 text` block reads `No rewrite requested.`, and the seven-item Diagnosis cap
 does not apply, as on any whole-paper diagnosis-only pass. The dispatch list
 feeds the whole-paper loop's pass order. Two stop rules compose: the cold read

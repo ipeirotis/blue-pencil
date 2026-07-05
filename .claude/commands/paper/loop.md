@@ -230,11 +230,15 @@ only and cannot repair fresh cross-section drift, so any drift this rerun
 introduced must be caught and resolved here.
 
 With the re-validation clean, run one more whole-paper cold read
-(`/paper:read`) over the in-scope paper. It is the loop's exit criterion
-(Step G), and it runs before the final polish because polish is sentence-level
-only and cannot repair what the read finds. When its dispatch list asks for
-more than a polish, feed the flagged sections back into the Step B order and
-return here afterwards.
+(`/paper:read`). It reads the full detected section set, including any Step A
+skipped sections, since a reader cannot skip them and a read narrowed to the
+in-scope files would report a clean front-to-back experience without checking
+the actual paper; per the Step A rule, its findings and dispatch-list entries
+confined to skipped sections are recorded in the plan, never dispatched. It is
+the loop's exit criterion (Step G), and it runs before the final polish
+because polish is sentence-level only and cannot repair what the read finds.
+When its dispatch list asks for more than a polish on in-scope sections, feed
+the flagged sections back into the Step B order and return here afterwards.
 
 ## Step F: Final polish (conservative)
 
@@ -259,14 +263,17 @@ Stop the loop when all of these hold:
 - The read-cold pass finds no unclear referents, AI tells, inconsistent terms,
   abbreviation drift, tense drift, unit-format drift, or missing paragraph
   payoff.
-- The Step E closing cold read came back clean: no reading-log break points,
+- The Step E closing cold read, run over the full section set, came back
+  clean outside the author-approved skip list: no reading-log break points,
   the colleague test matches `core_thesis`, no must-fix delight or
   venue-compliance findings, and a dispatch list asking for nothing beyond the
-  final polish.
+  final polish. Findings confined to skipped sections are reported for the
+  author's record but do not block the stop; leaving them unfixed was the
+  author's Step A call.
 
 Two stop rules compose here. The cold read decides whether the loop dispatches
-another pass: the loop is done when a cold read of the whole in-scope paper
-comes back clean and the colleague test matches `core_thesis`. Inside any
+another pass: the loop is done when a cold read of the whole paper comes back
+clean outside the skip list and the colleague test matches `core_thesis`. Inside any
 single dispatched pass, the editor's stop rule is unchanged: the correct
 stopping point is not "nothing more can be rewritten" but "the remaining edits
 would be merely different rather than better", so the cold read's pursuit of a

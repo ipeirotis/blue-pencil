@@ -49,13 +49,23 @@ planted, and a section boundary is where momentum is won or lost.
 
 ### 2. Colleague test
 
-State, blind, the one-sentence summary the reader would give a colleague who
-asked what the paper shows. Write that sentence before re-reading
-`core_thesis`, then compare the two. A mismatch is the paper's most important
-defect and outranks every sentence-level finding in the report: it means the
-paper argues one thesis and delivers another, or buries the real one. When
-`core_thesis` is unknown (the context fallback), still state the blind summary,
-skip the comparison, and say so.
+State the one-sentence summary the reader would give a colleague who asked
+what the paper shows, then compare it against `core_thesis`. A mismatch is the
+paper's most important defect and outranks every sentence-level finding in the
+report: it means the paper argues one thesis and delivers another, or buries
+the real one.
+
+The summary cannot be honestly blind: the context gate loaded `core_thesis`
+before this pass began, so you have already seen the answer. Compensate
+structurally rather than by pretending. Build the summary only from the
+manuscript, quoting the sentence or two it rests on (typically in the
+abstract, introduction, or conclusion) so the summary is traceable to the
+page; do not re-read `core_thesis` until the summary and its quotes are
+written down. A summary you can only support from `core_thesis`, because no
+manuscript sentence states it, is itself the mismatch finding: a colleague's
+colleague reads the paper, not the metadata. When `core_thesis` is unknown
+(the context fallback), still state the quoted-evidence summary, skip the
+comparison, and say so.
 
 ### 3. Delight audit
 

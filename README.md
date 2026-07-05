@@ -144,7 +144,8 @@ before the agent polishes anything locally:
 
 The cold read reads the paper front to back, once, as its intended reader, and
 returns a reading log (where a venue-competent non-specialist stops following
-or stops caring), a blind colleague test compared against your `core_thesis`,
+or stops caring), a colleague test built from quoted manuscript sentences and
+compared against your `core_thesis`,
 a delight audit, the venue-compliance checks your `target_venue` supports, and
 a prioritized dispatch list naming which sections need which passes. It never
 rewrites. This replaces the old per-section feedback sweep: stitched
