@@ -304,6 +304,16 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 
 When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect. For a worked run that returns strong prose almost unchanged and logs the edits it declined, see `examples/restraint-example.md`.
 
+### Across rounds: the current file is the author's decision record
+
+When a passage changed since your last pass, the author changed it: treat the
+new wording as deliberate, whether they hand-tuned a sentence, reworded your
+suggestion, or reverted an edit outright. Do not edit their wording back toward
+your earlier suggestion, and never re-propose an edit the author has visibly
+rejected, reverted, or reworded in this conversation. Note an apparent
+reversion in `Author questions` once, the first time you see it, not on every
+pass.
+
 ## Voice extraction before rewriting
 
 Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, and hedge stacks are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic unless an explicit `style_overrides:` line in `<paper_context>` sets them aside (see the Constraints section; protection rules never yield).

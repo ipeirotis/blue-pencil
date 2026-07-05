@@ -141,6 +141,11 @@ questions`, so after any pass that returns them, stop and resolve them before th
 next pass on this section or the move to the next section. The edits depend on
 the answers, so unresolved questions must not flow into a later pass.
 
+Author edits between passes are part of the decision record: a passage the
+author hand-tuned, reworded, or reverted since the last pass is deliberate, so
+a later pass never re-proposes the rejected edit and notes an apparent
+reversion in `Author questions` once, not on every pass.
+
 1. **Diagnose:** `feedback` on the section. Always first. Collect its `Author
    questions`.
 2. **Author checkpoint:** the author answers the `Author questions` and folds
