@@ -3,6 +3,17 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.28.0] - 2026-07-05
+
+Batch 5b of the 2026-07 skill review: the master-rule split. The old master rule ("this skill edits existing prose; it does not draft new sections") conflated two different acts: fabrication (asserting a number, citation, or finding that was never computed or retrieved), which stays absolutely banned in every lane, and computation or retrieval (running the author's own analysis code, reading actual papers), which later gated lanes may perform with provenance. The replacement is a strictly stronger honesty standard stated once and instanced by the existing constraints. Editor-lane behavior is unchanged: this skill's tool surface performs no computation and no retrieval, so every unverified-substance question still routes to `Author questions`, exactly as constraint 1 already requires. Item IDs refer to `review-b.md`'s addendum (A2, A5 item 2) and its adjudication in `docs/review-2026-07/reconciliation.md` (item 18); the batch checklist lives in `PLAN.md`.
+
+### Changed
+
+- Addendum A2/A5 item 2: `SKILL.md`'s constraints block now opens with the master rule, in the addendum's canonical wording: never assert unverified substance; every number in your output was either written by the author or computed by you from the repo's own data, with the producing command logged; every citation was either written by the author or retrieved and read by you, with the source quoted; every other claim is the author's; substance you cannot verify by computation or retrieval is a question for the author, never an edit. The substance (1), citation (3), and numerical (4) constraints are named as instances of it, and a closing sentence gates the computation and retrieval branches on a lane's tool surface, so the rule is ready for the analyst and scholar lanes without widening this skill's tools.
+- The drafting-ban sentence in "When NOT to use" now states the same principle instead of a categorical scope claim: drafting a section from notes would assert substance the skill cannot verify. The "Write me a discussion section" trigger example and the README's cold-read rationale line follow.
+- `paper-reviser.md`'s hard rules open with the master rule, scoped to the dispatch's tool surface (no computation, no retrieval, so every number and citation must be the author's own).
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.28.0.
+
 ## [1.27.0] - 2026-07-05
 
 Batch 5a of the 2026-07 skill review: the first addendum lane, the reader. The whole-paper revision now opens and closes with a cold read of the full manuscript by its intended reader, instead of a per-section feedback sweep stitched together. Per the reconciliation's conflict 5 architecture, the lane ships as its own command riding the existing editor dispatch; `SKILL.md`'s `allowed-tools` stays `Read Edit Grep Glob`, and the pass needs no tools beyond reading. Item IDs refer to `review-b.md`'s addendum (A1-A5) and its adjudication in `docs/review-2026-07/reconciliation.md`; the batch checklist lives in `PLAN.md`.
