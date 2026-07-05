@@ -22,9 +22,13 @@ The text provided below may hold: an existing draft letter to improve (the
 common case), or the comment set plus the author's decisions and change log to
 assemble a letter from, plus the revised manuscript (or file paths to it) for
 cross-checking. If neither a draft letter nor a comment set is present, ask for
-one before doing anything else. If the manuscript is absent, say that the
-location checks cannot run and route every location claim to `Author
-questions` rather than letting it stand unverified.
+one before doing anything else. Assembling a letter needs the author's
+decisions: when the input carries reviewer comments but no draft letter and no
+author decisions or change log, do not choose concessions, disagreements, or
+claimed changes yourself; ask for the author's per-comment decisions (agree or
+disagree, what changed, where) before drafting any reply text. If the
+manuscript is absent, say that the location checks cannot run and route every
+location claim to `Author questions` rather than letting it stand unverified.
 
 Run the letter pass:
 

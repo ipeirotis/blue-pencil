@@ -55,8 +55,11 @@ toward more restrictive scopes, from unambiguous signals: pasted reviewer commen
 imply response-to-reviewers scope, and "camera-ready" or "proofs" language implies
 `final polish`; never assume `first draft` without the author's explicit
 confirmation. If the user answers partially or declines, proceed with the most
-conservative assumptions rather than asking again, one default per field: treat the
-stage as `final polish`; default `audience` to the skill's reader model (a trained
+conservative assumptions rather than asking again, one default per field. The stage
+keeps any value the restrictive inference above already set: pasted reviewer
+comments keep response-to-reviewers scope, with its comment mapping and
+flagged-paragraph guard, even when the context question goes unanswered; only with
+no such signal treat the stage as `final polish`. Default `audience` to the skill's reader model (a trained
 reader of the manuscript's broad field who is not expert in this exact topic, per
 `references/exposition.md`); treat `target_venue` and `core_thesis` as unknown and
 skip any check that needs one (venue-specific framing, the memorable-idea comparison

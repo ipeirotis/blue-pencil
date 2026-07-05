@@ -127,7 +127,10 @@ carries its reviewer label.
    misread the paper, adds "As we already explained" as a grievance marker,
    and closes on a banned transition. The disagreement itself is legitimate
    and stays; the conventions want it stated cleanly with its evidence, not as
-   a complaint about the reviewer.
+   a complaint about the reviewer. The evidence it cites (the first-stage
+   F-statistic) is carried from the draft but cannot be verified against the
+   excerpts supplied, which do not include the identification section; it is
+   flagged, not endorsed.
 3. [R1.3, P4] An unverifiable location claim: the reply says the discussion
    now addresses generalizability, but it names no location, and the Section 6
    excerpt supplied for cross-checking does not contain that material. Only
@@ -221,7 +224,9 @@ commitment, so both are flagged in Author questions and left in the authors'
 wording, and the letter is not ready to send until both flags are resolved.
 The quoted reviewer
 comments are reviewer text and stay verbatim throughout, and the F-statistic
-of 48 and the Section 4.2 pointer are carried over unchanged.
+of 48 and the Section 4.2 pointer are carried over unchanged. The excerpts
+supplied do not include the identification section, so the F-statistic the
+reply cites is flagged as unverified in Author questions rather than endorsed.
 
 ### 4. Author questions
 
@@ -232,6 +237,10 @@ of 48 and the Section 4.2 pointer are carried over unchanged.
 - R1.4's reply agrees the shipping-fee point is important but never answers
   it: does the revenue measure include shipping fees, and did the manuscript
   change in response (if so, where)?
+- The R1.2 reply cites a first-stage F-statistic of 48, but the excerpts
+  supplied for cross-checking do not include the identification section: can
+  you confirm the manuscript reports that value, and where, so the reply's
+  evidence is verifiable?
 - The revised opening signals the R1.2 disagreement; do you also want it to
   name the sample-construction addition as the round's main manuscript
   change, or keep the opening minimal?
@@ -249,7 +258,9 @@ of 48 and the Section 4.2 pointer are carried over unchanged.
   unverified reply keeps the authors' wording (whether the change exists is a
   fact only the author can settle; deleting the claim and endorsing it are
   both wrong), and the rationale says the letter is not ready to send while
-  the flag is open.
+  the flag is open. The same discipline covers evidentiary claims: the
+  F-statistic the R1.2 reply carries cannot be verified against the supplied
+  excerpts, so it too is flagged rather than endorsed.
 - **Promises are not changes.** R1.4's agreement with nothing behind it is the
   classic rebuttal pathology (reviewers want the change, not the promise); the
   fix needs author substance, so it is flagged, not papered over.
