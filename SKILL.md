@@ -25,6 +25,7 @@ Trigger when the user:
 - Asks to make a section clearer to non-specialists, more educational, more readable, or easier to understand.
 - Asks for editorial or structural feedback, or whether a section "flows".
 - Asks for help responding to reviewer comments on a paper.
+- Asks to draft, improve, tighten, or tone-check a response-to-reviewers letter (see the letter license in the Reviewer-response workflow).
 - Opens or pastes an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) and signals they want revision.
 
 ## When NOT to use this skill
@@ -92,7 +93,18 @@ When `revision_stage: response to reviewers` or the user pastes reviewer comment
    neither edit. Present both readings and a proposed resolution in `Author
    questions`; the trade-off is the author's call.
 
-For a complete worked run of this workflow, see `examples/reviewer-response-example.md`.
+The response letter itself is a separate deliverable with its own license, distinct
+from the no-drafting scope rule: on request, draft or edit per-comment reply text
+following the rebuttal conventions in `references/structural-patterns.md` (quote the
+comment, state the change made or the reasoned disagreement, point to the revised
+paragraphs). Reply text may restate and cite what the revision did; it must never
+promise or assert analyses, results, or claims the manuscript does not contain, and
+every claimed manuscript change must point at a real location (a page, section, or
+paragraph). A claimed change you cannot verify against the manuscript, and every gap
+between a reviewer request and what the manuscript contains, goes to `Author
+questions`, never left standing in the letter.
+
+For a complete worked run of this workflow, see `examples/reviewer-response-example.md`. For a response-letter run, see `examples/response-letter-example.md`.
 
 ## Constraints (hard rules)
 

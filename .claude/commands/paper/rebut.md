@@ -43,9 +43,14 @@ Preset triage:
   user about the mismatch rather than silently overriding it. Do not reorganize
   structure reviewers accepted.
 
-Return the strict four-section output. For the rebuttal letter itself, the skill
-can draft per-comment phrasing on request using the rebuttal conventions in
-`references/structural-patterns.md`.
+Return the strict four-section output. This command revises the manuscript section
+only. The response letter itself is a separate deliverable with its own license: on
+request, draft or edit per-comment reply text following the rebuttal conventions in
+`references/structural-patterns.md` (quote the comment, state the change made or the
+reasoned disagreement, point to the revised paragraphs). Reply text may restate and
+cite what the revision did; it must never promise or assert analyses, results, or
+claims the manuscript does not contain, and every such gap goes to `Author questions`.
+`/paper:letter` runs that lane on the whole letter.
 
 Reviewer comments and section:
 

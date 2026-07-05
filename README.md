@@ -35,6 +35,7 @@ Talk to the agent in plain English. Common requests and what each produces:
 | "Is my abstract a pleasure to read? Just give me feedback." | Diagnosis only, no rewrite. |
 | "Tighten this paragraph." | Cuts what does not earn its place, and logs every cut with a reason. |
 | "Reviewer 2 says my methods are unclear. Here are the comments." | Edits only the paragraphs the reviewer flagged, and flags anything it cannot fix from your text alone. |
+| "Tighten our response letter; the reply to R1 sounds defensive." | Recalibrates the letter's tone without conceding your positions, and checks every "we changed X" claim against the manuscript. |
 
 Every run returns the same four labelled sections, so you always know how to read it:
 
@@ -325,6 +326,7 @@ Each file in `examples/` is a complete run you can read before trying your own. 
 - [`worked-example.md`](examples/worked-example.md): the place to start. A flawed first-draft introduction in, the four-section output out, every constraint honored.
 - [`exposition-introduction.md`](examples/exposition-introduction.md), [`exposition-methods.md`](examples/exposition-methods.md), [`exposition-results.md`](examples/exposition-results.md): making a section clearer to a non-specialist (restoring a missing gap, moving intuition ahead of machinery, turning a table into a takeaway).
 - [`reviewer-response-example.md`](examples/reviewer-response-example.md): a response-to-reviewers run that edits only the flagged paragraphs and flags what it cannot fix.
+- [`response-letter-example.md`](examples/response-letter-example.md): the letter lane for the same revision (tone recalibrated without conceding a position, every claimed change checked against the manuscript).
 - [`restraint-example.md`](examples/restraint-example.md): strong prose returned almost unchanged, showing the editor declining edits that would be different rather than better.
 
 ## Invoking the skill
@@ -336,7 +338,7 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 
 ### Structured slash commands (Claude Code)
 
-For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. The section commands pre-set the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatch to the `paper-reviser` subagent. `revise`, `feedback`, `clarify`, `human`, and `polish` follow or, for `polish`, pin the `revision_stage` in your `<paper_context>`; `rebut` applies response-to-reviewers scope (pasting reviewer comments is itself a trigger in the skill) and tells you if your stored stage says otherwise, and `polish` likewise warns when the stored stage is not `final polish`. `consistency` is a whole-paper diagnosis only (no rewrite), and `triage` is likewise diagnosis-only: it takes the decision letter rather than a section and returns the severity-ranked comment table, section mapping, and order of work that opens a major revision. `loop` is different in kind: it emits the staged whole-paper plan, then drives it one section at a time, calling the other commands and pausing at each author checkpoint, rather than running a single pass itself. See [the complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) for the steps it drives.
+For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. The section commands pre-set the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatch to the `paper-reviser` subagent. `revise`, `feedback`, `clarify`, `human`, and `polish` follow or, for `polish`, pin the `revision_stage` in your `<paper_context>`; `rebut` applies response-to-reviewers scope (pasting reviewer comments is itself a trigger in the skill) and tells you if your stored stage says otherwise, and `polish` likewise warns when the stored stage is not `final polish`. `consistency` is a whole-paper diagnosis only (no rewrite), and `triage` is likewise diagnosis-only: it takes the decision letter rather than a section and returns the severity-ranked comment table, section mapping, and order of work that opens a major revision. `letter` closes that round: it drafts or improves the response letter itself under its own license (reply text may restate what the revision did, never promise what the manuscript lacks, and every claimed change must point at a real location). `loop` is different in kind: it emits the staged whole-paper plan, then drives it one section at a time, calling the other commands and pausing at each author checkpoint, rather than running a single pass itself. See [the complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) for the steps it drives.
 
 | Command | What it does |
 |---------|--------------|
@@ -346,6 +348,7 @@ For predictable, one-shot invocation, the repo ships a `paper:` command namespac
 | `/paper:human` | Narrative-spine plus AI-tell scrub: read more human, less LLM. |
 | `/paper:rebut` | Response-to-reviewers workflow: map comments, edit only flagged paragraphs. |
 | `/paper:triage` | Decision-letter triage (no rewrite): severity-ranked comment table, section mapping, suggested order of work. |
+| `/paper:letter` | Draft or improve the response-to-reviewers letter; every claimed change is checked against the manuscript. |
 | `/paper:polish` | Final-polish pass: sentence-level copyediting only, no restructuring. |
 | `/paper:consistency` | Whole-paper cross-section check (no rewrite): terminology, claim, and contribution drift, stale summaries. |
 | `/paper:loop` | Emits the staged whole-paper edit plan and drives it section by section, pausing at each author checkpoint. |
@@ -365,7 +368,7 @@ When you ask an agent to "revise the introduction" or "respond to reviewer 2", t
 | `SKILL.md` | The skill itself (frontmatter + instructions) |
 | `references/` | Load-on-demand reference material, including reader-experience and research-paper copyediting checks |
 | `.claude/agents/paper-reviser.md` | Claude Code subagent that dispatches to the skill |
-| `.claude/commands/paper/` | Claude Code slash commands: section passes (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`), the whole-paper `/paper:consistency` check, the `/paper:triage` decision-letter triage, and the `/paper:loop` planner-driver |
+| `.claude/commands/paper/` | Claude Code slash commands: section passes (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`), the whole-paper `/paper:consistency` check, the `/paper:triage` decision-letter triage, the `/paper:letter` response-letter lane, and the `/paper:loop` planner-driver |
 | `install.sh` | Installer, updater, uninstaller; registers `paper:` commands via `--init` (this repo) or `--commands` (all projects); supports `--ref`, `--version`, `--check` |
 | `scripts/` | Maintenance helpers: `check-version.sh`, `bump-version.sh`, `lint.sh` |
 | `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
@@ -375,6 +378,7 @@ When you ask an agent to "revise the introduction" or "respond to reviewer 2", t
 | `examples/exposition-methods.md` | Exposition run: a methods paragraph that opens on machinery |
 | `examples/exposition-results.md` | Exposition run: a results paragraph that reports numbers but no takeaway |
 | `examples/reviewer-response-example.md` | Reviewer-response run: comment mapping, flagged-paragraph-only edits, gaps flagged |
+| `examples/response-letter-example.md` | Response-letter run: tone recalibrated, claimed changes verified against the manuscript |
 | `examples/restraint-example.md` | Restraint run: strong prose returned almost verbatim, declined edits logged |
 | `examples/AGENTS.md.template` | Drop into a paper repo as `AGENTS.md` |
 | `examples/CLAUDE.md.template` | Drop into a paper repo as `CLAUDE.md` (bridge to AGENTS.md) |
