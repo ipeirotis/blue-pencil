@@ -14,12 +14,16 @@ conservatively.**
 
 The value provided below names the manuscript: a root directory to scan for
 section files, an explicit list of section files, or a root or wrapper TeX file
-(for example `paper.tex` or `main.tex`). When it is a wrapper, follow its `\input{...}` and
-`\include{...}` graph recursively to find the actual section files rather than
-treating the wrapper as one section; that graph is the paper. When it is one
-monolithic file with no includes, treat `\section{...}` commands or Markdown
-headings as the section list: confirm that detected list with the author in
-Step A and process one heading at a time, exactly as the loop would process
+(for example `paper.tex` or `main.tex`). For a TeX root, the test is where the
+manuscript prose lives, not whether the file has includes. When it is a thin
+wrapper whose `\input{...}` and `\include{...}` graph carries the sections,
+follow that graph recursively to find the actual section files rather than
+treating the wrapper as one section; that graph is the paper. When the sections
+live inline in the file itself (its `\section{...}` commands or Markdown
+headings carry the prose, even when ancillary includes pull in a preamble,
+macro definitions, a bibliography helper, or appendix metadata), treat the
+inline headings as the section list: confirm that detected list with the author
+in Step A and process one heading at a time, exactly as the loop would process
 section files. If it is empty, ask for the manuscript location before doing
 anything else.
 

@@ -19,8 +19,11 @@ Preset triage, so the skill does not need to ask:
   section before proceeding.
 - **Aggressiveness:** follow the `revision_stage` in the paper's
   `<paper_context>` (read `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`).
-  Do not override the stage to fit the request; if the context block is missing,
-  stop and surface that gap.
+  Do not override the stage to fit the request. If the context block is missing,
+  follow the skill's context fallback: use any context answers this dispatch
+  carries; if the request shows the user was already asked and declined or
+  answered partially, proceed with the skill's conservative defaults and an
+  `Assumed context:` line; only otherwise surface the single ask-once question.
 
 Apply the full diagnostic lens and return the strict four-section output
 (`Diagnosis`, `Revised text`, `Change rationale`, `Author questions`) and

@@ -55,10 +55,16 @@ toward more restrictive scopes, from unambiguous signals: pasted reviewer commen
 imply response-to-reviewers scope, and "camera-ready" or "proofs" language implies
 `final polish`; never assume `first draft` without the author's explicit
 confirmation. If the user answers partially or declines, proceed with the most
-conservative assumptions: treat the stage as `final polish`, and open the Diagnosis
-with an `Assumed context:` line naming every assumed value so the author can correct
-it. Never assume a stage more permissive than `final polish`, and never guess venue
-or audience from prose style.
+conservative assumptions rather than asking again, one default per field: treat the
+stage as `final polish`; default `audience` to the skill's reader model (a trained
+reader of the manuscript's broad field who is not expert in this exact topic, per
+`references/exposition.md`); treat `target_venue` and `core_thesis` as unknown and
+skip any check that needs one (venue-specific framing, the memorable-idea comparison
+against `core_thesis`), saying so. Open the Diagnosis with an `Assumed context:` line
+naming every assumed or unknown value so the author can correct it. Never assume a
+stage more permissive than `final polish`, and never guess a specific venue or
+audience from prose style: the generic defaults above are stated assumptions, not
+guesses.
 
 ## Input formats and messy input
 

@@ -38,8 +38,9 @@ Run the workflow exactly:
 7. After the four-section output, append a comment-to-change table so the
    author can carry it into the response letter: one row per reviewer comment
    with columns Comment, Paragraph(s), Status (addressed in text / flagged in
-   Author questions / needs new analysis), and Where (the paragraph label or
-   question item). Every reviewer comment appears in exactly one row.
+   Author questions / needs new analysis / rebut-only, answered in the letter
+   with no manuscript change), and Where (the paragraph label, question item,
+   or the letter). Every reviewer comment appears in exactly one row.
 
 Preset triage:
 
