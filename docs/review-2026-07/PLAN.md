@@ -25,8 +25,8 @@ flag it in the PR rather than improvising a new design.
 |---|---|---|---|
 | 1. Plumbing + docs | #28 | v1.23.0 | merged |
 | 2. Rule-system rewrite | #29 | v1.24.0 | merged |
-| 3. Examples + CI (atomic) | #30 | v1.25.0 | in review |
-| 4. Capability: triage, letter, fallback | | v1.26.0 | not started |
+| 3. Examples + CI (atomic) | #30 | v1.25.0 | merged |
+| 4. Capability: triage, letter, fallback | | v1.26.0 | in review |
 | 5+. Addendum lanes (one PR each) | | v1.27.0+ | not started |
 
 Merge strictly in order: Batch 2 depends on nothing, Batch 3 depends on Batch 2's
@@ -152,23 +152,23 @@ heading) fails CI locally.
 
 ## Batch 4: capability (v1.26.0; may split into 4a/4b)
 
-- [ ] Conflict 2 resolution: context fallback (B-G4 + restrictive-only stage
+- [x] Conflict 2 resolution: context fallback (B-G4 + restrictive-only stage
       inference; never assume `first draft`; `Assumed context:` line)
-- [ ] E1/M3 + A-F10: `/paper:triage` command (decision letter in; severity-ranked
+- [x] E1/M3 + A-F10: `/paper:triage` command (decision letter in; severity-ranked
       comment table, section mapping, work order out; diagnosis-only)
-- [ ] E3 + B-G9 + A-F11: `/paper:letter` command + `examples/`
+- [x] E3 + B-G9 + A-F11: `/paper:letter` command + `examples/`
       response-letter example (may restate what the revision did; never promise
       what the manuscript lacks; every claimed change points at a real location)
-- [ ] A-G9/B-E2: comment-to-change status table appended to `rebut` output
-- [ ] B-C4 + B-E6b: monolithic-file section detection; "cut to fit N pages"
+- [x] A-G9/B-E2: comment-to-change status table appended to `rebut` output
+- [x] B-C4 + B-E6b: monolithic-file section detection; "cut to fit N pages"
       routes into subtraction with a target and a reported gap
-- [ ] A-G5/B-M9: "Input formats and messy input" section (Word/OCR/PDF/paste)
-- [ ] B-C8: dispatch-completeness rule (commands pass everything the isolated
+- [x] A-G5/B-M9: "Input formats and messy input" section (Word/OCR/PDF/paste)
+- [x] B-C8: dispatch-completeness rule (commands pass everything the isolated
       subagent needs; drop "the conversation" from `rebut.md`)
-- [ ] A-D7/B-E7: author-edit preservation rule (current file is the author's
+- [x] A-D7/B-E7: author-edit preservation rule (current file is the author's
       decision record; never re-propose a rejected edit)
-- [ ] B-M7: consistency checklist moves to `references/consistency-checks.md`
-- [ ] Release: CHANGELOG, `make bump VERSION=1.26.0`, `make test`
+- [x] B-M7: consistency checklist moves to `references/consistency-checks.md`
+- [x] Release: CHANGELOG, `make bump VERSION=1.26.0`, `make test`
 
 ## Batch 5+: addendum lanes (one PR and one release each, in this order)
 
