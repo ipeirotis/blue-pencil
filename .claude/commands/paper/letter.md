@@ -21,8 +21,10 @@ rebuttal conventions in `references/structural-patterns.md` before diagnosing.
 The text provided below may hold: an existing draft letter to improve (the
 common case), or the comment set plus the author's decisions and change log to
 assemble a letter from, plus the revised manuscript (or file paths to it) for
-cross-checking. If neither a draft letter nor a comment set is present, ask for
-one before doing anything else. Assembling a letter needs the author's
+cross-checking. If it names files, read them first; decide which inputs are
+present from the contents, never from the filenames alone. If neither a draft
+letter nor a comment set is present after reading, ask for one before doing
+anything else. Assembling a letter needs the author's
 decisions: when the input carries reviewer comments but no draft letter and no
 author decisions or change log, do not choose concessions, disagreements, or
 claimed changes yourself; ask for the author's per-comment decisions (agree or
@@ -65,7 +67,10 @@ Preset triage:
 - **Scope:** direct rewrite of the letter (or assembly from the supplied
   parts). The letter is the unit; the manuscript is read-only cross-check
   material, never edited by this command.
-- **Unit:** the letter provided below.
+- **Unit:** the letter provided below, or, in assembly mode, the supplied
+  bundle (comment set, author decisions, change log) the letter is assembled
+  from; either counts as a complete unit, so do not ask again for a draft
+  letter the assembly inputs replace.
 - **Aggressiveness:** the letter is not the manuscript, so the manuscript
   stage gates do not bind its prose; the protection constraints still do.
   Quoted reviewer text stays verbatim, and every number, citation, location,
