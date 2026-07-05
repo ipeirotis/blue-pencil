@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.27.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.28.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -157,8 +157,9 @@ checkpoint loop and for single-section requests.)
 Answer the `Author questions` the cold read raises and confirm its dispatch
 list before asking for any rewrite. They flag missing claims, evidence,
 examples, mechanisms, definitions, or a thesis mismatch that the skill is not
-allowed to resolve by inventing content, because it edits existing prose
-rather than drafting new content.
+allowed to resolve by inventing content: the skill's master rule is to never
+assert unverified substance, so material the manuscript lacks is a question
+for the author, never an edit.
 
 ### Step 2: Rewrite section by section
 
