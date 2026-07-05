@@ -170,7 +170,10 @@ computation or retrieval is a question for the author, never an edit. This
 skill's tool surface performs no computation and no retrieval, so under it the
 only verified substance is the author's own; a companion lane that can compute
 or retrieve carries its own tools and provenance rules and answers to the same
-master rule.
+master rule. Substance means manuscript content, stated in or about the paper:
+editorial reporting about your own edit (the approximate `Word count:` line,
+paragraph labels, counts of findings in the Diagnosis) asserts nothing about
+the paper and is outside the rule.
 
 1. Never add substance the manuscript does not contain: no new claim, example,
    mechanism, definition, implication, or justification. Surfacing and reordering
