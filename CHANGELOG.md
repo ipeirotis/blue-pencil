@@ -15,7 +15,7 @@ Batch 5c of the 2026-07 skill review: the analyst lane's first capability, numbe
 
 ### Changed
 
-- `install.sh` registers every shipped subagent by globbing `.claude/agents/*.md` (mirroring the existing command glob) instead of hardcoding `paper-reviser.md`, so `--init` and `--commands` pick up `paper-analyst.md` and any future lane agent; the uninstall manifest logic already handled the general case. README documents the lane (command table, the analyst-lane paragraph, the loop's Step 1 option, the honest-limit note that numbers are now verifiable where a pipeline exists).
+- `install.sh` registers every shipped subagent by globbing `.claude/agents/*.md` (mirroring the existing command glob) instead of hardcoding `paper-reviser.md`, so `--init` and `--commands` pick up `paper-analyst.md` and any future lane agent; the uninstall manifest logic already handled the general case. README documents the lane (command table, the analyst-lane paragraph, the loop's Step 1 option, the honest-limit note that numbers are now verifiable where a pipeline exists), and `loop.md`'s staged plan carries the conditional verification step after the cold read, gated the same way, so `/paper:loop` users are not silently skipped past it.
 - `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.29.0.
 
 ## [1.28.0] - 2026-07-05
