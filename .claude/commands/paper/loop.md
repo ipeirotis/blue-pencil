@@ -18,14 +18,16 @@ section files, an explicit list of section files, or a root or wrapper TeX file
 manuscript prose lives, not whether the file has includes. When it is a thin
 wrapper whose `\input{...}` and `\include{...}` graph carries the sections,
 follow that graph recursively to find the actual section files rather than
-treating the wrapper as one section; that graph is the paper. When the sections
-live inline in the file itself (its `\section{...}` commands or Markdown
-headings carry the prose, even when ancillary includes pull in a preamble,
-macro definitions, a bibliography helper, or appendix metadata), treat the
-inline headings as the section list: confirm that detected list with the author
-in Step A and process one heading at a time, exactly as the loop would process
-section files. If it is empty, ask for the manuscript location before doing
-anything else.
+treating the wrapper as one section; that graph is the paper. When manuscript
+prose lives inline in the file itself (its `\section{...}` commands or Markdown
+headings carry prose, even when ancillary includes pull in a preamble, macro
+definitions, a bibliography helper, or appendix metadata), the section list is
+the inline headings plus any included file that carries manuscript prose: a
+hybrid root (some sections inline, others behind `\input{...}`) contributes
+both kinds of unit, and ancillary includes are not the paper. Confirm that
+detected list with the author in Step A and process one unit at a time, exactly
+as the loop would process section files. If it is empty, ask for the manuscript
+location before doing anything else.
 
 ## Hard guardrails (do not violate)
 

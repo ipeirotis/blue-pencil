@@ -99,7 +99,10 @@ When the manuscript arrives as one monolithic file (a single `paper.tex`, a
 pasted `.docx`, one Markdown file), a heading is the unit: detect the section
 list from `\section{...}` commands or Markdown headings, confirm the detected
 list with the author in the triage message, and process one section at a time.
-Arriving as one file never licenses a whole-paper one-shot rewrite.
+Arriving as one file never licenses a whole-paper one-shot rewrite. This rule
+binds even when a command preset names the supplied text as "the section": a
+supplied unit that turns out to be a whole manuscript (multiple top-level
+sections) is split and confirmed, never edited as one section.
 
 ## Revision stage controls aggressiveness
 

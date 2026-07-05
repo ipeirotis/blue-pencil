@@ -40,7 +40,10 @@ Run the workflow exactly:
    with columns Comment, Paragraph(s), Status (addressed in text / flagged in
    Author questions / needs new analysis / rebut-only, answered in the letter
    with no manuscript change), and Where (the paragraph label, question item,
-   or the letter). Every reviewer comment appears in exactly one row.
+   or the letter). Every reviewer comment appears in exactly one row, except
+   that a compound comment bundling asks with different outcomes splits into
+   labeled sub-rows (`R2.1a`, `R2.1b`), one per ask, so a completed change
+   never hides an unresolved part behind the same Status.
 
 Preset triage:
 

@@ -18,7 +18,12 @@ Preset triage, so the skill does not need to ask:
   bullets for the top diagnosis items instead of change lines (per the skill's
   output contract).
 - **Unit:** the section provided below (a file path to read, or pasted text).
-  If neither is present, ask which section before proceeding.
+  If neither is present, ask which
+  section before proceeding. If the provided unit is actually a whole
+  manuscript (multiple `\section{...}` commands or top-level headings), follow
+  the skill's monolithic-file rule instead of treating it as one section:
+  confirm the detected section list with the author and process one section at
+  a time.
 - **Aggressiveness:** diagnosis is bound by the `revision_stage` in the paper's
   `<paper_context>` (read `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`).
   Do not propose changes outside what that stage permits.

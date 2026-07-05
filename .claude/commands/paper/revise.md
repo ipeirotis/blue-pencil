@@ -16,7 +16,11 @@ Preset triage, so the skill does not need to ask:
 - **Scope:** direct rewrite.
 - **Unit:** the section provided below (treat it as a file path to read if it
   looks like one, otherwise as pasted text). If neither is present, ask which
-  section before proceeding.
+  section before proceeding. If the provided unit is actually a whole
+  manuscript (multiple `\section{...}` commands or top-level headings), follow
+  the skill's monolithic-file rule instead of treating it as one section:
+  confirm the detected section list with the author and process one section at
+  a time.
 - **Aggressiveness:** follow the `revision_stage` in the paper's
   `<paper_context>` (read `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`).
   Do not override the stage to fit the request. If the context block is missing,

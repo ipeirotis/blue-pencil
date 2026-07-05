@@ -39,8 +39,11 @@ Run the triage:
 5. Map each comment to the manuscript section(s) it touches.
 6. Recommend an order of work mapped onto the other commands: `/paper:rebut`
    per section or cluster for the prose-fixable comments, author work for the
-   new-substance items, `/paper:consistency` over the touched sections once the
-   edits land, and `/paper:letter` to close the round.
+   new-substance items, `/paper:consistency` over the whole in-scope paper once
+   the edits land (not only the touched sections: reviewer-driven edits leave
+   stale summaries in untouched front matter, discussion, and conclusion, which
+   is exactly the drift the check exists to find), and `/paper:letter` to close
+   the round.
 7. Where two comments demand incompatible changes, name the conflict and route
    the choice to `Author questions`, per the skill's reviewer-workflow conflict
    rule; do not pick a side in the ranking.

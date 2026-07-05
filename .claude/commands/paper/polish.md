@@ -27,7 +27,12 @@ Preset triage:
   splitting paragraphs, no new explanatory content, no structural cuts (compress
   only).
 - **Unit:** the section provided below (a file path to read, or pasted text).
-  If neither is present, ask which section before proceeding.
+  If neither is present, ask which
+  section before proceeding. If the provided unit is actually a whole
+  manuscript (multiple `\section{...}` commands or top-level headings), follow
+  the skill's monolithic-file rule instead of treating it as one section:
+  confirm the detected section list with the author and process one section at
+  a time.
 - **Aggressiveness:** apply `final polish` constraints, never looser ones.
   Read the stored `revision_stage` in `<paper_context>` (`AGENTS.md`, then
   `CLAUDE.md`, then `paper-meta.md`) and branch on it:
