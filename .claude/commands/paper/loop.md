@@ -82,24 +82,25 @@ file as described above), and return a plan with exactly these parts:
    under a deadline); record that author-approved skip list in the plan and
    treat the skipped sections as out of scope for every later step: the
    Step B pass order, the Step D consistency check, the Step E rerun and
-   re-validation, the Step F polish, and the Step G stop condition.
+   re-validation, the Step F polish, and the Step G stop condition. A
+   whole-paper cold read still reads the skipped sections, since a reader
+   cannot skip them, but its dispatch-list entries for skipped sections are
+   recorded in the plan, never dispatched.
 4. **Recommended pass order** for the whole paper.
 5. **First command to run.**
 6. **Stop and repeat criteria** (the convergence rule in the last step).
 
-Present this and stop. Do not edit anything yet. The example diagnoses every
-section before any rewrite, so global problems (thesis, terminology) surface
-before a single edit is baked in:
+Present this and stop. Do not edit anything yet. The example diagnoses the
+whole paper before any rewrite, so global problems (thesis, terminology,
+reader momentum) surface before a single edit is baked in:
 
 ```
 Detected revision_stage: first draft.
 Recommended loop:
-  Phase 1, diagnose every section (feedback only, no rewriting):
-    /paper:feedback sections/abstract.tex
-    /paper:feedback sections/intro.tex
-    /paper:feedback sections/results.tex
-    ... (one per section)
-    Then resolve the Author questions collected across all sections.
+  Phase 1, diagnose globally (one whole-paper cold read, no rewriting):
+    /paper:read paper.tex
+    Then resolve the Author questions it raises and confirm its
+    prioritized dispatch list; that list feeds the Phase 2 pass order.
   Phase 2, rewrite section by section in the Step B order:
     /paper:revise sections/abstract.tex
     If exposition gaps remain: /paper:clarify sections/abstract.tex
@@ -109,13 +110,18 @@ Recommended loop:
   Phase 3, validate and polish:
     /paper:consistency paper.tex
     Rerun the abstract and introduction, re-check consistency,
+    then /paper:read paper.tex to confirm the exit criterion,
     then /paper:polish each section.
 ```
 
 ## Step B: Recommended pass order
 
-Diagnose every section first (feedback only) and resolve the Author questions
-collected across all sections, then rewrite in this order:
+Diagnose globally first: one whole-paper cold read (`/paper:read`, whose
+protocol lives in the skill's `references/cold-read.md`), not a per-section
+feedback sweep, so the diagnosis measures the front-to-back reading experience
+the per-section passes never see. Resolve the `Author questions` it raises,
+then rewrite in this order, using the cold read's prioritized dispatch list to
+decide which sections need which targeted passes:
 
 `abstract -> introduction -> results -> methods -> related work -> discussion -> conclusion`
 
@@ -159,8 +165,9 @@ dispatch for the section (per the dispatch guardrail above): the subagent
 cannot see this conversation, so a rejection you do not carry is a rejection
 it cannot honor.
 
-1. **Diagnose:** `feedback` on the section. Always first. Collect its `Author
-   questions`.
+1. **Diagnose:** `feedback` on the section. Always first. Carry the cold
+   read's findings for this section in the dispatch, per the dispatch
+   guardrail above, and collect the pass's `Author questions`.
 2. **Author checkpoint:** the author answers the `Author questions` and folds
    the answers into the source (the missing number, definition, example, or
    mechanism the skill is not allowed to invent). Do not proceed until they are
@@ -222,6 +229,17 @@ so skip this re-validation too. The final polish in Step F is sentence-level
 only and cannot repair fresh cross-section drift, so any drift this rerun
 introduced must be caught and resolved here.
 
+With the re-validation clean, run one more whole-paper cold read
+(`/paper:read`). It reads the full detected section set, including any Step A
+skipped sections, since a reader cannot skip them and a read narrowed to the
+in-scope files would report a clean front-to-back experience without checking
+the actual paper; per the Step A rule, its findings and dispatch-list entries
+confined to skipped sections are recorded in the plan, never dispatched. It is
+the loop's exit criterion (Step G), and it runs before the final polish
+because polish is sentence-level only and cannot repair what the read finds.
+When its dispatch list asks for more than a polish on in-scope sections, feed
+the flagged sections back into the Step B order and return here afterwards.
+
 ## Step F: Final polish (conservative)
 
 Only now, with the author's go-ahead, run `/paper:polish` section by section (or
@@ -245,9 +263,21 @@ Stop the loop when all of these hold:
 - The read-cold pass finds no unclear referents, AI tells, inconsistent terms,
   abbreviation drift, tense drift, unit-format drift, or missing paragraph
   payoff.
+- The Step E closing cold read, run over the full section set, came back
+  clean outside the author-approved skip list: no reading-log break points,
+  the colleague test matches `core_thesis`, no must-fix delight or
+  venue-compliance findings, and a dispatch list asking for nothing beyond the
+  final polish. Findings confined to skipped sections are reported for the
+  author's record but do not block the stop; leaving them unfixed was the
+  author's Step A call.
 
-The correct stopping point is not "nothing more can be rewritten." It is "the
-remaining edits would be merely different rather than better."
+Two stop rules compose here. The cold read decides whether the loop dispatches
+another pass: the loop is done when a cold read of the whole paper comes back
+clean outside the skip list and the colleague test matches `core_thesis`. Inside any
+single dispatched pass, the editor's stop rule is unchanged: the correct
+stopping point is not "nothing more can be rewritten" but "the remaining edits
+would be merely different rather than better", so the cold read's pursuit of a
+delighted reader never justifies churn edits.
 
 ---
 
