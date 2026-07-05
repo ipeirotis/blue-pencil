@@ -99,8 +99,10 @@ Detected revision_stage: first draft.
 Recommended loop:
   Phase 1, diagnose globally (one whole-paper cold read, no rewriting):
     /paper:read paper.tex
-    Then resolve the Author questions it raises and confirm its
-    prioritized dispatch list; that list feeds the Phase 2 pass order.
+    If the repo holds your data and analysis code:
+      /paper:verify-numbers paper.tex   (verification only, no edits)
+    Then resolve the Author questions both passes raise and confirm the
+    read's prioritized dispatch list; that list feeds the Phase 2 pass order.
   Phase 2, rewrite section by section in the Step B order:
     /paper:revise sections/abstract.tex
     If exposition gaps remain: /paper:clarify sections/abstract.tex
@@ -119,7 +121,13 @@ Recommended loop:
 Diagnose globally first: one whole-paper cold read (`/paper:read`, whose
 protocol lives in the skill's `references/cold-read.md`), not a per-section
 feedback sweep, so the diagnosis measures the front-to-back reading experience
-the per-section passes never see. Resolve the `Author questions` it raises,
+the per-section passes never see. When the repo also holds the author's data
+and analysis code, run `/paper:verify-numbers` once after the cold read and
+before any rewrite, so a stale number is caught before the prose passes repeat
+it; the command is gated (it needs that pipeline and a shell) and reports what
+is missing instead of checking anything when the gate fails, and its
+recomputed values are proposals the author applies to the source, never edits
+the loop performs. Resolve the `Author questions` these global passes raise,
 then rewrite in this order, using the cold read's prioritized dispatch list to
 decide which sections need which targeted passes:
 

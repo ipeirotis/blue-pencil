@@ -28,8 +28,9 @@ flag it in the PR rather than improvising a new design.
 | 3. Examples + CI (atomic) | #30 | v1.25.0 | merged |
 | 4. Capability: triage, letter, fallback | #31 | v1.26.0 | merged |
 | 5a. Reader lane: `/paper:read` + cold read | #32 | v1.27.0 | merged |
-| 5b. Master-rule split | #33 | v1.28.0 | in review |
-| 5c+. Remaining addendum lanes (one PR each) | | v1.29.0+ | not started |
+| 5b. Master-rule split | #33 | v1.28.0 | merged |
+| 5c. Analyst lane: `/paper:verify-numbers` | #34 | v1.29.0 | in review |
+| 5d+. Remaining addendum lanes (one PR each) | | v1.30.0+ | not started |
 
 Merge strictly in order: Batch 2 depends on nothing, Batch 3 depends on Batch 2's
 constraint wording, the addendum depends on Batch 2's master-rule ground. Each PR
@@ -183,9 +184,9 @@ subagents with their own tool lists. `SKILL.md`'s `allowed-tools` stays
       editor-lane stop rule (PR #32, v1.27.0)
 - [x] 5b: master-rule split (B-A2 wording: never assert unverified substance)
       (PR #33, v1.28.0)
-- [ ] 5c: `/paper:verify-numbers` + `references/analysis-integrity.md`
+- [x] 5c: `/paper:verify-numbers` + `references/analysis-integrity.md`
       (provenance, no forking paths) as a gated `paper-analyst` agent;
-      verification only
+      verification only (PR #34, v1.29.0)
 - [ ] 5d: `/paper:scholar` + `references/literature-checks.md` (retrieved, not
       remembered; leads, not verdicts) as a gated `paper-scholar` agent;
       citation verification before novelty scan

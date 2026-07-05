@@ -19,7 +19,7 @@
 #   ./install.sh --update     # update the clone (every linked tool sees the new content)
 #   ./install.sh --uninstall  # remove both symlinks
 #   ./install.sh --init       # scaffold AGENTS.md and register paper: commands in the current paper repo
-#   ./install.sh --commands   # register paper: commands and the paper-reviser agent for all projects (~/.claude)
+#   ./install.sh --commands   # register paper: commands and the paper subagents for all projects (~/.claude)
 #   ./install.sh --check      # show install state
 #   ./install.sh --version    # print the installed version
 #
@@ -76,7 +76,7 @@ Usage:
   install.sh --update     Update the clone (both targets update at once)
   install.sh --uninstall  Remove both symlinks
   install.sh --init       Scaffold AGENTS.md and register paper: commands in the current paper repo
-  install.sh --commands   Register paper: commands and the paper-reviser agent for all projects (~/.claude)
+  install.sh --commands   Register paper: commands and the paper subagents for all projects (~/.claude)
   install.sh --check      Show install state and the tracked ref
   install.sh --version    Print the installed version
   install.sh --ref REF    Install or update to a tag, branch, or commit
@@ -330,7 +330,7 @@ run_update() {
   fi
 }
 
-# Remove the global paper: commands and the paper-reviser agent that --commands
+# Remove the global paper: commands and the paper subagents that --commands
 # installs under ~/.claude, using the manifest written at install time. Only the
 # files we recorded are removed, so a user's own files in the paper/ namespace and
 # an older manual copy we never recorded are preserved. The manifest is local, so
@@ -342,7 +342,7 @@ remove_commands() {
   local claude_dir="$base/.claude"
   local manifest="$claude_dir/$MANIFEST_REL"
   if [ ! -f "$manifest" ]; then
-    if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ]; then
+    if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ] || [ -f "$claude_dir/agents/paper-analyst.md" ]; then
       echo "  note: no install manifest at $manifest; leaving global paper: files in place (remove by hand if you copied them yourself)."
     fi
     return 0
@@ -435,18 +435,18 @@ backup_if_unmanaged() {
   echo "  backed up existing $dest -> $dest.bak"
 }
 
-# Copy the paper: slash commands and the paper-reviser subagent out of the
-# skill and into a .claude/ tree. Claude Code registers commands from
-# <project>/.claude/commands/ or ~/.claude/commands/ and subagents from the
-# matching agents/ dirs; it never registers either from inside an installed
-# skill directory. So even though the skill ships these files, they take effect
-# only once copied here. Idempotent: it refreshes the paper/ command set and the
-# paper-reviser agent in place. $1 is the .claude parent (a repo root or $HOME);
-# $2 is the skill source dir.
+# Copy the paper: slash commands and the paper subagents (paper-reviser,
+# paper-analyst) out of the skill and into a .claude/ tree. Claude Code
+# registers commands from <project>/.claude/commands/ or ~/.claude/commands/
+# and subagents from the matching agents/ dirs; it never registers either from
+# inside an installed skill directory. So even though the skill ships these
+# files, they take effect only once copied here. Idempotent: it refreshes the
+# paper/ command set and the agents in place. $1 is the .claude parent (a repo
+# root or $HOME); $2 is the skill source dir.
 install_commands() {
   local base="$1" src="$2"
   local cmd_src="$src/.claude/commands/paper"
-  local agent_src="$src/.claude/agents/paper-reviser.md"
+  local agent_src="$src/.claude/agents"
   if [ ! -d "$cmd_src" ]; then
     echo "ERROR: cannot find $cmd_src" >&2
     return 1
@@ -469,7 +469,10 @@ install_commands() {
     [ -e "$f" ] || continue
     new_list+=("commands/paper/$(basename "$f")")
   done
-  [ -f "$agent_src" ] && new_list+=("agents/paper-reviser.md")
+  for f in "$agent_src"/*.md; do
+    [ -e "$f" ] || continue
+    new_list+=("agents/$(basename "$f")")
+  done
 
   # Prior manifest content, used both to drop stale managed files and to decide
   # which pre-existing files are ours to overwrite silently.
@@ -498,11 +501,17 @@ install_commands() {
     cp "$f" "$dest"
   done
   echo "  registered paper: commands -> $claude_dir/commands/paper/"
-  if [ -f "$agent_src" ]; then
-    local agent_dest="$claude_dir/agents/paper-reviser.md"
-    backup_if_unmanaged "$agent_dest" "$agent_src" "agents/paper-reviser.md" "$old_manifest"
-    cp "$agent_src" "$agent_dest"
-    echo "  registered paper-reviser agent -> $agent_dest"
+  local agents_registered=0
+  for f in "$agent_src"/*.md; do
+    [ -e "$f" ] || continue
+    bn="$(basename "$f")"
+    dest="$claude_dir/agents/$bn"
+    backup_if_unmanaged "$dest" "$f" "agents/$bn" "$old_manifest"
+    cp "$f" "$dest"
+    agents_registered=1
+  done
+  if [ "$agents_registered" -eq 1 ]; then
+    echo "  registered paper subagents -> $claude_dir/agents/"
   fi
 
   # Record exactly what we installed, so refresh and uninstall touch only these.
@@ -552,7 +561,7 @@ run_commands() {
   local src
   src="$(resolve_source)"
   ensure_source_current "$src"
-  echo "Registering paper: commands and the paper-reviser agent for all projects (~/.claude)"
+  echo "Registering paper: commands and the paper subagents for all projects (~/.claude)"
   # The agent loads the skill from ~/.claude/skills, so install the skill too;
   # otherwise the commands would resolve but every invocation would dead-end on
   # a missing skill. Idempotent, so running --commands after a normal install is

@@ -1,10 +1,10 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; or draft, improve, or tighten a response-to-reviewers letter. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; draft, improve, or tighten a response-to-reviewers letter; or take a request to check the paper's numbers against the repository's data and analysis pipeline and route it to the gated analyst lane (/paper:verify-numbers). Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.28.0"
+  version: "1.29.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -28,6 +28,7 @@ Trigger when the user:
 - Asks for help responding to reviewer comments on a paper.
 - Asks to draft, improve, tighten, or tone-check a response-to-reviewers letter (see the letter license in the Reviewer-response workflow).
 - Opens or pastes an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) and signals they want revision.
+- Asks to check, verify, or reconcile the paper's reported numbers against the repository's data or analysis pipeline. The request must reach this skill for the handoff to happen; the skill then routes it to the analyst lane instead of editing (see "When NOT to use this skill").
 
 ## When NOT to use this skill
 
@@ -37,6 +38,11 @@ Do not trigger when the user:
 - Asks about citation formatting, BibTeX, reference management, or LaTeX compilation.
 - Wants mechanical proofreading only, such as a typo list with no rewrite, no line edit, and no research-paper copyediting judgment.
 - Wants new content drafted from outlines or notes. This skill edits existing prose under the master rule in Constraints (never assert unverified substance): a section drafted from notes would assert substance it cannot verify. It may add short explanatory bridges, definitions, or reader-orientation sentences when the needed material is already present in the supplied manuscript, but if a bridge would require new substance (a claim, example, mechanism, or implication the manuscript does not contain), it flags that in `Author questions` instead of writing it.
+- Wants the manuscript's reported numbers verified, recomputed, or reconciled
+  against the repository's data and analysis code. That is the analyst lane
+  (`/paper:verify-numbers`, protocol in `references/analysis-integrity.md`),
+  which carries its own tools and provenance rules; this skill treats numbers
+  as protected content and flags them, it does not verify them.
 - Is editing non-academic writing (blogs, marketing copy, fiction).
 - Is working on a grant proposal, unless they explicitly ask for this skill by name or for its editorial passes on the grant text. Grant narratives are served on explicit request only, under the same constraints, using the grant guidance in `references/structural-patterns.md`; never auto-trigger on grant material.
 
@@ -170,7 +176,11 @@ computation or retrieval is a question for the author, never an edit. This
 skill's tool surface performs no computation and no retrieval, so under it the
 only verified substance is the author's own; a companion lane that can compute
 or retrieve carries its own tools and provenance rules and answers to the same
-master rule. Substance means manuscript content, stated in or about the paper:
+master rule. The first such lane exists: number verification against the
+repo's own analysis pipeline lives in `references/analysis-integrity.md`,
+dispatched by `/paper:verify-numbers` to the `paper-analyst` subagent, and
+runs only where the repo carries the author's data and analysis code and the
+environment grants a shell. Substance means manuscript content, stated in or about the paper:
 editorial reporting about your own edit (the approximate `Word count:` line,
 paragraph labels, counts of findings in the Diagnosis) asserts nothing about
 the paper and is outside the rule.
@@ -451,3 +461,4 @@ Bulleted list. Each item is one unverifiable claim, missing evidence, numerical-
 - "Just fix the typos in section 3." -> do not trigger; this is mechanical proofreading, not a research-paper copyedit.
 - "Reviewer 2 says my methodology is unclear." -> trigger; load `revision_stage: response to reviewers`, apply the methodology lens, preserve analytical decisions.
 - "Write me a discussion section based on these results." -> do not trigger; a drafted section asserts substance the skill cannot verify, which the master rule in Constraints forbids.
+- "Are the numbers in the abstract still what the pipeline produces?" -> do not trigger this skill's editing pass; route to the analyst lane (`/paper:verify-numbers`), which reruns the author's own pipeline and reports match, mismatch, or unverifiable with provenance.
