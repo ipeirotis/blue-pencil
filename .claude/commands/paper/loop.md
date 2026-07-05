@@ -14,10 +14,20 @@ conservatively.**
 
 The value provided below names the manuscript: a root directory to scan for
 section files, an explicit list of section files, or a root or wrapper TeX file
-(for example `paper.tex` or `main.tex`). When it is a wrapper, follow its `\input{...}` and
-`\include{...}` graph recursively to find the actual section files rather than
-treating the wrapper as one section; that graph is the paper. If it is empty, ask
-for the manuscript location before doing anything else.
+(for example `paper.tex` or `main.tex`). For a TeX root, the test is where the
+manuscript prose lives, not whether the file has includes. When it is a thin
+wrapper whose `\input{...}` and `\include{...}` graph carries the sections,
+follow that graph recursively to find the actual section files rather than
+treating the wrapper as one section; that graph is the paper. When manuscript
+prose lives inline in the file itself (its `\section{...}` commands or Markdown
+headings carry prose, even when ancillary includes pull in a preamble, macro
+definitions, a bibliography helper, or appendix metadata), the section list is
+the inline headings plus any included file that carries manuscript prose: a
+hybrid root (some sections inline, others behind `\input{...}`) contributes
+both kinds of unit, and ancillary includes are not the paper. Confirm that
+detected list with the author in Step A and process one unit at a time, exactly
+as the loop would process section files. If it is empty, ask for the manuscript
+location before doing anything else.
 
 ## Hard guardrails (do not violate)
 
@@ -36,6 +46,13 @@ for the manuscript location before doing anything else.
   back as an `Author question`, never a silent edit.
 - Stop at each author checkpoint and wait. Do not advance past unresolved
   `Author questions`.
+- Every dispatched pass runs isolated and sees only what the dispatch carries,
+  not this conversation. Pass everything the subagent needs in each dispatch:
+  the section text or path, the reviewer text when relevant, the author's
+  answers to any clarifying question a prior pass raised, and, on a repeat
+  pass over a section, the decision record: the edits the author declined,
+  reworded, or reverted since the last pass, so the across-rounds preservation
+  rule can hold inside an isolated dispatch.
 - Do not repeat a pass merely to get a different rewrite. Unchanged prose is a
   valid successful result, and a rewrite that touches every paragraph is
   suspect.
@@ -55,10 +72,11 @@ file as described above), and return a plan with exactly these parts:
    their neighbours; final polish: sentence-level only). If the stage is
    `response to reviewers`, do not run this whole-paper loop: it would diagnose
    and rewrite sections the reviewers accepted, which that stage gate forbids.
-   Stop here and route the author to `/paper:rebut` (which edits only
-   reviewer-flagged paragraphs and their neighbours), or ask them to move the
-   stage to `first draft` or `final polish` first. Do not change the stage
-   yourself.
+   Stop here and route the author to the response suite: `/paper:triage` on the
+   decision letter first (severity-ranked comment table, section mapping, order
+   of work), then `/paper:rebut` per section (which edits only reviewer-flagged
+   paragraphs and their neighbours); or ask them to move the stage to
+   `first draft` or `final polish` first. Do not change the stage yourself.
 3. **Detected sections**, mapped to files. The author may name detected
    sections to leave out (for example appendices, or low-priority sections
    under a deadline); record that author-approved skip list in the plan and
@@ -131,6 +149,15 @@ The author checkpoint is recurring, not a single gate. Every pass below
 questions`, so after any pass that returns them, stop and resolve them before the
 next pass on this section or the move to the next section. The edits depend on
 the answers, so unresolved questions must not flow into a later pass.
+
+Author edits between passes are part of the decision record: a passage the
+author hand-tuned, reworded, or reverted since the last pass is deliberate, so
+a later pass never re-proposes the rejected edit and notes an apparent
+reversion in `Author questions` once, not on every pass. Track those declined
+and reverted edits as the loop runs, and carry the list in every repeat
+dispatch for the section (per the dispatch guardrail above): the subagent
+cannot see this conversation, so a rejection you do not carry is a rejection
+it cannot honor.
 
 1. **Diagnose:** `feedback` on the section. Always first. Collect its `Author
    questions`.

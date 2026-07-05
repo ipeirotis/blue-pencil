@@ -7,11 +7,18 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
+The subagent is isolated: it sees only what the dispatch carries, not this
+conversation. Pass everything it needs in the dispatched request, including
+the user's answers to any prior clarifying question and, on a repeat pass
+over the same text, the edits the author declined, reworded, or reverted
+since the last pass, so the across-rounds preservation rule can hold inside
+the isolated dispatch.
+
 This invokes the skill's reviewer-response workflow. The text provided below
 may hold the reviewer text directly or file paths to read; if it names files,
 read them first. Do not infer reviewer concerns from the section: only when no
-reviewer text is present in the provided text, the named files, or the
-conversation, ask for it before doing anything else.
+reviewer text is present in the provided text or the named files, ask for it
+before doing anything else.
 
 Run the workflow exactly:
 
@@ -31,6 +38,15 @@ Run the workflow exactly:
 6. Where two reviewer comments demand incompatible edits to the same passage,
    make neither edit; present both readings and a proposed resolution in
    `Author questions`, since the trade-off is the author's call.
+7. After the four-section output, append a comment-to-change table so the
+   author can carry it into the response letter: one row per reviewer comment
+   with columns Comment, Paragraph(s), Status (addressed in text / flagged in
+   Author questions / needs new analysis / rebut-only, answered in the letter
+   with no manuscript change), and Where (the paragraph label, question item,
+   or the letter). Every reviewer comment appears in exactly one row, except
+   that a compound comment bundling asks with different outcomes splits into
+   labeled sub-rows (`R2.1a`, `R2.1b`), one per ask, so a completed change
+   never hides an unresolved part behind the same Status.
 
 Preset triage:
 
@@ -43,9 +59,17 @@ Preset triage:
   user about the mismatch rather than silently overriding it. Do not reorganize
   structure reviewers accepted.
 
-Return the strict four-section output. For the rebuttal letter itself, the skill
-can draft per-comment phrasing on request using the rebuttal conventions in
-`references/structural-patterns.md`.
+Return the strict four-section output. This command revises the manuscript section
+only. The response letter itself is a separate deliverable with its own license: on
+request, draft or edit per-comment reply text following the rebuttal conventions in
+`references/structural-patterns.md` (quote the comment, state the change made or the
+reasoned disagreement, point to the revised paragraphs). Reply text may restate and
+cite what the revision did; it must never promise or assert analyses, results, or
+claims the manuscript does not contain, and every such gap goes to `Author questions`.
+Drafting replies needs the author's decisions: with no per-comment positions or
+change log from the author, ask for them rather than choosing concessions or
+disagreements on the author's behalf. `/paper:letter` runs that lane on the whole
+letter.
 
 Reviewer comments and section:
 

@@ -1,10 +1,10 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; check cross-section consistency; cut a section toward a length limit; or respond to reviewer comments. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; or draft, improve, or tighten a response-to-reviewers letter. Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.25.0"
+  version: "1.26.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -25,6 +25,7 @@ Trigger when the user:
 - Asks to make a section clearer to non-specialists, more educational, more readable, or easier to understand.
 - Asks for editorial or structural feedback, or whether a section "flows".
 - Asks for help responding to reviewer comments on a paper.
+- Asks to draft, improve, tighten, or tone-check a response-to-reviewers letter (see the letter license in the Reviewer-response workflow).
 - Opens or pastes an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) and signals they want revision.
 
 ## When NOT to use this skill
@@ -48,9 +49,63 @@ Look for a `<paper_context>` block in the following files, in order. Use the fir
 
 The block must include `target_venue`, `audience`, `core_thesis`, and `revision_stage`. If any value is missing or ambiguous, stop and ask the user. Do not guess venue or audience from prose style. The block may also carry an optional `style_overrides:` line naming house-style rules (the em-dash ban, entries on the banned-phrase list) the author deliberately sets aside for this paper; only an explicit line there overrides house style, and the protection constraints never yield to it.
 
+If no `<paper_context>` block can exist (no repository: a chat session or a pasted
+section), ask once, in a single message, for the four fields. Infer the stage only
+toward more restrictive scopes, from unambiguous signals: pasted reviewer comments
+imply response-to-reviewers scope, and "camera-ready" or "proofs" language implies
+`final polish`; never assume `first draft` without the author's explicit
+confirmation. If the user answers partially or declines, proceed with the most
+conservative assumptions rather than asking again, one default per field. The stage
+keeps any value the restrictive inference above already set: pasted reviewer
+comments keep response-to-reviewers scope, with its comment mapping and
+flagged-paragraph guard, even when the context question goes unanswered; only with
+no such signal treat the stage as `final polish`. Default `audience` to the skill's reader model (a trained
+reader of the manuscript's broad field who is not expert in this exact topic, per
+`references/exposition.md`); treat `target_venue` and `core_thesis` as unknown and
+skip any check that needs one (venue-specific framing, the memorable-idea comparison
+against `core_thesis`), saying so. Open the Diagnosis with an `Assumed context:` line
+naming every assumed or unknown value so the author can correct it. Never assume a
+stage more permissive than `final polish`, and never guess a specific venue or
+audience from prose style: the generic defaults above are stated assumptions, not
+guesses.
+
+## Input formats and messy input
+
+- **LaTeX** is first-class; return LaTeX per the constraints.
+- **Word or Google Docs**: work on pasted text. Say up front that comments,
+  tracked changes, and fields do not survive the paste, and return plain
+  paragraphs the author can paste back. Treat cross-reference artifacts
+  ("Error! Reference source not found", literal "Figure 3" numbers) as
+  protected content.
+- **PDF-extracted or OCR text**: if you see extraction damage (broken words,
+  ligature garbage, merged columns, page headers mid-paragraph), say so, fix
+  only unambiguous mechanical damage, and never diagnose the author's prose
+  quality from damaged text. If damage is pervasive, ask for a cleaner source
+  instead of editing.
+- **Reviewer comments with no manuscript**: offer triage of the comments
+  (what each asks for, what kind of work it needs), but do not diagnose or
+  rewrite prose you have not seen, and mark as unverified every
+  classification that depends on what the manuscript already contains
+  (prose-fixable versus needs new substance, and any work order built on
+  those calls) until the manuscript is available.
+- **Very long manuscripts**: work section by section (the loop). For
+  whole-paper checks, load the checklist in `references/consistency-checks.md`,
+  build the consistency inventory (`references/copyediting.md`) per section
+  first, then compare inventories against that checklist, rather than holding
+  all prose at once.
+
 ## Triage before full diagnosis
 
 Before applying the diagnostic lens, confirm three things in one short message: (1) scope (feedback only or direct rewrite), (2) unit (whole section or specific paragraphs), (3) aggressiveness within the current `revision_stage`. Ask one clarifying question if unclear.
+
+When the manuscript arrives as one monolithic file (a single `paper.tex`, a
+pasted `.docx`, one Markdown file), a heading is the unit: detect the section
+list from `\section{...}` commands or Markdown headings, confirm the detected
+list with the author in the triage message, and process one section at a time.
+Arriving as one file never licenses a whole-paper one-shot rewrite. This rule
+binds even when a command preset names the supplied text as "the section": a
+supplied unit that turns out to be a whole manuscript (multiple top-level
+sections) is split and confirmed, never edited as one section.
 
 ## Revision stage controls aggressiveness
 
@@ -81,7 +136,24 @@ When `revision_stage: response to reviewers` or the user pastes reviewer comment
    neither edit. Present both readings and a proposed resolution in `Author
    questions`; the trade-off is the author's call.
 
-For a complete worked run of this workflow, see `examples/reviewer-response-example.md`.
+The response letter itself is a separate deliverable with its own license, distinct
+from the no-drafting scope rule: on request, draft or edit per-comment reply text
+following the rebuttal conventions in `references/structural-patterns.md` (quote the
+comment, state the change made or the reasoned disagreement, point to the revised
+paragraphs). Reply text may restate and cite what the revision did; it must never
+promise or assert analyses, results, or claims the manuscript does not contain, and
+every claimed manuscript change must point at a real location (a page, section, or
+paragraph). A claimed change you cannot verify against the manuscript, and every gap
+between a reviewer request and what the manuscript contains, goes to `Author
+questions` as an open flag: keep the author's wording in the letter, since whether a
+change exists is the author's fact to settle, never add or endorse a location or
+change you could not verify, and say the letter is not ready to send while a flag is
+open. Drafting replies needs the author's decisions: with no draft letter and no
+per-comment decisions or change log from the author, do not choose concessions,
+disagreements, or claimed changes on the author's behalf; ask for those decisions
+before writing any reply text.
+
+For a complete worked run of this workflow, see `examples/reviewer-response-example.md`. For a response-letter run, see `examples/response-letter-example.md`.
 
 ## Constraints (hard rules)
 
@@ -208,6 +280,13 @@ deletion, never a compression, whatever its length. Log it in `Change rationale`
 when it touches a numerical or statistical claim, flag it under the numerical-claim
 constraint as well.
 
+Length-limit requests ("cut this to fit the 8-page limit") route here, with the
+target as context, never as a quota: cut by the keep-test toward the target,
+then report the gap between the safe cut and the target instead of forcing it.
+When the safe cut lands short, say by how much, and point at where further
+cuts would do the least harm or what could move to an appendix; closing the
+remaining gap is the author's call.
+
 For the failure modes a naive cut destroys, the blind spot (subtraction never finds the missing step), and a worked example, load `references/subtraction.md`.
 
 ## Section-specific lens
@@ -246,6 +325,16 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - Claims, evidence, and interpretation are distinguishable.
 
 When a passage clears every check, return it verbatim and add `Paragraph N: no safe improvement available` to `Change rationale`. A rewrite that touches every paragraph is suspect. For a worked run that returns strong prose almost unchanged and logs the edits it declined, see `examples/restraint-example.md`.
+
+### Across rounds: the current file is the author's decision record
+
+When a passage changed since your last pass, the author changed it: treat the
+new wording as deliberate, whether they hand-tuned a sentence, reworded your
+suggestion, or reverted an edit outright. Do not edit their wording back toward
+your earlier suggestion, and never re-propose an edit the author has visibly
+rejected, reverted, or reworded in this conversation. Note an apparent
+reversion in `Author questions` once, the first time you see it, not on every
+pass.
 
 ## Voice extraction before rewriting
 
@@ -303,7 +392,7 @@ Open the Diagnosis with header lines according to this table, then the numbered 
 
 The `Voice tics:` line lists three to five tics; the `Reader map:` line takes the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Each extraction line may read `none`; if all three are `none` and the passage clears the restraint checks, return it verbatim and say so in `Change rationale`. Extract the three before drafting the rewrite, from manuscript material only; anything the manuscript lacks goes to `Author questions`. The full definitions and the teaching-gap catalogue live in `references/exposition.md`; that file is the single source for this mechanism.
 
-Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
+Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check; that pass's checklist lives in `references/consistency-checks.md`), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
 
 ### 2. Revised text
 

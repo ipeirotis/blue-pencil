@@ -7,6 +7,13 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
+The subagent is isolated: it sees only what the dispatch carries, not this
+conversation. Pass everything it needs in the dispatched request, including
+the user's answers to any prior clarifying question and, on a repeat pass
+over the same text, the edits the author declined, reworded, or reverted
+since the last pass, so the across-rounds preservation rule can hold inside
+the isolated dispatch.
+
 This is a conservative final-polish pass. Run it only when the section's
 structure, claims, and evidence are stable. Load `references/copyediting.md`,
 `references/ai-tells-to-avoid.md`, and `references/sentence-cohesion.md`. The
@@ -23,7 +30,12 @@ Preset triage:
   splitting paragraphs, no new explanatory content, no structural cuts (compress
   only).
 - **Unit:** the section provided below (a file path to read, or pasted text).
-  If neither is present, ask which section before proceeding.
+  If neither is present, ask which
+  section before proceeding. If the provided unit is actually a whole
+  manuscript (multiple `\section{...}` commands or top-level headings), follow
+  the skill's monolithic-file rule instead of treating it as one section:
+  confirm the detected section list with the author and process one section at
+  a time.
 - **Aggressiveness:** apply `final polish` constraints, never looser ones.
   Read the stored `revision_stage` in `<paper_context>` (`AGENTS.md`, then
   `CLAUDE.md`, then `paper-meta.md`) and branch on it:
