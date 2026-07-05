@@ -29,21 +29,12 @@ Choose the file set by what the provided value is:
 
 If no manuscript is present, ask for it before proceeding.
 
-Do not rewrite. Check whether the abstract, introduction, contribution claims,
-methods, results, discussion, and conclusion describe the same paper, and flag:
-
-- terminology drift (the same construct named differently across sections, or
-  one term naming two constructs)
-- claim drift and result overstatement (a result reported one way in results and
-  a stronger way in the abstract, intro, or discussion)
-- inconsistent contribution framing (contributions named or counted differently
-  across abstract, intro, and conclusion)
-- promise-delivery gaps (claims the intro makes that the body never delivers)
-- missing or out-of-order forward references, and figure, table, theorem, or
-  result callouts that do not resolve
-- citation placeholders left unfilled
-- stale summaries (an abstract or intro that previews a paper the body no longer
-  matches)
+Do not rewrite. Load the skill's `references/consistency-checks.md` and check
+every item on its checklist: terminology drift, claim drift and result
+overstatement, inconsistent contribution framing, promise-delivery gaps,
+callout and forward-reference problems, unfilled citation placeholders, and
+stale summaries. That file owns the checklist and its reporting conventions;
+do not improvise a different list.
 
 Preset triage:
 

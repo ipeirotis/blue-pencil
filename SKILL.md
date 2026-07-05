@@ -370,7 +370,7 @@ Open the Diagnosis with header lines according to this table, then the numbered 
 
 The `Voice tics:` line lists three to five tics; the `Reader map:` line takes the form `starts with [what the reader knows]; must learn [central idea]; should leave with [takeaway]`. Each extraction line may read `none`; if all three are `none` and the passage clears the restraint checks, return it verbatim and say so in `Change rationale`. Extract the three before drafting the rewrite, from manuscript material only; anything the manuscript lacks goes to `Author questions`. The full definitions and the teaching-gap catalogue live in `references/exposition.md`; that file is the single source for this mechanism.
 
-Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
+Then a numbered list. Each item is one structural or stylistic problem with a paragraph reference in square brackets. Cap at seven items, except on a whole-paper diagnosis-only pass (for example a cross-section consistency check; that pass's checklist lives in `references/consistency-checks.md`), whose value is exhaustiveness: there, report every finding, grouping findings by type with counts when the list grows long. Order by category (structure first, sentence-level last).
 
 ### 2. Revised text
 
