@@ -36,7 +36,7 @@ Do not trigger when the user:
 - Asks general writing questions ("what is active voice?", "explain nominalization").
 - Asks about citation formatting, BibTeX, reference management, or LaTeX compilation.
 - Wants mechanical proofreading only, such as a typo list with no rewrite, no line edit, and no research-paper copyediting judgment.
-- Wants new content drafted from outlines or notes. This skill edits existing prose; it does not draft new sections. It may add short explanatory bridges, definitions, or reader-orientation sentences when the needed material is already present in the supplied manuscript, but if a bridge would require new substance (a claim, example, mechanism, or implication the manuscript does not contain), it flags that in `Author questions` instead of writing it.
+- Wants new content drafted from outlines or notes. This skill edits existing prose under the master rule in Constraints (never assert unverified substance): a section drafted from notes would assert substance it cannot verify. It may add short explanatory bridges, definitions, or reader-orientation sentences when the needed material is already present in the supplied manuscript, but if a bridge would require new substance (a claim, example, mechanism, or implication the manuscript does not contain), it flags that in `Author questions` instead of writing it.
 - Is editing non-academic writing (blogs, marketing copy, fiction).
 - Is working on a grant proposal, unless they explicitly ask for this skill by name or for its editorial passes on the grant text. Grant narratives are served on explicit request only, under the same constraints, using the grant guidance in `references/structural-patterns.md`; never auto-trigger on grant material.
 
@@ -159,6 +159,18 @@ For a complete worked run of this workflow, see `examples/reviewer-response-exam
 ## Constraints (hard rules)
 
 Never violate these. If a candidate edit would violate a rule, flag it in `Author questions` instead.
+
+The master rule, of which the substance (1), citation (3), and numerical (4)
+constraints below are instances: never assert unverified substance. Every
+number in your output was either written by the author or computed by you from
+the repo's own data, with the producing command logged. Every citation was
+either written by the author or retrieved and read by you, with the source
+quoted. Every other claim is the author's. Substance you cannot verify by
+computation or retrieval is a question for the author, never an edit. This
+skill's tool surface performs no computation and no retrieval, so under it the
+only verified substance is the author's own; a companion lane that can compute
+or retrieve carries its own tools and provenance rules and answers to the same
+master rule.
 
 1. Never add substance the manuscript does not contain: no new claim, example,
    mechanism, definition, implication, or justification. Surfacing and reordering
@@ -435,4 +447,4 @@ Bulleted list. Each item is one unverifiable claim, missing evidence, numerical-
 - "Make my introduction clearer for a non-specialist; it assumes too much." -> trigger; load `references/exposition.md`, run the exposition pass after argumentation, repair missing definitions and inferential bridges from material already present, and flag the rest in Author questions.
 - "Just fix the typos in section 3." -> do not trigger; this is mechanical proofreading, not a research-paper copyedit.
 - "Reviewer 2 says my methodology is unclear." -> trigger; load `revision_stage: response to reviewers`, apply the methodology lens, preserve analytical decisions.
-- "Write me a discussion section based on these results." -> do not trigger; this skill edits existing prose, it does not draft new sections.
+- "Write me a discussion section based on these results." -> do not trigger; a drafted section asserts substance the skill cannot verify, which the master rule in Constraints forbids.

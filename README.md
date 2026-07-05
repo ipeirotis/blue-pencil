@@ -157,8 +157,9 @@ checkpoint loop and for single-section requests.)
 Answer the `Author questions` the cold read raises and confirm its dispatch
 list before asking for any rewrite. They flag missing claims, evidence,
 examples, mechanisms, definitions, or a thesis mismatch that the skill is not
-allowed to resolve by inventing content, because it edits existing prose
-rather than drafting new content.
+allowed to resolve by inventing content: the skill's master rule is to never
+assert unverified substance, so material the manuscript lacks is a question
+for the author, never an edit.
 
 ### Step 2: Rewrite section by section
 
