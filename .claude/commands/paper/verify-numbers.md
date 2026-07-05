@@ -6,9 +6,13 @@ argument-hint: "[manuscript root or section files; optionally the pipeline entry
 Dispatch the request below to the `paper-analyst` subagent, which loads the
 `paper-revision-editor` skill's analyst lane
 (`references/analysis-integrity.md`) and applies it in an isolated context.
-If that subagent is unavailable, load `references/analysis-integrity.md`
-directly and run its protocol yourself, honoring its gate condition against
-your own tool surface: with no shell tool, or no data and analysis code in
+If that subagent is unavailable, locate the installed skill yourself (check
+`.claude/skills/paper-revision-editor/`,
+`~/.claude/skills/paper-revision-editor/`, and
+`~/.agents/skills/paper-revision-editor/`; the reference file lives inside
+the skill, not next to this command), load its
+`references/analysis-integrity.md`, and run the protocol yourself, honoring
+its gate condition against your own tool surface: with no shell tool, or no data and analysis code in
 the repository, return the degraded report the reference file specifies
 (say which half is missing, assert nothing about the numbers, route the
 question to `Author questions`) instead of improvising a check.

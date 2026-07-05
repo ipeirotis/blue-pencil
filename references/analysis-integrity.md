@@ -31,8 +31,9 @@ it is for the editor.
 
 ## The protocol
 
-Run the five steps in order. Do not reorder them: naming the command before
-running it is what makes the run a verification instead of a search.
+Run the five steps in order. Do not reorder them: the manuscript inventory
+and the producing command are both pinned before the first run, which is
+what makes the run a verification instead of a search.
 
 ### 1. Discover the pipeline
 
@@ -44,31 +45,39 @@ the author which is canonical instead of trying each: trying each is
 specification search. Never write new analysis code, and never modify the
 author's code or data; this lane reads and executes, it does not author.
 
-### 2. State the plan before running
+### 2. Extract the manuscript's numbers
 
-Before executing anything, write down the exact command or commands you
-will run, the manuscript numbers they should reproduce (each with its
-location), and which output you will read the values from. This is the
+Before any command runs, list every number in the requested scope with its
+location: statistics, effect sizes, p-values, sample sizes, percentages,
+counts, table cells, and the numbers quoted in the abstract and
+introduction. The inventory must be complete before you see a single
+pipeline output, so what the pipeline shows you can never shape which
+manuscript values get checked. The abstract and introduction matter most:
+stale values hide where the text was written first and the pipeline rerun
+last.
+
+### 3. State the plan before running
+
+Still before executing anything, write down the exact command or commands
+you will run, which entries of the step 2 inventory they should reproduce,
+and which output you will read the values from. This is the
 no-forking-paths rule at verification scale: the plan is stated once,
 before the first run, and the results are reported against it whichever way
 they point.
 
-### 3. Run and log
+### 4. Run and log
 
 Run the stated commands. Log, for every value you extract: the exact script
-and command, the data version (the commit hash, or the data file's identity
-when data is not versioned), and where in the output the value appears.
-Prefer read-only execution. If the pipeline wants credentials or network
-access, would take very long, or would overwrite the author's existing
-outputs, stop and ask before running.
-
-### 4. Extract the manuscript's numbers
-
-Independently of the run, list every number in the requested scope with its
-location: statistics, effect sizes, p-values, sample sizes, percentages,
-counts, table cells, and the numbers quoted in the abstract and
-introduction. The abstract and introduction matter most: stale values hide
-where the text was written first and the pipeline rerun last.
+and command, the data version, and where in the output the value appears.
+The data version is the commit hash only when the working tree is clean;
+when the analysis code or data carry uncommitted changes, or the data is
+not versioned at all, say so and identify the actual inputs read (for
+example by file path and content hash), since a bare commit hash no longer
+reproduces the run. Prefer read-only execution. If the pipeline wants
+credentials or network access, would take very long, or would write to the
+working tree (overwrite outputs, rebuild generated tables or caches in
+place), stop and ask before running, or use a read-only or dry-run path
+when the pipeline offers one.
 
 ### 5. Diff and report
 
