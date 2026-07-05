@@ -55,10 +55,11 @@ file as described above), and return a plan with exactly these parts:
    their neighbours; final polish: sentence-level only). If the stage is
    `response to reviewers`, do not run this whole-paper loop: it would diagnose
    and rewrite sections the reviewers accepted, which that stage gate forbids.
-   Stop here and route the author to `/paper:rebut` (which edits only
-   reviewer-flagged paragraphs and their neighbours), or ask them to move the
-   stage to `first draft` or `final polish` first. Do not change the stage
-   yourself.
+   Stop here and route the author to the response suite: `/paper:triage` on the
+   decision letter first (severity-ranked comment table, section mapping, order
+   of work), then `/paper:rebut` per section (which edits only reviewer-flagged
+   paragraphs and their neighbours); or ask them to move the stage to
+   `first draft` or `final polish` first. Do not change the stage yourself.
 3. **Detected sections**, mapped to files. The author may name detected
    sections to leave out (for example appendices, or low-priority sections
    under a deadline); record that author-approved skip list in the plan and
