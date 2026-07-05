@@ -36,8 +36,12 @@ Run the letter pass:
    (every reviewer comment answered exactly once).
 2. Verify every claimed change: each "we changed X" line must point at a real
    location (page, section, or paragraph) in the manuscript provided. A
-   claimed change you cannot locate goes to `Author questions`, never left
-   standing.
+   claimed change you cannot locate is flagged in `Author questions` as
+   unverified, with the reply left in the author's wording: whether the change
+   exists is a fact only the author can settle, so deleting the claim and
+   endorsing it are both wrong. Say plainly that the letter is not ready to
+   send while such a flag is open, and never let the letter gain a location or
+   a change you could not verify.
 3. Flag the promise pathology: a reply that promises a future change, or
    agrees while changing nothing, is flagged; reviewers want the change, not
    the promise.

@@ -42,8 +42,11 @@ anything else.
   `Author questions`.
 - Every dispatched pass runs isolated and sees only what the dispatch carries,
   not this conversation. Pass everything the subagent needs in each dispatch:
-  the section text or path, the reviewer text when relevant, and the author's
-  answers to any clarifying question a prior pass raised.
+  the section text or path, the reviewer text when relevant, the author's
+  answers to any clarifying question a prior pass raised, and, on a repeat
+  pass over a section, the decision record: the edits the author declined,
+  reworded, or reverted since the last pass, so the across-rounds preservation
+  rule can hold inside an isolated dispatch.
 - Do not repeat a pass merely to get a different rewrite. Unchanged prose is a
   valid successful result, and a rewrite that touches every paragraph is
   suspect.
@@ -144,7 +147,11 @@ the answers, so unresolved questions must not flow into a later pass.
 Author edits between passes are part of the decision record: a passage the
 author hand-tuned, reworded, or reverted since the last pass is deliberate, so
 a later pass never re-proposes the rejected edit and notes an apparent
-reversion in `Author questions` once, not on every pass.
+reversion in `Author questions` once, not on every pass. Track those declined
+and reverted edits as the loop runs, and carry the list in every repeat
+dispatch for the section (per the dispatch guardrail above): the subagent
+cannot see this conversation, so a rejection you do not carry is a rejection
+it cannot honor.
 
 1. **Diagnose:** `feedback` on the section. Always first. Collect its `Author
    questions`.

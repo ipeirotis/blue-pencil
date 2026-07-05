@@ -217,7 +217,9 @@ against the Section 4.2 excerpt (the selection window and the exclusions are
 both there), so it stands. P4 and P5 carry the two defects only the author can
 resolve (an unverified location claim and a promise without a change);
 rewording them would either invent a change or delete the authors'
-commitment, so both go to Author questions instead. The quoted reviewer
+commitment, so both are flagged in Author questions and left in the authors'
+wording, and the letter is not ready to send until both flags are resolved.
+The quoted reviewer
 comments are reviewer text and stay verbatim throughout, and the F-statistic
 of 48 and the Section 4.2 pointer are carried over unchanged.
 
@@ -243,7 +245,11 @@ of 48 and the Section 4.2 pointer are carried over unchanged.
 - **Every claimed change is checked against the manuscript.** R1.1's claim
   verifies against the Section 4.2 excerpt and stands. R1.3's claim cannot be
   located in the Section 6 excerpt, so it becomes an `Author questions` item,
-  and the letter never gains a location the editor could not verify.
+  and the letter never gains a location the editor could not verify. The
+  unverified reply keeps the authors' wording (whether the change exists is a
+  fact only the author can settle; deleting the claim and endorsing it are
+  both wrong), and the rationale says the letter is not ready to send while
+  the flag is open.
 - **Promises are not changes.** R1.4's agreement with nothing behind it is the
   classic rebuttal pathology (reviewers want the change, not the promise); the
   fix needs author substance, so it is flagged, not papered over.

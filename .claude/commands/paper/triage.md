@@ -17,9 +17,12 @@ AE summary plus the per-reviewer comments), directly or as file paths to read;
 it may also name the manuscript root. If no decision letter is present, ask for
 it before doing anything else. Do not diagnose or rewrite prose: this pass plans
 the revision, it does not perform it. Reviewer comments with no manuscript are
-enough to triage: classify what each comment asks for, map sections by the
-letter's own references, and say the mapping is unverified until the manuscript
-is available.
+enough to start: classify what each comment asks for and map sections by the
+letter's own references, but mark as unverified everything that depends on what
+the manuscript already contains, until the manuscript is available: the section
+mapping, every prose-fixable versus needs-new-substance call (a comment is
+prose-fixable only if the material already exists in the text), and the order
+of work built on those calls.
 
 Run the triage:
 

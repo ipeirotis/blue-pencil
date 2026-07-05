@@ -77,9 +77,10 @@ or audience from prose style.
   (what each asks for, what kind of work it needs), but do not diagnose or
   rewrite prose you have not seen.
 - **Very long manuscripts**: work section by section (the loop). For
-  whole-paper checks, build the consistency inventory
-  (`references/copyediting.md`) per section first, then compare inventories,
-  rather than holding all prose at once.
+  whole-paper checks, load the checklist in `references/consistency-checks.md`,
+  build the consistency inventory (`references/copyediting.md`) per section
+  first, then compare inventories against that checklist, rather than holding
+  all prose at once.
 
 ## Triage before full diagnosis
 
@@ -129,7 +130,10 @@ promise or assert analyses, results, or claims the manuscript does not contain, 
 every claimed manuscript change must point at a real location (a page, section, or
 paragraph). A claimed change you cannot verify against the manuscript, and every gap
 between a reviewer request and what the manuscript contains, goes to `Author
-questions`, never left standing in the letter.
+questions` as an open flag: keep the author's wording in the letter, since whether a
+change exists is the author's fact to settle, never add or endorse a location or
+change you could not verify, and say the letter is not ready to send while a flag is
+open.
 
 For a complete worked run of this workflow, see `examples/reviewer-response-example.md`. For a response-letter run, see `examples/response-letter-example.md`.
 
