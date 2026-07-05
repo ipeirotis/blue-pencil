@@ -7,6 +7,10 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
+The subagent is isolated: it sees only what the dispatch carries, not this
+conversation. Pass everything it needs in the dispatched request, including
+the user's answers to any prior clarifying question.
+
 Preset triage, so the skill does not need to ask:
 
 - **Scope:** direct rewrite.

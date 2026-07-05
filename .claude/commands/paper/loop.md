@@ -40,6 +40,10 @@ anything else.
   back as an `Author question`, never a silent edit.
 - Stop at each author checkpoint and wait. Do not advance past unresolved
   `Author questions`.
+- Every dispatched pass runs isolated and sees only what the dispatch carries,
+  not this conversation. Pass everything the subagent needs in each dispatch:
+  the section text or path, the reviewer text when relevant, and the author's
+  answers to any clarifying question a prior pass raised.
 - Do not repeat a pass merely to get a different rewrite. Unchanged prose is a
   valid successful result, and a rewrite that touches every paragraph is
   suspect.

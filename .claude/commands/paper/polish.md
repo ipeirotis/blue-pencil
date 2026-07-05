@@ -7,6 +7,10 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
+The subagent is isolated: it sees only what the dispatch carries, not this
+conversation. Pass everything it needs in the dispatched request, including
+the user's answers to any prior clarifying question.
+
 This is a conservative final-polish pass. Run it only when the section's
 structure, claims, and evidence are stable. Load `references/copyediting.md`,
 `references/ai-tells-to-avoid.md`, and `references/sentence-cohesion.md`. The

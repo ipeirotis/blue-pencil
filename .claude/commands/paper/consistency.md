@@ -7,6 +7,10 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
+The subagent is isolated: it sees only what the dispatch carries, not this
+conversation. Pass everything it needs in the dispatched request, including
+the user's answers to any prior clarifying question.
+
 This is a paper-level consistency pass, not a section edit. Read every section
 named in the manuscript reference provided below. Treat paths as files to read.
 Choose the file set by what the provided value is:

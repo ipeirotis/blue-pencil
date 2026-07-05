@@ -7,6 +7,10 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
+The subagent is isolated: it sees only what the dispatch carries, not this
+conversation. Pass everything it needs in the dispatched request, including
+the user's answers to any prior clarifying question.
+
 This is an exposition-focused pass. The goal is teaching: a smart reader trained
 in the venue area, but not expert in this exact topic, should be able to acquire
 the idea with less effort after the edit. Load `references/exposition.md` and run

@@ -7,11 +7,15 @@ Dispatch the request below to the `paper-reviser` subagent, which loads the
 `paper-revision-editor` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
+The subagent is isolated: it sees only what the dispatch carries, not this
+conversation. Pass everything it needs in the dispatched request, including
+the user's answers to any prior clarifying question.
+
 This invokes the skill's reviewer-response workflow. The text provided below
 may hold the reviewer text directly or file paths to read; if it names files,
 read them first. Do not infer reviewer concerns from the section: only when no
-reviewer text is present in the provided text, the named files, or the
-conversation, ask for it before doing anything else.
+reviewer text is present in the provided text or the named files, ask for it
+before doing anything else.
 
 Run the workflow exactly:
 
