@@ -49,6 +49,14 @@ location, split into two groups:
   addresses"), and each uncited "it is well known that" or "prior work has
   shown" claim that names no source.
 
+Resolve each cited claim's key to a real work before you fetch anything: read
+the manuscript's bibliography (the `.bib` files it names with `\bibliography{}`
+or `\addbibresource{}`, an inline `thebibliography` block, or the reference
+list of a non-LaTeX manuscript) so a bare `\cite{key}` maps to a title, venue,
+year, and DOI. A key you cannot resolve to a specific work is unverifiable; do
+not guess which paper a bare key denotes or search by the key string, since
+that risks checking the wrong source.
+
 The inventory must be complete before you fetch a single source, so what you
 read can never reshape which claims get checked. Do not add claims to the list
 because a search surfaced them, and do not drop a claim because verifying it
@@ -62,14 +70,21 @@ source supports the sentence as written, and classify each as one of:
 
 - **supported**: the source states what the manuscript attributes to it; quote
   the passage that supports it
-- **unsupported**: the source does not say this, says something weaker, or says
-  the opposite; quote what it does say and describe the gap
+- **unsupported**: the passage you read states something weaker than, or
+  contrary to, the claim; quote what it does say and describe the gap. Reserve
+  this for when you reached the text that would carry the claim: a claim missing
+  from an abstract you could not read past is unverifiable, not unsupported,
+  since most method and result detail lives in the body, and an absence there is
+  no evidence against the claim.
 - **unverifiable**: the source could not be retrieved (paywalled, not found,
-  ambiguous key), or the passage that would settle it was not reachable; say why
+  ambiguous or unresolvable key), or the passage that would settle the claim was
+  not reachable (for example only the abstract was available and it neither
+  states nor contradicts the claim); say why
 
 Retrieved, not remembered: cite only sources you fetched and read in this
 session, with title, venue, year, and the supporting passage. Never fill a gap
-from what you recall a paper says.
+from what you recall a paper says, and never let an abstract stand in for a body
+claim it does not address.
 
 ### 3. Scan novelty and fill gaps
 
@@ -112,10 +127,11 @@ the author decides what enters the paper.
 ## Reporting conventions
 
 - Return the skill's strict four-section output. Where you propose no edit, the
-  `Revised text` block reads `No edit proposed.`; where you do, it carries the
-  candidate citation additions and recalibrated claims, each marked as a
-  proposal with its retrieved source (title, venue, year, passage), and nothing
-  woven silently into an existing sentence. `Change rationale` carries the
+  `Revised text` block reads `No rewrite requested.`, the skill's shared
+  diagnosis-only sentinel (this lane does not introduce its own); where you do
+  propose one, it carries the candidate citation additions and recalibrated
+  claims, each marked as a proposal with its retrieved source (title, venue,
+  year, passage), and nothing woven silently into an existing sentence. `Change rationale` carries the
   retrieval log (each source fetched, with title, venue, year, and the passage
   read) instead of change lines, with no word-count line.
 - The Diagnosis carries the findings, grouped citation verification first

@@ -30,17 +30,23 @@ the author, never edits this pass performs. Choose the manuscript file set as
 `/paper:read` does: when a root or wrapper file is provided, follow its
 include graph and never sweep in sibling files it does not include; when the
 includes cannot be resolved, ask which files are in scope rather than
-guessing. If neither a manuscript nor a named claim is present, ask for the
-scope before proceeding.
+guessing. Then, because verifying a citation means mapping its key to a real
+work, also read the bibliography the manuscript points at (the `.bib` files
+named by `\bibliography{}` or `\addbibresource{}`, an inline `thebibliography`
+block, or a non-LaTeX reference list) so `\cite{key}` resolves to a title,
+venue, year, and DOI before any retrieval; if no bibliography is discoverable,
+ask for it rather than searching by bare key. If neither a manuscript nor a
+named claim is present, ask for the scope before proceeding.
 
 Preset triage:
 
 - **Scope:** retrieval only, no rewrite and no edit of any kind. The
-  `Revised text` block reads `No edit proposed.` when nothing is proposed;
-  when a citation addition or recalibrated claim is proposed, it carries the
-  candidate marked as a proposal with its retrieved source attached. `Change
-  rationale` carries the retrieval log (each source fetched, with title,
-  venue, year, and the passage read) instead of change lines.
+  `Revised text` block reads `No rewrite requested.` (the skill's shared
+  diagnosis-only sentinel) when nothing is proposed; when a citation addition
+  or recalibrated claim is proposed, it carries the candidate marked as a
+  proposal with its retrieved source attached. `Change rationale` carries the
+  retrieval log (each source fetched, with title, venue, year, and the passage
+  read) instead of change lines.
 - **Unit:** every cited claim and every contribution or novelty claim in the
   scope provided below; default to the whole manuscript's citations and
   contribution statements.
