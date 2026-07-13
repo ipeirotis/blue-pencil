@@ -101,7 +101,9 @@ Recommended loop:
     /paper:read paper.tex
     If the repo holds your data and analysis code:
       /paper:verify-numbers paper.tex   (verification only, no edits)
-    Then resolve the Author questions both passes raise and confirm the
+    If the environment grants literature retrieval:
+      /paper:scholar paper.tex          (citation and novelty checks, no edits)
+    Then resolve the Author questions these passes raise and confirm the
     read's prioritized dispatch list; that list feeds the Phase 2 pass order.
   Phase 2, rewrite section by section in the Step B order:
     /paper:revise sections/abstract.tex
@@ -127,7 +129,14 @@ before any rewrite, so a stale number is caught before the prose passes repeat
 it; the command is gated (it needs that pipeline and a shell) and reports what
 is missing instead of checking anything when the gate fails, and its
 recomputed values are proposals the author applies to the source, never edits
-the loop performs. Resolve the `Author questions` these global passes raise,
+the loop performs. Likewise, when the environment grants literature retrieval,
+run `/paper:scholar` in the same phase to check the citations and novelty
+claims the cold read flagged, so an unsupported citation or an overstated
+contribution is caught before the prose passes polish it; it is gated the same
+way (it needs retrieval) and reports what is missing instead of citing from
+memory when the gate fails, and its citation changes and recalibrated claims
+are proposals the author applies to the source, never edits the loop performs.
+Resolve the `Author questions` these global passes raise,
 then rewrite in this order, using the cold read's prioritized dispatch list to
 decide which sections need which targeted passes:
 
