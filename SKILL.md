@@ -1,10 +1,10 @@
 ---
 name: paper-revision-editor
-description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; draft, improve, or tighten a response-to-reviewers letter; or take a request to check the paper's numbers against the repository's data and analysis pipeline and route it to the gated analyst lane (/paper:verify-numbers). Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; draft, improve, or tighten a response-to-reviewers letter; take a request to check the paper's numbers against the repository's data and analysis pipeline and route it to the gated analyst lane (/paper:verify-numbers); or take a request to verify the paper's citations or scan its novelty against the literature and route it to the gated scholar lane (/paper:scholar). Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.29.0"
+  version: "1.30.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -29,6 +29,7 @@ Trigger when the user:
 - Asks to draft, improve, tighten, or tone-check a response-to-reviewers letter (see the letter license in the Reviewer-response workflow).
 - Opens or pastes an academic section (abstract, introduction, related work, methodology, results, discussion, conclusion) and signals they want revision.
 - Asks to check, verify, or reconcile the paper's reported numbers against the repository's data or analysis pipeline. The request must reach this skill for the handoff to happen; the skill then routes it to the analyst lane instead of editing (see "When NOT to use this skill").
+- Asks to verify that the paper's citations support the claims attached to them, or to scan a stated contribution for overlapping prior work. The request must reach this skill for the handoff to happen; the skill then routes it to the scholar lane instead of editing (see "When NOT to use this skill").
 
 ## When NOT to use this skill
 
@@ -43,6 +44,12 @@ Do not trigger when the user:
   (`/paper:verify-numbers`, protocol in `references/analysis-integrity.md`),
   which carries its own tools and provenance rules; this skill treats numbers
   as protected content and flags them, it does not verify them.
+- Wants the manuscript's citations verified against their sources, or a
+  contribution scanned for prior work. That is the scholar lane
+  (`/paper:scholar`, protocol in `references/literature-checks.md`), which
+  carries its own retrieval tools and grounding rules; this skill preserves
+  citations exactly and flags claims it cannot verify, it does not retrieve
+  or read the sources.
 - Is editing non-academic writing (blogs, marketing copy, fiction).
 - Is working on a grant proposal, unless they explicitly ask for this skill by name or for its editorial passes on the grant text. Grant narratives are served on explicit request only, under the same constraints, using the grant guidance in `references/structural-patterns.md`; never auto-trigger on grant material.
 
@@ -176,11 +183,15 @@ computation or retrieval is a question for the author, never an edit. This
 skill's tool surface performs no computation and no retrieval, so under it the
 only verified substance is the author's own; a companion lane that can compute
 or retrieve carries its own tools and provenance rules and answers to the same
-master rule. The first such lane exists: number verification against the
-repo's own analysis pipeline lives in `references/analysis-integrity.md`,
-dispatched by `/paper:verify-numbers` to the `paper-analyst` subagent, and
-runs only where the repo carries the author's data and analysis code and the
-environment grants a shell. Substance means manuscript content, stated in or about the paper:
+master rule. Two such lanes exist, one per branch. The computation branch:
+number verification against the repo's own analysis pipeline lives in
+`references/analysis-integrity.md`, dispatched by `/paper:verify-numbers` to
+the `paper-analyst` subagent, and runs only where the repo carries the
+author's data and analysis code and the environment grants a shell. The
+retrieval branch: citation verification and novelty scanning against the
+literature live in `references/literature-checks.md`, dispatched by
+`/paper:scholar` to the `paper-scholar` subagent, and run only where the
+environment grants literature retrieval. Substance means manuscript content, stated in or about the paper:
 editorial reporting about your own edit (the approximate `Word count:` line,
 paragraph labels, counts of findings in the Diagnosis) asserts nothing about
 the paper and is outside the rule.
@@ -462,3 +473,4 @@ Bulleted list. Each item is one unverifiable claim, missing evidence, numerical-
 - "Reviewer 2 says my methodology is unclear." -> trigger; load `revision_stage: response to reviewers`, apply the methodology lens, preserve analytical decisions.
 - "Write me a discussion section based on these results." -> do not trigger; a drafted section asserts substance the skill cannot verify, which the master rule in Constraints forbids.
 - "Are the numbers in the abstract still what the pipeline produces?" -> do not trigger this skill's editing pass; route to the analyst lane (`/paper:verify-numbers`), which reruns the author's own pipeline and reports match, mismatch, or unverifiable with provenance.
+- "Does reference 12 actually support what we say it does, and is our contribution really novel?" -> do not trigger this skill's editing pass; route to the scholar lane (`/paper:scholar`), which fetches and reads the sources and reports each cited claim as supported, unsupported, or unverifiable and returns novelty leads, proposing any citation change as a flagged candidate.

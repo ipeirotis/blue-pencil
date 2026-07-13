@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.29.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.30.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -20,13 +20,18 @@ A generic "rewrite my paragraph" prompt hands the text back as a black box: you 
 - **It keeps your voice.** It identifies your stylistic habits and preserves them, instead of flattening the section into generic prose.
 - **It strips the "AI tells."** No em-dashes, no "Furthermore / Moreover," no throat-clearing, no manufactured hooks, so the result reads human.
 
-One honest limit: the skill preserves your citations exactly; it does not verify that
-a cited work supports the claim it is attached to. That check stays with you.
-Numbers are different once your repo holds the data and analysis code: the
-`/paper:verify-numbers` analyst lane reruns your own pipeline and diffs its
-outputs against every number the manuscript reports, with provenance. It
-verifies only; it never edits, and where the repo has no pipeline (or the
-environment has no shell) it says so instead of pretending to check.
+One honest limit is now smaller than it was. In a plain editing pass the skill
+preserves your citations exactly and never opens the sources, so verifying that a
+cited work supports its claim stays with you there. Two gated lanes lift that where
+the tools exist. Numbers: once your repo holds the data and analysis code, the
+`/paper:verify-numbers` analyst lane reruns your own pipeline and diffs its outputs
+against every number the manuscript reports, with provenance. Citations and novelty:
+where the environment grants literature retrieval, the `/paper:scholar` lane fetches
+and reads the cited sources, reports each cited claim as supported, unsupported, or
+unverifiable, and returns novelty leads for your contribution claims, proposing any
+citation change as a flagged candidate. Both verify only; they never edit, and where
+the tools are missing (no pipeline or shell, no retrieval) they say so instead of
+pretending to check.
 
 ## What you can ask for
 
@@ -42,6 +47,7 @@ Talk to the agent in plain English. Common requests and what each produces:
 | "Reviewer 2 says my methods are unclear. Here are the comments." | Edits only the paragraphs the reviewer flagged, and flags anything it cannot fix from your text alone. |
 | "Tighten our response letter; the reply to R1 sounds defensive." | Recalibrates the letter's tone without conceding your positions, and checks every "we changed X" claim against the manuscript. |
 | "Are the numbers in the abstract still what the pipeline produces?" | Reruns your own analysis pipeline and diffs its outputs against the manuscript's numbers, with provenance for every recomputed value (needs your data and code in the repo). |
+| "Does reference 12 support our claim, and is our contribution actually novel?" | Fetches and reads the cited sources, reports each cited claim as supported, unsupported, or unverifiable, and returns novelty leads for you to judge (needs literature retrieval). |
 
 Every run returns the same four labelled sections, so you always know how to read it:
 
@@ -167,6 +173,17 @@ the producing command and data version for every recomputed value, so stale
 numbers are caught before any prose pass repeats them. It requires a shell
 and your pipeline; where either is missing it says so rather than silently
 checking nothing.
+
+If the environment grants literature retrieval, run `/paper:scholar` over the
+whole manuscript in the same phase, not only the claims the cold read flagged:
+the cold read measures reader experience, not citation support, so it cannot
+see an unsupported citation on its own. It fetches and reads the cited sources,
+reports every cited claim as supported, unsupported, or unverifiable, and
+returns leads on prior work that bears on a contribution claim, so an
+unsupported citation or an overstated novelty claim is caught before the prose
+passes polish it. It requires retrieval; where that is missing it says so
+rather than citing from memory. Its citation changes and recalibrated claims
+are flagged candidates you apply to the source, never edits the loop performs.
 
 Answer the `Author questions` these global passes raise, not only the cold
 read's: when the verification ran, every mismatch (which value is correct?)
@@ -381,7 +398,7 @@ Any prompt that mentions revising, polishing, copy-editing, tightening, or respo
 
 ### Structured slash commands (Claude Code)
 
-For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. The section commands pre-set the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatch to the `paper-reviser` subagent. `revise`, `feedback`, `clarify`, `human`, and `polish` follow or, for `polish`, pin the `revision_stage` in your `<paper_context>`; `rebut` applies response-to-reviewers scope (pasting reviewer comments is itself a trigger in the skill) and tells you if your stored stage says otherwise, and `polish` likewise warns when the stored stage is not `final polish`. `read` is the whole-paper cold read, diagnosis only (no rewrite): it reads the paper front to back as its intended reader and returns the reading log, colleague test, delight audit, venue-compliance findings, and a prioritized dispatch list into the other commands. `consistency` is likewise a whole-paper diagnosis only (no rewrite), and `triage` is also diagnosis-only: it takes the decision letter rather than a section and returns the severity-ranked comment table, section mapping, and order of work that opens a major revision. `letter` closes that round: it drafts or improves the response letter itself under its own license (reply text may restate what the revision did, never promise what the manuscript lacks, and every claimed change must point at a real location). `verify-numbers` is the analyst lane and the one command that does not dispatch to `paper-reviser`: it dispatches to the `paper-analyst` subagent, which reruns your own analysis pipeline and diffs its outputs against the manuscript's numbers, reporting each as match, mismatch, or unverifiable with the producing command and data version. Verification only: it never edits the manuscript, the code, or the data, and it runs only where the repo holds your data and analysis code and the environment grants a shell; anywhere else it reports what is missing instead of improvising a check (protocol in `references/analysis-integrity.md`). `loop` is different in kind: it emits the staged whole-paper plan, then drives it one section at a time, calling the other commands and pausing at each author checkpoint, rather than running a single pass itself. See [the complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) for the steps it drives.
+For predictable, one-shot invocation, the repo ships a `paper:` command namespace under `.claude/commands/paper/`. The section commands pre-set the triage (scope, unit, focus) so the skill skips the clarifying round-trip, then dispatch to the `paper-reviser` subagent. `revise`, `feedback`, `clarify`, `human`, and `polish` follow or, for `polish`, pin the `revision_stage` in your `<paper_context>`; `rebut` applies response-to-reviewers scope (pasting reviewer comments is itself a trigger in the skill) and tells you if your stored stage says otherwise, and `polish` likewise warns when the stored stage is not `final polish`. `read` is the whole-paper cold read, diagnosis only (no rewrite): it reads the paper front to back as its intended reader and returns the reading log, colleague test, delight audit, venue-compliance findings, and a prioritized dispatch list into the other commands. `consistency` is likewise a whole-paper diagnosis only (no rewrite), and `triage` is also diagnosis-only: it takes the decision letter rather than a section and returns the severity-ranked comment table, section mapping, and order of work that opens a major revision. `letter` closes that round: it drafts or improves the response letter itself under its own license (reply text may restate what the revision did, never promise what the manuscript lacks, and every claimed change must point at a real location). `verify-numbers` is the analyst lane and the one command that does not dispatch to `paper-reviser`: it dispatches to the `paper-analyst` subagent, which reruns your own analysis pipeline and diffs its outputs against the manuscript's numbers, reporting each as match, mismatch, or unverifiable with the producing command and data version. Verification only: it never edits the manuscript, the code, or the data, and it runs only where the repo holds your data and analysis code and the environment grants a shell; anywhere else it reports what is missing instead of improvising a check (protocol in `references/analysis-integrity.md`). `scholar` is the retrieval-branch companion and dispatches to the `paper-scholar` subagent: it fetches and reads the sources your citations point at, reports each cited claim as supported, unsupported, or unverifiable with the passage quoted, and scans your contribution claims for overlapping prior work, returning leads for you to judge rather than verdicts. Retrieval only: it never edits, a citation change or recalibrated claim is a flagged candidate the author decides on, and it runs only where the environment grants literature retrieval; anywhere else it reports what is missing instead of citing from memory (protocol in `references/literature-checks.md`). `loop` is different in kind: it emits the staged whole-paper plan, then drives it one section at a time, calling the other commands and pausing at each author checkpoint, rather than running a single pass itself. See [the complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) for the steps it drives.
 
 | Command | What it does |
 |---------|--------------|
@@ -396,11 +413,12 @@ For predictable, one-shot invocation, the repo ships a `paper:` command namespac
 | `/paper:read` | Whole-paper cold read (no rewrite): reading log, colleague test, delight audit, venue compliance, prioritized dispatch list. |
 | `/paper:consistency` | Whole-paper cross-section check (no rewrite): terminology, claim, and contribution drift, stale summaries. |
 | `/paper:verify-numbers` | Analyst lane (no edits): reruns your own analysis pipeline and diffs its outputs against the manuscript's numbers, with provenance. Needs your data and code in the repo, and a shell. |
+| `/paper:scholar` | Scholar lane (no edits): fetches and reads your cited sources, reports each cited claim as supported, unsupported, or unverifiable, and returns novelty leads. Needs literature retrieval. |
 | `/paper:loop` | Emits the staged whole-paper edit plan and drives it section by section, pausing at each author checkpoint. |
 
-The section commands take a section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`. `/paper:triage` takes the decision letter (pasted or file paths), optionally with the manuscript root. `/paper:read`, `/paper:consistency`, `/paper:verify-numbers`, and `/paper:loop` take the manuscript root or a list of section files (`/paper:verify-numbers` optionally adds the pipeline entry point); `/paper:loop` drives the [complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) above, opening and closing it with `/paper:read`.
+The section commands take a section as an argument (a file path or pasted text), for example `/paper:revise sections/intro.tex`. `/paper:triage` takes the decision letter (pasted or file paths), optionally with the manuscript root. `/paper:read`, `/paper:consistency`, `/paper:verify-numbers`, `/paper:scholar`, and `/paper:loop` take the manuscript root or a list of section files (`/paper:verify-numbers` optionally adds the pipeline entry point, and `/paper:scholar` also accepts a single named contribution or claim to check); `/paper:loop` drives the [complete paper-edit loop](#complete-paper-edit-loop-editing-a-whole-paper) above, opening and closing it with `/paper:read`.
 
-Like the `paper-reviser` and `paper-analyst` subagents, these commands are Claude-Code conveniences. Claude Code discovers commands under `.claude/commands/` and subagents under `.claude/agents/` (project level), or the same paths under `~/.claude/` (all projects). It never discovers them inside an installed skill directory, so the skill ships the files but they take effect only once copied into one of those trees. The installer does the copy for you: run `install.sh --init` in your paper repo to register them there, or `install.sh --commands` to register them for every project (`~/.claude/`). Both copy the `paper/` command directory and the `agents/` subagent files, and are safe to re-run after an update to pick up new or changed commands. To do it by hand instead, copy the `paper/` directory to `<your-repo>/.claude/commands/paper/` (or `~/.claude/commands/paper/`) and the agent files to the matching `agents/` dir; keep the `paper/` directory name, since it is what produces the `paper:` namespace. The skill itself stays the cross-tool source of truth and needs none of this.
+Like the `paper-reviser`, `paper-analyst`, and `paper-scholar` subagents, these commands are Claude-Code conveniences. Claude Code discovers commands under `.claude/commands/` and subagents under `.claude/agents/` (project level), or the same paths under `~/.claude/` (all projects). It never discovers them inside an installed skill directory, so the skill ships the files but they take effect only once copied into one of those trees. The installer does the copy for you: run `install.sh --init` in your paper repo to register them there, or `install.sh --commands` to register them for every project (`~/.claude/`). Both copy the `paper/` command directory and the `agents/` subagent files, and are safe to re-run after an update to pick up new or changed commands. To do it by hand instead, copy the `paper/` directory to `<your-repo>/.claude/commands/paper/` (or `~/.claude/commands/paper/`) and the agent files to the matching `agents/` dir; keep the `paper/` directory name, since it is what produces the `paper:` namespace. The skill itself stays the cross-tool source of truth and needs none of this.
 
 ## How it works (under the hood)
 
@@ -414,7 +432,8 @@ When you ask an agent to "revise the introduction" or "respond to reviewer 2", t
 | `references/` | Load-on-demand reference material, including reader-experience and research-paper copyediting checks |
 | `.claude/agents/paper-reviser.md` | Claude Code subagent that dispatches to the skill (the editor lane) |
 | `.claude/agents/paper-analyst.md` | Claude Code subagent for the analyst lane: number verification against the repo's own pipeline (`references/analysis-integrity.md`) |
-| `.claude/commands/paper/` | Claude Code slash commands: section passes (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`), the whole-paper `/paper:read` cold read and `/paper:consistency` check, the `/paper:triage` decision-letter triage, the `/paper:letter` response-letter lane, the `/paper:verify-numbers` analyst lane, and the `/paper:loop` planner-driver |
+| `.claude/agents/paper-scholar.md` | Claude Code subagent for the scholar lane: citation verification and novelty scanning against the literature (`references/literature-checks.md`) |
+| `.claude/commands/paper/` | Claude Code slash commands: section passes (`/paper:revise`, `/paper:feedback`, `/paper:clarify`, `/paper:human`, `/paper:rebut`, `/paper:polish`), the whole-paper `/paper:read` cold read and `/paper:consistency` check, the `/paper:triage` decision-letter triage, the `/paper:letter` response-letter lane, the `/paper:verify-numbers` analyst lane, the `/paper:scholar` scholar lane, and the `/paper:loop` planner-driver |
 | `install.sh` | Installer, updater, uninstaller; registers `paper:` commands via `--init` (this repo) or `--commands` (all projects); supports `--ref`, `--version`, `--check` |
 | `scripts/` | Maintenance helpers: `check-version.sh`, `bump-version.sh`, `lint.sh` |
 | `.github/workflows/ci.yml` | CI: shellcheck, version consistency, lint, install smoke test |
