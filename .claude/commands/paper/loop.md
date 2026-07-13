@@ -130,12 +130,16 @@ it; the command is gated (it needs that pipeline and a shell) and reports what
 is missing instead of checking anything when the gate fails, and its
 recomputed values are proposals the author applies to the source, never edits
 the loop performs. Likewise, when the environment grants literature retrieval,
-run `/paper:scholar` in the same phase to check the citations and novelty
-claims the cold read flagged, so an unsupported citation or an overstated
-contribution is caught before the prose passes polish it; it is gated the same
-way (it needs retrieval) and reports what is missing instead of citing from
-memory when the gate fails, and its citation changes and recalibrated claims
-are proposals the author applies to the source, never edits the loop performs.
+run `/paper:scholar` over the whole manuscript in the same phase, so every
+cited claim is checked against its source and every contribution claim is
+scanned for prior work, not only the ones the cold read happened to flag (the
+cold read measures reader experience, not citation support, so it cannot see an
+unsupported citation on its own); an unsupported citation or an overstated
+contribution is then caught before the prose passes polish it. It is gated the
+same way (it needs retrieval) and reports what is missing instead of citing
+from memory when the gate fails, and its citation changes and recalibrated
+claims are proposals the author applies to the source, never edits the loop
+performs.
 Resolve the `Author questions` these global passes raise,
 then rewrite in this order, using the cold read's prioritized dispatch list to
 decide which sections need which targeted passes:

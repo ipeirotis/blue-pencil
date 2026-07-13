@@ -174,15 +174,16 @@ numbers are caught before any prose pass repeats them. It requires a shell
 and your pipeline; where either is missing it says so rather than silently
 checking nothing.
 
-If the environment grants literature retrieval, run `/paper:scholar` in the
-same phase to check the citations and novelty claims the cold read flagged. It
-fetches and reads the cited sources, reports each cited claim as supported,
-unsupported, or unverifiable, and returns leads on prior work that bears on a
-contribution claim, so an unsupported citation or an overstated novelty claim
-is caught before the prose passes polish it. It requires retrieval; where that
-is missing it says so rather than citing from memory. Its citation changes and
-recalibrated claims are flagged candidates you apply to the source, never edits
-the loop performs.
+If the environment grants literature retrieval, run `/paper:scholar` over the
+whole manuscript in the same phase, not only the claims the cold read flagged:
+the cold read measures reader experience, not citation support, so it cannot
+see an unsupported citation on its own. It fetches and reads the cited sources,
+reports every cited claim as supported, unsupported, or unverifiable, and
+returns leads on prior work that bears on a contribution claim, so an
+unsupported citation or an overstated novelty claim is caught before the prose
+passes polish it. It requires retrieval; where that is missing it says so
+rather than citing from memory. Its citation changes and recalibrated claims
+are flagged candidates you apply to the source, never edits the loop performs.
 
 Answer the `Author questions` these global passes raise, not only the cold
 read's: when the verification ran, every mismatch (which value is correct?)
