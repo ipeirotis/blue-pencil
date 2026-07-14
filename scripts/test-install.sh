@@ -20,6 +20,7 @@ MANIFEST_REL=".paper-revision-editor-manifest"
 
 pass=0
 fail=0
+skipped=0
 
 ok() { pass=$((pass + 1)); }
 no() { fail=$((fail + 1)); printf '  FAIL: %s\n' "$1" >&2; }
@@ -38,6 +39,18 @@ assert_no_grep() { if grep -qF -- "$2" "$1" 2>/dev/null; then no "$3 (unexpected
 # redirect alone suffices. Output is discarded; callers assert on the filesystem.
 SETSID=""
 command -v setsid >/dev/null 2>&1 && SETSID="setsid"
+
+# Only the --init scenario reaches `read_field`. It opens /dev/tty when stdin is
+# not a terminal, so without setsid to detach the controlling terminal, an
+# interactive run (e.g. `make test` on a default macOS box) would block waiting
+# for field answers on the real terminal. Detect that case and skip --init with a
+# message rather than hang. CI and piped runs have no /dev/tty, so they proceed.
+can_run_init=1
+if [ -z "$SETSID" ] && exec 3</dev/tty 2>/dev/null; then
+  exec 3<&-
+  can_run_init=0
+fi
+
 run_from() { # home, install_path, args...
   local home="$1" script="$2"; shift 2
   # $SETSID is intentionally word-split: it is "setsid" or empty (no wrapper).
@@ -51,6 +64,11 @@ run_installer() { local home="$1"; shift; run_from "$home" "$INSTALL" "$@"; }
 # Fields left blank write [fill in] (not the old `first draft` default); the
 # paper: commands, the subagents, and the manifest are registered in the repo.
 test_init() {
+  if [ "$can_run_init" -eq 0 ]; then
+    echo "  SKIP: --init (no setsid and an interactive /dev/tty is present; the field prompts would block). Runs in CI and under setsid."
+    skipped=$((skipped + 1))
+    return
+  fi
   local sb repo; sb="$(mktemp -d)"; repo="$sb/paper"
   mkdir -p "$repo"
   git -C "$repo" init -q
@@ -147,7 +165,13 @@ test_refresh() {
 test_update_drift() {
   local sb up clone; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"
   git clone -q "$REPO_ROOT" "$up" 2>/dev/null
-  git clone -q "$up" "$clone" 2>/dev/null
+  # In PR CI, actions/checkout leaves the repo in detached HEAD, so a plain clone
+  # of it is detached too; install.sh --update would then resolve the clone's ref
+  # to a bare SHA instead of a branch and skip the fast-forward. Pin the fixture
+  # to a named branch and have the clone track it, so the branch fast-forward path
+  # (the one that ships) is what the test exercises.
+  git -C "$up" checkout -q -B test-update
+  git clone -q --branch test-update "$up" "$clone" 2>/dev/null
   if [ ! -d "$clone/.git" ]; then
     no "update: could not build a local clone"
     rm -rf "$sb"; return
@@ -180,9 +204,11 @@ test_refresh
 test_update_drift
 
 echo
+skip_note=""
+[ "$skipped" -gt 0 ] && skip_note=", $skipped scenario(s) skipped"
 if [ "$fail" -eq 0 ]; then
-  echo "install.sh tests OK ($pass checks passed)."
+  echo "install.sh tests OK ($pass checks passed$skip_note)."
 else
-  echo "install.sh tests FAILED ($fail failed, $pass passed)." >&2
+  echo "install.sh tests FAILED ($fail failed, $pass passed$skip_note)." >&2
   exit 1
 fi
