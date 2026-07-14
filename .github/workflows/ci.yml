@@ -40,3 +40,6 @@ jobs:
           test -e "$tmp/.claude/skills/paper-revision-editor/SKILL.md"
           HOME="$tmp" ./install.sh --uninstall
           test ! -e "$tmp/.agents/skills/paper-revision-editor"
+
+      - name: Installer behavior tests (init, commands, refresh, update)
+        run: ./scripts/test-install.sh

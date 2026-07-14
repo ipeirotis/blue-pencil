@@ -36,6 +36,14 @@ for field in name description license allowed-tools; do
     fail=1
   fi
 done
+# The Agent Skills spec caps `description` at 1024 characters; a longer value can
+# be rejected or ignored by validators before the skill ever loads. Measure the
+# value only (strip the leading `description: ` key).
+desc_len=$(grep -E '^description:' SKILL.md | head -1 | sed -E 's/^description:[[:space:]]*//' | tr -d '\n' | wc -c)
+if [ "$desc_len" -gt 1024 ]; then
+  echo "ERROR: SKILL.md 'description' is $desc_len chars; the Agent Skills spec caps it at 1024." >&2
+  fail=1
+fi
 echo "  done"
 
 # 3. Every references/*.md and examples/*.md path named across the skill

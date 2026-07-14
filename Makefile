@@ -6,7 +6,7 @@
 SHELL := /usr/bin/env bash
 INSTALL := ./install.sh
 
-.PHONY: help install update uninstall init check version lint check-version check-examples check-protected bump test
+.PHONY: help install update uninstall init check version lint check-version check-examples check-protected test-install bump test
 
 help:
 	@echo "paper-revision-editor"
@@ -24,8 +24,9 @@ help:
 	@echo "  make check-version  Assert VERSION, SKILL.md, and README agree"
 	@echo "  make check-examples Lock examples/ to the strict output format"
 	@echo "  make check-protected Diff protected content between example input and output"
+	@echo "  make test-install   Hermetic tests for install.sh (init, commands, refresh, update)"
 	@echo "  make bump VERSION=x.y.z   Bump the version in all three sites"
-	@echo "  make test           Run check-version, lint, check-examples, check-protected"
+	@echo "  make test           Run check-version, lint, check-examples, check-protected, test-install"
 
 install:
 	@$(INSTALL)
@@ -57,9 +58,12 @@ check-examples:
 check-protected:
 	@./scripts/check-protected.sh
 
+test-install:
+	@./scripts/test-install.sh
+
 bump:
 	@if [ -z "$(VERSION)" ]; then echo "Usage: make bump VERSION=x.y.z" >&2; exit 1; fi
 	@./scripts/bump-version.sh $(VERSION)
 
-test: check-version lint check-examples check-protected
+test: check-version lint check-examples check-protected test-install
 	@echo "All checks passed."
