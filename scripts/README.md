@@ -12,7 +12,7 @@ root, kept there so the documented `curl | bash` URL stays stable.
 | `check-examples.sh` | Lock `examples/` to the strict output format in `SKILL.md`: heading order, `Word count:` shape, question marks, banned tells in every edited paragraph of the `Revised text` block (paragraphs returned verbatim from the input are exempt), the stage-appropriate Diagnosis headers and extraction lines, the `Added bridges:` line, and the `Reader map:` template. | `make check-examples` |
 | `check-protected.sh` | Diff protected content between each example's input block and its `Revised text` block: citation keys (LaTeX including optional arguments, pandoc `@key` in any form, and plain author-year runs including parenthesized forms), cross-reference keys and prose callouts ("Table 4", "Appendix C"), math spans (dollar, `\(...\)`, `\[...\]` even with inner brackets), whole environments including contents and internal line breaks (captions blanked, being editable prose), macros with their arguments including one-character commands (prose-argument macros like `\caption` by name only, honoring the caption carve-out), quoted text (straight, TeX, curly), `%` comment lines, and numbers with their sign, range, percent, and unit-word context. The mechanical version of the skill's "No protected content changed" preflight, with an in-script exceptions list for legitimate flagged changes. | `make check-protected` |
 | `test-install.sh` | Hermetic behavior tests for `install.sh`'s highest-churn logic (command registration, the manifest, refresh, uninstall, and the git-update drift path). Each scenario runs in a throwaway sandbox with `HOME` and `PAPER_REVISION_EDITOR_HOME` pointed inside it, so it never touches the real `~/.claude`, `~/.agents`, or managed clone; it drives `install.sh` from this checkout and builds a local origin for the update test, so it needs no network. | `make test-install` |
-| `publish-releases.sh [--dry-run] [x.y.z ...]` | Reconcile git tags and GitHub Releases back to `CHANGELOG.md`: for each version, create and push the tag if missing (at the version's release commit) and publish a GitHub Release from its CHANGELOG section if missing. Idempotent; leaves versions that already have both untouched. Needs `gh` authenticated with `contents: write`. | `scripts/publish-releases.sh` |
+| `publish-releases.sh [--dry-run] [x.y.z ...]` | Reconcile git tags and GitHub Releases back to `CHANGELOG.md`: for each version, create and push the tag if missing (at the version's release commit) and publish a GitHub Release from its CHANGELOG section if missing. Idempotent; leaves versions that already have both untouched. Needs `gh` authenticated with `contents: write`. Normally runs from CI (`.github/workflows/release.yml`) on tag push. | `bash scripts/publish-releases.sh` |
 
 All of these are plain bash and depend only on `git`, `grep`, `awk`, and
 `sed`, so they run the same locally and in CI (`.github/workflows/ci.yml`).
@@ -23,9 +23,12 @@ All of these are plain bash and depend only on `git`, `grep`, `awk`, and
 2. Add a `## [x.y.z]` section to `CHANGELOG.md`.
 3. `make test` (runs `check-version` and `lint`).
 4. Commit, then tag: `git tag -a vx.y.z -m vx.y.z && git push origin vx.y.z`.
-5. Publish the GitHub Release: `scripts/publish-releases.sh` reads the
-   `CHANGELOG.md` section for the new version and creates the Release from it
-   (and backfills any earlier version still missing a tag or Release).
+
+Pushing the tag triggers `.github/workflows/release.yml`, which publishes the
+GitHub Release from the new version's `CHANGELOG.md` section. To publish by hand
+(or to backfill earlier versions still missing a tag or Release) run
+`bash scripts/publish-releases.sh`; the workflow can also be started from the
+Actions tab (`workflow_dispatch`) to run the same backfill.
 
 A pushed tag lets users pin to that release:
 `install.sh --ref vx.y.z` (or `PAPER_REVISION_EDITOR_REF=vx.y.z`).
