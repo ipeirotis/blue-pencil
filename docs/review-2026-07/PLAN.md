@@ -1,9 +1,12 @@
 # Execution plan: 2026-07 review remediation
 
-Status: **active**. This file is the single source of truth for applying the
-2026-07 skill review. Every batch PR must update the checkboxes below in the same
-PR that lands the work. When all batches are merged or explicitly dropped, mark
-this file historical (the `AUDIT.md` precedent) and stop updating it.
+Status: **historical**. Every batch of the 2026-07 skill review has landed:
+batches 1 through 5d, then 5e (analyst capabilities 2-3), 5f (installer test
+harness), and the optional B-M6 (reference merge), the last three via PR #37 as
+v1.31.0 through v1.33.0. This file is kept as the record of what was planned and
+done (the `AUDIT.md` precedent) and is no longer updated. While it was active it
+was the single source of truth: every batch PR updated the checkboxes below in
+the same PR that landed the work.
 
 ## Documents in this directory
 
@@ -31,9 +34,9 @@ flag it in the PR rather than improvising a new design.
 | 5b. Master-rule split | #33 | v1.28.0 | merged |
 | 5c. Analyst lane: `/paper:verify-numbers` | #34 | v1.29.0 | merged |
 | 5d. Scholar lane: `/paper:scholar` | #36 | v1.30.0 | merged |
-| 5e. Analyst capabilities 2-3: figures, new analyses | | v1.31.0 | ready for PR |
-| 5f. Installer test harness | | v1.32.0 | ready for PR |
-| B-M6. Merge `sentence-cohesion.md` (optional) | | v1.33.0 | ready for PR |
+| 5e. Analyst capabilities 2-3: figures, new analyses | #37 | v1.31.0 | merged |
+| 5f. Installer test harness | #37 | v1.32.0 | merged |
+| B-M6. Merge `sentence-cohesion.md` (optional) | #37 | v1.33.0 | merged |
 
 Merge strictly in order: Batch 2 depends on nothing, Batch 3 depends on Batch 2's
 constraint wording, the addendum depends on Batch 2's master-rule ground. Each PR
