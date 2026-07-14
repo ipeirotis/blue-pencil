@@ -30,8 +30,10 @@ flag it in the PR rather than improvising a new design.
 | 5a. Reader lane: `/paper:read` + cold read | #32 | v1.27.0 | merged |
 | 5b. Master-rule split | #33 | v1.28.0 | merged |
 | 5c. Analyst lane: `/paper:verify-numbers` | #34 | v1.29.0 | merged |
-| 5d. Scholar lane: `/paper:scholar` | | v1.30.0 | in progress |
-| 5e+. Remaining addendum lanes (one PR each) | | v1.31.0+ | not started |
+| 5d. Scholar lane: `/paper:scholar` | #36 | v1.30.0 | merged |
+| 5e. Analyst capabilities 2-3: figures, new analyses | | v1.31.0 | in progress |
+| 5f. Installer test harness | | v1.32.0 | not started |
+| B-M6. Merge `sentence-cohesion.md` (optional) | | v1.33.0 | not started |
 
 Merge strictly in order: Batch 2 depends on nothing, Batch 3 depends on Batch 2's
 constraint wording, the addendum depends on Batch 2's master-rule ground. Each PR
