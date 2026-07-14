@@ -367,7 +367,7 @@ pass, so a cold read chasing delight never justifies churn edits.
 
 The canonical banned-word, banned-phrase, em-dash, and storytelling-tell list lives in `references/ai-tells-to-avoid.md`. Load it before producing the revised text and the change rationale, and run its storytelling-tell checklist on any narrative pass so added story does not become decoration. Two governing principles:
 
-- Build transitions from the content itself, using the given-new chain in `references/sentence-cohesion.md`: end a sentence on the term the next sentence will pick up. If a transition word is the only thing making the connection clear, the underlying argument is the part that needs work.
+- Build transitions from the content itself, using the given-new chain in `references/sentence-patterns.md` (theory in `references/principles.md`): end a sentence on the term the next sentence will pick up. If a transition word is the only thing making the connection clear, the underlying argument is the part that needs work.
 - Avoid jargon that does not earn its place. If a plain word will do, use it.
 
 ## Restraint: leaving prose unchanged

@@ -1,8 +1,24 @@
 # Sentence patterns
 
-A catalog of recurring sentence-level patterns and their fixes. Load this when the sentence-level cohesion lens in SKILL.md (or in `references/sentence-cohesion.md`) names a problem and a concrete diagnosis with a named pattern is useful for the change rationale.
+A catalog of recurring sentence-level patterns and their fixes, plus the within-paragraph cohesion mechanics that make prose flow. Load this when the sentence-level cohesion lens in SKILL.md names a flow or pattern problem and a concrete diagnosis is useful for the change rationale.
 
-The AI-tell list and banned-transition policy live in `references/ai-tells-to-avoid.md`, not here.
+The theory behind the cohesion moves (Williams's old-new flow, Gopen and Swan's reader-expectation positions) lives in `references/principles.md`; this file is the operational version. The AI-tell list and banned-transition policy live in `references/ai-tells-to-avoid.md`, not here.
+
+## Cohesion within the paragraph
+
+The patterns below fix single sentences; these three moves fix how consecutive sentences hold together. (`references/principles.md` gives the underlying theory.)
+
+**The given-new chain.** Place what the reader already knows at the start of a sentence and the new information at the end; the new information of one sentence becomes the given information of the next, pulling the reader forward. The common failure is front-loading a sentence with a new technical term before the reader has an anchor.
+
+| Before | After |
+|---|---|
+| Heteroskedasticity-robust standard errors were computed. The HC3 variant was used for its small-sample properties. | We computed standard errors robust to heteroskedasticity. Among the variants, HC3 performs best in small samples, so we used it. |
+
+Diagnostic: for each sentence, ask whether it opens on something the previous sentence established. Build transitions from this chain (end a sentence on the term the next will pick up) rather than from a transition word bolted on top.
+
+**Topic strings.** Within a paragraph, the subjects of consecutive sentences should form a coherent set. If the subjects jump around (the data, the model, the result, the field), the reader reorients every sentence; if they stay related (the model, its parameters, its predictions, its limits), the reader stays oriented. Diagnostic: name the subject of every sentence in the paragraph. If you cannot do it in one breath, the topic string is broken.
+
+**Sentence-length variety.** A run of uniform-length sentences reads mechanically, and uniform length is itself an AI tell. Vary the rhythm: land a point with a short sentence after a long one, build out a complex idea with a long sentence after several short ones. This is not mechanical alternation; it means writing for the ear and reading the result aloud.
 
 ## Nominalizations
 
@@ -73,7 +89,7 @@ Hedges (modal verbs and adverbs that qualify a claim) are useful for honesty. St
 | It could be argued that one might consider the possibility that... | One possibility: ... |
 | The results seem to potentially indicate a tendency toward... | The results suggest a tendency toward... |
 
-Rule: one hedge per claim, maximum. If a claim is too uncertain to make with one hedge, do not make it. If a claim is solid enough to make, make it with one hedge or none.
+Rule: one hedge per claim, maximum; a claim too uncertain to make with a single hedge should not be made, and a claim solid enough to make takes one hedge or none. Exception: a hedge that marks genuine calibration or scope ("on the held-out set", "correlational", a qualifier that bounds the claim to what the evidence bears) is content, not filler; keep it, and count it as the claim's one hedge rather than stripping it (see the qualifier-is-content rule in SKILL.md and `references/subtraction.md`).
 
 ## Overclaiming
 

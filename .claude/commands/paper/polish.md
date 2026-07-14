@@ -16,7 +16,8 @@ the isolated dispatch.
 
 This is a conservative final-polish pass. Run it only when the section's
 structure, claims, and evidence are stable. Load `references/copyediting.md`,
-`references/ai-tells-to-avoid.md`, and `references/sentence-cohesion.md`. The
+`references/ai-tells-to-avoid.md`, and `references/sentence-patterns.md` (which
+now carries the given-new, stress-position, and rhythm cohesion moves). The
 copyediting pass runs after the argument, paragraph, reader-experience, and
 claim-calibration checks, so it repairs mechanics, not structure.
 
