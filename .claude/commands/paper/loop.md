@@ -103,6 +103,10 @@ Recommended loop:
       /paper:verify-numbers paper.tex   (verification only, no edits)
     If the environment grants literature retrieval:
       /paper:scholar paper.tex          (citation and novelty checks, no edits)
+    On demand, when the cold read or a reviewer names a specific target
+    (needs the data, a shell, and a write tool):
+      /paper:figures <figure>           (re-render from the same data, proposal only)
+      /paper:analyze <named analysis>   (new named analysis, proposal only)
     Then resolve the Author questions these passes raise and confirm the
     read's prioritized dispatch list; that list feeds the Phase 2 pass order.
   Phase 2, rewrite section by section in the Step B order:
@@ -139,7 +143,15 @@ contribution is then caught before the prose passes polish it. It is gated the
 same way (it needs retrieval) and reports what is missing instead of citing
 from memory when the gate fails, and its citation changes and recalibrated
 claims are proposals the author applies to the source, never edits the loop
-performs.
+performs. The analyst lane's two generative capabilities are targeted rather
+than whole-paper, so they are not standing phases: run `/paper:figures` when
+the cold read or a reviewer names a figure that buries its result, and
+`/paper:analyze` when one names an analysis the paper needs (a robustness
+check, a baseline, a subgroup cut). Both are gated on a write tool as well as
+the data and shell, both propose rather than edit, and a re-rendered figure or
+a new result the author adopts is applied to the source like any other
+correction, with the closing `/paper:consistency` catching what the
+surrounding text now contradicts.
 Resolve the `Author questions` these global passes raise,
 then rewrite in this order, using the cold read's prioritized dispatch list to
 decide which sections need which targeted passes:
