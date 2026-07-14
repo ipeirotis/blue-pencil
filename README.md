@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.30.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.31.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -53,6 +53,8 @@ Talk to the agent in plain English. Common requests and what each produces:
 | "Reviewer 2 says my methods are unclear. Here are the comments." | Edits only the paragraphs the reviewer flagged, and flags anything it cannot fix from your text alone. |
 | "Tighten our response letter; the reply to R1 sounds defensive." | Recalibrates the letter's tone without conceding your positions, and checks every "we changed X" claim against the manuscript. |
 | "Are the numbers in the abstract still what the pipeline produces?" | Reruns your own analysis pipeline and diffs its outputs against the manuscript's numbers, with provenance for every recomputed value (needs your data and code in the repo). |
+| "Make Figure 3 carry the result, using the same data." | Re-renders the figure from your own script and data with better design and proposes it beside the original, changing how the data is shown, never which data (needs your data, a shell, and a write tool). |
+| "Run the subgroup robustness check reviewer 2 asked for." | Pins the specification you named, runs it, and reports the whole result whichever way it points, as a proposal you decide on (needs your data, a shell, and a write tool). |
 | "Does reference 12 support our claim, and is our contribution actually novel?" | Fetches and reads the cited sources, reports each cited claim as supported, unsupported, or unverifiable, and returns novelty leads for you to judge (needs literature retrieval). |
 
 Every run returns the same four labelled sections, so you always know how to read it:
