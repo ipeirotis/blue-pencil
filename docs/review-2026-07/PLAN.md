@@ -33,7 +33,7 @@ flag it in the PR rather than improvising a new design.
 | 5d. Scholar lane: `/paper:scholar` | #36 | v1.30.0 | merged |
 | 5e. Analyst capabilities 2-3: figures, new analyses | | v1.31.0 | ready for PR |
 | 5f. Installer test harness | | v1.32.0 | ready for PR |
-| B-M6. Merge `sentence-cohesion.md` (optional) | | v1.33.0 | not started |
+| B-M6. Merge `sentence-cohesion.md` (optional) | | v1.33.0 | ready for PR |
 
 Merge strictly in order: Batch 2 depends on nothing, Batch 3 depends on Batch 2's
 constraint wording, the addendum depends on Batch 2's master-rule ground. Each PR
@@ -201,8 +201,9 @@ subagents with their own tool lists. `SKILL.md`'s `allowed-tools` stays
       `--commands`+`--uninstall`, refresh, `--update` drift; hermetic, wired
       into `make test` and CI). Chose the harness over shrinking the installer
       surface, so no user-facing installer feature was dropped. (v1.32.0)
-- [ ] Optional, anytime after Batch 2: B-M6 merge of `sentence-cohesion.md` into
-      `sentence-patterns.md` (low priority)
+- [x] Optional, anytime after Batch 2: B-M6 merge of `sentence-cohesion.md` into
+      `sentence-patterns.md` (low priority). Merged; hedging rules unified to one
+      statement with one exception; reference set 11 -> 10. (v1.33.0)
 
 ## Session prompts (Claude Code on the Web)
 

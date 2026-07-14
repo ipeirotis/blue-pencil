@@ -3,6 +3,20 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.33.0] - 2026-07-14
+
+Batch B-M6 of the 2026-07 skill review: the optional reference consolidation. `sentence-cohesion.md` duplicated material already carried elsewhere (its stress-position, throat-clearing, active-voice, and nominalization topics were pattern entries in `sentence-patterns.md`, and the deep given-new and reader-expectation theory lives in `principles.md`), so it is merged away and the reference set drops from 11 files to 10, with fewer load decisions and no drifting duplicate lists. Item ID refers to `review-b.md`'s section M (M6) and its adjudication in `docs/review-2026-07/reconciliation.md` (item 16, marked low priority). No editorial behavior changes: the same guidance is reachable, from one fewer file.
+
+### Changed
+
+- `references/sentence-patterns.md` gains a compact "Cohesion within the paragraph" section (the given-new chain, topic strings, and sentence-length variety) that captures the cohesion topics not already present as patterns, pointing at `references/principles.md` for the underlying theory. Its "Hedge stacking" section now states one rule with one exception (one hedge per claim, maximum; a hedge that marks genuine calibration or scope is content, kept and counted as the claim's one hedge) in place of the three separate imperative sentences, resolving the review's three-hedging-rules finding.
+- The live references to the removed file are retargeted: `SKILL.md`'s transition rule now points at the given-new chain in `references/sentence-patterns.md` (theory in `references/principles.md`), `paper-reviser.md`'s reference-trigger list drops it, and `polish.md` loads `references/sentence-patterns.md` for the cohesion moves. `references/sentence-cohesion.md` is deleted.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.33.0.
+
+### Removed
+
+- `references/sentence-cohesion.md`, merged into `references/sentence-patterns.md` and `references/principles.md`.
+
 ## [1.32.0] - 2026-07-14
 
 Batch 5f of the 2026-07 skill review: a test harness for `install.sh`. The installer is the repository's largest untested surface, and its highest-churn logic (command registration, the install manifest, refresh, uninstall, and the ref-sync/update path) had no CI coverage even though nearly every recent installer fix landed in exactly that logic. Rather than shrink the installer's surface (the review's alternative, which would drop user-facing features like copy-mode or `--ref` stickiness), this release adds the coverage. Item ID refers to `review-b.md`'s section F/testing note and its adjudication in `docs/review-2026-07/reconciliation.md` (item 22); the batch checklist lives in `PLAN.md`. No skill behavior changes; this is CI only.
