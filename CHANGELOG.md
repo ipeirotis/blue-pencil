@@ -3,6 +3,19 @@
 All notable changes to paper-revision-editor are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [1.32.0] - 2026-07-14
+
+Batch 5f of the 2026-07 skill review: a test harness for `install.sh`. The installer is the repository's largest untested surface, and its highest-churn logic (command registration, the install manifest, refresh, uninstall, and the ref-sync/update path) had no CI coverage even though nearly every recent installer fix landed in exactly that logic. Rather than shrink the installer's surface (the review's alternative, which would drop user-facing features like copy-mode or `--ref` stickiness), this release adds the coverage. Item ID refers to `review-b.md`'s section F/testing note and its adjudication in `docs/review-2026-07/reconciliation.md` (item 22); the batch checklist lives in `PLAN.md`. No skill behavior changes; this is CI only.
+
+### Added
+
+- `scripts/test-install.sh`, a hermetic behavior test for `install.sh`, covering the four scenarios the review names: `--init` in a fresh temp git repo (the `<paper_context>` block is scaffolded, a skipped field writes `[fill in]` and never the old `first draft` default, and the paper: commands, the three subagents, and the manifest are registered); `--commands` then `--uninstall` (the skill symlinks and every managed file are removed, a user's own file in the paper: namespace survives, and the manifest is dropped); refresh (re-registering from a changed source drops a command no longer shipped, registers a newly shipped one, rewrites the manifest, and leaves an unmanaged file untouched); and `--update` against a local origin ahead of the clone (the clone fast-forwards and the registered commands refresh to include a command added upstream, with a user's own command preserved). Each scenario runs in a throwaway sandbox with `HOME` and `PAPER_REVISION_EDITOR_HOME` pointed inside it, so it never touches the real `~/.claude`, `~/.agents`, or managed clone, and it builds a local git origin for the update test, so the whole suite needs no network. It is wired into `make test` and CI, and is shellcheck-clean (CI already shellchecks `scripts/*.sh`).
+
+### Changed
+
+- `make test` now runs `test-install` after the format checks; the Makefile gains a `test-install` target and help line, `.github/workflows/ci.yml` gains an "Installer behavior tests" step, and `scripts/README.md` documents the new script.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 1.32.0.
+
 ## [1.31.0] - 2026-07-14
 
 Batch 5e of the 2026-07 skill review: the analyst lane's two generative capabilities. The computation branch shipped verification-only in v1.29.0 (rerun the author's pipeline, diff its outputs against the manuscript's numbers). This release adds the two capabilities the addendum sequenced last and highest-risk, once the integrity norms had been exercised by verification: regenerate a named figure with better design from the same data and script, and run a new analysis the author names. Both author only new files in a proposal location and never touch the author's code, data, figures, or manuscript; the no-forking-paths rule is the load-bearing constraint on new analyses, keeping data access from becoming a machine for hypothesizing after the results are known. `SKILL.md`'s `allowed-tools` stays `Read Edit Grep Glob` per the reconciliation's conflict-5 architecture; the capability lives in the gated `paper-analyst` subagent, whose tool list gains `Write` so it can author new scripts and render new outputs. Item IDs refer to `review-b.md`'s addendum (A3 lane 3 capabilities 2-3, A5 item 5) and its adjudication in `docs/review-2026-07/reconciliation.md` (item 21); the batch checklist lives in `PLAN.md`.
