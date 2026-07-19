@@ -69,6 +69,27 @@ section describes..."). This is the puzzle-first opening of
 `references/edit-checks.md`, stated as a narrative requirement. The size of the
 gap sets the stakes, so do not open a gap wider than the paper closes.
 
+## What the reader believes, in and out
+
+Before restructuring a section, state two things: what the reader believes
+walking in, and what they should believe walking out. The section's job is that
+delta, and the spine is the path from one to the other. This is the `Reader map:`
+line from `SKILL.md`'s output format ("starts with... must learn... should leave
+with") used as a structural test rather than a reporting line, and it is the
+exposition pass's what-the-reader-knows-then-learns question
+(`references/exposition.md`) raised from the paragraph to the section.
+
+This names the deeper cause of dense prose. A paper feels dense when it is
+organized by topic, everything true about X, then everything true about Y,
+rather than by the reader's evolving understanding, what they can believe now
+that they could not believe a page ago. Topic organization weights every
+statement equally and has no through-line; understanding organization has a
+built-in spine, because each section exists to change one specific belief. When
+a section reads as a flat catalog, check whether it is ordered by its subject
+matter or by what the reader learns, and reorder the author's own material toward
+the latter. Reordering is editing; supplying the missing belief-changing content
+is drafting, and belongs in `Author questions`.
+
 ## Characters and agency
 
 Prose comes alive when sentences have characters performing actions (Williams,
