@@ -4,7 +4,7 @@ description: Revise, copy-edit, line-edit, polish, tighten, or give editorial fe
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.33.0"
+  version: "1.34.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -288,14 +288,14 @@ Good: "We investigated how X relates to Y and found three patterns."
 
 ### Reader experience
 
-A paper is a pleasure to read when the reader always knows what question is being answered, why the next sentence matters, and what payoff each paragraph delivered. Make pleasure operational, not decorative: improve orientation, momentum, payoff, rhythm, concreteness, and useful surprise. Do not add flourish, hype, or clever phrasing that calls attention to the editor. Load `references/reader-pleasure.md` when the user asks whether the prose is enjoyable, compelling, elegant, readable, or a pleasure to read, and before any whole-section rewrite once the logic, paragraph, and line-edit checks have cleared (the copyediting pass runs after this one). Use its exemplar catalog for techniques to borrow, not voices to imitate.
+A paper is a pleasure to read when the reader always knows what question is being answered, why the next sentence matters, and what payoff each paragraph delivered. Make pleasure operational, not decorative: improve orientation, momentum, payoff, rhythm, concreteness, and useful surprise. Prose reads dense when every sentence is built to carry maximum information; vary the load instead, keeping the low-load sentences that orient, restate, or transition, because this pass adds no new information (constraint 1) and can therefore spend its effort on rhythm. Do not add flourish, hype, or clever phrasing that calls attention to the editor. Load `references/reader-pleasure.md` when the user asks whether the prose is enjoyable, compelling, elegant, readable, or a pleasure to read, and before any whole-section rewrite once the logic, paragraph, and line-edit checks have cleared (the copyediting pass runs after this one). Use its exemplar catalog, and any pacing exemplar the author supplies, for techniques to borrow, not voices to imitate.
 
 Bad: "This section describes our model. The dataset is introduced. The results are discussed."
 Good: "The model has to solve two problems at once: sparse labels and shifting topics. We therefore evaluate it on a dataset that exposes both failures before turning to the results."
 
 ### Narrative spine
 
-A paper reads as human-written when it carries one question through the section: a setup, a tension, a turn, and a payoff. LLM-drafted prose tends to enumerate equally weighted points and announce that they matter; the cure is a spine, not surface storytelling. Find the section's one-sentence spine in the form "X and Y, but Z, therefore W", surface the tension the draft smoothed over, and show stakes through consequence rather than announcing them. Add structure, never decoration: manufactured hooks, journey metaphors, and anthropomorphized data are themselves AI tells, so a narrative pass that adds them makes prose more LLM-like, not less. Load `references/narrative-spine.md` on a first-draft or whole-section pass, and whenever the user asks to make the paper tell a story, read like a human wrote it, or sound less AI-generated or less LLM-like; load `references/ai-tells-to-avoid.md` with it so added narrative does not become decoration.
+A paper reads as human-written when it carries one question through the section: a setup, a tension, a turn, and a payoff. LLM-drafted prose tends to enumerate equally weighted points and announce that they matter; the cure is a spine, not surface storytelling. Find the section's one-sentence spine in the form "X and Y, but Z, therefore W", surface the tension the draft smoothed over, and show stakes through consequence rather than announcing them. Name what the reader believes walking into the section and what they should believe walking out; the section exists to change that belief. Prose feels dense when it is organized by topic rather than by the reader's evolving understanding, so reorder the author's own material toward the reader's changing beliefs, never supplying belief-changing content the author did not write. Add structure, never decoration: manufactured hooks, journey metaphors, and anthropomorphized data are themselves AI tells, so a narrative pass that adds them makes prose more LLM-like, not less. Load `references/narrative-spine.md` on a first-draft or whole-section pass, and whenever the user asks to make the paper tell a story, read like a human wrote it, or sound less AI-generated or less LLM-like; load `references/ai-tells-to-avoid.md` with it so added narrative does not become decoration.
 
 Bad: "We introduce a method. It has two components. We test it on two datasets. It beats the baseline."
 Good: "Our method adds only two components, yet on both datasets that is enough to beat the baseline."

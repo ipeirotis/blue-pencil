@@ -27,6 +27,28 @@ Read the revised text cold and ask five questions.
 
 If the answer to any question is no, fix the highest-leverage sentence or flag the problem in `Diagnosis`. Do not perform a decorative rewrite.
 
+### The tired-reviewer read
+
+The five questions above are a cold read for what works. Run one adversarial variant to find what fails: read the text as a tired reviewer at 11pm and mark every sentence where your attention drops, quoting each one. A model is far better at diagnosing dead prose than at avoiding it while generating, so this diagnostic pass catches airless sentences that the drafting pass wrote past. Each marked sentence is a `Diagnosis` item, routed to the load-variation and stress-position moves below; do not rewrite from the mark alone. At paper scale this pass is the delight audit in `references/cold-read.md`; run it there for a whole-paper read and here for a single section.
+
+## Load variation: not every sentence should work equally hard
+
+Dense prose has a specific cause. When each sentence is written to convey maximum information, every sentence works equally hard, and prose that never varies its load exhausts the reader even when every sentence is true. Human writing that flows varies the load: some sentences carry the argument, others orient the reader, restate a point so it lands, or exist only to move from one idea to the next. A sentence that does nothing but transition is not filler; it is the relief that lets the next high-load sentence register.
+
+This is why the argument and the flow are separate concerns, addressed in order (`SKILL.md`, Editing principles). Once the argument and structure are settled, the reader-experience pass adds no new information (constraint 1 forbids it), and that restriction is the point: with nothing to add, the effort goes into rhythm and load instead of into packing more in. Editing for flow is not editing for density.
+
+Concrete moves, all within the author's existing material:
+
+- **Let low-load sentences exist.** After a dense technical sentence, a short sentence that only names the consequence or orients the reader earns its place by setting rhythm (the keep-test's "sets rhythm" clause, `references/subtraction.md`). Do not compress it away as redundant.
+- **Vary sentence length deliberately.** Land a point with a short sentence after a long one; build a complex idea across a long sentence after several short ones. Uniform length is itself an AI tell (`references/sentence-patterns.md`, "Sentence-length variety").
+- **Open each section with a sentence a non-specialist could follow**, before the machinery arrives (the reader ladder, `references/exposition.md`).
+
+## The running example
+
+For delight specifically, a single example threaded through the whole paper does more than any sentence-level move. One example the reader meets in the introduction and follows through method, results, and discussion gives them a fixed handhold as the abstraction rises, and it is the most reliable source of the repeatable sentence the pleasure test asks for. Diagnose it: does the paper reuse one concrete case, or introduce a fresh disposable example in each section?
+
+This move is bounded by constraint 1. The editor may surface an example the author already wrote and thread it more consistently across sections the author already connects, and may point out where a scattered set of examples could become one. The editor may not invent a running example, extend one into a section where the author did not use it, or manufacture the connective claims that would carry it. When the paper would benefit from a running example it does not have, that is an `Author questions` item, not an edit.
+
 ## Edit moves that create pleasure without hype
 
 - **Make the question visible.** Replace generic openings with the specific puzzle, contrast, or uncertainty the paragraph resolves.
@@ -53,6 +75,8 @@ Use exemplars as technique sources, not as voices to imitate. The editor should 
 
 The common pattern is not literary flourish. These writers make ordinary material pleasurable by reducing reader effort at the right moments and increasing reader curiosity at the right moments. They orient before they formalize, name what must be remembered, make examples do argumentative work, let figures carry evidence, and place payoffs where the reader naturally pauses.
 
+An author may supply their own exemplar. "Match the sentence-length variation and paragraph pacing of this" is a usable instruction; "write engagingly" is not, because it names no target. When the author pastes a passage from a writer they admire as a pacing target, treat it as a rhythm model only: match its sentence-length variation and paragraph pacing, and nothing else. Do not borrow its diction, its mannerisms, its metaphors, or its voice, and do not import any of its content. The rule that exemplars are technique sources, not voices to imitate, holds for the author's own exemplar as much as for the catalog above; a supplied passage widens what "technique" covers to include cadence, not what may be copied.
+
 ## Anti-patterns
 
 These make a paper less pleasurable even when every sentence is grammatical.
@@ -72,4 +96,4 @@ At `final polish`, pleasure edits are sentence-level only: stress position, rhyt
 
 ## Rationale language
 
-In `Change rationale`, name the reader-experience benefit precisely. Good reasons include: visible question, improved payoff, corrected stress position, reduced processing load, restored contrast, varied rhythm, concrete anchor, or clearer consequence. Bad reasons include: more engaging, more elegant, better flow, stronger voice, or pleasure to read with no named mechanism.
+In `Change rationale`, name the reader-experience benefit precisely. Good reasons include: visible question, improved payoff, corrected stress position, reduced processing load, restored contrast, varied rhythm, varied sentence load, a low-load sentence kept for relief, a running example threaded across sections, concrete anchor, or clearer consequence. Bad reasons include: more engaging, more elegant, better flow, stronger voice, or pleasure to read with no named mechanism.

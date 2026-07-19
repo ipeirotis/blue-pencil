@@ -76,6 +76,17 @@ Taxes: a stretch with no payoff in sight, machinery before motive, a defensive
 caveat wall, list rhythm across paragraphs or sections. "A pleasure to read" is
 measured here, not asserted; an empty rewards column is itself a finding.
 
+Find the taxes adversarially: read the paper as a tired reviewer at 11pm and
+mark every sentence where your attention drops, quoting each one and its
+location. A model diagnoses dead prose far better than it avoids writing dead
+prose, so this deliberately hostile read surfaces airless stretches that a
+sympathetic read glides past. Also note whether one concrete example runs
+through the whole paper or each section introduces a fresh disposable one; a
+single running example is the highest-leverage source of delight
+(`references/reader-pleasure.md`), and its absence is a reward the paper is
+leaving unclaimed. The marks feed the dispatch list; this pass diagnoses and
+never rewrites.
+
 ### 4. Venue compliance
 
 Whole-paper checks that belong to a front-to-back read, driven by
