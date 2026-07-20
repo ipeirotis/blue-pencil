@@ -4,7 +4,7 @@ description: Revise, copy-edit, line-edit, polish, tighten, or give editorial fe
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.34.0"
+  version: "1.35.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -335,6 +335,19 @@ remaining gap is the author's call.
 
 For the failure modes a naive cut destroys, the blind spot (subtraction never finds the missing step), and a worked example, load `references/subtraction.md`.
 
+## Altitude: match detail to the section
+
+Every passage sits at an altitude, and detail has a home. High-altitude text (abstract, section openers, topic sentences, the contribution paragraph) states findings and claims; low-altitude text (Methods, Results, the body) carries the machinery: the model class, estimators, specification sweeps, confidence intervals, design caveats, single-source limitations. Prose reads obtuse when detail floats up out of its home section, so the reader meets the apparatus before they want it and the claim is buried inside it. This is a different axis from Subtraction: the keep-test asks whether a clause survives, the altitude test asks where the survivor belongs, and a load-bearing clause can still sit three sections too high.
+
+Three directives. Report the finding, not the machinery: above Results, a result is direction plus magnitude plus one significance marker, and the model, inference level, robustness sweep, and confidence interval stay in Results. Send each caveat to its home section: a design qualification to Methods, a single-annotator or sample-size limitation to Limitations, never voiced at the moment the claim it qualifies is first stated. Keep one number per claim: a stacked confidence interval, secondary p-value, or derived rate rides down into the body.
+
+The fix for a too-high clause is relocation, not compression: move it to the section that wants it, log the move in `Change rationale`, and when moving it crosses the requested scope, raise it in `Author questions` instead. Moving a numerical clause still trips the numerical-claim constraint, so flag it too. Two nearby rules finish the job: say it once (a finding restated in fresh words is a cut, per the Subtraction section), and the load-bearing sentence is the plainest (the sentence carrying the main point should be the easiest to parse, not the most nested).
+
+Bad (abstract): "a mixed-effects model on log completion time, with inference at the participant level, estimates a 31% reduction per query (p = 0.03, 95% CI 4% to 51%)."
+Good (abstract): "users were about 31% faster (p = 0.03)."
+
+Load `references/altitude.md` for the full directives, the say-it-once and buried-thesis cross-references, and worked before-and-after pairs, on any abstract, introduction, conclusion, or contribution-paragraph pass, and whenever a passage carries statistical machinery, a stacked confidence interval, or a preemptive caveat above the section that owns it.
+
 ## Section-specific lens
 
 Identify the section type from the file name or heading. Load `references/structural-patterns.md` for deeper guidance (abstract architecture, the McEnerney test for introductions, related-work-by-position, methodology pathologies, results structure, discussion structure, conclusions, rebuttal letters, grant proposals).
@@ -379,6 +392,7 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - Topic sentence in the first two sentences.
 - Coherent topic string across consecutive sentences.
 - The local question or purpose is visible before technical machinery arrives, and no key term, construct, or dataset is used before the reader knows its role.
+- No clause carries detail that belongs in a lower-altitude section: full inferential machinery, a caveat voiced above its home section, or a headline number trailing a confidence interval, secondary statistic, or derived rate.
 - Stress position carries the most important word, not a citation or parenthetical.
 - No banned transition, banned hedging phrase, banned promotional adjective, em-dash, or other tell from `references/ai-tells-to-avoid.md`.
 - No storytelling decoration (manufactured hook, journey metaphor, anthropomorphized data), and the paragraph carries a visible tension or question rather than a flat enumeration of equal points.
@@ -415,6 +429,7 @@ Run this checklist before sending the final answer:
 - Reader-transformation check: scope it to the requested unit. For a whole-section or first-draft pass, after reading the revised text cold a smart non-specialist in the venue area can answer what the question is, why it is hard, what the paper does, what was learned, and why it should change how the reader thinks. For a single paragraph, a final-polish, or a reviewer-limited edit, ask only the paragraph's local job (what the reader should understand after it), not the whole-paper questions, and never add orientation outside the requested scope to pass.
 - Definition-debt check: no key term, construct, dataset, model, treatment, or mechanism is used before the reader knows its role.
 - Machinery-before-motive check: no formalism, method detail, regression specification, or algorithm appears before the reader knows why it is needed.
+- Altitude check: in an abstract, introduction, or section opener, no result is reported with its full inferential machinery, no caveat is voiced above its home section, and no headline number trails a confidence interval, secondary statistic, or derived rate.
 - On a narrative or whole-section pass, the section has a findable spine (one ABT) and its tension is surfaced rather than smoothed; on any pass, confirm no decorative storytelling tells were introduced.
 - Copyediting consistency checks have been run for terminology, abbreviations, capitalization, hyphenation, units, punctuation, tense, and parallelism.
 - Requested scope is respected.

@@ -41,6 +41,18 @@ Every common way a cut goes wrong is a keep-criterion the cutter did not check.
 - Cut an example that ruled out a reading and you broke criterion 2: the reader no longer believes you.
 - Salami-slicing: ten individually safe cuts compound into the removal of a whole inferential step. The read-cold pass in SKILL.md is the check that catches the compounded loss; run it after any heavy cut.
 
+## Say it once
+
+A finding does not get clearer by restatement. When a later sentence says again, in fresh words, a result the reader has already read, it fails every keep criterion: it advances no step, links nothing new, serves no new reader, pre-empts no objection, and sets no rhythm the first statement did not. This includes the "here is what it means" echo that only reflects the finding back at the reader. Cut the restatement and keep the first statement.
+
+Distinguish restatement from a genuine next step. "Accuracy fell 18 points" followed by "so the speed gain did not translate into more correct answers" is an inference the first sentence did not state, and the keep-test keeps it (criterion 1). "Accuracy fell 18 points" followed by "the interface produced no detectable accuracy gain" is the same claim twice, and the second goes.
+
+## Universal qualifiers are filler, not scope
+
+The qualifier-is-content rule protects scope and calibration qualifiers: "on the held-out set", "correlational", "in our sample" bound a claim to what the evidence bears, so removing one changes the claim and counts as a deletion. A universal qualifier does the opposite. It is true of every study, so it bounds nothing. "At this sample size" (every result is at its sample size), "observable" on effort or effect (every measured thing is observable), "to some extent", and "in our data" where no contrast with other data is meant, add no scope the claim did not already carry. These fail the keep-test and compress away freely.
+
+The test that separates the two: does the qualifier rule out a reading the reader would otherwise take? A scope qualifier does ("held-out, not training"), so it is content; a universal qualifier does not, so it is filler. When in doubt, treat it as scope and keep it, since cutting a real scope qualifier is the costlier error (criterion 2).
+
 ## Scale the action to the unit size
 
 The bigger the unit, the more a wrong cut costs, so the more the editor proposes rather than performs.
