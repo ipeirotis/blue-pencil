@@ -42,6 +42,13 @@ TARGETS=(
 # paper: namespace, or an older manual copy we never recorded, are never touched.
 # Not a *.md file, so Claude Code's command scan ignores it.
 MANIFEST_REL=".paper-revision-editor-manifest"
+# A small marker recording that the global command set is *registered* for this
+# HOME, kept separate from the manifest so a temporary downgrade (a --ref that
+# ships no command files) can remove the incompatible commands while remembering
+# that the user opted in. A later --update back to a ref that ships commands then
+# restores them, instead of leaving /paper:* absent as if --uninstall had run.
+# Cleared only by --uninstall. Not a *.md file, so Claude Code's scan ignores it.
+COMMANDS_MARKER_REL=".paper-revision-editor-commands-registered"
 # Git ref (tag, branch, or commit) to install or update to. An explicit value
 # (here or via --ref) is "sticky": it is honored on install and reinstall and
 # is preserved across a plain --update. Without one, the clone stays on
@@ -234,8 +241,15 @@ unlink_one() {
 # registers commands must make sure the skill itself is present first, or
 # /paper:* names would resolve to nothing. Idempotent (link_one is a no-op when
 # the link already exists).
+# Targets that the most recent ensure_skill_linked run actually linked or copied
+# to the source (link_one returned success). any_skill_link_usable reads this so
+# it counts only targets this run established, never a pre-existing conflicting
+# path we refused to touch. Declared here so `set -u` never sees it unset.
+LINKED_TARGETS=()
+
 ensure_skill_linked() {
   local src="$1" dest failures=0
+  LINKED_TARGETS=()
   for dest in "${TARGETS[@]}"; do
     # Attempt every target without aborting mid-loop, so a conflict on one (e.g.
     # an unmanaged ~/.agents dir from another tool) does not prevent linking the
@@ -243,19 +257,26 @@ ensure_skill_linked() {
     # conflicting target. Return non-zero if any target failed, so callers that
     # require a full link (install/update) report it instead of claiming success,
     # while command-registration callers can tolerate a partial link.
-    link_one "$src" "$dest" || failures=$((failures + 1))
+    if link_one "$src" "$dest"; then
+      LINKED_TARGETS+=("$dest")
+    else
+      failures=$((failures + 1))
+    fi
   done
   [ "$failures" -eq 0 ]
 }
 
-# True when at least one standard target has a usable skill (its SKILL.md is
-# reachable through the link). ensure_skill_linked tolerates a partial link, but
-# a command registration that leaves *no* usable link would resolve /paper:* to a
-# skill that is not there, dead-ending every invocation. Callers that must
-# guarantee the skill loads check this before reporting success.
+# True when at least one target this run linked/copied has a reachable SKILL.md.
+# ensure_skill_linked tolerates a partial link, but a command registration that
+# leaves *no* usable link would resolve /paper:* to a skill that is not there,
+# dead-ending every invocation. Callers that must guarantee the skill loads check
+# this before reporting success. It considers only LINKED_TARGETS, so a target
+# that link_one *refused* (an unmanaged dir that merely happens to contain a
+# SKILL.md we never linked to our source) is not mistaken for a working install.
 any_skill_link_usable() {
   local dest
-  for dest in "${TARGETS[@]}"; do
+  [ "${#LINKED_TARGETS[@]}" -gt 0 ] || return 1
+  for dest in "${LINKED_TARGETS[@]}"; do
     [ -e "$dest/SKILL.md" ] && return 0
   done
   return 1
@@ -277,13 +298,47 @@ file_has_complete_context() {
   printf '%s\n' "$block" | grep -Eq '^[[:space:]]*[A-Za-z_]+:'
 }
 
+# True when <file> holds a closed <paper_context> block carrying *all four*
+# required fields (target_venue, audience, core_thesis, revision_stage). Stricter
+# than file_has_complete_context, which accepts a single key: this gate decides
+# whether a CLAUDE.md/paper-meta.md is worth migrating into AGENTS.md. Migrating a
+# partial source (e.g. a hand-written paper-meta.md with only target_venue) would
+# make --init report success while the skill immediately stops for the missing
+# fields, so a partial source falls through to the interactive scaffold instead.
+file_has_all_context_fields() {
+  local block key
+  block="$(sed -n '/<paper_context>/,/<\/paper_context>/p' "$1")"
+  printf '%s\n' "$block" | grep -q '</paper_context>' || return 1
+  for key in target_venue audience core_thesis revision_stage; do
+    printf '%s\n' "$block" | grep -Eq "^[[:space:]]*${key}:[[:space:]]*[^[:space:]]" || return 1
+  done
+}
+
+# Remove a closed <paper_context> block from <file> in place. Used before
+# scaffolding or migrating into an AGENTS.md that already holds an incomplete
+# block: the skill reads the *first* <paper_context> it finds, so appending a
+# second one would leave invocations stopping on the broken first block. Only
+# excises a properly closed block; an unterminated opening tag is left untouched
+# (its extent is ambiguous), and callers handle that case separately.
+strip_context_block() {
+  local file="$1"
+  grep -q '</paper_context>' "$file" || return 0
+  awk '
+    /<paper_context>/            { skip = 1 }
+    skip && /<\/paper_context>/  { skip = 0; next }
+    skip                         { next }
+    { print }
+  ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+}
+
 # Locate a repo file that already carries a complete <paper_context> block
 # (CLAUDE.md, then paper-meta.md), for migration during --init. Echoes the path;
-# empty when none exists.
+# empty when none exists. Requires all four fields, so a partial block is not
+# migrated over the interactive scaffold.
 existing_context_file() {
   local root="$1" f
   for f in "$root/CLAUDE.md" "$root/paper-meta.md"; do
-    [ -f "$f" ] && file_has_complete_context "$f" && { printf '%s' "$f"; return 0; }
+    [ -f "$f" ] && file_has_all_context_fields "$f" && { printf '%s' "$f"; return 0; }
   done
   return 1
 }
@@ -363,18 +418,34 @@ run_update() {
   # manifest, not just the directory's existence: a user's own ~/.claude/commands/paper
   # that this installer never registered has no manifest, and a plain skill update
   # must not back up and overwrite their custom paper: commands.
-  if [ -f "$HOME/.claude/$MANIFEST_REL" ]; then
+  if [ -f "$HOME/.claude/$MANIFEST_REL" ] || [ -f "$HOME/.claude/$COMMANDS_MARKER_REL" ]; then
     if [ -d "$src/.claude/commands/paper" ]; then
       install_commands "$HOME" "$src"
+      # Record the opt-in so a later downgrade-then-upgrade round trip restores
+      # the commands even though the intervening downgrade drops the manifest.
+      mark_commands_registered "$HOME"
     else
       # The target ref predates the bundled paper: commands (a downgrade or a
       # pin to an older release). Leaving the previously registered global set
       # in place would keep stale /paper:* commands resolving against a skill
       # version that no longer ships their lanes and reference files, so remove
-      # the manifested set instead of silently leaving an incompatible one.
-      echo "Target ref ships no paper: commands; removing the previously registered global set."
+      # the manifested set instead of silently leaving an incompatible one. Keep
+      # the registration marker, though: the user never ran --uninstall, so a
+      # future --update onto a ref that ships commands must restore them rather
+      # than treat this temporary downgrade as an opt-out.
+      echo "Target ref ships no paper: commands; removing the previously registered global set (a later update restores it)."
       remove_commands "$HOME"
+      mark_commands_registered "$HOME"
     fi
+  elif [ -d "$HOME/.claude/commands/paper" ]; then
+    # A pre-manifest install: an older installer copied paper: commands here
+    # without recording a manifest, so we cannot tell our files from the user's
+    # own and must not back up and overwrite them on a plain update. Rather than
+    # let those commands drift stale and silent, point the user at the one safe,
+    # explicit action that adopts them for automatic refresh going forward.
+    echo "Note: found paper: commands in $HOME/.claude/commands/paper with no install manifest."
+    echo "      A plain --update leaves them as-is. Run '$(installer_path "$src") --commands'"
+    echo "      once to register them for automatic updates (your own paper: files are backed up, not lost)."
   fi
 
   echo
@@ -383,6 +454,16 @@ run_update() {
   else
     echo "Updated $before -> $after (ref $ref)."
   fi
+}
+
+# Record that the global command set is registered for this base's .claude tree.
+# Written whenever --commands or an --update refresh installs (or intentionally
+# holds the opt-in across) the global set, so a downgrade that drops the manifest
+# does not read as an uninstall. Idempotent.
+mark_commands_registered() {
+  local claude_dir="$1/.claude"
+  mkdir -p "$claude_dir"
+  : > "$claude_dir/$COMMANDS_MARKER_REL"
 }
 
 # Remove the global paper: commands and the paper subagents that --commands
@@ -420,6 +501,9 @@ run_uninstall() {
     unlink_one "$dest"
   done
   remove_commands "$HOME"
+  # An explicit uninstall is a real opt-out, so drop the registration marker too;
+  # a later --update must not resurrect the global commands.
+  rm -f "$HOME/.claude/$COMMANDS_MARKER_REL"
   echo "Note: paper: commands copied into a repo by --init stay in that repo; remove them there if you want them gone."
 }
 
@@ -637,6 +721,7 @@ run_commands() {
     exit 1
   fi
   install_commands "$HOME" "$src"
+  mark_commands_registered "$HOME"
   echo
   echo "Done. /paper:loop and the other paper: commands now resolve in every project."
 }
@@ -689,6 +774,24 @@ run_init() {
   if [ -f "$target" ] && file_has_complete_context "$target"; then
     echo "AGENTS.md already contains a <paper_context> block. Skipping scaffolding."
     return 0
+  fi
+
+  # AGENTS.md exists but carries no usable context. If it holds an *incomplete*
+  # <paper_context> block (e.g. empty tags), we must not leave it and append a
+  # second block below: the skill reads the first <paper_context> it finds and
+  # would stop on the broken one. Excise a closed-but-incomplete block so the
+  # scaffold or migration becomes the only block. An unterminated block (opening
+  # tag with no close) cannot be excised safely, so stop and ask for a hand fix
+  # rather than emit a file the skill still cannot load.
+  if [ -f "$target" ] && grep -q '<paper_context>' "$target"; then
+    if grep -q '</paper_context>' "$target"; then
+      echo "Replacing an incomplete <paper_context> block already in AGENTS.md."
+      strip_context_block "$target"
+    else
+      echo "ERROR: $target has an unterminated <paper_context> block (opening tag, no </paper_context>)." >&2
+      echo "       Fix or remove it by hand, then re-run --init." >&2
+      exit 1
+    fi
   fi
 
   # If AGENTS.md carries no context yet but the repo was already configured with

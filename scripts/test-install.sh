@@ -17,6 +17,7 @@ set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 INSTALL="$REPO_ROOT/install.sh"
 MANIFEST_REL=".paper-revision-editor-manifest"
+COMMANDS_MARKER_REL=".paper-revision-editor-commands-registered"
 
 pass=0
 fail=0
@@ -31,6 +32,8 @@ assert_symlink() { if [ -L "$1" ]; then ok; else no "$2 (expected symlink: $1)";
 assert_no_path() { if [ ! -e "$1" ] && [ ! -L "$1" ]; then ok; else no "$2 (path still present: $1)"; fi; }
 assert_grep()    { if grep -qF -- "$2" "$1" 2>/dev/null; then ok; else no "$3 (missing '$2' in $1)"; fi; }
 assert_no_grep() { if grep -qF -- "$2" "$1" 2>/dev/null; then no "$3 (unexpected '$2' in $1)"; else ok; fi; }
+# Assert the literal string $2 appears on exactly $3 lines of file $1.
+assert_count()   { local n; n="$(grep -cF -- "$2" "$1" 2>/dev/null || true)"; n="${n:-0}"; if [ "$n" = "$3" ]; then ok; else no "$4 (expected $3 of '$2' in $1, got $n)"; fi; }
 
 # Run an install.sh non-interactively inside a sandbox HOME. `read_field` reads
 # from /dev/tty when stdin is not a terminal, so on a developer machine with a
@@ -197,11 +200,173 @@ test_update_drift() {
   rm -rf "$sb"
 }
 
+# --- Scenario 5: --commands refuses to claim success on conflicting targets ---
+# When both skill targets are unmanaged dirs (not our symlink/copy) that merely
+# happen to contain a SKILL.md, link_one refuses them and no usable link is
+# established. --commands must fail and register nothing, rather than count a
+# refused dir as a working skill and print success for /paper:* that dead-end.
+test_refused_targets() {
+  local sb; sb="$(mktemp -d)"
+  # Pre-create both targets as plain (non-symlink) dirs. The claude one carries a
+  # SKILL.md but no VERSION, so it is neither a symlink nor a prior install:
+  # link_one refuses it. Neither is linked to our source.
+  mkdir -p "$sb/.agents/skills/paper-revision-editor" "$sb/.claude/skills/paper-revision-editor"
+  printf 'not ours\n' > "$sb/.claude/skills/paper-revision-editor/SKILL.md"
+
+  if run_installer "$sb" --commands; then
+    no "refused: --commands should exit non-zero when no usable skill link exists"
+  else
+    ok
+  fi
+  assert_no_file "$sb/.claude/commands/paper/loop.md" "refused: no commands registered when skill link failed"
+  assert_no_file "$sb/.claude/$MANIFEST_REL" "refused: no manifest written when skill link failed"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario 6: a complete external context block migrates into AGENTS.md -----
+# A paper-meta.md carrying all four required fields is migrated verbatim into a
+# freshly created AGENTS.md (no interactive scaffold), as a single block. This
+# path never reaches read_field, so it runs even without a usable /dev/tty.
+test_migration_complete() {
+  local sb repo; sb="$(mktemp -d)"; repo="$sb/paper"
+  mkdir -p "$repo"
+  git -C "$repo" init -q
+  cat > "$repo/paper-meta.md" <<'META'
+<paper_context>
+target_venue: Nature
+audience: general science readers
+core_thesis: widgets improve throughput
+revision_stage: final polish
+</paper_context>
+META
+  ( cd "$repo" && run_installer "$sb" --init )
+
+  assert_file "$repo/AGENTS.md" "migrate: AGENTS.md created"
+  assert_grep "$repo/AGENTS.md" "target_venue: Nature" "migrate: real venue carried over"
+  assert_grep "$repo/AGENTS.md" "revision_stage: final polish" "migrate: real stage carried over"
+  assert_no_grep "$repo/AGENTS.md" "[REPLACE:" "migrate: no leftover template placeholders"
+  assert_count "$repo/AGENTS.md" "<paper_context>" "1" "migrate: exactly one context block"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario 7: a partial external block is NOT migrated ----------------------
+# A paper-meta.md missing required fields must not short-circuit the scaffold: it
+# would leave --init reporting success while the skill immediately stops for the
+# missing context. It falls through to the scaffold ([fill in] placeholders).
+test_migration_partial() {
+  if [ "$can_run_init" -eq 0 ]; then
+    echo "  SKIP: --init partial-migration (field prompts would block)."
+    skipped=$((skipped + 1))
+    return
+  fi
+  local sb repo; sb="$(mktemp -d)"; repo="$sb/paper"
+  mkdir -p "$repo"
+  git -C "$repo" init -q
+  cat > "$repo/paper-meta.md" <<'META'
+<paper_context>
+target_venue: Nature
+</paper_context>
+META
+  ( cd "$repo" && run_installer "$sb" --init )
+
+  assert_file "$repo/AGENTS.md" "partial: AGENTS.md scaffolded"
+  assert_no_grep "$repo/AGENTS.md" "target_venue: Nature" "partial: partial block not migrated"
+  assert_grep "$repo/AGENTS.md" "audience: [fill in]" "partial: scaffold placeholders written instead"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario 8: an incomplete AGENTS.md block is replaced, not duplicated -----
+# When AGENTS.md already holds an empty <paper_context> block, --init must remove
+# it and write a single usable block, not append a second one that the skill
+# never reaches. Surrounding content is preserved.
+test_incomplete_block_replaced() {
+  if [ "$can_run_init" -eq 0 ]; then
+    echo "  SKIP: --init incomplete-block (field prompts would block)."
+    skipped=$((skipped + 1))
+    return
+  fi
+  local sb repo; sb="$(mktemp -d)"; repo="$sb/paper"
+  mkdir -p "$repo"
+  git -C "$repo" init -q
+  cat > "$repo/AGENTS.md" <<'DOC'
+# AGENTS.md
+
+## Paper context
+
+<paper_context>
+</paper_context>
+
+## Keep me
+
+sentinel-line
+DOC
+  ( cd "$repo" && run_installer "$sb" --init )
+
+  assert_count "$repo/AGENTS.md" "<paper_context>" "1" "incomplete: exactly one context block after replace"
+  assert_grep "$repo/AGENTS.md" "target_venue:" "incomplete: replacement block has the fields"
+  assert_grep "$repo/AGENTS.md" "sentinel-line" "incomplete: surrounding content preserved"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario 9: registration survives a downgrade round trip ------------------
+# A ref that ships no paper: commands removes the global set (and its manifest),
+# but the registration marker must persist so a later --update onto a ref that
+# ships commands restores them, rather than treating the downgrade as an opt-out.
+test_downgrade_marker() {
+  local sb up clone; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"
+  # Build the upstream from the working tree (not a clone of REPO_ROOT's commit),
+  # so the test exercises the install.sh under edit even before it is committed.
+  mkdir -p "$up"
+  git -C "$up" init -q
+  cp "$REPO_ROOT/install.sh" "$REPO_ROOT/SKILL.md" "$REPO_ROOT/VERSION" "$up/"
+  cp -R "$REPO_ROOT/.claude" "$up/.claude"
+  git -C "$up" add -A
+  git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "baseline"
+  git -C "$up" checkout -q -B test-marker
+  git clone -q --branch test-marker "$up" "$clone" 2>/dev/null
+  if [ ! -d "$clone/.git" ]; then
+    no "downgrade: could not build a local clone"
+    rm -rf "$sb"; return
+  fi
+
+  run_from "$sb" "$clone/install.sh" --commands
+  local ctx="$sb/.claude"
+  assert_file "$ctx/commands/paper/loop.md" "downgrade: baseline command registered"
+  assert_file "$ctx/$COMMANDS_MARKER_REL" "downgrade: registration marker written"
+
+  # Downgrade: upstream drops the bundled commands entirely.
+  git -C "$up" rm -q -r .claude/commands/paper
+  git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "drop bundled commands"
+  run_from "$sb" "$clone/install.sh" --update
+
+  assert_no_file "$ctx/commands/paper/loop.md" "downgrade: incompatible command removed"
+  assert_no_file "$ctx/$MANIFEST_REL" "downgrade: manifest dropped with the commands"
+  assert_file "$ctx/$COMMANDS_MARKER_REL" "downgrade: marker kept across the downgrade"
+
+  # Upgrade back: upstream restores the commands; the marker must drive a refresh.
+  git -C "$up" -c user.email=t@example.com -c user.name=test revert --no-edit HEAD >/dev/null 2>&1
+  run_from "$sb" "$clone/install.sh" --update
+
+  assert_file "$ctx/commands/paper/loop.md" "downgrade: commands restored on upgrade via marker"
+  assert_file "$ctx/$MANIFEST_REL" "downgrade: manifest rewritten on restore"
+
+  rm -rf "$sb"
+}
+
 echo "Running install.sh tests..."
 test_init
 test_commands_uninstall
 test_refresh
 test_update_drift
+test_refused_targets
+test_migration_complete
+test_migration_partial
+test_incomplete_block_replaced
+test_downgrade_marker
 
 echo
 skip_note=""
