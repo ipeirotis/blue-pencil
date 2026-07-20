@@ -120,8 +120,12 @@ for v in "${versions[@]}"; do
   if [ "$dry_run" -eq 1 ]; then
     echo "  DRY-RUN: gh release create $tag --title $tag --notes (from CHANGELOG)"
   else
+    # --verify-tag: fail rather than let gh create the tag from the default
+    # branch. If origin points at a fork, the tag push above lands on the fork
+    # while --repo targets upstream; without this, gh would happily tag current
+    # main on upstream instead of the historical release commit.
     printf '%s\n' "$notes" | gh release create "$tag" \
-      --repo "$REPO" --title "$tag" --notes-file -
+      --repo "$REPO" --title "$tag" --verify-tag --notes-file -
   fi
   created_releases=$((created_releases + 1))
 done

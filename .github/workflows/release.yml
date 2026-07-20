@@ -32,6 +32,10 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
+          # A workflow_dispatch backfill may create annotated tags, which need a
+          # tagger identity; the runner's git config has none by default.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if [ "$EVENT_NAME" = "push" ]; then
             # A tag push publishes exactly that version's Release.
             bash scripts/publish-releases.sh "${GITHUB_REF_NAME#v}"

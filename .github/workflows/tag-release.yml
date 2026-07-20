@@ -22,11 +22,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create annotated tags
+        id: tags
         env:
           PAIRS: ${{ inputs.pairs }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          versions=""
           for pair in $PAIRS; do
             tag="${pair%%=*}"
             sha="${pair#*=}"
@@ -37,4 +39,18 @@ jobs:
             git tag -a "$tag" -m "$tag" "$sha"
             git push origin "$tag"
             echo "created: $tag -> $sha"
+            versions="$versions ${tag#v}"
           done
+          echo "versions=$(echo $versions | xargs)" >> "$GITHUB_OUTPUT"
+
+      # Tags pushed above use GITHUB_TOKEN, so they do not trigger the
+      # release.yml `push: tags` workflow. Publish their Releases here so an
+      # action-created tag is never left without a matching GitHub Release.
+      - name: Publish GitHub Release(s) for the new tags
+        if: steps.tags.outputs.versions != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSIONS: ${{ steps.tags.outputs.versions }}
+        run: |
+          set -euo pipefail
+          bash scripts/publish-releases.sh $VERSIONS
