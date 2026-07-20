@@ -329,12 +329,15 @@ test_partial_agents_block() {
 target_venue: Nature
 </paper_context>
 DOC
-  # Capture output: the meaningful signal here is the gap-naming message, and this
-  # path never reaches read_field, so no setsid/tty handling is needed.
-  local out
+  # Capture output and exit status: the meaningful signals here are the gap-naming
+  # message and a non-zero exit (so a gating workflow does not treat the repo as
+  # ready). This path never reaches read_field, so no setsid/tty handling is needed.
+  local out rc
   out="$(cd "$repo" && HOME="$sb" PAPER_REVISION_EDITOR_HOME="$sb/.cache-clone" \
     bash "$INSTALL" --init </dev/null 2>&1)"
+  rc=$?
 
+  if [ "$rc" -ne 0 ]; then ok; else no "partial-agents: --init should exit non-zero on incomplete context"; fi
   case "$out" in
     *"missing required field"*) ok ;;
     *) no "partial-agents: --init should name the missing fields" ;;
@@ -347,6 +350,62 @@ DOC
   assert_no_grep "$repo/AGENTS.md" "[fill in]" "partial-agents: not overwritten with placeholders"
   assert_count "$repo/AGENTS.md" "<paper_context>" "1" "partial-agents: no duplicate block appended"
   assert_file "$repo/.claude/commands/paper/loop.md" "partial-agents: commands still registered"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario: a stale skill shadowing a good link at higher priority ---------
+# The subagents resolve ~/.claude/skills before ~/.agents/skills. If a refused
+# unmanaged dir with a foreign SKILL.md sits at ~/.claude/skills while ~/.agents
+# links fine, /paper:* still loads the stale ~/.claude one. --commands must fail
+# (not count the lower-priority good link as usable) and register nothing.
+test_shadowed_link() {
+  local sb; sb="$(mktemp -d)"
+  # Refused, higher-priority target carrying a foreign skill; no VERSION, not a
+  # symlink, so link_one refuses it. ~/.agents is left free to link successfully.
+  mkdir -p "$sb/.claude/skills/paper-revision-editor"
+  printf 'stale, not ours\n' > "$sb/.claude/skills/paper-revision-editor/SKILL.md"
+
+  if run_installer "$sb" --commands; then
+    no "shadowed: --commands should fail when a stale skill shadows the good link"
+  else
+    ok
+  fi
+  assert_no_file "$sb/.claude/commands/paper/loop.md" "shadowed: no commands registered under a shadowed link"
+  assert_no_file "$sb/.claude/$MANIFEST_REL" "shadowed: no manifest written under a shadowed link"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario: --init refuses an AGENTS.md with multiple context blocks --------
+# The skill uses only the first block, so multiple blocks are ambiguous. --init
+# must not silently validate/migrate the wrong one; it fails non-zero and leaves
+# the file untouched for the user to consolidate.
+test_multi_block_agents() {
+  local sb repo; sb="$(mktemp -d)"; repo="$sb/paper"
+  mkdir -p "$repo"
+  git -C "$repo" init -q
+  cat > "$repo/AGENTS.md" <<'DOC'
+# AGENTS.md
+
+<paper_context>
+</paper_context>
+
+<paper_context>
+target_venue: SecondBlock
+audience: y
+core_thesis: z
+revision_stage: final polish
+</paper_context>
+DOC
+  local rc
+  ( cd "$repo" && HOME="$sb" PAPER_REVISION_EDITOR_HOME="$sb/.cache-clone" \
+    bash "$INSTALL" --init </dev/null >/dev/null 2>&1 )
+  rc=$?
+
+  if [ "$rc" -ne 0 ]; then ok; else no "multi-block: --init should exit non-zero on multiple context blocks"; fi
+  assert_count "$repo/AGENTS.md" "<paper_context>" "2" "multi-block: file left untouched (both blocks intact)"
+  assert_grep "$repo/AGENTS.md" "target_venue: SecondBlock" "multi-block: existing values preserved"
 
   rm -rf "$sb"
 }
@@ -406,6 +465,8 @@ test_migration_complete
 test_migration_partial
 test_incomplete_block_replaced
 test_partial_agents_block
+test_shadowed_link
+test_multi_block_agents
 test_downgrade_marker
 
 echo

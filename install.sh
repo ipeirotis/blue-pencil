@@ -36,6 +36,14 @@ TARGETS=(
   "$HOME/.agents/skills/$SKILL_NAME"
   "$HOME/.claude/skills/$SKILL_NAME"
 )
+# The two home targets in the order the copied subagents actually resolve the
+# skill (see .claude/agents/*.md: they check ~/.claude/skills before
+# ~/.agents/skills). TARGETS is ordered for linking; this is ordered for
+# *resolution*, so any_skill_link_usable can tell which target /paper:* loads.
+SKILL_SEARCH_ORDER=(
+  "$HOME/.claude/skills/$SKILL_NAME"
+  "$HOME/.agents/skills/$SKILL_NAME"
+)
 # Hidden manifest, written under a `.claude/` tree, recording exactly which command
 # and agent files this installer placed there (paths relative to that `.claude/`).
 # Refresh and uninstall act only on listed files, so a user's own files in the
@@ -266,33 +274,61 @@ ensure_skill_linked() {
   [ "$failures" -eq 0 ]
 }
 
-# True when at least one target this run linked/copied has a reachable SKILL.md.
-# ensure_skill_linked tolerates a partial link, but a command registration that
-# leaves *no* usable link would resolve /paper:* to a skill that is not there,
-# dead-ending every invocation. Callers that must guarantee the skill loads check
-# this before reporting success. It considers only LINKED_TARGETS, so a target
-# that link_one *refused* (an unmanaged dir that merely happens to contain a
-# SKILL.md we never linked to our source) is not mistaken for a working install.
-any_skill_link_usable() {
-  local dest
+# True when <dest> is one of the targets the most recent ensure_skill_linked run
+# actually linked or copied to our source.
+target_linked_this_run() {
+  local needle="$1" t
   [ "${#LINKED_TARGETS[@]}" -gt 0 ] || return 1
-  for dest in "${LINKED_TARGETS[@]}"; do
-    [ -e "$dest/SKILL.md" ] && return 0
+  for t in "${LINKED_TARGETS[@]}"; do
+    [ "$t" = "$needle" ] && return 0
   done
   return 1
 }
 
-# True when <file> holds a *complete* <paper_context> block: opening and closing
-# tags with at least one key: value field between them. A bare mention (a TODO
-# naming the tag) or an unterminated opening tag is not complete, so callers fall
-# through to scaffolding rather than trusting (or copying to EOF from) an
+# True when /paper:* will resolve to the skill this run linked. Walk the home
+# targets in the order the subagents resolve them (~/.claude/skills before
+# ~/.agents/skills); the first one that actually holds a SKILL.md is the skill
+# that loads, so it must be one this run linked to our source. It is not enough
+# for *some* linked target to be usable: a higher-priority target that link_one
+# refused (an unmanaged dir carrying a foreign SKILL.md) shadows any lower-priority
+# link we established, so /paper:* would load that stale skill instead of the
+# version whose commands we just installed. Counting that as success is exactly
+# the false positive this guard exists to prevent.
+any_skill_link_usable() {
+  local dest
+  for dest in "${SKILL_SEARCH_ORDER[@]}"; do
+    [ -e "$dest/SKILL.md" ] || continue
+    target_linked_this_run "$dest" && return 0
+    return 1
+  done
+  return 1
+}
+
+# Extract only the *first* <paper_context> block from <file> (its opening tag
+# through the first closing tag), matching the skill's "use the first block you
+# find" rule. A plain sed range prints every closed block in a multi-block file,
+# so a stale empty first block followed by a complete one would validate as
+# complete while the skill still stops on the empty first block. An unterminated
+# opening tag prints to EOF (no closing tag to quit on), as before.
+first_context_block() {
+  awk '
+    /<paper_context>/            { inblk = 1 }
+    inblk                        { print }
+    inblk && /<\/paper_context>/ { exit }
+  ' "$1"
+}
+
+# True when <file> holds a *complete* first <paper_context> block: opening and
+# closing tags with at least one key: value field between them. A bare mention (a
+# TODO naming the tag) or an unterminated opening tag is not complete, so callers
+# fall through to scaffolding rather than trusting (or copying to EOF from) an
 # unusable block. Used both to decide whether an AGENTS.md already has context
 # and whether a CLAUDE.md/paper-meta.md block is migratable.
 file_has_complete_context() {
   local block
-  block="$(sed -n '/<paper_context>/,/<\/paper_context>/p' "$1")"
-  # sed only emits output once the opening tag matches; without a closing tag the
-  # block runs to EOF and carries no </paper_context>, so this rejects it.
+  block="$(first_context_block "$1")"
+  # first_context_block emits the block only once the opening tag matches; without
+  # a closing tag it runs to EOF and carries no </paper_context>, so reject it.
   printf '%s\n' "$block" | grep -q '</paper_context>' || return 1
   # Reject a well-formed but empty block (tags with no key: value fields).
   printf '%s\n' "$block" | grep -Eq '^[[:space:]]*[A-Za-z_]+:'
@@ -307,7 +343,7 @@ file_has_complete_context() {
 # fields, so a partial source falls through to the interactive scaffold instead.
 file_has_all_context_fields() {
   local block key
-  block="$(sed -n '/<paper_context>/,/<\/paper_context>/p' "$1")"
+  block="$(first_context_block "$1")"
   printf '%s\n' "$block" | grep -q '</paper_context>' || return 1
   for key in target_venue audience core_thesis revision_stage; do
     printf '%s\n' "$block" | grep -Eq "^[[:space:]]*${key}:[[:space:]]*[^[:space:]]" || return 1
@@ -771,6 +807,22 @@ run_init() {
   fi
 
   local target="$repo_root/AGENTS.md"
+  # The skill reads only the first <paper_context> block, so more than one in
+  # AGENTS.md is ambiguous: which is authoritative? Any auto-edit here (strip,
+  # migrate, or scaffold) could discard the block the user actually meant. Refuse
+  # rather than guess, and fail non-zero so a setup script does not treat a
+  # not-actually-initialized repo as ready.
+  if [ -f "$target" ]; then
+    local n_blocks
+    n_blocks="$(grep -cF '<paper_context>' "$target" 2>/dev/null || true)"
+    n_blocks="${n_blocks:-0}"
+    if [ "$n_blocks" -gt 1 ]; then
+      echo "ERROR: $target has $n_blocks <paper_context> blocks; the skill uses only the first." >&2
+      echo "       Consolidate them into one complete block, then re-run --init." >&2
+      exit 1
+    fi
+  fi
+
   if [ -f "$target" ] && file_has_complete_context "$target"; then
     if file_has_all_context_fields "$target"; then
       echo "AGENTS.md already contains a complete <paper_context> block. Skipping scaffolding."
@@ -780,17 +832,18 @@ run_init() {
     # skill reads AGENTS.md first and stops the moment a field is absent, so a bare
     # "already configured" would be a lie. But do not strip and rescaffold either,
     # since the block already holds real values the user wrote (a strip would
-    # clobber them with placeholders). Name the gaps and leave the file for them.
+    # clobber them with placeholders). Name the gaps, leave the file for them, and
+    # fail non-zero so a workflow gating on --init does not proceed as if ready.
     local present_block missing="" field
-    present_block="$(sed -n '/<paper_context>/,/<\/paper_context>/p' "$target")"
+    present_block="$(first_context_block "$target")"
     for field in target_venue audience core_thesis revision_stage; do
       printf '%s\n' "$present_block" | grep -Eq "^[[:space:]]*${field}:[[:space:]]*[^[:space:]]" \
         || missing="$missing $field"
     done
-    echo "AGENTS.md has a <paper_context> block missing required field(s):${missing}." >&2
+    echo "ERROR: AGENTS.md has a <paper_context> block missing required field(s):${missing}." >&2
     echo "       Fill them in (or delete the block and re-run --init to scaffold fresh);" >&2
     echo "       leaving your existing values untouched." >&2
-    return 0
+    return 1
   fi
 
   # AGENTS.md exists but carries no usable context. If it holds an *incomplete*
@@ -820,7 +873,7 @@ run_init() {
   if ctx_src="$(existing_context_file "$repo_root")"; then
     local rel_ctx="${ctx_src#"$repo_root"/}"
     local block
-    block="$(sed -n '/<paper_context>/,/<\/paper_context>/p' "$ctx_src")"
+    block="$(first_context_block "$ctx_src")"
     echo "Found an existing <paper_context> block in $rel_ctx; migrating it into AGENTS.md instead of scaffolding placeholders."
     if [ -f "$target" ]; then
       printf '\n%s\n' "$block" >> "$target"
