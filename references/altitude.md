@@ -16,17 +16,19 @@ Too high (abstract): "a mixed-effects model on log completion time, with inferen
 
 At altitude: "users took about 31% less time (p = 0.03)." The model, the inference level, the specification sweep, and the interval are the Results section's job; the abstract needs the direction, the magnitude, and one marker that the effect held. Simplify the wording, never the estimand: a 31% cut in completion time is not a 31% gain in speed (the throughput change is larger), so keep the quantity the source actually measured. Recasting one into the other changes a numerical claim and trips the numerical-claim constraint.
 
-**Send each caveat to its home section.** A design qualification belongs in Methods; a single-annotator or sample-size limitation belongs in Limitations. Never voice a caveat at the moment you first state the claim it qualifies. The reader has not yet grasped the claim, so the hedge lands as noise, and a preemptive limitation reads as apology where a well-placed one would read as competence.
+**Send each caveat to its home section.** A design qualification belongs in Methods; a single-annotator or sample-size limitation belongs in Limitations. Never voice a caveat at the moment you first state the claim it qualifies. The reader has not yet grasped the claim, so the hedge lands as noise, and a preemptive limitation reads as apology where a well-placed one would read as competence. Relocation is not deletion, though: a caveat is content (constraint 6). Move it only when its home section already carries it, or is in scope for you to place it there. When you cannot confirm that (the destination is outside the requested unit, or the manuscript states the caveat nowhere else), the abstract's caveat is the only visible scope signal, so raise the move in `Author questions` rather than cutting the signal and letting the claim broaden.
 
 Too high (abstract): "each transcript coded by a single annotator"; "each task carried a hint that disambiguated its phrasing for both arms, so our results describe performance under disambiguated task framing."
 
-At altitude: cut from the abstract. The disambiguation design is a Methods sentence; the single-coder limitation is a Limitations sentence, if it appears at all.
+At altitude: move the disambiguation design to Methods and the single-coder limitation to Limitations, once you confirm each is stated (or can be stated) there. If neither is, and the abstract is the only place the scope appears, keep it or flag the relocation in `Author questions`; the abstract's external-validity claims must not widen silently.
 
-**Keep one number per claim; send the rest down.** A confidence interval, a range, a secondary p-value, or a derived rate stacked onto a headline figure is a Results move, not an abstract one. State the point estimate and one marker. A number that does not change the conclusion the reader draws at this altitude rides down into the body.
+**Keep one number per claim; send the rest down.** A confidence interval, a range, or a secondary p-value stacked onto a single headline figure is a Results move, not an abstract one: state the point estimate and one marker, and the precision rides down into the body.
 
-Too high (abstract): "an 18-point deficit (p = 0.08) whose 95% confidence interval runs from a 39-point deficit to rough parity"; "Correct answers per hour were near parity (4.6 vs. 4.2)."
+A derived or combined metric is different, and the keep-test decides it before the altitude test moves it: ask whether the number changes the conclusion the reader draws at this altitude. Correct-answers-per-hour is derived from the two headline findings, but in a speed-versus-accuracy study it can be the combined endpoint that answers the paper's question (did the speed gain produce more correct work?); when it is, it is load-bearing and stays, derived or not. Send it down only when the headline findings already carry that conclusion on their own.
 
-At altitude: "an 18-point deficit (p = 0.08)." The interval belongs in Results; the derived per-hour rate serves neither headline finding (faster, not more accurate) and leaves the abstract.
+Too high (abstract): "an 18-point deficit (p = 0.08) whose 95% confidence interval runs from a 39-point deficit to rough parity."
+
+At altitude: "an 18-point deficit (p = 0.08)." The interval is a second statistic on the same claim and belongs in Results; the point estimate and one marker carry the finding at abstract altitude.
 
 ## The altitude test
 
