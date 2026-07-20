@@ -14,7 +14,7 @@ The fix is not to compress the detail. It is to move it down to the section that
 
 Too high (abstract): "a mixed-effects model on log completion time, with inference at the participant level where treatment was assigned, estimates a 31% reduction per query (p = 0.03, 95% CI 4% to 51%); the raw-scale estimate of 212 s is borderline across inferential specifications (p = 0.04 to 0.07)."
 
-At altitude: "users were about 31% faster (p = 0.03)." The model, the inference level, the specification sweep, and the interval are the Results section's job; the abstract needs the direction, the magnitude, and one marker that the effect held.
+At altitude: "users took about 31% less time (p = 0.03)." The model, the inference level, the specification sweep, and the interval are the Results section's job; the abstract needs the direction, the magnitude, and one marker that the effect held. Simplify the wording, never the estimand: a 31% cut in completion time is not a 31% gain in speed (the throughput change is larger), so keep the quantity the source actually measured. Recasting one into the other changes a numerical claim and trips the numerical-claim constraint.
 
 **Send each caveat to its home section.** A design qualification belongs in Methods; a single-annotator or sample-size limitation belongs in Limitations. Never voice a caveat at the moment you first state the claim it qualifies. The reader has not yet grasped the claim, so the hedge lands as noise, and a preemptive limitation reads as apology where a well-placed one would read as competence.
 

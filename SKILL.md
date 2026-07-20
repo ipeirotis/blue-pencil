@@ -344,7 +344,7 @@ Three directives. Report the finding, not the machinery: above Results, a result
 The fix for a too-high clause is relocation, not compression: move it to the section that wants it, log the move in `Change rationale`, and when moving it crosses the requested scope, raise it in `Author questions` instead. Moving a numerical clause still trips the numerical-claim constraint, so flag it too. Two nearby rules finish the job: say it once (a finding restated in fresh words is a cut, per the Subtraction section), and the load-bearing sentence is the plainest (the sentence carrying the main point should be the easiest to parse, not the most nested).
 
 Bad (abstract): "a mixed-effects model on log completion time, with inference at the participant level, estimates a 31% reduction per query (p = 0.03, 95% CI 4% to 51%)."
-Good (abstract): "users were about 31% faster (p = 0.03)."
+Good (abstract): "users took about 31% less time (p = 0.03)." Simplify the wording, not the estimand: a cut in time is not a gain in speed, so keep the quantity the source measured.
 
 Load `references/altitude.md` for the full directives, the say-it-once and buried-thesis cross-references, and worked before-and-after pairs, on any abstract, introduction, conclusion, or contribution-paragraph pass, and whenever a passage carries statistical machinery, a stacked confidence interval, or a preemptive caveat above the section that owns it.
 
