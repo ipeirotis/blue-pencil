@@ -772,7 +772,24 @@ run_init() {
 
   local target="$repo_root/AGENTS.md"
   if [ -f "$target" ] && file_has_complete_context "$target"; then
-    echo "AGENTS.md already contains a <paper_context> block. Skipping scaffolding."
+    if file_has_all_context_fields "$target"; then
+      echo "AGENTS.md already contains a complete <paper_context> block. Skipping scaffolding."
+      return 0
+    fi
+    # The block is present but missing required fields. Do not report success: the
+    # skill reads AGENTS.md first and stops the moment a field is absent, so a bare
+    # "already configured" would be a lie. But do not strip and rescaffold either,
+    # since the block already holds real values the user wrote (a strip would
+    # clobber them with placeholders). Name the gaps and leave the file for them.
+    local present_block missing="" field
+    present_block="$(sed -n '/<paper_context>/,/<\/paper_context>/p' "$target")"
+    for field in target_venue audience core_thesis revision_stage; do
+      printf '%s\n' "$present_block" | grep -Eq "^[[:space:]]*${field}:[[:space:]]*[^[:space:]]" \
+        || missing="$missing $field"
+    done
+    echo "AGENTS.md has a <paper_context> block missing required field(s):${missing}." >&2
+    echo "       Fill them in (or delete the block and re-run --init to scaffold fresh);" >&2
+    echo "       leaving your existing values untouched." >&2
     return 0
   fi
 

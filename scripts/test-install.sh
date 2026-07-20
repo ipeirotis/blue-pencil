@@ -312,7 +312,46 @@ DOC
   rm -rf "$sb"
 }
 
-# --- Scenario 9: registration survives a downgrade round trip ------------------
+# --- Scenario 9: a partial AGENTS.md block is reported, not falsely accepted ---
+# When AGENTS.md already holds a closed block that is missing required fields,
+# --init must not claim success (the skill stops on the missing fields) nor strip
+# the block (it holds real values the user wrote). It names the gaps, preserves
+# the existing values, and adds no duplicate block. Runs without a tty: this path
+# returns before the interactive scaffold.
+test_partial_agents_block() {
+  local sb repo; sb="$(mktemp -d)"; repo="$sb/paper"
+  mkdir -p "$repo"
+  git -C "$repo" init -q
+  cat > "$repo/AGENTS.md" <<'DOC'
+# AGENTS.md
+
+<paper_context>
+target_venue: Nature
+</paper_context>
+DOC
+  # Capture output: the meaningful signal here is the gap-naming message, and this
+  # path never reaches read_field, so no setsid/tty handling is needed.
+  local out
+  out="$(cd "$repo" && HOME="$sb" PAPER_REVISION_EDITOR_HOME="$sb/.cache-clone" \
+    bash "$INSTALL" --init </dev/null 2>&1)"
+
+  case "$out" in
+    *"missing required field"*) ok ;;
+    *) no "partial-agents: --init should name the missing fields" ;;
+  esac
+  case "$out" in
+    *audience*) ok ;;
+    *) no "partial-agents: message should list the absent field names" ;;
+  esac
+  assert_grep "$repo/AGENTS.md" "target_venue: Nature" "partial-agents: existing value preserved"
+  assert_no_grep "$repo/AGENTS.md" "[fill in]" "partial-agents: not overwritten with placeholders"
+  assert_count "$repo/AGENTS.md" "<paper_context>" "1" "partial-agents: no duplicate block appended"
+  assert_file "$repo/.claude/commands/paper/loop.md" "partial-agents: commands still registered"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario 10: registration survives a downgrade round trip -----------------
 # A ref that ships no paper: commands removes the global set (and its manifest),
 # but the registration marker must persist so a later --update onto a ref that
 # ships commands restores them, rather than treating the downgrade as an opt-out.
@@ -366,6 +405,7 @@ test_refused_targets
 test_migration_complete
 test_migration_partial
 test_incomplete_block_replaced
+test_partial_agents_block
 test_downgrade_marker
 
 echo
