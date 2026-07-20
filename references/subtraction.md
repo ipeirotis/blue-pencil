@@ -55,7 +55,7 @@ The same phrase lands on either side depending on the claim it modifies, so read
 
 - "At this sample size" is filler beside a reported point estimate (every result is at its sample size), but scope beside a null or near-null result, where it flags that the study may be underpowered and rules out "no effect in general".
 - "Observable" is filler when everything under discussion is already measured, but scope when the manuscript contrasts observed effort with latent, unobserved effort, where "observable effort fell" is narrower than "effort fell".
-- "To some extent" is filler in "this to some extent explains the trend", but limits magnitude in "X accounts to some extent for Y" (a partial effect, not a full one).
+- "To some extent" almost always limits magnitude to a partial claim ("X accounts to some extent for Y"; "this to some extent explains the trend"): cutting it strengthens a partial claim into a full one, so treat it as scope, not filler.
 - A dataset-scope qualifier ("in our data", "in our sample") is almost always scope: it bounds the claim to the data observed even with no contrast stated nearby, so cutting it broadens the claim past the data.
 
 The reading-out test is the arbiter in every row. Cut on what the qualifier does to the claim, never on the qualifier's wording.
