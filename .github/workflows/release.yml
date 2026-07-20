@@ -1,0 +1,45 @@
+name: Publish release
+
+# Publish the GitHub Release whenever a version tag is pushed, so the Releases
+# page can never again lag behind the tags and CHANGELOG. The release notes are
+# the version's CHANGELOG.md section, produced by scripts/publish-releases.sh.
+#
+# Trigger it manually (workflow_dispatch) with no tag to backfill: the script
+# walks every CHANGELOG version and creates any tag or Release still missing.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history and all tags: the CHANGELOG lookup and the commit map
+          # for versions that were never tagged both need them.
+          fetch-depth: 0
+
+      - name: Publish GitHub Release(s) from CHANGELOG
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          # A workflow_dispatch backfill may create annotated tags, which need a
+          # tagger identity; the runner's git config has none by default.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "$EVENT_NAME" = "push" ]; then
+            # A tag push publishes exactly that version's Release.
+            bash scripts/publish-releases.sh "${GITHUB_REF_NAME#v}"
+          else
+            # Manual run reconciles everything still missing a tag or Release.
+            bash scripts/publish-releases.sh
+          fi
