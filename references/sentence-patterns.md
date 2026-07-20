@@ -116,6 +116,17 @@ The end of an English sentence carries emphasis. When the important word lands m
 
 Diagnostic: for each sentence, identify the most important word. Check whether it is in the stress position. If not, restructure.
 
+## The buried thesis
+
+The sentence that carries a passage's main point should be the easiest to read, not the hardest. The failure is the reverse: the takeaway arrives as the most clause-laden sentence in the paragraph, so the reader decodes syntax exactly where they most need the point to land clean. Fix by putting a character in the subject, the claim in an active verb, and any qualification in a following sentence rather than a nested clause.
+
+| Before | After |
+|---|---|
+| On this evidence the interface relocates the visible work of querying rather than demonstrably removing work: for our SQL-literate participants a verification burden survives the switch to natural language, and an NLIDB that hides the generated SQL would remove the very step these users relied on to trust the answer. | The interface moves the visible work of querying rather than demonstrably removing it. Our SQL-literate participants still had to verify the generated SQL, and an NLIDB that hid it would remove the very step they relied on to trust the answer. |
+| The observation that performance degrades under distribution shift, which prior work had attributed to representation collapse, is shown by our ablations to instead follow from optimizer state. | Our ablations trace the performance drop under distribution shift to optimizer state, not the representation collapse prior work blamed. |
+
+Diagnostic: find the sentence stating the paragraph's main claim. If it is the longest or most deeply nested sentence in the paragraph, split it: lead with the claim in plain subject-verb-object order, and demote the qualifications to following sentences. Plainness is a change in syntax, not in strength: carry the evidential qualifiers and hedges through unchanged (here "visible" and "demonstrably", which bound the claim to what the study shows), or the plainer sentence asserts more than the original. This is the sentence-level form of "The load-bearing sentence is the plainest" in `references/altitude.md`.
+
 ## Wordiness compounds
 
 Common multi-word phrases that have shorter equivalents. Cutting them is the easiest revision pass.

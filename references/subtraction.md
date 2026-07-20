@@ -41,6 +41,25 @@ Every common way a cut goes wrong is a keep-criterion the cutter did not check.
 - Cut an example that ruled out a reading and you broke criterion 2: the reader no longer believes you.
 - Salami-slicing: ten individually safe cuts compound into the removal of a whole inferential step. The read-cold pass in SKILL.md is the check that catches the compounded loss; run it after any heavy cut.
 
+## Say it once
+
+A finding does not get clearer by being stated twice. When a later sentence restates, in fresh words, a result the reader has already read and adds nothing, one of the two goes. Keep the clearer or more load-bearing statement and cut the other. Usually that is the first, but not always: when the first statement is dense and the restatement is the plain-language gloss a non-expert needs (criterion 4) or a deliberate low-load sentence that sets rhythm (criterion 6), the restatement is the keeper and the dense original is what compresses or goes. What always goes is the true echo, the "here is what it means" sentence that only reflects the finding back and serves no reader the first did not.
+
+Distinguish an echo from a genuine next step, and from a distinct second claim. "Accuracy fell 18 points" followed by "so the speed gain did not translate into more correct answers" is an inference the first sentence did not state, and the keep-test keeps it (criterion 1). "Accuracy fell 18 points" and "the drop was not statistically detectable" are also two different claims, a magnitude and an inferential status, and both stay. The echo is narrower than either: "accuracy fell 18 points, a difference that was not statistically detectable" followed by "the interface produced no detectable accuracy gain" states the inferential status twice, and the restatement goes.
+
+## Filler qualifiers and scope qualifiers
+
+The qualifier-is-content rule protects scope and calibration qualifiers: "on the held-out set", "correlational", "in our sample" bound a claim to what the evidence bears, so removing one changes the claim and counts as a deletion. Other qualifiers bound nothing and only pad the sentence. The two look alike, so one test decides every case, and no phrase is filler by its wording alone: does the qualifier rule out a reading the reader would otherwise take? If it does, it is scope and it stays; if it does not, it is filler and compresses away freely. When the answer is unclear, treat it as scope and keep it, since cutting a real scope qualifier is the costlier error (criterion 2).
+
+The same phrase lands on either side depending on the claim it modifies, so read it out in context rather than matching the word:
+
+- "At this sample size" is filler beside a reported point estimate (every result is at its sample size), but scope beside a null or near-null result, where it flags that the study may be underpowered and rules out "no effect in general".
+- "Observable" is filler when everything under discussion is already measured, but scope when the manuscript contrasts observed effort with latent, unobserved effort, where "observable effort fell" is narrower than "effort fell".
+- "To some extent" almost always limits magnitude to a partial claim ("X accounts to some extent for Y"; "this to some extent explains the trend"): cutting it strengthens a partial claim into a full one, so treat it as scope, not filler.
+- A dataset-scope qualifier ("in our data", "in our sample") is almost always scope: it bounds the claim to the data observed even with no contrast stated nearby, so cutting it broadens the claim past the data.
+
+The reading-out test is the arbiter in every row. Cut on what the qualifier does to the claim, never on the qualifier's wording.
+
 ## Scale the action to the unit size
 
 The bigger the unit, the more a wrong cut costs, so the more the editor proposes rather than performs.
