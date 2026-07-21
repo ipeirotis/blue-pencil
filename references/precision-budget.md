@@ -1,6 +1,6 @@
 # Precision budget
 
-Load this on any abstract, introduction, or contribution-paragraph pass, whenever deleting, adding, or moving a hedge in the paper's first two pages is on the table, and whenever a draft reads either hedged and defensive up front or suspiciously clean up front. Three neighbours divide the work: the keep-test (`references/subtraction.md`) asks whether a unit earns its place at all, the altitude test (`references/altitude.md`) asks which section a surviving unit belongs in, and this file asks how much precision each location must carry, which decides whether a qualification may leave its claim at all.
+Load this on any abstract, introduction, or contribution-paragraph pass, whenever deleting, adding, or moving a hedge in the high-cost zone (the abstract, the introduction, and any contribution paragraph wherever it sits) is on the table, and whenever a draft reads either hedged and defensive up front or suspiciously clean up front. Three neighbours divide the work: the keep-test (`references/subtraction.md`) asks whether a unit earns its place at all, the altitude test (`references/altitude.md`) asks which section a surviving unit belongs in, and this file asks how much precision each location must carry, which decides whether a qualification may leave its claim at all.
 
 ## Why the rule exists
 
@@ -29,7 +29,7 @@ The reading-out test in `references/subtraction.md` separates scope from filler;
 
 A simplification early in the paper is legitimate exactly when the precise version, where it eventually arrives, reads as a sharpening of what was promised: same sign, roughly the same magnitude, scope trimmed rather than gutted. It is a defect when the full statement reverses the sign, guts the magnitude, or narrows the scope so far that the opening reads as bait. The test is decidable, not aesthetic: after reading the full paper, would an expert feel the introduction was compressed, or misled? Compressed is the goal; misled is the bug.
 
-Apply the test before deleting, deferring, or adding any hedge in the first two pages:
+Apply the test before deleting, deferring, or adding any hedge in the high-cost zone, and before any deferral the three-page progressive-disclosure scan proposes (`references/edit-checks.md`, check 6), so no caveat the scan reaches moves without the guard:
 
 - A hedge whose removal still passes the test is deferrable (a relocation, under the gates below) or, when the reading-out test says filler, cut.
 - A hedge whose removal fails the test stays inline, whatever the gradient says. This is the epistemic keeper.
@@ -43,7 +43,7 @@ When an early claim genuinely needs qualification at first mention, the ceiling 
 
 ## The precision debt ledger
 
-Every simplification in the first two pages is a debt, and the full statement where the claim is established is the payment. When revising front matter, keep an explicit ledger: list each simplification you make or keep, and verify each has its discharging full statement in the body. An unpaid debt is a finding, not an edit:
+Every simplification in the high-cost zone is a debt, and the full statement where the claim is established is the payment. When revising front matter, keep an explicit ledger: list each simplification you make or keep, and verify each has its discharging full statement in the body. An unpaid debt is a finding, not an edit:
 
 - When the paying section is in scope and carries the full statement: the debt is discharged; nothing to do.
 - When the paying section is in scope and lacks the full statement: the missing statement is substance the manuscript does not contain, so drafting it is out of scope (constraint 1). Flag the unpaid debt in `Author questions`.
@@ -64,7 +64,7 @@ In the abstract, the introduction, and any contribution paragraph (wherever in t
 2. **Deferrable scope.** A condition whose full statement exists, or belongs, where the claim is established. Defer it: the claim runs clean, at most one signpost remains, and the move is a relocation under the gates below and a deletion under constraint 6, so it is logged in `Change rationale` and, when it touches a numerical claim, flagged under the numerical-claim constraint.
 3. **Filler.** A qualifier that rules out no reading, by the reading-out test. Cut freely.
 
-Target near-zero hedge density in the first two pages, and never buy zero at the price of a failed refinement test. Note the asymmetry inside the lexicon: "it is important to note" is banned everywhere (`references/ai-tells-to-avoid.md`), while the rest are ordinary words that are wrong only at the wrong altitude. "May" in a Discussion paragraph about generalization is calibration doing its job, and "suggest" on the paper's own contribution is often the epistemic keeper itself, as the worked pair below shows: census it, then classify, never reflex-delete.
+Target near-zero hedge density across the high-cost zone, and never buy zero at the price of a failed refinement test. Note the asymmetry inside the lexicon: "it is important to note" is banned everywhere (`references/ai-tells-to-avoid.md`), while the rest are ordinary words that are wrong only at the wrong altitude. "May" in a Discussion paragraph about generalization is calibration doing its job, and "suggest" on the paper's own contribution is often the epistemic keeper itself, as the worked pair below shows: census it, then classify, never reflex-delete.
 
 ## Gates on the deferral
 
@@ -83,5 +83,5 @@ The other branch, when Section 6 shows the effect reversing in some domains: the
 - Constraint 6 and the qualifier-is-content rule: a deferred hedge is a deletion from its sentence, logged always; when scope versus filler is unclear the tie still breaks toward keeping, and in front matter "keeping" may mean deferring with a signpost, never a silent cut.
 - Altitude: the refinement test decides whether a qualification may leave its claim; the altitude test picks its destination; the scope and stage gates bind every move.
 - Hedge stacking: one hedge per claim, maximum; the gradient adds where that hedge is allowed to live.
-- Progressive disclosure (check 6): the refinement test is its decision rule for the first three pages.
+- Progressive disclosure (check 6): the refinement test is its decision rule everywhere its three-page scan reaches.
 - Argumentation (SKILL.md): calibration still binds in both directions; the gradient never licenses a claim the evidence does not support, only a cleaner statement of the claim the evidence does.
