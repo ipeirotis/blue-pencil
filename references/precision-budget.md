@@ -12,7 +12,7 @@ The failure this file prevents runs in both directions, and both matter. LLM-dra
 
 Sections run at different precision levels by design:
 
-- **Abstract and introduction: directional truth.** Clean claims the reader can hold, no inline caveat clauses, and none of the paper's own contributions qualified with "may", "might", or "potentially".
+- **Abstract and introduction: directional truth.** Clean claims the reader can hold, no inline caveat clauses, and none of the paper's own contributions qualified with "may", "might", or "potentially". The refinement test's keeper below is the one sanctioned exception.
 - **Methods and results: full precision.** Every condition stated where the claim is established.
 - **Discussion and limitations: where hedges live.** Concentrate them here rather than sprinkling them through the paper.
 
@@ -39,7 +39,7 @@ The test reads across the whole paper, so on a single-section pass it may need t
 
 ## One signpost, not a caveat clause
 
-When an early claim genuinely needs qualification at first mention, the ceiling is one short forward pointer ("we characterize the boundary conditions in Section 6"), never an inline caveat clause, and never two pointers on one claim. The signpost buys honesty at almost no attention cost: it tells the reader a boundary exists without making them hold it before they can value it. This composes with the hedge-stacking rule in `references/sentence-patterns.md` (one hedge per claim, maximum): a claim that keeps an epistemic hedge has spent its one hedge, and a signpost on top of it needs a reason.
+When an early claim needs qualification at first mention and the qualification is deferrable (its removal passes the refinement test), the ceiling is one short forward pointer ("we characterize the boundary conditions in Section 6"), never an inline caveat clause, and never two pointers on one claim. A qualification whose removal fails the test sits outside this ceiling: that keeper stays inline per the refinement test above, a boundary marker or epistemic hedge, and counts as the claim's one hedge. The signpost buys honesty at almost no attention cost: it tells the reader a boundary exists without making them hold it before they can value it. This composes with the hedge-stacking rule in `references/sentence-patterns.md` (one hedge per claim, maximum): a claim that keeps an epistemic hedge has spent its one hedge, and a signpost on top of it needs a reason.
 
 ## The precision debt ledger
 
@@ -54,11 +54,11 @@ On a whole-paper pass the ledger is the precision-side twin of the consistency c
 
 ## First mention versus full statement
 
-The first mention of any result states it in its cleanest form. The complete statement, with all conditions, appears exactly once, at the point where the result is established. Later mentions run clean again; do not repeat the full conditions at every mention. This composes with the say-it-once rule in `references/subtraction.md` rather than fighting it: the clean first mention and the full statement are two different claims (a headline and its conditions), so both stay, while a second full statement is the echo that goes.
+In the high-cost zone, the first mention of a result states it in its cleanest form. The complete statement, with all conditions, appears exactly once, at the point where the result is established; when the first mention is itself that establishing point (a result first stated in Results, which the gradient runs at full precision), there is no clean-first step, and the full statement is the first statement. Later mentions run clean again; do not repeat the full conditions at every mention. This composes with the say-it-once rule in `references/subtraction.md` rather than fighting it: the clean first mention and the full statement are two different claims (a headline and its conditions), so both stay, while a second full statement is the echo that goes.
 
 ## The hedge lexicon
 
-In the abstract, the introduction, and any contribution paragraph (wherever in the paper it sits), flag every occurrence of: may, might, could, suggest, potentially, arguably, generally, typically, in many cases, to some extent, it is important to note. Build the census mechanically first, with a Grep pass over the front matter, so detection is complete and editorial judgment is spent on classification rather than on finding. Then classify each hit; the classification is the edit, and blanket deletion is never it:
+In the abstract, the introduction, and any contribution paragraph (wherever in the paper it sits), flag every occurrence of: may, might, could, suggest, potentially, arguably, generally, typically, in many cases, to some extent, it is important to note. Build the census mechanically first, with a Grep pass over the whole high-cost zone, contribution paragraphs outside the front matter included, so detection is complete and editorial judgment is spent on classification rather than on finding. Then classify each hit; the classification is the edit, and blanket deletion is never it:
 
 1. **Epistemic keeper.** A hedge on a central claim whose removal fails the refinement test. It stays, counts as the claim's one hedge, and is logged as kept calibration, not as a missed cut.
 2. **Deferrable scope.** A condition whose full statement exists, or belongs, where the claim is established. Defer it: the claim runs clean, at most one signpost remains, and the move is a relocation under the gates below and a deletion under constraint 6, so it is logged in `Change rationale` and, when it touches a numerical claim, flagged under the numerical-claim constraint.
