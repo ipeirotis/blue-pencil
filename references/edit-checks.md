@@ -52,7 +52,7 @@ Simple version first, complications after. Do not front-load every caveat the re
 
 **Edit check.** Find every "however", "but", and "subject to" in the first three pages. Defer the ones that are not load-bearing for the next claim. Caveats that belong in a Limitations paragraph should not appear in the introduction.
 
-The decision rule for which caveats defer is the refinement-vs-retraction test in `references/precision-budget.md`: a caveat whose later full statement preserves the claim's sign and rough magnitude defers with at most one forward pointer; one whose full statement would reverse or gut the claim stays inline.
+The decision rule for which caveats defer is the refinement-vs-retraction test in `references/precision-budget.md`: a caveat whose later full statement preserves the claim's sign and rough magnitude and trims its scope rather than gutting it defers with at most one forward pointer; one whose full statement would reverse the claim, gut its magnitude, or collapse its scope stays inline.
 
 Kleinberg-Tardos and Varian both build understanding before introducing exceptions. Front-loaded caveats read as defensive and slow the reader before the contribution lands.
 
