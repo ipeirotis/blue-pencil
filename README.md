@@ -1,6 +1,6 @@
 # paper-revision-editor
 
-[![Version](https://img.shields.io/badge/version-1.36.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.37.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -282,8 +282,8 @@ rewrites can change contribution wording or result summaries after the first
 whole-paper check, and `/paper:polish` is sentence-level only, so it cannot
 repair fresh cross-section drift; the second check catches it before polishing.
 `/paper:consistency` flags terminology drift, claim drift, inconsistent
-contribution framing, result overstatement, missing forward references, and
-stale summaries without rewriting. `/paper:polish` applies final-polish
+contribution framing, result overstatement, unpaid precision debt, missing
+forward references, and stale summaries without rewriting. `/paper:polish` applies final-polish
 constraints: copyediting, referents, terminology consistency, punctuation,
 rhythm, and the AI tells allowed at that stage, with no paragraph reordering or
 new content.
@@ -431,7 +431,7 @@ For predictable, one-shot invocation, the repo ships a `paper:` command namespac
 | `/paper:letter` | Draft or improve the response-to-reviewers letter; every claimed change is checked against the manuscript. |
 | `/paper:polish` | Final-polish pass: sentence-level copyediting only, no restructuring. |
 | `/paper:read` | Whole-paper cold read (no rewrite): reading log, colleague test, delight audit, venue compliance, prioritized dispatch list. |
-| `/paper:consistency` | Whole-paper cross-section check (no rewrite): terminology, claim, and contribution drift, stale summaries. |
+| `/paper:consistency` | Whole-paper cross-section check (no rewrite): terminology, claim, and contribution drift, stale summaries, unpaid precision debt. |
 | `/paper:verify-numbers` | Analyst lane (no edits): reruns your own analysis pipeline and diffs its outputs against the manuscript's numbers, with provenance. Needs your data and code in the repo, and a shell. |
 | `/paper:figures` | Analyst lane (proposal only): re-renders a named figure with better design from the same data and script, proposed beside the original. Needs your data and code, a shell, and a write tool. |
 | `/paper:analyze` | Analyst lane (proposal only): runs a new analysis you name, specification pinned before the run, whole result reported. Needs your data and code, a shell, and a write tool. |

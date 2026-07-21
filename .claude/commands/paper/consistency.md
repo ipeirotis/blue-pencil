@@ -41,9 +41,9 @@ If no manuscript is present, ask for it before proceeding.
 Do not rewrite. Load the skill's `references/consistency-checks.md` and check
 every item on its checklist: terminology drift, claim drift and result
 overstatement, inconsistent contribution framing, promise-delivery gaps,
-callout and forward-reference problems, unfilled citation placeholders, and
-stale summaries. That file owns the checklist and its reporting conventions;
-do not improvise a different list.
+unpaid precision debt, callout and forward-reference problems, unfilled
+citation placeholders, and stale summaries. That file owns the checklist and
+its reporting conventions; do not improvise a different list.
 
 Preset triage:
 

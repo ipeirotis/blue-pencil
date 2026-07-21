@@ -102,7 +102,7 @@ LLM prose falls into a few rhetorical molds. Used once, deliberately, any of the
 ## Other LLM tells to watch for
 
 - Triadic constructions for their own sake ("clear, concise, and compelling"; "robust, reliable, and reproducible"). Real prose uses triads when three is the right number, not as decoration.
-- Hedged confidence ("This may potentially suggest that..."). Pick a confidence level and own it.
+- Hedged confidence ("This may potentially suggest that..."). Pick a confidence level and own it. In an abstract, introduction, or contribution paragraph, run the zone-scoped hedge lexicon in `references/precision-budget.md` (may, might, could, suggest, potentially, arguably, generally, typically, in many cases, to some extent) and classify each hit as epistemic keeper, deferrable scope, or filler; these words are not banned, they are wrong only at the wrong altitude, so never blanket-delete them.
 - Empty meta-commentary ("This paragraph discusses..."). Just discuss.
 - Aphoristic closers ("In the end, the data speaks for itself."). Endings should land specific points, not gesture at universal truths.
 - "Navigate" as a metaphor for any non-trivial activity. People navigate ships and websites. They do not "navigate the literature on labor markets".
@@ -165,4 +165,5 @@ Before approving any revised passage, scan for:
 - [ ] Manufactured hook or scene-setting opener ("Imagine...", "In an era of...")? Replace with the paper's real question.
 - [ ] Journey metaphor or anthropomorphized data ("our journey", "the data tells a story")? Cut.
 - [ ] Triads that exist only for rhythm? Cut to two or expand to a real list.
+- [ ] In an abstract, introduction, or contribution paragraph: hedge-lexicon words (may, might, could, suggest, potentially, arguably, generally, typically, in many cases, to some extent)? Classify per `references/precision-budget.md` (keep, defer with one signpost, or cut as filler); never blanket-delete.
 - [ ] Topic sentence in the first two sentences of the paragraph? If not, restructure.

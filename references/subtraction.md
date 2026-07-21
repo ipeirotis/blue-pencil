@@ -60,6 +60,8 @@ The same phrase lands on either side depending on the claim it modifies, so read
 
 The reading-out test is the arbiter in every row. Cut on what the qualifier does to the claim, never on the qualifier's wording.
 
+In an abstract, an introduction, or a contribution paragraph wherever it sits, a qualifier that is scope, not filler, has one more option beyond staying: deferral to the section that establishes the claim, with at most one forward pointer left behind. That move is governed by the refinement-vs-retraction test in `references/precision-budget.md` and counts as a relocation under the altitude gates, never a cut; the reading-out test still runs first, and an epistemic hedge on a central claim is not deferrable at all.
+
 ## Scale the action to the unit size
 
 The bigger the unit, the more a wrong cut costs, so the more the editor proposes rather than performs.
