@@ -75,8 +75,12 @@ file as described above), and return a plan with exactly these parts:
    Stop here and route the author to the response suite: `/paper:triage` on the
    decision letter first (severity-ranked comment table, section mapping, order
    of work), then `/paper:rebut` per section (which edits only reviewer-flagged
-   paragraphs and their neighbours); or ask them to move the stage to
-   `first draft` or `final polish` first. Do not change the stage yourself.
+   paragraphs and their neighbours), then `/paper:consistency` over the in-scope
+   paper once the reviewer edits land (they leave stale summaries in untouched
+   front matter, discussion, and conclusion), and `/paper:letter` to close the
+   round; or ask them to move the stage to `first draft` or `final polish`
+   first. Do not change the stage yourself. This is the same order `/paper:triage`
+   itself recommends, so the two routings agree.
 3. **Detected sections**, mapped to files. The author may name detected
    sections to leave out (for example appendices, or low-priority sections
    under a deadline); record that author-approved skip list in the plan and
