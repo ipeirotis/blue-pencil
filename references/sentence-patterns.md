@@ -127,6 +127,18 @@ The sentence that carries a passage's main point should be the easiest to read, 
 
 Diagnostic: find the sentence stating the paragraph's main claim. If it is the longest or most deeply nested sentence in the paragraph, split it: lead with the claim in plain subject-verb-object order, and demote the qualifications to following sentences. Plainness is a change in syntax, not in strength: carry the evidential qualifiers and hedges through unchanged (here "visible" and "demonstrably", which bound the claim to what the study shows), or the plainer sentence asserts more than the original. This is the sentence-level form of "The load-bearing sentence is the plainest" in `references/altitude.md`.
 
+## The interrupted clause
+
+A subject waits for its verb, and a verb waits for its object. When an appositive or parenthetical opens up in that gap, the reader has to hold an unfinished clause in working memory until the sentence finally closes. A sentence can trip this way while passing every other check: correct terminology, a topic sentence up front, no banned tell, a payoff at the end. The fix is to let the main clause complete first, then attach the interrupting material as a trailing clause or its own sentence.
+
+| Before | After |
+|---|---|
+| Our data leave that question, calibration, open. | That question is one of calibration, and our data leave it open. |
+| Those conditions, team literacy, schema design, and task framing, are the axes most likely to vary. | Those conditions are the axes most likely to vary: team literacy, schema design, and task framing. |
+| One conjecture, untestable across studies that differ in task, interface, and population, is that the models have matured. | One conjecture is that the models have matured, though studies differing in task, interface, and population cannot test it. |
+
+Diagnostic: for each sentence, find the main subject and its verb, then the verb and its object. If more than a few words of appositive or parenthetical sit in either gap, move that material to a trailing clause or a following sentence so the core completes before the qualification begins. This is a change in syntax, not in content: carry the interrupting material through unchanged, since a scope or calibration qualifier is content (see the qualifier-is-content rule in `references/subtraction.md`). It is the general case of "The buried thesis" above, which is the interrupted clause applied to a paragraph's main-claim sentence, and it shares the plainness principle of "The load-bearing sentence is the plainest" in `references/altitude.md`.
+
 ## Wordiness compounds
 
 Common multi-word phrases that have shorter equivalents. Cutting them is the easiest revision pass.

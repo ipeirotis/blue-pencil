@@ -4,7 +4,7 @@ description: Revise, copy-edit, line-edit, polish, tighten, or give editorial fe
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.35.0"
+  version: "1.36.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/paper-revision-editor
 ---
@@ -281,7 +281,7 @@ Good: "Accuracy rose to 91%, and the same model is cheaper to run: inference is 
 
 ### Writing quality
 
-Use old information first, new information last. Prefer concrete subjects and active verbs. Use technical terms consistently. Cut throat-clearing.
+Use old information first, new information last. Prefer concrete subjects and active verbs. Keep a subject next to its verb and a verb next to its object: an interruptive appositive or parenthetical that opens in either gap forces the reader to hold an unfinished clause, so move it to a trailing clause or its own sentence (`references/sentence-patterns.md`, the interrupted clause). Use technical terms consistently. Cut throat-clearing.
 
 Bad: "An investigation of the relationship between X and Y was conducted, and it is important to note that interesting patterns emerged."
 Good: "We investigated how X relates to Y and found three patterns."
@@ -397,6 +397,7 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - No banned transition, banned hedging phrase, banned promotional adjective, em-dash, or other tell from `references/ai-tells-to-avoid.md`.
 - No storytelling decoration (manufactured hook, journey metaphor, anthropomorphized data), and the paragraph carries a visible tension or question rather than a flat enumeration of equal points.
 - No nominalisation sits where an active verb belongs.
+- No interruptive appositive or parenthetical splits a subject from its verb or a verb from its object; the main clause parses in one pass.
 - Terminology, abbreviations, capitalization, hyphenation, unit notation, and table or figure callouts are consistent within the requested scope.
 - Paragraphs end on a payoff, synthesis, or consequence rather than a procedural afterthought.
 - Claims, evidence, and interpretation are distinguishable.
@@ -415,7 +416,7 @@ pass.
 
 ## Voice extraction before rewriting
 
-Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, and hedge stacks are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic unless an explicit `style_overrides:` line in `<paper_context>` sets them aside (see the Constraints section; protection rules never yield).
+Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, hedge stacks, and interruptive appositives that split a subject from its verb are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic unless an explicit `style_overrides:` line in `<paper_context>` sets them aside (see the Constraints section; protection rules never yield).
 
 When the table in Output format calls for a `Voice tics:` line, list the tics at the top of the `Diagnosis` block so the author can confirm the read.
 
@@ -438,7 +439,7 @@ Run this checklist before sending the final answer:
 
 ### Read-cold pass on the revised text
 
-Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory, including the storytelling tells (confirm no manufactured hook, journey metaphor, or anthropomorphized data was introduced). Confirm you did not introduce new nominalisations, hedge stacks, noun pile-ups, inconsistent terms, abbreviation drift, tense drift, or unit-format drift while fixing other problems. Read the passage for rhythm and momentum: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Confirm that each paragraph makes its local question visible and ends on a payoff, synthesis, or consequence. Uniform sentence length is itself a tell. Fix any failure before returning the output, but only in text you were allowed to edit at this stage: a passage the stage requires returning verbatim (for example an unflagged paragraph on a response-to-reviewers pass) keeps its tells.
+Re-read the revised text alone, without referring back to the original. For every `this`, `that`, `it`, `they`, `these`, `those`, and `the [noun]`: confirm the referent is identifiable from the rewrite alone, and supply a noun when it is not. Run the AI-tells checklist from `references/ai-tells-to-avoid.md` against the rewrite, not against memory, including the storytelling tells (confirm no manufactured hook, journey metaphor, or anthropomorphized data was introduced). Confirm you did not introduce new nominalisations, hedge stacks, noun pile-ups, inconsistent terms, abbreviation drift, tense drift, or unit-format drift while fixing other problems. For each sentence, confirm no interruptive appositive or parenthetical splits its subject from its verb or its verb from its object; where one does, move it to a trailing clause or its own sentence. Read the passage for rhythm and momentum: if every sentence runs the same length and shape, vary it, and land the key point with a short sentence after a longer one. Confirm that each paragraph makes its local question visible and ends on a payoff, synthesis, or consequence. Uniform sentence length is itself a tell. Fix any failure before returning the output, but only in text you were allowed to edit at this stage: a passage the stage requires returning verbatim (for example an unflagged paragraph on a response-to-reviewers pass) keeps its tells.
 
 ### Length budget
 
@@ -482,7 +483,7 @@ Immediately after the fenced block, add one mandatory `Added bridges:` line. Quo
 
 Open with `Word count: ~<before> to ~<after> (<approximate signed percent change>).` Counts are approximate, to the nearest ~10 words (for example `~139 to ~86 (-38%)`): get the direction and rough magnitude right rather than the exact figure, and compute the counts with a tool when one is available. If the rewrite grew, add a one-line justification on the next line.
 
-Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, surfaced tension, an opened knowledge gap, an ABT spine in place of a list, stakes shown by consequence, a character in the subject slot, restored contrast, varied rhythm, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. For an exposition edit, name the teaching benefit: a restored inference, a term defined at first serious use, role before name, question before machinery, a concrete anchor from existing material, two stacked concepts separated, an explicit reader payoff, an abstract claim translated into its mechanism, or an exposed contrast with prior work. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
+Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, surfaced tension, an opened knowledge gap, an ABT spine in place of a list, stakes shown by consequence, a character in the subject slot, restored contrast, varied rhythm, a reunited subject and verb, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. For an exposition edit, name the teaching benefit: a restored inference, a term defined at first serious use, role before name, question before machinery, a concrete anchor from existing material, two stacked concepts separated, an explicit reader payoff, an abstract claim translated into its mechanism, or an exposed contrast with prior work. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 
 ### 4. Author questions
 
