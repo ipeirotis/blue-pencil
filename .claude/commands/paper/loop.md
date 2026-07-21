@@ -237,10 +237,10 @@ reviewer-flagged paragraphs and their immediate neighbours.
 
 Once every section has converged individually, run `/paper:consistency` over the
 whole paper. It does not rewrite; it flags terminology drift, claim drift,
-inconsistent contribution framing, result overstatement, missing forward
-references, stale summaries, and figure or table callout problems, and asks
-whether the abstract, introduction, methods, results, discussion, and conclusion
-describe the same paper. When Step A recorded a skip list, hand this check only
+inconsistent contribution framing, result overstatement, unpaid precision
+debt, missing forward references, stale summaries, and figure or table callout
+problems, and asks whether the abstract, introduction, methods, results,
+discussion, and conclusion describe the same paper. When Step A recorded a skip list, hand this check only
 the in-scope section files, so a skipped section cannot generate findings or
 `Author questions` that block the loop. Resolve its `Author questions` and fold
 fixes back into the relevant sections.

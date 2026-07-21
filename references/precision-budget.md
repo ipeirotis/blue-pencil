@@ -43,7 +43,7 @@ When an early claim needs qualification at first mention and the qualification i
 
 ## The precision debt ledger
 
-Every simplification in the high-cost zone is a debt, and the full statement where the claim is established is the payment. When revising front matter, keep an explicit ledger: list each simplification you make or keep, and verify each has its discharging full statement in the body. An unpaid debt is a finding, not an edit:
+Every simplification in the high-cost zone is a debt, and the full statement where the claim is established is the payment. When revising any part of the high-cost zone, keep an explicit ledger: list each simplification you make or keep, and verify each has its discharging full statement in the body. An unpaid debt is a finding, not an edit:
 
 - When the paying section is in scope and carries the full statement: the debt is discharged; nothing to do.
 - When the paying section is in scope and lacks the full statement: the missing statement is substance the manuscript does not contain, so drafting it is out of scope (constraint 1). Flag the unpaid debt in `Author questions`.
