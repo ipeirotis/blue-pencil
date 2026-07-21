@@ -1,15 +1,15 @@
 ---
-description: "Verify a paper's citations and scan its novelty claims against the actual literature with the paper-revision-editor skill's scholar lane: fetch and read the cited sources, report each cited claim as supported, unsupported, or unverifiable, and return novelty leads, proposing any citation change as a flagged candidate (retrieval only, no edits)."
+description: "Verify a paper's citations and scan its novelty claims against the actual literature with the blue-pencil skill's scholar lane: fetch and read the cited sources, report each cited claim as supported, unsupported, or unverifiable, and return novelty leads, proposing any citation change as a flagged candidate (retrieval only, no edits)."
 argument-hint: "[manuscript root or section files, or a named contribution/claim to check; retrieval must be available]"
 ---
 
 Dispatch the request below to the `paper-scholar` subagent, which loads the
-`paper-revision-editor` skill's scholar lane
+`blue-pencil` skill's scholar lane
 (`references/literature-checks.md`) and applies it in an isolated context.
 If that subagent is unavailable, locate the installed skill yourself (check
-`.claude/skills/paper-revision-editor/`,
-`~/.claude/skills/paper-revision-editor/`, and
-`~/.agents/skills/paper-revision-editor/`; the reference file lives inside
+`.claude/skills/blue-pencil/`,
+`~/.claude/skills/blue-pencil/`, and
+`~/.agents/skills/blue-pencil/`; the reference file lives inside
 the skill, not next to this command), load its
 `references/literature-checks.md`, and run the protocol yourself, honoring
 its gate condition against your own tool surface: with no literature

@@ -1,15 +1,15 @@
 ---
-description: "Regenerate a named figure with better visual design from the same data and scripts with the paper-revision-editor skill's analyst lane: re-render the plot the author's own pipeline produces, changing how the data is shown and never which data, and propose it side by side with the original (proposal only, no edits)."
+description: "Regenerate a named figure with better visual design from the same data and scripts with the blue-pencil skill's analyst lane: re-render the plot the author's own pipeline produces, changing how the data is shown and never which data, and propose it side by side with the original (proposal only, no edits)."
 argument-hint: "[which figure to regenerate, plus the manuscript root or section files; optionally the plotting script or data path]"
 ---
 
 Dispatch the request below to the `paper-analyst` subagent, which loads the
-`paper-revision-editor` skill's analyst lane
+`blue-pencil` skill's analyst lane
 (`references/analysis-integrity.md`) and applies it in an isolated context.
 If that subagent is unavailable, locate the installed skill yourself (check
-`.claude/skills/paper-revision-editor/`,
-`~/.claude/skills/paper-revision-editor/`, and
-`~/.agents/skills/paper-revision-editor/`; the reference file lives inside
+`.claude/skills/blue-pencil/`,
+`~/.claude/skills/blue-pencil/`, and
+`~/.agents/skills/blue-pencil/`; the reference file lives inside
 the skill, not next to this command), load its
 `references/analysis-integrity.md`, and run its figure-regeneration
 capability yourself, honoring its gate condition against your own tool

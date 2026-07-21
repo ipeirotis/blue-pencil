@@ -26,7 +26,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CHANGELOG="$ROOT/CHANGELOG.md"
-REPO="ipeirotis/paper-revision-editor"
+REPO="ipeirotis/blue-pencil"
 
 # Release commit for versions that were never tagged. Each SHA is the
 # first-parent merge on main where VERSION transitioned to that value.

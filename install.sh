@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Install, update, or uninstall the paper-revision-editor skill.
+# Install, update, or uninstall the blue-pencil skill.
 #
 # Installs into two locations:
-#   ~/.agents/skills/paper-revision-editor   (cross-tool standard)
-#   ~/.claude/skills/paper-revision-editor   (Claude Code)
+#   ~/.agents/skills/blue-pencil   (cross-tool standard)
+#   ~/.claude/skills/blue-pencil   (Claude Code)
 #
 # Both are symlinks into a single clone at
-# ~/.local/share/paper-revision-editor (override with $PAPER_REVISION_EDITOR_HOME),
+# ~/.local/share/blue-pencil (override with $BLUE_PENCIL_HOME),
 # so updates propagate to both targets at once.
 #
 # Usage:
-#   curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
-#   curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --update
-#   curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --uninstall
+#   curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash
+#   curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash -s -- --update
+#   curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash -s -- --uninstall
 #
 # Or, from a local clone:
 #   ./install.sh              # install
@@ -25,13 +25,18 @@
 #
 # Pin to a tag, branch, or commit (applies to install and update):
 #   ./install.sh --ref v1.15.0
-#   PAPER_REVISION_EDITOR_REF=v1.15.0 ./install.sh --update
+#   BLUE_PENCIL_REF=v1.15.0 ./install.sh --update
 
 set -euo pipefail
 
-SKILL_NAME="paper-revision-editor"
-REPO_URL="https://github.com/ipeirotis/paper-revision-editor.git"
-CACHE_DIR="${PAPER_REVISION_EDITOR_HOME:-$HOME/.local/share/paper-revision-editor}"
+SKILL_NAME="blue-pencil"
+REPO_URL="https://github.com/ipeirotis/blue-pencil.git"
+# Pre-rename identity: the repo and skill were called paper-revision-editor
+# until v2.0.0. The old environment variables stay honored as fallbacks, and
+# migrate_old_install moves a pre-rename install onto the new name.
+OLD_SKILL_NAME="paper-revision-editor"
+CACHE_DIR="${BLUE_PENCIL_HOME:-${PAPER_REVISION_EDITOR_HOME:-$HOME/.local/share/blue-pencil}}"
+OLD_CACHE_DIR="${PAPER_REVISION_EDITOR_HOME:-$HOME/.local/share/$OLD_SKILL_NAME}"
 TARGETS=(
   "$HOME/.agents/skills/$SKILL_NAME"
   "$HOME/.claude/skills/$SKILL_NAME"
@@ -44,25 +49,33 @@ SKILL_SEARCH_ORDER=(
   "$HOME/.claude/skills/$SKILL_NAME"
   "$HOME/.agents/skills/$SKILL_NAME"
 )
+# The same two targets under the pre-rename name, removed by migration.
+OLD_TARGETS=(
+  "$HOME/.agents/skills/$OLD_SKILL_NAME"
+  "$HOME/.claude/skills/$OLD_SKILL_NAME"
+)
 # Hidden manifest, written under a `.claude/` tree, recording exactly which command
 # and agent files this installer placed there (paths relative to that `.claude/`).
 # Refresh and uninstall act only on listed files, so a user's own files in the
 # paper: namespace, or an older manual copy we never recorded, are never touched.
 # Not a *.md file, so Claude Code's command scan ignores it.
-MANIFEST_REL=".paper-revision-editor-manifest"
+MANIFEST_REL=".blue-pencil-manifest"
 # A small marker recording that the global command set is *registered* for this
 # HOME, kept separate from the manifest so a temporary downgrade (a --ref that
 # ships no command files) can remove the incompatible commands while remembering
 # that the user opted in. A later --update back to a ref that ships commands then
 # restores them, instead of leaving /paper:* absent as if --uninstall had run.
 # Cleared only by --uninstall. Not a *.md file, so Claude Code's scan ignores it.
-COMMANDS_MARKER_REL=".paper-revision-editor-commands-registered"
+COMMANDS_MARKER_REL=".blue-pencil-commands-registered"
+# Pre-rename names for the two files above, carried across by migrate_old_install.
+OLD_MANIFEST_REL=".paper-revision-editor-manifest"
+OLD_COMMANDS_MARKER_REL=".paper-revision-editor-commands-registered"
 # Git ref (tag, branch, or commit) to install or update to. An explicit value
 # (here or via --ref) is "sticky": it is honored on install and reinstall and
 # is preserved across a plain --update. Without one, the clone stays on
 # whatever it already tracks, defaulting to main only when there is no signal.
-REF="${PAPER_REVISION_EDITOR_REF:-main}"
-if [ -n "${PAPER_REVISION_EDITOR_REF:-}" ]; then
+REF="${BLUE_PENCIL_REF:-${PAPER_REVISION_EDITOR_REF:-main}}"
+if [ -n "${BLUE_PENCIL_REF:-}" ] || [ -n "${PAPER_REVISION_EDITOR_REF:-}" ]; then
   REF_EXPLICIT=1
 else
   REF_EXPLICIT=0
@@ -84,7 +97,7 @@ fi
 
 print_help() {
   cat <<'HELP'
-paper-revision-editor installer.
+blue-pencil installer.
 
 Usage:
   install.sh              Install (clones if needed, symlinks both targets)
@@ -98,12 +111,13 @@ Usage:
   install.sh --help       This help
 
 Targets:
-  ~/.agents/skills/paper-revision-editor   (cross-tool standard)
-  ~/.claude/skills/paper-revision-editor   (Claude Code)
+  ~/.agents/skills/blue-pencil   (cross-tool standard)
+  ~/.claude/skills/blue-pencil   (Claude Code)
 
 Environment:
-  PAPER_REVISION_EDITOR_HOME   Override the clone location
-  PAPER_REVISION_EDITOR_REF    Default git ref (same as --ref)
+  BLUE_PENCIL_HOME   Override the clone location
+  BLUE_PENCIL_REF    Default git ref (same as --ref)
+  (The pre-rename PAPER_REVISION_EDITOR_HOME and _REF names still work.)
 HELP
 }
 
@@ -125,11 +139,11 @@ ensure_clone() {
   if [ -d "$CACHE_DIR" ] && [ "$(ls -A "$CACHE_DIR" 2>/dev/null)" ]; then
     # A non-empty, non-git directory here is anomalous: the normal flow only ever
     # puts a git clone at $CACHE_DIR. Since the path is a documented override
-    # (PAPER_REVISION_EDITOR_HOME), a typo or a reused directory could point it at
+    # (BLUE_PENCIL_HOME), a typo or a reused directory could point it at
     # unrelated files, so refuse rather than delete it.
     echo "ERROR: $CACHE_DIR exists but is not a git clone of $SKILL_NAME." >&2
     echo "       Refusing to remove it, as it may contain unrelated files." >&2
-    echo "       Delete it yourself, or set PAPER_REVISION_EDITOR_HOME to an empty or new path, then re-run." >&2
+    echo "       Delete it yourself, or set BLUE_PENCIL_HOME to an empty or new path, then re-run." >&2
     exit 1
   else
     echo "Cloning $REPO_URL into $CACHE_DIR" >&2
@@ -387,7 +401,76 @@ installer_path() {
   echo "$1/install.sh"
 }
 
+# One-time migration from the pre-rename identity. A pre-v2.0.0 install left
+# old-name symlinks in the skill directories, a managed clone at the old
+# location with origin pointing at the old repository URL, and manifests under
+# the old hidden names. Each step acts only on artifacts the old installer
+# created and is idempotent, so calling this on every run is safe and a fresh
+# machine falls straight through.
+migrate_old_install() {
+  local dest
+  # Move the old managed clone to the new location, preserving any pinned ref
+  # and local state. Never onto an existing new-name clone, and never when an
+  # env override makes the two paths the same.
+  if [ -d "$OLD_CACHE_DIR/.git" ] && [ "$OLD_CACHE_DIR" != "$CACHE_DIR" ]; then
+    if [ ! -e "$CACHE_DIR" ]; then
+      mkdir -p "$(dirname "$CACHE_DIR")"
+      mv "$OLD_CACHE_DIR" "$CACHE_DIR"
+      echo "Migrated managed clone: $OLD_CACHE_DIR -> $CACHE_DIR"
+    else
+      echo "Note: pre-rename clone at $OLD_CACHE_DIR is no longer used (the managed clone lives at $CACHE_DIR); delete it if you do not need it." >&2
+    fi
+  fi
+  # Retarget the clone's origin. GitHub redirects the old URL today, but the
+  # redirect breaks the moment a new repository takes the old name.
+  if [ -d "$CACHE_DIR/.git" ] && command -v git >/dev/null 2>&1; then
+    local remote
+    # Read the raw configured URL: `git remote get-url` applies any insteadOf
+    # rewrite rules first, which could hide the old name from the match below.
+    remote="$(git -C "$CACHE_DIR" config --get remote.origin.url 2>/dev/null || true)"
+    case "$remote" in
+      *"$OLD_SKILL_NAME"*)
+        git -C "$CACHE_DIR" remote set-url origin "$REPO_URL"
+        echo "Retargeted clone remote to $REPO_URL"
+        ;;
+    esac
+  fi
+  # Drop old-name skill links (or a prior copy-mode install). Anything else at
+  # those paths was not placed by this installer and is left alone. The caller
+  # links the new-name targets; a surviving old-name link would keep serving a
+  # stale skill under the old name.
+  for dest in "${OLD_TARGETS[@]}"; do
+    if [ -L "$dest" ]; then
+      rm "$dest"
+      echo "Removed pre-rename symlink: $dest"
+    elif [ -d "$dest" ] && [ -f "$dest/SKILL.md" ] && [ -f "$dest/VERSION" ]; then
+      rm -rf "$dest"
+      echo "Removed pre-rename copy-mode install: $dest"
+    fi
+  done
+  # Carry the install manifest and the registration marker across the rename.
+  # The manifest is what marks previously copied command and agent files as
+  # ours; without it the next refresh would treat them as the user's own and
+  # back them up as .bak instead of updating them in place.
+  if [ -f "$HOME/.claude/$OLD_MANIFEST_REL" ]; then
+    if [ ! -f "$HOME/.claude/$MANIFEST_REL" ]; then
+      mv "$HOME/.claude/$OLD_MANIFEST_REL" "$HOME/.claude/$MANIFEST_REL"
+      echo "Migrated install manifest to $HOME/.claude/$MANIFEST_REL"
+    else
+      rm -f "$HOME/.claude/$OLD_MANIFEST_REL"
+    fi
+  fi
+  if [ -f "$HOME/.claude/$OLD_COMMANDS_MARKER_REL" ]; then
+    if [ ! -f "$HOME/.claude/$COMMANDS_MARKER_REL" ]; then
+      mv "$HOME/.claude/$OLD_COMMANDS_MARKER_REL" "$HOME/.claude/$COMMANDS_MARKER_REL"
+    else
+      rm -f "$HOME/.claude/$OLD_COMMANDS_MARKER_REL"
+    fi
+  fi
+}
+
 run_install() {
+  migrate_old_install
   local src
   src="$(resolve_source)"
   # An explicit --ref moves the managed clone onto that ref, on first install
@@ -419,6 +502,10 @@ run_install() {
 
 run_update() {
   require_git
+  # Migrate a pre-rename install first: if the running script lives in the old
+  # clone location, the move below invalidates SCRIPT_DIR, and the source
+  # resolution that follows then correctly lands on the migrated CACHE_DIR.
+  migrate_old_install
   # Update whichever clone the install points at. If we are inside a clone,
   # update that. Otherwise update CACHE_DIR.
   local src
@@ -533,6 +620,10 @@ remove_commands() {
 }
 
 run_uninstall() {
+  # Migrate first so pre-rename symlinks and manifests are also cleaned up:
+  # migration renames them onto the new identity, and the removals below then
+  # cover both generations of the install.
+  migrate_old_install
   for dest in "${TARGETS[@]}"; do
     unlink_one "$dest"
   done
@@ -738,6 +829,7 @@ ensure_source_current() {
 }
 
 run_commands() {
+  migrate_old_install
   local src
   src="$(resolve_source)"
   ensure_source_current "$src"
@@ -767,6 +859,7 @@ run_init() {
     echo "ERROR: --init must run inside a git repository (your paper repo)." >&2
     exit 1
   fi
+  migrate_old_install
   local repo_root
   repo_root="$(git rev-parse --show-toplevel)"
 

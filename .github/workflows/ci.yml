@@ -36,10 +36,10 @@ jobs:
           HOME="$tmp" ./install.sh
           HOME="$tmp" ./install.sh --check
           HOME="$tmp" ./install.sh --version
-          test -e "$tmp/.agents/skills/paper-revision-editor/SKILL.md"
-          test -e "$tmp/.claude/skills/paper-revision-editor/SKILL.md"
+          test -e "$tmp/.agents/skills/blue-pencil/SKILL.md"
+          test -e "$tmp/.claude/skills/blue-pencil/SKILL.md"
           HOME="$tmp" ./install.sh --uninstall
-          test ! -e "$tmp/.agents/skills/paper-revision-editor"
+          test ! -e "$tmp/.agents/skills/blue-pencil"
 
       - name: Installer behavior tests (init, commands, refresh, update)
         run: ./scripts/test-install.sh

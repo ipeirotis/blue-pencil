@@ -20,6 +20,6 @@ revision_stage: [REPLACE: first draft | response to reviewers | final polish]
 
 ## Skill
 
-Use the `paper-revision-editor` skill for any revision, polish, copy-edit, or reviewer-response task on a section of this paper. The skill enforces a diagnose-then-revise workflow with a four-section output (Diagnosis, Revised text, Change rationale, Author questions) and preserves voice, citations, math, and numerical claims.
+Use the `blue-pencil` skill for any revision, polish, copy-edit, or reviewer-response task on a section of this paper. The skill enforces a diagnose-then-revise workflow with a four-section output (Diagnosis, Revised text, Change rationale, Author questions) and preserves voice, citations, math, and numerical claims.
 
 Do not use the skill for proofreading, citation formatting, LaTeX compilation, or drafting new content from notes.
