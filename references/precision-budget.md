@@ -58,7 +58,7 @@ The first mention of any result states it in its cleanest form. The complete sta
 
 ## The hedge lexicon
 
-In the abstract and introduction, flag every occurrence of: may, might, could, potentially, arguably, generally, typically, in many cases, to some extent, it is important to note. Build the census mechanically first, with a Grep pass over the front matter, so detection is complete and editorial judgment is spent on classification rather than on finding. Then classify each hit; the classification is the edit, and blanket deletion is never it:
+In the abstract, the introduction, and any contribution paragraph (wherever in the paper it sits), flag every occurrence of: may, might, could, potentially, arguably, generally, typically, in many cases, to some extent, it is important to note. Build the census mechanically first, with a Grep pass over the front matter, so detection is complete and editorial judgment is spent on classification rather than on finding. Then classify each hit; the classification is the edit, and blanket deletion is never it:
 
 1. **Epistemic keeper.** A hedge on a central claim whose removal fails the refinement test. It stays, counts as the claim's one hedge, and is logged as kept calibration, not as a missed cut.
 2. **Deferrable scope.** A condition whose full statement exists, or belongs, where the claim is established. Defer it: the claim runs clean, at most one signpost remains, and the move is a relocation under the gates below and a deletion under constraint 6, so it is logged in `Change rationale` and, when it touches a numerical claim, flagged under the numerical-claim constraint.
