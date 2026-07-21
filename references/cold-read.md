@@ -73,7 +73,8 @@ Where the paper rewards the reader and where it taxes them, each with a
 location. Rewards: a genuine surprise, a figure that carries the argument, a
 sentence the reader will repeat to explain the paper, a payoff that lands.
 Taxes: a stretch with no payoff in sight, machinery before motive, a defensive
-caveat wall, list rhythm across paragraphs or sections. "A pleasure to read" is
+caveat wall, a hedge spent before the reader can value the claim it qualifies,
+list rhythm across paragraphs or sections. "A pleasure to read" is
 measured here, not asserted; an empty rewards column is itself a finding.
 
 Find the taxes adversarially: read the paper as a tired reviewer at 11pm and
@@ -84,8 +85,12 @@ sympathetic read glides past. Also note whether one concrete example runs
 through the whole paper or each section introduces a fresh disposable one; a
 single running example is the highest-leverage source of delight
 (`references/reader-pleasure.md`), and its absence is a reward the paper is
-leaving unclaimed. The marks feed the dispatch list; this pass diagnoses and
-never rewrites.
+leaving unclaimed. The front-to-back read is also where the precision budget's
+whole-paper question is answerable (`references/precision-budget.md`): quote
+each early simplification whose precise version never arrives, or arrives as a
+retraction (sign reversed, magnitude gutted, scope collapsed), since an opening
+that reads as bait outranks an opening that merely reads slow. The marks feed
+the dispatch list; this pass diagnoses and never rewrites.
 
 ### 4. Venue compliance
 
