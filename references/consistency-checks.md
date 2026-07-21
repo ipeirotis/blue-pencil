@@ -19,11 +19,12 @@ results, discussion, and conclusion describe the same paper, and flag:
 - inconsistent contribution framing (contributions named or counted
   differently across abstract, intro, and conclusion)
 - promise-delivery gaps (claims the intro makes that the body never delivers)
-- unpaid precision debt, in both directions (an abstract or intro claim stated
-  directionally whose full statement, with its conditions, never arrives where
-  the claim is established; and an early claim whose full statement reverses
-  its sign, guts its magnitude, or collapses its scope, so the opening reads as
-  bait rather than compression; test in `references/precision-budget.md`)
+- unpaid precision debt, in both directions (a directional claim in the
+  abstract, the intro, or a contribution paragraph wherever it sits, whose
+  full statement, with its conditions, never arrives where the claim is
+  established; and such a claim whose full statement reverses its sign, guts
+  its magnitude, or collapses its scope, so the opening reads as bait rather
+  than compression; test in `references/precision-budget.md`)
 - missing or out-of-order forward references, and figure, table, theorem, or
   result callouts that do not resolve
 - citation placeholders left unfilled
