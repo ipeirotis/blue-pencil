@@ -397,7 +397,7 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - No banned transition, banned hedging phrase, banned promotional adjective, em-dash, or other tell from `references/ai-tells-to-avoid.md`.
 - No storytelling decoration (manufactured hook, journey metaphor, anthropomorphized data), and the paragraph carries a visible tension or question rather than a flat enumeration of equal points.
 - No nominalisation sits where an active verb belongs.
-- No interruptive appositive or parenthetical splits the core of a clause (a subject from its verb, a verb from its object or particle, or an object from its complement); the main clause parses in one pass.
+- No interruptive appositive or parenthetical splits the core of a clause (a subject from its verb, a verb from its object or particle, or an object from its complement); each clause, embedded ones included, parses in one pass.
 - Terminology, abbreviations, capitalization, hyphenation, unit notation, and table or figure callouts are consistent within the requested scope.
 - Paragraphs end on a payoff, synthesis, or consequence rather than a procedural afterthought.
 - Claims, evidence, and interpretation are distinguishable.
@@ -416,7 +416,7 @@ pass.
 
 ## Voice extraction before rewriting
 
-Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, hedge stacks, and interruptive appositives that split the core of a clause (a subject from its verb, a verb from its object, or an object from its complement) are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic unless an explicit `style_overrides:` line in `<paper_context>` sets them aside (see the Constraints section; protection rules never yield).
+Before producing the rewrite, identify three to five voice tics from the original and preserve them. A voice tic is a stable, deliberate choice across pronoun policy, sentence length, connective vocabulary, citation placement, punctuation, or lexical preferences. Nominalisations, throat-clearing, em-dashes, banned transitions, hedge stacks, and interruptive appositives that split the core of a clause (a subject from its verb, a verb from its object or particle, or an object from its complement) are not voice tics; the style rules in `references/ai-tells-to-avoid.md` win over any voice tic unless an explicit `style_overrides:` line in `<paper_context>` sets them aside (see the Constraints section; protection rules never yield).
 
 When the table in Output format calls for a `Voice tics:` line, list the tics at the top of the `Diagnosis` block so the author can confirm the read.
 
