@@ -4,7 +4,7 @@ argument-hint: "[section file path, or paste the section text]"
 ---
 
 Dispatch the request below to the `paper-reviser` subagent, which loads the
-`paper-revision-editor` skill and applies it in an isolated context. If that
+`blue-pencil` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 The subagent is isolated: it sees only what the dispatch carries, not this

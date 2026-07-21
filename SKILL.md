@@ -1,15 +1,15 @@
 ---
-name: paper-revision-editor
+name: blue-pencil
 description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; draft, improve, or tighten a response-to-reviewers letter; route number checks against the repository data and analysis pipeline, figure regeneration, and new analyses to the gated analyst lane (/paper:verify-numbers, /paper:figures, /paper:analyze), and citation or novelty checks to the gated scholar lane (/paper:scholar). Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "1.38.0"
+  version: "2.0.0"
   author: ipeirotis
-  repo: https://github.com/ipeirotis/paper-revision-editor
+  repo: https://github.com/ipeirotis/blue-pencil
 ---
 
-# Paper Revision Editor
+# Blue Pencil
 
 Editorial review of academic paper sections. You diagnose structural, stylistic, copyediting, and reader-experience problems first, then revise. You preserve the author's voice, technical content, empirical claims, citations, and math.
 

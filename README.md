@@ -1,6 +1,6 @@
-# paper-revision-editor
+# blue-pencil
 
-[![Version](https://img.shields.io/badge/version-1.38.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **An expert academic editor for your papers, run by an AI agent.** Point Claude (or any AI coding agent) at a section of your paper. It first tells you what is weak, then rewrites it to read more clearly, and shows you exactly what it changed and why, all while leaving your citations, numbers, math, and personal writing voice untouched.
@@ -79,7 +79,7 @@ is out of scope.
 1. **Install the skill** (one line, needs only `git` and `bash`):
 
    ```bash
-   curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
+   curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash
    ```
 
    > **Using claude.ai, Cowork, or another chat surface instead of Claude Code?**
@@ -96,7 +96,7 @@ is out of scope.
 
    ```bash
    cd /path/to/your/paper
-   ~/.local/share/paper-revision-editor/install.sh --init
+   ~/.local/share/blue-pencil/install.sh --init
    ```
 
    It asks four short questions (your target venue, your audience, your paper's main point, and how far along you are: `first draft`, `response to reviewers`, or `final polish`) and saves the answers so the editor tailors its work to your paper. The revision stage matters: a `first draft` may be restructured, while a `final polish` only gets light sentence-level edits. It also registers the Claude Code `/paper:` slash commands in this repo so `/paper:loop`, `/paper:revise`, and the rest resolve.
@@ -141,7 +141,7 @@ Run once per paper, and fill in `target_venue`, `audience`, `core_thesis`, and
 `revision_stage`:
 
 ```bash
-~/.local/share/paper-revision-editor/install.sh --init
+~/.local/share/blue-pencil/install.sh --init
 ```
 
 The skill stops rather than guessing when these are missing. `revision_stage` is
@@ -299,50 +299,54 @@ edits would be merely different rather than better.
 
 ## Install
 
-One line. Requires only `git` and `bash`. It clones the repo into `~/.local/share/paper-revision-editor`, then symlinks it into both skill directories:
+One line. Requires only `git` and `bash`. It clones the repo into `~/.local/share/blue-pencil`, then symlinks it into both skill directories:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash
 ```
 
 This installs to:
 
-- `~/.agents/skills/paper-revision-editor/` (cross-tool standard)
-- `~/.claude/skills/paper-revision-editor/` (Claude Code)
+- `~/.agents/skills/blue-pencil/` (cross-tool standard)
+- `~/.claude/skills/blue-pencil/` (Claude Code)
 
 That's it. Two locations, one clone, one symlink each.
+
+### Upgrading from paper-revision-editor
+
+This project was called `paper-revision-editor` before v2.0.0. If you installed it under that name, run the install one-liner above (or any `install.sh` mode) once: the installer migrates the old install in place. It moves the managed clone to `~/.local/share/blue-pencil`, points it at the renamed repository, replaces the old-name symlinks with `blue-pencil` ones, and carries the install manifest across so previously registered `paper:` commands keep refreshing. The old `PAPER_REVISION_EDITOR_HOME` and `PAPER_REVISION_EDITOR_REF` variables are still honored as fallbacks. Nothing changes in how you use the skill: the `/paper:*` commands and the subagent names are the same.
 
 ### Pin to a version
 
 Track a tagged release, branch, or commit instead of `main`:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --ref v1.16.0
+curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash -s -- --ref v1.16.0
 ```
 
-Setting `PAPER_REVISION_EDITOR_REF=v1.16.0` does the same thing. The pin is sticky: install or reinstall with `--ref` moves an existing clone onto that ref, and a plain `--update` keeps it there. Pass a new `--ref` to move off it (for example `--ref main` to follow the latest again).
+Setting `BLUE_PENCIL_REF=v1.16.0` does the same thing. The pin is sticky: install or reinstall with `--ref` moves an existing clone onto that ref, and a plain `--update` keeps it there. Pass a new `--ref` to move off it (for example `--ref main` to follow the latest again).
 
 You can also tell your agent in chat:
 
-> Install the paper-revision-editor skill.
+> Install the blue-pencil skill.
 
 The agent will run the curl command above.
 
 ## Update
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --update
+curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash -s -- --update
 ```
 
 Or, if you have a local clone:
 
 ```bash
-git -C ~/.local/share/paper-revision-editor pull
+git -C ~/.local/share/blue-pencil pull
 ```
 
 Or in chat:
 
-> Update the paper-revision-editor skill.
+> Update the blue-pencil skill.
 
 Because both targets are symlinks into the same clone, a single `git pull` (or `--update`) refreshes both at once.
 
@@ -351,15 +355,15 @@ Because both targets are symlinks into the same clone, a single `git pull` (or `
 ## Uninstall
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ipeirotis/paper-revision-editor/main/install.sh | bash -s -- --uninstall
+curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash -s -- --uninstall
 ```
 
-Removes both symlinks and the global `paper:` commands and paper subagents that `--commands` installs under `~/.claude`. Commands copied into a specific repo by `--init` stay in that repo (uninstall takes no repo argument); remove them there if you want them gone. The clone at `~/.local/share/paper-revision-editor` is left alone; delete it manually if you want.
+Removes both symlinks and the global `paper:` commands and paper subagents that `--commands` installs under `~/.claude`. Commands copied into a specific repo by `--init` stay in that repo (uninstall takes no repo argument); remove them there if you want them gone. The clone at `~/.local/share/blue-pencil` is left alone; delete it manually if you want.
 
 ## Verify and troubleshoot
 
 ```bash
-~/.local/share/paper-revision-editor/install.sh --check
+~/.local/share/blue-pencil/install.sh --check
 ```
 
 `--check` lists both targets, flags a `BROKEN` symlink if the clone moved, and prints the clone's version and tracked ref. Common cases:
@@ -378,7 +382,7 @@ Inside a paper repo, scaffold `AGENTS.md` (read by both Claude Code and any agen
 
 ```bash
 cd /path/to/your/paper
-~/.local/share/paper-revision-editor/install.sh --init
+~/.local/share/blue-pencil/install.sh --init
 ```
 
 You'll be prompted for venue, audience, thesis, and revision stage. The script writes `AGENTS.md` plus a one-line `CLAUDE.md` bridge.
@@ -388,8 +392,8 @@ You'll be prompted for venue, audience, thesis, and revision stage. The script w
 If you'd rather clone the repo yourself:
 
 ```bash
-git clone https://github.com/ipeirotis/paper-revision-editor.git
-cd paper-revision-editor
+git clone https://github.com/ipeirotis/blue-pencil.git
+cd blue-pencil
 make install      # symlink into ~/.agents/skills/ and ~/.claude/skills/
 make update       # update the clone and re-link
 make uninstall    # remove both symlinks
@@ -413,7 +417,7 @@ Each file in `examples/` is a complete run you can read before trying your own. 
 
 Any prompt that mentions revising, polishing, copy-editing, tightening, or responding to reviewer comments on a paper section will auto-trigger the skill. Explicit invocation:
 
-- Claude Code: `/paper-revision-editor`, or use the `paper-reviser` subagent under `.claude/agents/`.
+- Claude Code: `/blue-pencil`, or use the `paper-reviser` subagent under `.claude/agents/`.
 - Any other agent reading `~/.agents/skills/`: mention the skill by name or use that agent's slash-command convention.
 
 ### Structured slash commands (Claude Code)
@@ -485,4 +489,4 @@ CI (`.github/workflows/ci.yml`) runs shellcheck, the version check, the lint, an
 
 ## License
 
-MIT. See `LICENSE`. Author: ipeirotis. Repository: https://github.com/ipeirotis/paper-revision-editor.
+MIT. See `LICENSE`. Author: ipeirotis. Repository: https://github.com/ipeirotis/blue-pencil.

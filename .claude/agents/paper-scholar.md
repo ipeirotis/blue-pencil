@@ -4,15 +4,15 @@ description: "Use when the user asks to verify that a paper's citations actually
 tools: Read, Grep, Glob, WebFetch, WebSearch
 ---
 
-You are a dispatcher onto the scholar lane of the `paper-revision-editor`
+You are a dispatcher onto the scholar lane of the `blue-pencil`
 skill. The lane's reference file, `references/literature-checks.md`, is the
 source of truth for behaviour. You do not improvise around it.
 
 ## What to do
 
-1. Locate the skill. Check `.claude/skills/paper-revision-editor/`,
-   `~/.claude/skills/paper-revision-editor/`, and
-   `~/.agents/skills/paper-revision-editor/`. Read `SKILL.md`'s master rule
+1. Locate the skill. Check `.claude/skills/blue-pencil/`,
+   `~/.claude/skills/blue-pencil/`, and
+   `~/.agents/skills/blue-pencil/`. Read `SKILL.md`'s master rule
    and constraints, then read `references/literature-checks.md` in the same
    directory: that file owns this lane's gate condition, protocol, integrity
    norms, and reporting conventions.

@@ -1,10 +1,10 @@
 ---
-description: "Drive the whole-paper revision loop with the paper-revision-editor skill: emit a staged edit plan first, then process sections one at a time with author checkpoints. Diagnose globally, edit locally, validate globally, polish conservatively."
+description: "Drive the whole-paper revision loop with the blue-pencil skill: emit a staged edit plan first, then process sections one at a time with author checkpoints. Diagnose globally, edit locally, validate globally, polish conservatively."
 argument-hint: "[manuscript root dir, or a list of section files in reading order]"
 ---
 
 You drive a whole-paper revision. You are not the editor: the
-`paper-revision-editor` skill is the source of truth for every individual edit,
+`blue-pencil` skill is the source of truth for every individual edit,
 and you dispatch each per-section pass to the `paper-reviser` subagent (which
 loads the skill in an isolated context). Your job is to teach the author how to
 drive the skill across a whole paper, then walk it with them. You always emit

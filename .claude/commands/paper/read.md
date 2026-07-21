@@ -1,10 +1,10 @@
 ---
-description: "Read the whole paper front to back, cold, as its intended reader, with the paper-revision-editor skill: reading log, colleague test, delight audit, venue compliance, and a prioritized dispatch list (diagnosis only, no rewrite)."
+description: "Read the whole paper front to back, cold, as its intended reader, with the blue-pencil skill: reading log, colleague test, delight audit, venue compliance, and a prioritized dispatch list (diagnosis only, no rewrite)."
 argument-hint: "[paper root file, or a list of section files in reading order]"
 ---
 
 Dispatch the request below to the `paper-reviser` subagent, which loads the
-`paper-revision-editor` skill and applies it in an isolated context. If that
+`blue-pencil` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 The subagent is isolated: it sees only what the dispatch carries, not this

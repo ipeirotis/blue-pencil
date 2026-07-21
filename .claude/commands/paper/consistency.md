@@ -1,10 +1,10 @@
 ---
-description: Run a whole-paper cross-section consistency check with the paper-revision-editor skill (diagnosis only, no rewrite).
+description: Run a whole-paper cross-section consistency check with the blue-pencil skill (diagnosis only, no rewrite).
 argument-hint: "[paper root file, or a list of section files covering the whole paper]"
 ---
 
 Dispatch the request below to the `paper-reviser` subagent, which loads the
-`paper-revision-editor` skill and applies it in an isolated context. If that
+`blue-pencil` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 The subagent is isolated: it sees only what the dispatch carries, not this

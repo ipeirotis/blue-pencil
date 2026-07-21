@@ -1,10 +1,10 @@
 ---
-description: "Triage a decision letter with the paper-revision-editor skill: severity-ranked comment table, section mapping, and a suggested order of work (diagnosis only, no rewrite)."
+description: "Triage a decision letter with the blue-pencil skill: severity-ranked comment table, section mapping, and a suggested order of work (diagnosis only, no rewrite)."
 argument-hint: "[paste the full decision letter, or give file paths; optionally add the manuscript root]"
 ---
 
 Dispatch the request below to the `paper-reviser` subagent, which loads the
-`paper-revision-editor` skill and applies it in an isolated context. If that
+`blue-pencil` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 The subagent is isolated: it sees only what the dispatch carries, not this

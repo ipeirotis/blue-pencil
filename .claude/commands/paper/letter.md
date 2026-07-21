@@ -1,10 +1,10 @@
 ---
-description: "Draft, improve, or assemble a response-to-reviewers letter with the paper-revision-editor skill, checking every claimed change against the manuscript."
+description: "Draft, improve, or assemble a response-to-reviewers letter with the blue-pencil skill, checking every claimed change against the manuscript."
 argument-hint: "[paste the draft letter (or the comment set and your decisions) plus the revised manuscript, or give file paths]"
 ---
 
 Dispatch the request below to the `paper-reviser` subagent, which loads the
-`paper-revision-editor` skill and applies it in an isolated context. If that
+`blue-pencil` skill and applies it in an isolated context. If that
 subagent is unavailable, load the skill's `SKILL.md` directly instead.
 
 The subagent is isolated: it sees only what the dispatch carries, not this

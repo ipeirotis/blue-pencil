@@ -1,7 +1,25 @@
 # Changelog
 
-All notable changes to paper-revision-editor are documented here.
+All notable changes to blue-pencil (called paper-revision-editor before v2.0.0) are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
+
+## [2.0.0] - 2026-07-21
+
+Renames the project from paper-revision-editor to blue-pencil, following the repository's rename to `ipeirotis/blue-pencil`. The skill identifier, the install locations, the environment variables, and the hidden install manifests all take the new name, which is why this is a major version: an existing install's paths and pins change. The installer migrates a pre-rename install in place, so the upgrade is one re-run of the install one-liner. The `paper:` command namespace and the `paper-reviser`, `paper-analyst`, and `paper-scholar` subagent names are unchanged: they are named for the domain, not the repository. Also removes the historical audit and review documents, which git history preserves.
+
+### Changed
+
+- The skill is now `blue-pencil`: `SKILL.md` `name`, its title, and the `metadata.repo` URL take the new name, and the sixteen `paper:` command files, the three subagents, `examples/AGENTS.md.template`, CI's smoke test, the `Makefile`, and the `README.md` resolve and name the skill accordingly.
+- `install.sh` installs to `~/.agents/skills/blue-pencil` and `~/.claude/skills/blue-pencil` from a managed clone at `~/.local/share/blue-pencil`, clones from the renamed repository URL, reads `BLUE_PENCIL_HOME` and `BLUE_PENCIL_REF` (the old `PAPER_REVISION_EDITOR_*` variables are still honored as fallbacks), and records its copies in `.blue-pencil-manifest` and `.blue-pencil-commands-registered`.
+- `install.sh` gains `migrate_old_install`, run at the start of every mode that touches the filesystem (install, update, commands, init, uninstall): it moves the old managed clone to the new location (preserving any pinned ref), points the clone's origin at the renamed repository (GitHub's redirect dies the moment a new repository takes the old name), removes old-name skill symlinks and copy-mode installs, and carries the install manifest and registration marker across the rename so the next refresh updates previously registered files in place instead of backing them up as `.bak`. Each step acts only on artifacts the old installer created and is idempotent.
+- `scripts/publish-releases.sh` publishes to `ipeirotis/blue-pencil`.
+- `scripts/test-install.sh` runs its sandboxes under `BLUE_PENCIL_HOME` and gains a rename-migration scenario covering the clone move, the remote retarget, the symlink swap, the manifest carry-over, and the no-backup refresh of a previously registered command.
+- `README.md` gains an "Upgrading from paper-revision-editor" subsection documenting the one-command migration.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 2.0.0.
+
+### Removed
+
+- `AUDIT.md` and `docs/review-2026-07/` (the two v1.22.0 reviews, their reconciliation, and the remediation plan). All four were explicitly historical documents kept for provenance; the git history is that provenance, so the working tree no longer carries them.
 
 ## [1.38.0] - 2026-07-21
 

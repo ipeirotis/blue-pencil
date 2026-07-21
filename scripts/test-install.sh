@@ -5,7 +5,7 @@
 # logic, and none of it had coverage; this is that coverage.
 #
 # The suite is self-contained. It runs each scenario in a throwaway sandbox with
-# HOME and PAPER_REVISION_EDITOR_HOME pointed inside it, so it never touches the
+# HOME and BLUE_PENCIL_HOME pointed inside it, so it never touches the
 # developer's real ~/.claude, ~/.agents, or managed clone. It drives install.sh
 # from this checkout (never a network clone), and the one git-update test builds
 # a local origin so it needs no network either.
@@ -16,8 +16,8 @@ set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 INSTALL="$REPO_ROOT/install.sh"
-MANIFEST_REL=".paper-revision-editor-manifest"
-COMMANDS_MARKER_REL=".paper-revision-editor-commands-registered"
+MANIFEST_REL=".blue-pencil-manifest"
+COMMANDS_MARKER_REL=".blue-pencil-commands-registered"
 
 pass=0
 fail=0
@@ -58,7 +58,7 @@ run_from() { # home, install_path, args...
   local home="$1" script="$2"; shift 2
   # $SETSID is intentionally word-split: it is "setsid" or empty (no wrapper).
   # shellcheck disable=SC2086
-  HOME="$home" PAPER_REVISION_EDITOR_HOME="$home/.cache-clone" \
+  HOME="$home" BLUE_PENCIL_HOME="$home/.cache-clone" \
     $SETSID bash "$script" "$@" </dev/null >/dev/null 2>&1
 }
 run_installer() { local home="$1"; shift; run_from "$home" "$INSTALL" "$@"; }
@@ -106,8 +106,8 @@ test_commands_uninstall() {
   run_installer "$sb" --commands
 
   local ctx="$sb/.claude"
-  assert_symlink "$sb/.agents/skills/paper-revision-editor" "commands: agents skill symlink created"
-  assert_symlink "$sb/.claude/skills/paper-revision-editor" "commands: claude skill symlink created"
+  assert_symlink "$sb/.agents/skills/blue-pencil" "commands: agents skill symlink created"
+  assert_symlink "$sb/.claude/skills/blue-pencil" "commands: claude skill symlink created"
   assert_file "$ctx/commands/paper/loop.md" "commands: loop command registered globally"
   assert_file "$ctx/agents/paper-analyst.md" "commands: analyst subagent registered globally"
   assert_file "$ctx/$MANIFEST_REL" "commands: manifest written"
@@ -117,8 +117,8 @@ test_commands_uninstall() {
 
   run_installer "$sb" --uninstall
 
-  assert_no_path "$sb/.agents/skills/paper-revision-editor" "uninstall: agents skill symlink removed"
-  assert_no_path "$sb/.claude/skills/paper-revision-editor" "uninstall: claude skill symlink removed"
+  assert_no_path "$sb/.agents/skills/blue-pencil" "uninstall: agents skill symlink removed"
+  assert_no_path "$sb/.claude/skills/blue-pencil" "uninstall: claude skill symlink removed"
   assert_no_file "$ctx/commands/paper/loop.md" "uninstall: managed command removed"
   assert_no_file "$ctx/agents/paper-analyst.md" "uninstall: managed subagent removed"
   assert_no_file "$ctx/$MANIFEST_REL" "uninstall: manifest removed"
@@ -210,8 +210,8 @@ test_refused_targets() {
   # Pre-create both targets as plain (non-symlink) dirs. The claude one carries a
   # SKILL.md but no VERSION, so it is neither a symlink nor a prior install:
   # link_one refuses it. Neither is linked to our source.
-  mkdir -p "$sb/.agents/skills/paper-revision-editor" "$sb/.claude/skills/paper-revision-editor"
-  printf 'not ours\n' > "$sb/.claude/skills/paper-revision-editor/SKILL.md"
+  mkdir -p "$sb/.agents/skills/blue-pencil" "$sb/.claude/skills/blue-pencil"
+  printf 'not ours\n' > "$sb/.claude/skills/blue-pencil/SKILL.md"
 
   if run_installer "$sb" --commands; then
     no "refused: --commands should exit non-zero when no usable skill link exists"
@@ -333,7 +333,7 @@ DOC
   # message and a non-zero exit (so a gating workflow does not treat the repo as
   # ready). This path never reaches read_field, so no setsid/tty handling is needed.
   local out rc
-  out="$(cd "$repo" && HOME="$sb" PAPER_REVISION_EDITOR_HOME="$sb/.cache-clone" \
+  out="$(cd "$repo" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" \
     bash "$INSTALL" --init </dev/null 2>&1)"
   rc=$?
 
@@ -363,8 +363,8 @@ test_shadowed_link() {
   local sb; sb="$(mktemp -d)"
   # Refused, higher-priority target carrying a foreign skill; no VERSION, not a
   # symlink, so link_one refuses it. ~/.agents is left free to link successfully.
-  mkdir -p "$sb/.claude/skills/paper-revision-editor"
-  printf 'stale, not ours\n' > "$sb/.claude/skills/paper-revision-editor/SKILL.md"
+  mkdir -p "$sb/.claude/skills/blue-pencil"
+  printf 'stale, not ours\n' > "$sb/.claude/skills/blue-pencil/SKILL.md"
 
   if run_installer "$sb" --commands; then
     no "shadowed: --commands should fail when a stale skill shadows the good link"
@@ -399,7 +399,7 @@ revision_stage: final polish
 </paper_context>
 DOC
   local rc
-  ( cd "$repo" && HOME="$sb" PAPER_REVISION_EDITOR_HOME="$sb/.cache-clone" \
+  ( cd "$repo" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" \
     bash "$INSTALL" --init </dev/null >/dev/null 2>&1 )
   rc=$?
 
@@ -455,6 +455,57 @@ test_downgrade_marker() {
   rm -rf "$sb"
 }
 
+# --- Scenario: a pre-rename install migrates onto the blue-pencil identity ----
+# An install made under the old paper-revision-editor name (old-name symlinks,
+# the clone at the old default location with origin on the old URL, and the
+# manifest and marker under the old hidden names) must migrate in place on the
+# next installer run: clone moved and its remote retargeted, old symlinks
+# dropped, new-name links established, and the manifest carried over so the
+# refresh updates previously registered files instead of backing them up as
+# .bak. No BLUE_PENCIL_HOME override here: the clone move under test is the
+# default-path one, so the sandbox HOME alone isolates it. All local, no
+# network (remote set-url never contacts the remote).
+test_rename_migration() {
+  local sb old_clone; sb="$(mktemp -d)"; old_clone="$sb/.local/share/paper-revision-editor"
+  mkdir -p "$sb/.local/share" "$sb/.claude/skills" "$sb/.agents/skills" "$sb/.claude/commands/paper"
+  git clone -q "$REPO_ROOT" "$old_clone" 2>/dev/null
+  if [ ! -d "$old_clone/.git" ]; then
+    no "rename: could not build the old-name clone"
+    rm -rf "$sb"; return
+  fi
+  git -C "$old_clone" remote set-url origin "https://github.com/ipeirotis/paper-revision-editor.git"
+  ln -s "$old_clone" "$sb/.claude/skills/paper-revision-editor"
+  ln -s "$old_clone" "$sb/.agents/skills/paper-revision-editor"
+  # A previously registered command, recorded in the OLD manifest name and
+  # differing from the shipped copy: only a migrated manifest lets the refresh
+  # update it in place instead of preserving it as a backup.
+  printf '# pre-rename copy\n' > "$sb/.claude/commands/paper/loop.md"
+  printf 'commands/paper/loop.md\n' > "$sb/.claude/.paper-revision-editor-manifest"
+  : > "$sb/.claude/.paper-revision-editor-commands-registered"
+
+  ( HOME="$sb" bash "$INSTALL" --commands </dev/null >/dev/null 2>&1 )
+
+  assert_no_path "$sb/.claude/skills/paper-revision-editor" "rename: old claude symlink removed"
+  assert_no_path "$sb/.agents/skills/paper-revision-editor" "rename: old agents symlink removed"
+  assert_symlink "$sb/.claude/skills/blue-pencil" "rename: new claude symlink created"
+  assert_symlink "$sb/.agents/skills/blue-pencil" "rename: new agents symlink created"
+  assert_no_path "$old_clone" "rename: old clone moved away"
+  assert_file "$sb/.local/share/blue-pencil/.git/HEAD" "rename: clone lives at the new location"
+  local remote
+  # Raw config read, not `remote get-url`: get-url applies insteadOf rewrites,
+  # so on a machine with such rules it would not report the stored URL.
+  remote="$(git -C "$sb/.local/share/blue-pencil" config --get remote.origin.url 2>/dev/null)"
+  if [ "$remote" = "https://github.com/ipeirotis/blue-pencil.git" ]; then ok; else no "rename: clone remote retargeted (got: $remote)"; fi
+  assert_no_file "$sb/.claude/.paper-revision-editor-manifest" "rename: old manifest name gone"
+  assert_file "$sb/.claude/$MANIFEST_REL" "rename: manifest carried to the new name"
+  assert_no_file "$sb/.claude/.paper-revision-editor-commands-registered" "rename: old marker name gone"
+  assert_file "$sb/.claude/$COMMANDS_MARKER_REL" "rename: marker carried to the new name"
+  assert_no_file "$sb/.claude/commands/paper/loop.md.bak" "rename: managed file refreshed without a backup"
+  assert_no_grep "$sb/.claude/commands/paper/loop.md" "pre-rename copy" "rename: managed file updated in place"
+
+  rm -rf "$sb"
+}
+
 echo "Running install.sh tests..."
 test_init
 test_commands_uninstall
@@ -468,6 +519,7 @@ test_partial_agents_block
 test_shadowed_link
 test_multi_block_agents
 test_downgrade_marker
+test_rename_migration
 
 echo
 skip_note=""

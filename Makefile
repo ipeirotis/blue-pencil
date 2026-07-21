@@ -1,4 +1,4 @@
-# Makefile for paper-revision-editor.
+# Makefile for blue-pencil.
 #
 # install.sh is the source of truth for install / update / uninstall.
 # The scripts/ helpers back the maintenance targets (lint, check-version, bump).
@@ -9,7 +9,7 @@ INSTALL := ./install.sh
 .PHONY: help install update uninstall init check version lint check-version check-examples check-protected test-install bump test
 
 help:
-	@echo "paper-revision-editor"
+	@echo "blue-pencil"
 	@echo
 	@echo "User targets:"
 	@echo "  make install        Install (symlink into ~/.agents/skills/ and ~/.claude/skills/)"

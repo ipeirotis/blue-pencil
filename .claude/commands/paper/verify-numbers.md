@@ -1,15 +1,15 @@
 ---
-description: "Verify the manuscript's reported numbers against the repo's own data and analysis pipeline with the paper-revision-editor skill's analyst lane: rerun the author's pipeline, diff its outputs against every number in scope, and report match, mismatch, or unverifiable with provenance (verification only, no edits)."
+description: "Verify the manuscript's reported numbers against the repo's own data and analysis pipeline with the blue-pencil skill's analyst lane: rerun the author's pipeline, diff its outputs against every number in scope, and report match, mismatch, or unverifiable with provenance (verification only, no edits)."
 argument-hint: "[manuscript root or section files; optionally the pipeline entry point, e.g. make results]"
 ---
 
 Dispatch the request below to the `paper-analyst` subagent, which loads the
-`paper-revision-editor` skill's analyst lane
+`blue-pencil` skill's analyst lane
 (`references/analysis-integrity.md`) and applies it in an isolated context.
 If that subagent is unavailable, locate the installed skill yourself (check
-`.claude/skills/paper-revision-editor/`,
-`~/.claude/skills/paper-revision-editor/`, and
-`~/.agents/skills/paper-revision-editor/`; the reference file lives inside
+`.claude/skills/blue-pencil/`,
+`~/.claude/skills/blue-pencil/`, and
+`~/.agents/skills/blue-pencil/`; the reference file lives inside
 the skill, not next to this command), load its
 `references/analysis-integrity.md`, and run the protocol yourself, honoring
 its gate condition against your own tool surface: with no shell tool, or no data and analysis code in
