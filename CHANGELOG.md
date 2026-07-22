@@ -3,6 +3,21 @@
 All notable changes to blue-pencil (called paper-revision-editor before v2.0.0) are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [2.1.0] - 2026-07-22
+
+Trims duplication between `SKILL.md` and the reference files so each pass pays for its guidance once. A review of the sixteen references found none too terse, but found the always-loaded `SKILL.md` restating three references nearly in full (altitude, precision budget, subtraction) and a handful of references restating themselves or each other. This release slims those `SKILL.md` sections back toward trigger, hard rules, and pointer, makes `references/altitude.md` the single home of the relocation gates, and removes intra-file repetition. No rule changes: every constraint, gate, test, and exception survives, stated in one home instead of several.
+
+### Changed
+
+- `SKILL.md`'s Subtraction, Altitude, and Precision-budget sections compress toward trigger plus hard rules plus pointer: the keep-test criteria, the three altitude directives, and the hedge-classification protocol keep their one-line forms, while the exceptions, the worked-pair explanations, and the hedge-lexicon word list now live only in their references. Each section's load line already fires on every pass where those details bind, so nothing becomes unreachable.
+- `references/altitude.md` is now the single statement of the relocation gates (scope, stage, the response-to-reviewers both-paragraphs rule, the numerical-claim flag): `SKILL.md` and `references/precision-budget.md` point there instead of restating them, with `precision-budget.md` keeping only its deferral-specific reading (a destination that already carries the full statement needs no flagged destination paragraph).
+- `references/exposition.md`'s "Forced extraction before the rewrite" is restructured from two long paragraphs into when-to-run, the three extraction lines, and three rules of use, unchanged in meaning.
+- Small dedups: `references/narrative-spine.md`'s anti-pattern list compresses to one sentence pointing at the storytelling-tells catalog it duplicated; `references/literature-checks.md` states "retrieved, not remembered" once, in the integrity norms, instead of three times; `references/reader-pleasure.md` drops a load-variation paragraph that restated `SKILL.md`'s reader-experience rule; `references/sentence-patterns.md`'s interrupted-clause diagnostic no longer restates the rule its own section states twice above it.
+
+### Removed
+
+- `references/precision-budget.md`'s "Why the rule exists" rationale and "Composition summary" recap: the first re-derived what the gradient and the refinement test already operationalize, the second restated five cross-references already made inline in the file.
+
 ## [2.0.0] - 2026-07-21
 
 Renames the project from paper-revision-editor to blue-pencil, following the repository's rename to `ipeirotis/blue-pencil`. The skill identifier, the install locations, the environment variables, and the hidden install manifests all take the new name, which is why this is a major version: an existing install's paths and pins change. The installer migrates a pre-rename install in place, so the upgrade is one re-run of the install one-liner. The `paper:` command namespace and the `paper-reviser`, `paper-analyst`, and `paper-scholar` subagent names are unchanged: they are named for the domain, not the repository. Also removes the historical audit and review documents, which git history preserves.

@@ -131,18 +131,12 @@ Borrow the move, not the mannerism.
 
 ## Anti-patterns
 
-These are narrative gone decorative. Each is catalogued in
-`references/ai-tells-to-avoid.md` under "Storytelling tells."
-
-- The manufactured hook ("Imagine a world where...", "Picture this:").
-- The cold open or scene-setting stakes ("In an era of...", "As the field
-  continues to evolve...").
-- The hero's-journey framing of routine work ("our journey began", "we set out
-  to explore").
-- Anthropomorphized data ("the data tells a story", "the numbers speak for
-  themselves").
-- The forced analogy that leaks (`references/edit-checks.md`, check 8).
-- Stakes dramatized beyond what the paper delivers.
+Narrative gone decorative, each catalogued with examples in
+`references/ai-tells-to-avoid.md` under "Storytelling tells": the manufactured
+hook, the scene-setting cold open, the hero's-journey framing of routine work,
+anthropomorphized data, the forced analogy that leaks
+(`references/edit-checks.md`, check 8), and stakes dramatized beyond what the
+paper delivers.
 
 ## Safe boundaries and stage
 

@@ -2,12 +2,6 @@
 
 Load this on any abstract, introduction, or contribution-paragraph pass, whenever deleting, adding, or moving a hedge in the high-cost zone (the abstract, the introduction, and any contribution paragraph wherever it sits) is on the table, and whenever a draft reads either hedged and defensive up front or suspiciously clean up front. Three neighbours divide the work: the keep-test (`references/subtraction.md`) asks whether a unit earns its place at all, the altitude test (`references/altitude.md`) asks which section a surviving unit belongs in, and this file asks how much precision each location must carry, which decides whether a qualification may leave its claim at all.
 
-## Why the rule exists
-
-Precision is purchased with the reader's attention, and attention is most expensive exactly where the paper opens. A caveat delivered before the reader can appreciate why it matters is wasted twice: it spends scarce attention, and it discounts a claim the reader has not yet grasped, so the hedge lands as noise where the same hedge, placed where the claim is actually tested, would land as competence. Mathematicians call the earned version of this post-rigorous writing: the author speaks loosely because they know exactly where the looseness is and where in the paper it is repaid. Pedagogy calls it the simplified first version that a later, fuller version refines; journalism calls it the inverted pyramid. A research paper is neither a contract nor a technical manual: uniform full precision everywhere is not rigor, it is a failure to spend the reader's attention where a referee would actually test the claim. Spend precision where a referee would quote the sentence in a rejection; economize everywhere else.
-
-The failure this file prevents runs in both directions, and both matter. LLM-drafted prose defaults to technical correctness everywhere, so every early claim arrives pre-qualified and the introduction reads as apology. The naive cure, a find-and-delete pass over hedge words, strips the calibration that keeps a claim honest and turns compression into overclaiming. Neither is editing. The tests below decide, hedge by hedge, which is spent noise and which is load-bearing content.
-
 ## The precision gradient
 
 Sections run at different precision levels by design:
@@ -68,7 +62,7 @@ Target near-zero hedge density across the high-cost zone, and never buy zero at 
 
 ## Gates on the deferral
 
-Deferring a hedge edits two places, the front-matter sentence and, when the conditions are not yet stated there, the home section, so it is a structural move and the altitude gates (`references/altitude.md`) bind it unchanged. Scope: defer only when the home section is inside the requested unit; otherwise raise the move in `Author questions` and leave the hedge. Stage: perform the deferral only at `first draft` or on a whole-section pass; at `final polish`, flag the budget issue and move nothing. In a response-to-reviewers pass, a deferral that must write the conditions into the destination needs both the hedge's paragraph and the destination paragraph flagged; when the destination already carries the full statement, nothing is written there, so a flagged source paragraph suffices, with the existing full statement verified rather than edited. A deferred qualifier on a numerical or statistical claim trips the numerical-claim constraint, so flag it there too.
+Deferring a hedge edits two places, the front-matter sentence and, when the conditions are not yet stated there, the home section, so it is a structural move and the relocation gates in `references/altitude.md` (scope, stage, the response-to-reviewers both-paragraphs rule, the numerical-claim flag) bind it unchanged. One deferral-specific reading: when the destination already carries the full statement, nothing is written there, so on a response-to-reviewers pass a flagged source paragraph suffices, with the existing full statement verified rather than edited.
 
 ## Worked pair
 
@@ -77,11 +71,3 @@ Too hedged (introduction, solid experimental evidence behind it): "Our results s
 At budget: "Retrieval augmentation cuts hallucination rates in the settings we study; Section 6 maps where the effect is strongest." The stack "suggest ... may potentially ... could vary" collapses because the evidence is experimental and Section 6's full statement preserves the sign and magnitude, so the refinement test passes. "In the settings we study" stays: it is a dataset-scope qualifier, and cutting it would broaden the claim past the data (`references/subtraction.md`). The Section 6 caveat wall becomes the one signpost.
 
 The other branch, when Section 6 shows the effect reversing in some domains: the clean version now fails the refinement test, so a marker of the boundary stays inline: "Retrieval augmentation cuts hallucination rates in most of the settings we study, though not all; Section 6 maps the boundary." And if the evidence itself is only suggestive (observational, underpowered), "suggest" is the epistemic keeper: it stays, it is the claim's one hedge, and the rest of the stack still goes.
-
-## Composition summary
-
-- Constraint 6 and the qualifier-is-content rule: a deferred hedge is a deletion from its sentence, logged always; when scope versus filler is unclear the tie still breaks toward keeping, and in front matter "keeping" may mean deferring with a signpost, never a silent cut.
-- Altitude: the refinement test decides whether a qualification may leave its claim; the altitude test picks its destination; the scope and stage gates bind every move.
-- Hedge stacking: one hedge per claim, maximum; the gradient adds where that hedge is allowed to live.
-- Progressive disclosure (check 6): the refinement test is its decision rule everywhere its three-page scan reaches.
-- Argumentation (SKILL.md): calibration still binds in both directions; the gradient never licenses a claim the evidence does not support, only a cleaner statement of the claim the evidence does.

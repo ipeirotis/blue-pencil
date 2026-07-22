@@ -63,27 +63,24 @@ ladder is worth more than three failures high on it.
 ## Forced extraction before the rewrite
 
 The ladder diagnoses; this step converts the diagnosis into a rewrite that teaches
-rather than a thesaurus swap of the original. Before drafting the revised text, and
-except at `final polish` and on a response-to-reviewers pass (constrained stages that
-do not emit the structured extraction header, though the exposition pass still applies
-to flagged paragraphs; see Safe boundaries below), when the exposition pass surfaces
-any teaching gap (any ladder or common
-failure in this file, for example definition debt, compressed inference, machinery
-before motive, expert-only contrast, abstract stack, concept overload from too many
-new objects at once, an unanchored abstraction, or a buried or missing payoff where
-the paragraph ends on procedure or never states the takeaway) or the request is to
-make the section clearer to non-specialists, more educational, more readable, or
-easier to understand, extract three things into the `Diagnosis` block, each grounded
-only in material already on the page. Any of the three may be `none` when the passage
-does not exhibit that particular gap; record `none` rather than manufacturing an item
-to fill the line.
+rather than a thesaurus swap of the original. Run it before drafting the revised
+text whenever the exposition pass surfaces any teaching gap (any ladder rung or
+common failure in this file) or the request is to make the section clearer to
+non-specialists, more educational, more readable, or easier to understand. Two
+stages are exempt: `final polish` and a response-to-reviewers pass do not emit the
+structured extraction header, though the exposition pass still applies to flagged
+paragraphs (see Safe boundaries below).
+
+Extract three things into the `Diagnosis` block, each grounded only in material
+already on the page. Any of the three may be `none` when the passage does not
+exhibit that particular gap; record `none` rather than manufacturing an item to
+fill the line.
 
 - **Jargon to unpack.** One to three terms the reader of the broad venue meets
   before they know the role or the plain-language meaning. These get defined inline
   at first serious use. If a term cannot be defined from the manuscript, it becomes
-  an `Author questions` item instead. When the gap is not terminological (machinery
-  before motive, an expert-only contrast, a compressed inference) and the passage
-  already uses plain language, write `none`; do not invent a term to unpack.
+  an `Author questions` item instead. When the gap is not terminological and the
+  passage already uses plain language, write `none`; do not invent a term to unpack.
 - **Buried lede.** The single most useful idea in the passage that the current
   prose suffocates under setup, caveats, literature, or procedure. The rewrite
   front-loads it; the secondary sentences carry the background. Name the idea
@@ -93,21 +90,24 @@ to fill the line.
   tangible. It must already exist in the manuscript; if none does, ask for it in
   `Author questions` rather than inventing one.
 
-Extracting these three first is what turns the diagnosis into a structural rewrite
-rather than a synonym swap, when there is a gap to repair. The extraction does not
-override the restraint rule in `SKILL.md`: if all three lines come back `none` and
-the passage clears the verbatim-return checks, the extraction has found nothing to
-fix, so return the passage unchanged and say so in `Change rationale`. Request
-wording alone (clearer, more readable, more educational, easier to understand) never licenses a rewrite the
-extraction does not justify. The discipline behind the three is the educator's lens:
-find the single hardest concept for an outsider to grasp (the jargon and the buried
-lede locate it), then build the cognitive bridge to it (the concrete anchor is the
-bridge). Write to teach the reader, not to prove the author's command of the field.
-These three lines do not replace the diagnosis items; they precede the rewrite and
-the items still follow. One set captures the section's primary teaching gap; when a
-whole-section pass has several paragraphs with distinct gaps, repeat the set per
-affected paragraph with a paragraph label so each diagnosed gap gets the structural
-handoff rather than falling back to sentence polish.
+Three rules of use:
+
+- The extraction does not override the restraint rule in `SKILL.md`: if all three
+  lines come back `none` and the passage clears the verbatim-return checks, return
+  the passage unchanged and say so in `Change rationale`. Request wording alone
+  (clearer, more readable, easier to understand) never licenses a rewrite the
+  extraction does not justify.
+- The three lines precede the rewrite; they do not replace the numbered diagnosis
+  items, which still follow.
+- One set captures the section's primary teaching gap. When a whole-section pass
+  finds several paragraphs with distinct gaps, repeat the set per affected
+  paragraph with a paragraph label, so each diagnosed gap gets the structural
+  handoff rather than falling back to sentence polish.
+
+The discipline behind the three is the educator's lens: find the single hardest
+concept for an outsider to grasp (the jargon and the buried lede locate it), then
+build the cognitive bridge to it (the concrete anchor is the bridge). Write to
+teach the reader, not to prove the author's command of the field.
 
 ## Common failures
 

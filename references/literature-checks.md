@@ -24,11 +24,7 @@ only be judged against sources you have actually read.
 The skill's master rule (never assert unverified substance) has a retrieval
 branch: a citation is verified when you retrieved and read the source in this
 session, with the passage that supports the use quoted. This lane is that
-branch, and nothing else. The only sources it may assert anything about are the
-ones it fetched and read in front of you; a citation you recall, a venue or year
-you remember, or a "prior work exists" claim from model knowledge is unverified
-substance, exactly as it is for the editor. A citation from memory is treated as
-fabricated.
+branch, and nothing else; the integrity norms below spell out what it excludes.
 
 ## The protocol
 
@@ -80,11 +76,6 @@ source supports the sentence as written, and classify each as one of:
   ambiguous or unresolvable key), or the passage that would settle the claim was
   not reachable (for example only the abstract was available and it neither
   states nor contradicts the claim); say why
-
-Retrieved, not remembered: cite only sources you fetched and read in this
-session, with title, venue, year, and the supporting passage. Never fill a gap
-from what you recall a paper says, and never let an abstract stand in for a body
-claim it does not address.
 
 ### 3. Scan novelty and fill gaps
 
