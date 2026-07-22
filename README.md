@@ -1,6 +1,6 @@
 # blue-pencil
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 An academic-editor skill for AI coding agents such as [Claude Code](https://claude.com/claude-code). Point the agent at a section of your paper: it diagnoses what is weak, rewrites it, and logs every change with a reason. Your citations, numbers, math, and writing voice are never silently altered.

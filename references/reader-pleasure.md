@@ -35,8 +35,6 @@ The five questions above are a cold read for what works. Run one adversarial var
 
 Dense prose has a specific cause. When each sentence is written to convey maximum information, every sentence works equally hard, and prose that never varies its load exhausts the reader even when every sentence is true. Human writing that flows varies the load: some sentences carry the argument, others orient the reader, restate a point so it lands, or exist only to move from one idea to the next. A sentence that does nothing but transition is not filler; it is the relief that lets the next high-load sentence register.
 
-This is why the argument and the flow are separate concerns, addressed in order (`SKILL.md`, Editing principles). Once the argument and structure are settled, the reader-experience pass adds no new information (constraint 1 forbids it), and that restriction is the point: with nothing to add, the effort goes into rhythm and load instead of into packing more in. Editing for flow is not editing for density.
-
 Concrete moves, all within the author's existing material:
 
 - **Let low-load sentences exist.** After a dense technical sentence, a short sentence that only names the consequence or orients the reader earns its place by setting rhythm (the keep-test's "sets rhythm" clause, `references/subtraction.md`). Do not compress it away as redundant.
