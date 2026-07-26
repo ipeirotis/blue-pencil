@@ -42,6 +42,14 @@ The key positions:
 
 The diagnostic move: when a passage feels muddy, identify the topic and stress positions in each sentence. If important new information is buried mid-sentence while throat-clearing fills the stress position, the sentence is structurally backwards regardless of whether each word is well chosen.
 
+## Cowan and Daneman & Merikle: working memory as the budget
+
+The positional rules above are memory-management strategies, and the memory they manage is small. Cowan's review puts focal working-memory capacity at roughly four chunks, though the figure is highly task-dependent; Daneman and Merikle's meta-analysis (6,179 participants across 77 studies) found that spans measuring processing and storage *together* predict reading comprehension better than storage-only spans. The claim that matters for editing is the conjunction: comprehension is bounded by capacity *under load*, and reading is exactly the loaded case, because the reader must hold earlier material in mind while integrating new material. Every caveat, interrupting constituent, delayed core, and undischarged forward pointer spends part of that four-chunk budget on bookkeeping instead of understanding.
+
+This is the shared account beneath moves scattered through the skill: old-before-new and the stress position (above); the interrupted clause and the left-branching preamble (`references/sentence-patterns.md`); one-new-object-at-a-time and concrete anchoring (the reader ladder in `SKILL.md`); grouped caveats and the precision gradient (`references/precision-budget.md`); and load variation (`references/reader-pleasure.md`). Each is a way of spending fewer chunks per sentence. The costliest violation is flat emphasis: when every claim arrives at equal weight (the accumulation and concessive-see-saw tells), nothing is marked disposable, so the reader must keep all of it open at once — `references/precision-budget.md` traces why a defensive draft produces exactly that.
+
+When the move does not apply: the budget is not fixed, because the unit is the *chunk*, and expertise is what packs more into each one. A term of art an expert reads as a single chunk costs a novice several, so the same sentence can sit inside an expert's budget and overrun a novice's. That is the empirical reason the skill calibrates to audience (the reader ladder in `SKILL.md`): write to the reader's chunking, not to an abstract capacity.
+
 ## Steven Pinker: the curse of knowledge and classic style
 
 Pinker's central diagnostic, lifted from research on theory of mind, is the **curse of knowledge**: once we know something, we cannot easily imagine not knowing it. The author has spent months or years internalizing concepts, terms, mental models, and inferential chains. When they write, they unconsciously assume the reader has the same internal state, and they skip over the moves that would have helped the reader catch up.

@@ -19,6 +19,12 @@ The gradient is the reason behind two rules that live elsewhere: the altitude di
 
 The reading-out test in `references/subtraction.md` separates scope from filler; this distinction separates scope from epistemic. A hedge that marks what the evidence cannot support is content wherever it sits. What the gradient licenses is moving it, never deleting it.
 
+## Why the defensive draft reads flat
+
+Over-hedging and flat emphasis are one failure, not two. A hedge protects a claim against being wrong; a draft that protects *every* claim cannot subordinate any of them, because subordination is itself a claim — marking one point as less important than another risks being wrong about which matters. So the defensive draft refuses to rank, and everything arrives at the same weight. That is the coordinate-claim mold caught downstream as "Accumulation instead of argument" (`references/sentence-patterns.md`) and, in its qualified form, the concessive see-saw (`references/ai-tells-to-avoid.md`): the see-saw is this reflex running on hedges, counterweighting each claim the instant it is made so the passage nets to zero.
+
+The cost is paid in the reader's working memory (`references/principles.md`): flat emphasis marks nothing as disposable, so the reader must hold all of it open at once. This is why the hedge work in this file and those flat-emphasis tells share a remedy in spirit even though they edit different text — both restore rank. Deciding which claims carry qualification and which run clean is the hedge-classification work below; deciding which coordinate claims actually depend on which (because, so, but) is the accumulation fix in `references/sentence-patterns.md`. Both replace equal weight with structure, and structure is what lets the reader spend fewer chunks per sentence.
+
 ## The refinement-vs-retraction test
 
 A simplification early in the paper is legitimate exactly when the precise version, where it eventually arrives, reads as a sharpening of what was promised: same sign, roughly the same magnitude, scope trimmed rather than gutted. It is a defect when the full statement reverses the sign, guts the magnitude, or narrows the scope so far that the opening reads as bait. The test is decidable, not aesthetic: after reading the full paper, would an expert feel the introduction was compressed, or misled? Compressed is the goal; misled is the bug.

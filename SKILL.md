@@ -4,7 +4,7 @@ description: Revise, copy-edit, line-edit, polish, tighten, or give editorial fe
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "2.3.0"
+  version: "2.4.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/blue-pencil
 ---
