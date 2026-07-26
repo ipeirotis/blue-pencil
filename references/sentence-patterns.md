@@ -20,6 +20,8 @@ Diagnostic: for each sentence, ask whether it opens on something the previous se
 
 **Sentence-length variety.** A run of uniform-length sentences reads mechanically, and uniform length is itself an AI tell. Vary the rhythm: land a point with a short sentence after a long one, build out a complex idea with a long sentence after several short ones. This is not mechanical alternation; it means writing for the ear and reading the result aloud.
 
+**Paragraph-shape variety.** The paragraph-scale version of the same tell, and the stronger one. When every paragraph runs the same mold (a topic claim, three evenly weighted supporting sentences, then a "Taken together" or "In summary" restatement of the opener), the section reads mechanically even with every banned word gone, because the shape repeats. Vary it: let some paragraphs be two sentences, let the load-bearing one build across several, and cut the closing restatement when the paragraph already landed its point (a recap that only re-states the opener is the say-it-once echo, `references/subtraction.md`). This is the structural sibling of the sentence-length tell above and of "List rhythm" in `references/reader-pleasure.md`.
+
 ## Nominalizations
 
 A nominalization is a noun made from a verb or adjective. Nominalizations are not bad in themselves; they are useful when the action is the topic. They become a problem when they bury the action of a sentence behind a weak verb.
@@ -66,6 +68,17 @@ Diagnostic: if you can delete the opening clause and the sentence still says wha
 Diagnostic: find "there is", "there are", "there exists", "it is", "it was". For each, ask whether the real topic is being introduced after the dummy subject. If so, restructure.
 
 Exception: "there" constructions are useful when the existence itself is the point ("There are exactly three solutions to this equation"). Use them deliberately.
+
+## The emphatic cleft habit
+
+An it-cleft ("It is X that Y") or a wh-cleft ("What Y does is X") splits a plain clause to spotlight one element. Used once for a genuine contrast it earns its place; LLMs reach for it by default, and it pushes the real subject rightward, delaying the verb the way "Misplaced stress" and "The interrupted clause" do. Unlike the expletive "it is" above, the fix is not deletion: the cleft encodes contrastive focus, so recast to a plain subject-verb only when that focus is not real.
+
+| Before | After |
+|---|---|
+| It is the interaction between prompt length and model size that drives the effect. | The interaction between prompt length and model size drives the effect. |
+| What the ablation shows is that the gain comes from the reranker. | The ablation shows that the gain comes from the reranker. |
+
+Diagnostic: for each "It is/was X that/who ..." and "What ... is/does ...", ask whether the sentence is correcting a specific wrong alternative the reader would otherwise credit. If it is, keep the cleft; the focus is doing work. If it is emphasis by default, unfold it to subject-verb.
 
 ## Noun pile-ups
 
@@ -213,6 +226,17 @@ Common errors with logical connectives that obscure argument structure.
 - **"While"** is ambiguous between "during" and "although". Prefer "although" or "whereas" for the contrastive meaning, especially in academic prose.
 
 Note: the banned-transition list in `references/ai-tells-to-avoid.md` is the canonical source. The above are about misuse of allowed connectives, not bans.
+
+## Accumulation instead of argument
+
+Banning "Furthermore", "Moreover", and "Additionally" (`references/ai-tells-to-avoid.md`) removes the word, not the habit under it: claims strung together as coordinate equals when one actually causes, enables, or qualifies the next. Delete the connective and the flat list is still there.
+
+| Before | After |
+|---|---|
+| The baseline fails on rare classes. Our method reweights them. Additionally, accuracy improves. | The baseline fails on rare classes, so our method reweights them; accuracy improves as a result. |
+| Annotators disagreed on the hard cases. The training set over-represents them. Moreover, the model inherits the noise. | Because annotators disagreed on the hard cases that the training set over-represents, the model inherits the noise. |
+
+Diagnostic: for a run of same-shaped declaratives joined by additive connectives or by nothing, ask what relation actually holds between them: does one cause, enable, qualify, or contrast with the next? Name that relation with the connective that fits (because, so, but, despite). The license comes from the author's own material: a juxtaposition that already implies the relation may be made explicit, but a relation the text does not support is new substance, so flag it in `Author questions` rather than inventing it. When the items are genuinely independent, an explicit list is more honest than additive glue. The test is whether reordering the sentences changes the meaning; if it does not, they are being accumulated, not argued. See "List rhythm" in `references/reader-pleasure.md`.
 
 ## Dangling references
 

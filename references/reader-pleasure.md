@@ -80,7 +80,7 @@ An author may supply their own exemplar. "Match the sentence-length variation an
 These make a paper less pleasurable even when every sentence is grammatical.
 
 - **Correct but airless prose.** Every sentence is accurate, but none tells the reader what is at stake.
-- **List rhythm.** Paragraphs become a sequence of similarly weighted claims, often joined by banned transitions.
+- **List rhythm.** Paragraphs become a sequence of similarly weighted claims, often joined by banned transitions. Two named forms of this live in `references/sentence-patterns.md`: "Accumulation instead of argument" (coordinate claims where one should depend on another) and "Paragraph-shape variety" (every paragraph in the same claim-supports-recap mold).
 - **Delayed purpose.** The paragraph explains machinery before naming the question the machinery answers.
 - **Payoff leakage.** The strongest idea is followed by a citation tail, a caveat that belongs earlier, or a procedural afterthought.
 - **Over-smoothed tension.** An interesting contrast, limitation, or surprise is edited into a bland generality.

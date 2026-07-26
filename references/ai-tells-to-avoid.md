@@ -98,12 +98,14 @@ LLM prose falls into a few rhetorical molds. Used once, deliberately, any of the
 - "Not only ... but also ..." more than once in a section.
 - "Firstly, Secondly, Thirdly" for a list meant to be remembered. Name the items instead (see `references/edit-checks.md`, check 7).
 - The decorative triad: three parallel items where two would do or a real list is needed (see the rule-of-three note below).
+- The concessive see-saw: every claim counterweighted the instant it is made, so the passage nets to zero ("While the method cuts annotation cost, it also adds overhead. Although the results are promising, further work is needed."). A real limitation is content and keeps its place (the qualifier-is-content rule, `references/subtraction.md`); the tell is the reflex of balancing every sentence, which commits to nothing. Fix: state the claim, and give a genuine limitation its own weight in its own place rather than bolting it onto the claim it undercuts.
 
 ## Other LLM tells to watch for
 
 - Triadic constructions for their own sake ("clear, concise, and compelling"; "robust, reliable, and reproducible"). Real prose uses triads when three is the right number, not as decoration.
 - Hedged confidence ("This may potentially suggest that..."). Pick a confidence level and own it. In an abstract, introduction, or contribution paragraph, run the zone-scoped hedge lexicon in `references/precision-budget.md` (may, might, could, suggest, potentially, arguably, generally, typically, in many cases, to some extent) and classify each hit as epistemic keeper, deferrable scope, or filler; these words are not banned, they are wrong only at the wrong altitude, so never blanket-delete them.
 - Empty meta-commentary ("This paragraph discusses..."). Just discuss.
+- The self-answering rhetorical question used as a transition ("Why does this matter? Because downstream systems inherit the bias." "What explains the gap? The answer lies in the sampling."). Posed and immediately answered, it is padding dressed as momentum and reads theatrical in academic register. State the claim directly.
 - Aphoristic closers ("In the end, the data speaks for itself."). Endings should land specific points, not gesture at universal truths.
 - "Navigate" as a metaphor for any non-trivial activity. People navigate ships and websites. They do not "navigate the literature on labor markets".
 - "Leverage" or "utilize" (and "utilizes", "utilizing") as a verb when "use" would do.
@@ -159,6 +161,8 @@ Before approving any revised passage, scan for:
 - [ ] Importance-signaling verbs ("underscores", "highlights the importance of", "plays a crucial role")? Replace with the mechanism.
 - [ ] Inflated noun phrases ("the landscape of", "a myriad of", "rich tapestry")? Replace with a count or the specific object.
 - [ ] Template shapes ("not just X but Y", "From X to Y", "Firstly/Secondly")? Rewrite or name the items.
+- [ ] Concessive see-saw (every claim reflexively counterweighted)? Commit to the claim; give a real limitation its own weight and place.
+- [ ] Self-answering rhetorical question used as a transition ("Why does this matter? Because...")? State the claim directly.
 - [ ] "We show that..." or "It is well known that..." frames? Replace with the claim itself.
 - [ ] "Leverage" or "utilize" used where "use" would do? Replace with "use".
 - [ ] "Navigate" as a metaphor for a non-trivial activity (navigating a literature, navigating uncertainty)? Replace with a plain verb for the actual action.
