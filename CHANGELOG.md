@@ -3,6 +3,20 @@
 All notable changes to blue-pencil (called paper-revision-editor before v2.0.0) are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [2.4.0] - 2026-07-26
+
+Grounds the skill's memory-management moves in their empirical source and names the mechanism that connects defensive hedging to flat emphasis, drawn from a synthesis of human-centered LLM-writing research (Cowan on focal capacity; Daneman & Merikle's working-memory meta-analysis; the plain-language literature on why over-precision reads as defensiveness). The skill already made every relevant move (old-before-new, the interrupted clause, the left-branching preamble, grouped caveats, load variation) but stated the capacity limit behind them nowhere, and treated over-hedging (precision budget) and flat equal-weight emphasis (the accumulation and concessive-see-saw tells) as unrelated. This release adds one principle and one linking passage, no new rules: existing moves gain an empirical hub to point back to, and the two failures are named as one.
+
+### Added
+
+- `references/principles.md` gains "Cowan and Daneman & Merikle: working memory as the budget" (placed after Gopen & Swan, before Pinker). It states the four-chunk figure and the processing-plus-storage finding, lists the six existing moves that spend the budget as a hub they point back to, and gives the when-it-does-not-apply case: the chunk is expertise-relative, which is the empirical reason the skill calibrates to audience.
+- `references/precision-budget.md` gains "Why the defensive draft reads flat" (after "Two kinds of hedge"). It names over-hedging and flat emphasis as one failure: a draft protecting every claim cannot subordinate any, because subordination is itself a claim, so everything arrives at equal weight: the coordinate-claim mold caught downstream as "Accumulation instead of argument" and, in qualified form, the concessive see-saw. The cost is paid in the reader's working memory, cross-linked to the new principle.
+
+### Changed
+
+- `references/sentence-patterns.md` wires the references both directions: the interrupted-clause and left-branching-preamble sections point at the four-chunk budget in `references/principles.md` where each already invokes working memory, and "Accumulation instead of argument" points at the precision-budget passage for why a draft defaults to the equal-weight mold.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 2.4.0.
+
 ## [2.3.0] - 2026-07-26
 
 Adds five structural LLM tells that survive the lexical checklist, drawn from the observation that the banned-word lists catch the notorious surface tells (delve, tapestry, "It is well known that", the manufactured hooks) but not the rhetorical molds that remain once every banned word is gone. These sit on the same frontier as the recent interrupted-clause and buried-thesis work: shapes a section can hold while passing every word-level check. Each new pattern names the relation it composes with, and each fix stays inside the existing constraints, naming a relation the author's own material supports rather than inventing one.
