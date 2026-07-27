@@ -104,6 +104,8 @@ was already tight; the brief asked for a hard cut, but cutting by the keep-test
 yields almost nothing to remove, and manufacturing cuts to look productive is
 itself a defect.
 
+References loaded: structural-patterns, altitude, sentence-patterns, subtraction, ai-tells-to-avoid, copyediting, with principles and edit-checks as checks. Final polish runs the sentence-level sweep only: narrative-spine and exposition's paragraph moves are gated off, and subtraction is limited to compression.
+
 "out of domain split" -> "out-of-domain split", hyphenated the compound
 modifier; the only mechanical fix the passage needed.
 

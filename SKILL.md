@@ -4,7 +4,7 @@ description: Revise, copy-edit, line-edit, polish, tighten, or give editorial fe
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "2.4.0"
+  version: "2.5.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/blue-pencil
 ---
@@ -242,6 +242,79 @@ the paper and is outside the rule.
    preference.
 
 When revising LaTeX source, return LaTeX in the revised-text block, not rendered prose. Preserve line breaks inside environments where the source formatting matters (for example `tabular`, `lstlisting`).
+
+## The revision sweep: walk the references in order
+
+A revision does not consult the `references/` files opportunistically, reaching
+for one only when a problem happens to surface it. It drives a fixed, ordered
+sweep over them, the intra-section counterpart of the whole-paper loop that
+`/paper:loop` runs over sections: where the loop processes one section at a time
+and skips none, the sweep processes one reference-pass at a time and skips none
+whose gate the section meets. Each `references/` file is the authority for its
+pass; the sweep is the schedule that guarantees every applicable one is visited.
+This is a required step, not discretionary: the "load `references/...`"
+instructions throughout this file name the same passes, and the sweep is their
+consolidated, binding form.
+
+Before editing, fix the pass list for this section: take the order below, keep
+every pass whose gate the section and stage meet, and mark the rest skipped. Run
+the kept passes in this order, earlier passes outranking later ones, loading each
+pass's reference at its step. A pass is not optional because the prose looks
+clean: the pass still runs, and a clean result is recorded as "no change", never
+dropped as a skipped pass.
+
+| # | Pass | Reference | Runs when |
+|---|---|---|---|
+| 1 | Logic, argument, structural checks | `principles.md`, `edit-checks.md` | Every pass. |
+| 2 | Section lens | `structural-patterns.md` | Every pass, keyed to the detected section type. |
+| 3 | Exposition and reader education | `exposition.md` | Abstract, introduction, theory, methods with unfamiliar machinery, results, discussion, conclusion, contribution paragraph, or any clarity, readability, or non-specialist request. |
+| 4 | Altitude | `altitude.md` | Abstract, introduction, conclusion, contribution paragraph, or any passage carrying statistical machinery, a stacked interval, or a preemptive caveat. |
+| 5 | Precision budget | `precision-budget.md` | Abstract, introduction, or contribution paragraph, or any pass that adds or removes a hedge in the high-cost zone. |
+| 6 | Narrative spine | `narrative-spine.md` | First-draft or whole-section pass, or a request to tell a story, read human, or sound less LLM. |
+| 7 | Reader experience | `reader-pleasure.md` | A request about whether the prose is enjoyable, compelling, elegant, or a pleasure to read, or any whole-section rewrite, after the logic, paragraph, and line-edit checks clear. |
+| 8 | Line and sentence craft | `sentence-patterns.md` | Every pass. |
+| 9 | Subtraction | `subtraction.md` | Every pass: compress everywhere, delete by the keep-test where the stage allows. |
+| 10 | Style and AI tells | `ai-tells-to-avoid.md` | Every pass, before producing the revised text and the change rationale. |
+| 11 | Copyediting | `copyediting.md` | Every pass, last, after the argument, paragraph, and reader-experience passes. |
+
+Record the sweep on the `References loaded:` line of the Change rationale (see
+Output format), naming the references the kept passes loaded, so a reference the
+sweep should have visited but did not is visible rather than silent.
+
+The passes never quietly fight over the same words, because they resolve by a
+fixed lattice rather than by whichever ran last. Hard constraints and protected
+content sit above every pass: no pass changes a number, statistic, citation,
+quote, equation, cross-reference, or the meaning of a claim, and a pass that
+needs one of those raises an `Author question` instead of editing. Below the
+constraints, an earlier pass outranks a later one on a direct clash. The Editing
+principles section fixes the order among the argument-through-copyediting passes;
+the section lens, altitude, precision budget, subtraction, and the style scrub
+take the slots the table above assigns them. A later pass keeps an earlier pass's
+result unless changing it is clearly better, not merely different (the Restraint
+rule), so the sweep does not churn: reader experience does not re-flatten a spine
+the narrative pass just built, and copyediting does not reword a sentence
+exposition repaired. The collisions that would otherwise recur are reconciled by
+design. Subtraction's keep-test protects the orienting, restating, and
+rhythm-setting sentences reader experience adds, so a later cut does not undo
+pacing. The style scrub wins over any voice tic, never over a hard constraint. A
+hedge precision budget would defer stays whenever argumentation marks it an
+epistemic keeper on a central claim, under the refinement-versus-retraction test.
+A tension the order cannot settle, where each side protects something real,
+becomes an `Author question`, never a silent pick.
+
+The stage narrows the sweep, it does not suspend it. At `final polish` the
+restructuring passes (narrative spine, and the paragraph-level moves inside
+exposition and altitude) are gated off, so the sweep runs its sentence-level
+passes: line craft, style, copyediting, and the compress-only half of
+subtraction. At `response to reviewers` every kept pass runs, but only inside the
+flagged paragraphs and their immediate neighbours.
+
+Four references sit outside this per-section sweep. Two drive their own
+whole-paper passes: `cold-read.md` (the `/paper:read` whole-paper cold read) and
+`consistency-checks.md` (the `/paper:consistency` cross-section check). Two more,
+`analysis-integrity.md` and `literature-checks.md`, belong to the analyst and
+scholar lanes (the `paper-analyst` and `paper-scholar` subagents), not to this
+editing sweep. Do not load these four here.
 
 ## Editing principles
 
@@ -491,6 +564,8 @@ Immediately after the fenced block, add one mandatory `Added bridges:` line. Quo
 ### 3. Change rationale
 
 Open with `Word count: ~<before> to ~<after> (<approximate signed percent change>).` Counts are approximate, to the nearest ~10 words (for example `~139 to ~86 (-38%)`): get the direction and rough magnitude right rather than the exact figure, and compute the counts with a tool when one is available. If the rewrite grew, add a one-line justification on the next line.
+
+Then one mandatory `References loaded:` line naming the `references/` files the revision sweep loaded for this section (see The revision sweep). It makes a skipped pass visible: list every reference a kept pass loaded, comma-separated by basename, and where a section gates a pass off say so briefly. On a feedback-only or other diagnosis-only pass the line still appears, naming the references the diagnosis consulted; it follows the word-count line when there is one and otherwise opens the block after the rationale bullets' header.
 
 Then one line per non-trivial change in the form `before -> after, why`. The `why` must name a concrete reader benefit: a removed tell, a shorter form, given-new order, a fixed referent, a sharper claim, a corrected stress position, visible question, improved payoff, surfaced tension, an opened knowledge gap, an ABT spine in place of a list, stakes shown by consequence, a character in the subject slot, restored contrast, varied rhythm, a reunited clause core, a hedge deferred under the refinement test, kept calibration on a central claim, concrete anchor, repaired parallelism, consistent terminology, or clearer punctuation. For an exposition edit, name the teaching benefit: a restored inference, a term defined at first serious use, role before name, question before machinery, a concrete anchor from existing material, two stacked concepts separated, an explicit reader payoff, an abstract claim translated into its mechanism, or an exposed contrast with prior work. "Reads better", "smoother", or "more concise" with no named mechanism is not a reason; if that is the only justification a change has, revert it and keep the original. If no rewrite was requested, replace the change lines with brief rationale bullets for the top diagnosis items and omit the word-count line. If a rewrite was requested but no safe edits are possible, write `No safe edits under current constraints.` and explain in one line.
 

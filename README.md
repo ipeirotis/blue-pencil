@@ -1,6 +1,6 @@
 # blue-pencil
 
-[![Version](https://img.shields.io/badge/version-2.4.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.5.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 An academic-editor skill for AI coding agents such as [Claude Code](https://claude.com/claude-code). Point the agent at a section of your paper: it diagnoses what is weak, rewrites it, and logs every change with a reason. Your citations, numbers, math, and writing voice are never silently altered.
@@ -36,6 +36,7 @@ Using claude.ai or another chat surface instead of a coding agent? Skip the inst
 - **Protects your science.** Numbers, statistics, citations, equations, and quotes are never silently changed; anything suspect comes back as a question for you.
 - **Keeps your voice, and knows when to stop.** Already-good prose is returned unchanged, not reworded to look busy.
 - **Strips AI tells.** No em-dashes, no "Furthermore/Moreover", no throat-clearing, no manufactured hooks.
+- **Runs every applicable check, and shows its work.** A revision walks the skill's reference passes in a fixed order (logic, section lens, exposition, altitude, hedging, narrative, rhythm, subtraction, style, copyediting) and lists the ones it ran on a `References loaded:` line, so a skipped pass is visible, not silent.
 
 LaTeX and pasted plain text are first-class. From Word or Google Docs, paste the text in and reapply formatting afterwards.
 

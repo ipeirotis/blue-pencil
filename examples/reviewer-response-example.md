@@ -136,6 +136,8 @@ surfaces an argument the draft had compressed into trailing clauses; addressing
 R2.1 legitimately adds words to the flagged paragraph while the rest of the
 section is unchanged.
 
+References loaded: principles, edit-checks, structural-patterns, exposition, altitude, precision-budget, sentence-patterns, subtraction, ai-tells-to-avoid, copyediting, applied only to the flagged paragraphs and their neighbours. Exposition runs for the identification-clarity comment (R2.1) and altitude and precision-budget for the effect-size comment (R2.2); narrative-spine and reader-pleasure are gated off, since this is not a first-draft or whole-section pass.
+
 The five paragraphs appear in their original order. Per the output contract, the
 `[P1]`-style labels from the mapping stay outside the `Revised text` block: they
 mark the input and the rationale lines below, and the block carries only
