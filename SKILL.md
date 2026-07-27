@@ -258,11 +258,10 @@ consolidated, binding form.
 
 Before editing, fix the pass list for this section: take the order below, keep
 every pass whose gate the section and stage meet, and mark the rest skipped. Run
-the kept passes in this order, earlier passes outranking later ones (the Editing
-principles section owns the precedence rule), loading each pass's reference at
-its step. A pass is not optional because the prose looks clean: the pass still
-runs, and a clean result is recorded as "no change", never dropped as a skipped
-pass.
+the kept passes in this order, earlier passes outranking later ones, loading each
+pass's reference at its step. A pass is not optional because the prose looks
+clean: the pass still runs, and a clean result is recorded as "no change", never
+dropped as a skipped pass.
 
 | # | Pass | Reference | Runs when |
 |---|---|---|---|
@@ -281,6 +280,27 @@ pass.
 Record the sweep on the `References loaded:` line of the Change rationale (see
 Output format), naming the references the kept passes loaded, so a reference the
 sweep should have visited but did not is visible rather than silent.
+
+The passes never quietly fight over the same words, because they resolve by a
+fixed lattice rather than by whichever ran last. Hard constraints and protected
+content sit above every pass: no pass changes a number, statistic, citation,
+quote, equation, cross-reference, or the meaning of a claim, and a pass that
+needs one of those raises an `Author question` instead of editing. Below the
+constraints, an earlier pass outranks a later one on a direct clash. The Editing
+principles section fixes the order among the argument-through-copyediting passes;
+the section lens, altitude, precision budget, subtraction, and the style scrub
+take the slots the table above assigns them. A later pass keeps an earlier pass's
+result unless changing it is clearly better, not merely different (the Restraint
+rule), so the sweep does not churn: reader experience does not re-flatten a spine
+the narrative pass just built, and copyediting does not reword a sentence
+exposition repaired. The collisions that would otherwise recur are reconciled by
+design. Subtraction's keep-test protects the orienting, restating, and
+rhythm-setting sentences reader experience adds, so a later cut does not undo
+pacing. The style scrub wins over any voice tic, never over a hard constraint. A
+hedge precision budget would defer stays whenever argumentation marks it an
+epistemic keeper on a central claim, under the refinement-versus-retraction test.
+A tension the order cannot settle, where each side protects something real,
+becomes an `Author question`, never a silent pick.
 
 The stage narrows the sweep, it does not suspend it. At `final polish` the
 restructuring passes (narrative spine, and the paragraph-level moves inside
