@@ -15,6 +15,7 @@ Makes reference usage deterministic. The `references/` files carry the skill's e
 ### Changed
 
 - `.claude/commands/paper/revise.md` now instructs the pass to drive the sweep and record `References loaded:`, so no applicable reference is skipped because the prose looks clean.
+- `.claude/commands/paper/loop.md` states the two-level nesting in Step C: the loop iterates over sections while each dispatched `revise` pass drives the reference sweep inside its isolated context, and the driver reads the dispatched pass's `References loaded:` line to confirm the sweep ran, re-dispatching on a missing or implausibly short line rather than advancing. `README.md`'s guarantees gain the matching user-facing bullet ("Runs every applicable check, and shows its work").
 - `.claude/agents/paper-reviser.md` step 4 changes from "load reference files only when the skill instructs you to" to driving the sweep as a required step, and completes its reference enumeration: `consistency-checks.md` was missing even though the reviser is the agent that runs the `/paper:consistency` cross-section check.
 - `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 2.5.0.
 

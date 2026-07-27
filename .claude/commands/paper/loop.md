@@ -187,6 +187,16 @@ editing.
 are second passes, run only when the diagnosis points to their specific problem,
 not on every section.
 
+The nesting is two loops, one inside the other. This loop iterates over
+sections; inside each dispatched `revise` pass, the skill drives its own
+revision sweep over the reference-passes (the "The revision sweep" section of
+`SKILL.md`): an ordered walk that keeps every reference-pass whose gate the
+section and stage meet and records the set on the `References loaded:` line of
+the Change rationale. The driver does not manage that inner sweep, but it can
+read the line to confirm a dispatched pass ran the references it should have,
+and a missing or implausibly short line on a full `revise` pass is a reason to
+re-dispatch, not to advance.
+
 The author checkpoint is recurring, not a single gate. Every pass below
 (`feedback`, `revise`, `clarify`, and `human`) can surface new `Author
 questions`, so after any pass that returns them, stop and resolve them before the
