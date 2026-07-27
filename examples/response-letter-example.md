@@ -189,6 +189,8 @@ Word count: ~190 to ~190 (+2%). The cuts in the opening and the R1.2 reply are
 offset by the invitation sentence that replaces the complaint; the letter's
 substance is unchanged.
 
+References loaded: structural-patterns (the rebuttal-letter conventions), sentence-patterns, subtraction, ai-tells-to-avoid, copyediting. A response letter is not a manuscript section, so the section-lens exposition, altitude, and precision-budget passes do not apply.
+
 "We would like to thank the reviewers for their valuable feedback. We have
 made a number of changes ... now much improved." -> "We thank the reviewers
 for their close reading of the estimation sample and the identification

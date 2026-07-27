@@ -32,7 +32,12 @@ Preset triage, so the skill does not need to ask:
   answered partially, proceed with the skill's conservative defaults and an
   `Assumed context:` line; only otherwise surface the single ask-once question.
 
-Apply the full diagnostic lens and return the strict four-section output
+Apply the full diagnostic lens and drive the skill's revision sweep: fix the
+ordered pass list for this section (keep every reference-pass whose gate the
+section and stage meet, mark the rest skipped), then run the kept passes in
+order, loading each pass's reference at its step, and record the set on the
+`References loaded:` line of the Change rationale. No applicable reference-pass
+is skipped because the prose looks clean. Return the strict four-section output
 (`Diagnosis`, `Revised text`, `Change rationale`, `Author questions`) and
 nothing else.
 

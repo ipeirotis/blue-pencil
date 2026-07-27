@@ -122,6 +122,8 @@ Added bridges: None.
 
 Word count: ~139 to ~86 (-38%).
 
+References loaded: principles, edit-checks, structural-patterns, exposition, altitude, precision-budget, narrative-spine, reader-pleasure, sentence-patterns, subtraction, ai-tells-to-avoid, copyediting. A first-draft introduction runs the full sweep.
+
 "It is important to note that the proliferation of online platforms has
 fundamentally transformed the way in which consumers make purchasing decisions"
 -> "Online platforms have changed how consumers decide what to buy", removed

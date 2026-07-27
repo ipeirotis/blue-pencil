@@ -119,6 +119,8 @@ inferential bridge, built only from claims already in the paragraph (moderation
 varies by policy, the dataset, the prior-work contrast). Flagged for the author
 under the length budget.
 
+References loaded: principles, edit-checks, structural-patterns, exposition, altitude, precision-budget, narrative-spine, reader-pleasure, sentence-patterns, subtraction, ai-tells-to-avoid, copyediting. A first-draft introduction with a clarity request runs the full sweep.
+
 "The endogeneity of review valence with respect to unobserved product quality is a
 well-known obstacle to identification" -> "A review's valence, how positive its rating
 is, moves with sales, but that does not mean valence drives sales: a better product

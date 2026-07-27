@@ -7,7 +7,8 @@
 # For every examples/*.md that carries a '## Skill output' section:
 #   1. The four exact headings appear once each, in order.
 #   2. 'Change rationale' opens with a 'Word count:' line in the required
-#      shape, unless the run is feedback-only ('No rewrite requested.').
+#      shape, unless the run is feedback-only ('No rewrite requested.'), and
+#      carries a 'References loaded:' line (the revision-sweep audit).
 #   3. Every 'Author questions' bullet ends with a question mark ('None.'
 #      is the only alternative).
 #   4. The 'Revised text' fenced block contains no banned tell from
@@ -260,6 +261,14 @@ while IFS= read -r f; do
     if ! printf '%s\n' "$first_rationale" | grep -qE "$WC_RE"; then
       err "$f: 'Change rationale' must open with a 'Word count: ~<before> to ~<after> (<signed percent>).' line (got: ${first_rationale:-nothing})."
     fi
+  fi
+
+  # 2b. Revision-sweep audit line: the Change rationale must carry a
+  #     'References loaded:' line naming the reference-passes the sweep ran
+  #     (SKILL.md: 'The revision sweep' plus the Change rationale contract).
+  #     It makes a skipped reference-pass visible instead of silent.
+  if ! rationale_of "$f" | grep -qE '^References loaded:'; then
+    err "$f: 'Change rationale' must carry a 'References loaded:' line (the revision-sweep audit)."
   fi
 
   # 3. Author-questions bullets end with '?'.

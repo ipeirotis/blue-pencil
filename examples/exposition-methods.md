@@ -109,6 +109,8 @@ and unpack it, using only facts already in the paragraph (staggered dates, the
 never-treated and not-yet-treated controls, the interaction estimand, timing
 heterogeneity). No technical claim is dropped. Flagged under the length budget.
 
+References loaded: principles, edit-checks, structural-patterns, exposition, altitude, narrative-spine, reader-pleasure, sentence-patterns, subtraction, ai-tells-to-avoid, copyediting. Altitude runs because the paragraph carries statistical machinery; precision-budget is gated off, since a methods paragraph is not a high-cost-zone section.
+
 "(opening)" -> "Stores adopted the program on different dates", promoted from material
 already in the paragraph ("rolled out to stores on different dates") to open on the
 identification problem. The draft itself never states why a clean comparison is hard;

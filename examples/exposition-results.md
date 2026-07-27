@@ -112,6 +112,8 @@ estimates, and each one gains a leading claim and a closing consequence. No numb
 standard error, table or column reference, or significance level was added, removed,
 or altered; every numerical claim is carried over verbatim per constraint 4.
 
+References loaded: principles, edit-checks, structural-patterns, exposition, altitude, narrative-spine, reader-pleasure, sentence-patterns, subtraction, ai-tells-to-avoid, copyediting. Altitude runs because the paragraph carries stacked estimates; precision-budget is gated off, since a results paragraph is not a high-cost-zone section.
+
 "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator
 is 0.18 (SE = 0.04) in column 2." -> "Disclosing who wrote a review moves sales on
 its own, not just through the rating it carries. In Table 3, the coefficient on
