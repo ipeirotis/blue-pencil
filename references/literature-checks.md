@@ -3,7 +3,7 @@
 Load this for the scholar lane's retrieval pass: when the user asks whether a
 cited work actually says what the manuscript claims, whether a stated
 contribution is genuinely novel, or which source settles an uncited "it is
-well known that" claim, or when a `/paper:scholar` dispatch names it.
+well known that" claim, or when a `/paper:verify-citations` dispatch names it.
 
 **Gate condition.** This pass runs only when the environment grants literature
 retrieval, a tool that fetches and reads the actual source text (web fetch and

@@ -106,7 +106,7 @@ Recommended loop:
     If the repo holds your data and analysis code:
       /paper:verify-numbers paper.tex   (verification only, no edits)
     If the environment grants literature retrieval:
-      /paper:scholar paper.tex          (citation and novelty checks, no edits)
+      /paper:verify-citations paper.tex (citation and novelty checks, no edits)
     On demand, when the cold read or a reviewer names a specific target
     (needs the data, a shell, and a write tool):
       /paper:figures <figure>           (re-render from the same data, proposal only)
@@ -138,7 +138,7 @@ it; the command is gated (it needs that pipeline and a shell) and reports what
 is missing instead of checking anything when the gate fails, and its
 recomputed values are proposals the author applies to the source, never edits
 the loop performs. Likewise, when the environment grants literature retrieval,
-run `/paper:scholar` over the whole manuscript in the same phase, so every
+run `/paper:verify-citations` over the whole manuscript in the same phase, so every
 cited claim is checked against its source and every contribution claim is
 scanned for prior work, not only the ones the cold read happened to flag (the
 cold read measures reader experience, not citation support, so it cannot see an

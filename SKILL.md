@@ -1,10 +1,10 @@
 ---
 name: blue-pencil
-description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; draft, improve, or tighten a response-to-reviewers letter; route number checks against the repository data and analysis pipeline, figure regeneration, and new analyses to the gated analyst lane (/paper:verify-numbers, /paper:figures, /paper:analyze), and citation or novelty checks to the gated scholar lane (/paper:scholar). Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
+description: Revise, copy-edit, line-edit, polish, tighten, or give editorial feedback on an academic paper section; make it clearer to non-specialists, less AI-sounding and more human to read; read a whole paper cold as its intended reader and report where it stops working; check cross-section consistency; cut a section toward a length limit; respond to reviewer comments; draft, improve, or tighten a response-to-reviewers letter; route number checks against the repository data and analysis pipeline, figure regeneration, and new analyses to the gated analyst lane (/paper:verify-numbers, /paper:figures, /paper:analyze), and citation or novelty checks to the gated scholar lane (/paper:verify-citations). Diagnoses logical flow, argumentation, exposition, narrative spine, copyediting, and reader experience while preserving voice, citations, and numerical claims. Not for drafting new sections from notes, citation formatting or BibTeX, LaTeX compilation, pure typo lists, or non-academic prose.
 license: MIT
 allowed-tools: Read Edit Grep Glob
 metadata:
-  version: "2.5.0"
+  version: "2.6.0"
   author: ipeirotis
   repo: https://github.com/ipeirotis/blue-pencil
 ---
@@ -49,7 +49,7 @@ Do not trigger when the user:
   protected content and flags them, it does not compute or re-render them.
 - Wants the manuscript's citations verified against their sources, or a
   contribution scanned for prior work. That is the scholar lane
-  (`/paper:scholar`, protocol in `references/literature-checks.md`), which
+  (`/paper:verify-citations`, protocol in `references/literature-checks.md`), which
   carries its own retrieval tools and grounding rules; this skill preserves
   citations exactly and flags claims it cannot verify, it does not retrieve
   or read the sources.
@@ -199,7 +199,7 @@ never edit the author's code, data, figures, or manuscript, and carry the
 no-forking-paths rule. The
 retrieval branch: citation verification and novelty scanning against the
 literature live in `references/literature-checks.md`, dispatched by
-`/paper:scholar` to the `paper-scholar` subagent, and run only where the
+`/paper:verify-citations` to the `paper-scholar` subagent, and run only where the
 environment grants literature retrieval. Substance means manuscript content, stated in or about the paper:
 editorial reporting about your own edit (the approximate `Word count:` line,
 paragraph labels, counts of findings in the Diagnosis) asserts nothing about
@@ -584,4 +584,4 @@ Bulleted list. Each item is one unverifiable claim, missing evidence, numerical-
 - "Are the numbers in the abstract still what the pipeline produces?" -> do not trigger this skill's editing pass; route to the analyst lane (`/paper:verify-numbers`), which reruns the author's own pipeline and reports match, mismatch, or unverifiable with provenance.
 - "Make Figure 3 carry the result instead of burying it, using the same data." -> do not trigger this skill's editing pass; route to the analyst lane (`/paper:figures`), which re-renders the figure from the author's own script and data with better design and proposes it beside the original, changing how the data is shown and never which data.
 - "Run the subgroup robustness check reviewer 2 asked for." -> do not trigger this skill's editing pass; route to the analyst lane (`/paper:analyze`), which pins the specification the author named, runs it, and reports the whole result as a proposal, never scanning for a favorable one.
-- "Does reference 12 actually support what we say it does, and is our contribution really novel?" -> do not trigger this skill's editing pass; route to the scholar lane (`/paper:scholar`), which fetches and reads the sources and reports each cited claim as supported, unsupported, or unverifiable and returns novelty leads, proposing any citation change as a flagged candidate.
+- "Does reference 12 actually support what we say it does, and is our contribution really novel?" -> do not trigger this skill's editing pass; route to the scholar lane (`/paper:verify-citations`), which fetches and reads the sources and reports each cited claim as supported, unsupported, or unverifiable and returns novelty leads, proposing any citation change as a flagged candidate.

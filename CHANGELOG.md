@@ -3,6 +3,20 @@
 All notable changes to blue-pencil (called paper-revision-editor before v2.0.0) are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [2.6.0] - 2026-08-14
+
+Renames the scholar lane's dispatch command from `/paper:scholar` to `/paper:verify-citations`, making the command surface symmetric with the analyst lane's `/paper:verify-numbers`: both now name the action a user wants rather than the internal lane that performs it. The lane itself, the `paper-scholar` subagent, and the protocol in `references/literature-checks.md` are unchanged; only the name a user types moves. The same protocol also ships as a standalone skill, chapter-and-verse, for agents running without the rest of blue-pencil.
+
+### Changed
+
+- `.claude/commands/paper/scholar.md` is now `.claude/commands/paper/verify-citations.md`; the command's content is unchanged.
+- `SKILL.md` (trigger description, retrieval-branch text, and routing examples), `README.md` (command table and guarantees), `.claude/commands/paper/loop.md` (Phase 1 and Step B), and `references/literature-checks.md` (load trigger) now name `/paper:verify-citations` wherever they previously named `/paper:scholar`.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report 2.6.0.
+
+### Removed
+
+- The `/paper:scholar` command name. Typing it no longer resolves; use `/paper:verify-citations`.
+
 ## [2.5.0] - 2026-07-27
 
 Makes reference usage deterministic. The `references/` files carry the skill's editorial knowledge, but the instructions that load them were scattered "load `references/X.md` when Y" triggers across `SKILL.md`, so whether a given pass consulted its reference was left to whether the model happened to notice the condition: a "maybe it will, maybe it won't" that the built-out reference library was never meant to depend on. This release turns that into a driven sweep, the intra-section counterpart of the whole-paper loop `/paper:loop` runs over sections: a revision now walks a fixed, ordered pass list, keeps every pass whose gate the section and stage meet, loads each pass's reference at its step, and records the set on an auditable line so a skipped reference is visible rather than silent. No editorial rule changes; the existing per-pass triggers are consolidated into one binding schedule.
