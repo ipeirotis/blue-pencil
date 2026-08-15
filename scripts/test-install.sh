@@ -171,7 +171,9 @@ test_update_drift() {
   cp "$REPO_ROOT/install.sh" "$up/install.sh"
   cp "$REPO_ROOT/.claude/commands/paper/quick.md" "$up/.claude/commands/paper/quick.md"
   git -C "$up" add install.sh .claude/commands/paper/quick.md
-  git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "fixture current installer"
+  if ! git -C "$up" diff --cached --quiet; then
+    git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "fixture current installer"
+  fi
   # In PR CI, actions/checkout leaves the repo in detached HEAD, so a plain clone
   # of it is detached too; install.sh --update would then resolve the clone's ref
   # to a bare SHA instead of a branch and skip the fast-forward. Pin the fixture

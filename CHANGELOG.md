@@ -34,6 +34,9 @@ so they no longer load through or install with the editorial skill.
   not continue pointing at removed files.
 - Made the reviser subagent honor the compact quick-pass contract, including its
   omitted full-report passes, rather than overriding it with the normal output.
+- Aligned the reviser dispatcher with operational-only context blocks and made
+  its quick-pass reference ledger land under `Top changes`, not the omitted
+  `Change rationale` section.
 - Made project-local refresh mirror the global downgrade path when a pinned ref
   ships no commands, and documented why the first update run by a v2 installer
   must be followed by the new v3 `--init` inside each initialized paper repo.
