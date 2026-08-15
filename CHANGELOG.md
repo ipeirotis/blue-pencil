@@ -24,6 +24,14 @@ so they no longer load through or install with the editorial skill.
 - Linked the independently installable `paper-analyst` and `paper-scholar`
   repositories from the user documentation without coupling their workflows
   back into Blue Pencil.
+- Made `/paper:revise` the documented default, added a command-by-intent guide,
+  and added `/paper:quick` for conservative edits with a compact report.
+- Made venue and thesis metadata optional for section edits, skipped redundant
+  triage confirmation when scope is explicit, and limited clarification to one
+  focused question.
+- Kept legacy analyst-agent detection during uninstall and added project-local
+  command refresh plus explicit v2 upgrade guidance so stale copied commands do
+  not continue pointing at removed files.
 - `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report
   3.0.0.
 

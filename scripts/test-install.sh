@@ -84,6 +84,7 @@ test_init() {
   assert_no_grep "$repo/AGENTS.md" "revision_stage: first draft" "init: no stale first-draft default"
   assert_file "$repo/CLAUDE.md" "init: CLAUDE.md bridge written"
   assert_file "$ctx/commands/paper/loop.md" "init: loop command registered"
+  assert_file "$ctx/commands/paper/quick.md" "init: quick command registered"
   assert_file "$ctx/agents/paper-reviser.md" "init: reviser subagent registered"
   assert_file "$ctx/$MANIFEST_REL" "init: manifest written"
   assert_grep "$ctx/$MANIFEST_REL" "commands/paper/loop.md" "init: manifest lists a command"
@@ -104,6 +105,7 @@ test_commands_uninstall() {
   assert_symlink "$sb/.agents/skills/blue-pencil" "commands: agents skill symlink created"
   assert_symlink "$sb/.claude/skills/blue-pencil" "commands: claude skill symlink created"
   assert_file "$ctx/commands/paper/loop.md" "commands: loop command registered globally"
+  assert_file "$ctx/commands/paper/quick.md" "commands: quick command registered globally"
   assert_file "$ctx/agents/paper-reviser.md" "commands: reviser subagent registered globally"
   assert_file "$ctx/$MANIFEST_REL" "commands: manifest written"
 
@@ -161,8 +163,14 @@ test_refresh() {
 # refreshes the registered commands, so a command added upstream appears without
 # a manual re-register, and a user's own command survives. All local, no network.
 test_update_drift() {
-  local sb up clone; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"
+  local sb up clone paper; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"; paper="$sb/paper"
   git clone -q "$REPO_ROOT" "$up" 2>/dev/null
+  # git clone sees committed state only; overlay the installer and new command
+  # under test so this scenario exercises the current working tree.
+  cp "$REPO_ROOT/install.sh" "$up/install.sh"
+  cp "$REPO_ROOT/.claude/commands/paper/quick.md" "$up/.claude/commands/paper/quick.md"
+  git -C "$up" add install.sh .claude/commands/paper/quick.md
+  git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "fixture current installer"
   # In PR CI, actions/checkout leaves the repo in detached HEAD, so a plain clone
   # of it is detached too; install.sh --update would then resolve the clone's ref
   # to a bare SHA instead of a branch and skip the fast-forward. Pin the fixture
@@ -181,16 +189,25 @@ test_update_drift() {
   assert_file "$ctx/commands/paper/loop.md" "update: baseline command registered from clone"
   printf '# mine\n' > "$ctx/commands/paper/mine.md"
 
+  # Model a v2 project-local install. Its manifest contains a command removed
+  # upstream; invoking --update from that paper repo must refresh the copied set.
+  git init -q "$paper"
+  mkdir -p "$paper/.claude/commands/paper"
+  printf '# stale analyst command\n' > "$paper/.claude/commands/paper/verify-numbers.md"
+  printf 'commands/paper/verify-numbers.md\n' > "$paper/.claude/$MANIFEST_REL"
+
   # Advance upstream by one commit that adds a new command.
   printf '# upstream extra\n' > "$up/.claude/commands/paper/zzz-upstream.md"
   git -C "$up" add .claude/commands/paper/zzz-upstream.md
   git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "add upstream command"
 
-  run_from "$sb" "$clone/install.sh" --update
+  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update >/dev/null 2>&1 )
 
   assert_file "$clone/.claude/commands/paper/zzz-upstream.md" "update: clone fast-forwarded to upstream"
   assert_file "$ctx/commands/paper/zzz-upstream.md" "update: refreshed commands include the new one"
   assert_file "$ctx/commands/paper/mine.md" "update: user's own command preserved across update"
+  assert_no_file "$paper/.claude/commands/paper/verify-numbers.md" "update: project-local stale command removed"
+  assert_file "$paper/.claude/commands/paper/quick.md" "update: project-local commands refreshed"
 
   rm -rf "$sb"
 }

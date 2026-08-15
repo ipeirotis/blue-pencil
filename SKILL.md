@@ -54,10 +54,21 @@ Look for a `<paper_context>` block in the following files, in order. Use the fir
 2. `CLAUDE.md` at the repo root (Claude-Code bridge).
 3. `paper-meta.md` at the repo root.
 
-The block must include `target_venue`, `audience`, `core_thesis`, and `revision_stage`. If any value is missing or ambiguous, stop and ask the user. Do not guess venue or audience from prose style. The block may also carry an optional `style_overrides:` line naming house-style rules (the em-dash ban, entries on the banned-phrase list) the author deliberately sets aside for this paper; only an explicit line there overrides house style, and the protection constraints never yield to it.
+Treat `audience` and `revision_stage` as the operational fields. If either is
+missing or ambiguous, ask once in a single message; if the author declines,
+use the conservative defaults below. Treat `target_venue` and `core_thesis` as
+optional context: when either is absent, skip only the checks that need it and
+name the omission in `Assumed context:`. Do not block a section edit merely to
+obtain venue or thesis metadata, and never guess venue or audience from prose
+style. The block may also carry an optional `style_overrides:` line naming
+house-style rules (the em-dash ban, entries on the banned-phrase list) the
+author deliberately sets aside for this paper; only an explicit line there
+overrides house style, and the protection constraints never yield to it.
 
 If no `<paper_context>` block can exist (no repository: a chat session or a pasted
-section), ask once, in a single message, for the four fields. Infer the stage only
+section), ask once, in a single message, for audience and revision stage; invite
+the author to provide target venue and core thesis when those checks matter, but
+do not require them. Infer the stage only
 toward more restrictive scopes, from unambiguous signals: pasted reviewer comments
 imply response-to-reviewers scope, and "camera-ready" or "proofs" language implies
 `final polish`; never assume `first draft` without the author's explicit
@@ -103,7 +114,12 @@ guesses.
 
 ## Triage before full diagnosis
 
-Before applying the diagnostic lens, confirm three things in one short message: (1) scope (feedback only or direct rewrite), (2) unit (whole section or specific paragraphs), (3) aggressiveness within the current `revision_stage`. Ask one clarifying question if unclear.
+Before applying the diagnostic lens, determine three things: (1) scope
+(feedback only or direct rewrite), (2) unit (whole section or specific
+paragraphs), and (3) aggressiveness within the current `revision_stage`. If the
+request or command preset already specifies all three, proceed without a
+confirmation message. Ask one focused clarifying question only for what remains
+ambiguous.
 
 When the manuscript arrives as one monolithic file (a single `paper.tex`, a
 pasted `.docx`, one Markdown file), a heading is the unit: detect the section
@@ -510,7 +526,21 @@ revision that has unresolved `Author questions` touching its content.
 
 ## Output format (strict)
 
-Always produce these four sections, in this order, with these exact headings. For a complete worked example of this output on a flawed draft, see `examples/worked-example.md`.
+Produce these four sections, in this order, with these exact headings. The only
+exception is an explicit quick pass (`/paper:quick` or a request for a brief,
+lightweight edit), which uses the compact contract below. For a complete worked
+example of the full output on a flawed draft, see `examples/worked-example.md`.
+
+### Compact quick-pass contract
+
+Return exactly `Revised text`, `Top changes`, and `Author questions`. Keep the
+rewrite conservative and sentence-level: do not reorder or split paragraphs,
+add explanatory substance, or make structural cuts. Under `Top changes`, give
+at most three bullets and end with one `References loaded:` line. Omit the full
+Diagnosis, word count, reader map, voice extraction, and per-change ledger. All
+hard constraints, paper-context rules, reference gates, and author-question
+rules still apply. If the passage needs structural work, do not attempt it in
+quick mode: say so in `Author questions` and recommend the full revision pass.
 
 ### 1. Diagnosis
 

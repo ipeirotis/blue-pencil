@@ -571,6 +571,22 @@ run_update() {
     echo "      once to register them for automatic updates (your own paper: files are backed up, not lost)."
   fi
 
+  # Project-local commands are copies, not links. Refresh the current paper
+  # repo when --update is invoked from it. Other initialized repos cannot be
+  # discovered safely, so the v2-to-v3 notice below gives the explicit step.
+  local cwd_root=""
+  cwd_root="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ] && [ -f "$cwd_root/.claude/$MANIFEST_REL" ]; then
+    echo "Refreshing project-local paper: commands in $cwd_root"
+    install_commands "$cwd_root" "$src"
+  fi
+
+  if [ "${before%%.*}" = "2" ] && [ "${after%%.*}" = "3" ]; then
+    echo "Important: v3 removes the bundled analyst and scholar commands."
+    echo "Run '$(installer_path "$src") --init' once in every other paper repo initialized with v2"
+    echo "to remove stale project-local commands and refresh /paper:loop."
+  fi
+
   echo
   if [ "$before_sha" = "$after_sha" ]; then
     echo "Already up to date ($after, ref $ref)."
@@ -601,7 +617,9 @@ remove_commands() {
   local claude_dir="$base/.claude"
   local manifest="$claude_dir/$MANIFEST_REL"
   if [ ! -f "$manifest" ]; then
-    if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ]; then
+    # Keep probing the removed analyst agent: a pre-manifest v2 install may
+    # have only that legacy file left, and uninstall must still warn about it.
+    if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ] || [ -f "$claude_dir/agents/paper-analyst.md" ]; then
       echo "  note: no install manifest at $manifest; leaving global paper: files in place (remove by hand if you copied them yourself)."
     fi
     return 0

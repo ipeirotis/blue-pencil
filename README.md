@@ -20,7 +20,12 @@ An academic-editor skill for AI coding agents such as [Claude Code](https://clau
    ~/.local/share/blue-pencil/install.sh --init
    ```
 
-   This asks four questions (target venue, audience, core thesis, revision stage), writes `AGENTS.md`, and registers the `/paper:` commands in the repo. If your paper folder is not a git repo, copy [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md` by hand instead.
+   This records target venue, audience, core thesis, and revision stage, writes
+   `AGENTS.md`, and registers the `/paper:` commands in the repo. Audience and
+   revision stage drive editing; venue and thesis improve paper-level checks but
+   no longer block a section edit. If your paper folder is not a git repo, copy
+   [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md`
+   by hand instead.
 
 3. **Ask in plain English:**
 
@@ -42,11 +47,24 @@ LaTeX and pasted plain text are first-class. From Word or Google Docs, paste the
 
 ## Commands
 
-Plain-English requests work in any agent that reads the skill. In Claude Code, `--init` also registers these:
+Plain-English requests work in any agent that reads the skill. Start with
+`/paper:revise` unless one of the narrower intents below fits better. In Claude
+Code, `--init` also registers these:
+
+| I want to... | Use |
+|--------------|-----|
+| Improve a section and see the full diagnosis | `/paper:revise` |
+| Make a quick, conservative edit with a short report | `/paper:quick` |
+| Get advice without a rewrite | `/paper:feedback` |
+| Fix sentence-level issues after the argument is stable | `/paper:polish` |
+| Revise an entire paper in controlled stages | `/paper:loop` |
+
+The complete command list is:
 
 | Command | What it does |
 |---------|--------------|
 | `/paper:revise <section>` | Full diagnose-then-rewrite pass. |
+| `/paper:quick <passage>` | Conservative rewrite with up to three change bullets. |
 | `/paper:feedback <section>` | Diagnosis only, no rewrite. |
 | `/paper:clarify <section>` | Make the section clearer to a non-specialist. |
 | `/paper:human <section>` | Narrative spine plus AI-tell scrub: read human, not LLM. |
@@ -88,6 +106,12 @@ install.sh --check        # show install state, version, and tracked ref
 install.sh --ref v1.16.0  # pin to a tag, branch, or commit (sticky until changed)
 install.sh --uninstall    # remove the symlinks and globally registered commands
 ```
+
+Commands installed by `--init` are project-local copies. After upgrading from
+v2 to v3, run `install.sh --init` once in every previously initialized paper
+repo to remove the old analyst and scholar commands and refresh `/paper:loop`.
+Running `--update` from inside a paper repo refreshes that repo automatically,
+but it cannot safely discover other paper repositories on your machine.
 
 If you installed this under its old name, `paper-revision-editor`, running any `install.sh` mode once migrates the install in place; usage is unchanged.
 
