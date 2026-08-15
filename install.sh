@@ -601,7 +601,7 @@ remove_commands() {
   local claude_dir="$base/.claude"
   local manifest="$claude_dir/$MANIFEST_REL"
   if [ ! -f "$manifest" ]; then
-    if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ] || [ -f "$claude_dir/agents/paper-analyst.md" ]; then
+    if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ]; then
       echo "  note: no install manifest at $manifest; leaving global paper: files in place (remove by hand if you copied them yourself)."
     fi
     return 0
@@ -701,8 +701,8 @@ backup_if_unmanaged() {
   echo "  backed up existing $dest -> $dest.bak"
 }
 
-# Copy the paper: slash commands and the paper subagents (paper-reviser,
-# paper-analyst) out of the skill and into a .claude/ tree. Claude Code
+# Copy the paper: slash commands and the paper-reviser subagent out of the
+# skill and into a .claude/ tree. Claude Code
 # registers commands from <project>/.claude/commands/ or ~/.claude/commands/
 # and subagents from the matching agents/ dirs; it never registers either from
 # inside an installed skill directory. So even though the skill ships these

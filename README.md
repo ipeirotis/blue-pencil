@@ -1,6 +1,6 @@
 # blue-pencil
 
-[![Version](https://img.shields.io/badge/version-2.5.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 An academic-editor skill for AI coding agents such as [Claude Code](https://claude.com/claude-code). Point the agent at a section of your paper: it diagnoses what is weak, rewrites it, and logs every change with a reason. Your citations, numbers, math, and writing voice are never silently altered.
@@ -56,15 +56,23 @@ Plain-English requests work in any agent that reads the skill. In Claude Code, `
 | `/paper:letter` | Draft or improve the response-to-reviewers letter. |
 | `/paper:read <paper>` | Whole-paper cold read: where a reader stops following, plus a dispatch list. |
 | `/paper:consistency <paper>` | Cross-section drift and stale-summary check. |
-| `/paper:verify-numbers` | Rerun your own analysis pipeline and diff its outputs against the manuscript's numbers. Needs your data and code in the repo. |
-| `/paper:figures <figure>` | Re-render a figure from the same data with better design, proposed beside the original. |
-| `/paper:analyze <analysis>` | Run a new analysis you name (robustness check, baseline) and report the whole result. |
-| `/paper:scholar` | Check that cited sources support their claims and scan novelty; needs literature retrieval. |
 | `/paper:loop <paper>` | Plan and drive a whole-paper edit, section by section, pausing at each author checkpoint. |
 
-The analyst commands (`verify-numbers`, `figures`, `analyze`) and `scholar` only propose: they never edit your manuscript, code, or data, and they say so when the tools they need are missing.
-
 To register the commands in every project instead of one repo, run `install.sh --commands`.
+
+## Companion skills
+
+Blue Pencil edits prose but does not execute analyses or retrieve literature.
+Install these separately when you need those capabilities:
+
+- [`paper-analyst`](https://github.com/ipeirotis/paper-analyst) verifies reported
+  numbers against a repository's analysis pipeline, regenerates figures from
+  unchanged data, and runs analyses explicitly specified by the author.
+- [`paper-scholar`](https://github.com/ipeirotis/paper-scholar) retrieves and
+  reads sources to audit citations and identify prior-work leads.
+
+The skills are independent: installing Blue Pencil does not install or invoke
+either companion.
 
 ## Editing a whole paper
 

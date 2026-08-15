@@ -84,15 +84,10 @@ test_init() {
   assert_no_grep "$repo/AGENTS.md" "revision_stage: first draft" "init: no stale first-draft default"
   assert_file "$repo/CLAUDE.md" "init: CLAUDE.md bridge written"
   assert_file "$ctx/commands/paper/loop.md" "init: loop command registered"
-  assert_file "$ctx/commands/paper/verify-numbers.md" "init: verify-numbers command registered"
-  assert_file "$ctx/commands/paper/figures.md" "init: figures command registered"
-  assert_file "$ctx/commands/paper/analyze.md" "init: analyze command registered"
   assert_file "$ctx/agents/paper-reviser.md" "init: reviser subagent registered"
-  assert_file "$ctx/agents/paper-analyst.md" "init: analyst subagent registered"
-  assert_file "$ctx/agents/paper-scholar.md" "init: scholar subagent registered"
   assert_file "$ctx/$MANIFEST_REL" "init: manifest written"
   assert_grep "$ctx/$MANIFEST_REL" "commands/paper/loop.md" "init: manifest lists a command"
-  assert_grep "$ctx/$MANIFEST_REL" "agents/paper-analyst.md" "init: manifest lists a subagent"
+  assert_grep "$ctx/$MANIFEST_REL" "agents/paper-reviser.md" "init: manifest lists a subagent"
 
   rm -rf "$sb"
 }
@@ -109,7 +104,7 @@ test_commands_uninstall() {
   assert_symlink "$sb/.agents/skills/blue-pencil" "commands: agents skill symlink created"
   assert_symlink "$sb/.claude/skills/blue-pencil" "commands: claude skill symlink created"
   assert_file "$ctx/commands/paper/loop.md" "commands: loop command registered globally"
-  assert_file "$ctx/agents/paper-analyst.md" "commands: analyst subagent registered globally"
+  assert_file "$ctx/agents/paper-reviser.md" "commands: reviser subagent registered globally"
   assert_file "$ctx/$MANIFEST_REL" "commands: manifest written"
 
   # A user's own command in the paper: namespace must survive uninstall.
@@ -120,7 +115,7 @@ test_commands_uninstall() {
   assert_no_path "$sb/.agents/skills/blue-pencil" "uninstall: agents skill symlink removed"
   assert_no_path "$sb/.claude/skills/blue-pencil" "uninstall: claude skill symlink removed"
   assert_no_file "$ctx/commands/paper/loop.md" "uninstall: managed command removed"
-  assert_no_file "$ctx/agents/paper-analyst.md" "uninstall: managed subagent removed"
+  assert_no_file "$ctx/agents/paper-reviser.md" "uninstall: managed subagent removed"
   assert_no_file "$ctx/$MANIFEST_REL" "uninstall: manifest removed"
   assert_file "$ctx/commands/paper/mine.md" "uninstall: user's own command preserved"
 

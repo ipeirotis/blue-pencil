@@ -3,6 +3,30 @@
 All notable changes to blue-pencil (called paper-revision-editor before v2.0.0) are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [3.0.0] - 2026-08-14
+
+Narrows Blue Pencil to one job: editing existing academic prose. Analysis and
+literature research have different tool, provenance, and safety requirements,
+so they no longer load through or install with the editorial skill.
+
+### Removed
+
+- Removed the analyst commands (`/paper:verify-numbers`, `/paper:figures`, and
+  `/paper:analyze`), the `paper-analyst` subagent, and their analysis-integrity
+  reference.
+- Removed `/paper:scholar`, the `paper-scholar` subagent, and its literature
+  checking reference.
+
+### Changed
+
+- Tightened the skill description, scope boundaries, examples, whole-paper
+  loop, installer tests, and user documentation around editorial work only.
+- Linked the independently installable `paper-analyst` and `paper-scholar`
+  repositories from the user documentation without coupling their workflows
+  back into Blue Pencil.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report
+  3.0.0.
+
 ## [2.5.0] - 2026-07-27
 
 Makes reference usage deterministic. The `references/` files carry the skill's editorial knowledge, but the instructions that load them were scattered "load `references/X.md` when Y" triggers across `SKILL.md`, so whether a given pass consulted its reference was left to whether the model happened to notice the condition: a "maybe it will, maybe it won't" that the built-out reference library was never meant to depend on. This release turns that into a driven sweep, the intra-section counterpart of the whole-paper loop `/paper:loop` runs over sections: a revision now walks a fixed, ordered pass list, keeps every pass whose gate the section and stage meet, loads each pass's reference at its step, and records the set on an auditable line so a skipped reference is visible rather than silent. No editorial rule changes; the existing per-pass triggers are consolidated into one binding schedule.
