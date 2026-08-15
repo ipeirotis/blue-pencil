@@ -577,14 +577,13 @@ run_update() {
   local cwd_root=""
   cwd_root="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null || true)"
   if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ] && [ -f "$cwd_root/.claude/$MANIFEST_REL" ]; then
-    echo "Refreshing project-local paper: commands in $cwd_root"
-    install_commands "$cwd_root" "$src"
-  fi
-
-  if [ "${before%%.*}" = "2" ] && [ "${after%%.*}" = "3" ]; then
-    echo "Important: v3 removes the bundled analyst and scholar commands."
-    echo "Run '$(installer_path "$src") --init' once in every other paper repo initialized with v2"
-    echo "to remove stale project-local commands and refresh /paper:loop."
+    if [ -d "$src/.claude/commands/paper" ]; then
+      echo "Refreshing project-local paper: commands in $cwd_root"
+      install_commands "$cwd_root" "$src"
+    else
+      echo "Target ref ships no paper: commands; removing the project-local managed set in $cwd_root."
+      remove_commands "$cwd_root"
+    fi
   fi
 
   echo

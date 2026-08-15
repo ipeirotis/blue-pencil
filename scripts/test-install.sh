@@ -189,8 +189,9 @@ test_update_drift() {
   assert_file "$ctx/commands/paper/loop.md" "update: baseline command registered from clone"
   printf '# mine\n' > "$ctx/commands/paper/mine.md"
 
-  # Model a v2 project-local install. Its manifest contains a command removed
-  # upstream; invoking --update from that paper repo must refresh the copied set.
+  # Model the stale project-local state left after the first update was executed
+  # by the old v2 script. A subsequent invocation of the v3 updater from that
+  # paper repo must refresh the copied set.
   git init -q "$paper"
   mkdir -p "$paper/.claude/commands/paper"
   printf '# stale analyst command\n' > "$paper/.claude/commands/paper/verify-numbers.md"
@@ -427,7 +428,7 @@ DOC
 # but the registration marker must persist so a later --update onto a ref that
 # ships commands restores them, rather than treating the downgrade as an opt-out.
 test_downgrade_marker() {
-  local sb up clone; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"
+  local sb up clone paper; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"; paper="$sb/paper"
   # Build the upstream from the working tree (not a clone of REPO_ROOT's commit),
   # so the test exercises the install.sh under edit even before it is committed.
   mkdir -p "$up"
@@ -447,15 +448,21 @@ test_downgrade_marker() {
   local ctx="$sb/.claude"
   assert_file "$ctx/commands/paper/loop.md" "downgrade: baseline command registered"
   assert_file "$ctx/$COMMANDS_MARKER_REL" "downgrade: registration marker written"
+  git init -q "$paper"
+  mkdir -p "$paper/.claude/commands/paper"
+  cp "$up/.claude/commands/paper/loop.md" "$paper/.claude/commands/paper/loop.md"
+  printf 'commands/paper/loop.md\n' > "$paper/.claude/$MANIFEST_REL"
 
   # Downgrade: upstream drops the bundled commands entirely.
   git -C "$up" rm -q -r .claude/commands/paper
   git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "drop bundled commands"
-  run_from "$sb" "$clone/install.sh" --update
+  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update >/dev/null 2>&1 )
 
   assert_no_file "$ctx/commands/paper/loop.md" "downgrade: incompatible command removed"
   assert_no_file "$ctx/$MANIFEST_REL" "downgrade: manifest dropped with the commands"
   assert_file "$ctx/$COMMANDS_MARKER_REL" "downgrade: marker kept across the downgrade"
+  assert_no_file "$paper/.claude/commands/paper/loop.md" "downgrade: project-local incompatible command removed"
+  assert_no_file "$paper/.claude/$MANIFEST_REL" "downgrade: project-local manifest dropped"
 
   # Upgrade back: upstream restores the commands; the marker must drive a refresh.
   git -C "$up" -c user.email=t@example.com -c user.name=test revert --no-edit HEAD >/dev/null 2>&1

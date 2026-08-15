@@ -35,6 +35,12 @@ Every run returns four sections: **Diagnosis**, **Revised text**, **Change ratio
 
 Using claude.ai or another chat surface instead of a coding agent? Skip the installer: paste `SKILL.md` into the conversation along with your section.
 
+> **Upgrading from v2:** the v2 updater cannot run migration logic introduced
+> in v3 after it replaces its own checkout. After the first `--update`, run the
+> new v3 `install.sh --init` once inside every paper repo previously initialized
+> with v2. This removes the copied analyst and scholar commands and refreshes
+> `/paper:loop`.
+
 ## What it guarantees
 
 - **Diagnoses before editing.** You see what is weak, and every change comes with a reason.
@@ -107,9 +113,8 @@ install.sh --ref v1.16.0  # pin to a tag, branch, or commit (sticky until change
 install.sh --uninstall    # remove the symlinks and globally registered commands
 ```
 
-Commands installed by `--init` are project-local copies. After upgrading from
-v2 to v3, run `install.sh --init` once in every previously initialized paper
-repo to remove the old analyst and scholar commands and refresh `/paper:loop`.
+Commands installed by `--init` are project-local copies. Follow the v2 upgrade
+step near the Quickstart once in every previously initialized paper repo.
 Running `--update` from inside a paper repo refreshes that repo automatically,
 but it cannot safely discover other paper repositories on your machine.
 
