@@ -103,15 +103,7 @@ Detected revision_stage: first draft.
 Recommended loop:
   Phase 1, diagnose globally (one whole-paper cold read, no rewriting):
     /paper:read paper.tex
-    If the repo holds your data and analysis code:
-      /paper:verify-numbers paper.tex   (verification only, no edits)
-    If the environment grants literature retrieval:
-      /paper:scholar paper.tex          (citation and novelty checks, no edits)
-    On demand, when the cold read or a reviewer names a specific target
-    (needs the data, a shell, and a write tool):
-      /paper:figures <figure>           (re-render from the same data, proposal only)
-      /paper:analyze <named analysis>   (new named analysis, proposal only)
-    Then resolve the Author questions these passes raise and confirm the
+    Then resolve the Author questions it raises and confirm the
     read's prioritized dispatch list; that list feeds the Phase 2 pass order.
   Phase 2, rewrite section by section in the Step B order:
     /paper:revise sections/abstract.tex
@@ -131,32 +123,7 @@ Recommended loop:
 Diagnose globally first: one whole-paper cold read (`/paper:read`, whose
 protocol lives in the skill's `references/cold-read.md`), not a per-section
 feedback sweep, so the diagnosis measures the front-to-back reading experience
-the per-section passes never see. When the repo also holds the author's data
-and analysis code, run `/paper:verify-numbers` once after the cold read and
-before any rewrite, so a stale number is caught before the prose passes repeat
-it; the command is gated (it needs that pipeline and a shell) and reports what
-is missing instead of checking anything when the gate fails, and its
-recomputed values are proposals the author applies to the source, never edits
-the loop performs. Likewise, when the environment grants literature retrieval,
-run `/paper:scholar` over the whole manuscript in the same phase, so every
-cited claim is checked against its source and every contribution claim is
-scanned for prior work, not only the ones the cold read happened to flag (the
-cold read measures reader experience, not citation support, so it cannot see an
-unsupported citation on its own); an unsupported citation or an overstated
-contribution is then caught before the prose passes polish it. It is gated the
-same way (it needs retrieval) and reports what is missing instead of citing
-from memory when the gate fails, and its citation changes and recalibrated
-claims are proposals the author applies to the source, never edits the loop
-performs. The analyst lane's two generative capabilities are targeted rather
-than whole-paper, so they are not standing phases: run `/paper:figures` when
-the cold read or a reviewer names a figure that buries its result, and
-`/paper:analyze` when one names an analysis the paper needs (a robustness
-check, a baseline, a subgroup cut). Both are gated on a write tool as well as
-the data and shell, both propose rather than edit, and a re-rendered figure or
-a new result the author adopts is applied to the source like any other
-correction, with the closing `/paper:consistency` catching what the
-surrounding text now contradicts.
-Resolve the `Author questions` these global passes raise,
+the per-section passes never see. Resolve the `Author questions` it raises,
 then rewrite in this order, using the cold read's prioritized dispatch list to
 decide which sections need which targeted passes:
 

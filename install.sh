@@ -348,18 +348,16 @@ file_has_complete_context() {
   printf '%s\n' "$block" | grep -Eq '^[[:space:]]*[A-Za-z_]+:'
 }
 
-# True when <file> holds a closed <paper_context> block carrying *all four*
-# required fields (target_venue, audience, core_thesis, revision_stage). Stricter
-# than file_has_complete_context, which accepts a single key: this gate decides
-# whether a CLAUDE.md/paper-meta.md is worth migrating into AGENTS.md. Migrating a
-# partial source (e.g. a hand-written paper-meta.md with only target_venue) would
-# make --init report success while the skill immediately stops for the missing
-# fields, so a partial source falls through to the interactive scaffold instead.
-file_has_all_context_fields() {
+# True when <file> holds a closed <paper_context> block carrying both
+# operational fields (audience and revision_stage). Venue and thesis are useful
+# optional context, but their absence does not block section editing. Stricter
+# than file_has_complete_context, this gate prevents migrating a source that
+# would still force the skill's context prompt immediately after --init.
+file_has_operational_context() {
   local block key
   block="$(first_context_block "$1")"
   printf '%s\n' "$block" | grep -q '</paper_context>' || return 1
-  for key in target_venue audience core_thesis revision_stage; do
+  for key in audience revision_stage; do
     printf '%s\n' "$block" | grep -Eq "^[[:space:]]*${key}:[[:space:]]*[^[:space:]]" || return 1
   done
 }
@@ -383,12 +381,12 @@ strip_context_block() {
 
 # Locate a repo file that already carries a complete <paper_context> block
 # (CLAUDE.md, then paper-meta.md), for migration during --init. Echoes the path;
-# empty when none exists. Requires all four fields, so a partial block is not
-# migrated over the interactive scaffold.
+# empty when none exists. Requires both operational fields, so a block that
+# would immediately prompt for context is not migrated over the scaffold.
 existing_context_file() {
   local root="$1" f
   for f in "$root/CLAUDE.md" "$root/paper-meta.md"; do
-    [ -f "$f" ] && file_has_all_context_fields "$f" && { printf '%s' "$f"; return 0; }
+    [ -f "$f" ] && file_has_operational_context "$f" && { printf '%s' "$f"; return 0; }
   done
   return 1
 }
@@ -571,6 +569,22 @@ run_update() {
     echo "      once to register them for automatic updates (your own paper: files are backed up, not lost)."
   fi
 
+  # Project-local commands are copies, not links. Refresh the current paper
+  # repo when --update is invoked from it. Other initialized repos cannot be
+  # discovered safely, so the v2-to-v3 notice below gives the explicit step.
+  local cwd_root=""
+  cwd_root="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ] && { [ -f "$cwd_root/.claude/$MANIFEST_REL" ] || [ -f "$cwd_root/.claude/$COMMANDS_MARKER_REL" ]; }; then
+    if [ -d "$src/.claude/commands/paper" ]; then
+      echo "Refreshing project-local paper: commands in $cwd_root"
+      install_commands "$cwd_root" "$src"
+    else
+      echo "Target ref ships no paper: commands; removing the project-local managed set in $cwd_root."
+      remove_commands "$cwd_root"
+      mark_commands_registered "$cwd_root"
+    fi
+  fi
+
   echo
   if [ "$before_sha" = "$after_sha" ]; then
     echo "Already up to date ($after, ref $ref)."
@@ -601,6 +615,8 @@ remove_commands() {
   local claude_dir="$base/.claude"
   local manifest="$claude_dir/$MANIFEST_REL"
   if [ ! -f "$manifest" ]; then
+    # Keep probing the removed analyst agent: a pre-manifest v2 install may
+    # have only that legacy file left, and uninstall must still warn about it.
     if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ] || [ -f "$claude_dir/agents/paper-analyst.md" ]; then
       echo "  note: no install manifest at $manifest; leaving global paper: files in place (remove by hand if you copied them yourself)."
     fi
@@ -701,8 +717,8 @@ backup_if_unmanaged() {
   echo "  backed up existing $dest -> $dest.bak"
 }
 
-# Copy the paper: slash commands and the paper subagents (paper-reviser,
-# paper-analyst) out of the skill and into a .claude/ tree. Claude Code
+# Copy the paper: slash commands and the paper-reviser subagent out of the
+# skill and into a .claude/ tree. Claude Code
 # registers commands from <project>/.claude/commands/ or ~/.claude/commands/
 # and subagents from the matching agents/ dirs; it never registers either from
 # inside an installed skill directory. So even though the skill ships these
@@ -885,6 +901,7 @@ run_init() {
   fi
   echo "Registering paper: commands in $repo_root/.claude"
   install_commands "$repo_root" "$src"
+  mark_commands_registered "$repo_root"
   echo
 
   local template="$src/examples/AGENTS.md.template"
@@ -917,23 +934,23 @@ run_init() {
   fi
 
   if [ -f "$target" ] && file_has_complete_context "$target"; then
-    if file_has_all_context_fields "$target"; then
+    if file_has_operational_context "$target"; then
       echo "AGENTS.md already contains a complete <paper_context> block. Skipping scaffolding."
       return 0
     fi
-    # The block is present but missing required fields. Do not report success: the
-    # skill reads AGENTS.md first and stops the moment a field is absent, so a bare
+    # The block is present but missing an operational field. Do not report success:
+    # the skill reads AGENTS.md first and asks when audience or stage is absent, so a bare
     # "already configured" would be a lie. But do not strip and rescaffold either,
     # since the block already holds real values the user wrote (a strip would
     # clobber them with placeholders). Name the gaps, leave the file for them, and
     # fail non-zero so a workflow gating on --init does not proceed as if ready.
     local present_block missing="" field
     present_block="$(first_context_block "$target")"
-    for field in target_venue audience core_thesis revision_stage; do
+    for field in audience revision_stage; do
       printf '%s\n' "$present_block" | grep -Eq "^[[:space:]]*${field}:[[:space:]]*[^[:space:]]" \
         || missing="$missing $field"
     done
-    echo "ERROR: AGENTS.md has a <paper_context> block missing required field(s):${missing}." >&2
+    echo "ERROR: AGENTS.md has a <paper_context> block missing operational field(s):${missing}." >&2
     echo "       Fill them in (or delete the block and re-run --init to scaffold fresh);" >&2
     echo "       leaving your existing values untouched." >&2
     return 1
