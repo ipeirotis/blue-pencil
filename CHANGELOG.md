@@ -5,7 +5,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Se
 
 ## [2.6.0] - 2026-08-14
 
-Renames the scholar lane's dispatch command from `/paper:scholar` to `/paper:verify-citations`, making the command surface symmetric with the analyst lane's `/paper:verify-numbers`: both now name the action a user wants rather than the internal lane that performs it. The lane itself, the `paper-scholar` subagent, and the protocol in `references/literature-checks.md` are unchanged; only the name a user types moves. The same protocol also ships as a standalone skill, chapter-and-verse, for agents running without the rest of blue-pencil.
+Renames the scholar lane's dispatch command from `/paper:scholar` to `/paper:verify-citations`, making the command surface symmetric with the analyst lane's `/paper:verify-numbers`: both now name the action a user wants rather than the internal lane that performs it. The lane itself, the `paper-scholar` subagent, and the protocol in `references/literature-checks.md` are unchanged; only the name a user types moves. The same protocol also ships as a standalone skill, citation-needed, for agents running without the rest of blue-pencil.
 
 ### Changed
 
