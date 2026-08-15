@@ -87,6 +87,7 @@ test_init() {
   assert_file "$ctx/commands/paper/quick.md" "init: quick command registered"
   assert_file "$ctx/agents/paper-reviser.md" "init: reviser subagent registered"
   assert_file "$ctx/$MANIFEST_REL" "init: manifest written"
+  assert_file "$ctx/$COMMANDS_MARKER_REL" "init: project registration marker written"
   assert_grep "$ctx/$MANIFEST_REL" "commands/paper/loop.md" "init: manifest lists a command"
   assert_grep "$ctx/$MANIFEST_REL" "agents/paper-reviser.md" "init: manifest lists a subagent"
 
@@ -238,7 +239,7 @@ test_refused_targets() {
 }
 
 # --- Scenario 6: a complete external context block migrates into AGENTS.md -----
-# A paper-meta.md carrying all four required fields is migrated verbatim into a
+# A paper-meta.md carrying all four context fields is migrated verbatim into a
 # freshly created AGENTS.md (no interactive scaffold), as a single block. This
 # path never reaches read_field, so it runs even without a usable /dev/tty.
 test_migration_complete() {
@@ -265,7 +266,7 @@ META
 }
 
 # --- Scenario 7: a partial external block is NOT migrated ----------------------
-# A paper-meta.md missing required fields must not short-circuit the scaffold: it
+# A paper-meta.md missing the operational fields must not short-circuit the scaffold: it
 # would leave --init reporting success while the skill immediately stops for the
 # missing context. It falls through to the scaffold ([fill in] placeholders).
 test_migration_partial() {
@@ -326,7 +327,7 @@ DOC
 }
 
 # --- Scenario 9: a partial AGENTS.md block is reported, not falsely accepted ---
-# When AGENTS.md already holds a closed block that is missing required fields,
+# When AGENTS.md already holds a closed block that is missing operational fields,
 # --init must not claim success (the skill stops on the missing fields) nor strip
 # the block (it holds real values the user wrote). It names the gaps, preserves
 # the existing values, and adds no duplicate block. Runs without a tty: this path
@@ -352,7 +353,7 @@ DOC
 
   if [ "$rc" -ne 0 ]; then ok; else no "partial-agents: --init should exit non-zero on incomplete context"; fi
   case "$out" in
-    *"missing required field"*) ok ;;
+    *"missing operational field"*) ok ;;
     *) no "partial-agents: --init should name the missing fields" ;;
   esac
   case "$out" in
@@ -363,6 +364,32 @@ DOC
   assert_no_grep "$repo/AGENTS.md" "[fill in]" "partial-agents: not overwritten with placeholders"
   assert_count "$repo/AGENTS.md" "<paper_context>" "1" "partial-agents: no duplicate block appended"
   assert_file "$repo/.claude/commands/paper/loop.md" "partial-agents: commands still registered"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario: optional venue and thesis do not block initialization ---------
+# Audience and revision stage are the operational context. A closed block with
+# those two fields is already usable even when venue and thesis are omitted.
+test_operational_context_only() {
+  local sb repo; sb="$(mktemp -d)"; repo="$sb/paper"
+  mkdir -p "$repo"
+  git -C "$repo" init -q
+  cat > "$repo/AGENTS.md" <<'DOC'
+# AGENTS.md
+
+<paper_context>
+audience: empirical researchers
+revision_stage: final polish
+</paper_context>
+DOC
+
+  ( cd "$repo" && run_installer "$sb" --init )
+
+  assert_count "$repo/AGENTS.md" "<paper_context>" "1" "operational-context: existing block accepted"
+  assert_no_grep "$repo/AGENTS.md" "target_venue:" "operational-context: optional venue not injected"
+  assert_no_grep "$repo/AGENTS.md" "core_thesis:" "operational-context: optional thesis not injected"
+  assert_file "$repo/.claude/commands/paper/quick.md" "operational-context: commands registered"
 
   rm -rf "$sb"
 }
@@ -452,6 +479,7 @@ test_downgrade_marker() {
   mkdir -p "$paper/.claude/commands/paper"
   cp "$up/.claude/commands/paper/loop.md" "$paper/.claude/commands/paper/loop.md"
   printf 'commands/paper/loop.md\n' > "$paper/.claude/$MANIFEST_REL"
+  : > "$paper/.claude/$COMMANDS_MARKER_REL"
 
   # Downgrade: upstream drops the bundled commands entirely.
   git -C "$up" rm -q -r .claude/commands/paper
@@ -463,13 +491,16 @@ test_downgrade_marker() {
   assert_file "$ctx/$COMMANDS_MARKER_REL" "downgrade: marker kept across the downgrade"
   assert_no_file "$paper/.claude/commands/paper/loop.md" "downgrade: project-local incompatible command removed"
   assert_no_file "$paper/.claude/$MANIFEST_REL" "downgrade: project-local manifest dropped"
+  assert_file "$paper/.claude/$COMMANDS_MARKER_REL" "downgrade: project-local marker kept"
 
   # Upgrade back: upstream restores the commands; the marker must drive a refresh.
   git -C "$up" -c user.email=t@example.com -c user.name=test revert --no-edit HEAD >/dev/null 2>&1
-  run_from "$sb" "$clone/install.sh" --update
+  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update >/dev/null 2>&1 )
 
   assert_file "$ctx/commands/paper/loop.md" "downgrade: commands restored on upgrade via marker"
   assert_file "$ctx/$MANIFEST_REL" "downgrade: manifest rewritten on restore"
+  assert_file "$paper/.claude/commands/paper/loop.md" "downgrade: project-local commands restored via marker"
+  assert_file "$paper/.claude/$MANIFEST_REL" "downgrade: project-local manifest restored"
 
   rm -rf "$sb"
 }
@@ -535,6 +566,7 @@ test_migration_complete
 test_migration_partial
 test_incomplete_block_replaced
 test_partial_agents_block
+test_operational_context_only
 test_shadowed_link
 test_multi_block_agents
 test_downgrade_marker

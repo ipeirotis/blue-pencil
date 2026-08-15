@@ -31,7 +31,11 @@ An academic-editor skill for AI coding agents such as [Claude Code](https://clau
 
    > Revise the introduction in `intro.tex` so it flows better.
 
-Every run returns four sections: **Diagnosis**, **Revised text**, **Change rationale**, and **Author questions**. See [`examples/worked-example.md`](examples/worked-example.md) for a complete run; the other files in `examples/` show more scenarios.
+A full run returns four sections: **Diagnosis**, **Revised text**, **Change
+rationale**, and **Author questions**. The explicit quick pass returns its
+shorter three-part contract. See
+[`examples/worked-example.md`](examples/worked-example.md) for a complete full
+run; the other files in `examples/` show more scenarios.
 
 Using claude.ai or another chat surface instead of a coding agent? Skip the installer: paste `SKILL.md` into the conversation along with your section.
 
@@ -89,10 +93,10 @@ To register the commands in every project instead of one repo, run `install.sh -
 Blue Pencil edits prose but does not execute analyses or retrieve literature.
 Install these separately when you need those capabilities:
 
-- [`paper-analyst`](https://github.com/ipeirotis/paper-analyst) verifies reported
+- [`facts-and-figures`](https://github.com/ipeirotis/facts-and-figures) verifies reported
   numbers against a repository's analysis pipeline, regenerates figures from
   unchanged data, and runs analyses explicitly specified by the author.
-- [`paper-scholar`](https://github.com/ipeirotis/paper-scholar) retrieves and
+- [`citation-needed`](https://github.com/ipeirotis/citation-needed) retrieves and
   reads sources to audit citations and identify prior-work leads.
 
 The skills are independent: installing Blue Pencil does not install or invoke

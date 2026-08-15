@@ -16,11 +16,13 @@ Preset triage, so do not ask for confirmation when a passage is present:
   whether the stored stage permits more. Preserve paragraph order and
   boundaries, claims, citations, numbers, math, and quoted text.
 
-Use available paper context. Ask once only if `audience` or `revision_stage` is
-missing and materially changes a safe edit; otherwise use the skill's stated
-conservative defaults and report them briefly. Run the applicable
-sentence-level reference passes. Return exactly `Revised text`, `Top changes`
-(at most three bullets plus `References loaded:`), and `Author questions`.
+Use available paper context. If `audience` or `revision_stage` is missing, ask
+once before editing. Only if the author declines or answers partially, use the
+skill's conservative defaults; put `Assumed context: ...` as the first line
+under `Top changes` so the compact output does not need a Diagnosis section.
+Run the applicable sentence-level reference passes. Return exactly `Revised
+text`, `Top changes` (at most three bullets plus `References loaded:`), and
+`Author questions`.
 
 Passage to edit:
 

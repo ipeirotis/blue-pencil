@@ -541,6 +541,8 @@ Diagnosis, word count, reader map, voice extraction, and per-change ledger. All
 hard constraints, paper-context rules, reference gates, and author-question
 rules still apply. If the passage needs structural work, do not attempt it in
 quick mode: say so in `Author questions` and recommend the full revision pass.
+When context defaults are used after the single context ask, put the required
+`Assumed context:` line first under `Top changes`.
 
 ### 1. Diagnosis
 

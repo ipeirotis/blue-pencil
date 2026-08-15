@@ -21,7 +21,7 @@ so they no longer load through or install with the editorial skill.
 
 - Tightened the skill description, scope boundaries, examples, whole-paper
   loop, installer tests, and user documentation around editorial work only.
-- Linked the independently installable `paper-analyst` and `paper-scholar`
+- Linked the independently installable `facts-and-figures` and `citation-needed`
   repositories from the user documentation without coupling their workflows
   back into Blue Pencil.
 - Made `/paper:revise` the documented default, added a command-by-intent guide,
