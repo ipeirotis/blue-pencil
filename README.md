@@ -123,11 +123,13 @@ Running `--update` from inside a paper repo refreshes that repo automatically,
 but it cannot safely discover other paper repositories on your machine.
 
 Pinning to a release that predates the bundled commands removes the registered
-command sets for compatibility and remembers your opt-in. The pinned checkout's
-own `install.sh` is that older release's and cannot restore them, so return via
-the curl one-liner (it always runs the current installer), or run `--commands`
-(and `--init` in each initialized paper repo) after updating; the downgrade
-prints this same note.
+command sets for compatibility and remembers your opt-in, whether the pin runs
+as an install or an update. The pinned checkout's own `install.sh` is that
+older release's and cannot restore them, and a pin to a tag or commit stays
+sticky, so a bare update selects the old ref again. Return with the curl
+one-liner and an explicit newer ref, `bash -s -- --update --ref main`, or run
+`--commands` (and `--init` in each initialized paper repo) after updating; the
+downgrade prints this same note.
 
 If you installed this under its old name, `paper-revision-editor`, running any `install.sh` mode once migrates the install in place; usage is unchanged.
 

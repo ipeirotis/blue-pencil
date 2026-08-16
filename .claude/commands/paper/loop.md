@@ -65,9 +65,17 @@ file as described above), and return a plan with exactly these parts:
 
 1. **Paper context:** found or missing. If the block is missing, or either
    operational field (`audience`, `revision_stage`) is absent or ambiguous,
-   stop here and tell the author to run `install.sh --init` or fill those
-   fields by hand. Do not guess. `target_venue` and `core_thesis` are optional
-   context, per the skill's context gate: an absent one never blocks the loop.
+   ask once, in a single message, for both, inviting the optional venue and
+   thesis in the same message and suggesting `install.sh --init` (or editing
+   the block) so the answers persist. If the author declines or answers
+   partially, do not stop: apply the skill's context fallback, one
+   conservative default per field (the skill's reader model for audience; for
+   the stage, the restrictive-only inference from unambiguous signals, else
+   `final polish`, never an unconfirmed `first draft`), record every assumed
+   value in this plan, and carry it in each dispatch so the isolated passes
+   open with the same `Assumed context:` line instead of re-asking. Do not
+   guess beyond those stated defaults. `target_venue` and `core_thesis` are
+   optional context, per the skill's context gate: an absent one never blocks the loop.
    Record it as unknown in this plan, carry that in every dispatch so each
    isolated pass opens with its required `Assumed context:` line, and skip
    only the checks that need the missing field: with no `core_thesis`, the

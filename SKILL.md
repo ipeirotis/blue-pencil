@@ -305,10 +305,13 @@ stage: the every-pass entries still run (the logic and structural checks and
 the section lens as checks, line and sentence craft, the compress-only half of
 subtraction, the style scrub, and copyediting), the restructuring passes are
 gated off, and a structural problem a check surfaces is routed to `Author
-questions` per the compact contract rather than fixed. A stage that is more
-restrictive still binds: a quick pass at `response to reviewers` edits only
-inside the flagged paragraphs and their immediate neighbours. The kept set is
-recorded on the `References loaded:` line under `Top changes`.
+questions` per the compact contract rather than fixed. One stage does not
+compose with the compact contract: at `response to reviewers` the mandatory
+comment-to-paragraph mapping and the reviewer-labeled findings have no home in
+the three quick-pass sections, so an explicit quick pass at that stage does
+not run; decline it and route the author to `/paper:rebut`, whose output
+carries the mapping. The kept set is recorded on the `References loaded:` line
+under `Top changes`.
 
 Two references sit outside this per-section sweep and drive their own
 whole-paper passes: `cold-read.md` (the `/paper:read` whole-paper cold read) and
@@ -554,7 +557,10 @@ and the revision sweep runs at its quick-pass narrowing (see The revision
 sweep): the same deterministic pass set as `final polish`, whatever the stored
 stage, with the kept set recorded on the `References loaded:` line. If the
 passage needs structural work, do not attempt it in quick mode: say so in
-`Author questions` and recommend the full revision pass.
+`Author questions` and recommend the full revision pass. A quick pass does not
+run at `response to reviewers`: the stage's mandatory comment-to-paragraph
+mapping has no home in the compact output, so decline and recommend
+`/paper:rebut` (see The revision sweep).
 When context defaults are used after the single context ask, put the required
 `Assumed context:` line first under `Top changes`.
 

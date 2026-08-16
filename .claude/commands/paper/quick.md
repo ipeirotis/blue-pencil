@@ -23,8 +23,12 @@ under `Top changes` so the compact output does not need a Diagnosis section.
 Drive the revision sweep at its quick-pass narrowing (the "The revision sweep"
 section of `SKILL.md`): the same deterministic pass set as `final polish`,
 whatever the stored stage, with structural findings routed to `Author
-questions` rather than fixed. Return exactly `Revised text`, `Top changes` (at
-most three bullets plus `References loaded:`), and `Author questions`.
+questions` rather than fixed. If the stored or inferred stage is `response to
+reviewers`, do not edit: per the skill's quick-pass contract, decline and
+route the author to `/paper:rebut`, whose output carries the mandatory
+comment-to-paragraph mapping the compact sections cannot. Otherwise return
+exactly `Revised text`, `Top changes` (at most three bullets plus `References
+loaded:`), and `Author questions`.
 
 Passage to edit:
 

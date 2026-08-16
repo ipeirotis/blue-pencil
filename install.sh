@@ -507,12 +507,89 @@ run_install() {
   echo "Installing $SKILL_NAME from $src"
   ensure_skill_linked "$src" \
     || { echo "ERROR: could not link $SKILL_NAME into all targets (see above)." >&2; exit 1; }
+  # An install can change the checked-out content too (the documented
+  # `--ref vX.Y.Z` pin runs in this mode, and a reinstall may fast-forward the
+  # cache), so bring the registered command sets along exactly as --update
+  # does. On a fresh machine nothing is registered and this is a no-op.
+  refresh_registered_commands "$src"
   echo
   local installer
   installer="$(installer_path "$src")"
   echo "Done. Run '$installer --check' to verify."
   echo "For Claude Code /paper: slash commands, run '$installer --init' in your paper repo"
   echo "(or '$installer --commands' to enable them in every project)."
+}
+
+# Bring every registered command set in line with what the checkout at <src>
+# now serves. Any mode that changes (or may have changed) the checked-out
+# content must call this, install and update alike: the documented
+# `install.sh --ref vX.Y.Z` runs as MODE=install, so leaving this to --update
+# would let a pinned downgrade keep stale /paper:* copies registered against a
+# checkout missing their agents and references, with no recovery notice.
+#
+# Global set: refresh when the checkout ships commands; on a commandless
+# (older) ref, remove the manifested set and keep the registration marker, so
+# the temporary downgrade is not an opt-out. Gate on the install manifest, not
+# just the directory's existence: a user's own ~/.claude/commands/paper that
+# this installer never registered has no manifest and must not be backed up
+# and overwritten. Project-local set: same branches for the current repo (the
+# only one discoverable safely), after migrating a pre-rename repo's manifest
+# and marker onto the names the gate reads. On any removal, print the way
+# back: the checkout's own install.sh is the older release's and predates the
+# marker-driven restore, and a pin to a tag or commit is sticky (resolve_ref
+# keeps it), so a bare update through either installer selects the old ref
+# again. Only a current installer told an explicit newer ref restores the
+# sets, and this run is the last moment current code executes.
+refresh_registered_commands() {
+  local src="$1" downgraded=0
+  if [ -f "$HOME/.claude/$MANIFEST_REL" ] || [ -f "$HOME/.claude/$COMMANDS_MARKER_REL" ]; then
+    if [ -d "$src/.claude/commands/paper" ]; then
+      install_commands "$HOME" "$src"
+      # Record the opt-in so a later downgrade-then-upgrade round trip restores
+      # the commands even though the intervening downgrade drops the manifest.
+      mark_commands_registered "$HOME"
+    else
+      echo "Target ref ships no paper: commands; removing the previously registered global set."
+      remove_commands "$HOME"
+      mark_commands_registered "$HOME"
+      downgraded=1
+    fi
+  elif [ -d "$HOME/.claude/commands/paper" ]; then
+    # A pre-manifest install: an older installer copied paper: commands here
+    # without recording a manifest, so we cannot tell our files from the user's
+    # own and must not back up and overwrite them. Rather than let those
+    # commands drift stale and silent, point the user at the one safe,
+    # explicit action that adopts them for automatic refresh going forward.
+    echo "Note: found paper: commands in $HOME/.claude/commands/paper with no install manifest."
+    echo "      They are left as-is. Run '$(installer_path "$src") --commands'"
+    echo "      once to register them for automatic updates (your own paper: files are backed up, not lost)."
+  fi
+
+  local cwd_root=""
+  cwd_root="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ]; then
+    migrate_old_manifests "$cwd_root/.claude"
+  fi
+  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ] && { [ -f "$cwd_root/.claude/$MANIFEST_REL" ] || [ -f "$cwd_root/.claude/$COMMANDS_MARKER_REL" ]; }; then
+    if [ -d "$src/.claude/commands/paper" ]; then
+      echo "Refreshing project-local paper: commands in $cwd_root"
+      install_commands "$cwd_root" "$src"
+    else
+      echo "Target ref ships no paper: commands; removing the project-local managed set in $cwd_root."
+      remove_commands "$cwd_root"
+      mark_commands_registered "$cwd_root"
+      downgraded=1
+    fi
+  fi
+
+  if [ "$downgraded" -eq 1 ]; then
+    echo
+    echo "Note: this ref's own install.sh predates the command restore, and a pin to a tag"
+    echo "      or commit stays sticky, so a bare update cannot bring the commands back."
+    echo "      Return with the current installer and an explicit newer ref:"
+    echo "        curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash -s -- --update --ref main"
+    echo "      (or run --commands, and --init in each initialized paper repo, after updating)."
+  fi
 }
 
 run_update() {
@@ -531,7 +608,7 @@ run_update() {
     src="$CACHE_DIR"
   fi
 
-  local before before_sha ref downgraded=0
+  local before before_sha ref
   before="$(cat "$src/VERSION" 2>/dev/null || echo unknown)"
   before_sha="$(git -C "$src" rev-parse --short HEAD 2>/dev/null || echo unknown)"
   ref="$(resolve_ref "$src")"
@@ -547,84 +624,10 @@ run_update() {
   ensure_skill_linked "$src" \
     || { echo "ERROR: could not link $SKILL_NAME into all targets (see above)." >&2; exit 1; }
 
-  # If the global paper: commands were enabled with --commands, refresh them too.
-  # The skill symlink alone does not carry command changes, since Claude Code does
-  # not read commands from inside the skill; without this, a new or changed command
-  # would be missing even though --update reports the skill is current. Skip when
-  # the target ref does not ship command files (e.g. pinning an older release),
-  # so the documented ref change does not abort half-applied. Gate on the install
-  # manifest, not just the directory's existence: a user's own ~/.claude/commands/paper
-  # that this installer never registered has no manifest, and a plain skill update
-  # must not back up and overwrite their custom paper: commands.
-  if [ -f "$HOME/.claude/$MANIFEST_REL" ] || [ -f "$HOME/.claude/$COMMANDS_MARKER_REL" ]; then
-    if [ -d "$src/.claude/commands/paper" ]; then
-      install_commands "$HOME" "$src"
-      # Record the opt-in so a later downgrade-then-upgrade round trip restores
-      # the commands even though the intervening downgrade drops the manifest.
-      mark_commands_registered "$HOME"
-    else
-      # The target ref predates the bundled paper: commands (a downgrade or a
-      # pin to an older release). Leaving the previously registered global set
-      # in place would keep stale /paper:* commands resolving against a skill
-      # version that no longer ships their lanes and reference files, so remove
-      # the manifested set instead of silently leaving an incompatible one. Keep
-      # the registration marker, though: the user never ran --uninstall, so a
-      # future --update onto a ref that ships commands must restore them rather
-      # than treat this temporary downgrade as an opt-out. That future update
-      # must be driven by a current installer; the downgrade notice at the end
-      # of this run names the exact way back.
-      echo "Target ref ships no paper: commands; removing the previously registered global set."
-      remove_commands "$HOME"
-      mark_commands_registered "$HOME"
-      downgraded=1
-    fi
-  elif [ -d "$HOME/.claude/commands/paper" ]; then
-    # A pre-manifest install: an older installer copied paper: commands here
-    # without recording a manifest, so we cannot tell our files from the user's
-    # own and must not back up and overwrite them on a plain update. Rather than
-    # let those commands drift stale and silent, point the user at the one safe,
-    # explicit action that adopts them for automatic refresh going forward.
-    echo "Note: found paper: commands in $HOME/.claude/commands/paper with no install manifest."
-    echo "      A plain --update leaves them as-is. Run '$(installer_path "$src") --commands'"
-    echo "      once to register them for automatic updates (your own paper: files are backed up, not lost)."
-  fi
-
-  # Project-local commands are copies, not links. Refresh the current paper
-  # repo when --update is invoked from it. Other initialized repos cannot be
-  # discovered safely, so the v2-to-v3 notice below gives the explicit step.
-  # Migrate a pre-rename repo's manifest and marker onto the new names first:
-  # the gate below reads only the new names, so without this a repo initialized
-  # before the rename would be skipped, its stale copied commands never
-  # refreshed or pruned.
-  local cwd_root=""
-  cwd_root="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null || true)"
-  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ]; then
-    migrate_old_manifests "$cwd_root/.claude"
-  fi
-  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ] && { [ -f "$cwd_root/.claude/$MANIFEST_REL" ] || [ -f "$cwd_root/.claude/$COMMANDS_MARKER_REL" ]; }; then
-    if [ -d "$src/.claude/commands/paper" ]; then
-      echo "Refreshing project-local paper: commands in $cwd_root"
-      install_commands "$cwd_root" "$src"
-    else
-      echo "Target ref ships no paper: commands; removing the project-local managed set in $cwd_root."
-      remove_commands "$cwd_root"
-      mark_commands_registered "$cwd_root"
-      downgraded=1
-    fi
-  fi
-
-  # The checkout now holds the older release's install.sh, which predates the
-  # marker-driven restore and the project refresh: an update back run through
-  # it would sync the clone yet leave /paper:* absent despite the kept markers.
-  # This (newer) code is the last that knows the way back, so say it now
-  # rather than promise an automatic restore the older installer cannot keep.
-  if [ "$downgraded" -eq 1 ]; then
-    echo
-    echo "Note: this ref's own install.sh predates the command restore, so updating back"
-    echo "      through it will not bring the commands back. Return with the curl one-liner"
-    echo "      from the README (it always runs the current installer), or run --commands"
-    echo "      (and --init in each initialized paper repo) after updating."
-  fi
+  # The skill symlink alone does not carry command changes: Claude Code does
+  # not read commands from inside the skill, so registered copies must follow
+  # the checkout explicitly.
+  refresh_registered_commands "$src"
 
   echo
   if [ "$before_sha" = "$after_sha" ]; then

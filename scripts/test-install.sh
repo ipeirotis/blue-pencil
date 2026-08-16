@@ -498,6 +498,8 @@ test_downgrade_marker() {
   printf '1.14.0\n' > "$up/VERSION"
   git -C "$up" add install.sh VERSION
   git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "drop bundled commands"
+  # Tag the old release for the install-mode pin phase below.
+  git -C "$up" tag v1.14.0
   local down_out
   down_out="$(cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update </dev/null 2>&1)"
 
@@ -526,6 +528,33 @@ test_downgrade_marker() {
   assert_file "$ctx/$MANIFEST_REL" "downgrade: manifest rewritten on restore"
   assert_file "$paper/.claude/commands/paper/loop.md" "downgrade: project-local commands restored via marker"
   assert_file "$paper/.claude/$MANIFEST_REL" "downgrade: project-local manifest restored"
+
+  # The documented `--ref vX.Y.Z` pin runs as MODE=install, not update, and a
+  # tag pin detaches the clone so the old ref stays sticky. Downgrade again
+  # through exactly that path (a current installer on stdin pinning the old
+  # tag) and assert the same cleanup and notice fire; then recover the way the
+  # notice prescribes, a current installer told an explicit newer ref.
+  local pin_out
+  pin_out="$(cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$clone" bash -s -- --ref v1.14.0 < "$REPO_ROOT/install.sh" 2>&1)"
+
+  case "$pin_out" in
+    *"predates the command restore"*) ok ;;
+    *) no "ref-pin: install-mode downgrade names the way back" ;;
+  esac
+  case "$pin_out" in
+    *"--update --ref main"*) ok ;;
+    *) no "ref-pin: notice carries an explicit newer ref" ;;
+  esac
+  assert_grep "$clone/VERSION" "1.14.0" "ref-pin: clone pinned to the old tag"
+  assert_no_file "$ctx/commands/paper/loop.md" "ref-pin: global command removed by install-mode pin"
+  assert_no_file "$paper/.claude/commands/paper/loop.md" "ref-pin: project-local command removed by install-mode pin"
+  assert_file "$ctx/$COMMANDS_MARKER_REL" "ref-pin: global marker kept"
+  assert_file "$paper/.claude/$COMMANDS_MARKER_REL" "ref-pin: project-local marker kept"
+
+  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$clone" bash -s -- --update --ref test-marker < "$REPO_ROOT/install.sh" >/dev/null 2>&1 )
+
+  assert_file "$ctx/commands/paper/loop.md" "ref-pin: commands restored with an explicit newer ref"
+  assert_file "$paper/.claude/commands/paper/loop.md" "ref-pin: project-local commands restored with an explicit newer ref"
 
   rm -rf "$sb"
 }

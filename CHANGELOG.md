@@ -63,6 +63,23 @@ so they no longer load through or install with the editorial skill.
   the README. The downgrade installer test now models a genuinely old release
   (stub installer, old version) and exercises the marker-driven restore
   through a current installer, the path the notice prescribes.
+- Extended the downgrade cleanup to the documented install-mode pin and made
+  the recovery command exact: `--ref vX.Y.Z` without `--update` now runs the
+  same registered-command refresh (factored into `refresh_registered_commands`,
+  which install and update both call), and the printed way back names an
+  explicit newer ref (`--update --ref main`), since a tag or commit pin stays
+  sticky and a bare update would select the old ref again. The downgrade test
+  now also pins the old tag through install mode and recovers with an explicit
+  newer ref.
+- Preserved the ask-once fallback in `/paper:loop`: a missing operational
+  field now triggers the skill's single combined question, and a decline or
+  partial answer proceeds on the skill's conservative defaults carried into
+  every dispatch, instead of terminating the loop with an instruction to edit
+  files.
+- Closed the quick-pass and reviewer-stage conflict: an explicit quick pass at
+  `response to reviewers` is declined and routed to `/paper:rebut`, since the
+  stage's mandatory comment-to-paragraph mapping has no home in the compact
+  three-section output.
 - `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report
   3.0.0.
 
