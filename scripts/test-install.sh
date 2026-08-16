@@ -454,8 +454,14 @@ DOC
 
 # --- Scenario 10: registration survives a downgrade round trip -----------------
 # A ref that ships no paper: commands removes the global set (and its manifest),
-# but the registration marker must persist so a later --update onto a ref that
+# but the registration marker must persist so a later update onto a ref that
 # ships commands restores them, rather than treating the downgrade as an opt-out.
+# The downgraded ref is a genuinely old release: its install.sh is a stub with
+# none of the restore logic, not the current tree minus a directory. So the
+# downgrade run (still executed by current code) must name the way back, and the
+# restoring update must go through a current installer, the curl one-liner path
+# the notice prescribes, exercised here by feeding the working-tree installer to
+# bash on stdin with the managed clone as its cache.
 test_downgrade_marker() {
   local sb up clone paper; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"; paper="$sb/paper"
   # Build the upstream from the working tree (not a clone of REPO_ROOT's commit),
@@ -483,11 +489,23 @@ test_downgrade_marker() {
   printf 'commands/paper/loop.md\n' > "$paper/.claude/$MANIFEST_REL"
   : > "$paper/.claude/$COMMANDS_MARKER_REL"
 
-  # Downgrade: upstream drops the bundled commands entirely.
+  # Downgrade: upstream drops the bundled commands entirely, and its installer
+  # is an old stub with no marker or project-refresh logic, like a real
+  # pre-commands release. The removal itself still runs in current code (the
+  # invoked install.sh was read before the sync swapped the file).
   git -C "$up" rm -q -r .claude/commands/paper
+  printf '#!/usr/bin/env bash\necho "old installer: no restore logic"\n' > "$up/install.sh"
+  printf '1.14.0\n' > "$up/VERSION"
+  git -C "$up" add install.sh VERSION
   git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "drop bundled commands"
-  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update >/dev/null 2>&1 )
+  local down_out
+  down_out="$(cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update </dev/null 2>&1)"
 
+  case "$down_out" in
+    *"predates the command restore"*) ok ;;
+    *) no "downgrade: removal names the explicit way back" ;;
+  esac
+  assert_grep "$clone/VERSION" "1.14.0" "downgrade: clone checked out the old release"
   assert_no_file "$ctx/commands/paper/loop.md" "downgrade: incompatible command removed"
   assert_no_file "$ctx/$MANIFEST_REL" "downgrade: manifest dropped with the commands"
   assert_file "$ctx/$COMMANDS_MARKER_REL" "downgrade: marker kept across the downgrade"
@@ -495,9 +513,14 @@ test_downgrade_marker() {
   assert_no_file "$paper/.claude/$MANIFEST_REL" "downgrade: project-local manifest dropped"
   assert_file "$paper/.claude/$COMMANDS_MARKER_REL" "downgrade: project-local marker kept"
 
-  # Upgrade back: upstream restores the commands; the marker must drive a refresh.
+  # Upgrade back: upstream restores the commands; the marker must drive a
+  # refresh. Run it the way the downgrade notice prescribes: through a current
+  # installer (the curl one-liner path, emulated by feeding the working-tree
+  # install.sh to bash on stdin) with the managed clone as its cache. The
+  # clone's own install.sh is the old stub at this point, which is the point:
+  # only a current installer knows to read the markers and restore the sets.
   git -C "$up" -c user.email=t@example.com -c user.name=test revert --no-edit HEAD >/dev/null 2>&1
-  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update >/dev/null 2>&1 )
+  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$clone" bash -s -- --update < "$REPO_ROOT/install.sh" >/dev/null 2>&1 )
 
   assert_file "$ctx/commands/paper/loop.md" "downgrade: commands restored on upgrade via marker"
   assert_file "$ctx/$MANIFEST_REL" "downgrade: manifest rewritten on restore"

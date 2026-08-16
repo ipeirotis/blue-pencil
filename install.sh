@@ -65,6 +65,10 @@ MANIFEST_REL=".blue-pencil-manifest"
 # ships no command files) can remove the incompatible commands while remembering
 # that the user opted in. A later --update back to a ref that ships commands then
 # restores them, instead of leaving /paper:* absent as if --uninstall had run.
+# The restoring update must run through an installer recent enough to read the
+# marker: the curl one-liner always is, while the downgraded checkout's own
+# install.sh is that older release's and is not, which run_update's downgrade
+# notice says out loud.
 # Cleared only by --uninstall. Not a *.md file, so Claude Code's scan ignores it.
 COMMANDS_MARKER_REL=".blue-pencil-commands-registered"
 # Pre-rename names for the two files above, carried across by migrate_old_install.
@@ -527,7 +531,7 @@ run_update() {
     src="$CACHE_DIR"
   fi
 
-  local before before_sha ref
+  local before before_sha ref downgraded=0
   before="$(cat "$src/VERSION" 2>/dev/null || echo unknown)"
   before_sha="$(git -C "$src" rev-parse --short HEAD 2>/dev/null || echo unknown)"
   ref="$(resolve_ref "$src")"
@@ -566,10 +570,13 @@ run_update() {
       # the manifested set instead of silently leaving an incompatible one. Keep
       # the registration marker, though: the user never ran --uninstall, so a
       # future --update onto a ref that ships commands must restore them rather
-      # than treat this temporary downgrade as an opt-out.
-      echo "Target ref ships no paper: commands; removing the previously registered global set (a later update restores it)."
+      # than treat this temporary downgrade as an opt-out. That future update
+      # must be driven by a current installer; the downgrade notice at the end
+      # of this run names the exact way back.
+      echo "Target ref ships no paper: commands; removing the previously registered global set."
       remove_commands "$HOME"
       mark_commands_registered "$HOME"
+      downgraded=1
     fi
   elif [ -d "$HOME/.claude/commands/paper" ]; then
     # A pre-manifest install: an older installer copied paper: commands here
@@ -602,7 +609,21 @@ run_update() {
       echo "Target ref ships no paper: commands; removing the project-local managed set in $cwd_root."
       remove_commands "$cwd_root"
       mark_commands_registered "$cwd_root"
+      downgraded=1
     fi
+  fi
+
+  # The checkout now holds the older release's install.sh, which predates the
+  # marker-driven restore and the project refresh: an update back run through
+  # it would sync the clone yet leave /paper:* absent despite the kept markers.
+  # This (newer) code is the last that knows the way back, so say it now
+  # rather than promise an automatic restore the older installer cannot keep.
+  if [ "$downgraded" -eq 1 ]; then
+    echo
+    echo "Note: this ref's own install.sh predates the command restore, so updating back"
+    echo "      through it will not bring the commands back. Return with the curl one-liner"
+    echo "      from the README (it always runs the current installer), or run --commands"
+    echo "      (and --init in each initialized paper repo) after updating."
   fi
 
   echo

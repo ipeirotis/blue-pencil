@@ -55,6 +55,14 @@ so they no longer load through or install with the editorial skill.
   marker onto the blue-pencil names before refreshing, so a repo initialized
   before the v2 rename is refreshed and its removed analyst and scholar
   commands are pruned, instead of being skipped or treated as user files.
+- Named the way back from a commandless downgrade instead of promising an
+  automatic restore the older checkout cannot keep: pinning to a release that
+  predates the bundled commands now prints that the checked-out `install.sh`
+  predates the command restore, pointing at the curl one-liner (or
+  `--commands` and per-repo `--init` after updating), with the same note in
+  the README. The downgrade installer test now models a genuinely old release
+  (stub installer, old version) and exercises the marker-driven restore
+  through a current installer, the path the notice prescribes.
 - `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report
   3.0.0.
 
