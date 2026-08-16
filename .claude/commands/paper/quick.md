@@ -20,9 +20,11 @@ Use available paper context. If `audience` or `revision_stage` is missing, ask
 once before editing. Only if the author declines or answers partially, use the
 skill's conservative defaults; put `Assumed context: ...` as the first line
 under `Top changes` so the compact output does not need a Diagnosis section.
-Run the applicable sentence-level reference passes. Return exactly `Revised
-text`, `Top changes` (at most three bullets plus `References loaded:`), and
-`Author questions`.
+Drive the revision sweep at its quick-pass narrowing (the "The revision sweep"
+section of `SKILL.md`): the same deterministic pass set as `final polish`,
+whatever the stored stage, with structural findings routed to `Author
+questions` rather than fixed. Return exactly `Revised text`, `Top changes` (at
+most three bullets plus `References loaded:`), and `Author questions`.
 
 Passage to edit:
 

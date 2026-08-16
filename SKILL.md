@@ -299,6 +299,17 @@ passes: line craft, style, copyediting, and the compress-only half of
 subtraction. At `response to reviewers` every kept pass runs, but only inside the
 flagged paragraphs and their immediate neighbours.
 
+An explicit quick pass (`/paper:quick`, or a request for a brief, lightweight
+edit) narrows the sweep exactly as `final polish` does, whatever the stored
+stage: the every-pass entries still run (the logic and structural checks and
+the section lens as checks, line and sentence craft, the compress-only half of
+subtraction, the style scrub, and copyediting), the restructuring passes are
+gated off, and a structural problem a check surfaces is routed to `Author
+questions` per the compact contract rather than fixed. A stage that is more
+restrictive still binds: a quick pass at `response to reviewers` edits only
+inside the flagged paragraphs and their immediate neighbours. The kept set is
+recorded on the `References loaded:` line under `Top changes`.
+
 Two references sit outside this per-section sweep and drive their own
 whole-paper passes: `cold-read.md` (the `/paper:read` whole-paper cold read) and
 `consistency-checks.md` (the `/paper:consistency` cross-section check). Do not
@@ -538,9 +549,12 @@ rewrite conservative and sentence-level: do not reorder or split paragraphs,
 add explanatory substance, or make structural cuts. Under `Top changes`, give
 at most three bullets and end with one `References loaded:` line. Omit the full
 Diagnosis, word count, reader map, voice extraction, and per-change ledger. All
-hard constraints, paper-context rules, reference gates, and author-question
-rules still apply. If the passage needs structural work, do not attempt it in
-quick mode: say so in `Author questions` and recommend the full revision pass.
+hard constraints, paper-context rules, and author-question rules still apply,
+and the revision sweep runs at its quick-pass narrowing (see The revision
+sweep): the same deterministic pass set as `final polish`, whatever the stored
+stage, with the kept set recorded on the `References loaded:` line. If the
+passage needs structural work, do not attempt it in quick mode: say so in
+`Author questions` and recommend the full revision pass.
 When context defaults are used after the single context ask, put the required
 `Assumed context:` line first under `Top changes`.
 

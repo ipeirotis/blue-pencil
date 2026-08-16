@@ -399,6 +399,33 @@ installer_path() {
   echo "$1/install.sh"
 }
 
+# Carry a .claude tree's install manifest and registration marker across the
+# rename. The manifest is what marks previously copied command and agent files
+# as ours; without it the next refresh would treat them as the user's own,
+# leaving files the old installer placed (including since-removed commands)
+# registered forever and backing up refreshed ones as .bak. Idempotent, safe on
+# a tree with neither file. Used for $HOME/.claude by migrate_old_install, and
+# for a paper repo's own .claude by the project-local paths (--init and the
+# --update refresh), which the global migration cannot reach.
+migrate_old_manifests() {
+  local claude_dir="$1"
+  if [ -f "$claude_dir/$OLD_MANIFEST_REL" ]; then
+    if [ ! -f "$claude_dir/$MANIFEST_REL" ]; then
+      mv "$claude_dir/$OLD_MANIFEST_REL" "$claude_dir/$MANIFEST_REL"
+      echo "Migrated install manifest to $claude_dir/$MANIFEST_REL"
+    else
+      rm -f "$claude_dir/$OLD_MANIFEST_REL"
+    fi
+  fi
+  if [ -f "$claude_dir/$OLD_COMMANDS_MARKER_REL" ]; then
+    if [ ! -f "$claude_dir/$COMMANDS_MARKER_REL" ]; then
+      mv "$claude_dir/$OLD_COMMANDS_MARKER_REL" "$claude_dir/$COMMANDS_MARKER_REL"
+    else
+      rm -f "$claude_dir/$OLD_COMMANDS_MARKER_REL"
+    fi
+  fi
+}
+
 # One-time migration from the pre-rename identity. A pre-v2.0.0 install left
 # old-name symlinks in the skill directories, a managed clone at the old
 # location with origin pointing at the old repository URL, and manifests under
@@ -446,25 +473,11 @@ migrate_old_install() {
       echo "Removed pre-rename copy-mode install: $dest"
     fi
   done
-  # Carry the install manifest and the registration marker across the rename.
-  # The manifest is what marks previously copied command and agent files as
-  # ours; without it the next refresh would treat them as the user's own and
-  # back them up as .bak instead of updating them in place.
-  if [ -f "$HOME/.claude/$OLD_MANIFEST_REL" ]; then
-    if [ ! -f "$HOME/.claude/$MANIFEST_REL" ]; then
-      mv "$HOME/.claude/$OLD_MANIFEST_REL" "$HOME/.claude/$MANIFEST_REL"
-      echo "Migrated install manifest to $HOME/.claude/$MANIFEST_REL"
-    else
-      rm -f "$HOME/.claude/$OLD_MANIFEST_REL"
-    fi
-  fi
-  if [ -f "$HOME/.claude/$OLD_COMMANDS_MARKER_REL" ]; then
-    if [ ! -f "$HOME/.claude/$COMMANDS_MARKER_REL" ]; then
-      mv "$HOME/.claude/$OLD_COMMANDS_MARKER_REL" "$HOME/.claude/$COMMANDS_MARKER_REL"
-    else
-      rm -f "$HOME/.claude/$OLD_COMMANDS_MARKER_REL"
-    fi
-  fi
+  # Carry the global install manifest and registration marker across the
+  # rename. Project-local trees carry their own copies of these files; the
+  # project paths (--init and the --update refresh) migrate the repo they act
+  # on, since other initialized repos cannot be discovered safely from here.
+  migrate_old_manifests "$HOME/.claude"
 }
 
 run_install() {
@@ -572,8 +585,15 @@ run_update() {
   # Project-local commands are copies, not links. Refresh the current paper
   # repo when --update is invoked from it. Other initialized repos cannot be
   # discovered safely, so the v2-to-v3 notice below gives the explicit step.
+  # Migrate a pre-rename repo's manifest and marker onto the new names first:
+  # the gate below reads only the new names, so without this a repo initialized
+  # before the rename would be skipped, its stale copied commands never
+  # refreshed or pruned.
   local cwd_root=""
   cwd_root="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ]; then
+    migrate_old_manifests "$cwd_root/.claude"
+  fi
   if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ] && { [ -f "$cwd_root/.claude/$MANIFEST_REL" ] || [ -f "$cwd_root/.claude/$COMMANDS_MARKER_REL" ]; }; then
     if [ -d "$src/.claude/commands/paper" ]; then
       echo "Refreshing project-local paper: commands in $cwd_root"
@@ -878,6 +898,11 @@ run_init() {
   migrate_old_install
   local repo_root
   repo_root="$(git rev-parse --show-toplevel)"
+  # A repo initialized before the v2 rename carries its manifest and marker
+  # under the old hidden names, which install_commands below does not read.
+  # Carry them across first, so the refresh updates and prunes the files the
+  # old installer recorded instead of treating them as the user's own.
+  migrate_old_manifests "$repo_root/.claude"
 
   local src
   src="$(resolve_source)"

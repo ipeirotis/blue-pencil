@@ -63,10 +63,16 @@ Read `<paper_context>` from `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`,
 scan the manuscript for sections (following `\input`/`\include` from a wrapper
 file as described above), and return a plan with exactly these parts:
 
-1. **Paper context:** found or missing. If missing or any of `target_venue`,
-   `audience`, `core_thesis`, `revision_stage` is absent or ambiguous, stop here
-   and tell the author to run `install.sh --init` or fill the four fields by
-   hand. Do not guess.
+1. **Paper context:** found or missing. If the block is missing, or either
+   operational field (`audience`, `revision_stage`) is absent or ambiguous,
+   stop here and tell the author to run `install.sh --init` or fill those
+   fields by hand. Do not guess. `target_venue` and `core_thesis` are optional
+   context, per the skill's context gate: an absent one never blocks the loop.
+   Record it as unknown in this plan, carry that in every dispatch so each
+   isolated pass opens with its required `Assumed context:` line, and skip
+   only the checks that need the missing field: with no `core_thesis`, the
+   colleague-test comparison in Steps E and G; with no `target_venue`, the
+   venue-compliance findings there.
 2. **Current revision stage**, and one line on what it permits (first draft:
    restructuring allowed; response to reviewers: only flagged paragraphs and
    their neighbours; final polish: sentence-level only). If the stage is
@@ -279,15 +285,19 @@ Stop the loop when all of these hold:
   payoff.
 - The Step E closing cold read, run over the full section set, came back
   clean outside the author-approved skip list: no reading-log break points,
-  the colleague test matches `core_thesis`, no must-fix delight or
-  venue-compliance findings, and a dispatch list asking for nothing beyond the
+  the colleague test matches `core_thesis` (with no stored thesis, this
+  comparison is skipped per Step A: report the colleague test's one-sentence
+  summary and have the author confirm it states the paper's point), no
+  must-fix delight findings, no venue-compliance findings (skipped when
+  `target_venue` is absent), and a dispatch list asking for nothing beyond the
   final polish. Findings confined to skipped sections are reported for the
   author's record but do not block the stop; leaving them unfixed was the
   author's Step A call.
 
 Two stop rules compose here. The cold read decides whether the loop dispatches
 another pass: the loop is done when a cold read of the whole paper comes back
-clean outside the skip list and the colleague test matches `core_thesis`. Inside any
+clean outside the skip list and the colleague test matches `core_thesis` (or,
+with no stored thesis, the author confirms its summary). Inside any
 single dispatched pass, the editor's stop rule is unchanged: the correct
 stopping point is not "nothing more can be rewritten" but "the remaining edits
 would be merely different rather than better", so the cold read's pursuit of a

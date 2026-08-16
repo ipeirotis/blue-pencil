@@ -40,6 +40,21 @@ so they no longer load through or install with the editorial skill.
 - Made project-local refresh mirror the global downgrade path when a pinned ref
   ships no commands, and documented why the first update run by a v2 installer
   must be followed by the new v3 `--init` inside each initialized paper repo.
+- Applied the optional-context rule to the whole-paper loop: `/paper:loop`
+  blocks only on the operational fields, records an absent `target_venue` or
+  `core_thesis` as unknown context carried in every dispatch, and skips the
+  colleague-test comparison and the venue-compliance findings in its exit
+  criteria instead of refusing to run.
+- Defined the quick-pass narrowing inside the revision sweep itself: an
+  explicit quick pass runs the same deterministic pass set as `final polish`,
+  whatever the stored stage, with structural findings routed to `Author
+  questions`, so the compact contract, the quick command, and the reviser
+  dispatcher no longer conflict with the sweep's every-pass gates.
+- Migrated pre-rename project-local manifests: `--init` and the `--update`
+  refresh now carry a paper repo's `.paper-revision-editor-*` manifest and
+  marker onto the blue-pencil names before refreshing, so a repo initialized
+  before the v2 rename is refreshed and its removed analyst and scholar
+  commands are pruned, instead of being skipped or treated as user files.
 - `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report
   3.0.0.
 

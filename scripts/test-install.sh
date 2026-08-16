@@ -558,6 +558,77 @@ test_rename_migration() {
   rm -rf "$sb"
 }
 
+# --- Scenario: a pre-rename paper repo migrates its project-local manifest ----
+# A repo initialized by the old paper-revision-editor installer carries its
+# manifest and marker under the old hidden names, recording files v3 no longer
+# ships. The global rename migration only reaches $HOME/.claude, so both
+# project-local paths must carry the repo's own files onto the new names first:
+# --init, and the --update refresh run from inside the repo (whose gate reads
+# only the new names and would otherwise skip the repo entirely). After either
+# path, the stale analyst command recorded in the old manifest is pruned and a
+# managed file is refreshed in place, not preserved as a .bak backup.
+test_project_manifest_migration() {
+  local sb up clone repo1 repo2
+  sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"; repo1="$sb/paper-init"; repo2="$sb/paper-update"
+
+  # The --init path, driven from the working-tree installer.
+  git init -q "$repo1"
+  mkdir -p "$repo1/.claude/commands/paper"
+  cat > "$repo1/AGENTS.md" <<'DOC'
+<paper_context>
+audience: empirical researchers
+revision_stage: final polish
+</paper_context>
+DOC
+  printf '# stale analyst command\n' > "$repo1/.claude/commands/paper/verify-numbers.md"
+  printf '# pre-rename copy\n' > "$repo1/.claude/commands/paper/loop.md"
+  printf 'commands/paper/verify-numbers.md\ncommands/paper/loop.md\n' \
+    > "$repo1/.claude/.paper-revision-editor-manifest"
+
+  ( cd "$repo1" && run_installer "$sb" --init )
+
+  local ctx1="$repo1/.claude"
+  assert_no_file "$ctx1/.paper-revision-editor-manifest" "project-rename: init drops the old manifest name"
+  assert_file "$ctx1/$MANIFEST_REL" "project-rename: init carries the manifest to the new name"
+  assert_no_file "$ctx1/commands/paper/verify-numbers.md" "project-rename: init prunes the stale analyst command"
+  assert_no_file "$ctx1/commands/paper/loop.md.bak" "project-rename: init refreshes the managed file without a backup"
+  assert_no_grep "$ctx1/commands/paper/loop.md" "pre-rename copy" "project-rename: init updates the managed file in place"
+  assert_no_grep "$ctx1/$MANIFEST_REL" "commands/paper/verify-numbers.md" "project-rename: new manifest drops the pruned command"
+
+  # The --update path, driven from a private clone so the developer checkout is
+  # never fetched or fast-forwarded (same pattern as the downgrade scenario).
+  mkdir -p "$up"
+  git -C "$up" init -q
+  cp "$REPO_ROOT/install.sh" "$REPO_ROOT/SKILL.md" "$REPO_ROOT/VERSION" "$up/"
+  cp -R "$REPO_ROOT/.claude" "$up/.claude"
+  git -C "$up" add -A
+  git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "baseline"
+  git -C "$up" checkout -q -B test-project-rename
+  git clone -q --branch test-project-rename "$up" "$clone" 2>/dev/null
+  if [ ! -d "$clone/.git" ]; then
+    no "project-rename: could not build a local clone"
+    rm -rf "$sb"; return
+  fi
+
+  git init -q "$repo2"
+  mkdir -p "$repo2/.claude/commands/paper"
+  printf '# stale analyst command\n' > "$repo2/.claude/commands/paper/verify-numbers.md"
+  printf 'commands/paper/verify-numbers.md\n' > "$repo2/.claude/.paper-revision-editor-manifest"
+  : > "$repo2/.claude/.paper-revision-editor-commands-registered"
+
+  ( cd "$repo2" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update >/dev/null 2>&1 )
+
+  local ctx2="$repo2/.claude"
+  assert_no_file "$ctx2/.paper-revision-editor-manifest" "project-rename: update drops the old manifest name"
+  assert_file "$ctx2/$MANIFEST_REL" "project-rename: update carries the manifest to the new name"
+  assert_no_file "$ctx2/.paper-revision-editor-commands-registered" "project-rename: update drops the old marker name"
+  assert_file "$ctx2/$COMMANDS_MARKER_REL" "project-rename: update carries the marker to the new name"
+  assert_no_file "$ctx2/commands/paper/verify-numbers.md" "project-rename: update prunes the stale analyst command"
+  assert_file "$ctx2/commands/paper/quick.md" "project-rename: update refreshes the project-local commands"
+
+  rm -rf "$sb"
+}
+
 echo "Running install.sh tests..."
 test_init
 test_commands_uninstall
@@ -573,6 +644,7 @@ test_shadowed_link
 test_multi_block_agents
 test_downgrade_marker
 test_rename_migration
+test_project_manifest_migration
 
 echo
 skip_note=""
