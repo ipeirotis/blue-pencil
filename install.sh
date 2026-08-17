@@ -65,6 +65,10 @@ MANIFEST_REL=".blue-pencil-manifest"
 # ships no command files) can remove the incompatible commands while remembering
 # that the user opted in. A later --update back to a ref that ships commands then
 # restores them, instead of leaving /paper:* absent as if --uninstall had run.
+# The restoring update must run through an installer recent enough to read the
+# marker: the curl one-liner always is, while the downgraded checkout's own
+# install.sh is that older release's and is not, which run_update's downgrade
+# notice says out loud.
 # Cleared only by --uninstall. Not a *.md file, so Claude Code's scan ignores it.
 COMMANDS_MARKER_REL=".blue-pencil-commands-registered"
 # Pre-rename names for the two files above, carried across by migrate_old_install.
@@ -348,18 +352,16 @@ file_has_complete_context() {
   printf '%s\n' "$block" | grep -Eq '^[[:space:]]*[A-Za-z_]+:'
 }
 
-# True when <file> holds a closed <paper_context> block carrying *all four*
-# required fields (target_venue, audience, core_thesis, revision_stage). Stricter
-# than file_has_complete_context, which accepts a single key: this gate decides
-# whether a CLAUDE.md/paper-meta.md is worth migrating into AGENTS.md. Migrating a
-# partial source (e.g. a hand-written paper-meta.md with only target_venue) would
-# make --init report success while the skill immediately stops for the missing
-# fields, so a partial source falls through to the interactive scaffold instead.
-file_has_all_context_fields() {
+# True when <file> holds a closed <paper_context> block carrying both
+# operational fields (audience and revision_stage). Venue and thesis are useful
+# optional context, but their absence does not block section editing. Stricter
+# than file_has_complete_context, this gate prevents migrating a source that
+# would still force the skill's context prompt immediately after --init.
+file_has_operational_context() {
   local block key
   block="$(first_context_block "$1")"
   printf '%s\n' "$block" | grep -q '</paper_context>' || return 1
-  for key in target_venue audience core_thesis revision_stage; do
+  for key in audience revision_stage; do
     printf '%s\n' "$block" | grep -Eq "^[[:space:]]*${key}:[[:space:]]*[^[:space:]]" || return 1
   done
 }
@@ -383,12 +385,12 @@ strip_context_block() {
 
 # Locate a repo file that already carries a complete <paper_context> block
 # (CLAUDE.md, then paper-meta.md), for migration during --init. Echoes the path;
-# empty when none exists. Requires all four fields, so a partial block is not
-# migrated over the interactive scaffold.
+# empty when none exists. Requires both operational fields, so a block that
+# would immediately prompt for context is not migrated over the scaffold.
 existing_context_file() {
   local root="$1" f
   for f in "$root/CLAUDE.md" "$root/paper-meta.md"; do
-    [ -f "$f" ] && file_has_all_context_fields "$f" && { printf '%s' "$f"; return 0; }
+    [ -f "$f" ] && file_has_operational_context "$f" && { printf '%s' "$f"; return 0; }
   done
   return 1
 }
@@ -399,6 +401,33 @@ existing_context_file() {
 # clone or the local checkout) is always reachable by absolute path.
 installer_path() {
   echo "$1/install.sh"
+}
+
+# Carry a .claude tree's install manifest and registration marker across the
+# rename. The manifest is what marks previously copied command and agent files
+# as ours; without it the next refresh would treat them as the user's own,
+# leaving files the old installer placed (including since-removed commands)
+# registered forever and backing up refreshed ones as .bak. Idempotent, safe on
+# a tree with neither file. Used for $HOME/.claude by migrate_old_install, and
+# for a paper repo's own .claude by the project-local paths (--init and the
+# --update refresh), which the global migration cannot reach.
+migrate_old_manifests() {
+  local claude_dir="$1"
+  if [ -f "$claude_dir/$OLD_MANIFEST_REL" ]; then
+    if [ ! -f "$claude_dir/$MANIFEST_REL" ]; then
+      mv "$claude_dir/$OLD_MANIFEST_REL" "$claude_dir/$MANIFEST_REL"
+      echo "Migrated install manifest to $claude_dir/$MANIFEST_REL"
+    else
+      rm -f "$claude_dir/$OLD_MANIFEST_REL"
+    fi
+  fi
+  if [ -f "$claude_dir/$OLD_COMMANDS_MARKER_REL" ]; then
+    if [ ! -f "$claude_dir/$COMMANDS_MARKER_REL" ]; then
+      mv "$claude_dir/$OLD_COMMANDS_MARKER_REL" "$claude_dir/$COMMANDS_MARKER_REL"
+    else
+      rm -f "$claude_dir/$OLD_COMMANDS_MARKER_REL"
+    fi
+  fi
 }
 
 # One-time migration from the pre-rename identity. A pre-v2.0.0 install left
@@ -448,25 +477,11 @@ migrate_old_install() {
       echo "Removed pre-rename copy-mode install: $dest"
     fi
   done
-  # Carry the install manifest and the registration marker across the rename.
-  # The manifest is what marks previously copied command and agent files as
-  # ours; without it the next refresh would treat them as the user's own and
-  # back them up as .bak instead of updating them in place.
-  if [ -f "$HOME/.claude/$OLD_MANIFEST_REL" ]; then
-    if [ ! -f "$HOME/.claude/$MANIFEST_REL" ]; then
-      mv "$HOME/.claude/$OLD_MANIFEST_REL" "$HOME/.claude/$MANIFEST_REL"
-      echo "Migrated install manifest to $HOME/.claude/$MANIFEST_REL"
-    else
-      rm -f "$HOME/.claude/$OLD_MANIFEST_REL"
-    fi
-  fi
-  if [ -f "$HOME/.claude/$OLD_COMMANDS_MARKER_REL" ]; then
-    if [ ! -f "$HOME/.claude/$COMMANDS_MARKER_REL" ]; then
-      mv "$HOME/.claude/$OLD_COMMANDS_MARKER_REL" "$HOME/.claude/$COMMANDS_MARKER_REL"
-    else
-      rm -f "$HOME/.claude/$OLD_COMMANDS_MARKER_REL"
-    fi
-  fi
+  # Carry the global install manifest and registration marker across the
+  # rename. Project-local trees carry their own copies of these files; the
+  # project paths (--init and the --update refresh) migrate the repo they act
+  # on, since other initialized repos cannot be discovered safely from here.
+  migrate_old_manifests "$HOME/.claude"
 }
 
 run_install() {
@@ -492,12 +507,89 @@ run_install() {
   echo "Installing $SKILL_NAME from $src"
   ensure_skill_linked "$src" \
     || { echo "ERROR: could not link $SKILL_NAME into all targets (see above)." >&2; exit 1; }
+  # An install can change the checked-out content too (the documented
+  # `--ref vX.Y.Z` pin runs in this mode, and a reinstall may fast-forward the
+  # cache), so bring the registered command sets along exactly as --update
+  # does. On a fresh machine nothing is registered and this is a no-op.
+  refresh_registered_commands "$src"
   echo
   local installer
   installer="$(installer_path "$src")"
   echo "Done. Run '$installer --check' to verify."
   echo "For Claude Code /paper: slash commands, run '$installer --init' in your paper repo"
   echo "(or '$installer --commands' to enable them in every project)."
+}
+
+# Bring every registered command set in line with what the checkout at <src>
+# now serves. Any mode that changes (or may have changed) the checked-out
+# content must call this, install and update alike: the documented
+# `install.sh --ref vX.Y.Z` runs as MODE=install, so leaving this to --update
+# would let a pinned downgrade keep stale /paper:* copies registered against a
+# checkout missing their agents and references, with no recovery notice.
+#
+# Global set: refresh when the checkout ships commands; on a commandless
+# (older) ref, remove the manifested set and keep the registration marker, so
+# the temporary downgrade is not an opt-out. Gate on the install manifest, not
+# just the directory's existence: a user's own ~/.claude/commands/paper that
+# this installer never registered has no manifest and must not be backed up
+# and overwritten. Project-local set: same branches for the current repo (the
+# only one discoverable safely), after migrating a pre-rename repo's manifest
+# and marker onto the names the gate reads. On any removal, print the way
+# back: the checkout's own install.sh is the older release's and predates the
+# marker-driven restore, and a pin to a tag or commit is sticky (resolve_ref
+# keeps it), so a bare update through either installer selects the old ref
+# again. Only a current installer told an explicit newer ref restores the
+# sets, and this run is the last moment current code executes.
+refresh_registered_commands() {
+  local src="$1" downgraded=0
+  if [ -f "$HOME/.claude/$MANIFEST_REL" ] || [ -f "$HOME/.claude/$COMMANDS_MARKER_REL" ]; then
+    if [ -d "$src/.claude/commands/paper" ]; then
+      install_commands "$HOME" "$src"
+      # Record the opt-in so a later downgrade-then-upgrade round trip restores
+      # the commands even though the intervening downgrade drops the manifest.
+      mark_commands_registered "$HOME"
+    else
+      echo "Target ref ships no paper: commands; removing the previously registered global set."
+      remove_commands "$HOME"
+      mark_commands_registered "$HOME"
+      downgraded=1
+    fi
+  elif [ -d "$HOME/.claude/commands/paper" ]; then
+    # A pre-manifest install: an older installer copied paper: commands here
+    # without recording a manifest, so we cannot tell our files from the user's
+    # own and must not back up and overwrite them. Rather than let those
+    # commands drift stale and silent, point the user at the one safe,
+    # explicit action that adopts them for automatic refresh going forward.
+    echo "Note: found paper: commands in $HOME/.claude/commands/paper with no install manifest."
+    echo "      They are left as-is. Run '$(installer_path "$src") --commands'"
+    echo "      once to register them for automatic updates (your own paper: files are backed up, not lost)."
+  fi
+
+  local cwd_root=""
+  cwd_root="$(git -C "$PWD" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ]; then
+    migrate_old_manifests "$cwd_root/.claude"
+  fi
+  if [ -n "$cwd_root" ] && [ "$cwd_root" != "$src" ] && { [ -f "$cwd_root/.claude/$MANIFEST_REL" ] || [ -f "$cwd_root/.claude/$COMMANDS_MARKER_REL" ]; }; then
+    if [ -d "$src/.claude/commands/paper" ]; then
+      echo "Refreshing project-local paper: commands in $cwd_root"
+      install_commands "$cwd_root" "$src"
+    else
+      echo "Target ref ships no paper: commands; removing the project-local managed set in $cwd_root."
+      remove_commands "$cwd_root"
+      mark_commands_registered "$cwd_root"
+      downgraded=1
+    fi
+  fi
+
+  if [ "$downgraded" -eq 1 ]; then
+    echo
+    echo "Note: this ref's own install.sh predates the command restore, and a pin to a tag"
+    echo "      or commit stays sticky, so a bare update cannot bring the commands back."
+    echo "      Return with the current installer and an explicit newer ref:"
+    echo "        curl -sSL https://raw.githubusercontent.com/ipeirotis/blue-pencil/main/install.sh | bash -s -- --update --ref main"
+    echo "      (or run --commands, and --init in each initialized paper repo, after updating)."
+  fi
 }
 
 run_update() {
@@ -532,44 +624,10 @@ run_update() {
   ensure_skill_linked "$src" \
     || { echo "ERROR: could not link $SKILL_NAME into all targets (see above)." >&2; exit 1; }
 
-  # If the global paper: commands were enabled with --commands, refresh them too.
-  # The skill symlink alone does not carry command changes, since Claude Code does
-  # not read commands from inside the skill; without this, a new or changed command
-  # would be missing even though --update reports the skill is current. Skip when
-  # the target ref does not ship command files (e.g. pinning an older release),
-  # so the documented ref change does not abort half-applied. Gate on the install
-  # manifest, not just the directory's existence: a user's own ~/.claude/commands/paper
-  # that this installer never registered has no manifest, and a plain skill update
-  # must not back up and overwrite their custom paper: commands.
-  if [ -f "$HOME/.claude/$MANIFEST_REL" ] || [ -f "$HOME/.claude/$COMMANDS_MARKER_REL" ]; then
-    if [ -d "$src/.claude/commands/paper" ]; then
-      install_commands "$HOME" "$src"
-      # Record the opt-in so a later downgrade-then-upgrade round trip restores
-      # the commands even though the intervening downgrade drops the manifest.
-      mark_commands_registered "$HOME"
-    else
-      # The target ref predates the bundled paper: commands (a downgrade or a
-      # pin to an older release). Leaving the previously registered global set
-      # in place would keep stale /paper:* commands resolving against a skill
-      # version that no longer ships their lanes and reference files, so remove
-      # the manifested set instead of silently leaving an incompatible one. Keep
-      # the registration marker, though: the user never ran --uninstall, so a
-      # future --update onto a ref that ships commands must restore them rather
-      # than treat this temporary downgrade as an opt-out.
-      echo "Target ref ships no paper: commands; removing the previously registered global set (a later update restores it)."
-      remove_commands "$HOME"
-      mark_commands_registered "$HOME"
-    fi
-  elif [ -d "$HOME/.claude/commands/paper" ]; then
-    # A pre-manifest install: an older installer copied paper: commands here
-    # without recording a manifest, so we cannot tell our files from the user's
-    # own and must not back up and overwrite them on a plain update. Rather than
-    # let those commands drift stale and silent, point the user at the one safe,
-    # explicit action that adopts them for automatic refresh going forward.
-    echo "Note: found paper: commands in $HOME/.claude/commands/paper with no install manifest."
-    echo "      A plain --update leaves them as-is. Run '$(installer_path "$src") --commands'"
-    echo "      once to register them for automatic updates (your own paper: files are backed up, not lost)."
-  fi
+  # The skill symlink alone does not carry command changes: Claude Code does
+  # not read commands from inside the skill, so registered copies must follow
+  # the checkout explicitly.
+  refresh_registered_commands "$src"
 
   echo
   if [ "$before_sha" = "$after_sha" ]; then
@@ -601,6 +659,8 @@ remove_commands() {
   local claude_dir="$base/.claude"
   local manifest="$claude_dir/$MANIFEST_REL"
   if [ ! -f "$manifest" ]; then
+    # Keep probing the removed analyst agent: a pre-manifest v2 install may
+    # have only that legacy file left, and uninstall must still warn about it.
     if [ -d "$claude_dir/commands/paper" ] || [ -f "$claude_dir/agents/paper-reviser.md" ] || [ -f "$claude_dir/agents/paper-analyst.md" ]; then
       echo "  note: no install manifest at $manifest; leaving global paper: files in place (remove by hand if you copied them yourself)."
     fi
@@ -701,8 +761,8 @@ backup_if_unmanaged() {
   echo "  backed up existing $dest -> $dest.bak"
 }
 
-# Copy the paper: slash commands and the paper subagents (paper-reviser,
-# paper-analyst) out of the skill and into a .claude/ tree. Claude Code
+# Copy the paper: slash commands and the paper-reviser subagent out of the
+# skill and into a .claude/ tree. Claude Code
 # registers commands from <project>/.claude/commands/ or ~/.claude/commands/
 # and subagents from the matching agents/ dirs; it never registers either from
 # inside an installed skill directory. So even though the skill ships these
@@ -862,6 +922,11 @@ run_init() {
   migrate_old_install
   local repo_root
   repo_root="$(git rev-parse --show-toplevel)"
+  # A repo initialized before the v2 rename carries its manifest and marker
+  # under the old hidden names, which install_commands below does not read.
+  # Carry them across first, so the refresh updates and prunes the files the
+  # old installer recorded instead of treating them as the user's own.
+  migrate_old_manifests "$repo_root/.claude"
 
   local src
   src="$(resolve_source)"
@@ -885,6 +950,7 @@ run_init() {
   fi
   echo "Registering paper: commands in $repo_root/.claude"
   install_commands "$repo_root" "$src"
+  mark_commands_registered "$repo_root"
   echo
 
   local template="$src/examples/AGENTS.md.template"
@@ -917,23 +983,23 @@ run_init() {
   fi
 
   if [ -f "$target" ] && file_has_complete_context "$target"; then
-    if file_has_all_context_fields "$target"; then
+    if file_has_operational_context "$target"; then
       echo "AGENTS.md already contains a complete <paper_context> block. Skipping scaffolding."
       return 0
     fi
-    # The block is present but missing required fields. Do not report success: the
-    # skill reads AGENTS.md first and stops the moment a field is absent, so a bare
+    # The block is present but missing an operational field. Do not report success:
+    # the skill reads AGENTS.md first and asks when audience or stage is absent, so a bare
     # "already configured" would be a lie. But do not strip and rescaffold either,
     # since the block already holds real values the user wrote (a strip would
     # clobber them with placeholders). Name the gaps, leave the file for them, and
     # fail non-zero so a workflow gating on --init does not proceed as if ready.
     local present_block missing="" field
     present_block="$(first_context_block "$target")"
-    for field in target_venue audience core_thesis revision_stage; do
+    for field in audience revision_stage; do
       printf '%s\n' "$present_block" | grep -Eq "^[[:space:]]*${field}:[[:space:]]*[^[:space:]]" \
         || missing="$missing $field"
     done
-    echo "ERROR: AGENTS.md has a <paper_context> block missing required field(s):${missing}." >&2
+    echo "ERROR: AGENTS.md has a <paper_context> block missing operational field(s):${missing}." >&2
     echo "       Fill them in (or delete the block and re-run --init to scaffold fresh);" >&2
     echo "       leaving your existing values untouched." >&2
     return 1

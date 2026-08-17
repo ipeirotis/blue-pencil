@@ -1,6 +1,6 @@
 # blue-pencil
 
-[![Version](https://img.shields.io/badge/version-2.5.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 An academic-editor skill for AI coding agents such as [Claude Code](https://claude.com/claude-code). Point the agent at a section of your paper: it diagnoses what is weak, rewrites it, and logs every change with a reason. Your citations, numbers, math, and writing voice are never silently altered.
@@ -20,15 +20,30 @@ An academic-editor skill for AI coding agents such as [Claude Code](https://clau
    ~/.local/share/blue-pencil/install.sh --init
    ```
 
-   This asks four questions (target venue, audience, core thesis, revision stage), writes `AGENTS.md`, and registers the `/paper:` commands in the repo. If your paper folder is not a git repo, copy [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md` by hand instead.
+   This records target venue, audience, core thesis, and revision stage, writes
+   `AGENTS.md`, and registers the `/paper:` commands in the repo. Audience and
+   revision stage drive editing; venue and thesis improve paper-level checks but
+   no longer block a section edit. If your paper folder is not a git repo, copy
+   [`examples/AGENTS.md.template`](examples/AGENTS.md.template) to `AGENTS.md`
+   by hand instead.
 
 3. **Ask in plain English:**
 
    > Revise the introduction in `intro.tex` so it flows better.
 
-Every run returns four sections: **Diagnosis**, **Revised text**, **Change rationale**, and **Author questions**. See [`examples/worked-example.md`](examples/worked-example.md) for a complete run; the other files in `examples/` show more scenarios.
+A full run returns four sections: **Diagnosis**, **Revised text**, **Change
+rationale**, and **Author questions**. The explicit quick pass returns its
+shorter three-part contract. See
+[`examples/worked-example.md`](examples/worked-example.md) for a complete full
+run; the other files in `examples/` show more scenarios.
 
 Using claude.ai or another chat surface instead of a coding agent? Skip the installer: paste `SKILL.md` into the conversation along with your section.
+
+> **Upgrading from v2:** the v2 updater cannot run migration logic introduced
+> in v3 after it replaces its own checkout. After the first `--update`, run the
+> new v3 `install.sh --init` once inside every paper repo previously initialized
+> with v2. This removes the copied analyst and scholar commands and refreshes
+> `/paper:loop`.
 
 ## What it guarantees
 
@@ -42,11 +57,24 @@ LaTeX and pasted plain text are first-class. From Word or Google Docs, paste the
 
 ## Commands
 
-Plain-English requests work in any agent that reads the skill. In Claude Code, `--init` also registers these:
+Plain-English requests work in any agent that reads the skill. Start with
+`/paper:revise` unless one of the narrower intents below fits better. In Claude
+Code, `--init` also registers these:
+
+| I want to... | Use |
+|--------------|-----|
+| Improve a section and see the full diagnosis | `/paper:revise` |
+| Make a quick, conservative edit with a short report | `/paper:quick` |
+| Get advice without a rewrite | `/paper:feedback` |
+| Fix sentence-level issues after the argument is stable | `/paper:polish` |
+| Revise an entire paper in controlled stages | `/paper:loop` |
+
+The complete command list is:
 
 | Command | What it does |
 |---------|--------------|
 | `/paper:revise <section>` | Full diagnose-then-rewrite pass. |
+| `/paper:quick <passage>` | Conservative rewrite with up to three change bullets. |
 | `/paper:feedback <section>` | Diagnosis only, no rewrite. |
 | `/paper:clarify <section>` | Make the section clearer to a non-specialist. |
 | `/paper:human <section>` | Narrative spine plus AI-tell scrub: read human, not LLM. |
@@ -56,15 +84,23 @@ Plain-English requests work in any agent that reads the skill. In Claude Code, `
 | `/paper:letter` | Draft or improve the response-to-reviewers letter. |
 | `/paper:read <paper>` | Whole-paper cold read: where a reader stops following, plus a dispatch list. |
 | `/paper:consistency <paper>` | Cross-section drift and stale-summary check. |
-| `/paper:verify-numbers` | Rerun your own analysis pipeline and diff its outputs against the manuscript's numbers. Needs your data and code in the repo. |
-| `/paper:figures <figure>` | Re-render a figure from the same data with better design, proposed beside the original. |
-| `/paper:analyze <analysis>` | Run a new analysis you name (robustness check, baseline) and report the whole result. |
-| `/paper:scholar` | Check that cited sources support their claims and scan novelty; needs literature retrieval. |
 | `/paper:loop <paper>` | Plan and drive a whole-paper edit, section by section, pausing at each author checkpoint. |
 
-The analyst commands (`verify-numbers`, `figures`, `analyze`) and `scholar` only propose: they never edit your manuscript, code, or data, and they say so when the tools they need are missing.
-
 To register the commands in every project instead of one repo, run `install.sh --commands`.
+
+## Companion skills
+
+Blue Pencil edits prose but does not execute analyses or retrieve literature.
+Install these separately when you need those capabilities:
+
+- [`facts-and-figures`](https://github.com/ipeirotis/facts-and-figures) verifies reported
+  numbers against a repository's analysis pipeline, regenerates figures from
+  unchanged data, and runs analyses explicitly specified by the author.
+- [`citation-needed`](https://github.com/ipeirotis/citation-needed) retrieves and
+  reads sources to audit citations and identify prior-work leads.
+
+The skills are independent: installing Blue Pencil does not install or invoke
+either companion.
 
 ## Editing a whole paper
 
@@ -80,6 +116,20 @@ install.sh --check        # show install state, version, and tracked ref
 install.sh --ref v1.16.0  # pin to a tag, branch, or commit (sticky until changed)
 install.sh --uninstall    # remove the symlinks and globally registered commands
 ```
+
+Commands installed by `--init` are project-local copies. Follow the v2 upgrade
+step near the Quickstart once in every previously initialized paper repo.
+Running `--update` from inside a paper repo refreshes that repo automatically,
+but it cannot safely discover other paper repositories on your machine.
+
+Pinning to a release that predates the bundled commands removes the registered
+command sets for compatibility and remembers your opt-in, whether the pin runs
+as an install or an update. The pinned checkout's own `install.sh` is that
+older release's and cannot restore them, and a pin to a tag or commit stays
+sticky, so a bare update selects the old ref again. Return with the curl
+one-liner and an explicit newer ref, `bash -s -- --update --ref main`, or run
+`--commands` (and `--init` in each initialized paper repo) after updating; the
+downgrade prints this same note.
 
 If you installed this under its old name, `paper-revision-editor`, running any `install.sh` mode once migrates the install in place; usage is unchanged.
 

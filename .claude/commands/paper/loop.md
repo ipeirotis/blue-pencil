@@ -63,10 +63,24 @@ Read `<paper_context>` from `AGENTS.md`, then `CLAUDE.md`, then `paper-meta.md`,
 scan the manuscript for sections (following `\input`/`\include` from a wrapper
 file as described above), and return a plan with exactly these parts:
 
-1. **Paper context:** found or missing. If missing or any of `target_venue`,
-   `audience`, `core_thesis`, `revision_stage` is absent or ambiguous, stop here
-   and tell the author to run `install.sh --init` or fill the four fields by
-   hand. Do not guess.
+1. **Paper context:** found or missing. If the block is missing, or either
+   operational field (`audience`, `revision_stage`) is absent or ambiguous,
+   ask once, in a single message, for both, inviting the optional venue and
+   thesis in the same message and suggesting `install.sh --init` (or editing
+   the block) so the answers persist. If the author declines or answers
+   partially, do not stop: apply the skill's context fallback, one
+   conservative default per field (the skill's reader model for audience; for
+   the stage, the restrictive-only inference from unambiguous signals, else
+   `final polish`, never an unconfirmed `first draft`), record every assumed
+   value in this plan, and carry it in each dispatch so the isolated passes
+   open with the same `Assumed context:` line instead of re-asking. Do not
+   guess beyond those stated defaults. `target_venue` and `core_thesis` are
+   optional context, per the skill's context gate: an absent one never blocks the loop.
+   Record it as unknown in this plan, carry that in every dispatch so each
+   isolated pass opens with its required `Assumed context:` line, and skip
+   only the checks that need the missing field: with no `core_thesis`, the
+   colleague-test comparison in Steps E and G; with no `target_venue`, the
+   venue-compliance findings there.
 2. **Current revision stage**, and one line on what it permits (first draft:
    restructuring allowed; response to reviewers: only flagged paragraphs and
    their neighbours; final polish: sentence-level only). If the stage is
@@ -103,15 +117,7 @@ Detected revision_stage: first draft.
 Recommended loop:
   Phase 1, diagnose globally (one whole-paper cold read, no rewriting):
     /paper:read paper.tex
-    If the repo holds your data and analysis code:
-      /paper:verify-numbers paper.tex   (verification only, no edits)
-    If the environment grants literature retrieval:
-      /paper:scholar paper.tex          (citation and novelty checks, no edits)
-    On demand, when the cold read or a reviewer names a specific target
-    (needs the data, a shell, and a write tool):
-      /paper:figures <figure>           (re-render from the same data, proposal only)
-      /paper:analyze <named analysis>   (new named analysis, proposal only)
-    Then resolve the Author questions these passes raise and confirm the
+    Then resolve the Author questions it raises and confirm the
     read's prioritized dispatch list; that list feeds the Phase 2 pass order.
   Phase 2, rewrite section by section in the Step B order:
     /paper:revise sections/abstract.tex
@@ -131,32 +137,7 @@ Recommended loop:
 Diagnose globally first: one whole-paper cold read (`/paper:read`, whose
 protocol lives in the skill's `references/cold-read.md`), not a per-section
 feedback sweep, so the diagnosis measures the front-to-back reading experience
-the per-section passes never see. When the repo also holds the author's data
-and analysis code, run `/paper:verify-numbers` once after the cold read and
-before any rewrite, so a stale number is caught before the prose passes repeat
-it; the command is gated (it needs that pipeline and a shell) and reports what
-is missing instead of checking anything when the gate fails, and its
-recomputed values are proposals the author applies to the source, never edits
-the loop performs. Likewise, when the environment grants literature retrieval,
-run `/paper:scholar` over the whole manuscript in the same phase, so every
-cited claim is checked against its source and every contribution claim is
-scanned for prior work, not only the ones the cold read happened to flag (the
-cold read measures reader experience, not citation support, so it cannot see an
-unsupported citation on its own); an unsupported citation or an overstated
-contribution is then caught before the prose passes polish it. It is gated the
-same way (it needs retrieval) and reports what is missing instead of citing
-from memory when the gate fails, and its citation changes and recalibrated
-claims are proposals the author applies to the source, never edits the loop
-performs. The analyst lane's two generative capabilities are targeted rather
-than whole-paper, so they are not standing phases: run `/paper:figures` when
-the cold read or a reviewer names a figure that buries its result, and
-`/paper:analyze` when one names an analysis the paper needs (a robustness
-check, a baseline, a subgroup cut). Both are gated on a write tool as well as
-the data and shell, both propose rather than edit, and a re-rendered figure or
-a new result the author adopts is applied to the source like any other
-correction, with the closing `/paper:consistency` catching what the
-surrounding text now contradicts.
-Resolve the `Author questions` these global passes raise,
+the per-section passes never see. Resolve the `Author questions` it raises,
 then rewrite in this order, using the cold read's prioritized dispatch list to
 decide which sections need which targeted passes:
 
@@ -312,15 +293,19 @@ Stop the loop when all of these hold:
   payoff.
 - The Step E closing cold read, run over the full section set, came back
   clean outside the author-approved skip list: no reading-log break points,
-  the colleague test matches `core_thesis`, no must-fix delight or
-  venue-compliance findings, and a dispatch list asking for nothing beyond the
+  the colleague test matches `core_thesis` (with no stored thesis, this
+  comparison is skipped per Step A: report the colleague test's one-sentence
+  summary and have the author confirm it states the paper's point), no
+  must-fix delight findings, no venue-compliance findings (skipped when
+  `target_venue` is absent), and a dispatch list asking for nothing beyond the
   final polish. Findings confined to skipped sections are reported for the
   author's record but do not block the stop; leaving them unfixed was the
   author's Step A call.
 
 Two stop rules compose here. The cold read decides whether the loop dispatches
 another pass: the loop is done when a cold read of the whole paper comes back
-clean outside the skip list and the colleague test matches `core_thesis`. Inside any
+clean outside the skip list and the colleague test matches `core_thesis` (or,
+with no stored thesis, the author confirms its summary). Inside any
 single dispatched pass, the editor's stop rule is unchanged: the correct
 stopping point is not "nothing more can be rewritten" but "the remaining edits
 would be merely different rather than better", so the cold read's pursuit of a

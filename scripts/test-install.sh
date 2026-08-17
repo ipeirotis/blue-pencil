@@ -84,15 +84,12 @@ test_init() {
   assert_no_grep "$repo/AGENTS.md" "revision_stage: first draft" "init: no stale first-draft default"
   assert_file "$repo/CLAUDE.md" "init: CLAUDE.md bridge written"
   assert_file "$ctx/commands/paper/loop.md" "init: loop command registered"
-  assert_file "$ctx/commands/paper/verify-numbers.md" "init: verify-numbers command registered"
-  assert_file "$ctx/commands/paper/figures.md" "init: figures command registered"
-  assert_file "$ctx/commands/paper/analyze.md" "init: analyze command registered"
+  assert_file "$ctx/commands/paper/quick.md" "init: quick command registered"
   assert_file "$ctx/agents/paper-reviser.md" "init: reviser subagent registered"
-  assert_file "$ctx/agents/paper-analyst.md" "init: analyst subagent registered"
-  assert_file "$ctx/agents/paper-scholar.md" "init: scholar subagent registered"
   assert_file "$ctx/$MANIFEST_REL" "init: manifest written"
+  assert_file "$ctx/$COMMANDS_MARKER_REL" "init: project registration marker written"
   assert_grep "$ctx/$MANIFEST_REL" "commands/paper/loop.md" "init: manifest lists a command"
-  assert_grep "$ctx/$MANIFEST_REL" "agents/paper-analyst.md" "init: manifest lists a subagent"
+  assert_grep "$ctx/$MANIFEST_REL" "agents/paper-reviser.md" "init: manifest lists a subagent"
 
   rm -rf "$sb"
 }
@@ -109,7 +106,8 @@ test_commands_uninstall() {
   assert_symlink "$sb/.agents/skills/blue-pencil" "commands: agents skill symlink created"
   assert_symlink "$sb/.claude/skills/blue-pencil" "commands: claude skill symlink created"
   assert_file "$ctx/commands/paper/loop.md" "commands: loop command registered globally"
-  assert_file "$ctx/agents/paper-analyst.md" "commands: analyst subagent registered globally"
+  assert_file "$ctx/commands/paper/quick.md" "commands: quick command registered globally"
+  assert_file "$ctx/agents/paper-reviser.md" "commands: reviser subagent registered globally"
   assert_file "$ctx/$MANIFEST_REL" "commands: manifest written"
 
   # A user's own command in the paper: namespace must survive uninstall.
@@ -120,7 +118,7 @@ test_commands_uninstall() {
   assert_no_path "$sb/.agents/skills/blue-pencil" "uninstall: agents skill symlink removed"
   assert_no_path "$sb/.claude/skills/blue-pencil" "uninstall: claude skill symlink removed"
   assert_no_file "$ctx/commands/paper/loop.md" "uninstall: managed command removed"
-  assert_no_file "$ctx/agents/paper-analyst.md" "uninstall: managed subagent removed"
+  assert_no_file "$ctx/agents/paper-reviser.md" "uninstall: managed subagent removed"
   assert_no_file "$ctx/$MANIFEST_REL" "uninstall: manifest removed"
   assert_file "$ctx/commands/paper/mine.md" "uninstall: user's own command preserved"
 
@@ -166,8 +164,16 @@ test_refresh() {
 # refreshes the registered commands, so a command added upstream appears without
 # a manual re-register, and a user's own command survives. All local, no network.
 test_update_drift() {
-  local sb up clone; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"
+  local sb up clone paper; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"; paper="$sb/paper"
   git clone -q "$REPO_ROOT" "$up" 2>/dev/null
+  # git clone sees committed state only; overlay the installer and new command
+  # under test so this scenario exercises the current working tree.
+  cp "$REPO_ROOT/install.sh" "$up/install.sh"
+  cp "$REPO_ROOT/.claude/commands/paper/quick.md" "$up/.claude/commands/paper/quick.md"
+  git -C "$up" add install.sh .claude/commands/paper/quick.md
+  if ! git -C "$up" diff --cached --quiet; then
+    git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "fixture current installer"
+  fi
   # In PR CI, actions/checkout leaves the repo in detached HEAD, so a plain clone
   # of it is detached too; install.sh --update would then resolve the clone's ref
   # to a bare SHA instead of a branch and skip the fast-forward. Pin the fixture
@@ -186,16 +192,26 @@ test_update_drift() {
   assert_file "$ctx/commands/paper/loop.md" "update: baseline command registered from clone"
   printf '# mine\n' > "$ctx/commands/paper/mine.md"
 
+  # Model the stale project-local state left after the first update was executed
+  # by the old v2 script. A subsequent invocation of the v3 updater from that
+  # paper repo must refresh the copied set.
+  git init -q "$paper"
+  mkdir -p "$paper/.claude/commands/paper"
+  printf '# stale analyst command\n' > "$paper/.claude/commands/paper/verify-numbers.md"
+  printf 'commands/paper/verify-numbers.md\n' > "$paper/.claude/$MANIFEST_REL"
+
   # Advance upstream by one commit that adds a new command.
   printf '# upstream extra\n' > "$up/.claude/commands/paper/zzz-upstream.md"
   git -C "$up" add .claude/commands/paper/zzz-upstream.md
   git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "add upstream command"
 
-  run_from "$sb" "$clone/install.sh" --update
+  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update >/dev/null 2>&1 )
 
   assert_file "$clone/.claude/commands/paper/zzz-upstream.md" "update: clone fast-forwarded to upstream"
   assert_file "$ctx/commands/paper/zzz-upstream.md" "update: refreshed commands include the new one"
   assert_file "$ctx/commands/paper/mine.md" "update: user's own command preserved across update"
+  assert_no_file "$paper/.claude/commands/paper/verify-numbers.md" "update: project-local stale command removed"
+  assert_file "$paper/.claude/commands/paper/quick.md" "update: project-local commands refreshed"
 
   rm -rf "$sb"
 }
@@ -225,7 +241,7 @@ test_refused_targets() {
 }
 
 # --- Scenario 6: a complete external context block migrates into AGENTS.md -----
-# A paper-meta.md carrying all four required fields is migrated verbatim into a
+# A paper-meta.md carrying all four context fields is migrated verbatim into a
 # freshly created AGENTS.md (no interactive scaffold), as a single block. This
 # path never reaches read_field, so it runs even without a usable /dev/tty.
 test_migration_complete() {
@@ -252,7 +268,7 @@ META
 }
 
 # --- Scenario 7: a partial external block is NOT migrated ----------------------
-# A paper-meta.md missing required fields must not short-circuit the scaffold: it
+# A paper-meta.md missing the operational fields must not short-circuit the scaffold: it
 # would leave --init reporting success while the skill immediately stops for the
 # missing context. It falls through to the scaffold ([fill in] placeholders).
 test_migration_partial() {
@@ -313,7 +329,7 @@ DOC
 }
 
 # --- Scenario 9: a partial AGENTS.md block is reported, not falsely accepted ---
-# When AGENTS.md already holds a closed block that is missing required fields,
+# When AGENTS.md already holds a closed block that is missing operational fields,
 # --init must not claim success (the skill stops on the missing fields) nor strip
 # the block (it holds real values the user wrote). It names the gaps, preserves
 # the existing values, and adds no duplicate block. Runs without a tty: this path
@@ -339,7 +355,7 @@ DOC
 
   if [ "$rc" -ne 0 ]; then ok; else no "partial-agents: --init should exit non-zero on incomplete context"; fi
   case "$out" in
-    *"missing required field"*) ok ;;
+    *"missing operational field"*) ok ;;
     *) no "partial-agents: --init should name the missing fields" ;;
   esac
   case "$out" in
@@ -350,6 +366,32 @@ DOC
   assert_no_grep "$repo/AGENTS.md" "[fill in]" "partial-agents: not overwritten with placeholders"
   assert_count "$repo/AGENTS.md" "<paper_context>" "1" "partial-agents: no duplicate block appended"
   assert_file "$repo/.claude/commands/paper/loop.md" "partial-agents: commands still registered"
+
+  rm -rf "$sb"
+}
+
+# --- Scenario: optional venue and thesis do not block initialization ---------
+# Audience and revision stage are the operational context. A closed block with
+# those two fields is already usable even when venue and thesis are omitted.
+test_operational_context_only() {
+  local sb repo; sb="$(mktemp -d)"; repo="$sb/paper"
+  mkdir -p "$repo"
+  git -C "$repo" init -q
+  cat > "$repo/AGENTS.md" <<'DOC'
+# AGENTS.md
+
+<paper_context>
+audience: empirical researchers
+revision_stage: final polish
+</paper_context>
+DOC
+
+  ( cd "$repo" && run_installer "$sb" --init )
+
+  assert_count "$repo/AGENTS.md" "<paper_context>" "1" "operational-context: existing block accepted"
+  assert_no_grep "$repo/AGENTS.md" "target_venue:" "operational-context: optional venue not injected"
+  assert_no_grep "$repo/AGENTS.md" "core_thesis:" "operational-context: optional thesis not injected"
+  assert_file "$repo/.claude/commands/paper/quick.md" "operational-context: commands registered"
 
   rm -rf "$sb"
 }
@@ -412,10 +454,16 @@ DOC
 
 # --- Scenario 10: registration survives a downgrade round trip -----------------
 # A ref that ships no paper: commands removes the global set (and its manifest),
-# but the registration marker must persist so a later --update onto a ref that
+# but the registration marker must persist so a later update onto a ref that
 # ships commands restores them, rather than treating the downgrade as an opt-out.
+# The downgraded ref is a genuinely old release: its install.sh is a stub with
+# none of the restore logic, not the current tree minus a directory. So the
+# downgrade run (still executed by current code) must name the way back, and the
+# restoring update must go through a current installer, the curl one-liner path
+# the notice prescribes, exercised here by feeding the working-tree installer to
+# bash on stdin with the managed clone as its cache.
 test_downgrade_marker() {
-  local sb up clone; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"
+  local sb up clone paper; sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"; paper="$sb/paper"
   # Build the upstream from the working tree (not a clone of REPO_ROOT's commit),
   # so the test exercises the install.sh under edit even before it is committed.
   mkdir -p "$up"
@@ -435,22 +483,78 @@ test_downgrade_marker() {
   local ctx="$sb/.claude"
   assert_file "$ctx/commands/paper/loop.md" "downgrade: baseline command registered"
   assert_file "$ctx/$COMMANDS_MARKER_REL" "downgrade: registration marker written"
+  git init -q "$paper"
+  mkdir -p "$paper/.claude/commands/paper"
+  cp "$up/.claude/commands/paper/loop.md" "$paper/.claude/commands/paper/loop.md"
+  printf 'commands/paper/loop.md\n' > "$paper/.claude/$MANIFEST_REL"
+  : > "$paper/.claude/$COMMANDS_MARKER_REL"
 
-  # Downgrade: upstream drops the bundled commands entirely.
+  # Downgrade: upstream drops the bundled commands entirely, and its installer
+  # is an old stub with no marker or project-refresh logic, like a real
+  # pre-commands release. The removal itself still runs in current code (the
+  # invoked install.sh was read before the sync swapped the file).
   git -C "$up" rm -q -r .claude/commands/paper
+  printf '#!/usr/bin/env bash\necho "old installer: no restore logic"\n' > "$up/install.sh"
+  printf '1.14.0\n' > "$up/VERSION"
+  git -C "$up" add install.sh VERSION
   git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "drop bundled commands"
-  run_from "$sb" "$clone/install.sh" --update
+  # Tag the old release for the install-mode pin phase below.
+  git -C "$up" tag v1.14.0
+  local down_out
+  down_out="$(cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update </dev/null 2>&1)"
 
+  case "$down_out" in
+    *"predates the command restore"*) ok ;;
+    *) no "downgrade: removal names the explicit way back" ;;
+  esac
+  assert_grep "$clone/VERSION" "1.14.0" "downgrade: clone checked out the old release"
   assert_no_file "$ctx/commands/paper/loop.md" "downgrade: incompatible command removed"
   assert_no_file "$ctx/$MANIFEST_REL" "downgrade: manifest dropped with the commands"
   assert_file "$ctx/$COMMANDS_MARKER_REL" "downgrade: marker kept across the downgrade"
+  assert_no_file "$paper/.claude/commands/paper/loop.md" "downgrade: project-local incompatible command removed"
+  assert_no_file "$paper/.claude/$MANIFEST_REL" "downgrade: project-local manifest dropped"
+  assert_file "$paper/.claude/$COMMANDS_MARKER_REL" "downgrade: project-local marker kept"
 
-  # Upgrade back: upstream restores the commands; the marker must drive a refresh.
+  # Upgrade back: upstream restores the commands; the marker must drive a
+  # refresh. Run it the way the downgrade notice prescribes: through a current
+  # installer (the curl one-liner path, emulated by feeding the working-tree
+  # install.sh to bash on stdin) with the managed clone as its cache. The
+  # clone's own install.sh is the old stub at this point, which is the point:
+  # only a current installer knows to read the markers and restore the sets.
   git -C "$up" -c user.email=t@example.com -c user.name=test revert --no-edit HEAD >/dev/null 2>&1
-  run_from "$sb" "$clone/install.sh" --update
+  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$clone" bash -s -- --update < "$REPO_ROOT/install.sh" >/dev/null 2>&1 )
 
   assert_file "$ctx/commands/paper/loop.md" "downgrade: commands restored on upgrade via marker"
   assert_file "$ctx/$MANIFEST_REL" "downgrade: manifest rewritten on restore"
+  assert_file "$paper/.claude/commands/paper/loop.md" "downgrade: project-local commands restored via marker"
+  assert_file "$paper/.claude/$MANIFEST_REL" "downgrade: project-local manifest restored"
+
+  # The documented `--ref vX.Y.Z` pin runs as MODE=install, not update, and a
+  # tag pin detaches the clone so the old ref stays sticky. Downgrade again
+  # through exactly that path (a current installer on stdin pinning the old
+  # tag) and assert the same cleanup and notice fire; then recover the way the
+  # notice prescribes, a current installer told an explicit newer ref.
+  local pin_out
+  pin_out="$(cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$clone" bash -s -- --ref v1.14.0 < "$REPO_ROOT/install.sh" 2>&1)"
+
+  case "$pin_out" in
+    *"predates the command restore"*) ok ;;
+    *) no "ref-pin: install-mode downgrade names the way back" ;;
+  esac
+  case "$pin_out" in
+    *"--update --ref main"*) ok ;;
+    *) no "ref-pin: notice carries an explicit newer ref" ;;
+  esac
+  assert_grep "$clone/VERSION" "1.14.0" "ref-pin: clone pinned to the old tag"
+  assert_no_file "$ctx/commands/paper/loop.md" "ref-pin: global command removed by install-mode pin"
+  assert_no_file "$paper/.claude/commands/paper/loop.md" "ref-pin: project-local command removed by install-mode pin"
+  assert_file "$ctx/$COMMANDS_MARKER_REL" "ref-pin: global marker kept"
+  assert_file "$paper/.claude/$COMMANDS_MARKER_REL" "ref-pin: project-local marker kept"
+
+  ( cd "$paper" && HOME="$sb" BLUE_PENCIL_HOME="$clone" bash -s -- --update --ref test-marker < "$REPO_ROOT/install.sh" >/dev/null 2>&1 )
+
+  assert_file "$ctx/commands/paper/loop.md" "ref-pin: commands restored with an explicit newer ref"
+  assert_file "$paper/.claude/commands/paper/loop.md" "ref-pin: project-local commands restored with an explicit newer ref"
 
   rm -rf "$sb"
 }
@@ -506,6 +610,77 @@ test_rename_migration() {
   rm -rf "$sb"
 }
 
+# --- Scenario: a pre-rename paper repo migrates its project-local manifest ----
+# A repo initialized by the old paper-revision-editor installer carries its
+# manifest and marker under the old hidden names, recording files v3 no longer
+# ships. The global rename migration only reaches $HOME/.claude, so both
+# project-local paths must carry the repo's own files onto the new names first:
+# --init, and the --update refresh run from inside the repo (whose gate reads
+# only the new names and would otherwise skip the repo entirely). After either
+# path, the stale analyst command recorded in the old manifest is pruned and a
+# managed file is refreshed in place, not preserved as a .bak backup.
+test_project_manifest_migration() {
+  local sb up clone repo1 repo2
+  sb="$(mktemp -d)"; up="$sb/upstream"; clone="$sb/clone"; repo1="$sb/paper-init"; repo2="$sb/paper-update"
+
+  # The --init path, driven from the working-tree installer.
+  git init -q "$repo1"
+  mkdir -p "$repo1/.claude/commands/paper"
+  cat > "$repo1/AGENTS.md" <<'DOC'
+<paper_context>
+audience: empirical researchers
+revision_stage: final polish
+</paper_context>
+DOC
+  printf '# stale analyst command\n' > "$repo1/.claude/commands/paper/verify-numbers.md"
+  printf '# pre-rename copy\n' > "$repo1/.claude/commands/paper/loop.md"
+  printf 'commands/paper/verify-numbers.md\ncommands/paper/loop.md\n' \
+    > "$repo1/.claude/.paper-revision-editor-manifest"
+
+  ( cd "$repo1" && run_installer "$sb" --init )
+
+  local ctx1="$repo1/.claude"
+  assert_no_file "$ctx1/.paper-revision-editor-manifest" "project-rename: init drops the old manifest name"
+  assert_file "$ctx1/$MANIFEST_REL" "project-rename: init carries the manifest to the new name"
+  assert_no_file "$ctx1/commands/paper/verify-numbers.md" "project-rename: init prunes the stale analyst command"
+  assert_no_file "$ctx1/commands/paper/loop.md.bak" "project-rename: init refreshes the managed file without a backup"
+  assert_no_grep "$ctx1/commands/paper/loop.md" "pre-rename copy" "project-rename: init updates the managed file in place"
+  assert_no_grep "$ctx1/$MANIFEST_REL" "commands/paper/verify-numbers.md" "project-rename: new manifest drops the pruned command"
+
+  # The --update path, driven from a private clone so the developer checkout is
+  # never fetched or fast-forwarded (same pattern as the downgrade scenario).
+  mkdir -p "$up"
+  git -C "$up" init -q
+  cp "$REPO_ROOT/install.sh" "$REPO_ROOT/SKILL.md" "$REPO_ROOT/VERSION" "$up/"
+  cp -R "$REPO_ROOT/.claude" "$up/.claude"
+  git -C "$up" add -A
+  git -C "$up" -c user.email=t@example.com -c user.name=test commit -q -m "baseline"
+  git -C "$up" checkout -q -B test-project-rename
+  git clone -q --branch test-project-rename "$up" "$clone" 2>/dev/null
+  if [ ! -d "$clone/.git" ]; then
+    no "project-rename: could not build a local clone"
+    rm -rf "$sb"; return
+  fi
+
+  git init -q "$repo2"
+  mkdir -p "$repo2/.claude/commands/paper"
+  printf '# stale analyst command\n' > "$repo2/.claude/commands/paper/verify-numbers.md"
+  printf 'commands/paper/verify-numbers.md\n' > "$repo2/.claude/.paper-revision-editor-manifest"
+  : > "$repo2/.claude/.paper-revision-editor-commands-registered"
+
+  ( cd "$repo2" && HOME="$sb" BLUE_PENCIL_HOME="$sb/.cache-clone" bash "$clone/install.sh" --update >/dev/null 2>&1 )
+
+  local ctx2="$repo2/.claude"
+  assert_no_file "$ctx2/.paper-revision-editor-manifest" "project-rename: update drops the old manifest name"
+  assert_file "$ctx2/$MANIFEST_REL" "project-rename: update carries the manifest to the new name"
+  assert_no_file "$ctx2/.paper-revision-editor-commands-registered" "project-rename: update drops the old marker name"
+  assert_file "$ctx2/$COMMANDS_MARKER_REL" "project-rename: update carries the marker to the new name"
+  assert_no_file "$ctx2/commands/paper/verify-numbers.md" "project-rename: update prunes the stale analyst command"
+  assert_file "$ctx2/commands/paper/quick.md" "project-rename: update refreshes the project-local commands"
+
+  rm -rf "$sb"
+}
+
 echo "Running install.sh tests..."
 test_init
 test_commands_uninstall
@@ -516,10 +691,12 @@ test_migration_complete
 test_migration_partial
 test_incomplete_block_replaced
 test_partial_agents_block
+test_operational_context_only
 test_shadowed_link
 test_multi_block_agents
 test_downgrade_marker
 test_rename_migration
+test_project_manifest_migration
 
 echo
 skip_note=""

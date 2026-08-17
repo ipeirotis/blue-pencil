@@ -3,6 +3,86 @@
 All notable changes to blue-pencil (called paper-revision-editor before v2.0.0) are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [3.0.0] - 2026-08-14
+
+Narrows Blue Pencil to one job: editing existing academic prose. Analysis and
+literature research have different tool, provenance, and safety requirements,
+so they no longer load through or install with the editorial skill.
+
+### Removed
+
+- Removed the analyst commands (`/paper:verify-numbers`, `/paper:figures`, and
+  `/paper:analyze`), the `paper-analyst` subagent, and their analysis-integrity
+  reference.
+- Removed `/paper:scholar`, the `paper-scholar` subagent, and its literature
+  checking reference.
+
+### Changed
+
+- Tightened the skill description, scope boundaries, examples, whole-paper
+  loop, installer tests, and user documentation around editorial work only.
+- Linked the independently installable `facts-and-figures` and `citation-needed`
+  repositories from the user documentation without coupling their workflows
+  back into Blue Pencil.
+- Made `/paper:revise` the documented default, added a command-by-intent guide,
+  and added `/paper:quick` for conservative edits with a compact report.
+- Made venue and thesis metadata optional for section edits, skipped redundant
+  triage confirmation when scope is explicit, and limited clarification to one
+  focused question.
+- Kept legacy analyst-agent detection during uninstall and added project-local
+  command refresh plus explicit v2 upgrade guidance so stale copied commands do
+  not continue pointing at removed files.
+- Made the reviser subagent honor the compact quick-pass contract, including its
+  omitted full-report passes, rather than overriding it with the normal output.
+- Aligned the reviser dispatcher with operational-only context blocks and made
+  its quick-pass reference ledger land under `Top changes`, not the omitted
+  `Change rationale` section.
+- Made project-local refresh mirror the global downgrade path when a pinned ref
+  ships no commands, and documented why the first update run by a v2 installer
+  must be followed by the new v3 `--init` inside each initialized paper repo.
+- Applied the optional-context rule to the whole-paper loop: `/paper:loop`
+  blocks only on the operational fields, records an absent `target_venue` or
+  `core_thesis` as unknown context carried in every dispatch, and skips the
+  colleague-test comparison and the venue-compliance findings in its exit
+  criteria instead of refusing to run.
+- Defined the quick-pass narrowing inside the revision sweep itself: an
+  explicit quick pass runs the same deterministic pass set as `final polish`,
+  whatever the stored stage, with structural findings routed to `Author
+  questions`, so the compact contract, the quick command, and the reviser
+  dispatcher no longer conflict with the sweep's every-pass gates.
+- Migrated pre-rename project-local manifests: `--init` and the `--update`
+  refresh now carry a paper repo's `.paper-revision-editor-*` manifest and
+  marker onto the blue-pencil names before refreshing, so a repo initialized
+  before the v2 rename is refreshed and its removed analyst and scholar
+  commands are pruned, instead of being skipped or treated as user files.
+- Named the way back from a commandless downgrade instead of promising an
+  automatic restore the older checkout cannot keep: pinning to a release that
+  predates the bundled commands now prints that the checked-out `install.sh`
+  predates the command restore, pointing at the curl one-liner (or
+  `--commands` and per-repo `--init` after updating), with the same note in
+  the README. The downgrade installer test now models a genuinely old release
+  (stub installer, old version) and exercises the marker-driven restore
+  through a current installer, the path the notice prescribes.
+- Extended the downgrade cleanup to the documented install-mode pin and made
+  the recovery command exact: `--ref vX.Y.Z` without `--update` now runs the
+  same registered-command refresh (factored into `refresh_registered_commands`,
+  which install and update both call), and the printed way back names an
+  explicit newer ref (`--update --ref main`), since a tag or commit pin stays
+  sticky and a bare update would select the old ref again. The downgrade test
+  now also pins the old tag through install mode and recovers with an explicit
+  newer ref.
+- Preserved the ask-once fallback in `/paper:loop`: a missing operational
+  field now triggers the skill's single combined question, and a decline or
+  partial answer proceeds on the skill's conservative defaults carried into
+  every dispatch, instead of terminating the loop with an instruction to edit
+  files.
+- Closed the quick-pass and reviewer-stage conflict: an explicit quick pass at
+  `response to reviewers` is declined and routed to `/paper:rebut`, since the
+  stage's mandatory comment-to-paragraph mapping has no home in the compact
+  three-section output.
+- `VERSION`, `SKILL.md` `metadata.version`, and the `README.md` badge now report
+  3.0.0.
+
 ## [2.5.0] - 2026-07-27
 
 Makes reference usage deterministic. The `references/` files carry the skill's editorial knowledge, but the instructions that load them were scattered "load `references/X.md` when Y" triggers across `SKILL.md`, so whether a given pass consulted its reference was left to whether the model happened to notice the condition: a "maybe it will, maybe it won't" that the built-out reference library was never meant to depend on. This release turns that into a driven sweep, the intra-section counterpart of the whole-paper loop `/paper:loop` runs over sections: a revision now walks a fixed, ordered pass list, keeps every pass whose gate the section and stage meet, loads each pass's reference at its step, and records the set on an auditable line so a skipped reference is visible rather than silent. No editorial rule changes; the existing per-pass triggers are consolidated into one binding schedule.
