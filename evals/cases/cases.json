@@ -1,0 +1,28 @@
+{
+  "cases": [
+    {
+      "id": "exposition-introduction",
+      "source": "examples/exposition-introduction.md",
+      "revision_stage": "first draft",
+      "origin": "repo example"
+    },
+    {
+      "id": "exposition-methods",
+      "source": "examples/exposition-methods.md",
+      "revision_stage": "first draft",
+      "origin": "repo example"
+    },
+    {
+      "id": "exposition-results",
+      "source": "examples/exposition-results.md",
+      "revision_stage": "first draft",
+      "origin": "repo example"
+    },
+    {
+      "id": "worked-example",
+      "source": "examples/worked-example.md",
+      "revision_stage": "first draft",
+      "origin": "repo example"
+    }
+  ]
+}

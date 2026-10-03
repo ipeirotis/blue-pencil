@@ -1,0 +1,51 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/smoke-001/eval-worked-example/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "lost_content",
+          "original_quote": "we leverage a novel dataset comprising of 1.2 million reviews",
+          "revised_quote": "we use a dataset of 1.2 million reviews",
+          "severity": "major",
+          "explanation": "Dropping \"novel\" removes the authors' claim that the dataset is new, which is part of their stated contribution."
+        },
+        {
+          "type": "claim_strength",
+          "original_quote": "has fundamentally transformed the way in which consumers make purchasing decisions",
+          "revised_quote": "have transformed how consumers make purchasing decisions",
+          "severity": "possible",
+          "explanation": "Removing \"fundamentally\" weakens how strongly the original describes the transformation."
+        },
+        {
+          "type": "claim_strength",
+          "original_quote": "The results of our analysis demonstrate that reviewer identity has a significant effect.",
+          "revised_quote": "We find that reviewer identity has a significant effect.",
+          "severity": "possible",
+          "explanation": "\"Demonstrate\" is a somewhat stronger evidential claim than \"find\", so the revision may soften the result slightly."
+        },
+        {
+          "type": "lost_content",
+          "original_quote": "this finding has important implications for platform design: managers should consider highlighting reviewer credentials",
+          "revised_quote": "Platform managers should therefore consider highlighting reviewer credentials.",
+          "severity": "possible",
+          "explanation": "The explicit claim that the finding has \"important implications for platform design\" is reduced to an implied link through \"therefore\"."
+        }
+      ],
+      "summary": "Most edits are faithful tightening: filler is removed, and the citations, the 5-9% figure, the 1.2 million count, and the hedges are preserved. However, the revision drops the claim that the dataset is novel and slightly softens several claims (\"fundamentally\", \"demonstrate\", \"important implications\")."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"lost_content\",\n      \"original_quote\": \"we leverage a novel dataset comprising of 1.2 million reviews\",\n      \"revised_quote\": \"we use a dataset of 1.2 million reviews\",\n      \"severity\": \"major\",\n      \"explanation\": \"Dropping \\\"novel\\\" removes the authors' claim that the dataset is new, which is part of their stated contribution.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"original_quote\": \"has fundamentally transformed the way in which consumers make purchasing decisions\",\n      \"revised_quote\": \"have transformed how consumers make purchasing decisions\",\n      \"severity\": \"possible\",\n      \"explanation\": \"Removing \\\"fundamentally\\\" weakens how strongly the original describes the transformation.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"original_quote\": \"The results of our analysis demonstrate that reviewer identity has a significant effect.\",\n      \"revised_quote\": \"We find that reviewer identity has a significant effect.\",\n      \"severity\": \"possible\",\n      \"explanation\": \"\\\"Demonstrate\\\" is a somewhat stronger evidential claim than \\\"find\\\", so the revision may soften the result slightly.\"\n    },\n    {\n      \"type\": \"lost_content\",\n      \"original_quote\": \"this finding has important implications for platform design: managers should consider highlighting reviewer credentials\",\n      \"revised_quote\": \"Platform managers should therefore consider highlighting reviewer credentials.\",\n      \"severity\": \"possible\",\n      \"explanation\": \"The explicit claim that the finding has \\\"important implications for platform design\\\" is reduced to an implied link through \\\"therefore\\\".\"\n    }\n  ],\n  \"summary\": \"Most edits are faithful tightening: filler is removed, and the citations, the 5-9% figure, the 1.2 million count, and the hedges are preserved. However, the revision drops the claim that the dataset is novel and slightly softens several claims (\\\"fundamentally\\\", \\\"demonstrate\\\", \\\"important implications\\\").\"\n}\n```",
+    "cost_usd": 0.0548502,
+    "seconds": 14.0,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

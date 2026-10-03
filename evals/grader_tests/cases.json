@@ -1,0 +1,162 @@
+{
+  "bases": {
+    "results": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+    "causal": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+    "intro": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Chevalier and Mayzlin\n2006; Forman et al. 2008; Dellarocas 2003). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials."
+  },
+  "variants": [
+    {
+      "id": "results-harmless-1",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. Disclosing identity raises the outcome: the coefficient is 0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3 once product fixed effects are added. The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4, and the coefficient on star rating is 0.42 (SE = 0.02) across all specifications. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Tightens and reorders sentences, keeps every figure. Note 'raises the outcome' is a mild causal flavor; judged harmless only if the reader treats the original coefficient as the same claim."
+    },
+    {
+      "id": "results-harmless-2",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. In column 2 the identity-disclosed indicator has a coefficient of 0.18 (SE = 0.04); adding product fixed effects in column 3 gives 0.15 (SE = 0.05). Column 4 shows an interaction with reviewer tenure of 0.09 (SE = 0.03). Star rating has a coefficient of 0.42 (SE = 0.02) in every specification. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level, except the interaction, which is significant at the 5% level.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Pure rephrasing, all numbers and structure preserved."
+    },
+    {
+      "id": "causal-harmless-1",
+      "base": "causal",
+      "revised": "Earlier work reports that remote work goes together with higher self-reported productivity (Bloom et al. 2015). Among our 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore read it as suggestive, not causal.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Synonym swaps only; hedging and the qualification are intact."
+    },
+    {
+      "id": "causal-harmless-2",
+      "base": "causal",
+      "revised": "Remote work is associated with higher self-reported productivity in prior work (Bloom et al. 2015). The association also holds in the first year of our sample of 412 call-center employees (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Reordering for flow, nothing changed."
+    },
+    {
+      "id": "results-damaged-digit",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.81 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "number changed (transposed digits)",
+      "code_grader_should_flag": true,
+      "note": "0.18 became 0.81."
+    },
+    {
+      "id": "results-damaged-level",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 5% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "significance level changed",
+      "code_grader_should_flag": true,
+      "note": "1% became 5% for most coefficients."
+    },
+    {
+      "id": "results-damaged-dropped-se",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15. The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "number dropped",
+      "code_grader_should_flag": true,
+      "note": "One standard error silently removed."
+    },
+    {
+      "id": "results-damaged-column",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 3. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Points the reader to the wrong column."
+    },
+    {
+      "id": "results-damaged-swap",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.15 (SE = 0.05) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.18 (SE = 0.04). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "two coefficients swapped between sentences",
+      "code_grader_should_flag": false,
+      "note": "Every number still appears, attached to the wrong claim. Known blind spot of the code grader."
+    },
+    {
+      "id": "causal-damaged-citation-year",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2016). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "citation year changed",
+      "code_grader_should_flag": true,
+      "note": "Bloom et al. 2015 became 2016."
+    },
+    {
+      "id": "causal-damaged-sample",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 421 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "number changed (sample size)",
+      "code_grader_should_flag": true,
+      "note": "412 became 421."
+    },
+    {
+      "id": "causal-damaged-causes",
+      "base": "causal",
+      "revised": "Prior work finds that remote work causes higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "association upgraded to causation",
+      "code_grader_should_flag": false,
+      "note": "'associated with' became 'causes'."
+    },
+    {
+      "id": "causal-damaged-dropped-qualification",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05). We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "qualification dropped",
+      "code_grader_should_flag": false,
+      "note": "The robustness caveat is silently gone."
+    },
+    {
+      "id": "causal-damaged-conclusion",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as causal.",
+      "verdict": "damaged",
+      "damage_type": "conclusion strength reversed",
+      "code_grader_should_flag": false,
+      "note": "'suggestive, not causal' became 'causal'."
+    },
+    {
+      "id": "causal-damaged-scope",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds throughout the sample (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "scope widened",
+      "code_grader_should_flag": false,
+      "note": "'first year' became 'throughout the sample'."
+    },
+    {
+      "id": "intro-harmless-citation-order",
+      "base": "intro",
+      "revised": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Dellarocas 2003; Forman et al. 2008; Chevalier and Mayzlin\n2006). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Same three citations in a different order inside one parenthetical. Found by the pilot smoke test (false alarm)."
+    },
+    {
+      "id": "intro-damaged-citation-author",
+      "base": "intro",
+      "revised": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Chevalier and Mayzlin\n2006; Forman et al. 2009; Dellarocas 2003). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials.",
+      "verdict": "damaged",
+      "damage_type": "citation year changed",
+      "code_grader_should_flag": true,
+      "note": "Forman et al. 2008 became 2009."
+    }
+  ]
+}

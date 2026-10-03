@@ -1,0 +1,3 @@
+Online platforms have transformed how consumers make purchasing decisions. Several studies have examined the relationship between online reviews and sales (Chevalier and Mayzlin 2006; Forman et al. 2008; Dellarocas 2003). These studies found that reviews matter: a one-star increase leads to a 5-9% increase in revenue. Yet, to the best of our knowledge, whether reviewer identity affects this relationship remains somewhat underexplored.
+
+To investigate this question, we use a dataset of 1.2 million reviews. We find that reviewer identity has a significant effect. Platform managers should therefore consider highlighting reviewer credentials.

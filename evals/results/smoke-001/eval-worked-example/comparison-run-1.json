@@ -1,0 +1,58 @@
+{
+  "case": "worked-example",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions strip the original's throat-clearing (\"It is important to note\", \"Furthermore\", \"Moreover\", \"comprising of\"). A goes further. It removes B's stacked hedge (\"to the best of our knowledge... somewhat underexplored\") and replaces the generic \"Several studies have examined\" / \"These studies found that reviews matter\" with one tighter sentence: \"A substantial literature links online reviews to sales..., with estimates suggesting...\". A's flow is stronger: \"Yet this work treats a review largely as a rating\" moves from the known (rating effects) to the new (reviewer identity) through content rather than a bare connective. A is also more precise. It says \"a one-star increase in average rating is associated with\" where B has the looser \"a one-star increase leads to\". It names what the effect is on (\"significantly affects the review-sales relationship\"), whereas B's \"has a significant effect\" leaves the outcome implicit. A's \"This result has direct implications for platform design\" gives the recommendation a frame; B's \"Platform managers should therefore consider\" is compact but abrupt. A's associational language, alphabetized citations, and gap framing suit empirical IS readers. B is clean and readable but plainer and more hedged.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "overall": "A",
+          "concerns": "Version A adds a claim not in the original (\"this work treats a review largely as a rating\") and softens the causal \"leads to\" into \"is associated with\"; the meaning reviewer should check both. Version B drops \"novel\" from the dataset description and drops the explicit \"implications for platform design\" framing."
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions strip the original's throat-clearing (\\\"It is important to note\\\", \\\"Furthermore\\\", \\\"Moreover\\\", \\\"comprising of\\\"). A goes further. It removes B's stacked hedge (\\\"to the best of our knowledge... somewhat underexplored\\\") and replaces the generic \\\"Several studies have examined\\\" / \\\"These studies found that reviews matter\\\" with one tighter sentence: \\\"A substantial literature links online reviews to sales..., with estimates suggesting...\\\". A's flow is stronger: \\\"Yet this work treats a review largely as a rating\\\" moves from the known (rating effects) to the new (reviewer identity) through content rather than a bare connective. A is also more precise. It says \\\"a one-star increase in average rating is associated with\\\" where B has the looser \\\"a one-star increase leads to\\\". It names what the effect is on (\\\"significantly affects the review-sales relationship\\\"), whereas B's \\\"has a significant effect\\\" leaves the outcome implicit. A's \\\"This result has direct implications for platform design\\\" gives the recommendation a frame; B's \\\"Platform managers should therefore consider\\\" is compact but abrupt. A's associational language, alphabetized citations, and gap framing suit empirical IS readers. B is clean and readable but plainer and more hedged.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"overall\": \"A\",\n  \"concerns\": \"Version A adds a claim not in the original (\\\"this work treats a review largely as a rating\\\") and softens the causal \\\"leads to\\\" into \\\"is associated with\\\"; the meaning reviewer should check both. Version B drops \\\"novel\\\" from the dataset description and drops the explicit \\\"implications for platform design\\\" framing.\"\n}\n```",
+        "cost_usd": 0.0413742,
+        "seconds": 12.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted'). Version B reads better on most dimensions. On flow, A still opens consecutive sentences with 'Several studies have examined...' and 'These studies found that reviews matter:', which is repetitive and leans on the contrast word 'Yet'. B merges the literature and its estimate into one sentence ('A substantial literature links online reviews to sales..., with estimates suggesting...'), then motivates the gap through content ('Yet this work treats a review largely as a rating'), so the new question follows from what is known. On precision, B is more exact: 'a one-star increase in average rating', 'how much a review moves sales', and 'significantly affects the review-sales relationship'. A's 'reviews matter' and 'has a significant effect' leave the object of the effect vague. B's 'is associated with' also suits observational evidence better than A's causal 'leads to', which matters to empirical IS readers. On concision, A is shorter, but it keeps the stacked hedge 'to the best of our knowledge, whether... remains somewhat underexplored' and the filler clause 'reviews matter'. B cuts both hedges, though it spends a sentence on new framing. On clarity, B states the gap and the finding more pointedly, and its last paragraph links the result to platform design. A's 'Platform managers should therefore consider...' is crisp but jumps from result to recommendation. On audience fit, B's 'associated with', its precise construct naming, and its keeping 'novel dataset' fit an empirical IS venue slightly better.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "overall": "B",
+          "concerns": "Version B adds a claim absent from the original: 'Yet this work treats a review largely as a rating.' It also changes 'leads to' to 'is associated with' (from causal to correlational), drops the hedges 'to the best of our knowledge' and 'somewhat', and specifies 'average rating'. The meaning reviewer should check these. Version A drops 'novel' from the dataset description and loses the explicit link to 'platform design'. B also reorders the citations alphabetically, which is harmless."
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted'). Version B reads better on most dimensions. On flow, A still opens consecutive sentences with 'Several studies have examined...' and 'These studies found that reviews matter:', which is repetitive and leans on the contrast word 'Yet'. B merges the literature and its estimate into one sentence ('A substantial literature links online reviews to sales..., with estimates suggesting...'), then motivates the gap through content ('Yet this work treats a review largely as a rating'), so the new question follows from what is known. On precision, B is more exact: 'a one-star increase in average rating', 'how much a review moves sales', and 'significantly affects the review-sales relationship'. A's 'reviews matter' and 'has a significant effect' leave the object of the effect vague. B's 'is associated with' also suits observational evidence better than A's causal 'leads to', which matters to empirical IS readers. On concision, A is shorter, but it keeps the stacked hedge 'to the best of our knowledge, whether... remains somewhat underexplored' and the filler clause 'reviews matter'. B cuts both hedges, though it spends a sentence on new framing. On clarity, B states the gap and the finding more pointedly, and its last paragraph links the result to platform design. A's 'Platform managers should therefore consider...' is crisp but jumps from result to recommendation. On audience fit, B's 'associated with', its precise construct naming, and its keeping 'novel dataset' fit an empirical IS venue slightly better.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"overall\": \"B\",\n  \"concerns\": \"Version B adds a claim absent from the original: 'Yet this work treats a review largely as a rating.' It also changes 'leads to' to 'is associated with' (from causal to correlational), drops the hedges 'to the best of our knowledge' and 'somewhat', and specifies 'average rating'. The meaning reviewer should check these. Version A drops 'novel' from the dataset description and loses the explicit link to 'platform design'. B also reorders the citations alphabetically, which is harmless.\"\n}\n```",
+        "cost_usd": 0.0448302,
+        "seconds": 14.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

@@ -1,0 +1,6 @@
+<paper_context>
+target_venue: Journal of Marketing Research
+audience: quantitative marketing researchers
+core_thesis: A staggered rollout of a loyalty program lets us estimate its effect on repeat purchase without a clean control group.
+revision_stage: first draft
+</paper_context>

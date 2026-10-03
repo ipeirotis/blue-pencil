@@ -1,0 +1,12 @@
+Online platforms have transformed how consumers make purchasing decisions. A
+substantial literature links online reviews to sales (Chevalier and Mayzlin
+2006; Dellarocas 2003; Forman et al. 2008), with estimates suggesting that a
+one-star increase in average rating is associated with a 5-9% increase in
+revenue. Yet this work treats a review largely as a rating. Whether the
+identity of the reviewer changes how much a review moves sales remains
+underexplored.
+
+We address this question using a novel dataset of 1.2 million reviews. We find
+that reviewer identity significantly affects the review-sales relationship.
+This result has direct implications for platform design: managers should
+consider highlighting reviewer credentials.

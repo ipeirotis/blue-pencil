@@ -1,0 +1,6 @@
+<paper_context>
+target_venue: Information Systems Research
+audience: empirical IS researchers
+core_thesis: A reviewer's identity, not just the rating, shapes how much an online review moves sales.
+revision_stage: first draft
+</paper_context>

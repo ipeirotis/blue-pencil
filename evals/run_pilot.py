@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+"""Run the editing request with and without Blue Pencil, several times each.
+
+For every case and every trial this starts a brand-new `claude -p` session in a
+throwaway directory (nothing shared between trials), with the same model, the
+same flags, and the same request text in both conditions. The only difference
+is that the with_skill condition has Blue Pencil installed in the directory and
+invokes it with /paper:revise; the without_skill condition has no skills,
+no slash commands, and no tools.
+
+Results are saved in a layout that skill-creator's benchmark tools can read:
+
+    results/<run-id>/eval-<case>/<with_skill|without_skill>/run-<n>/
+        prompt.txt  transcript.jsonl  timing.json  trial.json
+        outputs/reply.md  outputs/revised.txt
+
+Usage:
+    python3 run_pilot.py --dry-run
+    python3 run_pilot.py --cases worked-example --runs 1        # smoke test
+    python3 run_pilot.py --runs 3 --run-id pilot-001            # full pilot
+"""
+
+import argparse
+import datetime
+import json
+import shutil
+import sys
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+from lib import (EVALS, EXECUTOR_MODEL, call_claude, claude_version, extract_revised,
+                 git_sha, make_workspace, read_json, skill_version, skill_was_loaded,
+                 write_json)
+
+CONDITIONS = ("with_skill", "without_skill")
+
+# Same session settings for both conditions except what defines the condition.
+COMMON = ["--setting-sources", "project"]
+FLAGS = {
+    "with_skill": COMMON + ["--allowedTools", "Read,Grep,Glob,Skill,Agent,Task",
+                            "--disallowedTools", "Bash,Write,Edit,WebFetch,WebSearch,NotebookEdit"],
+    "without_skill": COMMON + ["--disable-slash-commands", "--tools", ""],
+}
+
+
+def load_case(case_id):
+    d = EVALS / "cases" / case_id
+    return {"id": case_id,
+            "context": (d / "context.txt").read_text().strip(),
+            "request": (d / "request.txt").read_text().strip(),
+            "passage": (d / "input.txt").read_text().strip()}
+
+
+def build_prompt(case, condition):
+    """The request is identical in both conditions; only the slash command differs."""
+    body = (f"{case['context']}\n\n{case['request']}\n\n{case['passage']}\n\n"
+            "Put the revised text in a single fenced code block.")
+    return ("/paper:revise " + body) if condition == "with_skill" else body
+
+
+def run_trial(case, condition, n, out_root, model):
+    run_dir = out_root / f"eval-{case['id']}" / condition / f"run-{n}"
+    if (run_dir / "outputs" / "revised.txt").exists():
+        return run_dir, "skipped (already done)"
+    (run_dir / "outputs").mkdir(parents=True, exist_ok=True)
+    prompt = build_prompt(case, condition)
+    (run_dir / "prompt.txt").write_text(prompt)
+    ws = make_workspace(condition == "with_skill", case["context"])
+    try:
+        res = call_claude(prompt, model, ws, FLAGS[condition], stream=True)
+    finally:
+        shutil.rmtree(ws, ignore_errors=True)
+    events = res.pop("events") or []
+    kept = [e for e in events if e.get("type") != "stream_event"]  # partial fragments duplicate the full messages
+    (run_dir / "transcript.jsonl").write_text("\n".join(json.dumps(e) for e in kept) + "\n")
+    reply = res["text"]
+    (run_dir / "outputs" / "reply.md").write_text(reply)
+    revised = extract_revised(reply)
+    if revised:
+        (run_dir / "outputs" / "revised.txt").write_text(revised + "\n")
+    usage = res["usage"]
+    total_tokens = sum(usage.get(k, 0) for k in
+                       ("input_tokens", "output_tokens", "cache_creation_input_tokens",
+                        "cache_read_input_tokens"))
+    write_json(run_dir / "timing.json", {
+        "total_tokens": total_tokens, "total_duration_seconds": res["seconds"],
+        "cost_usd_list_price": res["cost_usd"]})
+    write_json(run_dir / "trial.json", {
+        "case": case["id"], "condition": condition, "run": n,
+        "models_used": list(res["model_usage"].keys()), "usage": usage,
+        "model_usage": res["model_usage"], "flags": FLAGS[condition],
+        "returncode": res["returncode"], "is_error": res["is_error"],
+        "skill_loaded": skill_was_loaded(events) if condition == "with_skill" else None,
+        "revised_text_found": bool(revised), "stderr_tail": res["stderr"]})
+    status = "ok" if revised and not res["is_error"] else "PROBLEM (see trial.json)"
+    return run_dir, status
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
+    ap.add_argument("--cases", nargs="*", help="case ids (default: all in cases/cases.json)")
+    ap.add_argument("--runs", type=int, default=3, help="trials per condition per case")
+    ap.add_argument("--model", default=EXECUTOR_MODEL)
+    ap.add_argument("--run-id", default="pilot-" + datetime.datetime.now().strftime("%Y%m%d-%H%M"))
+    ap.add_argument("--workers", type=int, default=3)
+    ap.add_argument("--dry-run", action="store_true", help="print the plan and one prompt; make no model calls")
+    args = ap.parse_args()
+
+    ids = args.cases or [c["id"] for c in read_json(EVALS / "cases" / "cases.json")["cases"]]
+    cases = [load_case(i) for i in ids]
+    out_root = EVALS / "results" / args.run_id
+    jobs = [(c, cond, n) for c in cases for cond in CONDITIONS for n in range(1, args.runs + 1)]
+    print(f"run id: {args.run_id}\nmodel: {args.model}\ncases: {ids}\n"
+          f"trials: {len(jobs)} ({args.runs} per condition per case)")
+    if args.dry_run:
+        for cond in CONDITIONS:
+            print(f"\n--- example prompt, {cond} ---\n{build_prompt(cases[0], cond)}\n--- flags: {FLAGS[cond]}")
+        return
+
+    write_json(out_root / "run_meta.json", {
+        "run_id": args.run_id, "started": datetime.datetime.now().isoformat(timespec="seconds"),
+        "executor_model": args.model, "claude_code_version": claude_version(),
+        "blue_pencil_version": skill_version(), "repo_commit": git_sha(),
+        "cases": ids, "runs_per_condition": args.runs, "flags": FLAGS,
+        "note": "Each trial is a fresh `claude -p` session in an empty temp directory."})
+    t0 = time.time()
+    with ThreadPoolExecutor(max_workers=args.workers) as ex:
+        futs = {ex.submit(run_trial, c, cond, n, out_root, args.model): (c["id"], cond, n)
+                for c, cond, n in jobs}
+        for f in as_completed(futs):
+            cid, cond, n = futs[f]
+            try:
+                _, status = f.result()
+            except Exception as e:  # keep going; one failed trial must not lose the rest
+                status = f"ERROR {type(e).__name__}: {e}"
+            print(f"  {cid} / {cond} / run-{n}: {status}", flush=True)
+    print(f"done in {time.time() - t0:.0f}s. Results in {out_root}")
+
+
+if __name__ == "__main__":
+    sys.exit(main())

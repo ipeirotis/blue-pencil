@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: Most edits are faithful tightening: filler is removed, and the citations, the 5-9% figure, the 1.2 million count, and the hedges are preserved. However, the revision drops the claim that the dataset is novel and slightly softens several claims (\"fundamentally\", \"demonstrate\", \"important implications\")."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}
