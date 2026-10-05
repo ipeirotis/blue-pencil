@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": true,
       "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision reorders the sentences and adds glosses ('so treatment timing is staggered'; 'which never receive the program'; 'which have not yet received it'). These only restate what the original terms already mean. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the reason for reporting Callaway and Sant'Anna are all unchanged in content and strength."
     }
   ],
   "summary": {
-    "passed": 1,
+    "passed": 2,
     "failed": 0,
-    "total": 1,
+    "total": 2,
     "pass_rate": 1.0
   }
 }

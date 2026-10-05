@@ -6,5 +6,25 @@
     "passed": true,
     "diffs": {}
   },
-  "meaning": null
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "Alongside it, the identity-disclosed indicator is positive: 0.18 (SE = 0.04) in column 2. After adding product fixed effects in column 3, the coefficient stays positive at 0.15 (SE = 0.05).",
+          "explanation": "The original's plain reporting, which led with the identity-disclosed indicator, now leads with star rating and adds interpretive framing ('is positive', 'stays positive'); the numbers already imply this, so no claim changes."
+        }
+      ],
+      "summary": "Every estimate, standard error, column assignment, and significance statement is kept, and the added 'positive' wording follows directly from the reported coefficients. The only difference is reordering and framing, so the meaning is preserved."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"Alongside it, the identity-disclosed indicator is positive: 0.18 (SE = 0.04) in column 2. After adding product fixed effects in column 3, the coefficient stays positive at 0.15 (SE = 0.05).\",\n      \"explanation\": \"The original's plain reporting, which led with the identity-disclosed indicator, now leads with star rating and adds interpretive framing ('is positive', 'stays positive'); the numbers already imply this, so no claim changes.\"\n    }\n  ],\n  \"summary\": \"Every estimate, standard error, column assignment, and significance statement is kept, and the added 'positive' wording follows directly from the reported coefficients. The only difference is reordering and framing, so the meaning is preserved.\"\n}\n```",
+    "cost_usd": 0.0332422,
+    "seconds": 8.4,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
 }

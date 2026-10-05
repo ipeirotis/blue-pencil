@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": true,
       "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The revision adds a specific outcome (sales) and a causal estimand that the original passage never states, and attaches the reported positive, significant finding to that outcome. If 'sales' is established elsewhere in the paper, these additions may be faithful, but within this passage they are new assertions."
     }
   ],
   "summary": {
     "passed": 1,
-    "failed": 0,
-    "total": 1,
-    "pass_rate": 1.0
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
   }
 }

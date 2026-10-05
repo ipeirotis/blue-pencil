@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": true,
       "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The original is a neutral report of the coefficients. The revision adds interpretive claims: identity matters beyond rating, the estimate is robust, and reviewer identity in general conditions the effect. It also frames star rating as a comparison point. None of these claims appear in the original."
     }
   ],
   "summary": {
     "passed": 1,
-    "failed": 0,
-    "total": 1,
-    "pass_rate": 1.0
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
   }
 }

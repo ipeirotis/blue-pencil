@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": true,
       "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision reorders sentences, labels the rollout as staggered, and adds plain-language definitions of never-treated and not-yet-treated stores that match the standard meanings implied by the original. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are all kept at the same strength and scope."
     }
   ],
   "summary": {
-    "passed": 1,
+    "passed": 2,
     "failed": 0,
-    "total": 1,
+    "total": 2,
     "pass_rate": 1.0
   }
 }

@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": true,
       "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The original reports coefficients without interpreting them. The revision adds several new claims: that identity matters, that the estimate is robust, that the disclosure effect grows with tenure, that star rating causally drives sales, and that identity adds to that effect."
     }
   ],
   "summary": {
     "passed": 1,
-    "failed": 0,
-    "total": 1,
-    "pass_rate": 1.0
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
   }
 }

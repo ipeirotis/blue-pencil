@@ -6,5 +6,25 @@
     "passed": true,
     "diffs": {}
   },
-  "meaning": null
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The original never names the outcome variable, so the revision adds the claim that the estimated effect is on sales."
+        }
+      ],
+      "summary": "The revision mostly reorders and glosses the original, and the added explanation of endogeneity matches its meaning. However, it names 'sales' as the outcome of the estimated effect, which the original does not state."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original never names the outcome variable, so the revision adds the claim that the estimated effect is on sales.\"\n    }\n  ],\n  \"summary\": \"The revision mostly reorders and glosses the original, and the added explanation of endogeneity matches its meaning. However, it names 'sales' as the outcome of the estimated effect, which the original does not state.\"\n}\n```",
+    "cost_usd": 0.030726200000000002,
+    "seconds": 7.9,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
 }

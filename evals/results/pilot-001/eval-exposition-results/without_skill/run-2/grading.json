@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": true,
       "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The reported estimates, columns, and significance levels are unchanged, but the revision adds interpretive claims the original did not make: that the disclosure effect 'holds' with fixed effects and that star rating is a 'strong predictor'."
     }
   ],
   "summary": {
     "passed": 1,
-    "failed": 0,
-    "total": 1,
-    "pass_rate": 1.0
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
   }
 }

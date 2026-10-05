@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": true,
       "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The revision mostly reorders and glosses the original, and the added explanation of endogeneity matches its meaning. However, it names 'sales' as the outcome of the estimated effect, which the original does not state."
     }
   ],
   "summary": {
     "passed": 1,
-    "failed": 0,
-    "total": 1,
-    "pass_rate": 1.0
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
   }
 }

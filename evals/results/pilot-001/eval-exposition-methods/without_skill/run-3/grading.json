@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": false,
       "evidence": "numberwords: -[] +['two']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The method, controls, clustering, and estimators are all preserved, but the revision adds explanatory claims the author did not make. The added interpretation of the interaction coefficient is substantive and arguably inaccurate under staggered adoption."
     }
   ],
   "summary": {
     "passed": 0,
-    "failed": 1,
-    "total": 1,
+    "failed": 2,
+    "total": 2,
     "pass_rate": 0.0
   }
 }

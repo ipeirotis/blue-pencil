@@ -13,5 +13,39 @@
       }
     }
   },
-  "meaning": null
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The original never names the outcome variable; the revision asserts that the estimated effect is on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "is a well-known obstacle to identification in this literature.",
+          "revised_quote": "products of higher quality tend to attract more favorable reviews and higher sales, so the two are correlated even absent any causal effect of reviews",
+          "explanation": "The revision adds an empirical claim about how quality relates to reviews and sales, and it names sales as the confounded outcome. The original says neither."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "which generates quasi-random assignment conditional on observed covariates.",
+          "revised_quote": "That is, otherwise comparable cohorts are exposed to different moderation, and hence differ in the valence of the reviews consumers see, for reasons unrelated to product quality.",
+          "explanation": "The revision adds a first-stage mechanism (moderation changes the valence consumers see) and an explicit exogeneity assertion. The original claims only quasi-random assignment conditional on covariates."
+        }
+      ],
+      "summary": "The revision adds substantive content the original did not state: sales as the outcome, a claimed quality–sales correlation mechanism, and an explicit assertion that moderation shifts the valence consumers see for reasons unrelated to quality. The added parenthetical defining valence is a standard gloss and is not flagged."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original never names the outcome variable; the revision asserts that the estimated effect is on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"products of higher quality tend to attract more favorable reviews and higher sales, so the two are correlated even absent any causal effect of reviews\",\n      \"explanation\": \"The revision adds an empirical claim about how quality relates to reviews and sales, and it names sales as the confounded outcome. The original says neither.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"which generates quasi-random assignment conditional on observed covariates.\",\n      \"revised_quote\": \"That is, otherwise comparable cohorts are exposed to different moderation, and hence differ in the valence of the reviews consumers see, for reasons unrelated to product quality.\",\n      \"explanation\": \"The revision adds a first-stage mechanism (moderation changes the valence consumers see) and an explicit exogeneity assertion. The original claims only quasi-random assignment conditional on covariates.\"\n    }\n  ],\n  \"summary\": \"The revision adds substantive content the original did not state: sales as the outcome, a claimed quality–sales correlation mechanism, and an explicit assertion that moderation shifts the valence consumers see for reasons unrelated to quality. The added parenthetical defining valence is a standard gloss and is not flagged.\"\n}\n```",
+    "cost_usd": 0.0403342,
+    "seconds": 11.8,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
 }

@@ -6,5 +6,17 @@
     "passed": true,
     "diffs": {}
   },
-  "meaning": null
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision removes filler phrases ('It is important to note that', 'It should be noted that'), drops connectives, merges sentences, and tightens wording ('In order to' to 'To', 'comprising of' to 'comprising'). All claims, hedges ('to the best of our knowledge', 'somewhat underexplored', 'should consider'), qualifiers ('novel', 'significant'), and scope are kept at the same strength."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision removes filler phrases ('It is important to note that', 'It should be noted that'), drops connectives, merges sentences, and tightens wording ('In order to' to 'To', 'comprising of' to 'comprising'). All claims, hedges ('to the best of our knowledge', 'somewhat underexplored', 'should consider'), qualifiers ('novel', 'significant'), and scope are kept at the same strength.\"\n}\n```",
+    "cost_usd": 0.0286862,
+    "seconds": 5.5,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
 }

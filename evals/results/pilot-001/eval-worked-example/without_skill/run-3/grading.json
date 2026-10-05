@@ -4,12 +4,17 @@
       "text": "Protected content unchanged (code grader)",
       "passed": true,
       "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision removes filler phrases ('It is important to note that', 'It should be noted that'), drops connectives, merges sentences, and tightens wording ('In order to' to 'To', 'comprising of' to 'comprising'). All claims, hedges ('to the best of our knowledge', 'somewhat underexplored', 'should consider'), qualifiers ('novel', 'significant'), and scope are kept at the same strength."
     }
   ],
   "summary": {
-    "passed": 1,
+    "passed": 2,
     "failed": 0,
-    "total": 1,
+    "total": 2,
     "pass_rate": 1.0
   }
 }

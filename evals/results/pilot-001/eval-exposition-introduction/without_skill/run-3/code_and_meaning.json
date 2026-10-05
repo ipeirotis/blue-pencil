@@ -6,5 +6,39 @@
     "passed": true,
     "diffs": {}
   },
-  "meaning": null
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "a well-known obstacle to identification in this literature",
+          "revised_quote": "a well-known obstacle to identifying the causal effect of online reviews on sales",
+          "explanation": "The original names no estimand or outcome, but the revision says the target is a causal effect of reviews on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The revision states that the positive, significant result is an effect of valence on sales, an outcome the original passage never names."
+        },
+        {
+          "type": "new_content",
+          "severity": "minor",
+          "original_quote": "which generates quasi-random assignment conditional on observed covariates",
+          "revised_quote": "which generates quasi-random assignment of review cohorts to moderation conditional on observed covariates",
+          "explanation": "The revision specifies what is assigned to what; this is a plausible reading of the original but is not stated there."
+        }
+      ],
+      "summary": "The revision adds a specific outcome (sales) and a causal estimand that the original passage never states, and attaches the reported positive, significant finding to that outcome. If 'sales' is established elsewhere in the paper, these additions may be faithful, but within this passage they are new assertions."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"a well-known obstacle to identifying the causal effect of online reviews on sales\",\n      \"explanation\": \"The original names no estimand or outcome, but the revision says the target is a causal effect of reviews on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The revision states that the positive, significant result is an effect of valence on sales, an outcome the original passage never names.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"which generates quasi-random assignment conditional on observed covariates\",\n      \"revised_quote\": \"which generates quasi-random assignment of review cohorts to moderation conditional on observed covariates\",\n      \"explanation\": \"The revision specifies what is assigned to what; this is a plausible reading of the original but is not stated there.\"\n    }\n  ],\n  \"summary\": \"The revision adds a specific outcome (sales) and a causal estimand that the original passage never states, and attaches the reported positive, significant finding to that outcome. If 'sales' is established elsewhere in the paper, these additions may be faithful, but within this passage they are new assertions.\"\n}\n```",
+    "cost_usd": 0.0353902,
+    "seconds": 9.3,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
 }
