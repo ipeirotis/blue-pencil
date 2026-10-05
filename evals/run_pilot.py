@@ -16,7 +16,7 @@ Results are saved in a layout that skill-creator's benchmark tools can read:
 
 Usage:
     python3 run_pilot.py --dry-run
-    python3 run_pilot.py --cases worked-example --runs 1        # smoke test
+    python3 run_pilot.py --cases worked-example --runs 1        # one run per condition, quick check
     python3 run_pilot.py --runs 3 --run-id pilot-001            # full pilot
 """
 

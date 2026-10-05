@@ -3,6 +3,17 @@
 All notable changes to blue-pencil (called paper-revision-editor before v2.0.0) are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `evals/`: an evaluation pilot that runs the same editing request with and without Blue Pencil and grades the results with a code grader, a meaning grader, and a blinded quality grader. Includes a rubric, test cases built from the repo's examples, an offline self-test for the code grader, and one saved run (`results/pilot-001`).
+- `make eval-selftest`: runs the code grader's offline self-test.
+
+### Changed
+
+- `scripts/lint.sh` skips `evals/results/`, which holds raw saved model replies.
+
 ## [3.0.0] - 2026-08-14
 
 Narrows Blue Pencil to one job: editing existing academic prose. Analysis and
