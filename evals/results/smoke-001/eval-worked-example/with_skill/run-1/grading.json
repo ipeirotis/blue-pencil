@@ -7,14 +7,14 @@
     },
     {
       "text": "Meaning preserved (meaning grader)",
-      "passed": false,
-      "evidence": "verdict=changed: Most edits are faithful tightening: filler is removed, and the citations, the 5-9% figure, the 1.2 million count, and the hedges are preserved. However, the revision drops the claim that the dataset is novel and slightly softens several claims (\"fundamentally\", \"demonstrate\", \"important implications\")."
+      "passed": true,
+      "evidence": "verdict=preserved: The revision keeps every finding, citation context, hedge (\"to the best of our knowledge\", \"somewhat underexplored\"), and the managerial recommendation at the same strength. The only changes are two dropped qualifiers (\"fundamentally\", \"novel\") plus removed filler."
     }
   ],
   "summary": {
-    "passed": 1,
-    "failed": 1,
+    "passed": 2,
+    "failed": 0,
     "total": 2,
-    "pass_rate": 0.5
+    "pass_rate": 1.0
   }
 }

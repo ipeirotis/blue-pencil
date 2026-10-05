@@ -3,8 +3,17 @@
   "run_dir": "results/smoke-001/eval-worked-example/without_skill/run-1",
   "has_revised_text": true,
   "code": {
-    "passed": true,
-    "diffs": {}
+    "passed": false,
+    "diffs": {
+      "citation_order": {
+        "removed": [
+          "Chevalier and Mayzlin 2006; Forman et al. 2008; Dellarocas 2003"
+        ],
+        "added": [
+          "Chevalier and Mayzlin 2006; Dellarocas 2003; Forman et al. 2008"
+        ]
+      }
+    }
   },
   "meaning": {
     "parsed": {
@@ -12,73 +21,52 @@
       "problems": [
         {
           "type": "claim_strength",
+          "severity": "major",
           "original_quote": "these studies found that reviews matter, a one-star increase leads to a 5-9% increase in revenue",
           "revised_quote": "with estimates suggesting that a one-star increase in average rating is associated with a 5-9% increase in revenue",
+          "explanation": "The original states a causal finding (\"found\", \"leads to\"); the revision weakens it to a suggested association."
+        },
+        {
+          "type": "claim_strength",
           "severity": "major",
-          "explanation": "The causal 'found ... leads to' became the hedged, associational 'estimates suggesting ... is associated with', which weakens the reported finding."
+          "original_quote": "remains, to the best of our knowledge, somewhat underexplored in the existing literature",
+          "revised_quote": "remains underexplored",
+          "explanation": "Dropping both \"to the best of our knowledge\" and \"somewhat\" turns a hedged novelty claim into an unhedged one."
         },
         {
           "type": "new_content",
-          "original_quote": "",
-          "revised_quote": "Yet this work treats a review largely as a rating.",
           "severity": "major",
-          "explanation": "The revision adds a new characterization of the prior literature that does not appear in the original."
-        },
-        {
-          "type": "qualification",
-          "original_quote": "remains, to the best of our knowledge, somewhat underexplored in the existing literature",
-          "revised_quote": "remains underexplored",
-          "severity": "major",
-          "explanation": "Both hedges ('to the best of our knowledge' and 'somewhat') were removed, so the claim of a gap in the literature is now stronger."
-        },
-        {
-          "type": "scope",
           "original_quote": "an investigation of the relationship between online reviews and sales was conducted by several researchers",
           "revised_quote": "A substantial literature links online reviews to sales",
-          "severity": "possible",
-          "explanation": "'Several researchers' (three cited studies) became 'a substantial literature', and the neutral 'investigation of the relationship' became an assertion that the literature 'links' reviews to sales."
+          "explanation": "The original cites work by \"several researchers\"; the revision describes it as a \"substantial literature\", which overstates how much prior evidence exists."
         },
         {
-          "type": "scope",
-          "original_quote": "a one-star increase leads to",
-          "revised_quote": "a one-star increase in average rating",
-          "severity": "possible",
-          "explanation": "The revision specifies that the one-star increase is in the average rating, which the original did not state."
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "",
+          "revised_quote": "Yet this work treats a review largely as a rating.",
+          "explanation": "The revision adds a characterization of the prior literature that the original does not make."
         },
         {
-          "type": "claim_strength",
-          "original_quote": "has fundamentally transformed",
-          "revised_quote": "have transformed",
-          "severity": "possible",
-          "explanation": "Dropping 'fundamentally' softens the opening claim."
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "fundamentally transformed",
+          "revised_quote": "transformed",
+          "explanation": "The intensifier \"fundamentally\" was dropped."
         },
         {
-          "type": "scope",
-          "original_quote": "The results of our analysis demonstrate that reviewer identity has a significant effect.",
-          "revised_quote": "We find that reviewer identity significantly affects the review-sales relationship.",
-          "severity": "possible",
-          "explanation": "The original left the target of the effect unspecified; the revision makes it an effect on the review-sales relationship (a moderation effect), and 'demonstrate' became the somewhat weaker 'find'."
-        },
-        {
-          "type": "claim_strength",
-          "original_quote": "Whether the identity of reviewers affects this relationship",
-          "revised_quote": "Whether the identity of the reviewer changes how much a review moves sales",
-          "severity": "possible",
-          "explanation": "The research question is now framed specifically as a change in magnitude, and the wording implies that reviews causally 'move' sales."
-        },
-        {
-          "type": "claim_strength",
-          "original_quote": "this finding has important implications for platform design",
-          "revised_quote": "This result has direct implications for platform design",
-          "severity": "possible",
-          "explanation": "'Important' became 'direct', which may claim a more immediate applicability."
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "important implications for platform design",
+          "revised_quote": "direct implications for platform design",
+          "explanation": "\"Important\" became \"direct\", which slightly changes how the implications are characterized."
         }
       ],
-      "summary": "The revision weakens the prior-literature finding from causal to associational, adds a new claim about how that literature treats reviews, and removes the hedges on the research gap. Several smaller shifts in scope and strength also appear."
+      "summary": "The revision weakens the causal claim about prior findings and strips the hedges from the novelty claim. It also inflates prior work into a \"substantial literature\" and adds a new characterization of that literature, so the passage no longer says exactly what the original said."
     },
-    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"original_quote\": \"these studies found that reviews matter, a one-star increase leads to a 5-9% increase in revenue\",\n      \"revised_quote\": \"with estimates suggesting that a one-star increase in average rating is associated with a 5-9% increase in revenue\",\n      \"severity\": \"major\",\n      \"explanation\": \"The causal 'found ... leads to' became the hedged, associational 'estimates suggesting ... is associated with', which weakens the reported finding.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"original_quote\": \"\",\n      \"revised_quote\": \"Yet this work treats a review largely as a rating.\",\n      \"severity\": \"major\",\n      \"explanation\": \"The revision adds a new characterization of the prior literature that does not appear in the original.\"\n    },\n    {\n      \"type\": \"qualification\",\n      \"original_quote\": \"remains, to the best of our knowledge, somewhat underexplored in the existing literature\",\n      \"revised_quote\": \"remains underexplored\",\n      \"severity\": \"major\",\n      \"explanation\": \"Both hedges ('to the best of our knowledge' and 'somewhat') were removed, so the claim of a gap in the literature is now stronger.\"\n    },\n    {\n      \"type\": \"scope\",\n      \"original_quote\": \"an investigation of the relationship between online reviews and sales was conducted by several researchers\",\n      \"revised_quote\": \"A substantial literature links online reviews to sales\",\n      \"severity\": \"possible\",\n      \"explanation\": \"'Several researchers' (three cited studies) became 'a substantial literature', and the neutral 'investigation of the relationship' became an assertion that the literature 'links' reviews to sales.\"\n    },\n    {\n      \"type\": \"scope\",\n      \"original_quote\": \"a one-star increase leads to\",\n      \"revised_quote\": \"a one-star increase in average rating\",\n      \"severity\": \"possible\",\n      \"explanation\": \"The revision specifies that the one-star increase is in the average rating, which the original did not state.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"original_quote\": \"has fundamentally transformed\",\n      \"revised_quote\": \"have transformed\",\n      \"severity\": \"possible\",\n      \"explanation\": \"Dropping 'fundamentally' softens the opening claim.\"\n    },\n    {\n      \"type\": \"scope\",\n      \"original_quote\": \"The results of our analysis demonstrate that reviewer identity has a significant effect.\",\n      \"revised_quote\": \"We find that reviewer identity significantly affects the review-sales relationship.\",\n      \"severity\": \"possible\",\n      \"explanation\": \"The original left the target of the effect unspecified; the revision makes it an effect on the review-sales relationship (a moderation effect), and 'demonstrate' became the somewhat weaker 'find'.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"original_quote\": \"Whether the identity of reviewers affects this relationship\",\n      \"revised_quote\": \"Whether the identity of the reviewer changes how much a review moves sales\",\n      \"severity\": \"possible\",\n      \"explanation\": \"The research question is now framed specifically as a change in magnitude, and the wording implies that reviews causally 'move' sales.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"original_quote\": \"this finding has important implications for platform design\",\n      \"revised_quote\": \"This result has direct implications for platform design\",\n      \"severity\": \"possible\",\n      \"explanation\": \"'Important' became 'direct', which may claim a more immediate applicability.\"\n    }\n  ],\n  \"summary\": \"The revision weakens the prior-literature finding from causal to associational, adds a new claim about how that literature treats reviews, and removes the hedges on the research gap. Several smaller shifts in scope and strength also appear.\"\n}\n```",
-    "cost_usd": 0.0699102,
-    "seconds": 20.0,
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"these studies found that reviews matter, a one-star increase leads to a 5-9% increase in revenue\",\n      \"revised_quote\": \"with estimates suggesting that a one-star increase in average rating is associated with a 5-9% increase in revenue\",\n      \"explanation\": \"The original states a causal finding (\\\"found\\\", \\\"leads to\\\"); the revision weakens it to a suggested association.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"remains, to the best of our knowledge, somewhat underexplored in the existing literature\",\n      \"revised_quote\": \"remains underexplored\",\n      \"explanation\": \"Dropping both \\\"to the best of our knowledge\\\" and \\\"somewhat\\\" turns a hedged novelty claim into an unhedged one.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"an investigation of the relationship between online reviews and sales was conducted by several researchers\",\n      \"revised_quote\": \"A substantial literature links online reviews to sales\",\n      \"explanation\": \"The original cites work by \\\"several researchers\\\"; the revision describes it as a \\\"substantial literature\\\", which overstates how much prior evidence exists.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"\",\n      \"revised_quote\": \"Yet this work treats a review largely as a rating.\",\n      \"explanation\": \"The revision adds a characterization of the prior literature that the original does not make.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"fundamentally transformed\",\n      \"revised_quote\": \"transformed\",\n      \"explanation\": \"The intensifier \\\"fundamentally\\\" was dropped.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"important implications for platform design\",\n      \"revised_quote\": \"direct implications for platform design\",\n      \"explanation\": \"\\\"Important\\\" became \\\"direct\\\", which slightly changes how the implications are characterized.\"\n    }\n  ],\n  \"summary\": \"The revision weakens the causal claim about prior findings and strips the hedges from the novelty claim. It also inflates prior work into a \\\"substantial literature\\\" and adds a new characterization of that literature, so the passage no longer says exactly what the original said.\"\n}\n```",
+    "cost_usd": 0.0627462,
+    "seconds": 18.1,
     "models": [
       "claude-opus-5-5"
     ]

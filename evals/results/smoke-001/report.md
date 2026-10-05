@@ -9,20 +9,20 @@
 
 | Condition | Runs | Code check passes | Meaning: preserved / changed / unsure | Both pass | Avg major problems | Avg minor problems |
 |---|---|---|---|---|---|---|
-| With Blue Pencil | 1 | 1/1 (100%) | 0 / 1 / 0 | 0/1 (0%) | 1 | 3 |
-| Without (plain Claude) | 1 | 1/1 (100%) | 0 / 1 / 0 | 0/1 (0%) | 3 | 6 |
+| With Blue Pencil | 1 | 1/1 (100%) | 1 / 0 / 0 | 1/1 (100%) | 0 | 2 |
+| Without (plain Claude) | 1 | 0/1 (0%) | 0 / 1 / 0 | 0/1 (0%) | 4 | 2 |
 
 ## 2. Preservation by case
 
 | Case / condition | Runs | Code check passes | Meaning: preserved / changed / unsure | Both pass | Avg major problems | Avg minor problems |
 |---|---|---|---|---|---|---|
-| worked-example / With Blue Pencil | 1 | 1/1 (100%) | 0 / 1 / 0 | 0/1 (0%) | 1 | 3 |
-| worked-example / Without (plain Claude) | 1 | 1/1 (100%) | 0 / 1 / 0 | 0/1 (0%) | 3 | 6 |
+| worked-example / With Blue Pencil | 1 | 1/1 (100%) | 1 / 0 / 0 | 1/1 (100%) | 0 | 2 |
+| worked-example / Without (plain Claude) | 1 | 0/1 (0%) | 0 / 1 / 0 | 0/1 (0%) | 4 | 2 |
 
 Major problems per run:
 
-- worked-example / With Blue Pencil: 1
-- worked-example / Without (plain Claude): 3
+- worked-example / With Blue Pencil: 0
+- worked-example / Without (plain Claude): 4
 
 ## 3. Cost and speed
 
@@ -49,24 +49,23 @@ Blue Pencil was loaded in 1/1 with-skill runs (checked from each transcript's to
 
 | Case | Run | Quality winner | Blue Pencil preserved? | Plain Claude preserved? | Clean improvement? |
 |---|---|---|---|---|---|
-| worked-example | 1 | without_skill | False | False | no |
+| worked-example | 1 | without_skill | True | False | no |
 
 ## 6. What the graders flagged
 
 **With Blue Pencil, worked-example, run 1**
-- meaning [major/lost_content]: "we leverage a novel dataset comprising of 1.2 million reviews" -> "we use a dataset of 1.2 million reviews"
-- meaning [possible/claim_strength]: "has fundamentally transformed the way in which consumers make purchasing decisions" -> "have transformed how consumers make purchasing decisions"
-- meaning [possible/claim_strength]: "The results of our analysis demonstrate that reviewer identity has a significant effect." -> "We find that reviewer identity has a significant effect."
-- meaning [possible/lost_content]: "this finding has important implications for platform design: managers should consider highlighting reviewer credentials" -> "Platform managers should therefore consider highlighting reviewer credentials."
+- meaning [minor/qualifier_word]: "has
+fundamentally transformed the way in which consumers make purchasing
+decisions" -> "have transformed how consumers make purchasing decisions"
+- meaning [minor/qualifier_word]: "we leverage a novel dataset comprising
+of 1.2 million reviews" -> "we use a dataset of 1.2 million reviews"
 
 **Without (plain Claude), worked-example, run 1**
+- code [citation_order]: removed ['Chevalier and Mayzlin 2006; Forman et al. 2008; Dellarocas 2003'], added ['Chevalier and Mayzlin 2006; Dellarocas 2003; Forman et al. 2008']
 - meaning [major/claim_strength]: "these studies found that reviews matter, a one-star increase leads to a 5-9% increase in revenue" -> "with estimates suggesting that a one-star increase in average rating is associated with a 5-9% increase in revenue"
+- meaning [major/claim_strength]: "remains, to the best of our knowledge, somewhat underexplored in the existing literature" -> "remains underexplored"
+- meaning [major/new_content]: "an investigation of the relationship between online reviews and sales was conducted by several researchers" -> "A substantial literature links online reviews to sales"
 - meaning [major/new_content]: "" -> "Yet this work treats a review largely as a rating."
-- meaning [major/qualification]: "remains, to the best of our knowledge, somewhat underexplored in the existing literature" -> "remains underexplored"
-- meaning [possible/scope]: "an investigation of the relationship between online reviews and sales was conducted by several researchers" -> "A substantial literature links online reviews to sales"
-- meaning [possible/scope]: "a one-star increase leads to" -> "a one-star increase in average rating"
-- meaning [possible/claim_strength]: "has fundamentally transformed" -> "have transformed"
-- meaning [possible/scope]: "The results of our analysis demonstrate that reviewer identity has a significant effect." -> "We find that reviewer identity significantly affects the review-sales relationship."
-- meaning [possible/claim_strength]: "Whether the identity of reviewers affects this relationship" -> "Whether the identity of the reviewer changes how much a review moves sales"
-- meaning [possible/claim_strength]: "this finding has important implications for platform design" -> "This result has direct implications for platform design"
+- meaning [minor/qualifier_word]: "fundamentally transformed" -> "transformed"
+- meaning [minor/qualifier_word]: "important implications for platform design" -> "direct implications for platform design"
 

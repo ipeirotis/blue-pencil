@@ -2,19 +2,19 @@
   "expectations": [
     {
       "text": "Protected content unchanged (code grader)",
-      "passed": true,
-      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+      "passed": false,
+      "evidence": "citation_order: -['Chevalier and Mayzlin 2006; Forman et al. 2008; Dellarocas 2003'] +['Chevalier and Mayzlin 2006; Dellarocas 2003; Forman et al. 2008']"
     },
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: The revision weakens the prior-literature finding from causal to associational, adds a new claim about how that literature treats reviews, and removes the hedges on the research gap. Several smaller shifts in scope and strength also appear."
+      "evidence": "verdict=changed: The revision weakens the causal claim about prior findings and strips the hedges from the novelty claim. It also inflates prior work into a \"substantial literature\" and adds a new characterization of that literature, so the passage no longer says exactly what the original said."
     }
   ],
   "summary": {
-    "passed": 1,
-    "failed": 1,
+    "passed": 0,
+    "failed": 2,
     "total": 2,
-    "pass_rate": 0.5
+    "pass_rate": 0.0
   }
 }
