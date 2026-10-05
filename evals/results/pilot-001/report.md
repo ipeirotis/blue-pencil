@@ -49,18 +49,30 @@ Blue Pencil was loaded in 12/12 with-skill runs (checked from each transcript's 
 
 | Pairs | Blue Pencil wins | Plain Claude wins | Ties or order-dependent |
 |---|---|---|---|
-| All (0) | 0 | 0 | 0 |
+| All (12) | 6 | 5 | 1 |
 | Both passed preservation (0) | 0 | 0 | 0 |
 
 ## 5. Clean improvements (passes preservation and wins quality)
 
 | Condition | Clean improvements |
 |---|---|
-| With Blue Pencil | 0/0 |
-| Without (plain Claude) | 0/0 |
+| With Blue Pencil | 0/12 (0%) |
+| Without (plain Claude) | 0/12 (0%) |
 
 | Case | Run | Quality winner | Blue Pencil preserved? | Plain Claude preserved? | Clean improvement? |
 |---|---|---|---|---|---|
+| exposition-introduction | 1 | with_skill | False | False | no |
+| exposition-introduction | 2 | with_skill | False | False | no |
+| exposition-introduction | 3 | without_skill | False | False | no |
+| exposition-methods | 1 | without_skill | True | False | no |
+| exposition-methods | 2 | tie | True | False | no |
+| exposition-methods | 3 | with_skill | False | False | no |
+| exposition-results | 1 | without_skill | True | False | no |
+| exposition-results | 2 | without_skill | True | False | no |
+| exposition-results | 3 | without_skill | True | False | no |
+| worked-example | 1 | with_skill | False | True | no |
+| worked-example | 2 | with_skill | False | True | no |
+| worked-example | 3 | with_skill | False | True | no |
 
 ## 6. What the graders flagged
 

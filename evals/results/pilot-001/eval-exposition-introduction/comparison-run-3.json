@@ -1,0 +1,67 @@
+{
+  "case": "exposition-introduction",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A states the estimand up front, so the reader knows from the first sentence what is being identified. It then moves in a logical order: problem, source of variation, mechanism, data and result, contribution. Version B is tighter and opens with a crisper active clause. However, it praises 'Our identification strategy' before describing that strategy, and it reveals the effect of interest only in the last sentence. Its 'quasi-random assignment' also leaves unclear what is assigned to what, which A spells out. Both suit the audience's register. B wins on concision, but A is clearer, flows better, and is more precise.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'obstacle to identifying the causal effect of online reviews on sales' vs B: 'obstacle to identification in this literature' (the estimand appears only in B's final sentence)",
+            "concision": "A: 'Specifically, we leverage the fact that platforms differentially apply' vs B: 'Platforms differentially apply'",
+            "flow": "A: 'We exploit platform-level heterogeneity... Our identification strategy improves upon' (claim follows description) vs B: 'Our identification strategy improves upon prior approaches... We exploit platform-level heterogeneity' (claim precedes description)",
+            "precision": "A: 'quasi-random assignment of review cohorts to moderation' vs B: 'quasi-random assignment conditional on observed covariates'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version A states the estimand up front, so the reader knows from the first sentence what is being identified. It then moves in a logical order: problem, source of variation, mechanism, data and result, contribution. Version B is tighter and opens with a crisper active clause. However, it praises 'Our identification strategy' before describing that strategy, and it reveals the effect of interest only in the last sentence. Its 'quasi-random assignment' also leaves unclear what is assigned to what, which A spells out. Both suit the audience's register. B wins on concision, but A is clearer, flows better, and is more precise.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'obstacle to identifying the causal effect of online reviews on sales' vs B: 'obstacle to identification in this literature' (the estimand appears only in B's final sentence)\",\n    \"concision\": \"A: 'Specifically, we leverage the fact that platforms differentially apply' vs B: 'Platforms differentially apply'\",\n    \"flow\": \"A: 'We exploit platform-level heterogeneity... Our identification strategy improves upon' (claim follows description) vs B: 'Our identification strategy improves upon prior approaches... We exploit platform-level heterogeneity' (claim precedes description)\",\n    \"precision\": \"A: 'quasi-random assignment of review cohorts to moderation' vs B: 'quasi-random assignment conditional on observed covariates'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.038922200000000004,
+        "seconds": 13.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A is tighter: it uses an active opening clause and drops filler such as 'Specifically, we leverage the fact that.' It also states the improvement claim early. However, A does not reveal the outcome (sales) until the last sentence. It also asserts that 'our identification strategy improves' before describing that strategy. Version B names the research question, the causal effect of reviews on sales, in its first sentence, so the reader knows the stakes at once. B also specifies what is quasi-randomly assigned to what, which matters for an identification argument. Both progress logically: A moves from gap to contribution to method, and B moves from problem to method to result to comparison. Both use the register empirical economists and IS researchers expect. B's precision and early statement of the question outweigh A's concision advantage.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "tie",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'a well-known obstacle to identification in this literature' (outcome not named until the end) vs B: 'obstacle to identifying the causal effect of online reviews on sales'",
+            "concision": "A: 'Platforms differentially apply moderation policies' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies'",
+            "precision": "A: 'generates quasi-random assignment conditional on observed covariates' vs B: 'quasi-random assignment of review cohorts to moderation conditional on observed covariates'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version A is tighter: it uses an active opening clause and drops filler such as 'Specifically, we leverage the fact that.' It also states the improvement claim early. However, A does not reveal the outcome (sales) until the last sentence. It also asserts that 'our identification strategy improves' before describing that strategy. Version B names the research question, the causal effect of reviews on sales, in its first sentence, so the reader knows the stakes at once. B also specifies what is quasi-randomly assigned to what, which matters for an identification argument. Both progress logically: A moves from gap to contribution to method, and B moves from problem to method to result to comparison. Both use the register empirical economists and IS researchers expect. B's precision and early statement of the question outweigh A's concision advantage.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"tie\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'a well-known obstacle to identification in this literature' (outcome not named until the end) vs B: 'obstacle to identifying the causal effect of online reviews on sales'\",\n    \"concision\": \"A: 'Platforms differentially apply moderation policies' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies'\",\n    \"precision\": \"A: 'generates quasi-random assignment conditional on observed covariates' vs B: 'quasi-random assignment of review cohorts to moderation conditional on observed covariates'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0409222,
+        "seconds": 13.1,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

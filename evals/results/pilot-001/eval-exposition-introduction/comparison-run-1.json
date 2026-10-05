@@ -1,0 +1,69 @@
+{
+  "case": "exposition-introduction",
+  "run": 1,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A restructures the passage so the problem, the weakness of prior work, and the proposed fix appear in a logical sequence, and it names the outcome (sales) early. It also converts nominalizations into direct statements ('Review valence is endogenous to...'). Version B keeps the original order and adds explanatory glosses. Some of these glosses define valence for an audience that already knows the term, but the explanation of why moderation yields exogenous variation does add mechanism. However, B buries the main point under long sentences, keeps filler ('Specifically, we leverage the fact that'), and leaves the comparison to prior work dangling at the end. A reads more cleanly and suits expert readers. B's added content is partly useful but does not offset the cost in clarity and flow.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'Review valence is endogenous to unobserved product quality, a well-known obstacle to identifying its effect on sales' vs B: 'The endogeneity of review valence (whether reviews are favorable or unfavorable) with respect to unobserved product quality is a well-known obstacle to identification in this literature'",
+            "concision": "A: 'Platforms apply moderation policies differently across review cohorts' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies across review cohorts'",
+            "flow": "A: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches:' vs B: 'find it to be positive and significant. Our identification strategy improves upon prior approaches'",
+            "precision": "A: 'find it positive and significant' vs B: 'find it to be positive and significant'",
+            "audience_fit": "A: 'Review valence is endogenous' vs B: 'review valence (whether reviews are favorable or unfavorable)'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version A restructures the passage so the problem, the weakness of prior work, and the proposed fix appear in a logical sequence, and it names the outcome (sales) early. It also converts nominalizations into direct statements ('Review valence is endogenous to...'). Version B keeps the original order and adds explanatory glosses. Some of these glosses define valence for an audience that already knows the term, but the explanation of why moderation yields exogenous variation does add mechanism. However, B buries the main point under long sentences, keeps filler ('Specifically, we leverage the fact that'), and leaves the comparison to prior work dangling at the end. A reads more cleanly and suits expert readers. B's added content is partly useful but does not offset the cost in clarity and flow.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Review valence is endogenous to unobserved product quality, a well-known obstacle to identifying its effect on sales' vs B: 'The endogeneity of review valence (whether reviews are favorable or unfavorable) with respect to unobserved product quality is a well-known obstacle to identification in this literature'\",\n    \"concision\": \"A: 'Platforms apply moderation policies differently across review cohorts' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies across review cohorts'\",\n    \"flow\": \"A: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches:' vs B: 'find it to be positive and significant. Our identification strategy improves upon prior approaches'\",\n    \"precision\": \"A: 'find it positive and significant' vs B: 'find it to be positive and significant'\",\n    \"audience_fit\": \"A: 'Review valence is endogenous' vs B: 'review valence (whether reviews are favorable or unfavorable)'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0344982,
+        "seconds": 9.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states the problem and its target, the effect on sales, in the first sentence. It also moves the contrast with prior IV approaches ahead of the authors' strategy, so the passage builds from problem to gap to solution. Version A adds a gloss of 'valence' and spells out how endogeneity arises. That material is redundant for empirical economists and IS researchers, and it delays the contribution. A's 'That is' sentence does clarify the source of variation, but it adds length without new content for this audience. Both are grammatical and precise. B also tightens phrasing such as 'find it positive and significant'.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'is a well-known obstacle to identification in this literature' (outcome named only near the end) vs B: 'a well-known obstacle to identifying its effect on sales'",
+            "concision": "A: 'review valence (whether reviews are favorable or unfavorable)' vs B: 'Review valence is endogenous to unobserved product quality'",
+            "flow": "A: 'Our identification strategy improves upon prior approaches' (appended as a closing claim) vs B: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches'",
+            "audience_fit": "A: 'products of higher quality tend to attract more favorable reviews and higher sales' vs B: 'Review valence is endogenous to unobserved product quality'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states the problem and its target, the effect on sales, in the first sentence. It also moves the contrast with prior IV approaches ahead of the authors' strategy, so the passage builds from problem to gap to solution. Version A adds a gloss of 'valence' and spells out how endogeneity arises. That material is redundant for empirical economists and IS researchers, and it delays the contribution. A's 'That is' sentence does clarify the source of variation, but it adds length without new content for this audience. Both are grammatical and precise. B also tightens phrasing such as 'find it positive and significant'.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'is a well-known obstacle to identification in this literature' (outcome named only near the end) vs B: 'a well-known obstacle to identifying its effect on sales'\",\n    \"concision\": \"A: 'review valence (whether reviews are favorable or unfavorable)' vs B: 'Review valence is endogenous to unobserved product quality'\",\n    \"flow\": \"A: 'Our identification strategy improves upon prior approaches' (appended as a closing claim) vs B: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches'\",\n    \"audience_fit\": \"A: 'products of higher quality tend to attract more favorable reviews and higher sales' vs B: 'Review valence is endogenous to unobserved product quality'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0357142,
+        "seconds": 9.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

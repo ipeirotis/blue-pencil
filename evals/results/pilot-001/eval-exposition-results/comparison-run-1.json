@@ -1,0 +1,68 @@
+{
+  "case": "exposition-results",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Clarity: Version A states the takeaway in its first sentence ('identity matters'). Version B opens with the star-rating control and reaches the identity result only in its second sentence. Concision: B uses fewer words for the same estimates, while A adds interpretive phrases. Flow: A links the sentences through content ('It holds up in column 3', 'shows that the effect of disclosure grows'). B lists the estimates in sequence with a weak connector ('Alongside it') and ends on R-squared rather than the significance statement. Precision: A's 'strong driver of sales' uses causal language for a control coefficient, and 'identity adds to it' is vague. B's 'stays positive at 0.15' is exact. Audience fit: A's interpretive framing suits empirical IS readers who expect a headline finding, but its causal wording ('driver') would draw scrutiny from the same readers. B is neutral but flat. The two roughly balance. Overall, A reads better as academic results prose because of its clarity and flow, though it should tighten its causal wording.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Table 3 reports the estimates, and identity matters.' vs B: 'Table 3 reports the estimates. Star rating has a coefficient of 0.42'",
+            "concision": "A: 'Star rating remains a strong driver of sales, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it.' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.'",
+            "flow": "A: 'It holds up in column 3, where adding product fixed effects leaves it at 0.15' vs B: 'Alongside it, the identity-disclosed indicator is positive'",
+            "precision": "A: 'a strong driver of sales ... yet identity adds to it' vs B: 'the coefficient stays positive at 0.15 (SE = 0.05)'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Clarity: Version A states the takeaway in its first sentence ('identity matters'). Version B opens with the star-rating control and reaches the identity result only in its second sentence. Concision: B uses fewer words for the same estimates, while A adds interpretive phrases. Flow: A links the sentences through content ('It holds up in column 3', 'shows that the effect of disclosure grows'). B lists the estimates in sequence with a weak connector ('Alongside it') and ends on R-squared rather than the significance statement. Precision: A's 'strong driver of sales' uses causal language for a control coefficient, and 'identity adds to it' is vague. B's 'stays positive at 0.15' is exact. Audience fit: A's interpretive framing suits empirical IS readers who expect a headline finding, but its causal wording ('driver') would draw scrutiny from the same readers. B is neutral but flat. The two roughly balance. Overall, A reads better as academic results prose because of its clarity and flow, though it should tighten its causal wording.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Table 3 reports the estimates, and identity matters.' vs B: 'Table 3 reports the estimates. Star rating has a coefficient of 0.42'\",\n    \"concision\": \"A: 'Star rating remains a strong driver of sales, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it.' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.'\",\n    \"flow\": \"A: 'It holds up in column 3, where adding product fixed effects leaves it at 0.15' vs B: 'Alongside it, the identity-disclosed indicator is positive'\",\n    \"precision\": \"A: 'a strong driver of sales ... yet identity adds to it' vs B: 'the coefficient stays positive at 0.15 (SE = 0.05)'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0417262,
+        "seconds": 12.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states the main finding first ('identity matters') and builds the paragraph around the identity-disclosed coefficient. It links column 2 to 3 to 4 through content ('It holds up', 'shows that the effect of disclosure grows'). Version A opens with star rating, a control-like variable, so the focal result is buried in the second sentence. A also uses a weak positional connector ('Alongside it'). A is tighter and uses neutral, exact wording. B's 'identity matters' is vague and slightly colloquial, and 'strong driver of sales' uses causal phrasing that is looser than the coefficient warrants. For register, B's interpretive framing suits an empirical IS results section, but its casual opener offsets that, so audience fit is roughly even. Overall, B's gains in clarity and flow outweigh A's edge in concision and precision for a first draft where restructuring is welcome.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.' (opens on a secondary variable) vs B: 'Table 3 reports the estimates, and identity matters.'",
+            "concision": "A: 'the coefficient stays positive at 0.15 (SE = 0.05)' vs B: 'Star rating remains a strong driver of sales, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it.'",
+            "flow": "A: 'Alongside it, the identity-disclosed indicator is positive' vs B: 'It holds up in column 3, where adding product fixed effects leaves it at 0.15'",
+            "precision": "A: 'Star rating has a coefficient of 0.42' vs B: 'identity matters' / 'a strong driver of sales'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states the main finding first ('identity matters') and builds the paragraph around the identity-disclosed coefficient. It links column 2 to 3 to 4 through content ('It holds up', 'shows that the effect of disclosure grows'). Version A opens with star rating, a control-like variable, so the focal result is buried in the second sentence. A also uses a weak positional connector ('Alongside it'). A is tighter and uses neutral, exact wording. B's 'identity matters' is vague and slightly colloquial, and 'strong driver of sales' uses causal phrasing that is looser than the coefficient warrants. For register, B's interpretive framing suits an empirical IS results section, but its casual opener offsets that, so audience fit is roughly even. Overall, B's gains in clarity and flow outweigh A's edge in concision and precision for a first draft where restructuring is welcome.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.' (opens on a secondary variable) vs B: 'Table 3 reports the estimates, and identity matters.'\",\n    \"concision\": \"A: 'the coefficient stays positive at 0.15 (SE = 0.05)' vs B: 'Star rating remains a strong driver of sales, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it.'\",\n    \"flow\": \"A: 'Alongside it, the identity-disclosed indicator is positive' vs B: 'It holds up in column 3, where adding product fixed effects leaves it at 0.15'\",\n    \"precision\": \"A: 'Star rating has a coefficient of 0.42' vs B: 'identity matters' / 'a strong driver of sales'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0386102,
+        "seconds": 11.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

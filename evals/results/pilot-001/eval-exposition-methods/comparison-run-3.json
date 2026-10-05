@@ -1,0 +1,70 @@
+{
+  "case": "exposition-methods",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B suits quantitative marketing researchers better. It opens with the staggered rollout, which is the design feature that drives the control choice. It also states the setup without textbook glosses, so it is far tighter. Its weakness is flow. The rollout motivation comes first and the Callaway and Sant'Anna estimator comes last, with the TWFE details in between, so the reader must reconnect the timing issue to the estimator. Version A keeps the reasoning chain together ('there is no single before-and-after date... We therefore use') and defines not-yet-treated more exactly. However, it spends many words explaining what fixed effects absorb and what timing heterogeneity means, which this audience already knows. On balance, B's concision, audience fit and early statement of the key point outweigh A's better flow and slightly sharper precision.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'We estimate a two-way fixed effects model... The store fixed effects absorb stable differences' (design motivation deferred to second paragraph) vs B: 'The loyalty program was rolled out to stores on different dates. We therefore use two kinds of stores' (motivation up front)",
+            "concision": "A: 'To address heterogeneity in treatment timing, meaning differences across stores in when the program begins, we report' vs B: 'To address heterogeneity in treatment timing, we report'",
+            "flow": "A: 'there is no single before-and-after date shared by all treated stores. We therefore use two groups of stores as controls' vs B: 'which have not yet received it. We estimate a two-way fixed effects model' (abrupt shift, timing issue resumed only in final sentence)",
+            "precision": "A: 'not-yet-treated stores, which have not received it as of the period being compared' vs B: 'not-yet-treated stores, which have not yet received it'",
+            "audience_fit": "A: 'the week fixed effects absorb shocks that affect all stores in a given week' vs B: 'We estimate a two-way fixed effects model with store and week fixed effects' (no textbook gloss for an expert readership)"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version B suits quantitative marketing researchers better. It opens with the staggered rollout, which is the design feature that drives the control choice. It also states the setup without textbook glosses, so it is far tighter. Its weakness is flow. The rollout motivation comes first and the Callaway and Sant'Anna estimator comes last, with the TWFE details in between, so the reader must reconnect the timing issue to the estimator. Version A keeps the reasoning chain together ('there is no single before-and-after date... We therefore use') and defines not-yet-treated more exactly. However, it spends many words explaining what fixed effects absorb and what timing heterogeneity means, which this audience already knows. On balance, B's concision, audience fit and early statement of the key point outweigh A's better flow and slightly sharper precision.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'We estimate a two-way fixed effects model... The store fixed effects absorb stable differences' (design motivation deferred to second paragraph) vs B: 'The loyalty program was rolled out to stores on different dates. We therefore use two kinds of stores' (motivation up front)\",\n    \"concision\": \"A: 'To address heterogeneity in treatment timing, meaning differences across stores in when the program begins, we report' vs B: 'To address heterogeneity in treatment timing, we report'\",\n    \"flow\": \"A: 'there is no single before-and-after date shared by all treated stores. We therefore use two groups of stores as controls' vs B: 'which have not yet received it. We estimate a two-way fixed effects model' (abrupt shift, timing issue resumed only in final sentence)\",\n    \"precision\": \"A: 'not-yet-treated stores, which have not received it as of the period being compared' vs B: 'not-yet-treated stores, which have not yet received it'\",\n    \"audience_fit\": \"A: 'the week fixed effects absorb shocks that affect all stores in a given week' vs B: 'We estimate a two-way fixed effects model with store and week fixed effects' (no textbook gloss for an expert readership)\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0450942,
+        "seconds": 14.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A is tighter and suits an expert quantitative marketing audience. It puts the staggered rollout up front, which motivates the design choices that follow. Version B is well organized and its links are explicit. It gives a sharper definition of not-yet-treated stores. But it spends many words explaining standard concepts this audience already knows: what store and week fixed effects absorb, what the interaction term captures, and what heterogeneity in treatment timing means. That dilutes the key methodological point. A's main weakness is that the control-group sentence comes before the TWFE model is introduced, which is a slightly abrupt order. B's added bridging sentence ('no single before-and-after date') improves its flow. On balance, A's economy and register outweigh B's gains in flow and precision.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'The loyalty program was rolled out to stores on different dates. We therefore use two kinds of stores' vs B: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks...' (explanatory material delays the design rationale)",
+            "concision": "A: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator' vs B: 'To address heterogeneity in treatment timing, meaning differences across stores in when the program begins, we report'",
+            "flow": "A: 'which have not yet received it. We estimate a two-way fixed effects model' vs B: 'there is no single before-and-after date shared by all treated stores. We therefore use two groups'",
+            "precision": "A: 'not-yet-treated stores, which have not yet received it' vs B: 'not-yet-treated stores, which have not received it as of the period being compared'",
+            "audience_fit": "A: 'The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.' vs B: 'which captures how outcomes change at a store once it receives the loyalty program, relative to stores that have not received it'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version A is tighter and suits an expert quantitative marketing audience. It puts the staggered rollout up front, which motivates the design choices that follow. Version B is well organized and its links are explicit. It gives a sharper definition of not-yet-treated stores. But it spends many words explaining standard concepts this audience already knows: what store and week fixed effects absorb, what the interaction term captures, and what heterogeneity in treatment timing means. That dilutes the key methodological point. A's main weakness is that the control-group sentence comes before the TWFE model is introduced, which is a slightly abrupt order. B's added bridging sentence ('no single before-and-after date') improves its flow. On balance, A's economy and register outweigh B's gains in flow and precision.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'The loyalty program was rolled out to stores on different dates. We therefore use two kinds of stores' vs B: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks...' (explanatory material delays the design rationale)\",\n    \"concision\": \"A: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator' vs B: 'To address heterogeneity in treatment timing, meaning differences across stores in when the program begins, we report'\",\n    \"flow\": \"A: 'which have not yet received it. We estimate a two-way fixed effects model' vs B: 'there is no single before-and-after date shared by all treated stores. We therefore use two groups'\",\n    \"precision\": \"A: 'not-yet-treated stores, which have not yet received it' vs B: 'not-yet-treated stores, which have not received it as of the period being compared'\",\n    \"audience_fit\": \"A: 'The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.' vs B: 'which captures how outcomes change at a store once it receives the loyalty program, relative to stores that have not received it'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0428022,
+        "seconds": 13.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

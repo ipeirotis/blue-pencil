@@ -1,0 +1,68 @@
+{
+  "case": "worked-example",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's main problems: the empty openers, the passive citation sentence, the comma splice, and 'comprising of'. A goes further. It drops intensifiers and promotional words ('fundamentally', 'Crucially', 'novel', 'important') and replaces 'leverage' with 'use'. It also states what the effect acts on ('effect on the relationship between reviews and sales') rather than leaving 'significant effect' unanchored. B keeps more of the original's emphatic register and buries the hedge mid-sentence. Flow is about equal, since both link ideas through content and use 'however' for the gap. Overall, A is tighter, more exact, and better suited to empirical IS readers.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "tie",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'To the best of our knowledge, however, whether reviewer identity affects this relationship remains somewhat underexplored' vs B: 'whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored'",
+            "concision": "A: 'has transformed how consumers' / 'we use a dataset of 1.2 million reviews' vs B: 'has fundamentally transformed how consumers' / 'we leverage a novel dataset comprising 1.2 million reviews'",
+            "precision": "A: 'reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'reviewer identity has a significant effect'",
+            "audience_fit": "A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's main problems: the empty openers, the passive citation sentence, the comma splice, and 'comprising of'. A goes further. It drops intensifiers and promotional words ('fundamentally', 'Crucially', 'novel', 'important') and replaces 'leverage' with 'use'. It also states what the effect acts on ('effect on the relationship between reviews and sales') rather than leaving 'significant effect' unanchored. B keeps more of the original's emphatic register and buries the hedge mid-sentence. Flow is about equal, since both link ideas through content and use 'however' for the gap. Overall, A is tighter, more exact, and better suited to empirical IS readers.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"tie\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'To the best of our knowledge, however, whether reviewer identity affects this relationship remains somewhat underexplored' vs B: 'whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored'\",\n    \"concision\": \"A: 'has transformed how consumers' / 'we use a dataset of 1.2 million reviews' vs B: 'has fundamentally transformed how consumers' / 'we leverage a novel dataset comprising 1.2 million reviews'\",\n    \"precision\": \"A: 'reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'reviewer identity has a significant effect'\",\n    \"audience_fit\": \"A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0405422,
+        "seconds": 10.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover') and fix 'comprising of'. B goes further. It drops intensifiers and buzzwords ('fundamentally', 'Crucially', 'novel', 'leverage', 'important implications'). It also states what the finding is about: an effect on the review–sales relationship, where A says only 'a significant effect'. A keeps 'Crucially, however' at the head of the gap sentence, which signals the turn sharply. B opens that sentence with the hedge 'To the best of our knowledge', which slightly delays the point, so flow is close to even. On clarity, precision, concision, and fit for empirical IS readers, B is stronger.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "tie",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'reviewer identity has a significant effect' vs B: 'reviewer identity has a significant effect on the relationship between reviews and sales'",
+            "concision": "A: 'we leverage a novel dataset comprising 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'",
+            "precision": "A: 'Our analysis demonstrates that' vs B: 'In our data, reviewer identity has'",
+            "audience_fit": "A: 'has fundamentally transformed' / 'leverage a novel dataset' vs B: 'has transformed' / 'use a dataset'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover') and fix 'comprising of'. B goes further. It drops intensifiers and buzzwords ('fundamentally', 'Crucially', 'novel', 'leverage', 'important implications'). It also states what the finding is about: an effect on the review–sales relationship, where A says only 'a significant effect'. A keeps 'Crucially, however' at the head of the gap sentence, which signals the turn sharply. B opens that sentence with the hedge 'To the best of our knowledge', which slightly delays the point, so flow is close to even. On clarity, precision, concision, and fit for empirical IS readers, B is stronger.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"tie\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'reviewer identity has a significant effect' vs B: 'reviewer identity has a significant effect on the relationship between reviews and sales'\",\n    \"concision\": \"A: 'we leverage a novel dataset comprising 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'\",\n    \"precision\": \"A: 'Our analysis demonstrates that' vs B: 'In our data, reviewer identity has'\",\n    \"audience_fit\": \"A: 'has fundamentally transformed' / 'leverage a novel dataset' vs B: 'has transformed' / 'use a dataset'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0384622,
+        "seconds": 10.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}
