@@ -12,8 +12,10 @@ number appeared, vanished, or changed, but not that two numbers swapped places
 between sentences. It also cannot see wording changes that touch no token, such
 as "associated with" becoming "causes". Those need the meaning grader.
 
-A difference is a FLAG for review, not proof of damage: a legitimate edit can
-move a citation or spell a number out. The grader reports; people decide.
+Any change to a citation, including reordering the citations inside one group,
+is reported. A whole group may move to another sentence; its internal order may not.
+A reformatted number (5-9% to 5 to 9 percent) is also reported, because the code
+cannot tell a changed number from a reformatted one.
 
 Usage:
     python3 protected.py original.txt revised.txt
@@ -52,6 +54,24 @@ _NUMWORD_RE = re.compile(
     r"fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|"
     r"seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(?:-[a-z]+)?|"
     r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+)\b", re.I)
+
+
+_AY_PAT = re.compile(_NAME + r"(?:,? " + _NAME + r")*,? \(?[12][0-9]{3}[a-z]?\)?")
+
+
+def _citation_groups(flat):
+    """Ordered author-year groups inside one parenthetical, e.g. (A 2006; B 2008).
+
+    Only groups of two or more citations are returned. A whole group may move to
+    another sentence, but the order inside it must not change.
+    """
+    groups = []
+    for span in re.findall(r"\(([^()]*[12][0-9]{3}[^()]*)\)", flat):
+        toks = [t.replace("(", "").replace(")", "").strip(", ")
+                for t in _AY_PAT.findall(span) if not _DATE_LEAD.match(t)]
+        if len(toks) >= 2:
+            groups.append(tuple(toks))
+    return groups
 
 
 def _brace_group(s, i):
@@ -210,6 +230,17 @@ def check(original, revised):
         added = sorted((b - a).elements())
         if removed or added:
             diffs[cls] = {"removed": removed, "added": added}
+    # Citation order: the same citations in a different order inside one group.
+    og, rg = Counter(_citation_groups(o_flat)), Counter(_citation_groups(r_flat))
+    removed, added = [], []
+    for g in (og - rg).elements():
+        for h in (rg - og).elements():
+            if g != h and frozenset(g) == frozenset(h):
+                removed.append("; ".join(g))
+                added.append("; ".join(h))
+                break
+    if removed:
+        diffs["citation_order"] = {"removed": removed, "added": added}
     return {"passed": not diffs, "diffs": diffs}
 
 

@@ -43,6 +43,11 @@ FLAGS = {
 }
 
 
+# Added to the request in both conditions, so the plain-Claude baseline is also told what to protect.
+PRESERVE = ("Preserve my meaning, claims, and voice, and do not change any number, statistic, "
+            "or citation, including the order of citations.")
+
+
 def load_case(case_id):
     d = EVALS / "cases" / case_id
     return {"id": case_id,
@@ -53,7 +58,7 @@ def load_case(case_id):
 
 def build_prompt(case, condition):
     """The request is identical in both conditions; only the slash command differs."""
-    body = (f"{case['context']}\n\n{case['request']}\n\n{case['passage']}\n\n"
+    body = (f"{case['context']}\n\n{case['request']}\n\n{PRESERVE}\n\n{case['passage']}\n\n"
             "Put the revised text in a single fenced code block.")
     return ("/paper:revise " + body) if condition == "with_skill" else body
 

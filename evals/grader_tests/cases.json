@@ -2,7 +2,8 @@
   "bases": {
     "results": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
     "causal": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
-    "intro": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Chevalier and Mayzlin\n2006; Forman et al. 2008; Dellarocas 2003). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials."
+    "intro": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Chevalier and Mayzlin\n2006; Forman et al. 2008; Dellarocas 2003). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials.",
+    "grouped": "Prior work reports the effect (Smith 2010; Jones 2012). We test it in a new sample."
   },
   "variants": [
     {
@@ -141,13 +142,13 @@
       "note": "'first year' became 'throughout the sample'."
     },
     {
-      "id": "intro-harmless-citation-order",
+      "id": "intro-damaged-citation-order",
       "base": "intro",
       "revised": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Dellarocas 2003; Forman et al. 2008; Chevalier and Mayzlin\n2006). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials.",
-      "verdict": "harmless",
-      "damage_type": null,
-      "code_grader_should_flag": false,
-      "note": "Same three citations in a different order inside one parenthetical. Found by the pilot smoke test (false alarm)."
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Same three citations, different order inside the group. Citations must not be touched."
     },
     {
       "id": "intro-damaged-citation-author",
@@ -157,6 +158,33 @@
       "damage_type": "citation year changed",
       "code_grader_should_flag": true,
       "note": "Forman et al. 2008 became 2009."
+    },
+    {
+      "id": "grouped-harmless-group-moved",
+      "base": "grouped",
+      "revised": "We test an effect reported in prior work (Smith 2010; Jones 2012), in a new sample.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "The whole group moves to another sentence in the same order. Restructuring is allowed."
+    },
+    {
+      "id": "grouped-damaged-order",
+      "base": "grouped",
+      "revised": "Prior work reports the effect (Jones 2012; Smith 2010). We test it in a new sample.",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Order inside the group changed."
+    },
+    {
+      "id": "grouped-damaged-dropped",
+      "base": "grouped",
+      "revised": "Prior work reports the effect (Smith 2010). We test it in a new sample.",
+      "verdict": "damaged",
+      "damage_type": "citation dropped",
+      "code_grader_should_flag": true,
+      "note": "Jones 2012 removed."
     }
   ]
 }
