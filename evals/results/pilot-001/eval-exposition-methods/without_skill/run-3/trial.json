@@ -1,0 +1,70 @@
+{
+  "case": "exposition-methods",
+  "condition": "without_skill",
+  "run": 3,
+  "models_used": [
+    "claude-sonnet-5-5"
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1667,
+    "cache_read_input_tokens": 1391,
+    "output_tokens": 1123,
+    "output_tokens_details": {
+      "thinking_tokens": 604
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1667,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1123,
+        "cache_read_input_tokens": 1391,
+        "cache_creation_input_tokens": 1667,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1667
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 1123,
+      "cacheReadInputTokens": 1391,
+      "cacheCreationInputTokens": 1667,
+      "webSearchRequests": 0,
+      "costUSD": 0.0181802,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 604,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "flags": [
+    "--setting-sources",
+    "project",
+    "--disable-slash-commands",
+    "--tools",
+    ""
+  ],
+  "returncode": 0,
+  "is_error": false,
+  "skill_loaded": null,
+  "revised_text_found": true,
+  "stderr_tail": ""
+}

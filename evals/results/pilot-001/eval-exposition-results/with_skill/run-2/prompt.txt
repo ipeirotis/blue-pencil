@@ -1,0 +1,20 @@
+/paper:revise <paper_context>
+target_venue: Information Systems Research
+audience: empirical IS researchers
+core_thesis: A reviewer's identity, not just the rating, shapes how much an online review moves sales.
+revision_stage: first draft
+</paper_context>
+
+My results paragraph is accurate but feels flat. Can you make it land?
+
+Preserve my meaning, claims, and voice, and do not change any number, statistic, or citation, including the order of citations.
+
+Table 3 reports the estimates. The coefficient on the identity-disclosed indicator
+is 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,
+the coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09
+(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across
+all specifications. R-squared rises from 0.31 to 0.47 across the columns. All
+coefficients are significant at the 1% level except the interaction, which is
+significant at the 5% level.
+
+Put the revised text in a single fenced code block.

@@ -1,0 +1,9 @@
+```
+We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level. The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in a given week. The specification also includes controls for foot traffic, local unemployment, and promotional intensity. The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator, which captures how outcomes change at a store once it receives the loyalty program, relative to stores that have not received it.
+
+Because the loyalty program was rolled out to stores on different dates, there is no single before-and-after date shared by all treated stores. We therefore use two groups of stores as controls: never-treated stores, which never receive the program, and not-yet-treated stores, which have not received it as of the period being compared. To address heterogeneity in treatment timing, meaning differences across stores in when the program begins, we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate.
+```
+
+Changes: I added short plain-language glosses for the fixed effects, the interaction term, the two control groups, and "heterogeneity in treatment timing." I split the text into two paragraphs, with the second covering the staggered rollout. The model, controls, clustering, and the Callaway and Sant'Anna citation are unchanged, and the text contains no numbers.
+
+The gloss on the interaction coefficient ("how outcomes change at a store once it receives the loyalty program") is my reading of your specification. Check that it matches how you define the treatment and post indicators.

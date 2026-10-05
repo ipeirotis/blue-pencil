@@ -1,17 +1,17 @@
 {
   "run_id": "pilot-001",
-  "started": "2026-10-05T02:19:45",
+  "started": "2026-10-05T02:33:39",
   "executor_model": "claude-sonnet-5-5",
   "claude_code_version": "2.1.289 (Claude Code)",
   "blue_pencil_version": "3.0.0",
-  "repo_commit": "cd3d76026eddb0c0badf9dff3c82e382b0e506fa",
+  "repo_commit": "7d9ed8b4a77a966d8d737a300cca524014936c18",
   "cases": [
     "exposition-introduction",
     "exposition-methods",
     "exposition-results",
     "worked-example"
   ],
-  "runs_per_condition": 1,
+  "runs_per_condition": 3,
   "flags": {
     "with_skill": [
       "--setting-sources",

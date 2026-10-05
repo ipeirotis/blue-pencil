@@ -1,0 +1,7 @@
+```
+We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level. Store fixed effects absorb stable differences across stores, and week fixed effects absorb shocks common to all stores in a given week. The specification also controls for foot traffic, local unemployment, and promotional intensity. The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator, which captures how repeat purchase changes in a store once the loyalty program reaches it, relative to stores where it has not.
+
+The loyalty program was rolled out to stores on different dates, so stores enter treatment at different times. We therefore build the comparison group from two kinds of stores: those never treated and those not yet treated at a given point in time. Because treatment timing varies, the effect of the program may differ depending on when a store adopts it. To address this heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate.
+```
+
+I split the paragraph in two, so the baseline model and the staggered-timing issue are handled separately. I added short glosses on the fixed effects and on the interaction term. I also spelled out why the timing matters, using only what your original sentence implied. All terms, the control-group definitions, and the Callaway and Sant'Anna citation are unchanged.
