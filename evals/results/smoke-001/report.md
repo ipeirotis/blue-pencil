@@ -2,36 +2,56 @@
 
 - Executor model: `claude-sonnet-5-5` (Claude Code 2.1.288 (Claude Code))
 - Blue Pencil version: 3.0.0, repo commit `fc7eee0c0d`
-- Cases: worked-example; 1 trials per condition per case
-- Rubric: `evals/rubric.md` (draft v0.1). Revision stage: first draft.
+- Cases: worked-example; 1 runs per condition per case
+- Rubric: `evals/rubric.md` v0.2. Revision stage: first draft.
 
-## 1. Preservation (Part A): did the edit keep meaning, numbers, citations?
+## 1. Preservation (all cases)
 
-| Condition | Trials | Code check passes | Meaning: preserved | changed | unsure | Both pass |
+| Condition | Runs | Code check passes | Meaning: preserved / changed / unsure | Both pass | Avg major problems | Avg minor problems |
 |---|---|---|---|---|---|---|
-| With Blue Pencil | 1 | 1/1 (100%) | 0 | 1 | 0 | 0/1 (0%) |
-| Without (plain Claude) | 1 | 1/1 (100%) | 0 | 1 | 0 | 0/1 (0%) |
+| With Blue Pencil | 1 | 1/1 (100%) | 0 / 1 / 0 | 0/1 (0%) | 1 | 3 |
+| Without (plain Claude) | 1 | 1/1 (100%) | 0 / 1 / 0 | 0/1 (0%) | 3 | 6 |
 
-## 2. Cost and speed
+## 2. Preservation by case
+
+| Case / condition | Runs | Code check passes | Meaning: preserved / changed / unsure | Both pass | Avg major problems | Avg minor problems |
+|---|---|---|---|---|---|---|
+| worked-example / With Blue Pencil | 1 | 1/1 (100%) | 0 / 1 / 0 | 0/1 (0%) | 1 | 3 |
+| worked-example / Without (plain Claude) | 1 | 1/1 (100%) | 0 / 1 / 0 | 0/1 (0%) | 3 | 6 |
+
+Major problems per run:
+
+- worked-example / With Blue Pencil: 1
+- worked-example / Without (plain Claude): 3
+
+## 3. Cost and speed
 
 | Condition | Mean tokens | Mean seconds | Mean cost (USD, list price) |
 |---|---|---|---|
 | With Blue Pencil | 72918 | 135.4 | 0.464 |
 | Without (plain Claude) | 4168 | 15.2 | 0.021 |
 
-Blue Pencil was actually loaded in 1/1 with-skill trials (checked from the tool calls in each transcript).
+Blue Pencil was loaded in 1/1 with-skill runs (checked from each transcript's tool calls).
 
-## 3. Quality (Part B): head-to-head, blinded, each pair judged in both orders
+## 4. Quality (blinded, both orders)
 
-Pairs: 1. Blue Pencil wins: **0**, plain Claude wins: **1**, ties or order-dependent: **0**.
+| Pairs | Blue Pencil wins | Plain Claude wins | Ties or order-dependent |
+|---|---|---|---|
+| All (1) | 0 | 1 | 0 |
+| Both passed preservation (0) | 0 | 0 | 0 |
 
-Quality must be read together with preservation. A win only counts as an improvement if that version also passed Part A; the table shows both.
+## 5. Clean improvements (passes preservation and wins quality)
 
-| Case | Run | Quality winner | Blue Pencil preserved? | Plain Claude preserved? | Counts as improvement? |
+| Condition | Clean improvements |
+|---|---|
+| With Blue Pencil | 0/1 (0%) |
+| Without (plain Claude) | 0/1 (0%) |
+
+| Case | Run | Quality winner | Blue Pencil preserved? | Plain Claude preserved? | Clean improvement? |
 |---|---|---|---|---|---|
 | worked-example | 1 | without_skill | False | False | no |
 
-## 4. What the graders flagged
+## 6. What the graders flagged
 
 **With Blue Pencil, worked-example, run 1**
 - meaning [major/lost_content]: "we leverage a novel dataset comprising of 1.2 million reviews" -> "we use a dataset of 1.2 million reviews"

@@ -8,10 +8,12 @@ Writes into results/<run-id>/:
 If human_verdicts.json exists ({"<case>/run-<n>": "1" | "2" | "tie"}), the
 report also shows how often the human and the quality grader agree.
 
+Follows evals/rubric.md (v0.2): preservation, quality, and clean improvements
+are reported separately and never combined into one score.
+
 Usage:  python3 report.py <run-id>
 """
 
-import json
 import statistics as st
 import sys
 
@@ -38,18 +40,36 @@ def load(root):
     return runs, pairs
 
 
+def meaning(r):
+    return ((r["cm"] or {}).get("meaning") or {}).get("parsed")
+
+
 def verdict_of(r):
-    mp = ((r["cm"] or {}).get("meaning") or {}).get("parsed")
-    return mp.get("verdict") if mp else None
+    m = meaning(r)
+    return m.get("verdict") if m else None
+
+
+def code_passed(r):
+    return bool((r["cm"] or {}).get("code", {}).get("passed"))
 
 
 def preserved(r):
-    """Both graders pass. None if the meaning grader did not run."""
-    cm = r["cm"] or {}
+    """Code check and meaning check both pass. None if the meaning grader did not run."""
     v = verdict_of(r)
     if v is None:
         return None
-    return bool(cm.get("code", {}).get("passed")) and v == "preserved"
+    return code_passed(r) and v == "preserved"
+
+
+def counts(r):
+    """(major, minor) meaning problems. Voice is recorded only and not counted."""
+    m = meaning(r)
+    if not m:
+        return None
+    probs = m.get("problems", [])
+    major = sum(1 for p in probs if p.get("severity") == "major")
+    minor = sum(1 for p in probs if p.get("severity") not in ("major", "recorded"))
+    return major, minor
 
 
 def pct(a, b):
@@ -61,6 +81,22 @@ def mean(xs):
     return round(st.mean(xs), 3) if xs else None
 
 
+def avg_counts(rs):
+    cs = [counts(r) for r in rs if counts(r) is not None]
+    if not cs:
+        return None, None
+    return round(st.mean(c[0] for c in cs), 2), round(st.mean(c[1] for c in cs), 2)
+
+
+def summary_row(label, rs):
+    code = sum(1 for r in rs if code_passed(r))
+    vs = [verdict_of(r) for r in rs]
+    both = [preserved(r) for r in rs]
+    major, minor = avg_counts(rs)
+    return (f"| {label} | {len(rs)} | {pct(code, len(rs))} | {vs.count('preserved')} / {vs.count('changed')} / "
+            f"{vs.count('unsure')} | {pct(sum(1 for b in both if b), len(rs))} | {major} | {minor} |")
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -70,67 +106,95 @@ def main():
     L = [f"# Pilot report: {sys.argv[1]}", "",
          f"- Executor model: `{meta.get('executor_model')}` (Claude Code {meta.get('claude_code_version')})",
          f"- Blue Pencil version: {meta.get('blue_pencil_version')}, repo commit `{str(meta.get('repo_commit'))[:10]}`",
-         f"- Cases: {', '.join(meta.get('cases', []))}; {meta.get('runs_per_condition')} trials per condition per case",
-         "- Rubric: `evals/rubric.md` (draft v0.1). Revision stage: first draft.", "",
-         "## 1. Preservation (Part A): did the edit keep meaning, numbers, citations?", "",
-         "| Condition | Trials | Code check passes | Meaning: preserved | changed | unsure | Both pass |",
-         "|---|---|---|---|---|---|---|"]
+         f"- Cases: {', '.join(meta.get('cases', []))}; {meta.get('runs_per_condition')} runs per condition per case",
+         "- Rubric: `evals/rubric.md` v0.2. Revision stage: first draft.", ""]
+
+    # 1. Preservation, by condition
+    head = ("| {} | Runs | Code check passes | Meaning: preserved / changed / unsure | Both pass | "
+            "Avg major problems | Avg minor problems |")
+    sep = "|---|---|---|---|---|---|---|"
+    L += ["## 1. Preservation (all cases)", "", head.format("Condition"), sep]
     for c in CONDS:
-        rs = runs[c]
-        code = sum(1 for r in rs if (r["cm"] or {}).get("code", {}).get("passed"))
-        vs = [verdict_of(r) for r in rs]
-        both = [preserved(r) for r in rs]
-        L.append(f"| {NAMES[c]} | {len(rs)} | {pct(code, len(rs))} | {vs.count('preserved')} | "
-                 f"{vs.count('changed')} | {vs.count('unsure')} | {pct(sum(1 for b in both if b), len(rs))} |")
-    L += ["", "## 2. Cost and speed", "", "| Condition | Mean tokens | Mean seconds | Mean cost (USD, list price) |", "|---|---|---|---|"]
+        L.append(summary_row(NAMES[c], runs[c]))
+
+    # 2. Preservation, by case (the individual runs stay visible)
+    L += ["", "## 2. Preservation by case", "", head.format("Case / condition"), sep]
+    cases = sorted({r["case"] for c in CONDS for r in runs[c]})
+    for case in cases:
+        for c in CONDS:
+            rs = [r for r in runs[c] if r["case"] == case]
+            L.append(summary_row(f"{case} / {NAMES[c]}", rs))
+    L += ["", "Major problems per run:", ""]
+    for case in cases:
+        for c in CONDS:
+            per = [str(counts(r)[0]) if counts(r) else "n/a" for r in runs[c] if r["case"] == case]
+            L.append(f"- {case} / {NAMES[c]}: {', '.join(per)}")
+
+    # 3. Cost and speed
+    L += ["", "## 3. Cost and speed", "",
+          "| Condition | Mean tokens | Mean seconds | Mean cost (USD, list price) |", "|---|---|---|---|"]
     for c in CONDS:
         rs = runs[c]
         L.append(f"| {NAMES[c]} | {mean([r['timing'].get('total_tokens') for r in rs])} | "
                  f"{mean([r['timing'].get('total_duration_seconds') for r in rs])} | "
                  f"{mean([r['timing'].get('cost_usd_list_price') for r in rs])} |")
-    skill_runs = runs["with_skill"]
-    loaded = [r["trial"].get("skill_loaded") for r in skill_runs]
-    L += ["", f"Blue Pencil was actually loaded in {loaded.count(True)}/{len(loaded)} with-skill trials "
-          "(checked from the tool calls in each transcript).", ""]
-    # head to head
-    tally = {"with_skill": 0, "without_skill": 0, "tie": 0}
-    for p in pairs:
-        tally[p["consolidated"]] += 1
-    L += ["## 3. Quality (Part B): head-to-head, blinded, each pair judged in both orders", "",
-          f"Pairs: {len(pairs)}. Blue Pencil wins: **{tally['with_skill']}**, plain Claude wins: "
-          f"**{tally['without_skill']}**, ties or order-dependent: **{tally['tie']}**.", "",
-          "Quality must be read together with preservation. A win only counts as an improvement if that "
-          "version also passed Part A; the table shows both.", "",
-          "| Case | Run | Quality winner | Blue Pencil preserved? | Plain Claude preserved? | Counts as improvement? |",
-          "|---|---|---|---|---|---|"]
+    loaded = [r["trial"].get("skill_loaded") for r in runs["with_skill"]]
+    L += ["", f"Blue Pencil was loaded in {loaded.count(True)}/{len(loaded)} with-skill runs "
+          "(checked from each transcript's tool calls).", ""]
+
+    # 4. Quality, and clean improvements
     by = {(c, r["case"], r["n"]): r for c in CONDS for r in runs[c]}
+
+    def tally(ps):
+        t = {"with_skill": 0, "without_skill": 0, "tie": 0}
+        for p in ps:
+            t[p["consolidated"]] += 1
+        return t
+
+    both_ok = [p for p in pairs if preserved(by[("with_skill", p["case"], p["run"])])
+               and preserved(by[("without_skill", p["case"], p["run"])])]
+    clean = {c: 0 for c in CONDS}
+    rows = []
     for p in pairs:
         wp = preserved(by[("with_skill", p["case"], p["run"])])
         np_ = preserved(by[("without_skill", p["case"], p["run"])])
         w = p["consolidated"]
-        ok = {"with_skill": wp, "without_skill": np_}.get(w)
-        L.append(f"| {p['case']} | {p['run']} | {w} | {wp} | {np_} | "
-                 f"{'yes' if ok else ('no' if w != 'tie' else 'n/a (tie)')} |")
-    # problems
-    L += ["", "## 4. What the graders flagged", ""]
+        is_clean = (w in CONDS) and bool({"with_skill": wp, "without_skill": np_}[w])
+        if is_clean:
+            clean[w] += 1
+        rows.append(f"| {p['case']} | {p['run']} | {w} | {wp} | {np_} | {'yes' if is_clean else 'no'} |")
+    ta, tb = tally(pairs), tally(both_ok)
+    L += ["## 4. Quality (blinded, both orders)", "",
+          "| Pairs | Blue Pencil wins | Plain Claude wins | Ties or order-dependent |", "|---|---|---|---|",
+          f"| All ({len(pairs)}) | {ta['with_skill']} | {ta['without_skill']} | {ta['tie']} |",
+          f"| Both passed preservation ({len(both_ok)}) | {tb['with_skill']} | {tb['without_skill']} | {tb['tie']} |",
+          "", "## 5. Clean improvements (passes preservation and wins quality)", "",
+          "| Condition | Clean improvements |", "|---|---|",
+          f"| {NAMES['with_skill']} | {pct(clean['with_skill'], len(pairs))} |",
+          f"| {NAMES['without_skill']} | {pct(clean['without_skill'], len(pairs))} |", "",
+          "| Case | Run | Quality winner | Blue Pencil preserved? | Plain Claude preserved? | Clean improvement? |",
+          "|---|---|---|---|---|---|"] + rows
+
+    # 6. Flagged problems
+    L += ["", "## 6. What the graders flagged", ""]
     for c in CONDS:
         for r in runs[c]:
             cm = r["cm"] or {}
             items = []
             for cls, d in (cm.get("code", {}).get("diffs") or {}).items():
                 items.append(f"code [{cls}]: removed {d['removed']}, added {d['added']}")
-            mp = ((cm.get("meaning") or {}).get("parsed")) or {}
-            for pr in mp.get("problems", []):
+            for pr in (meaning(r) or {}).get("problems", []):
                 items.append(f"meaning [{pr.get('severity')}/{pr.get('type')}]: "
                              f"\"{pr.get('original_quote', '')}\" -> \"{pr.get('revised_quote', '')}\"")
             if items:
                 L.append(f"**{NAMES[c]}, {r['case']}, run {r['n']}**")
                 L += [f"- {i}" for i in items] + [""]
-    # human review sheet
+
+    # Blinded human review sheet
     sheet, key = ["# Human review sheet (blinded)", "",
                   "For each pair, read the original and both versions, then write your verdict "
-                  "(1, 2, or tie) on the blank line. Judge only how well each reads, and separately note "
-                  "any meaning change you spot. Do not open `human_review_key.json` until you are done.", ""], {}
+                  "(1, 2, or tie) on the blank line. Judge how well each reads, and note any meaning "
+                  "change you spot. Do not open `human_review_key.json` until you are done.", ""], {}
     for p in pairs:
         o1 = p["orders"][0]
         pid = f"{p['case']}/run-{p['run']}"
@@ -144,6 +208,7 @@ def main():
                   "Better written (1 / 2 / tie): ______   Meaning changed in 1? ____  in 2? ____   Notes:", ""]
     (root / "human_review.md").write_text("\n".join(sheet) + "\n")
     write_json(root / "human_review_key.json", key)
+
     hv = root / "human_verdicts.json"
     if hv.exists():
         human = read_json(hv)
@@ -156,7 +221,7 @@ def main():
             gv = "tie" if g == "tie" else ("1" if k["version_1"] == g else "2")
             total += 1
             agree += (gv == str(v))
-        L += ["## 5. Human vs. quality grader", "", f"Agreement on {total} pairs: **{agree}/{total}**.", ""]
+        L += ["## 7. Human vs. quality grader", "", f"Agreement on {total} pairs: **{agree}/{total}**.", ""]
     (root / "report.md").write_text("\n".join(L) + "\n")
     print(f"wrote {root / 'report.md'}, human_review.md, human_review_key.json")
 
