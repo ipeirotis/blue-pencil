@@ -164,3 +164,7 @@ Blue Pencil was loaded in 12/12 with-skill runs (checked from each transcript's 
 - meaning [major/claim_strength]: "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05)." -> "and it holds at 0.15 (SE = 0.05) in column 3 once product fixed effects are added"
 - meaning [major/new_content]: "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications." -> "Star rating, by comparison, carries a coefficient of 0.42 (SE = 0.02) across all specifications."
 
+## 7. Human vs. quality grader
+
+Agreement on 12 pairs: **4/12**.
+

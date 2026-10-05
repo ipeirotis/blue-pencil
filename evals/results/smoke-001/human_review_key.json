@@ -1,8 +1,0 @@
-{
-  "worked-example/run-1": {
-    "version_1": "without_skill",
-    "version_2": "with_skill",
-    "grader_consolidated": "without_skill",
-    "grader_winner_in_this_order": "without_skill"
-  }
-}
