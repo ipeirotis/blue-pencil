@@ -1,0 +1,24 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/pilot-001/eval-exposition-methods/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "quotes": {
+        "removed": [],
+        "added": [
+          "\"after\"",
+          "\"before\""
+        ]
+      },
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two-way"
+        ]
+      }
+    }
+  },
+  "meaning": null
+}

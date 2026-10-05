@@ -1,0 +1,10 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/pilot-001/eval-exposition-results/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": null
+}

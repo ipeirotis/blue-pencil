@@ -1,0 +1,10 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/pilot-001/eval-worked-example/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": null
+}

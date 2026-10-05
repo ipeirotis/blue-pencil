@@ -1,0 +1,10 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/pilot-001/eval-exposition-methods/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": null
+}
