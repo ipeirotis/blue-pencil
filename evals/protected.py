@@ -44,6 +44,8 @@ _PROSE_MACROS = {"caption", "emph", "textbf", "textit", "footnote", "section",
 # The connectors "of" and "for" keep institutional authors whole ("University of Oxford").
 # A curly apostrophe counts like a straight one ("O\u2019Neil", "Smith\u2019s (2020)").
 _NAME = (r"(?:[A-Z\u00c0-\u00d6\u00d8-\u00de\u0100-\u017f\u0391-\u03a9\u0410-\u042f](?:[^\W\d_]|['\u2019.&-])+|"
+         # Scripts without case (CJK, kana, Hangul) have no capital to anchor on ("\u738b (2020)").
+         r"[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]{1,12}|"
          r"van|von|der|de|del|da|di|la|le|ter|ten|dos|and|of|for|et|al\.?|&)")
 _DATE_LEAD = re.compile(
     r"^(In|On|At|By|For|From|Since|After|Before|During|Until|Between|Around|Over|Under|"
@@ -166,7 +168,7 @@ _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|
 _ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213] ?| - )"  # also times, dots, divide, plus-minus
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
-_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c"
+_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c\u223c\u2243\u2245"
 _REL_OP = r" ?(?:<=|>=|!=|==|:=|=:|[=<>" + _UREL + r"]) ?"  # also definitions, ":=", "=:"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
@@ -500,7 +502,7 @@ def tokens(cls, raw, flat):
         return _emphasis(flat)
     if cls == "quotes":
         # A straight double quote right after a digit is an inch mark (5"), not an opening quote.
-        out = re.findall(r'(?<![0-9])"[^"]+"|``[^`]+\'\'', flat)
+        out = re.findall(r'(?<![0-9\\])"(?:[^"\\]|\\.)+"|``[^`]+\'\'', flat)  # \" inside stays content
         out += re.findall(LDQ + "[^" + LDQ + RDQ + "]*" + RDQ, flat)
         out += re.findall(LSQ + "[^" + LSQ + RSQ + "]*" + RSQ, flat)
         # Straight single quotes: an opening ' not preceded by a letter or digit and a

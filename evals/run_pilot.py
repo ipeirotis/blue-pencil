@@ -221,6 +221,7 @@ def main():
                         "AGENTS.md with the paper context, plus the skill in the with-skill condition."}
     write_json(meta_path, meta)
     t0 = time.time()
+    failed = []
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         futs = {ex.submit(run_trial, c, cond, n, out_root, args.model, provenance): (c["id"], cond, n)
                 for c, cond, n in jobs}
@@ -230,8 +231,14 @@ def main():
                 _, status = f.result()
             except Exception as e:  # keep going; one failed trial must not lose the rest
                 status = f"ERROR {type(e).__name__}: {e}"
+                failed.append(f"{cid} / {cond} / run-{n}")
             print(f"  {cid} / {cond} / run-{n}: {status}", flush=True)
     print(f"done in {time.time() - t0:.0f}s. Results in {out_root}")
+    if failed:
+        # The other trials still finished, but the run is incomplete: say so and fail.
+        print(f"{len(failed)} trials raised and have no result: {', '.join(failed)}. "
+              "Run the same command again to retry them.", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

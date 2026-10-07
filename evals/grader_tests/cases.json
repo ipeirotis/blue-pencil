@@ -35,7 +35,8 @@
     "misc26": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
     "misc27": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
     "misc28": "The signal was 10 MHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
-    "misc29": "Results\n--\nRevenue was $5 trillion and 5k users joined."
+    "misc29": "Results\n--\nRevenue was $5 trillion and 5k users joined.",
+    "misc30": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\"."
   },
   "variants": [
     {
@@ -1450,6 +1451,33 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Two-hyphen Setext underline removed."
+    },
+    {
+      "id": "misc30-similarity-operand-changed",
+      "base": "misc30",
+      "revised": "We assume Z ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a similarity relation changed."
+    },
+    {
+      "id": "misc30-cjk-author-changed",
+      "base": "misc30",
+      "revised": "We assume X ∼ Y, as 李 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Author written in an uncased script changed."
+    },
+    {
+      "id": "misc30-escaped-quote-content-changed",
+      "base": "misc30",
+      "revised": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"control\\\" group\".",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Word inside escaped quotes within a quotation changed."
     }
   ]
 }

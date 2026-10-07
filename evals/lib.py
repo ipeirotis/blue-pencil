@@ -287,7 +287,10 @@ def reads_outside_workspace(events):
             if (e.get("type") == "assistant" and item.get("type") == "tool_use"
                     and item.get("name") in ("Read", "Grep", "Glob")):
                 inp = item.get("input") or {}
-                calls[item.get("id")] = str(inp.get("file_path") or inp.get("path") or "")
+                # Glob may give no path and put the location in its pattern ("../outside/**").
+                where = inp.get("file_path") or inp.get("path") or (
+                    inp.get("pattern") if item.get("name") == "Glob" else "")
+                calls[item.get("id")] = str(where or "")
             elif e.get("type") == "user" and item.get("type") == "tool_result" and not item.get("is_error"):
                 c = item.get("content")
                 text = c if isinstance(c, str) else json.dumps(c)
