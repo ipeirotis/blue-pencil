@@ -70,7 +70,7 @@ _UNIT_NEG = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|J)|mL|cm|min|h|K)
 _UNIT_SYM = (r"(?-i:" + _UNIT_ONE + r"(?:(?:[/\u00b7\u22c5]| per )" + _UNIT_ONE + r"| " + _UNIT_NEG + r")*)"
              r"(?![A-Za-z0-9])")
 _UNIT_WORD = (r"(?:(?:micro|milli|centi|kilo|nano)?(?:grams?|litres?|liters?|meters?|metres?|"
-              r"moles?|seconds?|minutes?|hours?|volts?|watts?|joules?)|degrees?(?: (?:celsius|fahrenheit))?|"
+              r"moles?|seconds?|minutes?|hours?|volts?|watts?|joules?)|degrees?(?: (?:celsius|fahrenheit|(?-i:[CF])))?|"
               r"kelvin|hertz|calories?|days?|weeks?|months?|years?)\b")
 _NUMBER_RE = re.compile(
     r"(?:(?:less than|more than|greater than|fewer than|at least|at most|up to|approximately|"
@@ -127,7 +127,7 @@ _NUMCITE_RE = re.compile(r"\[ ?[0-9]+(?: ?[,;\u2013-] ?[0-9]+)* ?\]")
 # "n = 412"): operands of at most two letters or a number, joined by = < > + * / ^.
 # Whitespace is dropped from the token, so only a change of operand or operator counts.
 # A function call ("f(x)", "log(y)") is one operand, so renaming the function is caught.
-_FUNC = r"[A-Za-z][A-Za-z0-9_]*\([^()\s]{1,20}\)"
+_FUNC = r"[A-Za-z][A-Za-z0-9_]*\((?:[^()\n]|\([^()\n]*\)){1,40}\)"  # "f(x, y)", "f(g(x))"
 _EQ_OPERAND = r"(?:" + _FUNC + r"|[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 # Subtraction counts as an operator when written " - " (spaced) or with a Unicode minus;
 # an unspaced hyphen is left out so hyphenated words ("co-op") are not equations.
@@ -137,10 +137,12 @@ _EQ_OPERAND = r"(?:" + _FUNC + r"|[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 _IDENT = r"[A-Za-z][A-Za-z0-9_]*"
 _REL_OPERAND = r"(?:" + _FUNC + "|" + _IDENT + r"|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 _ARITH_OP = r"(?: ?[+*/^\u2212] ?| - )"
-_REL_OP = r" ?(?:<=|>=|!=|==|[=<>]) ?"
+# Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b.
+_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b"
+_REL_OP = r" ?(?:<=|>=|!=|==|[=<>" + _UREL + r"]) ?"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
-_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212]) ?| - )"
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212" + _UREL + r"]) ?| - )"
                           + _EQ_OPERAND + r")+(?![\w])")
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
@@ -178,10 +180,13 @@ def _emphasis(flat):
     return out
 
 
-_AY_PAT = re.compile(_NAME + r"(?:,? " + _NAME + r")*,? \(?[12][0-9]{3}[a-z]?\)?")
+# A year ("2020", "2020a"), or an undated or forthcoming work, given in parentheses or
+# after a comma ("Smith (n.d.)", "(Smith, in press)").
+_YEAR = r"(?:,? \(?[12][0-9]{3}[a-z]?\)?|(?:, | \()(?:n\.d\.|in press|forthcoming)\)?)"
+_AY_PAT = re.compile(_NAME + r"(?:,? " + _NAME + r")*" + _YEAR)
 
 
-_NARRATIVE_CITE = re.compile(_NAME + r"(?:,? " + _NAME + r")* \([12][0-9]{3}[a-z]?\)")
+_NARRATIVE_CITE = re.compile(_NAME + r"(?:,? " + _NAME + r")* \((?:[12][0-9]{3}[a-z]?|n\.d\.|in press|forthcoming)\)")
 _NARRATIVE_RUN = re.compile(_NARRATIVE_CITE.pattern + r"(?:(?:;|,|,? and) " + _NARRATIVE_CITE.pattern + r")+")
 
 
@@ -210,7 +215,7 @@ def _citation_groups(flat):
     another sentence, but the order inside it must not change.
     """
     groups = []
-    for span in re.findall(r"\(([^()]*[12][0-9]{3}[^()]*)\)", flat):
+    for span in re.findall(r"\(([^()]*(?:[12][0-9]{3}|n\.d\.|in press|forthcoming)[^()]*)\)", flat):
         toks = [t.replace("(", "").replace(")", "").strip(", ")
                 for t in map(_strip_lead, _AY_PAT.findall(span)) if t]
         if len(toks) >= 2:
@@ -252,6 +257,13 @@ def _macros(text):
             break
         tok, rest_i = m.group(0), m.end()
         name = tok.lstrip("\\").rstrip("*")
+        if name == "href" and text[rest_i:rest_i + 1] == "{" and _brace_group(text, rest_i):
+            # \href{url}{text}: the destination is protected, the link text is editable prose.
+            end = _brace_group(text, rest_i)
+            closed = text[end:end + 1] == "{" and _brace_group(text, end)
+            out.append(tok + text[rest_i:end] + ("{}" if closed else ""))
+            pos = end
+            continue
         if name in _PROSE_MACROS:
             # The argument is editable prose, but its delimiters are markup: record
             # whether an optional [..] and a {..} follow ("\\textbf{}" vs "\\textbf").
@@ -294,6 +306,18 @@ _FROZEN_ENVS = ["lstlisting", "verbatim", "Verbatim", "minted", "alltt", "code",
                 "bmatrix", "vmatrix", "cases", "split"]
 
 
+def _table_rows(raw):
+    """Lines of Markdown tables: any line starting with "|", plus every line with a pipe in a
+    block (lines between blank lines) that holds a separator row, so a table written
+    without outer pipes ("A | B" over "---|---") is a table too."""
+    rows = []
+    for block in re.split(r"\n[ \t]*\n", raw):
+        lines = block.splitlines()
+        is_table = any("|" in ln and "-" in ln and re.fullmatch(r"[\s|:\-]+", ln) for ln in lines)
+        rows += [ln for ln in lines if ln.startswith("|") or (is_table and "|" in ln)]
+    return rows
+
+
 def _strip_captions(text):
     """Caption text is editable prose; blank it before diffing environments."""
     out, pos = [], 0
@@ -328,7 +352,7 @@ def tokens(cls, raw, flat):
             r"-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(?:\.[A-Za-z0-9_:-]+)*", flat) + [
             re.sub(r" ", "", t).replace("\u2013", "-") for t in _NUMCITE_RE.findall(flat)]
     if cls == "authoryear":
-        pat = (_NAME + r"(?:,? " + _NAME + r")*,? \(?[12][0-9]{3}[a-z]?\)?")
+        pat = _AY_PAT
         # Parentheses and trailing commas are stripped so that reordering a citation group,
         # "(A 2006; B 2008)" to "(B 2008; A 2006)", is not mistaken for a changed citation.
         found = [t for t in map(_strip_lead, re.findall(pat, flat)) if t]
@@ -336,7 +360,9 @@ def tokens(cls, raw, flat):
     if cls == "crossrefs":
         return re.findall(
             r"\\(?:ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\((?:[^()]|\([^()]*\))*\)|"
-            r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat) + re.findall(r"!\[", flat) + re.findall(
+            r"\]\[[^\]]*\]", flat) + [
+            # Reference definitions, "[id]: url" or "[id]:url"; the space is normalized.
+            m.group(1) + " " + m.group(2) for m in re.finditer(r"(\[[^\]]+\]:) ?([^ ]+)", flat)] + re.findall(r"!\[", flat) + re.findall(
             r"\[\^[^\]]+\]", flat) + re.findall(r"<(?:https?://|mailto:)[^>\s]+>", flat) + [
             # "![" marks an image; "[^id]" is a footnote reference; <https://...> is an autolink
             # The opening "[" of an inline or reference link; the link text stays editable.
@@ -377,7 +403,8 @@ def tokens(cls, raw, flat):
     if cls == "emphasis":
         return _emphasis(flat)
     if cls == "quotes":
-        out = re.findall(r'"[^"]+"|``[^`]+\'\'', flat)
+        # A straight double quote right after a digit is an inch mark (5"), not an opening quote.
+        out = re.findall(r'(?<![0-9])"[^"]+"|``[^`]+\'\'', flat)
         out += re.findall(LDQ + "[^" + LDQ + RDQ + "]*" + RDQ, flat)
         out += re.findall(LSQ + "[^" + LSQ + RSQ + "]*" + RSQ, flat)
         # Straight single quotes: an opening ' not preceded by a letter or digit and a
@@ -390,7 +417,7 @@ def tokens(cls, raw, flat):
         # Markdown table rows: the structure (separator rows whole, the pipes of other rows)
         # is protected; cell prose stays editable, its numbers and citations still checked.
         out += [ln.strip() if re.fullmatch(r"[\s|:\-]+", ln) else re.sub(r"[^|]", "", ln)
-                for ln in raw.splitlines() if ln.startswith("|")]
+                for ln in _table_rows(raw)]
         # Trailing LaTeX comments: an unescaped % after text, with or without a space, but
         # not after a number, so a percentage ("5 %", "5%") is not mistaken for a comment.
         out += re.findall(r"(?<=[^0-9\\\s])\s*(%.*)$", raw, re.M)

@@ -21,7 +21,8 @@
     "md_links": "We solve x - y = z, as [the study](paper.pdf) shows; the ~~old~~ estimate is retained.",
     "rates": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
     "misc14": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
-    "misc15": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands."
+    "misc15": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands.",
+    "misc16": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x"
   },
   "variants": [
     {
@@ -842,6 +843,78 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Clauses reordered; every protected token kept."
+    },
+    {
+      "id": "misc16-temperature-scale-changed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees F, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Abbreviated temperature scale changed."
+    },
+    {
+      "id": "misc16-function-renamed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and g(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Function with two arguments renamed."
+    },
+    {
+      "id": "misc16-unicode-relation-operand-changed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with z ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a Unicode relation changed."
+    },
+    {
+      "id": "misc16-undated-citation-changed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Jones (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Undated citation author changed."
+    },
+    {
+      "id": "misc16-reference-definition-changed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://b.example/x",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Reference definition destination changed (no space after colon)."
+    },
+    {
+      "id": "misc16-table-pipes-removed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA B\n1 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Table without outer pipes flattened."
+    },
+    {
+      "id": "misc16-inch-marks-reworded",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" in length and 6\" in width; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose between two inch marks edited."
+    },
+    {
+      "id": "misc16-href-text-edited",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{full appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Link text inside \\href edited."
     }
   ]
 }
