@@ -86,7 +86,12 @@ variant mismatch), `damage_mode` (an enum `none`, `localized`, or
 branch deterministically rather than inferring it from a missing field),
 `artifact_repairs` required when and only when `damage_mode` is `localized`
 (the structured oracle mapping each damaged span to its allowed repaired
-form, which C4 uses to tell a declared repair from an undeclared rewrite),
+form, which C4 uses to tell a declared repair from an undeclared rewrite,
+and from which the runner derives the occurrence-scoped C1 exceptions for
+every protected token a declared repair touches, such as a stray page number
+in a header or a mangled token inside a quotation, so a required repair is
+not also scored as a protected-content violation while any token change the
+oracle does not declare still fails C1),
 and `may_return_verbatim` (restraint cases).
 Each case also carries `expected_passes`: the sweep passes the corpus author
 judges applicable under the gates in the sweep table of `SKILL.md`, including
@@ -124,18 +129,36 @@ screen is distinguishable from a full one, and every command-execution call
 with its command line, exit status, and captured output, so the F7 audit of
 `/paper:verify` can establish that the checker ran rather than that the
 agent produced a plausible report, and a failed execution is visible rather
-than recorded as a completed run), captured from the
+than recorded as a completed run, and every subagent dispatch or nested
+`/paper:*` invocation with the agent or command name, the dispatched prompt,
+the returned result, the subagent's own nested tool events, and the
+agent-turn boundary it occurred in, so the F7 loop audit can establish from
+the trace that each section pass, checkpoint, and consistency check ran,
+rather than from a plan that narrates them), captured from the
 streaming JSON output so C3 can check which `references/` files were read
 rather than which the model says it read, and so C4 can grade a write. Each
 run executes in a disposable worktree holding only the agent-visible inputs
 (the manuscript artifacts and the rendered context block or prompt), never
 the case definition or grader metadata (`must_flag`, `must_not_change`,
 `expected_passes`, `flagged_paragraphs`), which stay outside the worktree so
-an agent with `Glob` and `Read` cannot find the answers, with a before and
-after snapshot of every file, because the `paper-reviser` agent
+an agent with `Glob` and `Read` cannot find the answers, with a complete
+snapshot of every file taken immediately before and after each agent turn
+(not one pair per run: scripted between-turn file updates from the `turns`
+script are applied by the runner outside those pairs, so the C4 per-turn
+write checks can attribute every change to the agent turn and permission
+state it happened under), because the `paper-reviser` agent
 exposes `Edit` and `Write` and a model that applies a revision against the
 default no-apply rule would otherwise mutate the fixture for every later
-repetition. The trace format is adapter-based: one adapter per agent surface
+repetition. The skill under test is installed in full from the selected ref:
+the runner points the agent at a temporary agent home (its config directory,
+selected through `HOME` or the agent's config-path override) and a worktree
+`.claude/` that the ref's own `install.sh` populated with that ref's
+`SKILL.md`, `references/`, command prompts, and `paper-reviser` definition,
+inheriting nothing from the host's global commands or subagents, and records
+the install manifest with the SHA of each installed component, since a run
+that reads the host's current command files while labeled with an older
+skill SHA would corrupt the E4 ablations and the G3 historical reruns. The
+trace format is adapter-based: one adapter per agent surface
 maps its tool names to the canonical read and write events, and a surface
 that receives files by injection (the chat condition in E5) records them as
 `injected` provenance, and C3 marks its reference audit not applicable on
@@ -329,7 +352,11 @@ in, or an ordinal), and exempts that one occurrence only: the shell script
 removes an excepted token from both multisets wherever it appears, so one
 approved `5` to `6` correction would hide a second, unapproved `5` to `6`
 elsewhere. A duplicate-token fixture (several `5`s and `6`s, one approved
-change, one unapproved) must fail. Unit tests: one test per extraction
+change, one unapproved) must fail. The runner feeds the exceptions derived
+from a case's `artifact_repairs` in this same occurrence-scoped form, and a
+localized-damage fixture whose declared repair touches a protected class
+passes C1 and C4 together while the same fixture with one undeclared token
+change fails C1. Unit tests: one test per extraction
 class, one per known limit in the shell script's header (documenting the limit
 or closing it). The shell script stays until CI switches over (G1).
 State the guarantee precisely, in the tool's output and its docs: a multiset
@@ -745,9 +772,16 @@ checks do not cover arbitrary prose claims. Give the judge what it needs to
 tell a violation from a legitimate change: the full input section and the
 full revised section (so a moved sentence is judged in both contexts), every
 other manuscript section the case supplied, or, where that is too long for
-the judge's context, the specific source passages the bridge's cue words
-point to (so a bridge built from material in another supplied section is
-traced to it rather than misread as unsupported),
+the judge's context, retrieved source passages for every unmatched added or
+moved sentence, not only for bridges: retrieval runs on each such sentence's
+content terms (lexical overlap or embedding similarity against every
+supplied section) as well as on a bridge's cue words, so a factual sentence
+relocated from another section without `because` or another cue is traced
+to its source rather than misread as an invention; when retrieval cannot
+supply the supporting context for an added sentence, the judge returns
+`inconclusive` for that sentence rather than a violation, and inconclusive
+verdicts are reported separately in A4 and excluded from the pass rate
+rather than folded into either side,
 the `Added bridges:` line and the matching Author question, and the
 `Change rationale` entries (so a deletion the skill logged is judged as
 logged, not as silent). A sentence and a blank counterpart alone make the
@@ -866,7 +900,14 @@ maps its own tool names to the canonical read and write events, and the chat
 condition records the injected files as `injected` provenance, and the C3
 reference audit is reported not applicable for that condition rather than
 passed, since the injection supplies the expected set; every other grader
-runs unchanged, so the comparison measures behavior rather than
+runs unchanged where its assertion can be observed on that surface: an
+assertion that requires a tool event the surface does not expose (the
+observed `Edit` or `Write` in the B6 explicit-apply case, the trace half of
+the per-turn no-write check, the command-execution and nested-dispatch
+audits in F7) is reported not applicable on that surface rather than
+failed, the matched comparison covers only the assertions applicable on
+every compared surface, and the report lists the excluded assertions per
+surface, so the comparison measures behavior rather than
 instrumentation. If a surface
 cannot take the full set, report that run as a packaging comparison,
 separately. Hold the model and inference configuration fixed across surfaces wherever a
@@ -940,14 +981,24 @@ revising output, and a fixture with a swapped citation key fails.
 ### F3. Ship the checker to authors (M)
 Add a `/paper:verify <original> <revised>` command (and a step inside
 `/paper:loop` after each section) that runs the C1 checker and reports the diff
-before the author applies a revision. The skill's own tool surface is read and
+before the author applies a revision. Before an apply the revised text exists
+only in the agent's response, and C4 forbids creating any file on a no-apply
+turn, so the path-based form alone cannot serve the loop: the checker also
+accepts the revised text on standard input (`bp-check original.tex -`), the
+loop step pipes the proposed `Revised text` block through the
+command-execution tool without writing it anywhere in the worktree, and the
+command file documents both forms (a path for a revision already on disk,
+standard input for one still proposed). The skill's own tool surface is read and
 edit only, so registering the command is not enough: the command file must
 grant a command-execution tool (or dispatch to a subagent that has one), the
 installer must install an invocable entry point for the checker and record its
 path, and the command must fall back to a clear message when the entry point
 is missing. Done when: `install.sh --init` registers the command and installs
 the entry point, `test-install.sh` covers both, and an end-to-end test runs
-`/paper:verify` on a fixture pair and gets the checker's report back.
+`/paper:verify` on a fixture pair and gets the checker's report back, and a
+second end-to-end test drives the pre-apply loop path, feeding a proposed
+revision through standard input and asserting the report comes back with no
+file created in the worktree.
 
 ### F4. Right-size the instructions from the ablation (M)
 Remove or shorten blocks E4 measured as inert (never a block E4 marked
