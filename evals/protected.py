@@ -64,7 +64,7 @@ _NUM = (r"(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
 # "10 mg" to "10 kg" or "20 \u00b0C" to "20 \u00b0F" is caught. Spelled-out units are matched
 # too, with the hyphen and plural normalized so "10 grams" and "a 10-gram dose" agree.
 _MICRO = "(?:\u00b5|\u03bc)"
-_UNIT_ONE = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|W|J|Hz|Pa)|mL|cm|kcal|cal|"
+_UNIT_ONE = (r"(?:(?:[kmnMGT]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|W|J|Hz|Pa)|mL|cm|kcal|cal|"
              r"USD|EUR|GBP|JPY|CNY|RMB|CAD|AUD|NZD|CHF|INR|HKD|SGD|SEK|NOK|DKK|KRW|BRL|MXN|ZAR|RUB|TRY|"
              r"min|h|hr|hrs|K|kDa|Da|bp|kb|Mb|[KMGT]B|\u00b0 ?[CF]|\u00b0)"
              r"(?:\^-?[0-9]+|[\u207b\u00b9\u00b2\u00b3\u2070-\u2079]+)?")  # exponent: m^2, s\u207b\u00b9
@@ -163,7 +163,7 @@ _GROUP = (r"(?:\((?:[^()\n]|\([^()\n]*\)){1,60}\)|\[(?:[^\[\]\n]|\[[^\[\]\n]*\])
 # Any operand may carry a unary sign ("x = -y", "x = -(a + b)", "x = -5").
 _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|" + _GROUP
                 + r"|(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
-_ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7] ?| - )"  # also times, middle dots, divide
+_ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213] ?| - )"  # also times, dots, divide, plus-minus
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
 _UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c"
@@ -171,7 +171,7 @@ _REL_OP = r" ?(?:<=|>=|!=|==|:=|=:|[=<>" + _UREL + r"]) ?"  # also definitions, 
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
 _BARE_OPERAND = r"(?:" + _FUNC + "|[A-Za-z]{1,2}" + _DECOR + "|" + _EQ_OPERAND + "|" + _USYM + ")"  # Greek and letterlike operands too ("\u03b1 + \u03b2")
-_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|:=|=:|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7" + _UREL + r"]) ?| - )"
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|:=|=:|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213" + _UREL + r"]) ?| - )"
                           + _BARE_OPERAND + r")+(?![\w])")
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
@@ -459,7 +459,10 @@ def tokens(cls, raw, flat):
             u.rstrip(".,;:!?") for u in re.findall(r"(?<![<({/\w])https?://[^\s<>()\[\]{}\"']+", flat)] + [
             # "![" marks an image; "[^id]" is a footnote reference; <https://...> is an autolink
             # The opening "[" of an inline or reference link; the link text stays editable.
-            "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)]
+            "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)] + [
+            # Shortcut reference links, "[label]" whose label has a "[label]: url" definition.
+            "[" + m.group(1) + "]" for m in re.finditer(r"\[([^\[\]^]+)\](?![\[(:])", flat)
+            if m.group(1).lower() in {d.lower() for d in re.findall(r"\[([^\[\]^]+)\]:", flat)}]
     if cls == "callouts":
         pat = (r"(?:(?:table|figure|section|appendix|column|panel|equation)s?|appendices|figs?\.|eqs?\.)"
                # Roman numerals (uppercase only, so "the figure did" is not a callout): "Section IV".
@@ -562,9 +565,10 @@ def tokens(cls, raw, flat):
                 head, *rest = m.group("uword").lower().split(" ")
                 tok = (tok[:m.start("uword") - m.start() - 1] + " " + " ".join([head.rstrip("s")] + rest)
                        + tok[m.end("uword") - m.start():])
-            # Words ("Less than", "Percent", "Million") are compared case-blind; unit symbols,
-            # which are at most two letters in a row, keep their case so mM is not mm.
-            tok = re.sub(r"[A-Za-z]{3,}", lambda w: w.group(0).lower(), tok).replace("\u00b5", "\u03bc")
+            # Words ("Less than", "Percent", "Million") are compared case-blind; unit symbols
+            # keep their case, so mM is not mm and MHz is not mHz.
+            tok = re.sub(r"[A-Za-z]{3,}", lambda w: w.group(0) if re.fullmatch(_UNIT_ONE, w.group(0))
+                         else w.group(0).lower(), tok).replace("\u00b5", "\u03bc")
             tok = re.sub(r"(?<=[0-9]) %", "%", tok)  # "5 %" and "5%" are the same value
             out.append(tok)
         return out

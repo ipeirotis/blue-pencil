@@ -274,6 +274,14 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
     return result
 
 
+def _valid_trial(rd, cond):
+    """The trials report.py counts: finished without error and, with the skill, loaded it."""
+    if not (rd / "trial.json").exists():
+        return False
+    t = read_json(rd / "trial.json")
+    return not t.get("is_error") and (cond != "with_skill" or t.get("skill_loaded") is True)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     ap.add_argument("run_id")
@@ -303,13 +311,16 @@ def main():
         original = (EVALS / "cases" / cid / "input.txt").read_text().strip()
         for cond in CONDS:
             for rd in sorted((ed / cond).glob("run-*")):
-                jobs.append((cid, original, rd))
+                jobs.append((cid, original, rd, _valid_trial(rd, cond)))
         if do_quality:
             ns = sorted({int(p.name.split("-")[1]) for p in (ed / "with_skill").glob("run-*")})
-            h2h += [(cid, original, ed, n) for n in ns]
+            h2h += [(cid, original, ed, n) for n in ns
+                    if all(_valid_trial(ed / c / f"run-{n}", c) for c in CONDS)]
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         if args.stage != "quality":
-            list(ex.map(lambda j: grade_run(*j, args.model, do_meaning, args.force), jobs))
+            # The code grader is free and runs on every trial; the paid meaning grader runs
+            # only on trials the report counts.
+            list(ex.map(lambda j: grade_run(*j[:3], args.model, do_meaning and j[3], args.force), jobs))
         if h2h:
             list(ex.map(lambda j: head_to_head(*j, args.model, args.force), h2h))
     print(f"graded {len(jobs)} runs" + (f" and {len(h2h)} head-to-head pairs" if h2h else "")

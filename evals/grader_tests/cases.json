@@ -33,7 +33,8 @@
     "misc24": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
     "misc25": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n  - inner\n- next",
     "misc26": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
-    "misc27": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed."
+    "misc27": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+    "misc28": "The signal was 10 MHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a"
   },
   "variants": [
     {
@@ -1385,6 +1386,42 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Ordinary year phrase reworded; the year is kept."
+    },
+    {
+      "id": "misc28-mega-unit-changed",
+      "base": "misc28",
+      "revised": "The signal was 10 GHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Uppercase SI prefix changed."
+    },
+    {
+      "id": "misc28-mega-milli-confused",
+      "base": "misc28",
+      "revised": "The signal was 10 mHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Mega prefix changed to milli."
+    },
+    {
+      "id": "misc28-plus-minus-operand-changed",
+      "base": "misc28",
+      "revised": "The signal was 10 MHz and x ± z held. See [appendix].\n\n[appendix]: https://example.com/a",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a plus-minus expression changed."
+    },
+    {
+      "id": "misc28-shortcut-link-removed",
+      "base": "misc28",
+      "revised": "The signal was 10 MHz and x ± y held. See appendix.\n\n[appendix]: https://example.com/a",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Shortcut reference link removed."
     }
   ]
 }
