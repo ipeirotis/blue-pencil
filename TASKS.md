@@ -23,8 +23,16 @@ Labels: `[harness]` `[corpus]` `[grader]` `[judge]` `[analysis]` `[skill]` `[ci]
 ## A. Eval harness `[harness]`
 
 ### A1. Eval case schema and directory layout (S)
-Define `evals/` so a case is self-describing: the input section (LaTeX or
-Markdown), the paper context as structured fields (`revision_stage`,
+Define `evals/` so a case is self-describing: an ordered artifact list in
+place of a single input (each artifact with a path, a role such as
+`manuscript-root`, `included-section`, `draft-letter`, `reviewer-comments`,
+`author-decisions`, or `change-log`, its reading order, and an `editable`
+flag, so a section case has one editable artifact while a `/paper:read`,
+`/paper:consistency`, or `/paper:loop` case carries a root-plus-includes
+graph and a `/paper:letter` case carries an editable draft beside read-only
+comments and manuscript files; C1 and C3 align and diff against the editable
+artifact, and C4 knows which file an explicit apply may touch), the paper
+context as structured fields (`revision_stage`,
 `audience`, `target_venue`, `core_thesis`, `style_overrides`), the command or
 plain-English prompt, and the expectations. The `<paper_context>` block the
 agent sees is rendered from those fields at run time by A2, never stored as a
@@ -127,8 +135,14 @@ exceptions, and the aligner has fixtures for a split, a merge, a move, and
 an unmatched addition and deletion.
 
 ### A4. Aggregation and report (S)
-Produce `benchmark.json` and `benchmark.md` per iteration with pass rate per
-assertion, mean and standard deviation across repetitions, time, and tokens,
+Produce `benchmark.json` and `benchmark.md` per iteration with, for every
+assertion and configuration, the counts of passed, failed, not-applicable
+(the assertion does not apply to that case or variant), and excluded (an
+audit the plan switches off for that run, such as the reference audit on an
+ablated or historical ref or an ambiguous label), and a pass rate whose
+denominator is the applicable cases only, so a skipped check is never
+counted as a pass or as a failure; plus mean and standard deviation across
+repetitions, time, and tokens,
 every one of them reported per model as well as pooled (a regression on one
 model must not be cancelled by another model's gain or by an unbalanced run
 count),
@@ -280,11 +294,17 @@ compact contract:
 exactly `Revised text`, `Top changes`, `Author questions`, at most three
 change bullets, `References loaded:` under `Top changes`, every Author
 question ending in `?`, no banned tell in any paragraph (quick pass edits
-all of them), no Diagnosis, no word count, no `Added bridges:`. For the feedback-only wrapper: every full-contract check that still
+all of them) with the same exemptions as the full branch (a
+`style_overrides:` permission and the inside of a direct quotation), no
+Diagnosis, no word count, no `Added bridges:`. For the feedback-only wrapper: every full-contract check that still
 applies (the four headings, `Added bridges: None.` immediately after the
-`No rewrite requested.` block, `References loaded:`, Diagnosis headers for
-the stage, every Author question ending in `?`), with only the word-count
-and change-line checks dropped. For the letter-assembly variant: the full
+`No rewrite requested.` block, `References loaded:`, every Author question
+ending in `?`), with only the word-count and change-line checks dropped, and
+the Diagnosis shape dispatched to the command-specific grader in F7 rather
+than the generic stage-header rule: `/paper:read`, `/paper:consistency`, and
+`/paper:triage` carry their own whole-paper or whole-letter deliverables
+(reading log, colleague test, comment table) in place of `Voice tics:` and
+`Reader map:`, as their command files require. For the letter-assembly variant: the full
 contract minus the word-count and ordinary change-line checks, with one
 provenance line per reply required instead. For a clarification,
 split-and-confirm, decline, or source-quality refusal: only the predicates
@@ -358,9 +378,15 @@ output.
   boundaries, and order are unchanged across the whole section, since the
   stage permits sentence-level work inside the window and forbids
   reorganising paragraphs anywhere.
-- At `final polish`, in quick pass, and on every `/paper:polish` run whatever
-  the stored stage (the command applies final-polish constraints at `first
-  draft` too): paragraph count and order unchanged,
+- `/paper:polish` at `response to reviewers`: the output stops, asks the
+  author to confirm the round is closed or to use `/paper:rebut`, and carries
+  no `Revised text` block, no manuscript sentence differing from the input,
+  and no `Edit` or `Write` to the manuscript, as the command file requires;
+  B6 carries a fixture for this command-and-stage pair alongside the
+  `/paper:quick` one.
+- At `final polish`, in quick pass, and on every `/paper:polish` run at
+  `final polish` or `first draft` (the command applies final-polish
+  constraints at `first draft` too): paragraph count and order unchanged,
   and the alignment covers both directions inside each paragraph: every
   output sentence aligns to a sentence of the corresponding input paragraph,
   and every input sentence aligns to at least one output sentence of the
@@ -409,6 +435,13 @@ output.
   separate request) may still change; the reverted edits are not re-proposed
   in the change lines, and the apparent reversion is noted once in `Author
   questions`.
+- On every case whose prompt explicitly asked to apply the revision (an
+  explicit-apply case in B6): the editable artifact's after-snapshot equals
+  the `Revised text` block exactly, every other artifact's snapshot is
+  unchanged, the trace shows writes to the editable artifact only, the
+  `Change rationale` states the file was updated, and no `Author questions`
+  item touches content inside the applied text (the skill forbids applying
+  with such a question open).
 - On every case whose prompt did not explicitly ask to apply the revision
   (the default, per the skill's "Where the revision goes" rule): the A2
   before and after snapshots of every manuscript file are identical and the
@@ -426,8 +459,9 @@ rate for each.
 On B5 cases: revised block identical to the input after normalizing only
 insignificant wrapping (soft line breaks and runs of spaces inside a
 paragraph, and only the trailing whitespace that cannot affect the input
-format: in Markdown a two-space line ending is a hard break and must be
-preserved, so only a single trailing space or tab is normalized there), while
+format: in Markdown a two-space line ending or a backslash before the
+newline is a hard break and must be preserved, so only a single trailing
+space or tab before an ordinary newline is normalized there), while
 preserving paragraph boundaries (a collapsed blank line merges two paragraphs
 and must fail) and the entire contents of format-sensitive constructs
 (`tabular`, `lstlisting`, code fences, `%` comment lines), which are excluded
@@ -441,7 +475,10 @@ across skill versions. Done when: churn is a column in the A4 report.
 ### C6. Defect recall grader (M)
 On every case that carries a `must_flag` list, the B2 seed corpus as well as
 the B3 injected cases: did the Diagnosis name each expected defect (matched
-by paragraph label and a keyword list per defect class), and, where the
+by paragraph label and a keyword list per defect class, with a small
+polarity-aware matcher so that a negated or absent-marking mention such as
+"[P2] has no hedge stack" does not count as a finding; positive and negative
+fixtures for the matcher), and, where the
 revision was in scope, did it remove the defect without destroying the prose
 around it (class-specific check: tell absent, definition now precedes first
 use, em-dash gone, and so on, plus, on B3 cases, the sentence that carried
