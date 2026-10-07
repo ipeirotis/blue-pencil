@@ -244,7 +244,10 @@ pass requested at `response to reviewers` (must decline and route to
 and confirm, never rewrite in one shot); a pasted section with no
 `<paper_context>` (must ask once, then default to `final polish`); reviewer
 comments with no manuscript (triage only, classifications marked unverified);
-PDF-extracted text with ligature damage; a `style_overrides:` line that permits
+two PDF-extraction cases, one with repairable localized damage (ligatures, a
+page header) where the required behavior is an artifact-only repair, and one
+marked pervasive where the required behavior is a no-rewrite refusal, so
+each C4 branch has a run to grade; a `style_overrides:` line that permits
 em-dashes; and a scripted repeat round for the across-rounds rule in
 `SKILL.md` (the current file is the author's decision record): the first turn
 revises a section, the scripted reply returns the file with two of the
@@ -312,17 +315,24 @@ when it carries a justification cue (because, since, ensures, guarantees,
 holds, is valid, identifies, is exogenous, and a maintained lexicon); an
 unmatched sentence without a cue (a new transition, one half of a permitted
 first-draft split) is an ordinary insertion that C3 requires in the change
-ledger, not a bridge, and must not fail this check. The gated rule means so a run that adds a validity argument and
-prints `Added bridges: None.` fails; a cue hit is reported as a
-finding here, and D4's judge, when it has run, classifies it so a false cue
-is visible, not gated. No `[P1]`-style label inside
+ledger, not a bridge, and must not fail this check. A cue hit is a
+candidate, not a verdict: the lexicon over-matches ("Since then, the
+literature has expanded" is no bridge), so C2 records each candidate and
+fails the output only when D4's judge confirms that the candidate states why
+an assumption, identification strategy, or validity claim holds and the line
+omits it; a candidate the judge rejects passes, and until the judge has run
+the candidate is reported as pending, never as a failure. A run that adds a
+confirmed validity argument and prints `Added bridges: None.` fails. No `[P1]`-style label inside
 the block, every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
 to edit (a verbatim paragraph with a tell is itself a failure at `first
 draft`, `final polish`, and quick pass, since the scrub runs over all
 editable text; exempt only text the stage forbids editing, the unflagged
 paragraphs at `response to reviewers`, anything a `style_overrides:`
-line permits, and the inside of a direct quotation, which constraint 7 keeps
-verbatim and constraint 9 exempts from the em-dash rule), stage-appropriate Diagnosis headers, and at most seven
+line permits, the inside of a direct quotation, which constraint 7 keeps
+verbatim and constraint 9 exempts from the em-dash rule, and every
+constraint-5 opaque span the skill keeps verbatim: environments, `%`
+comment lines, code spans and fences, math, and macro arguments that are
+not prose), stage-appropriate Diagnosis headers, and at most seven
 numbered Diagnosis items on an ordinary section edit (the cap is lifted for
 the whole-paper diagnosis-only passes `SKILL.md` exempts and for the
 `/paper:triage` feedback variant, whose command file lifts it so that every
@@ -332,7 +342,8 @@ exactly `Revised text`, `Top changes`, `Author questions`, at most three
 change bullets, `References loaded:` under `Top changes`, every Author
 question ending in `?`, no banned tell in any paragraph (quick pass edits
 all of them) with the same exemptions as the full branch (a
-`style_overrides:` permission and the inside of a direct quotation), no
+`style_overrides:` permission, the inside of a direct quotation, and the
+constraint-5 opaque spans), no
 Diagnosis, no word count, no `Added bridges:`. For the feedback-only wrapper: every full-contract check that still
 applies (the four headings, `Added bridges: None.` immediately after the
 `No rewrite requested.` block, `References loaded:`, every Author question
@@ -358,8 +369,13 @@ the override and fails without it.
 Check what the skill says about its own run against what it did:
 - `Word count:` within 15 percent or 10 words of the actual counts, whichever
   is larger (the contract rounds to the nearest 10, so `~10` for 14 words is
-  honest), computed by the same exclusion rules (no citation commands, math,
-  or macros), and the signed percentage is checked against the range the
+  honest), computed by the convention the skill's Length budget section
+  already states (exclude citation commands, math environments, and LaTeX
+  macros) made precise for the grader and written into the output contract
+  by F2 so the agent and the grader count the same way: a macro's command
+  syntax is excluded but a prose argument (`\emph{...}`, `\footnote{...}`,
+  `\textbf{...}`, sectioning) is counted as prose, so macro-heavy LaTeX is
+  not undercounted, and the signed percentage is checked against the range the
   accepted count ranges imply (recompute the percentage from every before
   and after pair inside the two tolerance bands and accept the reported value
   if it falls within the resulting interval, with its sign), so the
@@ -384,10 +400,14 @@ Check what the skill says about its own run against what it did:
   be empty), and the two occupy corresponding positions in the A3 sentence
   alignment or the same diff hunk, so an entry stitched from an unrelated
   input span and an unrelated output span fails along with a wholly invented
-  one. The converse holds for insertions as for deletions: every added hunk
-  inside an aligned pair that is not made only of insignificant tokens, and
-  every added sentence, maps to a change line or to the `Added bridges:`
-  line, so a clause inserted without a ledger entry fails. Its `why` names a
+  one. The converse holds for insertions as for deletions on the full
+  contract only: every added hunk inside an aligned pair that is not made
+  only of insignificant tokens, and every added sentence, maps to a change
+  line or to the `Added bridges:` line, so a clause inserted without a ledger
+  entry fails. The compact contract carries at most three `Top changes`
+  bullets and no ledger by design, so on a quick pass the coverage checks do
+  not run; the three bullets are verified as real edits (the span checks
+  above) but are not required to be exhaustive. Its `why` names a
   mechanism
   from the allowed list; "reads better", "smoother", "more concise" alone
   fail.
@@ -478,10 +498,14 @@ output.
 - Across rounds (the scripted repeat-round case in B6): in the second turn the
   spans the author reverted or reworded (the diff between the first turn's
   suggestion and the author's returned file) are not moved back toward the
-  first turn's suggestion: for each such span, the second turn's text is no
-  closer to the first-turn wording than the author's version is, measured by
-  edit distance, while unrelated text in the same sentence (a new typo, a
-  separate request) may still change; the reverted edits are not re-proposed
+  first turn's suggestion: for each such span the case records the rejected
+  transformation (the before and after wording and what the edit did, such
+  as strengthening a verb or deleting a hedge), and the second turn fails
+  when it re-proposes that transformation on that span under any wording
+  ("shows" rejected as "demonstrates" and reoffered as "establishes" fails),
+  judged by D4's judge against the recorded transformation, while unrelated
+  text in the same sentence (a new typo, a separate request) may still
+  change; the reverted edits are not re-proposed
   in the change lines, and the apparent reversion is noted once in `Author
   questions`.
 - On every case whose prompt explicitly asked to apply the revision (an
@@ -560,7 +584,11 @@ fails.
 
 ### D1. Rubrics for what scripts cannot see (M)
 Write judge prompts, one per dimension, each returning a score with a quoted
-justification: clarity gained by a non-specialist reader; voice preserved
+justification: clarity gained for the reader named in the case's `audience`
+field (the skill's default reader model when the field is absent, a
+specialist or an undergraduate when the case says so, since a fixed
+non-specialist judge would penalize terminology a specialist audience
+expects); voice preserved
 (would the author recognize this as theirs); meaning preserved per aligned
 sentence pair (any technical claim strengthened, weakened, or changed);
 diagnosis validity (does each numbered item point at a real problem in the
@@ -775,7 +803,12 @@ class, listing the protected tokens the assembled letter uses and the
 supplied artifact each came from), and C3 verifies that every protected
 token in the assembled letter appears in the named artifact rather than
 diffing the letter against the input bundle, so a legitimate omission is not
-reported as a loss, C3 verifies the line against C1's recomputation on every
+reported as a loss; and because an invented change claim ("we added a
+robustness analysis") carries no protected token, each assembled reply is
+also grounded by D4's judge against the decision, change-log entry, and
+manuscript location its provenance line names, with an unsupported claim
+reported as a violation unless the reply routes it to `Author questions` as
+the command file requires, C3 verifies the line against C1's recomputation on every
 revising output, and a fixture with a swapped citation key fails.
 
 ### F3. Ship the checker to authors (M)
