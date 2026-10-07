@@ -47,7 +47,8 @@
     "misc38": "We call <code>fit(model)</code> once and report the result.",
     "misc39": "The risk doubled in a double-blind study of ٥ groups, and √x is the score.",
     "misc40": "A third of subjects responded.\n\\begin{verbatim}\n\\caption{alpha}\n\\end{verbatim}",
-    "misc41": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 lb and sat 10 feet away."
+    "misc41": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 lb and sat 10 feet away.",
+    "misc42": "Study II replicates the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note"
   },
   "variants": [
     {
@@ -1867,6 +1868,42 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Prose after the quote edited."
+    },
+    {
+      "id": "misc42-study-label-changed",
+      "base": "misc42",
+      "revised": "Study III replicates the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Roman-numeral study label changed."
+    },
+    {
+      "id": "misc42-doi-suffix-changed",
+      "base": "misc42",
+      "revised": "Study II replicates the result (doi:10.1002/(SICX)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Parenthesized part of a DOI suffix changed."
+    },
+    {
+      "id": "misc42-latex-comment-changed",
+      "base": "misc42",
+      "revised": "Study II replicates the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % changed note",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "LaTeX comment after a number changed."
+    },
+    {
+      "id": "misc42-prose-edited",
+      "base": "misc42",
+      "revised": "Study II reproduces the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose edit outside protected spans."
     }
   ]
 }

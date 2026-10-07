@@ -486,7 +486,9 @@ def tokens(cls, raw, flat):
             # Superscript citation runs ("work\u00b9,\u00b2", "\u00b9\u207b\u00b3") are one ordered token.
             re.findall(_SUPDIG + r"+(?:[,\u2013\u207b-]" + _SUPDIG + r"+)+", flat)) + [
             # DOIs, bare or as doi.org links, compared by the identifier itself.
-            m.rstrip(".").lower() for m in re.findall(r"\b(10\.[0-9]{4,9}/[^\s,;()\[\]<>\"]+)", flat)]
+            # Balanced (...) and <...> belong to the suffix ("10.1002/(SICI)1099-1409<672::AID>3.0.CO;2-W").
+            m.rstrip(".").lower() for m in re.findall(
+                r"\b(10\.[0-9]{4,9}/(?:[^\s,;()\[\]<>\"]|\([^\s()]*\)|<[^\s<>]*>|;(?=\S))+)", flat)]
     if cls == "authoryear":
         pat = _AY_PAT
         # Parentheses and trailing commas are stripped so that reordering a citation group,
@@ -595,6 +597,10 @@ def tokens(cls, raw, flat):
         # Trailing LaTeX comments: an unescaped % after text, with or without a space, but
         # not after a number, so a percentage ("5 %", "5%") is not mistaken for a comment.
         out += re.findall(r"(?<=[^0-9\\\s])\s*(%.*)$", raw, re.M)
+        # In LaTeX source a percent sign is "\%", so an unescaped one after a number starts a
+        # comment too ("Section 3 % note"); outside LaTeX, "5 %" stays a percentage.
+        if re.search(r"\\[A-Za-z]+", raw):
+            out += re.findall(r"(?<=[0-9])\s*(%.*)$", raw, re.M)
         # ATX heading markers: up to 3 spaces of indent, then a space, a tab, or the line end.
         out += [h + " " for h in re.findall(r"^ {0,3}(#{1,6})(?:[ \t]|$)", raw, re.M)]
         # Setext heading underlines ("=====", "-----"), kept as their character only.
@@ -656,7 +662,8 @@ def tokens(cls, raw, flat):
             out.append(tok)
         # Roman numerals after a word that numbers a category ("phase II", "type I", "grade III").
         out += [f"{m.group(1).lower()} {m.group(2)}" for m in re.finditer(
-            r"\b(phase|grade|type|class|stage|tier|level|category)[ -]((?-i:[IVX]{1,4}))\b", flat, re.I)]
+            r"\b(phase|grade|type|class|stage|tier|level|category|study|experiment|trial|model|"
+            r"specification|hypothesis|wave|part)[ -]((?-i:[IVX]{1,4}))\b", flat, re.I)]
         return out
     if cls == "numberwords":
         out, prev_end, prev_unit = [], None, False
