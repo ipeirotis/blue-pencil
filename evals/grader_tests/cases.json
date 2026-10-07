@@ -22,7 +22,8 @@
     "rates": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
     "misc14": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
     "misc15": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands.",
-    "misc16": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x"
+    "misc16": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+    "misc17": "The estimate was x = -5 and rate = 2e10.\n\n>quoted source text"
   },
   "variants": [
     {
@@ -915,6 +916,33 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Link text inside \\href edited."
+    },
+    {
+      "id": "misc17-signed-operand-renamed",
+      "base": "misc17",
+      "revised": "The estimate was y = -5 and rate = 2e10.\n\n>quoted source text",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable with a negative value renamed."
+    },
+    {
+      "id": "misc17-scientific-operand-renamed",
+      "base": "misc17",
+      "revised": "The estimate was x = -5 and cost = 2e10.\n\n>quoted source text",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable with a value in exponent notation renamed."
+    },
+    {
+      "id": "misc17-blockquote-marker-removed",
+      "base": "misc17",
+      "revised": "The estimate was x = -5 and rate = 2e10.\n\nquoted source text",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Blockquote marker without a following space removed."
     }
   ]
 }

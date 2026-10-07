@@ -135,7 +135,9 @@ _EQ_OPERAND = r"(?:" + _FUNC + r"|[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 # "rate + dose = total"). A chain with named operands counts only if it holds one of
 # = < > or their combinations, so "and/or" style slashes stay prose.
 _IDENT = r"[A-Za-z][A-Za-z0-9_]*"
-_REL_OPERAND = r"(?:" + _FUNC + "|" + _IDENT + r"|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
+# A numeric operand may carry a sign and an exponent ("x = -5", "x = 2e10").
+_REL_OPERAND = (r"(?:" + _FUNC + "|" + _IDENT + r"|(?:[+-]|\u2212)?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
+                r"(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
 _ARITH_OP = r"(?: ?[+*/^\u2212] ?| - )"
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b.
 _UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b"
@@ -413,7 +415,7 @@ def tokens(cls, raw, flat):
         out += re.findall("\u00ab[^\u00ab\u00bb]*\u00bb|\u2039[^\u2039\u203a]*\u203a", flat)  # guillemets
         return out
     if cls == "comments":
-        out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|> )", ln)]
+        out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|>)", ln)]
         # Markdown table rows: the structure (separator rows whole, the pipes of other rows)
         # is protected; cell prose stays editable, its numbers and citations still checked.
         out += [ln.strip() if re.fullmatch(r"[\s|:\-]+", ln) else re.sub(r"[^|]", "", ln)

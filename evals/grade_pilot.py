@@ -50,6 +50,12 @@ SEVERITY_OF = {"claim_strength": "major", "caveat_or_scope": "major", "new_conte
                "voice": "recorded"}
 
 
+# The one quote a problem type may leave empty: added text has nothing to quote in the
+# original, and dropped text (content, a caveat, a qualifier) nothing in the revision.
+_MAY_BE_EMPTY = {"new_content": "original_quote", "lost_content": "revised_quote",
+                 "caveat_or_scope": "revised_quote", "qualifier_word": "revised_quote"}
+
+
 def _norm(s):
     s = s.replace("\u201c", '"').replace("\u201d", '"').replace("\u2018", "'").replace("\u2019", "'")
     return re.sub(r"\s+", " ", s).strip()
@@ -92,9 +98,10 @@ def valid_meaning(parsed):
     if not isinstance(probs, list) or not all(
             isinstance(p, dict) and p.get("type") in SEVERITY_OF
             and p.get("severity") == SEVERITY_OF[p["type"]]
-            # evidence: a quote from at least one side (one may be empty for added or
-            # dropped text) and an explanation
-            and (_text(p.get("original_quote")) or _text(p.get("revised_quote")))
+            # evidence: a quote from both sides, except that added text has no original
+            # and dropped text no revision; and an explanation
+            and all(_text(p.get(side)) or side == _MAY_BE_EMPTY.get(p["type"])
+                    for side in ("original_quote", "revised_quote"))
             and _text(p.get("explanation")) for p in probs):
         return False
     has_major = any(p.get("severity") == "major" for p in probs)

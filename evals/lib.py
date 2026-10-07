@@ -159,7 +159,7 @@ def call_claude(prompt, model, cwd, flags=(), timeout=600, stream=False):
     return out
 
 
-def extract_revised(text):
+def extract_revised(text, original=None):
     """Return the revised passage from a model reply, or None.
 
     Blue Pencil replies have a '### 2. Revised text' heading followed by a
@@ -167,17 +167,25 @@ def extract_revised(text):
     first fenced block.
     """
     m = re.search(r"###\s*2\.\s*Revised text\s*\n+(?=```|~~~)", text)
-    found = _fenced_block(text[m.end():]) if m else None
-    return found if found is not None else _fenced_block(text)
+    found = _fenced_block(text[m.end():], original) if m else None
+    return found if found is not None else _fenced_block(text, original)
 
 
-def _fenced_block(text):
+def _fence_lines(text):
+    return sum(bool(re.match(r"\s*(`{3,}|~{3,})", ln)) for ln in text.split("\n"))
+
+
+def _fenced_block(text, original=None):
     """Contents of the first fenced block in text, or None.
 
     A passage may itself contain fenced blocks, so the closing fence is matched by
     nesting: a fence line with an info string ("```python") opens an inner block, a
     bare fence closes the innermost open one, and the outer block ends at the bare
     fence that closes it (at least as long as the opening fence, per CommonMark).
+    A bare inner block is ambiguous (its opening fence looks like the outer close), so
+    when the original passage is given, the outer block ends at the first bare fence
+    that leaves inside it as many fence lines as the original has; code blocks are
+    protected, so a faithful revision keeps them all.
     """
     lines = text.split("\n")
     for i, ln in enumerate(lines):
@@ -185,6 +193,13 @@ def _fenced_block(text):
         if not m:
             continue
         outer, depth = m.group(1), 0
+        if original is not None and _fence_lines(original):
+            want = _fence_lines(original)
+            for j in range(i + 1, len(lines)):
+                f = re.match(r"\s*(`{3,}|~{3,})\s*$", lines[j])
+                if (f and f.group(1)[0] == outer[0] and len(f.group(1)) >= len(outer)
+                        and _fence_lines("\n".join(lines[i + 1:j])) == want):
+                    return "\n".join(lines[i + 1:j]).strip()
         for j in range(i + 1, len(lines)):
             f = re.match(r"\s*(`{3,}|~{3,})(.*)$", lines[j])
             if not f or f.group(1)[0] != outer[0]:

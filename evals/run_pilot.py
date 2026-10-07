@@ -106,7 +106,7 @@ def run_trial(case, condition, n, out_root, model, provenance):
     (run_dir / "transcript.jsonl").write_text("\n".join(json.dumps(e) for e in kept) + "\n")
     reply = res["text"]
     (run_dir / "outputs" / "reply.md").write_text(reply)
-    revised = extract_revised(reply)
+    revised = extract_revised(reply, case["passage"])
     if revised:
         (run_dir / "outputs" / "revised.txt").write_text(revised + "\n")
     usage = res["usage"]

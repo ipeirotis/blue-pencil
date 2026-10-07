@@ -141,6 +141,19 @@ def run_counts(runs):
         f"{case} " + ", ".join(f"{c} {n[(case, c)]}" for c in CONDS) for case in cases)
 
 
+def _pair_texts(sheet):
+    """The texts shown for each pair on a review sheet ("## case/run-n" sections),
+    without the line where the reviewer writes verdicts."""
+    out, pid = {}, None
+    for ln in sheet.splitlines():
+        if ln.startswith("## "):
+            pid = ln[3:].strip()
+            out[pid] = []
+        elif pid and not ln.startswith("Better written"):
+            out[pid].append(ln)
+    return {k: "\n".join(v).strip() for k, v in out.items()}
+
+
 def _fence_for(*texts):
     """A backtick fence longer than any backtick run in the texts, so a passage that
     contains its own fenced block cannot close the wrapper early."""
@@ -304,6 +317,8 @@ def main():
     # Its key stays with it: a changed sheet and its key go to *.new.* side by side.
     sheet_text, sheet_path = "\n".join(sheet) + "\n", root / "human_review.md"
     key_path = root / "human_review_key.json"
+    reviewed = _pair_texts(sheet_path.read_text()) if sheet_path.exists() else {}
+    fresh = _pair_texts(sheet_text)
     if sheet_path.exists() and sheet_path.read_text() != sheet_text:
         (root / "human_review.new.md").write_text(sheet_text)
         write_json(root / "human_review_key.new.json", key)
@@ -322,15 +337,19 @@ def main():
         # The key maps versions 1/2 of the reviewed sheet to conditions; the grader's
         # verdict is the current one, the same that section 4 reports.
         current = {f"{p['case']}/run-{p['run']}": p["consolidated"] for p in pairs}
+        # A pair whose outputs changed after the sheet was reviewed is left out: the
+        # human judged other text than the grader did.
+        stale = sorted(pid for pid in human if pid in reviewed and reviewed[pid] != fresh.get(pid))
         for pid, v in human.items():
-            if pid not in key or pid not in current:
+            if pid not in key or pid not in current or pid in stale:
                 continue
             k = key[pid]
             g = current[pid]
             gv = "tie" if g == "tie" else ("1" if k["version_1"] == g else "2")
             total += 1
             agree += (gv == str(v))
-        L += ["## 7. Human vs. quality grader", "", f"Agreement on {total} pairs: **{agree}/{total}**.", ""]
+        L += ["## 7. Human vs. quality grader", "", f"Agreement on {total} pairs: **{agree}/{total}**."
+              + (f" Left out, as their outputs changed after review: {', '.join(stale)}." if stale else ""), ""]
     (root / "report.md").write_text("\n".join(L) + "\n")
     print(f"wrote {root / 'report.md'}")
 
