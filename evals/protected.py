@@ -608,6 +608,8 @@ def tokens(cls, raw, flat):
         # blocks is caught (each class is compared as a multiset).
         out = ["\n\n".join(out)] if out else []
         # Inline spans may use any run of backticks (``a ` b``); the closing run matches it.
+        # HTML code elements: the contents of <code> and <pre>, compared whole.
+        out += [m.group(0) for m in re.finditer(r"<(code|pre)\b[^>]*>.*?</\1>", "\n".join(prose), re.I | re.S)]
         return out + [m.group(0) for m in
                       re.finditer(r"(?<!`)(`+)(?!`)(.+?)(?<!`)\1(?!`)", "\n".join(prose), re.S)]
     if cls == "numbers":

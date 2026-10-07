@@ -38,9 +38,9 @@ CONDS = ("with_skill", "without_skill")
 
 
 def fill(template, **kw):
-    for k, v in kw.items():
-        template = template.replace("{" + k + "}", v)
-    return template
+    """Substitute every {NAME} field in one pass, so a passage that itself contains
+    "{REVISED}" or the like is inserted as written and never substituted again."""
+    return re.sub(r"\{(" + "|".join(map(re.escape, kw)) + r")\}", lambda m: kw[m.group(1)], template)
 
 
 MEANING_VERDICTS = ("preserved", "changed", "unsure")

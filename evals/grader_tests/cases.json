@@ -43,7 +43,8 @@
     "misc34": "[P1] supports the claim that x ≲ y. <!-- check with coauthor --> The bound is tight.",
     "misc35": "Let A ∪ B denote the pooled sample; the coefficient is &alpha;, as García (2020) reports.",
     "misc36": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
-    "misc37": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>."
+    "misc37": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
+    "misc38": "We call <code>fit(model)</code> once and report the result."
   },
   "variants": [
     {
@@ -1764,6 +1765,24 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Prose edit outside protected spans."
+    },
+    {
+      "id": "misc38-html-code-changed",
+      "base": "misc38",
+      "revised": "We call <code>fit(data)</code> once and report the result.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Code inside an HTML <code> element changed."
+    },
+    {
+      "id": "misc38-prose-edited",
+      "base": "misc38",
+      "revised": "We call <code>fit(model)</code> once and report its output.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose outside the code element edited."
     }
   ]
 }
