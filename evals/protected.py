@@ -66,7 +66,7 @@ _NUM = (r"(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
 # "10 mg" to "10 kg" or "20 \u00b0C" to "20 \u00b0F" is caught. Spelled-out units are matched
 # too, with the hyphen and plural normalized so "10 grams" and "a 10-gram dose" agree.
 _MICRO = "(?:\u00b5|\u03bc)"
-_UNIT_ONE = (r"(?:(?:[kmnMGT]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|W|J|Hz|Pa)|mL|cm|kcal|cal|"
+_UNIT_ONE = (r"(?:(?:[kmnMGT]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|Wh|W|J|Hz|Pa)|mL|cm|kcal|cal|"
              r"USD|EUR|GBP|JPY|CNY|RMB|CAD|AUD|NZD|CHF|INR|HKD|SGD|SEK|NOK|DKK|KRW|BRL|MXN|ZAR|RUB|TRY|"
              r"min|h|hr|hrs|K|kDa|Da|bp|kb|Mb|[KMGT]B|\u00b0 ?[CF]|\u00b0)"
              r"(?:\^-?[0-9]+|[\u207b\u00b9\u00b2\u00b3\u2070-\u2079]+)?")  # exponent: m^2, s\u207b\u00b9
@@ -168,7 +168,7 @@ _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|
 _ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213] ?| - )"  # also times, dots, divide, plus-minus
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
-_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c\u223c\u2243\u2245"
+_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c\u223c\u2243\u2245\u2192\u2190\u2194\u21d2\u21d0\u21d4\u21a6"  # also arrows
 _REL_OP = r" ?(?:<=|>=|!=|==|:=|=:|[=<>" + _UREL + r"]) ?"  # also definitions, ":=", "=:"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
@@ -226,11 +226,13 @@ def _emphasis(flat):
 
 # A year ("2020", "2020a"), or an undated or forthcoming work, given in parentheses or
 # after a comma ("Smith (n.d.)", "(Smith, in press)").
-_YEAR = r"(?:,? \(?[12][0-9]{3}[a-z]?\)?|(?:, | \()(?:n\.d\.|in press|forthcoming)\)?)"
+_YEAR = (r"(?:,? \(?[12][0-9]{3}[a-z]?\)?|,? \[[12][0-9]{3}[a-z]?\]|"  # also "Smith [2020]"
+         r"(?:, | \()(?:n\.d\.|in press|forthcoming)\)?)")
 _AY_PAT = re.compile(_NAME + r"(?:,? " + _NAME + r")*" + _YEAR)
 
 
-_NARRATIVE_CITE = re.compile(_NAME + r"(?:,? " + _NAME + r")* \((?:[12][0-9]{3}[a-z]?|n\.d\.|in press|forthcoming)\)")
+_NARRATIVE_CITE = re.compile(_NAME + r"(?:,? " + _NAME + r")* (?:\((?:[12][0-9]{3}[a-z]?|n\.d\.|in press|forthcoming)\)"
+                             r"|\[[12][0-9]{3}[a-z]?\])")
 _NARRATIVE_RUN = re.compile(_NARRATIVE_CITE.pattern + r"(?:(?:;|,|,? and) " + _NARRATIVE_CITE.pattern + r")+")
 
 
@@ -260,14 +262,14 @@ def _citation_groups(flat):
     """
     groups = []
     for span in re.findall(r"\(([^()]*(?:[12][0-9]{3}|n\.d\.|in press|forthcoming)[^()]*)\)", flat):
-        toks = [t.replace("(", "").replace(")", "").replace(RSQ, "'").strip(", ")
+        toks = [re.sub(r"[()\[\]]", "", t).replace(RSQ, "'").strip(", ")
                 for t in map(_strip_lead, _AY_PAT.findall(span)) if t]
         if len(toks) >= 2:
             groups.append(tuple(toks))
     # Narrative citations next to each other, "Smith (2020); Jones (2021)" or
     # "Smith (2020) and Jones (2021)", are an ordered group too.
     for run in _NARRATIVE_RUN.finditer(flat):
-        toks = [t.replace("(", "").replace(")", "").replace(RSQ, "'").strip(", ")
+        toks = [re.sub(r"[()\[\]]", "", t).replace(RSQ, "'").strip(", ")
                 for t in map(_strip_lead, _NARRATIVE_CITE.findall(run.group(0))) if t]
         if len(toks) >= 2:
             groups.append(tuple(toks))
@@ -449,7 +451,7 @@ def tokens(cls, raw, flat):
         # Parentheses and trailing commas are stripped so that reordering a citation group,
         # "(A 2006; B 2008)" to "(B 2008; A 2006)", is not mistaken for a changed citation.
         found = [t for t in map(_strip_lead, re.findall(pat, flat)) if t]
-        return [t.replace("(", "").replace(")", "").replace(RSQ, "'").strip(", ") for t in found]
+        return [re.sub(r"[()\[\]]", "", t).replace(RSQ, "'").strip(", ") for t in found]
     if cls == "crossrefs":
         return re.findall(
             r"\\(?:ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\((?:[^()]|\([^()]*\))*\)|"
@@ -511,7 +513,9 @@ def tokens(cls, raw, flat):
         out += re.findall(r"(?<![A-Za-z0-9'])'(?=\S)(?:[^'\n]|(?<=[A-Za-z])'(?=[A-Za-z])){1,200}?(?<=\S)'"
                           r"(?![A-Za-z0-9'])", flat)
         out += re.findall("\u00ab[^\u00ab\u00bb]*\u00bb|\u2039[^\u2039\u203a]*\u203a", flat)  # guillemets
-        return out
+        # Straight and curly marks are the same quotation: turning "x" into a curly-quoted x
+        # is a punctuation fix, not a changed quote.
+        return [q.translate({ord(LDQ): '"', ord(RDQ): '"', ord(LSQ): "'", ord(RSQ): "'"}) for q in out]
     if cls == "comments":
         out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|>)", ln)]
         # Markdown table rows: the structure (separator rows whole, the pipes of other rows)

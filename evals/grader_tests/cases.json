@@ -36,7 +36,8 @@
     "misc27": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
     "misc28": "The signal was 10 MHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
     "misc29": "Results\n--\nRevenue was $5 trillion and 5k users joined.",
-    "misc30": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\"."
+    "misc30": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
+    "misc31": "The map is x → y, consumption was 5 MWh, and Smith [2020] called it \"the treatment group\"."
   },
   "variants": [
     {
@@ -1478,6 +1479,42 @@
       "damage_type": "quote changed",
       "code_grader_should_flag": true,
       "note": "Word inside escaped quotes within a quotation changed."
+    },
+    {
+      "id": "misc31-arrow-operand-changed",
+      "base": "misc31",
+      "revised": "The map is z → y, consumption was 5 MWh, and Smith [2020] called it \"the treatment group\".",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of an arrow relation changed."
+    },
+    {
+      "id": "misc31-watt-hour-changed",
+      "base": "misc31",
+      "revised": "The map is x → y, consumption was 5 kWh, and Smith [2020] called it \"the treatment group\".",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Watt-hour prefix changed."
+    },
+    {
+      "id": "misc31-bracket-year-author-changed",
+      "base": "misc31",
+      "revised": "The map is x → y, consumption was 5 MWh, and Jones [2020] called it \"the treatment group\".",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Author of a bracketed-year citation changed."
+    },
+    {
+      "id": "misc31-quotes-curled",
+      "base": "misc31",
+      "revised": "The map is x → y, consumption was 5 MWh, and Smith [2020] called it “the treatment group”.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Straight quotation marks made curly."
     }
   ]
 }
