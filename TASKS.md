@@ -1311,24 +1311,34 @@ composition is built alongside it and split off before any judge output is
 inspected, so each rubric is iterated on one half and accepted on the other:
 bridge
 classification for C2 (input: a candidate span, the aligned input sentence
-or deleted side it replaced, and the input section with
+or deleted side it replaced together with the A3 source mapping for the
+span (the sentences a merge drew on, the origin of a moved sentence, the
+deleted hunks of the same turn), and the whole input section with
 the manuscript context the D4 meaning check supplies, never the model's own
 `Added bridges:` line, which is the answer under audit and would let the
 judge read `None.` as a shortcut and let the calibration fixtures score by
 correlating line and label; the harness compares the independent verdict
 with the line afterwards; verdict: three-valued, `new-justification` when
 the candidate says why an assumption, identification strategy, or validity
-claim holds and its aligned input did not already say so,
-`rephrased-justification` when it says so but its aligned input already
-did, and `not-a-justification` otherwise, with the harness, not the judge,
-deciding which verdicts the line must carry under the contract wording of
-the ref under test as C2 states; fixtures: ten true bridges labeled
-`new-justification`, ten cue-word false alarms labeled
-`not-a-justification`, and ten rephrasings of an explanation the input
-already carried labeled `rephrased-justification`, all built without the
-line, with the judge accepted only when it separates all three classes,
-since a judge that merges the second into either neighbor would grade one
-contract wording wrongly), re-proposal detection for
+claim holds and nothing in the input section or the supplied manuscript
+context already said so, `rephrased-justification` when it says so but the
+input already did anywhere, whether in the aligned sentence, in a sentence
+the span merged or moved from, or elsewhere in the section, since a
+justification relocated or consolidated from another sentence is not new
+to the manuscript and under the sharpened contract needs no author
+confirmation, and `not-a-justification` otherwise, with the harness, not
+the judge, deciding which verdicts the line must carry under the contract
+wording of the ref under test as C2 states; fixtures: ten true bridges
+labeled `new-justification`, ten cue-word false alarms labeled
+`not-a-justification`, and ten restatements of an explanation the input
+already carried labeled `rephrased-justification`, of which at least four
+draw the explanation from a sentence other than the aligned one (a move,
+a merge, or a restatement whose source sits elsewhere in the section), all
+built without the line, with the judge accepted only when it separates all
+three classes, since a judge that merges the second into either neighbor,
+or that reads novelty against the aligned sentence alone and so labels a
+relocated explanation new, would grade one contract wording wrongly),
+re-proposal detection for
 C4 (input: the recorded rejected transformation and the evaluated turn's span;
 verdict: re-proposed or not; fixtures: ten re-proposals under new wording
 and ten unrelated legitimate edits), and provenance grounding for F2's
