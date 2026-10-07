@@ -28,7 +28,8 @@
     "misc19": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
     "misc20": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
     "misc21": "The equation is x = -y, the response rate was five percent, and Figs. 2 and 3 show it.",
-    "misc22": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}."
+    "misc22": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
+    "misc23": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending"
   },
   "variants": [
     {
@@ -1137,6 +1138,42 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Two-space Markdown hard break removed."
+    },
+    {
+      "id": "misc23-bracketed-operand-renamed",
+      "base": "misc23",
+      "revised": "We set y = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable equated to a square-bracketed expression renamed."
+    },
+    {
+      "id": "misc23-spelled-ratio-reversed",
+      "base": "misc23",
+      "revised": "We set x = [a + b]; five in one reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Spelled-out ratio reversed."
+    },
+    {
+      "id": "misc23-doi-changed",
+      "base": "misc23",
+      "revised": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/abc).\n\n- [x] Included\n- [ ] Pending",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "DOI identifier changed."
+    },
+    {
+      "id": "misc23-task-box-unchecked",
+      "base": "misc23",
+      "revised": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [ ] Included\n- [ ] Pending",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Task-list item unchecked."
     }
   ]
 }

@@ -150,7 +150,9 @@ _IDENT = r"[A-Za-z][A-Za-z0-9_]*" + _DECOR
 # A Greek, letterlike, or math-alphanumeric symbol is an operand too ("\u03b1 = \u03b2").
 _USYM = "[\u0391-\u03a9\u03b1-\u03c9\u03d1\u03d5\u03f5\u2100-\u214f\U0001d400-\U0001d7ff][A-Za-z0-9_]*" + _DECOR
 # A numeric operand may carry a sign and an exponent ("x = -5", "x = 2e10").
-_GROUP = r"\((?:[^()\n]|\([^()\n]*\)){1,60}\)"  # a parenthesized side, "x = (a + b)"
+# A bracketed side: "x = (a + b)", "x = [a + b]", "S = {a, b}".
+_GROUP = (r"(?:\((?:[^()\n]|\([^()\n]*\)){1,60}\)|\[(?:[^\[\]\n]|\[[^\[\]\n]*\]){1,60}\]"
+          r"|\{(?:[^{}\n]|\{[^{}\n]*\}){1,60}\})")
 # Any operand may carry a unary sign ("x = -y", "x = -(a + b)", "x = -5").
 _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|" + _GROUP
                 + r"|(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
@@ -390,7 +392,9 @@ def tokens(cls, raw, flat):
             re.sub(r" ", "", t).replace("\u2013", "-")
             for t in re.findall(r"\([0-9]+(?: ?[,;\u2013-] ?[0-9]+)+\)", flat)] + (
             # Superscript citation runs ("work\u00b9,\u00b2", "\u00b9\u207b\u00b3") are one ordered token.
-            re.findall(_SUPDIG + r"+(?:[,\u2013\u207b-]" + _SUPDIG + r"+)+", flat))
+            re.findall(_SUPDIG + r"+(?:[,\u2013\u207b-]" + _SUPDIG + r"+)+", flat)) + [
+            # DOIs, bare or as doi.org links, compared by the identifier itself.
+            m.rstrip(".").lower() for m in re.findall(r"\b(10\.[0-9]{4,9}/[^\s,;()\[\]<>\"]+)", flat)]
     if cls == "authoryear":
         pat = _AY_PAT
         # Parentheses and trailing commas are stripped so that reordering a citation group,
@@ -469,7 +473,9 @@ def tokens(cls, raw, flat):
         out += ["  " if m[0] == " " else "\\" for m in re.findall(r"( {2,}|\\)\n(?=[ \t]*\S)", raw)]
         # Thematic breaks ("***", "___", "* * *"), kept as their character only.
         out += re.findall(r"^ {0,3}([*_])(?:[ \t]*\1){2,}[ \t]*$", raw, re.M)
-        out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers
+        # Unordered-list markers, with a task-list box if present ("- [x] ", "- [ ] ").
+        out += [re.sub(r"\s+", " ", m.strip()).replace("X", "x")
+                for m in re.findall(r"^\s*[-*+] (?:\[[ xX]\] )?", raw, re.M)]
         # Ordered-list markers ("1.", "2)"); at most three digits, so a hard-wrapped line
         # that starts with a year ("2006). Moreover") is not taken for a list item.
         out += [m.strip() for m in re.findall(r"^\s*[0-9]{1,3}[.)] ", raw, re.M)]
@@ -524,9 +530,11 @@ def tokens(cls, raw, flat):
                 tok = tok[:m.start("unit") - m.start()] + " ".join([head.rstrip("s")] + rest)
             # Adjacent number words are one compound number, in order ("one hundred and five"),
             # so 105 written as 501 is caught; "and" joins only after hundred, thousand, ...
+            # Spelled-out ranges and ratios ("five to ten", "one in five", "two out of three")
+            # are ordered tokens too, as digit ranges are.
             gap = flat[prev_end:m.start()].lower() if prev_end is not None else None
-            if out and not prev_unit and (gap == " " or (gap == " and " and re.search(
-                    r"(?:hundred|thousand|million|billion)$", out[-1]))):
+            if out and (gap in (" to ", " in ", " out of ") or not prev_unit and (gap == " " or (
+                    gap == " and " and re.search(r"(?:hundred|thousand|million|billion)$", out[-1])))):
                 out[-1] += gap + tok
             else:
                 out.append(tok)
