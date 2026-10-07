@@ -44,7 +44,12 @@ Each case also carries `expected_passes`: the sweep passes the corpus author
 judges applicable under the gates in the sweep table of `SKILL.md`, including
 the content gates (unfamiliar machinery, statistical machinery, a clarity
 request), so C3 has a ground truth that does not depend on section type and
-stage alone. Align field names with the skill-creator `evals/evals.json` and
+stage alone. The label is tied to the sweep table of the skill ref it was
+written against (recorded as `expected_passes_ref`); a run of a different
+ref, a historical release in G3 or an ablated variant in E4, uses a label
+re-derived for that ref's table, or the C3 reference audit is excluded for
+that run and the exclusion reported, never scored against the current
+table. Align field names with the skill-creator `evals/evals.json` and
 `eval_metadata.json` conventions so its viewer and aggregation script work,
 and vendor that contract rather than pointing at it: copy the schema
 reference, the aggregation script, and the viewer into `evals/tools/` with
@@ -92,7 +97,12 @@ parser must classify them as their own result variants rather than as
 failures: a clarification question (the single context ask), a
 split-and-confirm message listing detected sections (whole manuscript
 supplied as one file), a decline with a routing suggestion (quick pass at
-`response to reviewers`), and the feedback-only wrapper (the four sections
+`response to reviewers`), a source-quality refusal (pervasive extraction
+damage: the output asks for a cleaner source and carries no `Revised text`
+block), the letter-assembly output of `/paper:letter` (a full four-section
+output whose Change rationale opens with an assembled-letter note and carries
+provenance lines instead of a word count and change ledger, per the command
+file), and the feedback-only wrapper (the four sections
 with `No rewrite requested.` as the revised text) carrying a Diagnosis in a
 command-specific shape: the severity-ranked comment table of
 `/paper:triage`, which applies even when reviewer comments arrive without a
@@ -240,8 +250,9 @@ the block, every Author question ends with `?`, no banned tell in any paragraph 
 to edit (a verbatim paragraph with a tell is itself a failure at `first
 draft`, `final polish`, and quick pass, since the scrub runs over all
 editable text; exempt only text the stage forbids editing, the unflagged
-paragraphs at `response to reviewers`, and anything a `style_overrides:`
-line permits), stage-appropriate Diagnosis headers, and at most seven
+paragraphs at `response to reviewers`, anything a `style_overrides:`
+line permits, and the inside of a direct quotation, which constraint 7 keeps
+verbatim and constraint 9 exempts from the em-dash rule), stage-appropriate Diagnosis headers, and at most seven
 numbered Diagnosis items on an ordinary section edit (the cap is lifted only
 for the whole-paper diagnosis-only passes `SKILL.md` exempts). For the
 compact contract:
@@ -252,7 +263,9 @@ all of them), no Diagnosis, no word count, no `Added bridges:`. For the feedback
 applies (the four headings, `Added bridges: None.` immediately after the
 `No rewrite requested.` block, `References loaded:`, Diagnosis headers for
 the stage, every Author question ending in `?`), with only the word-count
-and change-line checks dropped. For a clarification,
+and change-line checks dropped. For the letter-assembly variant: the full
+contract minus the word-count and ordinary change-line checks, with one
+provenance line per reply required instead. For a clarification,
 split-and-confirm, or decline: only the predicates C4 names for that case.
 Requiring the full contract of every output would fail valid quick passes
 and edge cases and distort the baseline. Read the `style_overrides:` line of the case's
@@ -291,7 +304,11 @@ Check what the skill says about its own run against what it did:
   fail.
 - Every sentence in the original that does not appear in the revision (fuzzy
   match) is accounted for in `Change rationale` (constraint 6, no silent
-  deletion).
+  deletion), and so is every deleted hunk inside an aligned sentence pair
+  that drops a clause or a qualifier (a word-level diff of the pair, with a
+  minimum hunk size so a dropped article does not count), since a qualifier
+  removed from a sentence that still aligns is the silent deletion the
+  constraint most often means.
 - Every `Added bridges:` sentence has a matching Author question.
 Done when: each check has a positive and a negative fixture and runs on A2
 output.
@@ -313,7 +330,10 @@ output.
   sentence that differs from the input, and the A2 trace shows no `Edit` or
   `Write` to the manuscript.
 - Whole manuscript as one file: the output lists detected sections and asks for
-  confirmation, and contains no `Revised text` block.
+  confirmation, contains no `Revised text` block, and the A2 snapshot shows
+  the manuscript file unchanged with no `Edit` or `Write` to it in the trace
+  (a one-shot rewrite applied to the worktree and then followed by a
+  confirmation question is the violation this case exists to catch).
 - Missing `<paper_context>`: exactly one clarifying message, then an
   `Assumed context:` line.
 - Reviewer comments with no manuscript: the output is the feedback-only
@@ -429,9 +449,12 @@ addition, and any unaccounted deletion as a constraint violation with the
 sentences quoted. The test set carries both kinds of case: seeded violations,
 and an equal number of meaning-preserving rewordings, legitimate bridges built
 from manuscript material, and deletions logged in the rationale, so a judge
-that flags everything cannot pass. Done when: on a test set of 20 violations
-and 20 legitimate changes it misses at most one violation and flags at most
-two legitimate changes, and both rates are recorded with the rubric.
+that flags everything cannot pass. The 40 cases are split before any judge output is inspected, under the D3
+protocol: 20 for development, where the rubric may be iterated, and 20 held
+out and evaluated once after the rubric is frozen. Done when: on the held-out
+20 (10 violations, 10 legitimate changes) the frozen rubric misses at most
+one violation and flags at most one legitimate change, and both rates are
+recorded with the rubric alongside the development-set rates.
 
 ---
 
@@ -626,9 +649,10 @@ full evaluation configuration (corpus version, grader and judge versions,
 model ids, repetition count, harness SHA). Scores are comparable only under an
 identical suite and model: a new regression case can lower a later score while
 the skill improved, and a model change moves it on its own. Present a trend
-only across results with matching suite and model identifiers, and otherwise
-rerun the earlier skill refs on the current suite through A2 (cheap, since the
-runner takes a git ref). Add a one-line summary to each `CHANGELOG.md` entry.
+only across results with matching suite, model, grader, judge-rubric, and
+harness identifiers (a stricter grader would otherwise read as a skill
+regression), and otherwise rerun the earlier skill refs under the current
+evaluation stack through A2 (cheap, since the runner takes a git ref). Add a one-line summary to each `CHANGELOG.md` entry.
 Done when: v3.0.0 and the next release both have results directories with
 pinned configurations and a comparable pair of scores.
 
@@ -648,7 +672,7 @@ C1 (needs A1, B4) -> F2, F3 ; F3 -> F7
 G1 (needs A2, C1 through C6, E3 for the interval rule and a stored baseline)
 C2, C3 (need A3) ; C4 (needs A3, B6) ; C5 (needs A3, B5) ; C6 (needs A3, B3)
 (the sentence aligner is part of A3, so no C grader waits on D4)
-D1 -> D2 -> D3 ; D4 (needs A3)
+D1 -> D2 -> D3 ; D4 (needs A3, and D3 for the held-out protocol)
 E1 (needs A4, B2 through B6, C1 through C6, D1 through D4) -> E2, E3 -> F1, F6
 E4, E5 (need E1) -> F4
 B7 -> F5
