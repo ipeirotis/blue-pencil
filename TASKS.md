@@ -40,8 +40,13 @@ send the command down its rewrite path; C1 and C3 align and diff against the
 editable artifact where one exists and skip where none does, and on the
 draft-letter lane a protected token added to the draft is excepted when it
 occurs in any supplied read-only artifact (the manuscript, the reviewer
-comments, the author decisions, or the change log), recorded with the
-artifact it came from in the same provenance form the assembly lane uses,
+comments, the author decisions, or the change log), an exception the runner
+derives directly from the trusted supplied artifacts by lookup and records
+with the artifact the token was found in, so the draft rewrite needs no
+provenance annotation of its own (the provenance-line form belongs to the
+assembly contract alone, and the full contract the draft lane follows
+carries only ordinary change lines, so a compliant rewrite is never
+rejected for an annotation no contract asked of it),
 since the command requires a claimed change to point to a real manuscript
 location and every comment to be covered, so a verified `Section 3` added
 to a draft that omitted it, or a reviewer's quoted figure restored from the
@@ -1235,9 +1240,13 @@ and misses on long manuscripts alone, not only for bridges: retrieval runs on ea
 such sentence's or hunk's content terms (lexical overlap or embedding similarity against every
 supplied section) as well as on a bridge's cue words, so a factual sentence
 relocated from another section without `because` or another cue is traced
-to its source rather than misread as an invention; when retrieval cannot
-supply the supporting context for an added sentence or hunk, the judge
-returns `inconclusive` for it rather than a violation, and inconclusive
+to its source rather than misread as an invention; the outcome of that
+search is split in two: a search that completed over every supplied
+artifact and found no passage above the retrieval floor is recorded as an
+unsupported addition and fails, since an invented sentence is exactly what
+finds no support, while `inconclusive` is reserved for a retrieval that did
+not complete (an index or embedding failure, a truncated corpus, a timeout)
+and so could not have found support that exists, and inconclusive
 verdicts are reported separately in A4 and never folded into either side,
 and a run with any inconclusive substantive addition is marked incomplete
 for the meaning assertion rather than passed, with the additions listed, so
