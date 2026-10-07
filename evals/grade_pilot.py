@@ -42,7 +42,10 @@ def fill(template, **kw):
 
 MEANING_VERDICTS = ("preserved", "changed", "unsure")
 QUALITY_VERDICTS = ("A", "B", "tie")
-SEVERITIES = ("major", "minor", "recorded")
+# Each problem type has one severity in prompts/meaning_grader.md and rubric.md.
+SEVERITY_OF = {"claim_strength": "major", "caveat_or_scope": "major", "new_content": "major",
+               "lost_content": "major", "reassigned": "major", "qualifier_word": "minor",
+               "voice": "recorded"}
 
 
 def valid_meaning(parsed):
@@ -52,7 +55,8 @@ def valid_meaning(parsed):
         return False
     probs = parsed.get("problems", [])
     if not isinstance(probs, list) or not all(
-            isinstance(p, dict) and p.get("severity") in SEVERITIES for p in probs):
+            isinstance(p, dict) and p.get("type") in SEVERITY_OF
+            and p.get("severity") == SEVERITY_OF[p["type"]] for p in probs):
         return False
     has_major = any(p.get("severity") == "major" for p in probs)
     if parsed["verdict"] == "changed":

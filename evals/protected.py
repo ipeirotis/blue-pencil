@@ -48,7 +48,12 @@ _DATE_LEAD = re.compile(
     r"The|A|An|As|Of|To|With|When|While|January|February|March|April|May|June|July|August|"
     r"September|October|November|December|Early|Late|Mid) ")
 
-_NUM = r"(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
+# A number, with any scientific-notation exponent kept in the same token ("2e10", "1.5E-3",
+# "6 \u00d7 10^23", "6\u00d710\u00b2\u00b3", "10^5"), so changing the mantissa or the exponent is caught.
+_SUP = "[\u207a\u207b\u2212]?[\u2070\u00b9\u00b2\u00b3\u2074-\u2079]+"
+_NUM = (r"(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
+        r"(?:[eE][+\u2212-]?[0-9]+|\^[+\u2212-]?[0-9]+|" + _SUP + "|"
+        r" ?[\u00d7x] ?10(?:\^[+\u2212-]?[0-9]+|" + _SUP + r"))?")
 # Scientific units, matched case-sensitively (mM is not mm) and only as whole words, so
 # "10 mg" to "10 kg" or "20 \u00b0C" to "20 \u00b0F" is caught. Spelled-out units are matched
 # too, with the hyphen and plural normalized so "10 grams" and "a 10-gram dose" agree.
@@ -103,6 +108,10 @@ _EM_RE = re.compile(r"(?<![*_\w\\])([*_])(?=[^\s*_])(.+?)(?<=[^\s*_\\])\1(?![*_\
 # Numeric citation groups, "[12]" or "[12, 13]" or "[3-5]". The whole bracket is one
 # token, so reordering the numbers inside a group is caught.
 _NUMCITE_RE = re.compile(r"\[ ?[0-9]+(?: ?[,;\u2013-] ?[0-9]+)* ?\]")
+
+
+# A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
+_PANEL = r"(?: ?\([a-z](?:[,\u2013-] ?[a-z])*\))?"
 
 
 def _emphasis(flat):
@@ -229,11 +238,11 @@ def tokens(cls, raw, flat):
             r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat)
     if cls == "callouts":
         pat = (r"(?:table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?"
-               r"[ ~]\(?(?:[0-9]+(?:\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b"
+               r"[ ~]\(?(?:[0-9]+(?:\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b" + _PANEL +
                # Later items in a list ("Tables 1, 2 and 3") may not start with 0, so a
                # decimal such as the coefficient 0.15 is not swallowed as a table number.
                # (check-protected.sh lacks this guard; its examples never trigger it.)
-               r"(?:,?[ ~](?:and[ ~]|to[ ~])?(?:[1-9][0-9]*(?:\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b)*")
+               r"(?:,?[ ~](?:and[ ~]|to[ ~])?(?:[1-9][0-9]*(?:\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b" + _PANEL + r")*")
         return [t.lower() for t in re.findall(pat, flat, re.I)]
     if cls == "math":
         out = [t for t in re.findall(r"\$\$[^$]+\$\$|\$[^$]+\$", flat)
@@ -262,20 +271,23 @@ def tokens(cls, raw, flat):
         out += re.findall(r"^#{1,6} ", raw, re.M)
         return out
     if cls == "code":
-        # Fenced blocks (~~~ or ```) first, line by line; inline `...` spans are looked for
-        # only outside them, so the backticks of two fences never pair up across prose.
-        out, fence, prose = [], None, []
+        # Fenced blocks (~~~ or ```) first, each whole block as one token so reordering
+        # lines or blocks is caught; inline `...` spans are looked for only outside them,
+        # so the backticks of two fences never pair up across prose.
+        out, fence, block, prose = [], None, [], []
         for ln in raw.splitlines():
             m = re.match(r"\s*(~~~|```)", ln)
             if fence is None and m:
-                fence = m.group(1)
-                out.append(ln)
+                fence, block = m.group(1), [ln]
             elif fence is not None:
-                out.append(ln)
+                block.append(ln)
                 if ln.strip().startswith(fence):
+                    out.append("\n".join(block))
                     fence = None
             else:
                 prose.append(ln)
+        if fence is not None:
+            out.append("\n".join(block))  # unclosed fence: the rest is code
         return out + re.findall(r"`[^`]+`", "\n".join(prose))
     if cls == "numbers":
         out = []

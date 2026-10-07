@@ -147,12 +147,37 @@ def extract_revised(text):
     fenced block; a plain Claude reply may have no heading, so fall back to the
     first fenced block.
     """
-    m = re.search(r"###\s*2\.\s*Revised text\s*\n+" + FENCE + r"[^\n]*\n(.*?)\n" + FENCE,
-                  text, re.S)
-    if m:
-        return m.group(1).strip()
-    m = re.search(FENCE + r"[^\n]*\n(.*?)\n" + FENCE, text, re.S)
-    return m.group(1).strip() if m else None
+    m = re.search(r"###\s*2\.\s*Revised text\s*\n+(?=```|~~~)", text)
+    found = _fenced_block(text[m.end():]) if m else None
+    return found if found is not None else _fenced_block(text)
+
+
+def _fenced_block(text):
+    """Contents of the first fenced block in text, or None.
+
+    A passage may itself contain fenced blocks, so the closing fence is matched by
+    nesting: a fence line with an info string ("```python") opens an inner block, a
+    bare fence closes the innermost open one, and the outer block ends at the bare
+    fence that closes it (at least as long as the opening fence, per CommonMark).
+    """
+    lines = text.split("\n")
+    for i, ln in enumerate(lines):
+        m = re.match(r"\s*(`{3,}|~{3,})", ln)
+        if not m:
+            continue
+        outer, depth = m.group(1), 0
+        for j in range(i + 1, len(lines)):
+            f = re.match(r"\s*(`{3,}|~{3,})(.*)$", lines[j])
+            if not f or f.group(1)[0] != outer[0]:
+                continue
+            if f.group(2).strip():
+                depth += 1
+            elif depth:
+                depth -= 1
+            elif len(f.group(1)) >= len(outer):
+                return "\n".join(lines[i + 1:j]).strip()
+        return None
+    return None
 
 
 def extract_json(text):
