@@ -23,7 +23,8 @@
     "misc14": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
     "misc15": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands.",
     "misc16": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
-    "misc17": "The estimate was x = -5 and rate = 2e10.\n\n>quoted source text"
+    "misc17": "The estimate was x = -5 and rate = 2e10.\n\n>quoted source text",
+    "misc18": "We have x ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees."
   },
   "variants": [
     {
@@ -943,6 +944,42 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Blockquote marker without a following space removed."
+    },
+    {
+      "id": "misc18-membership-operand-changed",
+      "base": "misc18",
+      "revised": "We have y ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Element of a set-membership relation changed."
+    },
+    {
+      "id": "misc18-spelled-sign-dropped",
+      "base": "misc18",
+      "revised": "We have x ∈ S, the coefficient was 5, and O’Neil (2020) agrees.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Spelled-out minus sign removed."
+    },
+    {
+      "id": "misc18-curly-apostrophe-author-changed",
+      "base": "misc18",
+      "revised": "We have x ∈ S, the coefficient was minus 5, and A’Neil (2020) agrees.",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Author with a curly apostrophe changed."
+    },
+    {
+      "id": "misc18-apostrophe-straightened",
+      "base": "misc18",
+      "revised": "We have x ∈ S, the coefficient was minus 5, and O'Neil (2020) agrees.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Curly apostrophe in an author name made straight."
     }
   ]
 }

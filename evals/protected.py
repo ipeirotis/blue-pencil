@@ -42,7 +42,8 @@ _PROSE_MACROS = {"caption", "emph", "textbf", "textit", "footnote", "section",
 # A name starts with an uppercase letter, Latin-1/Latin Extended-A, Greek and Cyrillic
 # included ("Garc\u00eda", "M\u00fcller", "\u0141ukasz"), and continues with any letters.
 # The connectors "of" and "for" keep institutional authors whole ("University of Oxford").
-_NAME = (r"(?:[A-Z\u00c0-\u00d6\u00d8-\u00de\u0100-\u017f\u0391-\u03a9\u0410-\u042f](?:[^\W\d_]|['.&-])+|"
+# A curly apostrophe counts like a straight one ("O\u2019Neil", "Smith\u2019s (2020)").
+_NAME = (r"(?:[A-Z\u00c0-\u00d6\u00d8-\u00de\u0100-\u017f\u0391-\u03a9\u0410-\u042f](?:[^\W\d_]|['\u2019.&-])+|"
          r"van|von|der|de|del|da|di|la|le|ter|ten|dos|and|of|for|et|al\.?|&)")
 _DATE_LEAD = re.compile(
     r"^(In|On|At|By|For|From|Since|After|Before|During|Until|Between|Around|Over|Under|"
@@ -75,6 +76,8 @@ _UNIT_WORD = (r"(?:(?:micro|milli|centi|kilo|nano)?(?:grams?|litres?|liters?|met
 _NUMBER_RE = re.compile(
     r"(?:(?:less than|more than|greater than|fewer than|at least|at most|up to|approximately|"
     r"about|around|roughly|nearly|exceeding|below|above) )?"
+    # A spelled-out sign stays with its number, so "minus 5" to "5" is caught.
+    r"(?:(?:minus|negative) )?"
     # The space after a comparator belongs to the token; a space before the number does not,
     # so a number that moves to the start of a sentence is the same token.
     r"(?:(?:[<>]=?|" + ULE + "|" + UGE + r")[ ~]?|~)?(?:[+-]|" + UMIN + r")?"
@@ -139,8 +142,9 @@ _IDENT = r"[A-Za-z][A-Za-z0-9_]*"
 _REL_OPERAND = (r"(?:" + _FUNC + "|" + _IDENT + r"|(?:[+-]|\u2212)?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
                 r"(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
 _ARITH_OP = r"(?: ?[+*/^\u2212] ?| - )"
-# Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b.
-_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b"
+# Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
+# membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
+_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287"
 _REL_OP = r" ?(?:<=|>=|!=|==|[=<>" + _UREL + r"]) ?"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
@@ -218,14 +222,14 @@ def _citation_groups(flat):
     """
     groups = []
     for span in re.findall(r"\(([^()]*(?:[12][0-9]{3}|n\.d\.|in press|forthcoming)[^()]*)\)", flat):
-        toks = [t.replace("(", "").replace(")", "").strip(", ")
+        toks = [t.replace("(", "").replace(")", "").replace(RSQ, "'").strip(", ")
                 for t in map(_strip_lead, _AY_PAT.findall(span)) if t]
         if len(toks) >= 2:
             groups.append(tuple(toks))
     # Narrative citations next to each other, "Smith (2020); Jones (2021)" or
     # "Smith (2020) and Jones (2021)", are an ordered group too.
     for run in _NARRATIVE_RUN.finditer(flat):
-        toks = [t.replace("(", "").replace(")", "").strip(", ")
+        toks = [t.replace("(", "").replace(")", "").replace(RSQ, "'").strip(", ")
                 for t in map(_strip_lead, _NARRATIVE_CITE.findall(run.group(0))) if t]
         if len(toks) >= 2:
             groups.append(tuple(toks))
@@ -358,7 +362,7 @@ def tokens(cls, raw, flat):
         # Parentheses and trailing commas are stripped so that reordering a citation group,
         # "(A 2006; B 2008)" to "(B 2008; A 2006)", is not mistaken for a changed citation.
         found = [t for t in map(_strip_lead, re.findall(pat, flat)) if t]
-        return [t.replace("(", "").replace(")", "").strip(", ") for t in found]
+        return [t.replace("(", "").replace(")", "").replace(RSQ, "'").strip(", ") for t in found]
     if cls == "crossrefs":
         return re.findall(
             r"\\(?:ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\((?:[^()]|\([^()]*\))*\)|"
