@@ -88,7 +88,9 @@ _NUMBER_RE = re.compile(
     + r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
     r"(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
-    r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?",
+    r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?"
+    # A rate's denominator stays with the number: "$5 per kg", "10 kilometers per hour".
+    r"(?: per (?:" + _UNIT_SYM + "|" + _UNIT_WORD + r"))?",
     re.I)
 _NUMWORD_RE = re.compile(
     r"\b(?:(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
@@ -126,6 +128,11 @@ _NUMCITE_RE = re.compile(r"\[ ?[0-9]+(?: ?[,;\u2013-] ?[0-9]+)* ?\]")
 _EQ_OPERAND = r"(?:[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 # Subtraction counts as an operator when written " - " (spaced) or with a Unicode minus;
 # an unspaced hyphen is left out so hyphenated words ("co-op") are not equations.
+# Comparisons and assignments may also use named operands ("rate = 5", "dose < limit").
+# Only = < > and their combinations join them, so "and/or" style slashes stay prose.
+_IDENT = r"[A-Za-z][A-Za-z0-9_]*"
+_RELATION_RE = re.compile(r"(?<![\w.\\])" + _IDENT + r" ?(?:<=|>=|!=|==|[=<>]) ?(?:" + _IDENT
+                          + r"|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?![\w])")
 _EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212]) ?| - )"
                           + _EQ_OPERAND + r")+(?![\w])")
 
@@ -171,6 +178,11 @@ _NARRATIVE_CITE = re.compile(_NAME + r"(?:,? " + _NAME + r")* \([12][0-9]{3}[a-z
 _NARRATIVE_RUN = re.compile(_NARRATIVE_CITE.pattern + r"(?:(?:;|,|,? and) " + _NARRATIVE_CITE.pattern + r")+")
 
 
+_CMD_CITE = r"\\[Cc]ite[a-zA-Z]*\*?(?:\[[^\]]*\])*\{[^}]*\}"
+_CMD_RUN = _CMD_CITE + r"(?:[;,]? ?" + _CMD_CITE + r")+"
+_NUM_RUN = r"\[[0-9]+\](?:[;,]? ?\[[0-9]+\])+"
+
+
 def _strip_lead(t):
     """Drop leading words that are not names ("As Smith (2020)" -> "Smith (2020)").
 
@@ -203,6 +215,10 @@ def _citation_groups(flat):
                 for t in map(_strip_lead, _NARRATIVE_CITE.findall(run.group(0))) if t]
         if len(toks) >= 2:
             groups.append(tuple(toks))
+    # Adjacent citation commands ("\\cite{A}; \\cite{B}") and numbered citations ("[1]; [2]").
+    for pat, one in ((_CMD_RUN, _CMD_CITE), (_NUM_RUN, r"\[[0-9]+\]")):
+        for run in re.finditer(pat, flat):
+            groups.append(tuple(re.findall(one, run.group(0))))
     return groups
 
 
@@ -313,7 +329,8 @@ def tokens(cls, raw, flat):
     if cls == "crossrefs":
         return re.findall(
             r"\\(?:ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\((?:[^()]|\([^()]*\))*\)|"
-            r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat) + re.findall(r"!\[", flat) + [  # "![" marks an image
+            r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat) + re.findall(r"!\[", flat) + re.findall(
+            r"\[\^[^\]]+\]", flat) + [  # "![" marks an image; "[^id]" is a footnote reference
             # The opening "[" of an inline or reference link; the link text stays editable.
             "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)]
     if cls == "callouts":
@@ -333,7 +350,7 @@ def tokens(cls, raw, flat):
         out += re.findall(r"\\\[.*?\\\]", flat)
         return out
     if cls == "equations":
-        return [re.sub(r"\s", "", t) for t in _EQUATION_RE.findall(flat)]
+        return [re.sub(r"\s", "", t) for t in _EQUATION_RE.findall(flat) + _RELATION_RE.findall(flat)]
     if cls == "symbols":
         return _SYMBOL_RE.findall(flat.replace("\u00b5", "\u03bc"))  # micro sign == Greek mu
     if cls == "environments":
@@ -360,10 +377,14 @@ def tokens(cls, raw, flat):
         out += re.findall(r"(?<![A-Za-z0-9'])'(?=\S)[^'\n]{1,200}?(?<=\S)'(?![A-Za-z0-9'])", flat)
         return out
     if cls == "comments":
-        out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|> )|^\|", ln)]
-        # Trailing LaTeX comments: an unescaped % after whitespace, not after a number,
-        # so a percentage ("5 %", "5%") is not mistaken for a comment.
-        out += re.findall(r"(?<![0-9\\\s])\s+(%.*)$", raw, re.M)
+        out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|> )", ln)]
+        # Markdown table rows: the structure (separator rows whole, the pipes of other rows)
+        # is protected; cell prose stays editable, its numbers and citations still checked.
+        out += [ln.strip() if re.fullmatch(r"[\s|:\-]+", ln) else re.sub(r"[^|]", "", ln)
+                for ln in raw.splitlines() if ln.startswith("|")]
+        # Trailing LaTeX comments: an unescaped % after text, with or without a space, but
+        # not after a number, so a percentage ("5 %", "5%") is not mistaken for a comment.
+        out += re.findall(r"(?<=[^0-9\\\s])\s*(%.*)$", raw, re.M)
         out += re.findall(r"^#{1,6} ", raw, re.M)
         out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers
         # Ordered-list markers ("1.", "2)"); at most three digits, so a hard-wrapped line
@@ -403,7 +424,8 @@ def tokens(cls, raw, flat):
             tok = m.group(0)
             if m.group("uword"):
                 head, *rest = m.group("uword").lower().split(" ")
-                tok = tok[:m.start("uword") - m.start() - 1] + " " + " ".join([head.rstrip("s")] + rest)
+                tok = (tok[:m.start("uword") - m.start() - 1] + " " + " ".join([head.rstrip("s")] + rest)
+                       + tok[m.end("uword") - m.start():])
             # Words ("Less than", "Percent", "Million") are compared case-blind; unit symbols,
             # which are at most two letters in a row, keep their case so mM is not mm.
             tok = re.sub(r"[A-Za-z]{3,}", lambda w: w.group(0).lower(), tok).replace("\u00b5", "\u03bc")

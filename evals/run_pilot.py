@@ -83,7 +83,7 @@ def completed(run_dir, condition):
     if not (run_dir / "outputs" / "revised.txt").exists() or not (run_dir / "trial.json").exists():
         return False
     t = read_json(run_dir / "trial.json")
-    return not t.get("is_error") and (condition != "with_skill" or t.get("skill_loaded") is not False)
+    return not t.get("is_error") and (condition != "with_skill" or t.get("skill_loaded") is True)
 
 
 def run_trial(case, condition, n, out_root, model, provenance):

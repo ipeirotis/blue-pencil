@@ -18,7 +18,8 @@
     "latex_misc": "The estimate is 5 ± 2 and $5x$ grows. % TODO verify cohort\nAbout 5% of firms agree.",
     "narrative": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
     "leads": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
-    "md_links": "We solve x - y = z, as [the study](paper.pdf) shows; the ~~old~~ estimate is retained."
+    "md_links": "We solve x - y = z, as [the study](paper.pdf) shows; the ~~old~~ estimate is retained.",
+    "rates": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|"
   },
   "variants": [
     {
@@ -686,6 +687,60 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Strikethrough removed."
+    },
+    {
+      "id": "rates-harmless-1",
+      "base": "rates",
+      "revised": "As \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show, we define rate = 5 at $5 per kg.[^methods]\n\n| A concise description | 5 |\n|---|---|",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; table cell prose edited."
+    },
+    {
+      "id": "rates-per-unit-changed",
+      "base": "rates",
+      "revised": "We define rate = 5 at $5 per L, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Rate denominator changed."
+    },
+    {
+      "id": "rates-named-operand-changed",
+      "base": "rates",
+      "revised": "We define dose = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Named operand of an assignment changed."
+    },
+    {
+      "id": "rates-cite-commands-reordered",
+      "base": "rates",
+      "revised": "We define rate = 5 at $5 per kg, as \\cite{Jones2021}; \\cite{Smith2020} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Adjacent citation commands reordered."
+    },
+    {
+      "id": "rates-numbered-cites-reordered",
+      "base": "rates",
+      "revised": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [2]; [1] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Adjacent numbered citations reordered."
+    },
+    {
+      "id": "rates-footnote-changed",
+      "base": "rates",
+      "revised": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^results]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Footnote reference retargeted."
     }
   ]
 }

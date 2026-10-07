@@ -59,7 +59,10 @@ def _quoted(quote, passage):
     """True if every part of the quote (split at "..." ellipses) occurs in the passage,
     ignoring whitespace and curly-versus-straight quote marks."""
     src = _norm(passage)
-    return all(part.strip() in src for part in re.split(r"\.\.\.|\u2026", _norm(quote)) if part.strip())
+    parts = [p.strip() for p in re.split(r"\.\.\.|\u2026", _norm(quote)) if p.strip()]
+    if _norm(quote) and not parts:
+        return False  # a quote of only "..." cites nothing
+    return all(p in src for p in parts)
 
 
 def meaning_validator(original, revised):
