@@ -720,10 +720,15 @@ Check what the skill says about its own run against what it did:
   exact counts of 100 and 80 the bands 85 to 115 and 68 to 92 contain the
   rising pair 85 to 92, so an interval built from the bands would admit a
   positive percentage for a shrinking passage), and then its magnitude
-  against the range the accepted count ranges imply (recompute the
-  percentage from every before and after pair inside the two tolerance
-  bands whose direction matches, and accept the reported value if it falls
-  within the resulting interval), so the
+  against the range the reported counts themselves imply: each reported
+  count stands for the rounding range it represents under the contract's
+  nearest-ten rounding (`~10` for 5 to 14, `~110` for 105 to 114),
+  intersected with the accepted exact-count tolerance band, and the
+  percentage is recomputed from every direction-matching before and after
+  pair inside those two intersections, with the reported value accepted if
+  it falls within the resulting interval, so `~100 to ~110 (+45%)` fails
+  (its displayed counts imply at most about +20%) while the tolerance bands
+  alone would have admitted it, and the
   percentage check inherits the word-count tolerance in its own units
   rather than borrowing a word count as a percentage. That interval is the
   sole magnitude check: a second comparison against the percentage from the
