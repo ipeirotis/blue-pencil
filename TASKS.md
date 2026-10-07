@@ -807,7 +807,12 @@ Check what the skill says about its own run against what it did:
 - Every `before -> after` change line describes a real edit: after
   whitespace and markup normalization, the `before` span occurs in the input
   and the `after` span occurs in the revised block (a deletion's `after` may
-  be empty or the word `removed`), where a span may use the ellipsis
+  be empty or the word `removed`, and an insertion's `before` may be empty
+  or a parenthesised position sentinel such as `(opening)`, which the golden
+  examples already use, in which case the `after` span must occur in the
+  revised block and must not occur in the input, so the sentinel cannot
+  disguise a rewording as an insertion; the sentinel vocabulary is recorded
+  with the parser and the contract documents it), where a span may use the ellipsis
   notation the repository's own golden examples already use (`"Furthermore
   ... Moreover ... Crucially" -> removed`): an ellipsis-separated span
   matches when its pieces occur in the text in that order within one
@@ -864,10 +869,15 @@ Check what the skill says about its own run against what it did:
   mechanism
   from the allowed list; "reads better", "smoother", "more concise" alone
   fail.
-- On every variant that revises an original text (never on the feedback-only
+- On every variant that revises an original text and carries a change
+  ledger (never on the feedback-only
   wrapper, the staged plan, or a refusal, whose revised text is a sentinel
-  or absent, and never on letter assembly, which builds a new letter from
-  supplied decisions and carries provenance lines instead of a ledger): every sentence in the original that does not appear in the
+  or absent, never on letter assembly, which builds a new letter from
+  supplied decisions and carries provenance lines instead of a ledger, and
+  never on the compact contract, which has no `Change rationale` and whose
+  own rule above exempts it from coverage checks, so a valid quick pass that
+  deletes a phrase is graded by the compact scope assertion rather than
+  failed for an entry it has no section to hold): every sentence in the original that does not appear in the
   revision (fuzzy match) is accounted for in `Change rationale` (constraint
   6, no silent
   deletion), and so is every deleted hunk inside an aligned sentence pair
