@@ -620,7 +620,10 @@ pass on a ref before F2 fixes one and the done-when below (every example
 passes) stays reachable,
 `References loaded:` present, `Added bridges:` present, each in the position
 the contract fixes rather than anywhere in the output (`Added bridges:` on
-the line immediately after the fenced revised block, and the Change
+the next nonblank line after the fenced revised block, since every golden
+full-contract example separates the closing fence and the bridge line with
+a blank line and the contract's "immediately after" means position, not
+the absence of a blank line, and the Change
 rationale opening with `Word count:`, then the optional growth line, then
 `References loaded:` before any change entry, so a bridge line parked under
 `Author questions` or a reference line after the ledger fails as malformed),
@@ -1720,7 +1723,11 @@ since A2's example-leak check needs it before any run) -> A2 -> A3 parser
 (whose done-when consumes A2's raw outputs) -> A4
 B1 -> B2, B3, B4, B5, B6, B7
 C1 extraction core (needs A1, B4) ; C1 claim-local mode (needs A3) -> F2, F3 ; F3 -> F7
-G1 (needs A2, C1 through C6, E3 for the interval rule and a stored baseline)
+G1 (needs A2, C1 through C6, E3 for the interval rule and a stored baseline,
+and F7, hence F3, for the dispatch and execution audits and their
+trace-bearing fixtures that its fast tier runs; a G1 landed before F7
+ships only the C1 through C6 assertions and is labeled partial, never
+complete, until the F7 audits are wired in)
 C2, C3 (need A3) ; C4 (needs A3, B6) ; C5 (needs A3, B5) ; C6 (needs A3, B3)
 (the sentence aligner is part of A3, so no C grader waits on D4 for its
 deterministic verdict; the semantic halves of the bridge and across-rounds
