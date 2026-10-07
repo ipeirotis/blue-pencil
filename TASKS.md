@@ -260,14 +260,20 @@ an older skill SHA would corrupt the E4 ablations and the G3 historical
 reruns. The trace format is adapter-based: one adapter per agent surface
 maps its tool names to the canonical read and write events; for a surface
 that reads files through command execution rather than a `Read` tool (the
-Codex-style condition in E5), the adapter derives canonical ranged reads
-from the execution events, taking the path and range from the command line
-of `cat`, `sed -n`, `head`, `tail`, or an interpreter one-liner and the
-range actually returned from the captured output's line count, and where a
-command's range cannot be derived the read is recorded as unranged and the
+Codex-style condition in E5), the adapter derives canonical reads from the
+filesystem audit that already monitors writes (file-open events under the
+installed `references/`, `examples/`, and the worktree, from the same
+inotify, fanotify, or syscall-level layer), so every command-mediated access
+emits a canonical read event whatever the command's form (`awk`, `dd`, a
+shell script, or an executable whose path argument is not recoverable from
+the command line), and the command line and captured output serve only to
+derive the range (from `cat`, `sed -n`, `head`, `tail`, or an interpreter
+one-liner and the output's line count); where a command's range cannot be
+derived the audited read is recorded as unranged and the
 C3 full-read half is reported not applicable for that run rather than
-failed, so a valid run is never scored as a skipped reference because of
-the surface's tool API; and a surface
+failed, while the C3 converse check still sees the access, so a valid run is
+never scored as a skipped reference because of
+the surface's tool API and a hidden read is never invisible to it; and a surface
 that receives files by injection (the chat condition in E5) records them as
 `injected` provenance for the files handed over up front and canonical
 reads for the references it obtains through the E5 request protocol, so the
@@ -351,7 +357,12 @@ evaluation checkout, so a historical rerun in G3 or a before-and-after run
 around an F-task that changes a command's output shape is parsed and graded
 against the contract that ref actually carried, as F2 already requires for
 the inventory line and the word-count convention, and a packaging change
-never reads as a behavioral regression; the command at that ref, not this
+never reads as a behavioral regression; a case whose command file is absent
+from the installed package for that ref (the `/paper:verify` case on the
+v3.0.0 baseline in a G3 rerun, or a command a later ref removes) is
+reported not applicable for that ref in A4 before any run, never executed
+and never counted as a parse failure, so historical comparisons survive
+commands being added or removed; the command at that ref, not this
 list, is the authority on its shape. Only an output matching no variant is
 a graded parse failure, never a crash; an output whose variant is not the
 entry of the case's `expected_variants` for the current agent-turn index
@@ -1077,9 +1088,15 @@ the injected defect still aligns to an output sentence and the revision stays
 within a similarity threshold of B3's retained clean reference, with the
 metric and cutoff (for example a normalized token-edit ratio against the
 clean sentence and its neighbours) written down before the baseline run and
-boundary fixtures on both sides of the cutoff, so deleting the sentence or
-every use of the term does not count as a fix and the cutoff cannot be tuned
-after seeing outputs). B3's
+boundary fixtures on both sides of the cutoff, so deleting the sentence
+does not count as a fix and the cutoff cannot be tuned
+after seeing outputs; and for the undefined-term class an explicit
+assertion that the term, or the concept it names, still appears in at least
+one substantive use after its definition in the revision, since
+"definition precedes first use" is vacuously true once every occurrence is
+deleted and dropping one or two term tokens can stay inside the similarity
+cutoff, so a revision that removes the term instead of defining it fails the
+repair check). B3's
 injected defects give recall per class on a known ground truth; B2's
 hand-reviewed lists give recall on ordinary prose, which is what E1 reports.
 Run negative controls alongside: the clean-control sibling cases B3 derives
