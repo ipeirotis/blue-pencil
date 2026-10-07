@@ -44,7 +44,10 @@ Each case also carries `expected_passes`: the sweep passes the corpus author
 judges applicable under the gates in the sweep table of `SKILL.md`, including
 the content gates (unfamiliar machinery, statistical machinery, a clarity
 request), so C3 has a ground truth that does not depend on section type and
-stage alone. The label is tied to the sweep table of the skill ref it was
+stage alone, and including the command-owned references outside the sweep
+(`cold-read.md` for `/paper:read`, `consistency-checks.md` for
+`/paper:consistency`) on a command-driven case, so a required read is never
+scored as a phantom pass. The label is tied to the sweep table of the skill ref it was
 written against (recorded as `expected_passes_ref`); a run of a different
 ref, a historical release in G3 or an ablated variant in E4, uses a label
 re-derived for that ref's table, or the C3 reference audit is excluded for
@@ -64,7 +67,9 @@ A Python script that runs a chosen git ref of the skill against every case on a
 chosen model, N times, through the agent's headless mode (`claude -p` or the
 Agent SDK), and stores each raw output with the skill SHA, model id, prompt,
 timestamp, wall time, token counts, and the agent's tool trace (every `Read`,
-`Grep`, `Glob`, `Edit`, and `Write` call with its path), captured from the
+`Grep`, `Glob`, `Edit`, and `Write` call with its path and, for a read, the
+line or byte range it returned, so a truncated read of a reference's first
+screen is distinguishable from a full one), captured from the
 streaming JSON output so C3 can check which `references/` files were read
 rather than which the model says it read, and so C4 can grade a write. Each
 run executes in a disposable worktree holding only that case's files, with a
@@ -266,7 +271,8 @@ the stage, every Author question ending in `?`), with only the word-count
 and change-line checks dropped. For the letter-assembly variant: the full
 contract minus the word-count and ordinary change-line checks, with one
 provenance line per reply required instead. For a clarification,
-split-and-confirm, or decline: only the predicates C4 names for that case.
+split-and-confirm, decline, or source-quality refusal: only the predicates
+C4 names for that case.
 Requiring the full contract of every output would fail valid quick passes
 and edge cases and distort the baseline. Read the `style_overrides:` line of the case's
 `<paper_context>` and disable only the checks it names (the em-dash ban, a
@@ -287,8 +293,9 @@ Check what the skill says about its own run against what it did:
   corpus author's reading of every sweep gate, content gates included, since
   section type and stage alone cannot tell an applicable `exposition.md` read
   from a phantom one), with no skipped pass and no phantom one, and each named
-  file appears in the A2 trace as a canonical read of that path or as
-  `injected` provenance on a surface that received the files directly. The
+  file appears in the A2 trace as canonical reads of that path whose ranges
+  together cover the whole file (a bounded read of the first screen does not
+  count), or as `injected` provenance on a surface that received the files directly. The
   claim alone is what this check exists to distrust: a model that skips a
   reference and prints its name anyway must fail here, not pass. Where two
   labelers disagree on a case's expected set, the case is tagged ambiguous
@@ -305,8 +312,11 @@ Check what the skill says about its own run against what it did:
 - Every sentence in the original that does not appear in the revision (fuzzy
   match) is accounted for in `Change rationale` (constraint 6, no silent
   deletion), and so is every deleted hunk inside an aligned sentence pair
-  that drops a clause or a qualifier (a word-level diff of the pair, with a
-  minimum hunk size so a dropped article does not count), since a qualifier
+  that drops a clause or a qualifier (a word-level diff of the pair; a hunk made only of tokens on an explicit
+  insignificant list, articles and punctuation, is ignored, while a hunk
+  containing a token from a semantic-qualifier lexicon such as `not`, `may`,
+  `only`, `some`, `often`, or `approximately` always needs coverage whatever
+  its size, since one such word can invert or broaden a claim), since a qualifier
   removed from a sentence that still aligns is the silent deletion the
   constraint most often means.
 - Every `Added bridges:` sentence has a matching Author question.
@@ -330,8 +340,11 @@ output.
   sentence that differs from the input, and the A2 trace shows no `Edit` or
   `Write` to the manuscript.
 - Whole manuscript as one file: the output lists detected sections and asks for
-  confirmation, contains no `Revised text` block, and the A2 snapshot shows
-  the manuscript file unchanged with no `Edit` or `Write` to it in the trace
+  confirmation, contains no `Revised text` block and no manuscript prose beyond the
+  detected section headings (no sentence of the response aligns to a
+  manuscript sentence, changed or not, so a rewrite emitted as unlabeled
+  prose fails too), and the A2 snapshot shows the manuscript file unchanged
+  with no `Edit` or `Write` to it in the trace
   (a one-shot rewrite applied to the worktree and then followed by a
   confirmation question is the violation this case exists to catch).
 - Missing `<paper_context>`: exactly one clarifying message, then an
@@ -480,9 +493,14 @@ repetitions: that instability is one of the behaviors under study, and a drop
 from five passes in ten to one in ten is a regression the gate must see. Gate
 instead on the pass-rate delta between skill versions with an uncertainty
 bound (a Wilson interval or a bootstrap over repetitions), and tag
-high-variance cases in their metadata so a reader can see them. Done when: a
-variance table is in the E1 report, every case carries its pass rate and
-interval, and the regression gate in G1 uses the interval rule.
+high-variance cases in their metadata so a reader can see them (a stable
+tag only: measured pass rates and intervals live in result artifacts keyed
+by skill ref, model, and runner configuration, never in the case file, since
+they change across exactly those dimensions and writing them into the case
+would change its A2 cache key). Done when: a variance table is in the E1
+report, every case has its pass rate and interval in the results for each
+configuration it ran under, and the regression gate in G1 uses the interval
+rule.
 
 ### E4. Instruction ablation (L)
 `SKILL.md` is about 65 KB and the references add more. Ablate one section or
@@ -519,9 +537,13 @@ maps its own tool names to the canonical read and write events, and the chat
 condition records the injected files as `injected` provenance, so the C3
 reference audit judges behavior rather than instrumentation. If a surface
 cannot take the full set, report that run as a packaging comparison,
-separately. Where does behavior diverge?
-Done when: divergences are listed with the instruction each agent ignores,
-feeding F-tasks.
+separately. Hold the model and inference configuration fixed across surfaces wherever a
+surface allows it, since two agents on different underlying models would
+confound surface with model; where a surface cannot run the same model,
+report its result as a model-plus-surface comparison and attribute nothing
+to the surface alone. Where does behavior diverge? Done when: divergences on
+matched-model runs are listed with the instruction each agent ignores,
+feeding F-tasks, and unmatched runs are reported separately.
 
 ---
 
@@ -649,7 +671,7 @@ full evaluation configuration (corpus version, grader and judge versions,
 model ids, repetition count, harness SHA). Scores are comparable only under an
 identical suite and model: a new regression case can lower a later score while
 the skill improved, and a model change moves it on its own. Present a trend
-only across results with matching suite, model, grader, judge-rubric, and
+only across results with matching suite, model, runner configuration, grader, judge-rubric, and
 harness identifiers (a stricter grader would otherwise read as a skill
 regression), and otherwise rerun the earlier skill refs under the current
 evaluation stack through A2 (cheap, since the runner takes a git ref). Add a one-line summary to each `CHANGELOG.md` entry.
