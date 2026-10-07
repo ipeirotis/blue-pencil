@@ -145,7 +145,7 @@ _EQ_OPERAND = r"(?:" + _FUNC + r"|[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 # "rate + dose = total"). A chain with named operands counts only if it holds one of
 # = < > or their combinations, so "and/or" style slashes stay prose.
 # Unicode sub- and superscripts and primes decorate an identifier ("x\u2081", "x\u2032", "x\u00b2").
-_DECOR = "[\u2080-\u209c\u2070-\u207f\u00b2\u00b3\u00b9\u2032-\u2034]*"
+_DECOR = "[\u2080-\u209c\u2070-\u207f\u00b2\u00b3\u00b9\u2032-\u2034']*"  # also ASCII primes, "x'"
 _IDENT = r"[A-Za-z][A-Za-z0-9_]*" + _DECOR
 # A Greek, letterlike, or math-alphanumeric symbol is an operand too ("\u03b1 = \u03b2").
 _USYM = "[\u0391-\u03a9\u03b1-\u03c9\u03d1\u03d5\u03f5\u2100-\u214f\U0001d400-\U0001d7ff][A-Za-z0-9_]*" + _DECOR
@@ -156,7 +156,7 @@ _GROUP = (r"(?:\((?:[^()\n]|\([^()\n]*\)){1,60}\)|\[(?:[^\[\]\n]|\[[^\[\]\n]*\])
 # Any operand may carry a unary sign ("x = -y", "x = -(a + b)", "x = -5").
 _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|" + _GROUP
                 + r"|(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
-_ARITH_OP = r"(?: ?[+*/^\u2212] ?| - )"
+_ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7] ?| - )"  # also times, middle dots, divide
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
 _UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287"
@@ -192,10 +192,23 @@ def _dollar_math(flat):
         pos = m.end()
 
 
+def _delimited(d, n):
+    """Emphasis with the delimiter d repeated n times; only the same character may not touch
+    it, so nested forms ("**_x_**", "***x***") are found from the outside in."""
+    e = re.escape(d)
+    return re.compile(r"(?<![" + e + r"\w\\])(" + e * n + r")(?=[^\s" + e + r"])(.+?)(?<=[^\s" + e
+                      + r"\\])" + e * n + r"(?![" + e + r"\w])")
+
+
+# Combined strong emphasis ("***x***") first, then strikethrough, strong, and emphasis.
+_EMPH_PATS = ([_delimited(d, 3) for d in "*_"] + [_STRIKE_RE] + [_delimited(d, 2) for d in "*_"]
+              + [_delimited(d, 1) for d in "*_"])
+
+
 def _emphasis(flat):
     text = _NO_EMPHASIS.sub(" ", flat)
     out = []
-    for pat in (_STRIKE_RE, _STRONG_RE, _EM_RE):
+    for pat in _EMPH_PATS:
         out += [m.group(1) for m in pat.finditer(text)]
         text = pat.sub(lambda m: m.group(2), text)
     return out
@@ -213,7 +226,7 @@ _NARRATIVE_RUN = re.compile(_NARRATIVE_CITE.pattern + r"(?:(?:;|,|,? and) " + _N
 
 _CMD_CITE = r"\\[Cc]ite[a-zA-Z]*\*?(?:\[[^\]]*\])*\{[^}]*\}"
 _CMD_RUN = _CMD_CITE + r"(?:[;,]? ?" + _CMD_CITE + r")+"
-_NUM_RUN = r"\[[0-9]+\](?:[;,]? ?\[[0-9]+\])+"
+_NUM_RUN = r"\[[0-9]+\](?:(?:[;,]? ?|,? (?:and|&) )\[[0-9]+\])+"  # "[1], [2]", "[1] and [2]"
 
 
 def _strip_lead(t):
@@ -407,7 +420,7 @@ def tokens(cls, raw, flat):
             r"\]\[[^\]]*\]", flat) + [
             # Reference definitions, "[id]: url" or "[id]:url"; the space is normalized.
             m.group(1) + " " + m.group(2) for m in re.finditer(r"(\[[^\]]+\]:) ?([^ ]+)", flat)] + re.findall(r"!\[", flat) + re.findall(
-            r"\[\^[^\]]+\]", flat) + re.findall(r"<(?:https?://|mailto:)[^>\s]+>", flat) + [
+            r"\[\^[^\]]+\]", flat) + re.findall(r"<(?:https?://|mailto:)[^>\s]+>|<[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+>", flat) + [
             # "![" marks an image; "[^id]" is a footnote reference; <https://...> is an autolink
             # The opening "[" of an inline or reference link; the link text stays editable.
             "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)]
@@ -465,7 +478,8 @@ def tokens(cls, raw, flat):
         # Trailing LaTeX comments: an unescaped % after text, with or without a space, but
         # not after a number, so a percentage ("5 %", "5%") is not mistaken for a comment.
         out += re.findall(r"(?<=[^0-9\\\s])\s*(%.*)$", raw, re.M)
-        out += [h + " " for h in re.findall(r"^ {0,3}(#{1,6}) ", raw, re.M)]  # up to 3 spaces of indent
+        # ATX heading markers: up to 3 spaces of indent, then a space, a tab, or the line end.
+        out += [h + " " for h in re.findall(r"^ {0,3}(#{1,6})(?:[ \t]|$)", raw, re.M)]
         # Setext heading underlines ("=====", "-----"), kept as their character only.
         out += [m[0] for m in re.findall(r"^ {0,3}(=+|-{3,})[ \t]*$", raw, re.M)]
         # Markdown hard breaks: two or more trailing spaces, or a trailing backslash, before

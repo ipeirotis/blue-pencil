@@ -29,7 +29,8 @@
     "misc20": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
     "misc21": "The equation is x = -y, the response rate was five percent, and Figs. 2 and 3 show it.",
     "misc22": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
-    "misc23": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending"
+    "misc23": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
+    "misc24": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>."
   },
   "variants": [
     {
@@ -1174,6 +1175,60 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Task-list item unchecked."
+    },
+    {
+      "id": "misc24-primed-operand-renamed",
+      "base": "misc24",
+      "revised": "We define w' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable with an ASCII prime renamed."
+    },
+    {
+      "id": "misc24-product-operand-changed",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × c; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand after a Unicode times sign changed."
+    },
+    {
+      "id": "misc24-nested-emphasis-removed",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × b; note this, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Combined bold-italic emphasis removed."
+    },
+    {
+      "id": "misc24-and-joined-citations-reordered",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × b; ***note this***, as [2] and [1] show.\n\n##\tResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "citation order changed",
+      "code_grader_should_flag": true,
+      "note": "Numeric citations joined by 'and' reordered."
+    },
+    {
+      "id": "misc24-tab-heading-dropped",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\nResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "ATX heading followed by a tab removed."
+    },
+    {
+      "id": "misc24-email-autolink-changed",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <other@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Email autolink address changed."
     }
   ]
 }
