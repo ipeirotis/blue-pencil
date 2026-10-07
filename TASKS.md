@@ -251,8 +251,13 @@ that receives files by injection (the chat condition in E5) records them as
 reads for the references it obtains through the E5 request protocol, so the
 C3 reference audit runs on it in full. Runs
 are resumable and cached, keyed
-by a hash of the full case definition (prompt, manuscript, context block,
-expectations), the skill SHA, the model id, the runner configuration, the
+by a hash of the full case definition (prompt, the bytes and declared role
+of every artifact the case lists, not only the path that names them, since
+an included section, draft letter, comment file, decision list, or change
+log edited in place at the same path would otherwise reuse output produced
+from the old bytes while the graders inspect the new, the payload of every
+scripted between-turn update, the context block, and the expectations),
+the skill SHA, the model id, the runner configuration, the
 harness's own commit SHA together with a cache-schema version (so a fix to
 prompt rendering, worktree setup, trace adapters, or multi-turn handling
 invalidates runs the old code produced), the agent runtime version (the
@@ -337,7 +342,11 @@ aligner allowed only as a separately recorded experimental configuration
 that never feeds a gate), that pairs input and revised sentences and marks
 unmatched ones; the
 C graders and D4 all use this one aligner, so none of them depends on the
-judge. Done when: the parser round-trips every file in `examples/`, the raw
+judge. Done when: the parser round-trips every worked-result example in
+`examples/` (the files carrying a `## Skill output` section, which excludes
+the two context templates `AGENTS.md.template` and `CLAUDE.md.template`,
+since a context file matches no result variant and must not be accepted as
+one), the raw
 outputs from A2, and one fixture per variant above, with zero unhandled
 exceptions, and the aligner has fixtures for a split, a merge, a move, and
 an unmatched addition and deletion.
@@ -1287,9 +1296,13 @@ number of tokens is bounded too, since a quantitative Results section can
 carry hundreds of short numbers, keys, and cross-references: a class with
 more than a fixed cap of tokens (recorded in the contract) is written as its
 input and output counts plus the list of tokens whose occurrence count
-differs between input and output, `none` when the multisets agree, so the
-line grows with the number of changes rather than the size of the section,
-and C3 verifies the counts and the differing-token list against C1's
+differs between input and output, `none` when the multisets agree, and that
+list is itself capped at a recorded length: past it the line carries the
+first entries in sorted order plus the total number of differing tokens
+(`... and 212 more`), so a revision that changed hundreds of numbers cannot
+exhaust the output budget and truncate the revision the line exists to
+verify, and the complete delta stays the checker's job; C3 verifies the
+counts, the listed entries, and the stated total against C1's
 recomputation exactly as it verifies the full list. Nothing
 on the line may require computation the editor cannot do: the skill's tool
 surface is `Read`, `Edit`, `Grep`, and `Glob`, so no hash or digest, only
@@ -1434,7 +1447,10 @@ the revised manuscript and no draft, graded under the assembly variant, so neith
 broken while the audit passes. The
 `/paper:loop` audit needs two cases: the Step A staged plan, and a scripted
 multi-turn case whose `turns` script confirms the plan and drives the loop
-through its later phases on a short two-section manuscript with the
+through its later phases on a short manuscript of at least three sections
+(an abstract, an introduction, and one body section, since the Step E
+re-run of both front-matter sections after the body cannot be exercised
+with fewer) with the
 event-keyed replies and allowed-transition set A1 defines for loop cases
 (not a fixed turn sequence, which a conditional `clarify` or `human` pass
 or a variable question set would desynchronise), grading that the
