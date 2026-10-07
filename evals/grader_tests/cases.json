@@ -3,7 +3,8 @@
     "results": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
     "causal": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
     "intro": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Chevalier and Mayzlin\n2006; Forman et al. 2008; Dellarocas 2003). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials.",
-    "grouped": "Prior work reports the effect (Smith 2010; Jones 2012). We test it in a new sample."
+    "grouped": "Prior work reports the effect (Smith 2010; Jones 2012). We test it in a new sample.",
+    "science": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}"
   },
   "variants": [
     {
@@ -185,6 +186,69 @@
       "damage_type": "citation dropped",
       "code_grader_should_flag": true,
       "note": "Jones 2012 removed."
+    },
+    {
+      "id": "science-harmless-1",
+      "base": "science",
+      "revised": "24 mice held at 20 °C received 10 mg of the compound daily. Following earlier designs [12, 13], we estimate the effect β by least squares; the estimate is **robust** to the bandwidth choice.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Reorders sentences so a number opens one; units, symbols, citation group, emphasis and the listing are unchanged."
+    },
+    {
+      "id": "science-unit-changed",
+      "base": "science",
+      "revised": "We administered 10 g of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Dose unit mg became g; the number is the same."
+    },
+    {
+      "id": "science-temperature-unit-changed",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °F, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Celsius became Fahrenheit."
+    },
+    {
+      "id": "science-symbol-changed",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect γ by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "A Unicode Greek parameter outside math delimiters changed."
+    },
+    {
+      "id": "science-numeric-citations-reordered",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [13, 12]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Numbered citation group reordered."
+    },
+    {
+      "id": "science-emphasis-dropped",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is robust to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Markdown bold removed."
+    },
+    {
+      "id": "science-listing-lines-joined",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X); print(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Two lstlisting source lines joined into one."
     }
   ]
 }

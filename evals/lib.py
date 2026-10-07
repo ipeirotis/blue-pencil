@@ -5,6 +5,7 @@ Everything here is plain Python 3 standard library. Model calls go through
 Anthropic's skill-creator scripts use, so no separate API key is required.
 """
 
+import hashlib
 import json
 import os
 import re
@@ -50,6 +51,22 @@ def skill_version():
         return (REPO / "VERSION").read_text().strip()
     except OSError:
         return "unknown"
+
+
+# What make_workspace copies into a with-skill trial, relative to the repo root.
+SKILL_FILES = ("SKILL.md", "references", "examples", ".claude/commands", ".claude/agents")
+
+
+def skill_fingerprint():
+    """Hash of every file a with-skill trial sees, so a resumed run can tell whether the
+    skill changed even when VERSION did not."""
+    h = hashlib.sha256()
+    for name in SKILL_FILES:
+        base = REPO / name
+        files = [base] if base.is_file() else sorted(p for p in base.rglob("*") if p.is_file())
+        for f in files:
+            h.update(str(f.relative_to(REPO)).encode() + b"\0" + f.read_bytes() + b"\0")
+    return h.hexdigest()[:16]
 
 
 def claude_version():

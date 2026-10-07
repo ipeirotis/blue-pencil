@@ -36,16 +36,35 @@ def fill(template, **kw):
     return template
 
 
-def model_json(prompt, model):
-    """Call the grader model and parse its JSON reply (one retry on a bad reply)."""
+MEANING_VERDICTS = ("preserved", "changed", "unsure")
+QUALITY_VERDICTS = ("A", "B", "tie")
+
+
+def valid_meaning(parsed):
+    return isinstance(parsed, dict) and parsed.get("verdict") in MEANING_VERDICTS
+
+
+def valid_quality(parsed):
+    return isinstance(parsed, dict) and parsed.get("overall") in QUALITY_VERDICTS
+
+
+def model_json(prompt, model, valid):
+    """Call the grader model and parse its JSON reply (one retry on a bad reply).
+
+    A reply counts only if `valid(parsed)` holds. Otherwise "parsed" is None, so the
+    verdict is never mistaken for a real one and a later run grades it again.
+    """
     ws = Path(tempfile.mkdtemp(prefix="bp-grade-"))
     last = None
     for _ in range(2):
         res = call_claude(prompt, model, ws, GRADER_FLAGS)
         parsed = extract_json(res["text"])
-        last = {"parsed": parsed, "raw": res["text"], "cost_usd": res["cost_usd"],
+        ok = valid(parsed)
+        last = {"parsed": parsed if ok else None, "raw": res["text"], "cost_usd": res["cost_usd"],
                 "seconds": res["seconds"], "models": list(res["model_usage"].keys())}
-        if parsed is not None:
+        if not ok:
+            last["invalid_reply"] = parsed
+        if ok:
             break
     return last
 
@@ -73,10 +92,10 @@ def grade_run(case_id, original, run_dir, model, do_meaning, force):
         out["code"] = check(original, revised)
         prior = run_dir / "code_and_meaning.json"
         out["meaning"] = read_json(prior).get("meaning") if prior.exists() else None  # keep earlier verdicts
-        done = (out["meaning"] or {}).get("parsed") is not None
+        done = valid_meaning((out["meaning"] or {}).get("parsed"))
         if do_meaning and (force or not done):
             out["meaning"] = model_json(fill((EVALS / "prompts" / "meaning_grader.md").read_text(),
-                                             ORIGINAL=original, REVISED=revised), model)
+                                             ORIGINAL=original, REVISED=revised), model, valid_meaning)
     write_json(run_dir / "code_and_meaning.json", out)
     # skill-creator compatible grading.json
     exps = [{"text": "Protected content unchanged (code grader)", "passed": out["code"]["passed"],
@@ -101,7 +120,7 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
     prior = eval_dir / f"comparison-run-{n}.json"
     if prior.exists() and not force:
         old = read_json(prior)
-        if all((o["grader"] or {}).get("parsed") is not None for o in old["orders"]):
+        if all(valid_quality((o["grader"] or {}).get("parsed")) for o in old["orders"]):
             return old  # already judged; do not spend model calls again
     rng = random.Random(f"{case_id}-{n}")
     first = rng.choice(CONDS)               # which condition is shown as "A" in order 1
@@ -110,13 +129,17 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
         b_cond = CONDS[1] if a_cond == CONDS[0] else CONDS[0]
         g = model_json(fill((EVALS / "prompts" / "quality_grader.md").read_text(),
                             AUDIENCE=audience_of(case_id), ORIGINAL=original,
-                            VERSION_A=revised[a_cond], VERSION_B=revised[b_cond]), model)
+                            VERSION_A=revised[a_cond], VERSION_B=revised[b_cond]), model, valid_quality)
         overall = (g["parsed"] or {}).get("overall")
-        winner = None if overall is None else {"A": a_cond, "B": b_cond}.get(overall, "tie")
+        winner = None if overall is None else {"A": a_cond, "B": b_cond, "tie": "tie"}[overall]
         orders.append({"A": a_cond, "B": b_cond, "grader": g, "winner": winner})
     w1, w2 = orders[0]["winner"], orders[1]["winner"]
-    consolidated = w1 if (w1 == w2 and w1 is not None) else "tie"
-    note = "" if w1 == w2 else "order-dependent verdict, counted as tie"
+    if w1 is None or w2 is None:
+        # No valid verdict in at least one order: the pair is ungraded, not a tie.
+        consolidated, note = "ungraded", "no valid grader verdict; rerun the quality stage"
+    else:
+        consolidated = w1 if w1 == w2 else "tie"
+        note = "" if w1 == w2 else "order-dependent verdict, counted as tie"
     result = {"case": case_id, "run": n, "orders": orders, "consolidated": consolidated, "note": note}
     write_json(eval_dir / f"comparison-run-{n}.json", result)
     return result

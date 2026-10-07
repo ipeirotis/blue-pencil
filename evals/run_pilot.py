@@ -18,6 +18,10 @@ Usage:
     python3 run_pilot.py --dry-run
     python3 run_pilot.py --cases worked-example --runs 1        # one run per condition, quick check
     python3 run_pilot.py --runs 3 --run-id pilot-001            # full pilot
+
+Rerunning with an existing run id resumes it: finished trials are skipped. The
+resume is refused if the model, flags, Claude Code version, or skill files differ
+from the original run (pass --allow-mixed to override; the mix is then recorded).
 """
 
 import argparse
@@ -29,8 +33,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from lib import (EVALS, EXECUTOR_MODEL, call_claude, claude_version, extract_revised,
-                 git_sha, make_workspace, read_json, skill_version, skill_was_loaded,
-                 write_json)
+                 git_sha, make_workspace, read_json, skill_fingerprint, skill_version,
+                 skill_was_loaded, write_json)
 
 CONDITIONS = ("with_skill", "without_skill")
 
@@ -63,7 +67,7 @@ def build_prompt(case, condition):
     return ("/paper:revise " + body) if condition == "with_skill" else body
 
 
-def run_trial(case, condition, n, out_root, model):
+def run_trial(case, condition, n, out_root, model, provenance):
     run_dir = out_root / f"eval-{case['id']}" / condition / f"run-{n}"
     if (run_dir / "outputs" / "revised.txt").exists():
         return run_dir, "skipped (already done)"
@@ -96,9 +100,29 @@ def run_trial(case, condition, n, out_root, model):
         "model_usage": res["model_usage"], "flags": FLAGS[condition],
         "returncode": res["returncode"], "is_error": res["is_error"],
         "skill_loaded": skill_was_loaded(events) if condition == "with_skill" else None,
-        "revised_text_found": bool(revised), "stderr_tail": res["stderr"]})
+        "revised_text_found": bool(revised), "stderr_tail": res["stderr"], "provenance": provenance})
     status = "ok" if revised and not res["is_error"] else "PROBLEM (see trial.json)"
     return run_dir, status
+
+
+def resume_meta(meta, config, provenance, ids, runs, allow_mixed):
+    """Keep the original run's metadata and record this resume in it.
+
+    Trials already in the directory were produced under `meta`; adding new ones under
+    a different configuration would mix the two, so that is refused unless allowed.
+    Fields the original run did not record (older runs) cannot be checked.
+    """
+    diffs = {k: (meta[k], v) for k, v in config.items() if k in meta and meta[k] != v}
+    if diffs and not allow_mixed:
+        lines = "\n".join(f"  {k}: run has {old!r}, now {new!r}" for k, (old, new) in diffs.items())
+        sys.exit(f"refusing to resume {meta.get('run_id')}: configuration differs from the original run\n"
+                 f"{lines}\nUse a new --run-id, or pass --allow-mixed to resume anyway.")
+    meta = dict(meta)
+    meta["cases"] = list(dict.fromkeys(meta.get("cases", []) + ids))
+    meta["runs_per_condition"] = max(meta.get("runs_per_condition") or 0, runs)
+    meta.setdefault("resumes", []).append(
+        {**provenance, "cases": ids, "runs_per_condition": runs, "config_differs": sorted(diffs)})
+    return meta
 
 
 def main():
@@ -109,6 +133,8 @@ def main():
     ap.add_argument("--run-id", default="pilot-" + datetime.datetime.now().strftime("%Y%m%d-%H%M"))
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--dry-run", action="store_true", help="print the plan and one prompt; make no model calls")
+    ap.add_argument("--allow-mixed", action="store_true",
+                    help="resume an existing run even if its configuration differs (recorded in run_meta.json)")
     args = ap.parse_args()
 
     ids = args.cases or [c["id"] for c in read_json(EVALS / "cases" / "cases.json")["cases"]]
@@ -122,15 +148,22 @@ def main():
             print(f"\n--- example prompt, {cond} ---\n{build_prompt(cases[0], cond)}\n--- flags: {FLAGS[cond]}")
         return
 
-    write_json(out_root / "run_meta.json", {
-        "run_id": args.run_id, "started": datetime.datetime.now().isoformat(timespec="seconds"),
-        "executor_model": args.model, "claude_code_version": claude_version(),
-        "blue_pencil_version": skill_version(), "repo_commit": git_sha(),
-        "cases": ids, "runs_per_condition": args.runs, "flags": FLAGS,
-        "note": "Each trial is a fresh `claude -p` session in an empty temp directory."})
+    now = datetime.datetime.now().isoformat(timespec="seconds")
+    config = {"executor_model": args.model, "claude_code_version": claude_version(),
+              "blue_pencil_version": skill_version(), "skill_fingerprint": skill_fingerprint(),
+              "flags": FLAGS, "preserve_instruction": PRESERVE}
+    provenance = {"started": now, "repo_commit": git_sha(), **config}
+    meta_path = out_root / "run_meta.json"
+    if meta_path.exists():
+        meta = resume_meta(read_json(meta_path), config, provenance, ids, args.runs, args.allow_mixed)
+    else:
+        meta = {"run_id": args.run_id, "started": now, **config, "repo_commit": provenance["repo_commit"],
+                "cases": ids, "runs_per_condition": args.runs,
+                "note": "Each trial is a fresh `claude -p` session in an empty temp directory."}
+    write_json(meta_path, meta)
     t0 = time.time()
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
-        futs = {ex.submit(run_trial, c, cond, n, out_root, args.model): (c["id"], cond, n)
+        futs = {ex.submit(run_trial, c, cond, n, out_root, args.model, provenance): (c["id"], cond, n)
                 for c, cond, n in jobs}
         for f in as_completed(futs):
             cid, cond, n = futs[f]

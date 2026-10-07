@@ -24,7 +24,7 @@ Writing quality and meaning preservation are scored separately. A smoother passa
 Safeguards:
 
 - **Blinded:** The quality grader doesn't know which is Blue Pencil.
-- **Order is swapped:** Every pair is judged twice, once in each order. Unless the same version passes both times, the result is a tie.
+- **Order is swapped:** Every pair is judged twice, once in each order. Unless the same version passes both times, the result is a tie. A pair without a valid verdict in both orders is left ungraded, not counted as a tie.
 - **Quotes required:** The meaning grader must quote the original and the revised wording for every problem it reports.
 
 ## How to run it
@@ -40,13 +40,13 @@ python3 report.py pilot-001                     # report.md and a blinded human 
 python3 -m unittest grader_tests/test_protected.py   # offline test of the code grader
 ```
 
-The last command can also be run from the repo root with `make eval-selftest`. `run_pilot.py` skips runs that already exist for a run id, so use a new id to repeat the pilot.
+The last command can also be run from the repo root with `make eval-selftest`. `run_pilot.py` skips runs that already exist for a run id, so use a new id to repeat the pilot. It refuses to resume a run id if the model, flags, Claude Code version, or skill files have changed since the run started (`--allow-mixed` overrides this and records it). `report.py` leaves out runs where `claude -p` failed or Blue Pencil was not loaded, and never overwrites an existing `human_review.md`.
 
 ## What gets saved
 
 Everything for a run is under `results/<run-id>/`:
 
-- `run_meta.json`: model, Claude Code version, Blue Pencil version, repo commit, settings.
+- `run_meta.json`: model, Claude Code version, Blue Pencil version, a hash of the skill files, repo commit, settings, and a record of every resume.
 - `eval-<case>/<with_skill|without_skill>/run-<n>/`: the exact `prompt.txt`, the full `transcript.jsonl`, `outputs/reply.md` (full reply), `outputs/revised.txt` (the extracted passage), `timing.json` (tokens, seconds, cost), `trial.json` (models used, flags, whether Blue Pencil was really loaded), and the grading files.
 - `eval-<case>/comparison-run-<n>.json`: both orders of each head-to-head.
 - `report.md`, `human_review.md` (blinded sheet to fill in), `human_review_key.json`.

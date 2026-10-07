@@ -4,12 +4,16 @@
 Writes into results/<run-id>/:
   report.md              summary tables and every grader-flagged problem
   human_review.md        original + two unlabeled versions per pair, blank verdicts
+                         (never overwritten once it exists; a fresh copy goes to
+                         human_review.new.md if the pairs changed)
   human_review_key.json  which version is which, plus the grader's verdict
 If human_verdicts.json exists ({"<case>/run-<n>": "1" | "2" | "tie"}), the
 report also shows how often the human and the quality grader agree.
 
 Follows evals/rubric.md (v0.2): preservation, quality, and clean improvements
-are reported separately and never combined into one score.
+are reported separately and never combined into one score. Runs whose `claude -p`
+call failed, and with-skill runs that never loaded Blue Pencil, are excluded from
+every table (and so are their head-to-head pairs); they are listed in the report.
 
 Usage:  python3 report.py <run-id>
 """
@@ -21,6 +25,15 @@ from lib import EVALS, read_json, write_json
 
 CONDS = ("with_skill", "without_skill")
 NAMES = {"with_skill": "With Blue Pencil", "without_skill": "Without (plain Claude)"}
+
+
+def invalid_reason(r, cond):
+    """Why a run cannot count as a model outcome, or None if it can."""
+    if r["trial"].get("is_error"):
+        return "claude -p reported an error"
+    if cond == "with_skill" and r["trial"].get("skill_loaded") is False:
+        return "Blue Pencil was not loaded"
+    return None
 
 
 def load(root):
@@ -103,11 +116,29 @@ def main():
     root = EVALS / "results" / sys.argv[1]
     runs, pairs = load(root)
     meta = read_json(root / "run_meta.json") if (root / "run_meta.json").exists() else {}
+    all_runs = runs
+    excluded = [(c, r, invalid_reason(r, c)) for c in CONDS for r in runs[c] if invalid_reason(r, c)]
+    runs = {c: [r for r in runs[c] if not invalid_reason(r, c)] for c in CONDS}
+    valid_ids = {(c, r["case"], r["n"]) for c in CONDS for r in runs[c]}
+    ungraded = [p for p in pairs if p["consolidated"] not in CONDS + ("tie",)]
+    pairs = [p for p in pairs if p not in ungraded
+             and all((c, p["case"], p["run"]) in valid_ids for c in CONDS)]
     L = [f"# Pilot report: {sys.argv[1]}", "",
          f"- Executor model: `{meta.get('executor_model')}` (Claude Code {meta.get('claude_code_version')})",
          f"- Blue Pencil version: {meta.get('blue_pencil_version')}, repo commit `{str(meta.get('repo_commit'))[:10]}`",
          f"- Cases: {', '.join(meta.get('cases', []))}; {meta.get('runs_per_condition')} runs per condition per case",
-         "- Rubric: `evals/rubric.md` v0.2. Revision stage: first draft.", ""]
+         "- Rubric: `evals/rubric.md` v0.2. Revision stage: first draft."]
+    for res in meta.get("resumes", []):
+        L.append(f"- Resumed {res.get('started')} at repo commit `{str(res.get('repo_commit'))[:10]}`"
+                 + (f"; configuration differed: {', '.join(res['config_differs'])}"
+                    if res.get("config_differs") else ""))
+    if excluded:
+        L.append(f"- Excluded {len(excluded)} invalid runs: "
+                 + "; ".join(f"{NAMES[c]}, {r['case']}, run {r['n']} ({why})" for c, r, why in excluded))
+    if ungraded:
+        L.append(f"- {len(ungraded)} head-to-head pairs have no valid quality verdict and are left out: "
+                 + ", ".join(f"{p['case']} run {p['run']}" for p in ungraded))
+    L.append("")
 
     # 1. Preservation, by condition
     head = ("| {} | Runs | Code check passes | Meaning: preserved / changed / unsure | Both pass | "
@@ -138,7 +169,7 @@ def main():
         L.append(f"| {NAMES[c]} | {mean([r['timing'].get('total_tokens') for r in rs])} | "
                  f"{mean([r['timing'].get('total_duration_seconds') for r in rs])} | "
                  f"{mean([r['timing'].get('cost_usd_list_price') for r in rs])} |")
-    loaded = [r["trial"].get("skill_loaded") for r in runs["with_skill"]]
+    loaded = [r["trial"].get("skill_loaded") for r in all_runs["with_skill"]]
     L += ["", f"Blue Pencil was loaded in {loaded.count(True)}/{len(loaded)} with-skill runs "
           "(checked from each transcript's tool calls).", ""]
 
@@ -206,7 +237,13 @@ def main():
         sheet += [f"## {pid}", "", "**Original**", "", "```", orig, "```", "", "**Version 1**", "", "```", v1, "```", "",
                   "**Version 2**", "", "```", v2, "```", "",
                   "Better written (1 / 2 / tie): ______   Meaning changed in 1? ____  in 2? ____   Notes:", ""]
-    (root / "human_review.md").write_text("\n".join(sheet) + "\n")
+    # The sheet is where a reviewer writes verdicts, so an existing one is never replaced.
+    sheet_text, sheet_path = "\n".join(sheet) + "\n", root / "human_review.md"
+    if not sheet_path.exists():
+        sheet_path.write_text(sheet_text)
+    elif sheet_path.read_text() != sheet_text:
+        (root / "human_review.new.md").write_text(sheet_text)
+        print("kept existing human_review.md; a fresh blank sheet is in human_review.new.md")
     write_json(root / "human_review_key.json", key)
 
     hv = root / "human_verdicts.json"
@@ -223,7 +260,7 @@ def main():
             agree += (gv == str(v))
         L += ["## 7. Human vs. quality grader", "", f"Agreement on {total} pairs: **{agree}/{total}**.", ""]
     (root / "report.md").write_text("\n".join(L) + "\n")
-    print(f"wrote {root / 'report.md'}, human_review.md, human_review_key.json")
+    print(f"wrote {root / 'report.md'} and human_review_key.json")
 
 
 if __name__ == "__main__":
