@@ -636,11 +636,19 @@ every quoted
 bridge sentence actually in the revised block and added or changed there
 rather than carried over verbatim from the input, and the converse gated on
 the justification-cue test: an unmatched sentence in the
-revised block (no aligned source in the A3 alignment) or an added hunk inside
-an aligned pair (`The instrument is valid.` becoming `The instrument is valid
-because assignment was random.` still aligns) is expected on the line
+revised block (no aligned source in the A3 alignment) is expected on the line
 when it carries a justification cue (because, since, ensures, guarantees,
-holds, is valid, identifies, is exogenous, and a maintained lexicon); an
+holds, is valid, identifies, is exogenous, and a maintained lexicon), and an
+added hunk inside an aligned pair (`The instrument is valid.` becoming `The
+instrument is valid because assignment was random.` still aligns) is
+expected there only under a ref whose contract wording covers it: the
+wording `SKILL.md` ships today asks for every added sentence, and a clause
+added inside an existing sentence adds no sentence, so on the v3.0.0
+baseline such a hunk is recorded as `bridge-hunk-unreported`, reported and
+never gating, while the sharpened wording F2 writes covers the sentence
+that gains a justification clause as well as a wholly new sentence, and
+under it the hunk is required on the line, with the harness reading which
+wording applies from the manifest of the ref under test; an
 unmatched sentence without a cue (a new transition, one half of a permitted
 first-draft split) is an ordinary insertion that C3 requires in the change
 ledger, and its absence from the line must not fail this check, while a
@@ -653,7 +661,8 @@ literature has expanded" is no bridge). The split keeps C2 deterministic:
 in the fast tier C2 emits a `bridge-candidate-unreported` finding for each
 lexicon hit missing from the line, which is reported but does not gate, and
 the gating assertion lives in the judge tier as a D4 check that classifies
-every substantive added sentence and added hunk, not only the lexicon hits
+every substantive added sentence and, under the sharpened wording only,
+every substantive added hunk inside an aligned pair, not only the lexicon hits
 ("Random assignment makes treatment independent of potential outcomes"
 states why identification holds with no cue word), using the lexicon only to
 order the candidates for review, and fails the
@@ -681,12 +690,22 @@ transition or copyedit (`not-a-justification`) reported as a bridge, with
 its superfluous confirmation question, fails as a false bridge report
 rather than passing the self-report audit, whatever the ref. No editor label
 introduced by the model inside the block, compared through the alignment
-rather than by set membership: a label occurrence in the output passes only
-when its aligned input sentence carries the same label, so a `[P1]`-style
-label the input already carried, for a proposition or a participant, stays
-where the author put it, while a further `[P1]` the model added as an edit
-annotation elsewhere fails even though the token exists in the input, and
-the label multiset of the output equals the input's. Every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
+rather than by set membership and over the author's labels only: the
+trusted sidecar of A1 carries an `authored_labels` list (empty by default)
+naming the bracketed labels the author's manuscript itself contains, every
+other `[P1]`-style token in the displayed input is a label the skill's own
+mapping step added (the response-to-reviewers and letter stages assign
+`P1`, `P2`, ... before diagnosing, and the two response examples under
+`examples/` display their input with those generated labels and return a
+block without them, which is the clean output the contract requires), and
+the grader strips generated labels from the input side before comparing,
+so an authored label occurrence in the output passes only when its aligned
+input sentence carries the same label, an authored `[P1]`, for a
+proposition or a participant, stays where the author put it, a further
+`[P1]` the model added as an edit annotation elsewhere fails even though
+the token exists in the input, any generated label surviving into the block
+fails as a leaked editor label, and the multiset of authored labels in the
+output equals the input's. Every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
 to edit (a verbatim paragraph with a tell is itself a failure at `first
 draft`, `final polish`, and quick pass, since the scrub runs over all
 editable text; exempt only text the stage forbids editing, which at
@@ -1322,8 +1341,21 @@ configuration (the share of runs marked incomplete this way against a
 recorded threshold) decides whether the configuration's meaning results are
 usable at all,
 the `Added bridges:` line and the matching Author question, and the
-`Change rationale` entries (so a deletion the skill logged is judged as
-logged, not as silent). A sentence and a blank counterpart alone make the
+`Change rationale` entries, where the entries tell the judge whether a
+deletion was logged and never whether it was legitimate: for every deleted
+sentence or substantive deleted hunk the judge decides, from the deleted
+text and the revised section, whether the deletion loses a claim, a
+limitation, or a qualifier the remaining text no longer carries, and that
+verdict fails the output whether or not a rationale entry names it, since a
+unique limitation sentence removed and logged as a concision edit changes
+the paper's meaning as surely as one removed silently; the logged state is
+recorded separately on the same deletion (so an unlogged lossy deletion
+fails here and in C3's ledger coverage, a logged lossy deletion fails here
+alone, and a logged deletion of redundancy passes both), and on a case
+whose request authorizes cuts (a length-cut case with a target) a lossy
+deletion fails only when the deleted claim is a limitation or a qualifier
+the remaining text depends on, with the dropped secondary claim recorded
+rather than failed. A sentence and a blank counterpart alone make the
 legitimate-bridge and logged-deletion cases indistinguishable from seeded
 violations. Report every pair the judge answers as not the same claim (the verdict, not
 the presence of a negation word: a rewording that keeps its negation, such as
@@ -1333,10 +1365,12 @@ introduced without support, or moved so that the claim's polarity changed),
 any unsupported addition, and any unaccounted deletion as a constraint
 violation with the sentences quoted. The test set carries both kinds of case: seeded violations,
 and an equal number of meaning-preserving rewordings, legitimate bridges built
-from manuscript material, and deletions logged in the rationale, so a judge
-that flags everything cannot pass. The 40 cases are split before any judge output is inspected, under the D3
+from manuscript material, and deletions of redundancy logged in the rationale,
+with the seeded violations including at least three logged deletions that
+drop a limitation or qualifier, so a judge that flags everything cannot
+pass and one that reads a rationale entry as clearance cannot either. The 40 cases are split before any judge output is inspected, under the D3
 protocol: 20 for development, where the rubric may be iterated, and 20 held
-out and evaluated once after the rubric is frozen. D4 also owns the six
+out and evaluated once after the rubric is frozen. D4 also owns the seven
 semantic assertions other tasks route to the judge tier, each with its own
 input contract, verdict schema, and calibrated fixtures, where the fixture
 counts below are the held-out half and an equal development half of the same
@@ -1402,9 +1436,18 @@ paragraphs, the manuscript as a whole, or the author's intent), and bridge
 confirmation for C3 (input: one `Added bridges:` sentence and one Author
 question that quotes no span of it; verdict: the question asks the author to
 confirm that bridge or not; fixtures: ten confirmations in other words and
-ten questions that share the bridge's keywords but ask something else). Done when: on the held-out 20 (10 violations, 10
+ten questions that share the bridge's keywords but ask something else), and
+referent grounding for C2's compact scope assertion (input: one
+`referent-repair-candidate` hunk with its deleted side and the input
+section; verdict: the introduced noun names an antecedent the input
+already describes, or it introduces a thing the input never mentioned;
+fixtures: ten grounded repairs whose noun is absent from the input, such as
+`payment` for a cash incentive the section describes in other words, and
+ten insertions whose noun names something the section never described,
+including near misses that share a topic with the section but name a new
+entity). Done when: on the held-out 20 (10 violations, 10
 legitimate changes) the frozen meaning rubric misses at most one violation
-and flags at most one legitimate change, each of the six additional
+and flags at most one legitimate change, each of the seven additional
 assertions clears the same miss and false-flag bounds on its own held-out
 fixtures, and all rates are recorded with the rubrics alongside the
 development-set rates.
