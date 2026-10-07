@@ -59,8 +59,16 @@ violations for the stage), `flagged_paragraphs` on every
 response-to-reviewers case (the authoritative mapping from each reviewer
 label to the paragraph indices it flags, written by the corpus author, which
 C4 compares against instead of trusting the model's own labels, so a model
-cannot widen its window by declaring every paragraph flagged), and
-`may_return_verbatim` (restraint cases).
+cannot widen its window by declaring every paragraph flagged),
+`expected_variant` (the A3 result variant the case's command and context
+permit, derived at validation time: a plain revision case permits only the
+full or compact contract its command names, and only the B6 scenarios permit
+a clarification, split-and-confirm, decline, or refusal, so an ordinary run
+that emits a clarification to dodge the contract checks fails C2 on the
+variant mismatch), `artifact_repairs` on every localized-extraction case
+(the structured oracle mapping each damaged span to its allowed repaired
+form, which C4 uses to tell a declared repair from an undeclared rewrite),
+and `may_return_verbatim` (restraint cases).
 Each case also carries `expected_passes`: the sweep passes the corpus author
 judges applicable under the gates in the sweep table of `SKILL.md`, including
 the content gates (unfamiliar machinery, statistical machinery, a clarity
@@ -104,7 +112,9 @@ default no-apply rule would otherwise mutate the fixture for every later
 repetition. The trace format is adapter-based: one adapter per agent surface
 maps its tool names to the canonical read and write events, and a surface
 that receives files by injection (the chat condition in E5) records them as
-`injected` provenance, which C3 accepts in place of a read. Runs are resumable and cached, keyed
+`injected` provenance, and C3 marks its reference audit not applicable on
+that surface, since handing the model exactly the expected references gives
+it the answer and leaves nothing to audit. Runs are resumable and cached, keyed
 by a hash of the full case definition (prompt, manuscript, context block,
 expectations), the skill SHA, the model id, the runner configuration, the
 harness's own commit SHA together with a cache-schema version (so a fix to
@@ -147,7 +157,9 @@ manuscript, and the whole-paper diagnoses of `/paper:read` and
 `/paper:consistency`. Read each command file under `.claude/commands/paper/`
 when building the variant's fixture; the command, not this list, is the
 authority on its shape. Only an output matching no variant is
-a graded parse failure, never a crash. The parser also ships the sentence aligner, with one canonical pinned
+a graded parse failure, never a crash; an output whose variant is not the
+case's `expected_variant` parses, and then fails C2 as an unexpected
+variant transition before any contract branch runs. The parser also ships the sentence aligner, with one canonical pinned
 configuration used for every gated result (the algorithm, any embedding
 model and its version, the match threshold, and the split and merge policy,
 recorded in `evals/README.md`; difflib-based by default, with an alternative
@@ -249,9 +261,12 @@ page header) where the required behavior is an artifact-only repair, and one
 marked pervasive where the required behavior is a no-rewrite refusal, so
 each C4 branch has a run to grade; a `style_overrides:` line that permits
 em-dashes; and a scripted repeat round for the across-rounds rule in
-`SKILL.md` (the current file is the author's decision record): the first turn
-revises a section, the scripted reply returns the file with two of the
-suggested edits reverted and one reworded, and the second turn must leave the
+`SKILL.md` (the current file is the author's decision record): the prior
+suggestion is a fixed fixture, not a live first turn (a stored first-round
+transcript plus the author's returned file with two of its edits reverted
+and one reworded, so every model and repetition is graded against the same
+rejected transformations rather than against whatever that run happened to
+propose), and the case tests only the follow-up turn, which must leave the
 author's wording alone; a `/paper:polish` run with the stage stored as
 `response to reviewers`, which must stop and route to `/paper:rebut`; and an
 explicit-apply case whose prompt asks the skill to apply the revision to the
@@ -317,13 +332,17 @@ unmatched sentence without a cue (a new transition, one half of a permitted
 first-draft split) is an ordinary insertion that C3 requires in the change
 ledger, not a bridge, and must not fail this check. A cue hit is a
 candidate, not a verdict: the lexicon over-matches ("Since then, the
-literature has expanded" is no bridge), so C2 records each candidate and
-fails the output only when D4's judge confirms that the candidate states why
-an assumption, identification strategy, or validity claim holds and the line
-omits it; a candidate the judge rejects passes, and until the judge has run
-the candidate is reported as pending, never as a failure. A run that adds a
-confirmed validity argument and prints `Added bridges: None.` fails. No `[P1]`-style label inside
-the block, every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
+literature has expanded" is no bridge). The split keeps C2 deterministic:
+in the fast tier C2 emits a `bridge-candidate-unreported` finding for each
+candidate missing from the line, which is reported but does not gate, and
+the gating assertion lives in the judge tier as a D4 check that fails the
+output only when the judge confirms the candidate states why an assumption,
+identification strategy, or validity claim holds; a candidate the judge
+rejects clears the finding. A run that adds a confirmed validity argument
+and prints `Added bridges: None.` fails the D4 assertion. No editor label
+introduced by the model inside the block (a `[P1]`-style label the input
+already carried, for a proposition or a participant, is the author's and
+stays; only a label absent from the input fails), every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
 to edit (a verbatim paragraph with a tell is itself a failure at `first
 draft`, `final polish`, and quick pass, since the scrub runs over all
 editable text; exempt only text the stage forbids editing, the unflagged
@@ -369,13 +388,15 @@ the override and fails without it.
 Check what the skill says about its own run against what it did:
 - `Word count:` within 15 percent or 10 words of the actual counts, whichever
   is larger (the contract rounds to the nearest 10, so `~10` for 14 words is
-  honest), computed by the convention the skill's Length budget section
+  honest), computed under the convention the skill's Length budget section
   already states (exclude citation commands, math environments, and LaTeX
-  macros) made precise for the grader and written into the output contract
-  by F2 so the agent and the grader count the same way: a macro's command
-  syntax is excluded but a prose argument (`\emph{...}`, `\footnote{...}`,
-  `\textbf{...}`, sectioning) is counted as prose, so macro-heavy LaTeX is
-  not undercounted, and the signed percentage is checked against the range the
+  macros), which is ambiguous about prose arguments, so until F2 writes a
+  precise convention into the output contract the grader computes both
+  readings (macro arguments excluded wholesale; command syntax excluded but
+  prose arguments such as `\emph{...}`, `\footnote{...}`, `\textbf{...}`,
+  and sectioning counted as prose) and accepts a report that matches either
+  within tolerance, recording which one matched, so the E1 baseline does not
+  grade the model against a convention it was never given, and the signed percentage is checked against the range the
   accepted count ranges imply (recompute the percentage from every before
   and after pair inside the two tolerance bands and accept the reported value
   if it falls within the resulting interval, with its sign), so the
@@ -389,7 +410,9 @@ Check what the skill says about its own run against what it did:
   from a phantom one), with no skipped pass and no phantom one, and each named
   file appears in the A2 trace as canonical reads of that path whose ranges
   together cover the whole file (a bounded read of the first screen does not
-  count), or as `injected` provenance on a surface that received the files directly. The
+  count); on a surface that received the files by injection the audit is
+  not applicable and is reported as such (A4's not-applicable state), never
+  as a pass. The
   claim alone is what this check exists to distrust: a model that skips a
   reference and prints its name anyway must fail here, not pass. Where two
   labelers disagree on a case's expected set, the case is tagged ambiguous
@@ -486,9 +509,10 @@ output.
   prose-quality finding (the skill forbids diagnosing the author's prose from
   damaged text, so a style or structure item fails),
   and the raw revised block equals the input after the input alone is
-  normalized by an explicit, case-declared set of artifact repairs (so an
-  output that leaves the damage in place fails, and each declared artifact
-  is separately asserted absent from the revision) (ligature glyphs to their
+  normalized by the case's `artifact_repairs` oracle from A1, the mapping
+  of each damaged span to its allowed repaired form (so an output that
+  leaves the damage in place fails, an undeclared rewrite fails, and each
+  declared artifact is separately asserted absent from the revision) (ligature glyphs to their
   letters, hyphenation across a line break rejoined, a listed page header
   removed, merged-column boundaries), so the damaged sentence is as
   constrained as every other and a rewrite riding along with a ligature fix
@@ -502,10 +526,13 @@ output.
   transformation (the before and after wording and what the edit did, such
   as strengthening a verb or deleting a hedge), and the second turn fails
   when it re-proposes that transformation on that span under any wording
-  ("shows" rejected as "demonstrates" and reoffered as "establishes" fails),
-  judged by D4's judge against the recorded transformation, while unrelated
-  text in the same sentence (a new typo, a separate request) may still
-  change; the reverted edits are not re-proposed
+  ("shows" rejected as "demonstrates" and reoffered as "establishes" fails);
+  the check has a deterministic half in C4, which fails when the rejected
+  span's first-turn wording reappears verbatim or the author's wording in
+  that span is otherwise changed, and a semantic half in the judge tier,
+  a D4 assertion that fails a re-proposal of the recorded transformation
+  under new wording, while unrelated text in the same sentence (a new typo,
+  a separate request) may still change; the reverted edits are not re-proposed
   in the change lines, and the apparent reversion is noted once in `Author
   questions`.
 - On every case whose prompt explicitly asked to apply the revision (an
@@ -741,8 +768,11 @@ routing rules of `/paper:quick` and `/paper:triage` live there), not
 depend on those files and a divergence caused by a missing input says nothing
 about instruction compliance. Each surface gets an A2 trace adapter that
 maps its own tool names to the canonical read and write events, and the chat
-condition records the injected files as `injected` provenance, so the C3
-reference audit judges behavior rather than instrumentation. If a surface
+condition records the injected files as `injected` provenance, and the C3
+reference audit is reported not applicable for that condition rather than
+passed, since the injection supplies the expected set; every other grader
+runs unchanged, so the comparison measures behavior rather than
+instrumentation. If a surface
 cannot take the full set, report that run as a packaging comparison,
 separately. Hold the model and inference configuration fixed across surfaces wherever a
 surface allows it, since two agents on different underlying models would
@@ -925,7 +955,9 @@ B1 -> B2, B3, B4, B5, B6, B7
 C1 extraction core (needs A1, B4) ; C1 claim-local mode (needs A3) -> F2, F3 ; F3 -> F7
 G1 (needs A2, C1 through C6, E3 for the interval rule and a stored baseline)
 C2, C3 (need A3) ; C4 (needs A3, B6) ; C5 (needs A3, B5) ; C6 (needs A3, B3)
-(the sentence aligner is part of A3, so no C grader waits on D4)
+(the sentence aligner is part of A3, so no C grader waits on D4 for its
+deterministic verdict; the semantic halves of the bridge and across-rounds
+checks are D4 assertions in the judge tier, not C-grader dependencies)
 D1 (needs A3 for the aligned-pair rubric) -> D2 -> D3 ; D4 (needs A3, and D3 for the held-out protocol)
 E1 (needs A4, B2 through B6, C1 through C6, D1 through D4) -> E2, E3 -> F1, F6
 E4, E5 (need E1) -> F4
