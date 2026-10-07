@@ -21,6 +21,7 @@ prompt and texts; verdicts saved before this check existed are graded again.
 import argparse
 import hashlib
 import random
+import re
 import shutil
 import sys
 import tempfile
@@ -47,6 +48,27 @@ QUALITY_VERDICTS = ("A", "B", "tie")
 SEVERITY_OF = {"claim_strength": "major", "caveat_or_scope": "major", "new_content": "major",
                "lost_content": "major", "reassigned": "major", "qualifier_word": "minor",
                "voice": "recorded"}
+
+
+def _norm(s):
+    s = s.replace("\u201c", '"').replace("\u201d", '"').replace("\u2018", "'").replace("\u2019", "'")
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _quoted(quote, passage):
+    """True if every part of the quote (split at "..." ellipses) occurs in the passage,
+    ignoring whitespace and curly-versus-straight quote marks."""
+    src = _norm(passage)
+    return all(part.strip() in src for part in re.split(r"\.\.\.|\u2026", _norm(quote)) if part.strip())
+
+
+def meaning_validator(original, revised):
+    """valid_meaning, plus: every quote must come from its passage, as the prompt requires."""
+    def valid(parsed):
+        return valid_meaning(parsed) and all(
+            _quoted(p.get("original_quote") or "", original) and _quoted(p.get("revised_quote") or "", revised)
+            for p in parsed["problems"])
+    return valid
 
 
 def valid_meaning(parsed):
@@ -147,10 +169,11 @@ def grade_run(case_id, original, run_dir, model, do_meaning, force):
         prior = run_dir / "code_and_meaning.json"
         out["meaning"] = read_json(prior).get("meaning") if prior.exists() else None  # keep earlier verdicts
         prompt = fill((EVALS / "prompts" / "meaning_grader.md").read_text(), ORIGINAL=original, REVISED=revised)
-        done = (valid_meaning((out["meaning"] or {}).get("parsed"))
+        valid = meaning_validator(original, revised)
+        done = (valid((out["meaning"] or {}).get("parsed"))
                 and (out["meaning"] or {}).get("key") == grader_key(prompt, model))
         if do_meaning and (force or not done):
-            out["meaning"] = {**model_json(prompt, model, valid_meaning), "rubric": rubric_version()}
+            out["meaning"] = {**model_json(prompt, model, valid), "rubric": rubric_version()}
     write_json(run_dir / "code_and_meaning.json", out)
     # skill-creator compatible grading.json
     exps = [{"text": "Protected content unchanged (code grader)", "passed": out["code"]["passed"],

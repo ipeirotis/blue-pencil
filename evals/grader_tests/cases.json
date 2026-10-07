@@ -16,7 +16,8 @@
     "refs": "As Section IV shows, the dose of 10 mg per kg raised scores from 0.31 to 0.47, and $5 \\in S$ holds.",
     "suffixed": "The dose was 5 mg\u201310 mg, the share 5%\u201310%, and the report calls this 'robust'; use ``a ` b`` here.",
     "latex_misc": "The estimate is 5 ± 2 and $5x$ grows. % TODO verify cohort\nAbout 5% of firms agree.",
-    "narrative": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}"
+    "narrative": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
+    "leads": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item"
   },
   "variants": [
     {
@@ -594,6 +595,60 @@
       "damage_type": "markup changed",
       "code_grader_should_flag": true,
       "note": "Markdown image turned into a link."
+    },
+    {
+      "id": "leads-harmless-1",
+      "base": "leads",
+      "revised": "The loss was $-5 at p = .05, which is \\textbf{crucial}, as Smith (2020) showed.\n\n1. First item\n2. Second item",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; bold text reworded."
+    },
+    {
+      "id": "leads-cite-after-as-changed",
+      "base": "leads",
+      "revised": "As Jones (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
+      "verdict": "damaged",
+      "damage_type": "citation author changed",
+      "code_grader_should_flag": true,
+      "note": "Author after a leading 'As' changed."
+    },
+    {
+      "id": "leads-negative-currency-dropped",
+      "base": "leads",
+      "revised": "As Smith (2020) showed, the loss was -5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Currency sign dropped from a negative amount."
+    },
+    {
+      "id": "leads-decimal-equation-changed",
+      "base": "leads",
+      "revised": "As Smith (2020) showed, the loss was $-5 at q = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Variable in a bare equation with a leading-decimal operand changed."
+    },
+    {
+      "id": "leads-macro-braces-dropped",
+      "base": "leads",
+      "revised": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf important.\n\n1. First item\n2. Second item",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Braces of a prose macro removed."
+    },
+    {
+      "id": "leads-ordered-list-dropped",
+      "base": "leads",
+      "revised": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1 First item\n2 Second item",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Ordered-list delimiters removed."
     }
   ]
 }

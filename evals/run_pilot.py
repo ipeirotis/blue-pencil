@@ -129,7 +129,8 @@ def runner_fingerprint():
     """Hash of the code that decides what a trial is: how the prompt is built, how the
     workspace is set up, how the revision is extracted, and how skill loading is judged."""
     import lib
-    parts = [inspect.getsource(f) for f in (build_prompt, lib.make_workspace, lib.extract_revised,
+    parts = [inspect.getsource(f) for f in (build_prompt, run_trial, completed, lib.make_workspace,
+                                            lib.extract_revised,
                                             lib._fenced_block, lib.skill_was_loaded, lib.call_claude)]
     return hashlib.sha256("\n".join(parts).encode()).hexdigest()[:16]
 
@@ -178,7 +179,7 @@ def main():
     args = ap.parse_args()
 
     catalog = {c["id"]: c for c in read_json(EVALS / "cases" / "cases.json")["cases"]}
-    ids = args.cases or list(catalog)
+    ids = list(dict.fromkeys(args.cases or catalog))  # each case once, in order
     cases = [load_case(i, catalog.get(i, {}).get("source")) for i in ids]
     out_root = EVALS / "results" / args.run_id
     jobs = [(c, cond, n) for c in cases for cond in CONDITIONS for n in range(1, args.runs + 1)]

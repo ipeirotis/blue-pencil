@@ -81,10 +81,11 @@ _NUMBER_RE = re.compile(
     # A range with a hyphen, en dash, or em dash ("1.2-3.4", "1.2\u20133.4") is one ordered token.
     # "1 to 2" is a range too, and either endpoint may carry a sign ("\u22123\u2013\u22121").
     # The first endpoint may carry its own suffix ("5%\u201310%", "5 mg\u201310 mg").
-    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM
+    # A sign may also follow the currency sign ("$-5", "\u20ac\u22125").
+    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?(?:[+-]|" + UMIN + r")?" + _NUM
     # An estimate with its uncertainty ("5 \u00b1 2") is one ordered token too.
     + r"(?:(?:%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?"
-    + r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM + r")?"
+    + r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
     r"(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?",
@@ -121,7 +122,7 @@ _NUMCITE_RE = re.compile(r"\[ ?[0-9]+(?: ?[,;\u2013-] ?[0-9]+)* ?\]")
 # Bare ASCII equations and comparisons outside math delimiters ("x > y", "a+b=c",
 # "n = 412"): operands of at most two letters or a number, joined by = < > + * / ^.
 # Whitespace is dropped from the token, so only a change of operand or operator counts.
-_EQ_OPERAND = r"(?:[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?)"
+_EQ_OPERAND = r"(?:[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 _EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?: ?(?:<=|>=|!=|==|[=<>+*/^]) ?"
                           + _EQ_OPERAND + r")+(?![\w])")
 
@@ -143,7 +144,7 @@ def _dollar_math(flat):
         # "$5x$": a letter right after the leading number is a variable, so it is math.
         # A slash before a unit word ("$5/kg") is a price, not division.
         inner = re.sub(r"/[A-Za-z]+\b", "", t[1:-1])
-        if (not t.startswith("$$") and re.match(r"\$[0-9][0-9,.]*(?![0-9,.A-Za-z])", t)
+        if (not t.startswith("$$") and re.match(r"\$[-+\u2212]?[0-9][0-9,.]*(?![0-9,.A-Za-z])", t)
                 and not re.search(r"[\\^_{}=<>+*/]", inner)):
             pos = m.start() + 1
             continue
@@ -167,6 +168,19 @@ _NARRATIVE_CITE = re.compile(_NAME + r"(?:,? " + _NAME + r")* \([12][0-9]{3}[a-z
 _NARRATIVE_RUN = re.compile(_NARRATIVE_CITE.pattern + r"(?:(?:;|,|,? and) " + _NARRATIVE_CITE.pattern + r")+")
 
 
+def _strip_lead(t):
+    """Drop leading words that are not names ("As Smith (2020)" -> "Smith (2020)").
+
+    If nothing name-like is left ("In March 2020", "The 2019"), the match is a date,
+    not a citation, and "" is returned."""
+    while True:
+        m = _DATE_LEAD.match(t)
+        if not m:
+            break
+        t = t[m.end():]
+    return t if re.match(_NAME, t) and not re.match(r"(?:and|et|al\.?|&)\b", t) else ""
+
+
 def _citation_groups(flat):
     """Ordered author-year groups inside one parenthetical, e.g. (A 2006; B 2008).
 
@@ -176,14 +190,14 @@ def _citation_groups(flat):
     groups = []
     for span in re.findall(r"\(([^()]*[12][0-9]{3}[^()]*)\)", flat):
         toks = [t.replace("(", "").replace(")", "").strip(", ")
-                for t in _AY_PAT.findall(span) if not _DATE_LEAD.match(t)]
+                for t in map(_strip_lead, _AY_PAT.findall(span)) if t]
         if len(toks) >= 2:
             groups.append(tuple(toks))
     # Narrative citations next to each other, "Smith (2020); Jones (2021)" or
     # "Smith (2020) and Jones (2021)", are an ordered group too.
     for run in _NARRATIVE_RUN.finditer(flat):
         toks = [t.replace("(", "").replace(")", "").strip(", ")
-                for t in _NARRATIVE_CITE.findall(run.group(0)) if not _DATE_LEAD.match(t)]
+                for t in map(_strip_lead, _NARRATIVE_CITE.findall(run.group(0))) if t]
         if len(toks) >= 2:
             groups.append(tuple(toks))
     return groups
@@ -213,7 +227,14 @@ def _macros(text):
         tok, rest_i = m.group(0), m.end()
         name = tok.lstrip("\\").rstrip("*")
         if name in _PROSE_MACROS:
-            out.append(tok)
+            # The argument is editable prose, but its delimiters are markup: record
+            # whether an optional [..] and a {..} follow ("\\textbf{}" vs "\\textbf").
+            j, shape = rest_i, ""
+            if text[j:j + 1] == "[" and text.find("]", j) != -1:
+                shape, j = "[]", text.find("]", j) + 1
+            if text[j:j + 1] == "{":
+                shape += "{}"
+            out.append(tok + shape)
             pos = rest_i
             continue
         while True:
@@ -284,7 +305,7 @@ def tokens(cls, raw, flat):
         pat = (_NAME + r"(?:,? " + _NAME + r")*,? \(?[12][0-9]{3}[a-z]?\)?")
         # Parentheses and trailing commas are stripped so that reordering a citation group,
         # "(A 2006; B 2008)" to "(B 2008; A 2006)", is not mistaken for a changed citation.
-        found = [t for t in re.findall(pat, flat) if not _DATE_LEAD.match(t)]
+        found = [t for t in map(_strip_lead, re.findall(pat, flat)) if t]
         return [t.replace("(", "").replace(")", "").strip(", ") for t in found]
     if cls == "crossrefs":
         return re.findall(
@@ -340,6 +361,9 @@ def tokens(cls, raw, flat):
         out += re.findall(r"(?<![0-9\\\s])\s+(%.*)$", raw, re.M)
         out += re.findall(r"^#{1,6} ", raw, re.M)
         out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers
+        # Ordered-list markers ("1.", "2)"); at most three digits, so a hard-wrapped line
+        # that starts with a year ("2006). Moreover") is not taken for a list item.
+        out += [m.strip() for m in re.findall(r"^\s*[0-9]{1,3}[.)] ", raw, re.M)]
         return out
     if cls == "code":
         # Fenced blocks (~~~ or ```) first, each whole block as one token so reordering
