@@ -52,6 +52,7 @@ _DATE_LEAD = re.compile(
 
 # A number, with any scientific-notation exponent kept in the same token ("2e10", "1.5E-3",
 # "6 \u00d7 10^23", "6\u00d710\u00b2\u00b3", "10^5"), so changing the mantissa or the exponent is caught.
+_SUPDIG = "[\u2070\u00b9\u00b2\u00b3\u2074-\u2079]"
 _SUP = "[\u207a\u207b\u2212]?[\u2070\u00b9\u00b2\u00b3\u2074-\u2079]+"
 _NUM = (r"(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
         r"(?:[eE][+\u2212-]?[0-9]+|\^[+\u2212-]?[0-9]+|" + _SUP + "|"
@@ -92,9 +93,9 @@ _NUMBER_RE = re.compile(
     # A sign may also follow the currency sign ("$-5", "\u20ac\u22125").
     r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM
     # An estimate with its uncertainty ("5 \u00b1 2") is one ordered token too.
-    + r"(?:(?:%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?"
+    + r"(?:(?: ?%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?"
     + r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
-    r"(?:[/:]" + _NUM + r")*%?"
+    r"(?:[/:]" + _NUM + r")*(?: ?%)?"  # SI style puts a space before % ("5 %")
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?"
     # A rate's denominator stays with the number: "$5 per kg", "10 kilometers per hour".
@@ -145,7 +146,8 @@ _IDENT = r"[A-Za-z][A-Za-z0-9_]*"
 # A Greek, letterlike, or math-alphanumeric symbol is an operand too ("\u03b1 = \u03b2").
 _USYM = "[\u0391-\u03a9\u03b1-\u03c9\u03d1\u03d5\u03f5\u2100-\u214f\U0001d400-\U0001d7ff][A-Za-z0-9_]*"
 # A numeric operand may carry a sign and an exponent ("x = -5", "x = 2e10").
-_REL_OPERAND = (r"(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + r"|(?:[+-]|\u2212)?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
+_GROUP = r"\((?:[^()\n]|\([^()\n]*\)){1,60}\)"  # a parenthesized side, "x = (a + b)"
+_REL_OPERAND = (r"(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|" + _GROUP + r"|(?:[+-]|\u2212)?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
                 r"(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
 _ARITH_OP = r"(?: ?[+*/^\u2212] ?| - )"
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
@@ -378,7 +380,9 @@ def tokens(cls, raw, flat):
         return re.findall(
             r"\\[Cc]ite[a-zA-Z]*\*? ?(?:\[[^\]]*\] ?)*\{[^}]*\}|\[[^\]@]*@[^\]]*\]|"
             r"-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(?:\.[A-Za-z0-9_:-]+)*", flat) + [
-            re.sub(r" ", "", t).replace("\u2013", "-") for t in _NUMCITE_RE.findall(flat)]
+            re.sub(r" ", "", t).replace("\u2013", "-") for t in _NUMCITE_RE.findall(flat)] + (
+            # Superscript citation runs ("work\u00b9,\u00b2", "\u00b9\u207b\u00b3") are one ordered token.
+            re.findall(_SUPDIG + r"+(?:[,\u2013\u207b-]" + _SUPDIG + r"+)+", flat))
     if cls == "authoryear":
         pat = _AY_PAT
         # Parentheses and trailing commas are stripped so that reordering a citation group,
@@ -452,6 +456,8 @@ def tokens(cls, raw, flat):
         out += [h + " " for h in re.findall(r"^ {0,3}(#{1,6}) ", raw, re.M)]  # up to 3 spaces of indent
         # Setext heading underlines ("=====", "-----"), kept as their character only.
         out += [m[0] for m in re.findall(r"^ {0,3}(=+|-{3,})[ \t]*$", raw, re.M)]
+        # Thematic breaks ("***", "___", "* * *"), kept as their character only.
+        out += re.findall(r"^ {0,3}([*_])(?:[ \t]*\1){2,}[ \t]*$", raw, re.M)
         out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers
         # Ordered-list markers ("1.", "2)"); at most three digits, so a hard-wrapped line
         # that starts with a year ("2006). Moreover") is not taken for a list item.
@@ -495,6 +501,7 @@ def tokens(cls, raw, flat):
             # Words ("Less than", "Percent", "Million") are compared case-blind; unit symbols,
             # which are at most two letters in a row, keep their case so mM is not mm.
             tok = re.sub(r"[A-Za-z]{3,}", lambda w: w.group(0).lower(), tok).replace("\u00b5", "\u03bc")
+            tok = re.sub(r"(?<=[0-9]) %", "%", tok)  # "5 %" and "5%" are the same value
             out.append(tok)
         return out
     if cls == "numberwords":

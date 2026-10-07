@@ -126,8 +126,13 @@ def valid_quality(parsed):
     dims, ev = parsed.get("dimensions"), parsed.get("evidence")
     if not isinstance(dims, dict) or set(dims) != set(DIMENSIONS) or not isinstance(ev, dict):
         return False
-    return (all(v in QUALITY_VERDICTS for v in dims.values()) and _text(parsed.get("reasoning"))
-            and all(_text(ev.get(k)) for k, v in dims.items() if v != "tie"))
+    if not (all(v in QUALITY_VERDICTS for v in dims.values()) and _text(parsed.get("reasoning"))
+            and all(_text(ev.get(k)) for k, v in dims.items() if v != "tie")):
+        return False
+    # An overall winner that no dimension favors while some dimension favors the other
+    # version contradicts the reply's own dimensions.
+    other = {"A": "B", "B": "A"}.get(parsed["overall"])
+    return not (other and parsed["overall"] not in dims.values() and other in dims.values())
 
 
 def quality_validator(version_a, version_b):

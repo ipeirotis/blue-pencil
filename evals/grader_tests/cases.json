@@ -25,7 +25,8 @@
     "misc16": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
     "misc17": "The estimate was x = -5 and rate = 2e10.\n\n>quoted source text",
     "misc18": "We have x ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees.",
-    "misc19": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first."
+    "misc19": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
+    "misc20": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part."
   },
   "variants": [
     {
@@ -1017,6 +1018,51 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Contents of an inline verbatim command changed."
+    },
+    {
+      "id": "misc20-spaced-percent-dropped",
+      "base": "misc20",
+      "revised": "The response rate was 5, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Percent sign after a space removed."
+    },
+    {
+      "id": "misc20-spaced-percent-closed",
+      "base": "misc20",
+      "revised": "The response rate was 5%, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Space before the percent sign removed; same value."
+    },
+    {
+      "id": "misc20-grouped-operand-renamed",
+      "base": "misc20",
+      "revised": "The response rate was 5 %, and y = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable equated to a parenthesized expression renamed."
+    },
+    {
+      "id": "misc20-superscript-citations-reordered",
+      "base": "misc20",
+      "revised": "The response rate was 5 %, and x = (a + b) holds, as prior work²,¹ shows.\n\n***\n\nNext part.",
+      "verdict": "damaged",
+      "damage_type": "citation order changed",
+      "code_grader_should_flag": true,
+      "note": "Superscript citation run reordered."
+    },
+    {
+      "id": "misc20-thematic-break-removed",
+      "base": "misc20",
+      "revised": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\nNext part.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Thematic break removed."
     }
   ]
 }
