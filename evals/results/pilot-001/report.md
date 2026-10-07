@@ -5,6 +5,7 @@
 - Cases: exposition-introduction, exposition-methods, exposition-results, worked-example; 3 runs per condition per case
 - Rubric: `evals/rubric.md` v0.2. Revision stage: first draft.
 - **Caveat:** this run predates equal workspaces: only the with-skill workspace held AGENTS.md with the paper context (both prompts included it), so the conditions differ in that as well as in the skill. Rerun under a new run id to isolate the skill.
+- **Caveat:** 12 with-skill runs predate held-out examples: their workspace also held the example file the case was built from, which contains an authored revision of the same passage. No tool call in their transcripts named an example file.
 
 ## 1. Preservation (all cases)
 

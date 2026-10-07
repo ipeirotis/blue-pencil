@@ -19,6 +19,7 @@ prompt and texts; verdicts saved before this check existed are graded again.
 """
 
 import argparse
+import functools
 import hashlib
 import random
 import re
@@ -28,8 +29,8 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from lib import (EVALS, GRADER_MODEL, call_claude, changed_cases, extract_json, read_json,
-                 rubric_version, write_json)
+from lib import (EVALS, GRADER_MODEL, call_claude, changed_cases, claude_version, extract_json,
+                 outside_reads, read_json, rubric_version, write_json)
 from protected import check
 
 GRADER_FLAGS = ["--setting-sources", "project", "--disable-slash-commands", "--tools", ""]
@@ -159,6 +160,23 @@ def quality_validator(version_a, version_b):
     return valid
 
 
+@functools.lru_cache(maxsize=None)
+def _grader_env():
+    return (tuple(GRADER_FLAGS), claude_version())
+
+
+def grader_env():
+    """The grading session's flags and Claude Code version, saved with each verdict."""
+    flags, version = _grader_env()
+    return {"flags": list(flags), "claude_code_version": version}
+
+
+def same_env(saved):
+    """A saved verdict is reused only under the same grader environment. Verdicts saved
+    before the environment was recorded are kept; the report says when kinds are mixed."""
+    return (saved or {}).get("env", grader_env()) == grader_env()
+
+
 def grader_key(prompt, model):
     """Cache key for a saved verdict: the requested model and the full filled-in prompt
     (template, original, and revised text). A saved verdict is reused only if it matches."""
@@ -178,7 +196,7 @@ def model_json(prompt, model, valid):
             res = call_claude(prompt, model, ws, GRADER_FLAGS)
             parsed = extract_json(res["text"])
             ok = valid(parsed)
-            last = {"parsed": parsed if ok else None, "key": grader_key(prompt, model),
+            last = {"parsed": parsed if ok else None, "key": grader_key(prompt, model), "env": grader_env(),
                     "requested_model": model, "raw": res["text"], "cost_usd": res["cost_usd"],
                     "seconds": res["seconds"], "models": list(res["model_usage"].keys())}
             if not ok:
@@ -216,7 +234,7 @@ def grade_run(case_id, original, run_dir, model, do_meaning, force):
         prompt = fill((EVALS / "prompts" / "meaning_grader.md").read_text(), ORIGINAL=original, REVISED=revised)
         valid = meaning_validator(original, revised)
         done = (valid((out["meaning"] or {}).get("parsed"))
-                and (out["meaning"] or {}).get("key") == grader_key(prompt, model))
+                and (out["meaning"] or {}).get("key") == grader_key(prompt, model) and same_env(out["meaning"]))
         if do_meaning and (force or not done):
             out["meaning"] = {**model_json(prompt, model, valid), "rubric": rubric_version()}
     write_json(run_dir / "code_and_meaning.json", out)
@@ -253,7 +271,7 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
     if prior.exists() and not force:
         old = read_json(prior)
         if all(valid((o["grader"] or {}).get("parsed"))
-               and (o["grader"] or {}).get("key") == grader_key(prompt, model)
+               and (o["grader"] or {}).get("key") == grader_key(prompt, model) and same_env(o["grader"])
                for o, (_, _, prompt, valid) in zip(old["orders"], plan)):
             return old  # already judged with this model and prompt; do not spend model calls again
     orders = []
@@ -275,11 +293,13 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
 
 
 def _valid_trial(rd, cond):
-    """The trials report.py counts: finished without error and, with the skill, loaded it."""
+    """The trials report.py counts: finished without error and, with the skill, loaded it
+    and read nothing outside its workspace."""
     if not (rd / "trial.json").exists():
         return False
     t = read_json(rd / "trial.json")
-    return not t.get("is_error") and (cond != "with_skill" or t.get("skill_loaded") is True)
+    return not t.get("is_error") and (cond != "with_skill" or (
+        t.get("skill_loaded") is True and not outside_reads(rd)))
 
 
 def main():

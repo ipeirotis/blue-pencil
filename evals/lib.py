@@ -271,6 +271,14 @@ def skill_was_loaded(events, workspace):
     return bool(calls & ok)
 
 
+def outside_reads(run_dir):
+    """reads_outside_workspace for a saved trial's transcript ([] when there is none)."""
+    p = Path(run_dir) / "transcript.jsonl"
+    if not p.exists():
+        return []
+    return reads_outside_workspace([json.loads(ln) for ln in p.read_text().splitlines() if ln.strip()])
+
+
 def reads_outside_workspace(events):
     """Paths that Read, Grep, or Glob calls touched outside the trial's own workspace.
 

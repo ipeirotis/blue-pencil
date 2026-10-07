@@ -40,7 +40,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from lib import (EVALS, EXECUTOR_MODEL, call_claude, case_fingerprint, claude_version,
-                 extract_revised, git_sha, make_workspace, read_json, skill_fingerprint,
+                 extract_revised, git_sha, make_workspace, outside_reads, read_json, skill_fingerprint,
                  skill_version, skill_was_loaded, total_tokens, write_json)
 
 CONDITIONS = ("with_skill", "without_skill")
@@ -79,11 +79,19 @@ def build_prompt(case, condition):
 
 def completed(run_dir, condition):
     """A trial counts as done only if it produced a revision without an error and,
-    with the skill, actually loaded Blue Pencil. Anything else is run again."""
+    with the skill, actually loaded Blue Pencil and read nothing outside its workspace
+    (such as the repository's own examples). Anything else is run again."""
     if not (run_dir / "outputs" / "revised.txt").exists() or not (run_dir / "trial.json").exists():
         return False
     t = read_json(run_dir / "trial.json")
-    return not t.get("is_error") and (condition != "with_skill" or t.get("skill_loaded") is True)
+    return not t.get("is_error") and (condition != "with_skill" or (
+        t.get("skill_loaded") is True and not outside_reads(run_dir)))
+
+
+def held_out_for(case):
+    """The example files left out of the with-skill workspace: the one the case was built from."""
+    source = case["source"] or ""
+    return [source.split("/", 1)[1]] if source.startswith("examples/") else []
 
 
 def run_trial(case, condition, n, out_root, model, provenance):
@@ -96,8 +104,7 @@ def run_trial(case, condition, n, out_root, model, provenance):
     (run_dir / "outputs").mkdir(parents=True, exist_ok=True)
     prompt = build_prompt(case, condition)
     (run_dir / "prompt.txt").write_text(prompt)
-    source = case["source"] or ""
-    held_out = [source.split("/", 1)[1]] if source.startswith("examples/") else []
+    held_out = held_out_for(case)
     ws = make_workspace(condition == "with_skill", case["context"], held_out)
     try:
         res = call_claude(prompt, model, ws, FLAGS[condition], stream=True)
@@ -131,7 +138,8 @@ def runner_fingerprint():
     """Hash of the code that decides what a trial is: how the prompt is built, how the
     workspace is set up, how the revision is extracted, and how skill loading is judged."""
     import lib
-    parts = [inspect.getsource(f) for f in (build_prompt, run_trial, completed, lib.make_workspace,
+    parts = [inspect.getsource(f) for f in (build_prompt, run_trial, completed, held_out_for,
+                                            lib.outside_reads, lib.reads_outside_workspace, lib.make_workspace,
                                             lib.extract_revised,
                                             lib._fenced_block, lib._fence_lines, lib.skill_was_loaded, lib.call_claude)]
     return hashlib.sha256("\n".join(parts).encode()).hexdigest()[:16]
@@ -211,10 +219,15 @@ def main():
     provenance = {"started": now, "repo_commit": git_sha(), **config}
     meta_path = out_root / "run_meta.json"
     if meta_path.exists():
-        # A case verifies only if it has saved prompts and every one matches.
+        # A case verifies only if it has saved prompts and every one matches, and every
+        # with-skill trial recorded the same held-out example the case would hold out now
+        # (the source file is not part of the prompt).
         saved = {c["id"]: list((out_root / f"eval-{c['id']}").glob("*/run-*/prompt.txt")) for c in cases}
         verified = {c["id"] for c in cases if saved[c["id"]] and all(
-            p.read_text() == build_prompt(c, p.parent.parent.name) for p in saved[c["id"]])}
+            p.read_text() == build_prompt(c, p.parent.parent.name) and (
+                p.parent.parent.name != "with_skill" or (p.parent / "trial.json").exists()
+                and read_json(p.parent / "trial.json").get("held_out_examples") == held_out_for(c))
+            for p in saved[c["id"]])}
         meta = resume_meta(read_json(meta_path), config, provenance, ids, args.runs, args.allow_mixed, verified)
     else:
         meta = {"run_id": args.run_id, "started": now, **config, "repo_commit": provenance["repo_commit"],

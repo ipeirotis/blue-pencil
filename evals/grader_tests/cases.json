@@ -39,7 +39,8 @@
     "misc30": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
     "misc31": "The map is x → y, consumption was 5 MWh, and Smith [2020] called it \"the treatment group\".",
     "misc32": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports.",
-    "misc33": "One might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples."
+    "misc33": "One might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples.",
+    "misc34": "[P1] supports the claim that x ≲ y. <!-- check with coauthor --> The bound is tight."
   },
   "variants": [
     {
@@ -1598,6 +1599,42 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Pronoun 'one' replaced; no number changed."
+    },
+    {
+      "id": "misc34-leading-label-changed",
+      "base": "misc34",
+      "revised": "[P2] supports the claim that x ≲ y. <!-- check with coauthor --> The bound is tight.",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Line-leading bracketed citation in the original changed."
+    },
+    {
+      "id": "misc34-approx-operand-changed",
+      "base": "misc34",
+      "revised": "[P1] supports the claim that z ≲ y. <!-- check with coauthor --> The bound is tight.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of an approximate inequality changed."
+    },
+    {
+      "id": "misc34-html-comment-dropped",
+      "base": "misc34",
+      "revised": "[P1] supports the claim that x ≲ y. The bound is tight.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "HTML comment removed."
+    },
+    {
+      "id": "misc34-prose-edited",
+      "base": "misc34",
+      "revised": "[P1] supports the claim that x ≲ y. <!-- check with coauthor --> This bound is tight.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose edit outside the protected spans."
     }
   ]
 }

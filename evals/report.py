@@ -38,6 +38,8 @@ def invalid_reason(r, cond):
         return "claude -p reported an error"
     if cond == "with_skill" and r["trial"].get("skill_loaded") is not True:
         return "Blue Pencil was not loaded, or loading was not recorded"
+    if cond == "with_skill" and r["outside"]:
+        return "read or listed files outside its workspace: " + ", ".join(r["outside"])
     return None
 
 
@@ -51,11 +53,16 @@ def load(root):
                 tr = read_json(rd / "trial.json") if (rd / "trial.json").exists() else {}
                 tm = read_json(rd / "timing.json") if (rd / "timing.json").exists() else {}
                 n = int(rd.name.split("-")[1])
-                outside = []
+                outside, examples = [], False
                 if cond == "with_skill" and (rd / "transcript.jsonl").exists():
                     events = [json.loads(ln) for ln in (rd / "transcript.jsonl").read_text().splitlines() if ln.strip()]
                     outside = reads_outside_workspace(events)
-                runs[cond].append({"case": cid, "n": n, "cm": cm, "trial": tr, "timing": tm, "outside": outside})
+                    # Did any tool call name an example file (for runs made before held-out examples)?
+                    examples = any(item.get("type") == "tool_use" and "examples" in json.dumps(item.get("input"))
+                                   for e in events for item in (e.get("message", {}).get("content") or [])
+                                   if isinstance(item, dict))
+                runs[cond].append({"case": cid, "n": n, "cm": cm, "trial": tr, "timing": tm, "outside": outside,
+                                   "examples": examples})
     pairs = []
     for f in sorted(root.glob("eval-*/comparison-run-*.json")):
         pairs.append(read_json(f))
@@ -141,15 +148,23 @@ def run_counts(runs):
         f"{case} " + ", ".join(f"{c} {n[(case, c)]}" for c in CONDS) for case in cases)
 
 
+def _verdicts(runs, pairs):
+    """Every saved grader reply: meaning verdicts and both orders of each head-to-head."""
+    return ([r["cm"]["meaning"] for c in CONDS for r in runs[c] if r["cm"] and r["cm"].get("meaning")]
+            + [o["grader"] for p in pairs for o in p.get("orders", []) if o.get("grader")])
+
+
 def _pair_texts(sheet):
-    """The texts shown for each pair on a review sheet ("## case/run-n" sections),
-    without the line where the reviewer writes verdicts."""
+    """The texts shown for each pair on a review sheet ("## case/run-n" sections), up to
+    the line where the reviewer writes verdicts; anything the reviewer adds is left out."""
     out, pid = {}, None
     for ln in sheet.splitlines():
         if re.fullmatch(r"## \S+/run-[0-9]+", ln):  # pair headers only, not headings in a passage
             pid = ln[3:].strip()
             out[pid] = []
-        elif pid and not ln.startswith("Better written"):
+        elif ln.startswith("Better written"):
+            pid = None
+        elif pid:
             out[pid].append(ln)
     return {k: "\n".join(v).strip() for k, v in out.items()}
 
@@ -199,14 +214,19 @@ def main():
         L.append("- **Caveat:** this run predates equal workspaces: only the with-skill workspace held "
                  "AGENTS.md with the paper context (both prompts included it), so the conditions differ "
                  "in that as well as in the skill. Rerun under a new run id to isolate the skill.")
-    leaky = [r for r in runs["with_skill"] if r["outside"]]
-    if leaky:
-        # Not excluded (that would remove most of a run made before the isolation fix), but
-        # the reader must know these trials were not limited to the recorded skill files.
-        L.append(f"- **Caveat:** {len(leaky)} of {len(runs['with_skill'])} with-skill runs read or listed files "
-                 "outside their workspace (such as Blue Pencil copies in the home directory), so they were "
-                 "not limited to the skill files this run recorded: "
-                 + "; ".join(f"{r['case']} run {r['n']} ({', '.join(r['outside'])})" for r in leaky))
+    # Trials that read outside their workspace are not counted (see invalid_reason).
+    legacy = [r for r in runs["with_skill"] if r["trial"] and "held_out_examples" not in r["trial"]]
+    if legacy:
+        touched = [f"{r['case']} run {r['n']}" for r in legacy if r["examples"]]
+        L.append(f"- **Caveat:** {len(legacy)} with-skill runs predate held-out examples: their workspace "
+                 "also held the example file the case was built from, which contains an authored revision "
+                 "of the same passage. " + (f"Tool calls in these runs named example files: {', '.join(touched)}."
+                                            if touched else "No tool call in their transcripts named an example file."))
+    envs = [json.dumps(g.get("env"), sort_keys=True) for g in _verdicts(runs, pairs)]
+    if len(set(envs)) > 1:
+        L.append("- **Caveat:** the saved verdicts come from more than one grader environment (flags or "
+                 "Claude Code version; \"null\" means not recorded): "
+                 + "; ".join(f"{e} ({envs.count(e)})" for e in sorted(set(envs))))
     if ungraded:
         L.append(f"- {len(ungraded)} head-to-head pairs have no valid quality verdict and are left out: "
                  + ", ".join(f"{p['case']} run {p['run']}" for p in ungraded))

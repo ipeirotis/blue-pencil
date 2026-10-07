@@ -169,7 +169,7 @@ _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|
 _ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213] ?| - )"  # also times, dots, divide, plus-minus
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
-_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c\u223c\u2243\u2245\u2192\u2190\u2194\u21d2\u21d0\u21d4\u21a6"  # also arrows
+_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c\u223c\u2243\u2245\u2192\u2190\u2194\u21d2\u21d0\u21d4\u21a6\u2272\u2273\u227a\u227b\u227c\u227d"  # also arrows, \u2272 \u2273, \u227a \u227b
 # A spaced ASCII tilde is "distributed as" ("x ~ N(0, 1)"); an unspaced one is a LaTeX tie.
 _REL_OP = r"(?: ?(?:<=|>=|!=|==|:=|=:|[=<>" + _UREL + r"]) ?| ~ )"  # also definitions, ":=", "=:"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
@@ -552,8 +552,8 @@ def tokens(cls, raw, flat):
         # Thematic breaks ("***", "___", "* * *"), kept as their character only.
         out += re.findall(r"^ {0,3}([*_])(?:[ \t]*\1){2,}[ \t]*$", raw, re.M)
         out += _list_markers(raw)
-        # Inline HTML tags ("<em>", "</em>", "<br>"), whitespace normalized.
-        out += [re.sub(r"\s+", " ", t) for t in _HTML_TAG_RE.findall(raw)]
+        # Inline HTML tags ("<em>", "</em>", "<br>") and HTML comments, whitespace normalized.
+        out += [re.sub(r"\s+", " ", t) for t in _HTML_TAG_RE.findall(raw) + re.findall(r"<!--.*?-->", raw, re.S)]
         return out
     if cls == "code":
         # Fenced blocks (~~~ or ```) first, each whole block as one token so reordering
@@ -623,8 +623,13 @@ def tokens(cls, raw, flat):
     raise ValueError(cls)
 
 
+_PARA_LABEL = r"^\[[PR][0-9]+(?:\.[0-9]+)?\] ?"
+
+
 def _prep(text):
-    text = re.sub(r"^\[[PR][0-9]+(\.[0-9]+)?\] ?", "", text, flags=re.M)
+    # Line-leading "[P1]" paragraph labels (and "[R1]" reviewer points) mark the passage's
+    # paragraphs; a revision may drop them, so they are compared separately (see check).
+    text = re.sub(_PARA_LABEL, "", text, flags=re.M)
     flat = re.sub(r"\s+", " ", text).strip()
     return text, flat
 
@@ -641,6 +646,11 @@ def check(original, revised):
         added = sorted((b - a).elements())
         if removed or added:
             diffs[cls] = {"removed": removed, "added": added}
+    # Paragraph labels: a revision may drop them all, but labels it keeps must be the
+    # original's, in order ("[P1]" changed to "[P2]" is caught).
+    labels = [re.findall(r"^\[[PR][0-9]+(?:\.[0-9]+)?\]", x, re.M) for x in (original, revised)]
+    if labels[1] and labels[1] != labels[0]:
+        diffs["paragraph_labels"] = {"removed": labels[0], "added": labels[1]}
     # Citation order: the same citations in a different order inside one group.
     og, rg = Counter(_citation_groups(o_flat)), Counter(_citation_groups(r_flat))
     removed, added = [], []
