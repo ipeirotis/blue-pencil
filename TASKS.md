@@ -99,6 +99,9 @@ above, with zero unhandled exceptions.
 ### A4. Aggregation and report (S)
 Produce `benchmark.json` and `benchmark.md` per iteration with pass rate per
 assertion, mean and standard deviation across repetitions, time, and tokens,
+every one of them reported per model as well as pooled (a regression on one
+model must not be cancelled by another model's gain or by an unbalanced run
+count),
 in the schema `skill-creator/references/schemas.md` expects, plus a per-case
 table. Done when: the report renders in the skill-creator viewer and the
 Markdown table is readable in a pull request.
@@ -195,7 +198,10 @@ every token kept its place in the argument (two coefficients swapped between
 claims pass, as the shell script's header already notes). Add a claim-local
 mode that aligns sentences (the D4 aligner, or difflib) and diffs protected
 tokens per aligned sentence, reporting a token that moved between sentences as
-a finding for the author to confirm. Done when: the Python tool and the shell
+a finding for the author to confirm. State this mode's limit too: two values
+swapped within one sentence leave that sentence's multiset unchanged and pass
+it, so the guarantee is cross-sentence, and a same-sentence swap fixture
+documents the gap until a clause-level alignment closes it. Done when: the Python tool and the shell
 script agree on every file in `examples/`, the tool catches every trap in B4,
 and the claim-local mode catches a seeded coefficient swap that the multiset
 mode passes.
@@ -204,8 +210,14 @@ mode passes.
 Port the checks in `scripts/check-examples.sh` to a grader that runs on parsed
 A3 output and applies the checks the parsed variant's contract actually
 requires. For the full contract: heading order, `Word count:` shape,
-`References loaded:` present, `Added bridges:` present and every quoted
-bridge sentence actually in the revised block, no `[P1]`-style label inside
+`References loaded:` present, `Added bridges:` present, every quoted
+bridge sentence actually in the revised block, and the converse: every
+sentence in the revised block with no aligned source in the input (the D4
+alignment) that carries a justification cue (because, since, ensures,
+guarantees, holds, is valid, identifies, is exogenous, and a maintained
+lexicon) must appear on the line, so a run that adds a validity argument and
+prints `Added bridges: None.` fails; D4's judge classifies the cue hits so a
+false cue is reported, not gated. No `[P1]`-style label inside
 the block, every Author question ends with `?`, no banned tell in any edited
 paragraph, stage-appropriate Diagnosis headers. For the compact contract:
 exactly `Revised text`, `Top changes`, `Author questions`, at most three
@@ -253,8 +265,10 @@ output.
 ### C4. Scope and stage graders (M)
 - At `response to reviewers`: paragraphs outside the flagged set and their
   immediate neighbours are byte-identical to the input.
-- At `final polish` and in quick pass: paragraph count and order unchanged, no
-  paragraph merged or split.
+- At `final polish` and in quick pass: paragraph count and order unchanged,
+  and each output paragraph aligned to its input paragraph carries the same
+  sentences (sentence-aligned, so a sentence that migrated from the end of P1
+  to the start of P2 fails even though neither paragraph merged or split).
 - Quick pass at `response to reviewers`: the output declines and names
   `/paper:rebut`.
 - Whole manuscript as one file: the output lists detected sections and asks for
@@ -303,8 +317,15 @@ revision was in scope, did it remove the defect (class-specific check: tell
 absent, definition now precedes first use, em-dash gone, and so on). B3's
 injected defects give recall per class on a known ground truth; B2's
 hand-reviewed lists give recall on ordinary prose, which is what E1 reports.
-Done when: recall per class and per corpus appears in the A4 report, and a
-seed case whose expected defects all go unmentioned fails.
+Run negative controls alongside: the clean originals behind the B3 injected
+cases and the B5 restraint cases carry `must_not_flag` for every defect class
+they are free of, and a Diagnosis item naming such a class on such a case is
+a false positive. Report precision (or the false-positive rate) per class
+beside recall, so a model that names every class in every Diagnosis fails
+rather than scoring perfect recall. Done when: recall and precision per class
+and per corpus appear in the A4 report, a seed case whose expected defects
+all go unmentioned fails, and an indiscriminate Diagnosis on a clean control
+fails.
 
 ---
 
@@ -451,9 +472,13 @@ from the list, fails). Where the checker is available (the `/paper:verify`
 command and the per-section step in `/paper:loop` from F3), it appends its
 own machine-computed `Protected check:` line after the model's, so the author
 sees the attested and the verified inventories side by side. Done when: the
-line is in both output contracts, all `examples/` carry it, a compact-output
-fixture carries it under `Top changes`, C3 verifies it against C1's
-recomputation, and a fixture with a swapped citation key fails.
+line is in both output contracts, all `examples/` with a revision carry it,
+a compact-output fixture carries it under `Top changes`, a feedback-only
+output (revised text `No rewrite requested.`, as in `/paper:triage`,
+`/paper:read`, and `/paper:consistency`) carries `Protected inventory: not
+applicable (no revision).` and C1 and C3 skip the input-versus-revision
+comparison for it, C3 verifies the line against C1's recomputation on every
+revising output, and a fixture with a swapped citation key fails.
 
 ### F3. Ship the checker to authors (M)
 Add a `/paper:verify <original> <revised>` command (and a step inside
@@ -507,6 +532,9 @@ regression in word-count honesty, stage scope, restraint, or defect recall
 fails on the push that introduces it rather than in the next API-backed run.
 Slow tier nightly and on demand: the runner on a smoke subset (about ten cases,
 three repetitions, one model), posting the benchmark delta as a workflow
+summary and failing the job when any assertion's pass rate drops against the
+stored baseline by more than the E3 interval rule allows, so the no-regression
+merge policy in the ground rules is enforced by CI rather than by reading a
 summary. Done when: `.github/workflows/ci.yml` runs the fast tier, a new
 `evals.yml` runs the slow tier with the API key from repository secrets, and
 both are green on `main`.

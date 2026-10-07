@@ -41,7 +41,8 @@ want to achieve three goals:
   of every citation, number, equation, and cross-reference that was added,
   dropped, or changed, instead of reading both versions side by side. The
   check states what it cannot see (a token that kept its value but moved
-  between claims) and a sentence-aligned mode covers that case. This
+  between claims); a sentence-aligned mode catches a move across sentences,
+  and a swap inside one sentence remains a documented gap. This
   generalizes the existing CI tripwire from a handful of examples to
   arbitrary manuscripts.
 
