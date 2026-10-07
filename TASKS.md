@@ -185,10 +185,18 @@ Take clean, well-edited sections and inject one known defect per case so recall
 is measurable: an AI tell from `references/ai-tells-to-avoid.md`, a buried lede,
 a hedge stack in an abstract, a term used before definition, machinery before
 motive, an em-dash, a left-branching preamble, uniform sentence length. Keep
-the clean original as the reference. Done when: each defect class in the skill's
-preflight checklist has at least three injected cases and the injection is
-recorded in the case metadata so a grader can check whether it was found and
-fixed.
+the clean original as the reference. Done when: each class in the input-prose defect taxonomy has at least three
+injected cases, where the taxonomy is the preflight checklist's prose defects
+only (tells, buried lede, hedge stack, undefined term before first use,
+machinery before motive, em-dash, left-branching preamble, uniform sentence
+length, interrupted clause core, nominalisation, missing paragraph payoff,
+and the rest of the catalogue in `references/exposition.md` and
+`references/sentence-patterns.md`) and is enumerated in `evals/README.md`;
+the preflight's output and run invariants (protected content unchanged,
+scope respected, bridges reported, gaps in `Author questions`) cannot be
+injected into a clean section and are covered by grader fixtures in C1
+through C4 instead. The injection is recorded in the case metadata so a
+grader can check whether it was found and fixed.
 
 ### B4. Protected-content trap cases (M)
 Sections dense with the things the skill must not touch, including near-miss
@@ -386,7 +394,11 @@ output.
   immediate neighbours are byte-identical to the input, and paragraph count,
   boundaries, and order are unchanged across the whole section, since the
   stage permits sentence-level work inside the window and forbids
-  reorganising paragraphs anywhere.
+  reorganising paragraphs anywhere. On a `/paper:rebut` run the neighbours
+  are stricter still, per the command file: a neighbour may change only in
+  its transition or setup sentence, and only when a change line maps that
+  edit to a reviewer label whose flagged paragraph is adjacent; any other
+  changed sentence in a neighbour fails.
 - `/paper:polish` at `response to reviewers`: the output stops, asks the
   author to confirm the round is closed or to use `/paper:rebut`, and carries
   no `Revised text` block, no manuscript sentence differing from the input,
@@ -460,10 +472,14 @@ output.
   item touches content inside the applied text (the skill forbids applying
   with such a question open).
 - On every case whose prompt did not explicitly ask to apply the revision
-  (the default, per the skill's "Where the revision goes" rule): the A2
-  before and after snapshots of every manuscript file are identical and the
-  trace carries no `Edit` or `Write` to them, whatever variant the response
-  took. This is the general form of the write checks named on the decline,
+  (the default, per the skill's "Where the revision goes" rule): across each
+  agent turn, the A2 snapshots taken before and after that turn are identical
+  for every manuscript file and the trace carries no `Edit` or `Write` to
+  them, whatever variant the response took; scripted between-turn updates
+  from the case's `turns` script (the author's returned file in the
+  repeat-round case) are applied by the runner between snapshots and are
+  not the agent's writes, so the check compares around agent turns, never
+  the initial state against the final one. This is the general form of the write checks named on the decline,
   split-and-confirm, and refusal cases; an otherwise valid full-contract,
   compact, or feedback-only response that also edited the worktree fails.
 - The `style_overrides:` case is owned by C2 (the override-aware tell check),
@@ -723,7 +739,14 @@ a compact-output fixture carries it under `Top changes`, a feedback-only
 output (revised text `No rewrite requested.`, as in `/paper:triage`,
 `/paper:read`, and `/paper:consistency`) carries `Protected inventory: not
 applicable (no revision).` and C1 and C3 skip the input-versus-revision
-comparison for it, C3 verifies the line against C1's recomputation on every
+comparison for it; the letter-assembly output of `/paper:letter`, which has
+a revised block but no original letter, carries a provenance-based form
+instead (`Protected inventory: assembled; tokens drawn from <artifact>` per
+class, listing the protected tokens the assembled letter uses and the
+supplied artifact each came from), and C3 verifies that every protected
+token in the assembled letter appears in the named artifact rather than
+diffing the letter against the input bundle, so a legitimate omission is not
+reported as a loss, C3 verifies the line against C1's recomputation on every
 revising output, and a fixture with a swapped citation key fails.
 
 ### F3. Ship the checker to authors (M)
