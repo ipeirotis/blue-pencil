@@ -100,9 +100,13 @@ manuscript, and the whole-paper diagnoses of `/paper:read` and
 `/paper:consistency`. Read each command file under `.claude/commands/paper/`
 when building the variant's fixture; the command, not this list, is the
 authority on its shape. Only an output matching no variant is
-a graded parse failure, never a crash. Done when: the parser round-trips every
-file in `examples/`, the raw outputs from A2, and one fixture per variant
-above, with zero unhandled exceptions.
+a graded parse failure, never a crash. The parser also ships the sentence aligner (difflib first, embeddings as an
+option) that pairs input and revised sentences and marks unmatched ones; the
+C graders and D4 all use this one aligner, so none of them depends on the
+judge. Done when: the parser round-trips every file in `examples/`, the raw
+outputs from A2, and one fixture per variant above, with zero unhandled
+exceptions, and the aligner has fixtures for a split, a merge, a move, and
+an unmatched addition and deletion.
 
 ### A4. Aggregation and report (S)
 Produce `benchmark.json` and `benchmark.md` per iteration with pass rate per
@@ -205,14 +209,15 @@ State the guarantee precisely, in the tool's output and its docs: a multiset
 diff proves that no protected token was added, dropped, or changed, not that
 every token kept its place in the argument (two coefficients swapped between
 claims pass, as the shell script's header already notes). Add a claim-local
-mode that aligns sentences (the D4 aligner, or difflib) and diffs protected
+mode that aligns sentences (the A3 aligner) and diffs protected
 tokens per aligned sentence, reporting a token that moved between sentences as
 a finding for the author to confirm. State this mode's limit too: two values
 swapped within one sentence leave that sentence's multiset unchanged and pass
 it, so the guarantee is cross-sentence, and a same-sentence swap fixture
 documents the gap until a clause-level alignment closes it. Done when: the Python tool and the shell
-script agree on every file in `examples/`, the tool catches every trap in B4,
-and the claim-local mode catches a seeded coefficient swap that the multiset
+script agree on every file in `examples/`, the tool catches every B4 trap marked catchable and fails each
+documented-limit case exactly as its documentation says, and the claim-local
+mode catches a seeded coefficient swap that the multiset
 mode passes.
 
 ### C2. Output-contract grader (M)
@@ -221,12 +226,13 @@ A3 output and applies the checks the parsed variant's contract actually
 requires. For the full contract: heading order, `Word count:` shape,
 `References loaded:` present, `Added bridges:` present, every quoted
 bridge sentence actually in the revised block, and the converse: every
-sentence in the revised block with no aligned source in the input (the D4
+sentence in the revised block with no aligned source in the input (the A3
 alignment) that carries a justification cue (because, since, ensures,
 guarantees, holds, is valid, identifies, is exogenous, and a maintained
 lexicon) must appear on the line, so a run that adds a validity argument and
-prints `Added bridges: None.` fails; D4's judge classifies the cue hits so a
-false cue is reported, not gated. No `[P1]`-style label inside
+prints `Added bridges: None.` fails; a cue hit is reported as a
+finding here, and D4's judge, when it has run, classifies it so a false cue
+is visible, not gated. No `[P1]`-style label inside
 the block, every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
 to edit (a verbatim paragraph with a tell is itself a failure at `first
 draft`, `final polish`, and quick pass, since the scrub runs over all
@@ -234,8 +240,9 @@ editable text; exempt only text the stage forbids editing, the unflagged
 paragraphs at `response to reviewers`, and anything a `style_overrides:`
 line permits), stage-appropriate Diagnosis headers. For the compact contract:
 exactly `Revised text`, `Top changes`, `Author questions`, at most three
-change bullets, `References loaded:` under `Top changes`, no Diagnosis, no
-word count, no `Added bridges:`. For the feedback-only wrapper: every full-contract check that still
+change bullets, `References loaded:` under `Top changes`, every Author
+question ending in `?`, no banned tell in any paragraph (quick pass edits
+all of them), no Diagnosis, no word count, no `Added bridges:`. For the feedback-only wrapper: every full-contract check that still
 applies (the four headings, `Added bridges: None.` immediately after the
 `No rewrite requested.` block, `References loaded:`, Diagnosis headers for
 the stage, every Author question ending in `?`), with only the word-count
@@ -270,7 +277,7 @@ Check what the skill says about its own run against what it did:
 - Every `before -> after` change line describes a real edit: after
   whitespace and markup normalization, the `before` span occurs in the input
   and the `after` span occurs in the revised block (a deletion's `after` may
-  be empty), and the two occupy corresponding positions in the D4 sentence
+  be empty), and the two occupy corresponding positions in the A3 sentence
   alignment or the same diff hunk, so an entry stitched from an unrelated
   input span and an unrelated output span fails along with a wholly invented
   one. Its `why` names a mechanism
@@ -287,11 +294,15 @@ output.
 - At `response to reviewers`: paragraphs outside the flagged set and their
   immediate neighbours are byte-identical to the input.
 - At `final polish` and in quick pass: paragraph count and order unchanged,
-  and each output paragraph aligned to its input paragraph carries the same
-  sentences (sentence-aligned, so a sentence that migrated from the end of P1
-  to the start of P2 fails even though neither paragraph merged or split).
+  and every output sentence aligns to a sentence inside the corresponding
+  input paragraph (so a sentence that migrated from the end of P1 to the
+  start of P2 fails even though neither paragraph merged or split, while an
+  em-dash replaced by two sentences inside one paragraph, which the stage
+  permits, passes).
 - Quick pass at `response to reviewers`: the output declines and names
-  `/paper:rebut`.
+  `/paper:rebut`, contains no `Revised text` block and no manuscript
+  sentence that differs from the input, and the A2 trace shows no `Edit` or
+  `Write` to the manuscript.
 - Whole manuscript as one file: the output lists detected sections and asks for
   confirmation, and contains no `Revised text` block.
 - Missing `<paper_context>`: exactly one clarifying message, then an
@@ -381,7 +392,7 @@ separately and every shipped rubric clears the threshold on the held-out
 set.
 
 ### D4. Meaning-preservation judge with sentence alignment (M)
-Align original and revised sentences (difflib or embeddings). Ask the judge
+Align original and revised sentences with the A3 aligner. Ask the judge
 about every pair whose wording changed (same claim, or not?) and also about
 every unmatched sentence, presented with its missing side marked: an added
 sentence with no source (possible new substance, constraint 1) and a deleted
@@ -455,8 +466,11 @@ judge scores, or marks it unmeasured.
 ### E5. Cross-agent comparison (M)
 Run the same corpus through at least two agents that read the skill (Claude
 Code and one other, for example Codex) and one chat surface. Give every
-surface the same inputs: the chat condition gets `SKILL.md` and every
-`references/` file the sweep loads, not `SKILL.md` alone, since the passes
+surface the same inputs: the chat condition gets `SKILL.md`, every
+`references/` file the sweep loads, and, for a command-driven case, the
+applicable `.claude/commands/paper/*.md` prompt (the decline, table, and
+routing rules of `/paper:quick` and `/paper:triage` live there), not
+`SKILL.md` alone, since the passes
 depend on those files and a divergence caused by a missing input says nothing
 about instruction compliance. Each surface gets an A2 trace adapter that
 maps its own tool names to the canonical read and write events, and the chat
@@ -608,6 +622,7 @@ A1 -> A2 -> A3 -> A4
 B1 -> B2, B3, B4, B5, B6, B7
 C1 (needs A1, B4) -> F2, F3, G1 ; F3 -> F7
 C2, C3 (need A3) ; C4 (needs A3, B6) ; C5 (needs A3, B5) ; C6 (needs A3, B3)
+(the sentence aligner is part of A3, so no C grader waits on D4)
 D1 -> D2 -> D3 ; D4 (needs A3)
 E1 (needs A4, B2 through B6, C1 through C6, D1 through D4) -> E2, E3 -> F1, F6
 E4, E5 (need E1) -> F4
