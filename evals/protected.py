@@ -114,7 +114,7 @@ _NUMWORD_RE = re.compile(
     r"\b(?:(?:minus|negative) )?"  # a spelled-out sign stays with its number, as for digits
     r"(?:(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
     r"fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|"
-    r"seventy|eighty|ninety|hundred|thousand|million|billion|trillion|twice|half|dozen)(?:-[a-z]+)?|"
+    r"seventy|eighty|ninety|hundred|thousand|million|billion|trillion|twice|half|dozen)(?:fold)?(?:-[a-z]+)?|"  # "fivefold"
     r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+)\b"
     # A unit or percent after a spelled-out number stays with it ("five percent").
     # A spaced fraction keeps its denominator ("one third", "three quarters").
@@ -358,6 +358,8 @@ def _macros(text):
             # The argument is editable prose, but its delimiters are markup: record
             # whether an optional [..] and a {..} follow ("\\textbf{}" vs "\\textbf").
             j, shape = rest_i, ""
+            while text[j:j + 1] in (" ", "\t"):  # TeX skips spaces after a control word
+                j += 1
             if text[j:j + 1] == "[" and text.find("]", j) != -1:
                 shape, j = "[]", text.find("]", j) + 1
             if text[j:j + 1] == "{" and _brace_group(text, j):
@@ -390,7 +392,7 @@ def _macros(text):
     return out
 
 
-_FROZEN_ENVS = ["lstlisting", "verbatim", "Verbatim", "minted", "alltt", "code", "tabular", "tabular*",
+_FROZEN_ENVS = ["lstlisting", "verbatim", "verbatim*", "Verbatim", "Verbatim*", "minted", "alltt", "code", "tabular", "tabular*",
                 "tabularx", "longtable", "array", "equation", "equation*", "align", "align*", "gather",
                 "gather*", "multline", "multline*", "eqnarray", "eqnarray*", "matrix", "pmatrix",
                 "bmatrix", "vmatrix", "cases", "split", "math", "displaymath", "alignat", "alignat*", "flalign",
@@ -519,7 +521,11 @@ def tokens(cls, raw, flat):
     if cls == "equations":
         # Inline HTML tags ("<em>", "</span>", '<a href="...">') are markup, not comparisons.
         flat = _HTML_TAG_RE.sub(" ", flat)
-        return [re.sub(r"\s", "", t) for t in _EQUATION_RE.findall(flat) + _RELATION_RE.findall(flat)]
+        # Standalone math without an operator: a short function call ("f(x)", "log(y)") and
+        # a decorated identifier ("x\u2081", "y\u2032", "x\u00b2").
+        alone = re.findall(r"(?<![\w.\\])[A-Za-z]{1,3}\((?:[^()\n]|\([^()\n]*\)){1,40}\)", flat)
+        alone += re.findall(r"(?<![\w\\])[A-Za-z]{1,2}[\u2080-\u209c\u2070-\u207f\u00b2\u00b3\u00b9\u2032-\u2034]+", flat)
+        return [re.sub(r"\s", "", t) for t in _EQUATION_RE.findall(flat) + _RELATION_RE.findall(flat) + alone]
     if cls == "symbols":
         return _SYMBOL_RE.findall(flat.replace("\u00b5", "\u03bc"))  # micro sign == Greek mu
     if cls == "environments":
@@ -548,6 +554,8 @@ def tokens(cls, raw, flat):
         out += re.findall(r"(?<![A-Za-z0-9'])'(?=\S)(?:[^'\n]|(?<=[A-Za-z])'(?=[A-Za-z])){1,200}?(?<=\S)'"
                           r"(?![A-Za-z0-9'])", flat)
         out += re.findall("\u00ab[^\u00ab\u00bb]*\u00bb|\u2039[^\u2039\u203a]*\u203a", flat)  # guillemets
+        # HTML quotation elements: the quoted text inside <q> and <blockquote>.
+        out += [m.group(2) for m in re.finditer(r"<(q|blockquote)\b[^>]*>(.*?)</\1>", flat, re.I | re.S)]
         # Straight and curly marks are the same quotation: turning "x" into a curly-quoted x
         # is a punctuation fix, not a changed quote.
         return [q.translate({ord(LDQ): '"', ord(RDQ): '"', ord(LSQ): "'", ord(RSQ): "'"}) for q in out]
@@ -616,6 +624,9 @@ def tokens(cls, raw, flat):
                          else w.group(0).lower(), tok).replace("\u00b5", "\u03bc")
             tok = re.sub(r"(?<=[0-9]) %", "%", tok)  # "5 %" and "5%" are the same value
             out.append(tok)
+        # Roman numerals after a word that numbers a category ("phase II", "type I", "grade III").
+        out += [f"{m.group(1).lower()} {m.group(2)}" for m in re.finditer(
+            r"\b(phase|grade|type|class|stage|tier|level|category)[ -]((?-i:[IVX]{1,4}))\b", flat, re.I)]
         return out
     if cls == "numberwords":
         out, prev_end, prev_unit = [], None, False

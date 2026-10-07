@@ -25,6 +25,7 @@ import sys
 import json
 
 from lib import EVALS, changed_cases, reads_outside_workspace, read_json, total_tokens, write_json
+from protected import check
 
 CONDS = ("with_skill", "without_skill")
 NAMES = {"with_skill": "With Blue Pencil", "without_skill": "Without (plain Claude)"}
@@ -50,6 +51,12 @@ def load(root):
         for cond in CONDS:
             for rd in sorted((ed / cond).glob("run-*")):
                 cm = read_json(rd / "code_and_meaning.json") if (rd / "code_and_meaning.json").exists() else None
+                rev = rd / "outputs" / "revised.txt"
+                if cm is not None and rev.exists():
+                    # The code check is free, so it is recomputed with the current code grader
+                    # rather than read from a file an older grader may have written.
+                    original = (EVALS / "cases" / cid / "input.txt").read_text().strip()
+                    cm = {**cm, "code": check(original, rev.read_text().strip())}
                 tr = read_json(rd / "trial.json") if (rd / "trial.json").exists() else {}
                 tm = read_json(rd / "timing.json") if (rd / "timing.json").exists() else {}
                 n = int(rd.name.split("-")[1])
@@ -128,7 +135,7 @@ def summary_row(label, rs):
     codes = [c for c in (code_passed(r) for r in rs) if c is not None]  # unrun code grades left out
     vs = [verdict_of(r) for r in rs]
     both = [b for b in (preserved(r) for r in rs) if b is not None]  # ungraded runs left out
-    ungraded = len(rs) - len(both)
+    ungraded = vs.count(None)  # runs without a valid meaning verdict, whatever their code check
     major, minor = avg_counts(rs)
     no_code = len(rs) - len(codes)
     return (f"| {label} | {len(rs)} | {pct(sum(codes), len(codes))}"

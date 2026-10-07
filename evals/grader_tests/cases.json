@@ -42,7 +42,8 @@
     "misc33": "One might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples.",
     "misc34": "[P1] supports the claim that x ≲ y. <!-- check with coauthor --> The bound is tight.",
     "misc35": "Let A ∪ B denote the pooled sample; the coefficient is &alpha;, as García (2020) reports.",
-    "misc36": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings."
+    "misc36": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
+    "misc37": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>."
   },
   "variants": [
     {
@@ -1709,6 +1710,60 @@
       "damage_type": "equation changed",
       "code_grader_should_flag": true,
       "note": "Factorial removed from inline math."
+    },
+    {
+      "id": "misc37-phase-changed",
+      "base": "misc37",
+      "revised": "In a phase III trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Roman-numeral trial phase changed."
+    },
+    {
+      "id": "misc37-fold-changed",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew tenfold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Closed-up multiplier changed."
+    },
+    {
+      "id": "misc37-function-renamed",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew fivefold; the estimator g(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Standalone function call renamed."
+    },
+    {
+      "id": "misc37-html-quote-changed",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was ineffective</q>.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Text inside an HTML <q> element changed."
+    },
+    {
+      "id": "misc37-macro-group-dropped",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf this matters. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Braces of a spaced \\textbf argument removed."
+    },
+    {
+      "id": "misc37-prose-edited",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} is important. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose edit outside protected spans."
     }
   ]
 }
