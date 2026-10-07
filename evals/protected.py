@@ -44,8 +44,9 @@ _PROSE_MACROS = {"caption", "emph", "textbf", "textit", "footnote", "section",
 # The connectors "of" and "for" keep institutional authors whole ("University of Oxford").
 # A curly apostrophe counts like a straight one ("O\u2019Neil", "Smith\u2019s (2020)").
 _NAME = (r"(?:[A-Z\u00c0-\u00d6\u00d8-\u00de\u0100-\u017f\u0391-\u03a9\u0410-\u042f](?:[^\W\d_]|['\u2019.&-])+|"
-         # Scripts without case (CJK, kana, Hangul) have no capital to anchor on ("\u738b (2020)").
-         r"[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]{1,12}|"
+         # Scripts without case (CJK, kana, Hangul, Arabic, Hebrew, Devanagari, Thai) have no
+         # capital to anchor on ("\u738b (2020)", "\u0645\u062d\u0645\u062f (2020)").
+         r"[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af\u0620-\u065f\u066e-\u06d3\u05d0-\u05ea\u0900-\u0963\u0e01-\u0e4e]{1,12}|"
          r"van|von|der|de|del|da|di|la|le|ter|ten|dos|and|of|for|et|al\.?|&)")
 _DATE_LEAD = re.compile(
     r"^(In|On|At|By|For|From|Since|After|Before|During|Until|Between|Around|Over|Under|"
@@ -110,7 +111,7 @@ _NUMWORD_RE = re.compile(
     r"\b(?:(?:minus|negative) )?"  # a spelled-out sign stays with its number, as for digits
     r"(?:(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
     r"fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|"
-    r"seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(?:-[a-z]+)?|"
+    r"seventy|eighty|ninety|hundred|thousand|million|billion|trillion|twice|half|dozen)(?:-[a-z]+)?|"
     r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+)\b"
     # A unit or percent after a spelled-out number stays with it ("five percent").
     # A spaced fraction keeps its denominator ("one third", "three quarters").
@@ -169,12 +170,20 @@ _ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213] ?| - )"  # a
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
 _UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c\u223c\u2243\u2245\u2192\u2190\u2194\u21d2\u21d0\u21d4\u21a6"  # also arrows
-_REL_OP = r" ?(?:<=|>=|!=|==|:=|=:|[=<>" + _UREL + r"]) ?"  # also definitions, ":=", "=:"
+# A spaced ASCII tilde is "distributed as" ("x ~ N(0, 1)"); an unspaced one is a LaTeX tie.
+_REL_OP = r"(?: ?(?:<=|>=|!=|==|:=|=:|[=<>" + _UREL + r"]) ?| ~ )"  # also definitions, ":=", "=:"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
 _BARE_OPERAND = r"(?:" + _FUNC + "|[A-Za-z]{1,2}" + _DECOR + "|" + _EQ_OPERAND + "|" + _USYM + ")"  # Greek and letterlike operands too ("\u03b1 + \u03b2")
-_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|:=|=:|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213" + _UREL + r"]) ?| - )"
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|:=|=:|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213" + _UREL + r"]) ?| - | ~ )"
                           + _BARE_OPERAND + r")+(?![\w])")
+
+# An HTML tag from a fixed list of names, with only quoted attributes, so a comparison
+# chain such as "a<b and c>d" is not mistaken for a "<b>" tag.
+_HTML_TAG_RE = re.compile(
+    r"</?(?:a|abbr|b|br|cite|code|del|details|div|em|figcaption|figure|h[1-6]|hr|i|img|ins|kbd|"
+    r"li|mark|ol|p|pre|q|s|small|span|strong|sub|summary|sup|table|tbody|td|th|thead|tr|u|ul)"
+    r"""(?:\s+[\w:-]+=(?:"[^"]*"|'[^']*'))*\s*/?>""", re.I)
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
 _PANEL = r"(?: ?\([a-z](?:[,\u2013-] ?[a-z])*\))?"
@@ -460,7 +469,9 @@ def tokens(cls, raw, flat):
             m.group(1) + " " + m.group(2) for m in re.finditer(r"(\[[^\]]+\]:) ?([^ ]+)", flat)] + re.findall(r"!\[", flat) + re.findall(
             r"\[\^[^\]]+\]", flat) + re.findall(r"<(?:https?://|mailto:)[^>\s]+>|<[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+>", flat) + [
             # Bare URLs, outside link destinations and autolinks; trailing punctuation dropped.
-            u.rstrip(".,;:!?") for u in re.findall(r"(?<![<({/\w])https?://[^\s<>()\[\]{}\"']+", flat)] + [
+            # Balanced parentheses belong to the URL ("wiki/Foo_(bar)").
+            u.rstrip(".,;:!?") for u in re.findall(
+                r"(?<![<({/\w])https?://(?:[^\s<>()\[\]{}\"']|\([^\s<>()\[\]{}\"']*\))+", flat)] + [
             # "![" marks an image; "[^id]" is a footnote reference; <https://...> is an autolink
             # The opening "[" of an inline or reference link; the link text stays editable.
             "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)] + [
@@ -484,6 +495,8 @@ def tokens(cls, raw, flat):
         out += re.findall(r"\\\[.*?\\\]", flat)
         return out
     if cls == "equations":
+        # Inline HTML tags ("<em>", "</span>", '<a href="...">') are markup, not comparisons.
+        flat = _HTML_TAG_RE.sub(" ", flat)
         return [re.sub(r"\s", "", t) for t in _EQUATION_RE.findall(flat) + _RELATION_RE.findall(flat)]
     if cls == "symbols":
         return _SYMBOL_RE.findall(flat.replace("\u00b5", "\u03bc"))  # micro sign == Greek mu
@@ -591,7 +604,7 @@ def tokens(cls, raw, flat):
             # of three", "one point five") are ordered tokens too, as digit ones are.
             gap = flat[prev_end:m.start()].lower() if prev_end is not None else None
             if out and (gap in (" to ", " in ", " out of ", " point ") or not prev_unit and (gap == " " or (
-                    gap == " and " and re.search(r"(?:hundred|thousand|million|billion)$", out[-1])))):
+                    gap == " and " and re.search(r"(?:hundred|thousand|million|billion|trillion)$", out[-1])))):
                 out[-1] += gap + tok
             else:
                 out.append(tok)

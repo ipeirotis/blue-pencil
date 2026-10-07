@@ -37,7 +37,8 @@
     "misc28": "The signal was 10 MHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
     "misc29": "Results\n--\nRevenue was $5 trillion and 5k users joined.",
     "misc30": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
-    "misc31": "The map is x → y, consumption was 5 MWh, and Smith [2020] called it \"the treatment group\"."
+    "misc31": "The map is x → y, consumption was 5 MWh, and Smith [2020] called it \"the treatment group\".",
+    "misc32": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports."
   },
   "variants": [
     {
@@ -1515,6 +1516,51 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Straight quotation marks made curly."
+    },
+    {
+      "id": "misc32-html-prose-edited",
+      "base": "misc32",
+      "revised": "Apply <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Word next to an inline HTML tag edited; the tag is markup, not a comparison."
+    },
+    {
+      "id": "misc32-tilde-operand-changed",
+      "base": "misc32",
+      "revised": "Use <em>careful prose</em> when z ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable in a spaced-tilde distribution statement changed."
+    },
+    {
+      "id": "misc32-url-paren-changed",
+      "base": "misc32",
+      "revised": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(baz). Revenue reached five trillion dollars, as محمد (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Parenthesized part of a bare URL changed."
+    },
+    {
+      "id": "misc32-trillion-dropped",
+      "base": "misc32",
+      "revised": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five dollars, as محمد (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Spelled-out magnitude word dropped."
+    },
+    {
+      "id": "misc32-arabic-author-changed",
+      "base": "misc32",
+      "revised": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as أحمد (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "citation author changed",
+      "code_grader_should_flag": true,
+      "note": "Arabic-script author name changed."
     }
   ]
 }

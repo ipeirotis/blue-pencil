@@ -228,7 +228,10 @@ def main():
         for f in as_completed(futs):
             cid, cond, n = futs[f]
             try:
-                _, status = f.result()
+                run_dir, status = f.result()
+                if not completed(run_dir, cond):  # no revision, an error, or the skill not loaded
+                    status = "PROBLEM (see trial.json)"
+                    failed.append(f"{cid} / {cond} / run-{n}")
             except Exception as e:  # keep going; one failed trial must not lose the rest
                 status = f"ERROR {type(e).__name__}: {e}"
                 failed.append(f"{cid} / {cond} / run-{n}")
@@ -236,7 +239,7 @@ def main():
     print(f"done in {time.time() - t0:.0f}s. Results in {out_root}")
     if failed:
         # The other trials still finished, but the run is incomplete: say so and fail.
-        print(f"{len(failed)} trials raised and have no result: {', '.join(failed)}. "
+        print(f"{len(failed)} trials failed or have no usable result: {', '.join(failed)}. "
               "Run the same command again to retry them.", file=sys.stderr)
         return 1
 
