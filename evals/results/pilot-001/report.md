@@ -40,7 +40,7 @@ Major problems per run:
 
 | Condition | Mean tokens | Mean seconds | Mean cost (USD, list price) |
 |---|---|---|---|
-| With Blue Pencil | 58425.167 | 105.292 | 0.414 |
+| With Blue Pencil | 227022.833 | 105.292 | 0.414 |
 | Without (plain Claude) | 4046.25 | 9.792 | 0.017 |
 
 Blue Pencil was loaded in 12/12 with-skill runs (checked from each transcript's tool calls).

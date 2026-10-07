@@ -66,7 +66,7 @@ _UNIT_ONE = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|W|J|Hz|Pa)|mL|c
 # exponent, so "10 m and" or "5 g s" in prose is not swallowed.
 _UNIT_NEG = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|J)|mL|cm|min|h|K)"
              r"(?:\^-[0-9]+|\u207b[\u00b9\u00b2\u00b3\u2070-\u2079]+)")
-_UNIT_SYM = (r"(?-i:" + _UNIT_ONE + r"(?:[/\u00b7\u22c5]" + _UNIT_ONE + r"| " + _UNIT_NEG + r")*)"
+_UNIT_SYM = (r"(?-i:" + _UNIT_ONE + r"(?:(?:[/\u00b7\u22c5]| per )" + _UNIT_ONE + r"| " + _UNIT_NEG + r")*)"
              r"(?![A-Za-z0-9])")
 _UNIT_WORD = (r"(?:(?:micro|milli|centi|kilo|nano)?(?:grams?|litres?|liters?|meters?|metres?|"
               r"moles?|seconds?|minutes?|hours?|volts?|watts?|joules?)|degrees?(?: (?:celsius|fahrenheit))?|"
@@ -79,7 +79,9 @@ _NUMBER_RE = re.compile(
     r"(?:(?:[<>]=?|" + ULE + "|" + UGE + r")[ ~]?|~)?(?:[+-]|" + UMIN + r")?"
     # A fraction, ratio, or other slash/colon group ("1/2", "1:2") is one ordered token.
     # A range with a hyphen, en dash, or em dash ("1.2-3.4", "1.2\u20133.4") is one ordered token.
-    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM + r"(?:[-\u2013\u2014]" + _NUM + r")?(?:[/:]" + _NUM + r")*%?"
+    # "1 to 2" is a range too, and either endpoint may carry a sign ("\u22123\u2013\u22121").
+    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM
+    + r"(?:(?:[-\u2013\u2014]| to )(?:[+-]|" + UMIN + r")?" + _NUM + r")?(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?",
     re.I)
@@ -121,6 +123,25 @@ _EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?: ?(?:<=|>=|!=|==|
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
 _PANEL = r"(?: ?\([a-z](?:[,\u2013-] ?[a-z])*\))?"
+
+
+def _dollar_math(flat):
+    """$...$ and $$...$$ spans. A pair whose opening $ is followed by an amount and whose
+    content has no math characters is two currency signs ("$5 and profit was $2"), not
+    math: it is skipped and the scan resumes after the first $. "$5 \\in S$" stays math."""
+    out, pos = [], 0
+    pat = re.compile(r"\$\$[^$]+\$\$|\$[^$]+\$")
+    while True:
+        m = pat.search(flat, pos)
+        if not m:
+            return out
+        t = m.group(0)
+        if (not t.startswith("$$") and re.match(r"\$[0-9]", t)
+                and not re.search(r"[\\^_{}=<>+*/]", t[1:-1])):
+            pos = m.start() + 1
+            continue
+        out.append(t)
+        pos = m.end()
 
 
 def _emphasis(flat):
@@ -247,17 +268,16 @@ def tokens(cls, raw, flat):
             r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat)
     if cls == "callouts":
         pat = (r"(?:table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?"
-               r"[ ~]\(?(?:[0-9]+(?:\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b" + _PANEL +
+               # Roman numerals (uppercase only, so "the figure did" is not a callout): "Section IV".
+               r"[ ~]\(?(?:[0-9]+(?:\.[0-9]+)?[a-z]?|(?-i:[IVXLCDM]+)|[a-z][0-9]*)\b" + _PANEL +
                # Later items in a list ("Tables 1, 2 and 3") may not start with 0, so a
                # decimal such as the coefficient 0.15 is not swallowed as a table number.
                # (check-protected.sh lacks this guard; its examples never trigger it.)
-               r"(?:,?[ ~](?:and[ ~]|to[ ~])?(?:[1-9][0-9]*(?:\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b" + _PANEL + r")*")
+               r"(?:,?[ ~](?:and[ ~]|to[ ~])?(?:[1-9][0-9]*(?:\.[0-9]+)?[a-z]?|(?-i:[IVXLCDM]+)|[a-z][0-9]*)\b"
+               + _PANEL + r")*")
         return [t.lower() for t in re.findall(pat, flat, re.I)]
     if cls == "math":
-        # A currency sign ("$5 and ... $2") is not a math delimiter: a $ before an amount
-        # that is not followed by math characters is blanked first.
-        text = re.sub(r"\$(?=[0-9][0-9,]*(?:\.[0-9]+)?(?![0-9^_{}\\+*/=$-]))", "\u00a4", flat)
-        out = [t for t in re.findall(r"\$\$[^$]+\$\$|\$[^$]+\$", text)
+        out = [t for t in _dollar_math(flat)
                if not re.match(r"^\$[0-9][0-9,.]* (million|billion|trillion|thousand|hundred|k|bn|mn)( .*)?\$$", t)]
         out += re.findall(r"\\\(.*?\\\)", flat)
         out += re.findall(r"\\\[.*?\\\]", flat)
@@ -291,12 +311,15 @@ def tokens(cls, raw, flat):
         # so the backticks of two fences never pair up across prose.
         out, fence, block, prose = [], None, [], []
         for ln in raw.splitlines():
-            m = re.match(r"\s*(~~~|```)", ln)
+            m = re.match(r"\s*(~{3,}|`{3,})", ln)
             if fence is None and m:
                 fence, block = m.group(1), [ln]
             elif fence is not None:
                 block.append(ln)
-                if ln.strip().startswith(fence):
+                # CommonMark: closed only by a bare fence of the same character that is at
+                # least as long, so a ``` block inside a ```` block stays inside it.
+                c = re.match(r"\s*(~{3,}|`{3,})\s*$", ln)
+                if c and c.group(1)[0] == fence[0] and len(c.group(1)) >= len(fence):
                     out.append("\n".join(block))
                     fence = None
             else:

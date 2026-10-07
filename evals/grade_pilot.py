@@ -50,11 +50,14 @@ SEVERITY_OF = {"claim_strength": "major", "caveat_or_scope": "major", "new_conte
 
 
 def valid_meaning(parsed):
-    """The verdict must be allowed and agree with the problems: "changed" exactly when
-    at least one major problem is reported (see rubric.md)."""
+    """The full reply the prompt asks for: a problems list (possibly empty) and a summary,
+    and a verdict that agrees with the problems: "changed" exactly when at least one
+    major problem is reported (see rubric.md)."""
     if not isinstance(parsed, dict) or parsed.get("verdict") not in MEANING_VERDICTS:
         return False
-    probs = parsed.get("problems", [])
+    probs = parsed.get("problems")
+    if not _text(parsed.get("summary")):
+        return False
     if not isinstance(probs, list) or not all(
             isinstance(p, dict) and p.get("type") in SEVERITY_OF
             and p.get("severity") == SEVERITY_OF[p["type"]]

@@ -41,7 +41,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from lib import (EVALS, EXECUTOR_MODEL, call_claude, case_fingerprint, claude_version,
                  extract_revised, git_sha, make_workspace, read_json, skill_fingerprint,
-                 skill_version, skill_was_loaded, write_json)
+                 skill_version, skill_was_loaded, total_tokens, write_json)
 
 CONDITIONS = ("with_skill", "without_skill")
 
@@ -110,11 +110,8 @@ def run_trial(case, condition, n, out_root, model, provenance):
     if revised:
         (run_dir / "outputs" / "revised.txt").write_text(revised + "\n")
     usage = res["usage"]
-    total_tokens = sum(usage.get(k, 0) for k in
-                       ("input_tokens", "output_tokens", "cache_creation_input_tokens",
-                        "cache_read_input_tokens"))
     write_json(run_dir / "timing.json", {
-        "total_tokens": total_tokens, "total_duration_seconds": res["seconds"],
+        "total_tokens": total_tokens(res["model_usage"]), "total_duration_seconds": res["seconds"],
         "cost_usd_list_price": res["cost_usd"]})
     write_json(run_dir / "trial.json", {
         "case": case["id"], "condition": condition, "run": n,

@@ -26,7 +26,7 @@ help:
 	@echo "  make check-protected Diff protected content between example input and output"
 	@echo "  make test-install   Hermetic tests for install.sh (init, commands, refresh, update)"
 	@echo "  make bump VERSION=x.y.z   Bump the version in all three sites"
-	@echo "  make test           Run check-version, lint, check-examples, check-protected, test-install"
+	@echo "  make test           Run check-version, lint, check-examples, check-protected, test-install, eval-selftest"
 	@echo "  make eval-selftest  Offline self-test of the evaluation pilot code grader (evals/)"
 
 install:
@@ -69,5 +69,5 @@ bump:
 eval-selftest:
 	@python3 -m unittest evals/grader_tests/test_protected.py
 
-test: check-version lint check-examples check-protected test-install
+test: check-version lint check-examples check-protected test-install eval-selftest
 	@echo "All checks passed."

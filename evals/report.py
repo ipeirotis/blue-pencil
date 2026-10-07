@@ -22,7 +22,7 @@ import re
 import statistics as st
 import sys
 
-from lib import EVALS, changed_cases, read_json, write_json
+from lib import EVALS, changed_cases, read_json, total_tokens, write_json
 
 CONDS = ("with_skill", "without_skill")
 NAMES = {"with_skill": "With Blue Pencil", "without_skill": "Without (plain Claude)"}
@@ -188,7 +188,10 @@ def main():
           "| Condition | Mean tokens | Mean seconds | Mean cost (USD, list price) |", "|---|---|---|---|"]
     for c in CONDS:
         rs = runs[c]
-        L.append(f"| {NAMES[c]} | {mean([r['timing'].get('total_tokens') for r in rs])} | "
+        # Tokens come from the per-model aggregates in trial.json, which include subagents.
+        toks = [total_tokens(r["trial"]["model_usage"]) if r["trial"].get("model_usage")
+                else r["timing"].get("total_tokens") for r in rs]
+        L.append(f"| {NAMES[c]} | {mean(toks)} | "
                  f"{mean([r['timing'].get('total_duration_seconds') for r in rs])} | "
                  f"{mean([r['timing'].get('cost_usd_list_price') for r in rs])} |")
     loaded = [r["trial"].get("skill_loaded") for r in all_runs["with_skill"]]

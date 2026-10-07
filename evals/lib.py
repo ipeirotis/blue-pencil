@@ -76,8 +76,11 @@ def rubric_version():
 
 
 def case_fingerprint(case_id):
-    """Hash of the files that make up one case's prompt and original passage."""
+    """Hash of the files that make up one case's prompt and original passage, plus its
+    source in cases.json, which decides the example held out of the with-skill workspace."""
     h = hashlib.sha256()
+    catalog = {c["id"]: c for c in read_json(EVALS / "cases" / "cases.json")["cases"]}
+    h.update(str(catalog.get(case_id, {}).get("source")).encode() + b"\0")
     for name in ("context.txt", "request.txt", "input.txt"):
         h.update(name.encode() + b"\0" + (EVALS / "cases" / case_id / name).read_bytes() + b"\0")
     return h.hexdigest()[:16]
@@ -98,6 +101,14 @@ def claude_version():
         ).stdout.strip()
     except Exception:
         return "unknown"
+
+
+def total_tokens(model_usage):
+    """All tokens of a session, summed over every model it used. The result's top-level
+    `usage` covers only the final turn and leaves out subagent calls (paper-reviser), so
+    it undercounts the with-skill condition; `modelUsage` has the aggregates."""
+    keys = ("inputTokens", "outputTokens", "cacheReadInputTokens", "cacheCreationInputTokens")
+    return sum(m.get(k, 0) for m in (model_usage or {}).values() for k in keys)
 
 
 def call_claude(prompt, model, cwd, flags=(), timeout=600, stream=False):
