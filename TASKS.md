@@ -38,9 +38,15 @@ validate against a JSON schema file.
 A Python script that runs a chosen git ref of the skill against every case on a
 chosen model, N times, through the agent's headless mode (`claude -p` or the
 Agent SDK), and stores each raw output with the skill SHA, model id, prompt,
-timestamp, wall time, and token counts. Runs are resumable and cached by
-(case, skill SHA, model, rep). Done when: a baseline run over the seed corpus
-(B2) completes unattended and every output is on disk with its metadata.
+timestamp, wall time, and token counts. Runs are resumable and cached, keyed
+by a hash of the full case definition (prompt, manuscript, context block,
+expectations), the skill SHA, the model id, the runner configuration, and the
+repetition index, so an edited case never reuses output generated for its
+older definition. Support scripted multi-turn cases: when a case expects the
+skill to ask first (the missing-context ask in B6), the runner supplies the
+scripted author reply and records every turn. Done when: a baseline run over
+the seed corpus (B2) completes unattended, every output is on disk with its
+metadata, and editing a case's text invalidates its cached runs.
 
 ### A3. Output parser for the two output contracts (M)
 Parse a run's text into structured JSON: Diagnosis header lines and numbered
@@ -48,9 +54,17 @@ items, the `Revised text` fenced block, the `Added bridges:` line, the
 `Word count:` line, the `References loaded:` list, each `before -> after, why`
 change line, and each Author question. Handle the compact quick-pass contract
 (`Revised text`, `Top changes`, `Author questions`) and feedback-only runs
-(`No rewrite requested.`). Report a parse failure as a graded failure, not a
-crash. Done when: the parser round-trips every file in `examples/` and the
-raw outputs from A2 with zero unhandled exceptions.
+(`No rewrite requested.`). Several correct outputs are none of these, and the
+parser must classify them as their own result variants rather than as
+failures: a clarification question (the single context ask), a
+split-and-confirm message listing detected sections (whole manuscript
+supplied as one file), a triage table (reviewer comments with no manuscript,
+`/paper:triage`), a decline with a routing suggestion (quick pass at
+`response to reviewers`), and the whole-paper diagnosis shapes of
+`/paper:read` and `/paper:consistency`. Only an output matching no variant is
+a graded parse failure, never a crash. Done when: the parser round-trips every
+file in `examples/`, the raw outputs from A2, and one fixture per variant
+above, with zero unhandled exceptions.
 
 ### A4. Aggregation and report (S)
 Produce `benchmark.json` and `benchmark.md` per iteration with pass rate per
@@ -138,9 +152,17 @@ machine-readable report (which class, which token, added or removed), an
 exceptions file for author-approved changes, and an `inventory` subcommand that
 emits the `must_not_change` block for A1. Unit tests: one test per extraction
 class, one per known limit in the shell script's header (documenting the limit
-or closing it). The shell script stays until CI switches over (G1). Done when:
-the Python tool and the shell script agree on every file in `examples/`, and
-the tool catches every trap in B4.
+or closing it). The shell script stays until CI switches over (G1).
+State the guarantee precisely, in the tool's output and its docs: a multiset
+diff proves that no protected token was added, dropped, or changed, not that
+every token kept its place in the argument (two coefficients swapped between
+claims pass, as the shell script's header already notes). Add a claim-local
+mode that aligns sentences (the D4 aligner, or difflib) and diffs protected
+tokens per aligned sentence, reporting a token that moved between sentences as
+a finding for the author to confirm. Done when: the Python tool and the shell
+script agree on every file in `examples/`, the tool catches every trap in B4,
+and the claim-local mode catches a seeded coefficient swap that the multiset
+mode passes.
 
 ### C2. Output-contract grader (M)
 Port the checks in `scripts/check-examples.sh` to a grader that runs on parsed
@@ -148,17 +170,27 @@ A3 output: heading order, `Word count:` shape, `References loaded:` present,
 `Added bridges:` present and every quoted bridge sentence actually in the
 revised block, no `[P1]`-style label inside the block, every Author question
 ends with `?`, no banned tell in any edited paragraph, stage-appropriate
-Diagnosis headers. Done when: it passes on all `examples/` and fails on a
-hand-broken copy of each.
+Diagnosis headers. Read the `style_overrides:` line of the case's
+`<paper_context>` and disable only the checks it names (the em-dash ban, a
+listed phrase), so the override case in B6 passes when the skill honors the
+override and fails when it does not. Done when: it passes on all `examples/`
+and fails on a hand-broken copy of each, and the override fixture passes with
+the override and fails without it.
 
 ### C3. Self-report honesty graders (M)
 Check what the skill says about its own run against what it did:
 - `Word count:` within 15 percent of the actual counts computed by the same
-  exclusion rules (no citation commands, math, or macros).
+  exclusion rules (no citation commands, math, or macros), and the signed
+  percentage recomputed from the actual counts agrees with the reported one in
+  sign and within the same tolerance (`~100 to ~80 (+25%)` fails).
 - `References loaded:` equals the pass set the sweep table in `SKILL.md`
   prescribes for this section type and stage (no skipped pass, no phantom one).
-- Every `before -> after` change line has a `why` that names a mechanism from
-  the allowed list; "reads better", "smoother", "more concise" alone fail.
+- Every `before -> after` change line describes a real edit: after
+  whitespace and markup normalization, the `before` span occurs in the input
+  and the `after` span occurs in the revised block (a deletion's `after` may
+  be empty), so an invented ledger entry fails. Its `why` names a mechanism
+  from the allowed list; "reads better", "smoother", "more concise" alone
+  fail.
 - Every sentence in the original that does not appear in the revision (fuzzy
   match) is accounted for in `Change rationale` (constraint 6, no silent
   deletion).
@@ -221,10 +253,16 @@ agreement table is in `evals/judges/CALIBRATION.md` and every shipped rubric
 clears the threshold.
 
 ### D4. Meaning-preservation judge with sentence alignment (M)
-Align original and revised sentences (difflib or embeddings), then ask the judge
-only about pairs whose wording changed: same claim, or not? Report any "not" as
-a constraint-2 violation with both sentences quoted. Done when: it flags the
-seeded meaning changes in a test set of 20 pairs with at most one miss.
+Align original and revised sentences (difflib or embeddings). Ask the judge
+about every pair whose wording changed (same claim, or not?) and also about
+every unmatched sentence, presented with its missing side marked: an added
+sentence with no source (possible new substance, constraint 1) and a deleted
+sentence with no counterpart (possible dropped qualifier or claim, constraint
+6). The unpaired cases are the riskiest and the protected-token and bridge
+checks do not cover arbitrary prose claims. Report any "not", any unsupported
+addition, and any unaccounted deletion as a constraint violation with the
+sentences quoted. Done when: it flags the seeded meaning changes, additions,
+and deletions in a test set of 20 cases with at most one miss.
 
 ---
 
@@ -245,10 +283,14 @@ a linked F-task or an explicit "won't fix" with a reason.
 
 ### E3. Repetition and variance study (S)
 Ten repetitions on ten cases. How stable are the Diagnosis items, the revised
-text, and the grader outcomes? Mark cases whose pass/fail flips across
-repetitions as flaky and exclude them from regression gating until fixed. Done
-when: a variance table is in the E1 report and flaky cases are tagged in their
-metadata.
+text, and the grader outcomes? Do not drop cases whose pass/fail flips across
+repetitions: that instability is one of the behaviors under study, and a drop
+from five passes in ten to one in ten is a regression the gate must see. Gate
+instead on the pass-rate delta between skill versions with an uncertainty
+bound (a Wilson interval or a bootstrap over repetitions), and tag
+high-variance cases in their metadata so a reader can see them. Done when: a
+variance table is in the E1 report, every case carries its pass rate and
+interval, and the regression gate in G1 uses the interval rule.
 
 ### E4. Instruction ablation (L)
 `SKILL.md` is about 65 KB and the references add more. Remove one section or
@@ -259,9 +301,14 @@ removed block with its effect on pass rate, churn, and judge scores.
 
 ### E5. Cross-agent comparison (M)
 Run the same corpus through at least two agents that read the skill (Claude
-Code and one other, for example Codex) and one chat surface with `SKILL.md`
-pasted in. Where does behavior diverge? Done when: divergences are listed with
-the instruction each agent ignores, feeding F-tasks.
+Code and one other, for example Codex) and one chat surface. Give every
+surface the same inputs: the chat condition gets `SKILL.md` and every
+`references/` file the sweep loads, not `SKILL.md` alone, since the passes
+depend on those files and a divergence caused by a missing input says nothing
+about instruction compliance. If a surface cannot take the full set, report
+that run as a packaging comparison, separately. Where does behavior diverge?
+Done when: divergences are listed with the instruction each agent ignores,
+feeding F-tasks.
 
 ---
 
@@ -304,8 +351,13 @@ trigger set are both above an agreed threshold and recorded.
 
 ### F6. Promote recurring failures to examples and CI anchors (S, recurring)
 When an F-task fixes a cluster, add one representative case as a new
-`examples/*.md` file so the existing bash checks guard it on every push. Done
-when: each fixed cluster has an anchor example and CI is green.
+`examples/*.md` anchor and an executable assertion for the fixed behavior: a
+grader in C that runs in the fast CI tier over the stored golden output, or a
+case in the slow tier's smoke subset. The existing bash checks guard output
+shape, protected-token inventories, and mechanical tells only; a buried lede,
+a flattened voice, or an invalid Diagnosis item leaves them green. Done when:
+each fixed cluster has an anchor example and a CI assertion that fails on the
+pre-fix output and passes on the fixed one.
 
 ### F7. Per-command output audit (M)
 The twelve `/paper:*` commands each promise a specific output shape. Add one
@@ -334,9 +386,16 @@ section for any change to `SKILL.md`, `references/`, or commands, and a
 Done when: the template exists and a maintainer has used it once.
 
 ### G3. Results history (S)
-Keep `results/<version>/benchmark.md` for every release so a reader can see
-the trend across versions. Add a one-line summary to each `CHANGELOG.md` entry.
-Done when: v3.0.0 and the next release both have results directories.
+Keep `results/<version>/benchmark.md` for every release, together with the
+full evaluation configuration (corpus version, grader and judge versions,
+model ids, repetition count, harness SHA). Scores are comparable only under an
+identical suite and model: a new regression case can lower a later score while
+the skill improved, and a model change moves it on its own. Present a trend
+only across results with matching suite and model identifiers, and otherwise
+rerun the earlier skill refs on the current suite through A2 (cheap, since the
+runner takes a git ref). Add a one-line summary to each `CHANGELOG.md` entry.
+Done when: v3.0.0 and the next release both have results directories with
+pinned configurations and a comparable pair of scores.
 
 ### G4. Documentation (S)
 `evals/README.md`: how to add a case, run the harness, read the report, and
@@ -350,17 +409,20 @@ tier from the README alone.
 ```
 A1 -> A2 -> A3 -> A4
 B1 -> B2, B3, B4, B5, B6, B7
-C1 (needs A1 only) -> F2, F3, G1
-C2, C3, C4, C5, C6 (need A3)
-D1 -> D2 -> D3 ; D4
-E1 (needs A4, B2, C*, D*) -> E2, E3 -> F1, F6
+C1 (needs A1, B4) -> F2, F3, G1
+C2, C3 (need A3) ; C4 (needs A3, B6) ; C5 (needs A3, B5) ; C6 (needs A3, B3)
+D1 -> D2 -> D3 ; D4 (needs A3)
+E1 (needs A4, B2 through B6, C1 through C6, D1 through D4) -> E2, E3 -> F1, F6
 E4, E5 (need E1) -> F4
 B7 -> F5
 G2, G3, G4 anytime after A4
 ```
 
-Suggested first month: A1, B1, C1, B2 in parallel; then A2, A3, C2, C3; then
-E1. Nothing in F starts before E1 produces numbers.
+Suggested order: first month A1, B1, B2, and the C1 extraction core in
+parallel; second month B3 through B6, A2, A3, then C1's traps and C2 through
+C6; third month D1 through D4 and E1. A partial run on B2 alone is useful for
+debugging the harness, but it is labeled partial and never reported as the E1
+baseline. Nothing in F starts before E1 produces numbers.
 
 ## Status
 

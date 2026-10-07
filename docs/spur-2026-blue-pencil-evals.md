@@ -37,9 +37,13 @@ want to achieve three goals:
 * Make the skill more verifiable. Move guarantees from "the model says it
   checked" to "a program checked." The main deliverable here is a
   reference-implementation checker that diffs protected content between the
-  input and the revised text of any run, so an author can confirm nothing was
-  altered without reading both versions side by side. This generalizes the
-  existing CI tripwire from a handful of examples to arbitrary manuscripts.
+  input and the revised text of any run, so an author gets a mechanical list
+  of every citation, number, equation, and cross-reference that was added,
+  dropped, or changed, instead of reading both versions side by side. The
+  check states what it cannot see (a token that kept its value but moved
+  between claims) and a sentence-aligned mode covers that case. This
+  generalizes the existing CI tripwire from a handful of examples to
+  arbitrary manuscripts.
 
 * Make the skill better, guided by the numbers. Use the eval results to find
   where the instructions fail (which passes are skipped, which constraints are
