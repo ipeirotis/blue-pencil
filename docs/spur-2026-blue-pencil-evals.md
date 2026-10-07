@@ -96,8 +96,8 @@ root. Suggested 10 week arc, one row per meeting:
 |------|-----------|
 | 1 | Install the skill, run it on two of the student's own or public papers, read `SKILL.md` and `scripts/check-protected.sh`. |
 | 2 | Corpus design: which fields, stages, and defect types; how many sections; how to source them (arXiv LaTeX, permission-cleared drafts). |
-| 3 | Corpus v1 (about 30 sections) with per-section ground truth: protected-content inventory plus a hand-written list of the defects an editor should catch. |
-| 4 | Deterministic graders: protected content diff and output-format contract, as a Python package with tests. |
+| 3 | Corpus v1 (about 30 sections) with a hand-written list per section of the defects an editor should catch, plus the trap cases the checker will be tested against. |
+| 4 | Deterministic graders: protected content diff and output-format contract, as a Python package with tests; its inventory command generates the per-section protected-content inventory that completes the corpus ground truth. |
 | 5 | Harness: run any skill version against the corpus on a chosen model, N repetitions, store raw outputs and grader results. First baseline numbers. |
 | 6 | LLM-as-judge rubrics for clarity, voice, and AI tells; calibrate against a small set of human-labelled pairs. |
 | 7 | Failure analysis of the baseline: cluster violations by input type and by skill pass. Pick the top three to fix. |

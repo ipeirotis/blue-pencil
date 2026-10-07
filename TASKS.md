@@ -329,6 +329,9 @@ never reads as a behavioral regression; the command at that ref, not this
 list, is the authority on its shape. Only an output matching no variant is
 a graded parse failure, never a crash; an output whose variant is not the
 entry of the case's `expected_variants` for the current agent-turn index
+(or, on a `/paper:loop` case, is not a transition the A1 allowed-transition
+set permits from the previous variant or event, since such a case has no
+indexed entry and may reach a checkpoint by any allowed path)
 parses, and then fails C2 as an unexpected variant transition before any
 contract branch runs. A reference request under the E5 chat protocol is not
 a result turn: the adapter records it as a read event and the harness's
@@ -685,7 +688,14 @@ Check what the skill says about its own run against what it did:
   `expected_passes` requires, fails). Each loaded
   file appears in the A2 trace as canonical reads of that path whose ranges
   together cover the whole file (a bounded read of the first screen does not
-  count); on a surface that received the files by injection the audit is
+  count), and the converse holds: every reference the trace shows read
+  (any file under `references/`, by canonical read events) appears on the
+  line, so a run that loads a gated-off `narrative-spine.md`, or every
+  reference, and omits the read from the line fails as an unreported load
+  rather than passing on a report that merely matches `expected_passes`,
+  since a hidden extra load is a selection failure and would contaminate
+  the E4 and E5 comparisons with guidance the case should not receive; on a
+  surface that received the files by injection the audit is
   not applicable and is reported as such (A4's not-applicable state), never
   as a pass. The
   claim alone is what this check exists to distrust: a model that skips a
@@ -1546,7 +1556,9 @@ tier from the README alone.
 ## Dependencies and suggested order
 
 ```
-A1 -> A2 -> A3 -> A4
+A1 -> A3 aligner (the canonical pinned sentence aligner, split out first,
+since A2's example-leak check needs it before any run) -> A2 -> A3 parser
+(whose done-when consumes A2's raw outputs) -> A4
 B1 -> B2, B3, B4, B5, B6, B7
 C1 extraction core (needs A1, B4) ; C1 claim-local mode (needs A3) -> F2, F3 ; F3 -> F7
 G1 (needs A2, C1 through C6, E3 for the interval rule and a stored baseline)
@@ -1565,7 +1577,8 @@ the next release's benchmark for the second)
 Suggested order: first month A1, B1, and B4 first, then the C1 extraction
 core (which needs B4's traps as its fixtures) alongside B2's prose, with
 B2's protected inventories generated once the extraction core lands so B2
-can meet its done-when inside the month; second month B3, B5, B6, A2, A3,
+can meet its done-when inside the month; second month B3, B5, B6, the A3
+aligner, then A2, then the A3 parser,
 then C1's claim-local mode and C2 through
 C6; third month D1 through D4 and E1. A partial run on B2 alone is useful for
 debugging the harness, but it is labeled partial and never reported as the E1
