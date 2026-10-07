@@ -19,7 +19,8 @@
     "narrative": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
     "leads": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
     "md_links": "We solve x - y = z, as [the study](paper.pdf) shows; the ~~old~~ estimate is retained.",
-    "rates": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|"
+    "rates": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+    "misc14": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>."
   },
   "variants": [
     {
@@ -741,6 +742,60 @@
       "damage_type": "table reference changed",
       "code_grader_should_flag": true,
       "note": "Footnote reference retargeted."
+    },
+    {
+      "id": "misc14-harmless-1",
+      "base": "misc14",
+      "revised": "Results\n=======\nWith ½ the risk, the value is f(x) = 5; she wrote «the effect was large». See <https://a.example/path>.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered only."
+    },
+    {
+      "id": "misc14-function-renamed",
+      "base": "misc14",
+      "revised": "Results\n=======\nThe value is g(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Function name in a bare equation changed."
+    },
+    {
+      "id": "misc14-vulgar-fraction-changed",
+      "base": "misc14",
+      "revised": "Results\n=======\nThe value is f(x) = 5 with ¼ the risk; she wrote «the effect was large». See <https://a.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Unicode fraction changed."
+    },
+    {
+      "id": "misc14-guillemet-quote-changed",
+      "base": "misc14",
+      "revised": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was small». See <https://a.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Text in guillemets changed."
+    },
+    {
+      "id": "misc14-autolink-changed",
+      "base": "misc14",
+      "revised": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://b.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Autolink destination changed."
+    },
+    {
+      "id": "misc14-setext-dropped",
+      "base": "misc14",
+      "revised": "Results\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Setext heading underline removed."
     }
   ]
 }

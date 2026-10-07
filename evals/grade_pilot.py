@@ -62,7 +62,13 @@ def _quoted(quote, passage):
     parts = [p.strip() for p in re.split(r"\.\.\.|\u2026", _norm(quote)) if p.strip()]
     if _norm(quote) and not parts:
         return False  # a quote of only "..." cites nothing
-    return all(p in src for p in parts)
+    pos = 0
+    for p in parts:  # the parts must appear in the quote's order
+        pos = src.find(p, pos)
+        if pos == -1:
+            return False
+        pos += len(p)
+    return True
 
 
 def meaning_validator(original, revised):
@@ -115,6 +121,26 @@ def valid_quality(parsed):
         return False
     return (all(v in QUALITY_VERDICTS for v in dims.values()) and _text(parsed.get("reasoning"))
             and all(_text(ev.get(k)) for k, v in dims.items() if v != "tie"))
+
+
+def quality_validator(version_a, version_b):
+    """valid_quality, plus: each non-tie dimension's evidence ("A: '...' vs B: '...'") must
+    quote at least one passage that really occurs in each version."""
+    def side_ok(side, text):
+        quotes = [q for pair in re.findall(r"'([^']{3,})'|\"([^\"]{3,})\"", side) for q in pair if q]
+        return any(_quoted(q.strip(" ."), text) for q in quotes)
+
+    def valid(parsed):
+        if not valid_quality(parsed):
+            return False
+        for k, v in parsed["dimensions"].items():
+            if v == "tie":
+                continue
+            m = re.match(r"\s*A:\s*(.*?)\s+vs\.?\s+B:\s*(.*)$", parsed["evidence"][k], re.S)
+            if not (m and side_ok(m.group(1), version_a) and side_ok(m.group(2), version_b)):
+                return False
+        return True
+    return valid
 
 
 def grader_key(prompt, model):
@@ -205,17 +231,18 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
         b_cond = CONDS[1] if a_cond == CONDS[0] else CONDS[0]
         plan.append((a_cond, b_cond, fill((EVALS / "prompts" / "quality_grader.md").read_text(),
                                           AUDIENCE=audience_of(case_id), ORIGINAL=original,
-                                          VERSION_A=revised[a_cond], VERSION_B=revised[b_cond])))
+                                          VERSION_A=revised[a_cond], VERSION_B=revised[b_cond]),
+                     quality_validator(revised[a_cond], revised[b_cond])))
     prior = eval_dir / f"comparison-run-{n}.json"
     if prior.exists() and not force:
         old = read_json(prior)
-        if all(valid_quality((o["grader"] or {}).get("parsed"))
+        if all(valid((o["grader"] or {}).get("parsed"))
                and (o["grader"] or {}).get("key") == grader_key(prompt, model)
-               for o, (_, _, prompt) in zip(old["orders"], plan)):
+               for o, (_, _, prompt, valid) in zip(old["orders"], plan)):
             return old  # already judged with this model and prompt; do not spend model calls again
     orders = []
-    for a_cond, b_cond, prompt in plan:
-        g = model_json(prompt, model, valid_quality)
+    for a_cond, b_cond, prompt, valid in plan:
+        g = model_json(prompt, model, valid)
         overall = (g["parsed"] or {}).get("overall")
         winner = None if overall is None else {"A": a_cond, "B": b_cond, "tie": "tie"}[overall]
         orders.append({"A": a_cond, "B": b_cond, "grader": g, "winner": winner})

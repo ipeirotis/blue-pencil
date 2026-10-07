@@ -36,8 +36,8 @@ def invalid_reason(r, cond):
         return "no trial.json (the call did not finish)"
     if r["trial"].get("is_error"):
         return "claude -p reported an error"
-    if cond == "with_skill" and r["trial"].get("skill_loaded") is False:
-        return "Blue Pencil was not loaded"
+    if cond == "with_skill" and r["trial"].get("skill_loaded") is not True:
+        return "Blue Pencil was not loaded, or loading was not recorded"
     return None
 
 

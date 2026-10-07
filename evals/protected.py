@@ -103,7 +103,7 @@ _NUMWORD_RE = re.compile(
 # letters, operators, arrows, letterlike symbols (\u211d), sub/superscripts, primes, and
 # math alphanumerics. Each character is one token, so "\u03b2" to "\u03b3" is caught.
 _SYMBOL_RE = re.compile(
-    "[\u0370-\u03ff\u00b1\u00d7\u00f7\u00b2\u00b3\u00b9\u2032-\u2037\u2070-\u209f"
+    "[\u0370-\u03ff\u00b1\u00d7\u00f7\u00b2\u00b3\u00b9\u00bc-\u00be\u2150-\u215e\u2032-\u2037\u2070-\u209f"
     "\u2100-\u214f\u2190-\u21ff\u2200-\u22ff\u27c0-\u27ef\u2980-\u2aff"
     "\U0001d400-\U0001d7ff]")
 
@@ -125,13 +125,15 @@ _NUMCITE_RE = re.compile(r"\[ ?[0-9]+(?: ?[,;\u2013-] ?[0-9]+)* ?\]")
 # Bare ASCII equations and comparisons outside math delimiters ("x > y", "a+b=c",
 # "n = 412"): operands of at most two letters or a number, joined by = < > + * / ^.
 # Whitespace is dropped from the token, so only a change of operand or operator counts.
-_EQ_OPERAND = r"(?:[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
+# A function call ("f(x)", "log(y)") is one operand, so renaming the function is caught.
+_FUNC = r"[A-Za-z][A-Za-z0-9_]*\([^()\s]{1,20}\)"
+_EQ_OPERAND = r"(?:" + _FUNC + r"|[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 # Subtraction counts as an operator when written " - " (spaced) or with a Unicode minus;
 # an unspaced hyphen is left out so hyphenated words ("co-op") are not equations.
 # Comparisons and assignments may also use named operands ("rate = 5", "dose < limit").
 # Only = < > and their combinations join them, so "and/or" style slashes stay prose.
 _IDENT = r"[A-Za-z][A-Za-z0-9_]*"
-_RELATION_RE = re.compile(r"(?<![\w.\\])" + _IDENT + r" ?(?:<=|>=|!=|==|[=<>]) ?(?:" + _IDENT
+_RELATION_RE = re.compile(r"(?<![\w.\\])(?:" + _FUNC + "|" + _IDENT + r") ?(?:<=|>=|!=|==|[=<>]) ?(?:" + _FUNC + "|" + _IDENT
                           + r"|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?![\w])")
 _EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212]) ?| - )"
                           + _EQ_OPERAND + r")+(?![\w])")
@@ -330,7 +332,8 @@ def tokens(cls, raw, flat):
         return re.findall(
             r"\\(?:ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\((?:[^()]|\([^()]*\))*\)|"
             r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat) + re.findall(r"!\[", flat) + re.findall(
-            r"\[\^[^\]]+\]", flat) + [  # "![" marks an image; "[^id]" is a footnote reference
+            r"\[\^[^\]]+\]", flat) + re.findall(r"<(?:https?://|mailto:)[^>\s]+>", flat) + [
+            # "![" marks an image; "[^id]" is a footnote reference; <https://...> is an autolink
             # The opening "[" of an inline or reference link; the link text stays editable.
             "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)]
     if cls == "callouts":
@@ -375,6 +378,7 @@ def tokens(cls, raw, flat):
         # Straight single quotes: an opening ' not preceded by a letter or digit and a
         # closing ' not followed by one, so apostrophes ("don't", "authors'") do not pair.
         out += re.findall(r"(?<![A-Za-z0-9'])'(?=\S)[^'\n]{1,200}?(?<=\S)'(?![A-Za-z0-9'])", flat)
+        out += re.findall("\u00ab[^\u00ab\u00bb]*\u00bb|\u2039[^\u2039\u203a]*\u203a", flat)  # guillemets
         return out
     if cls == "comments":
         out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|> )", ln)]
@@ -386,6 +390,8 @@ def tokens(cls, raw, flat):
         # not after a number, so a percentage ("5 %", "5%") is not mistaken for a comment.
         out += re.findall(r"(?<=[^0-9\\\s])\s*(%.*)$", raw, re.M)
         out += re.findall(r"^#{1,6} ", raw, re.M)
+        # Setext heading underlines ("=====", "-----"), kept as their character only.
+        out += [m[0] for m in re.findall(r"^ {0,3}(=+|-{3,})[ \t]*$", raw, re.M)]
         out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers
         # Ordered-list markers ("1.", "2)"); at most three digits, so a hard-wrapped line
         # that starts with a year ("2006). Moreover") is not taken for a list item.
