@@ -202,8 +202,15 @@ rather than which the model says it read, and so C4 can grade a write. Each
 run executes in a disposable worktree holding only the agent-visible inputs
 (the manuscript artifacts and the rendered context block or prompt), never
 the case definition or grader metadata (`must_flag`, `must_not_change`,
-`expected_passes`, `flagged_paragraphs`, `reference_clean`), which stay outside the worktree so
-an agent with `Glob` and `Read` cannot find the answers, with a complete
+`expected_passes`, `flagged_paragraphs`, `reference_clean`), which stay outside the worktree,
+and the agent runs inside a filesystem namespace (a container, mount
+namespace, or sandbox) that exposes only the staged worktree and the
+allowlisted runtime package in the temporary home, since directory
+placement alone would not stop `Read`, `Glob`, or a shell command from
+traversing an absolute or parent path into a checkout's `evals/`; the runner
+asserts the namespace before each run by reading a canary path outside it
+from inside and requiring the read to fail, so an agent with `Glob`,
+`Read`, or command execution cannot find the answers, with a complete
 snapshot of every file taken immediately before and after each agent turn
 (not one pair per run: scripted between-turn file updates from the `turns`
 script are applied by the runner outside those pairs, so the C4 per-turn
@@ -831,11 +838,15 @@ Check what the skill says about its own run against what it did:
   revision (fuzzy match) is accounted for in `Change rationale` (constraint
   6, no silent
   deletion), and so is every deleted hunk inside an aligned sentence pair
-  that drops a clause or a qualifier (a word-level diff of the pair; a hunk made only of tokens on an explicit
-  insignificant list, articles and punctuation, is ignored, while a hunk
-  containing a token from a semantic-qualifier lexicon such as `not`, `may`,
-  `only`, `some`, `often`, or `approximately` always needs coverage whatever
-  its size, since one such word can invert or broaden a claim), since a qualifier
+  that carries any token outside the insignificant list, as the insertion
+  side already requires (a word-level diff of the pair; a hunk made only of tokens on an explicit
+  insignificant list, articles and punctuation, is ignored, so a dropped
+  `nationally representative` or `(measured at baseline)` needs a ledger
+  entry even though it is neither a clause nor a listed qualifier, while a
+  hunk containing a token from a semantic-qualifier lexicon such as `not`,
+  `may`, `only`, `some`, `often`, or `approximately` always needs coverage
+  whatever its size, since one such word can invert or broaden a claim),
+  since a qualifier
   removed from a sentence that still aligns is the silent deletion the
   constraint most often means.
 - Every `Added bridges:` sentence has a matching Author question, matched in
@@ -979,12 +990,15 @@ output.
   new path such as `revised.tex` fails as surely as an edit in place), the
   trace carries no `Edit` or `Write` at all, whatever variant the
   response took, and on a surface with command execution no
-  command-execution event mutated the worktree either, which A2 establishes
-  by snapshotting after every execution event rather than only at turn
-  boundaries, so a file created or modified by a shell command and deleted
-  or restored before the turn ends is caught at the command that made it
-  (the read-only checker invocation of F3 is allowlisted by command but is
-  still snapshot-checked, so an invocation that wrote would fail); scripted between-turn updates
+  command-execution event wrote to the worktree either, which A2 establishes
+  by monitoring filesystem writes while each command runs (an overlay mount
+  whose upper layer is inspected after every command, or an inotify or
+  syscall-level audit recording every create, write, rename, and unlink),
+  not only by snapshotting after the command returns, so a script that
+  writes a file and restores or deletes it before exiting is caught as
+  surely as one that leaves the change behind (the read-only checker
+  invocation of F3 is allowlisted by command but is still monitored, so an
+  invocation that wrote would fail); scripted between-turn updates
   from the case's `turns` script (a loop case's author-side file updates;
   the repeat-round case has none, since its returned file is the staged
   initial state) are applied by the runner between snapshots and are
@@ -1146,7 +1160,12 @@ as inconclusive), or, where that is too long for
 the judge's context, retrieved source passages for every unmatched added or
 moved sentence and for every substantive added hunk inside an aligned pair
 (the hunk notion C2 uses, so a factual clause inserted into an otherwise
-aligned sentence is covered), not only for bridges: retrieval runs on each
+aligned sentence is covered), plus, for every changed aligned pair, the old
+and new surrounding passages (a recorded window of sentences on each side
+in both texts, so a pair beginning `This estimate` is judged with its
+antecedent), and for every unmatched deletion the original's surroundings,
+since a pair or a deletion judged in isolation produces false violations
+and misses on long manuscripts alone, not only for bridges: retrieval runs on each
 such sentence's or hunk's content terms (lexical overlap or embedding similarity against every
 supplied section) as well as on a bridge's cue words, so a factual sentence
 relocated from another section without `because` or another cue is traced
@@ -1230,7 +1249,13 @@ development-set rates.
 
 ### E1. Baseline benchmark for the current release (M)
 Run v3.0.0 on the full corpus, two or three models, five repetitions each. Run
-every grader from C and every judge from D. Publish
+every grader from C and every judge from D whose assertion applies to the
+parsed variant: the rewrite dimensions (clarity gain, voice preservation,
+sentence-aligned meaning) are reported not applicable on a feedback-only
+output, a staged plan, a refusal, a checker report, and letter assembly,
+none of which carries an original-to-revision pair, so a correct
+`/paper:read` or `/paper:triage` run is never scored as a total deletion,
+with the applicability of each judge keyed per variant in A4. Publish
 `results/<version>/benchmark.md`. Done when: the report is committed and the
 top ten failing assertions are listed with example outputs.
 
@@ -1306,7 +1331,11 @@ the model with gated-off guidance before any selection and the second would
 tell it which passes apply, and either difference could be mistaken for a
 surface effect), the files under `examples/` through the same request
 protocol (since `SKILL.md` and the letter command direct agents to the
-worked examples and A2 installs them for the agent conditions), the
+worked examples and A2 installs them for the agent conditions), together
+with a listing request that returns the manifest of `examples/` and
+`references/` filenames the agent conditions can `Glob`, recorded as a glob
+event, while contents stay on demand, so the chat condition can discover
+the same inputs the agents can inspect, the
 `paper-reviser` wrapper's rules from `.claude/agents/paper-reviser.md`
 prepended to the prompt whenever the agent condition it is matched against
 runs under that wrapper, and, for a command-driven case, the
