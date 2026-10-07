@@ -194,7 +194,11 @@ and confirm, never rewrite in one shot); a pasted section with no
 `<paper_context>` (must ask once, then default to `final polish`); reviewer
 comments with no manuscript (triage only, classifications marked unverified);
 PDF-extracted text with ligature damage; a `style_overrides:` line that permits
-em-dashes. Done when: each rule above has one case and a matching grader in C4, or in
+em-dashes; and a scripted repeat round for the across-rounds rule in
+`SKILL.md` (the current file is the author's decision record): the first turn
+revises a section, the scripted reply returns the file with two of the
+suggested edits reverted and one reworded, and the second turn must leave the
+author's wording alone. Done when: each rule above has one case and a matching grader in C4, or in
 C2 for the style-override case that C4 delegates there.
 
 ### B7. Trigger set (S)
@@ -241,11 +245,15 @@ mode passes.
 ### C2. Output-contract grader (M)
 Port the checks in `scripts/check-examples.sh` to a grader that runs on parsed
 A3 output and applies the checks the parsed variant's contract actually
-requires. For the full contract: heading order, `Word count:` shape,
+requires. For the full contract: heading order, `Word count:` shape and,
+whenever the reported or recomputed count grew, the one-line growth
+justification `SKILL.md` requires on the next line,
 `References loaded:` present, `Added bridges:` present, every quoted
 bridge sentence actually in the revised block, and the converse: every
 sentence in the revised block with no aligned source in the input (the A3
-alignment) that carries a justification cue (because, since, ensures,
+alignment), and every added hunk inside an aligned pair (`The instrument is
+valid.` becoming `The instrument is valid because assignment was random.`
+still aligns), that carries a justification cue (because, since, ensures,
 guarantees, holds, is valid, identifies, is exogenous, and a maintained
 lexicon) must appear on the line, so a run that adds a validity argument and
 prints `Added bridges: None.` fails; a cue hit is reported as a
@@ -306,7 +314,11 @@ Check what the skill says about its own run against what it did:
   be empty), and the two occupy corresponding positions in the A3 sentence
   alignment or the same diff hunk, so an entry stitched from an unrelated
   input span and an unrelated output span fails along with a wholly invented
-  one. Its `why` names a mechanism
+  one. The converse holds for insertions as for deletions: every added hunk
+  inside an aligned pair that is not made only of insignificant tokens, and
+  every added sentence, maps to a change line or to the `Added bridges:`
+  line, so a clause inserted without a ledger entry fails. Its `why` names a
+  mechanism
   from the allowed list; "reads better", "smoother", "more concise" alone
   fail.
 - Every sentence in the original that does not appear in the revision (fuzzy
@@ -326,7 +338,9 @@ output.
 ### C4. Scope and stage graders (M)
 - At `response to reviewers`: paragraphs outside the flagged set and their
   immediate neighbours are byte-identical to the input.
-- At `final polish` and in quick pass: paragraph count and order unchanged,
+- At `final polish`, in quick pass, and on every `/paper:polish` run whatever
+  the stored stage (the command applies final-polish constraints at `first
+  draft` too): paragraph count and order unchanged,
   and the alignment covers both directions inside each paragraph: every
   output sentence aligns to a sentence of the corresponding input paragraph,
   and every input sentence aligns to at least one output sentence of the
@@ -364,7 +378,13 @@ output.
   removed, merged-column boundaries), so the damaged sentence is as
   constrained as every other and a rewrite riding along with a ligature fix
   fails. When the case is marked pervasive the output asks for a cleaner
-  source and contains no `Revised text` block.
+  source, contains no `Revised text` block, and the A2 snapshot shows the
+  source file unchanged with no `Edit` or `Write` to it in the trace.
+- Across rounds (the scripted repeat-round case in B6): in the second turn no
+  sentence the author reverted or reworded is edited back toward the first
+  turn's suggestion (byte-identical to the author's version in the revised
+  block), the reverted edits are not re-proposed in the change lines, and the
+  apparent reversion is noted once in `Author questions`.
 - The `style_overrides:` case is owned by C2 (the override-aware tell check),
   not duplicated here.
 Done when: every B6 case names the grader that owns it, each named predicate
@@ -436,7 +456,10 @@ than against two raters who may disagree. Split the labeled pairs before
 anyone looks at judge output: 20 for development, 20 held out and
 untouched. Compute agreement between each judge and the humans
 (Cohen's kappa or Krippendorff's alpha) on the development set; rewrite any
-rubric below an agreed threshold against that set only. A rubric ships only
+rubric below the agreed threshold against that set only. The threshold is
+written into `evals/judges/CALIBRATION.md` before anyone inspects held-out
+judge output, so it cannot be set after the fact to clear whatever score the
+held-out set produced. A rubric ships only
 on its held-out agreement, and a rubric that was rewritten more than twice
 needs fresh held-out labels before shipping. Done when: the agreement table
 in `evals/judges/CALIBRATION.md` reports development and held-out scores
