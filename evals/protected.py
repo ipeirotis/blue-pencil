@@ -83,7 +83,8 @@ _NUMBER_RE = re.compile(
     # The first endpoint may carry its own suffix ("5%\u201310%", "5 mg\u201310 mg").
     r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM
     # An estimate with its uncertainty ("5 \u00b1 2") is one ordered token too.
-    + r"(?:(?:%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
+    + r"(?:(?:%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?"
+    + r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM + r")?"
     r"(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?",
@@ -140,8 +141,10 @@ def _dollar_math(flat):
             return out
         t = m.group(0)
         # "$5x$": a letter right after the leading number is a variable, so it is math.
+        # A slash before a unit word ("$5/kg") is a price, not division.
+        inner = re.sub(r"/[A-Za-z]+\b", "", t[1:-1])
         if (not t.startswith("$$") and re.match(r"\$[0-9][0-9,.]*(?![0-9,.A-Za-z])", t)
-                and not re.search(r"[\\^_{}=<>+*/]", t[1:-1])):
+                and not re.search(r"[\\^_{}=<>+*/]", inner)):
             pos = m.start() + 1
             continue
         out.append(t)
@@ -160,6 +163,10 @@ def _emphasis(flat):
 _AY_PAT = re.compile(_NAME + r"(?:,? " + _NAME + r")*,? \(?[12][0-9]{3}[a-z]?\)?")
 
 
+_NARRATIVE_CITE = re.compile(_NAME + r"(?:,? " + _NAME + r")* \([12][0-9]{3}[a-z]?\)")
+_NARRATIVE_RUN = re.compile(_NARRATIVE_CITE.pattern + r"(?:(?:;|,|,? and) " + _NARRATIVE_CITE.pattern + r")+")
+
+
 def _citation_groups(flat):
     """Ordered author-year groups inside one parenthetical, e.g. (A 2006; B 2008).
 
@@ -170,6 +177,13 @@ def _citation_groups(flat):
     for span in re.findall(r"\(([^()]*[12][0-9]{3}[^()]*)\)", flat):
         toks = [t.replace("(", "").replace(")", "").strip(", ")
                 for t in _AY_PAT.findall(span) if not _DATE_LEAD.match(t)]
+        if len(toks) >= 2:
+            groups.append(tuple(toks))
+    # Narrative citations next to each other, "Smith (2020); Jones (2021)" or
+    # "Smith (2020) and Jones (2021)", are an ordered group too.
+    for run in _NARRATIVE_RUN.finditer(flat):
+        toks = [t.replace("(", "").replace(")", "").strip(", ")
+                for t in _NARRATIVE_CITE.findall(run.group(0)) if not _DATE_LEAD.match(t)]
         if len(toks) >= 2:
             groups.append(tuple(toks))
     return groups
@@ -227,6 +241,12 @@ def _macros(text):
     return out
 
 
+_FROZEN_ENVS = ["lstlisting", "verbatim", "Verbatim", "minted", "alltt", "code", "tabular", "tabular*",
+                "tabularx", "longtable", "array", "equation", "equation*", "align", "align*", "gather",
+                "gather*", "multline", "multline*", "eqnarray", "eqnarray*", "matrix", "pmatrix",
+                "bmatrix", "vmatrix", "cases", "split"]
+
+
 def _strip_captions(text):
     """Caption text is editable prose; blank it before diffing environments."""
     out, pos = [], 0
@@ -269,7 +289,7 @@ def tokens(cls, raw, flat):
     if cls == "crossrefs":
         return re.findall(
             r"\\(?:ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\((?:[^()]|\([^()]*\))*\)|"
-            r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat)
+            r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat) + re.findall(r"!\[", flat)  # "![" marks an image
     if cls == "callouts":
         pat = (r"(?:table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?"
                # Roman numerals (uppercase only, so "the figure did" is not a callout): "Section IV".
@@ -291,10 +311,16 @@ def tokens(cls, raw, flat):
     if cls == "symbols":
         return _SYMBOL_RE.findall(flat.replace("\u00b5", "\u03bc"))  # micro sign == Greek mu
     if cls == "environments":
-        # Read from the raw text, not the flattened one: line breaks inside an environment
-        # (lstlisting, verbatim, tabular) are protected, so joining two lines is a change.
+        # Every \begin/\end marker is protected. Whole contents, read from the raw text
+        # with line breaks, are frozen only for environments whose contents are not prose
+        # (code, verbatim, tables, display math); prose environments such as abstract,
+        # itemize, or quote stay editable, with their numbers, citations, macros, and so on
+        # still checked by the other classes. (check-protected.sh freezes every environment.)
         text = _strip_captions("\n".join(ln.rstrip() for ln in raw.splitlines()))
-        return [m.group(0) for m in re.finditer(r"\\begin\{([^}]*)\}.*?\\end\{\1\}", text, re.S)]
+        out = re.findall(r"\\(?:begin|end)\{[^}]*\}", text)
+        names = "|".join(re.escape(n) for n in _FROZEN_ENVS)
+        out += [m.group(0) for m in re.finditer(r"\\begin\{(" + names + r")\}.*?\\end\{\1\}", text, re.S)]
+        return out
     if cls == "macros":
         return _macros(flat)
     if cls == "emphasis":

@@ -15,7 +15,8 @@
     "money": "Revenue was $5 and profit was $2; the 95% CI was 1.2\u20133.4.",
     "refs": "As Section IV shows, the dose of 10 mg per kg raised scores from 0.31 to 0.47, and $5 \\in S$ holds.",
     "suffixed": "The dose was 5 mg\u201310 mg, the share 5%\u201310%, and the report calls this 'robust'; use ``a ` b`` here.",
-    "latex_misc": "The estimate is 5 ± 2 and $5x$ grows. % TODO verify cohort\nAbout 5% of firms agree."
+    "latex_misc": "The estimate is 5 ± 2 and $5x$ grows. % TODO verify cohort\nAbout 5% of firms agree.",
+    "narrative": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}"
   },
   "variants": [
     {
@@ -557,6 +558,42 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Trailing LaTeX comment removed."
+    },
+    {
+      "id": "narrative-harmless-1",
+      "base": "narrative",
+      "revised": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10, and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nThis paper studies pricing.\n\\end{abstract}",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose inside an abstract environment edited; slash prices not read as math."
+    },
+    {
+      "id": "narrative-cites-reordered",
+      "base": "narrative",
+      "revised": "Prior work by Jones (2021); Smith (2020) found costs of $5 to $10 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Adjacent narrative citations reordered."
+    },
+    {
+      "id": "narrative-money-range-reversed",
+      "base": "narrative",
+      "revised": "Prior work by Smith (2020); Jones (2021) found costs of $10 to $5 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
+      "verdict": "damaged",
+      "damage_type": "number changed (range)",
+      "code_grader_should_flag": true,
+      "note": "Monetary range reversed."
+    },
+    {
+      "id": "narrative-image-to-link",
+      "base": "narrative",
+      "revised": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10 and $5/kg and $10/kg. See [study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Markdown image turned into a link."
     }
   ]
 }

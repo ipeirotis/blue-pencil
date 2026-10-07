@@ -72,7 +72,9 @@ def verdict_of(r):
 
 
 def code_passed(r):
-    return bool((r["cm"] or {}).get("code", {}).get("passed"))
+    """True or False, or None if the code grader has not been run on this run."""
+    code = (r["cm"] or {}).get("code")
+    return None if code is None else bool(code.get("passed"))
 
 
 def preserved(r):
@@ -84,7 +86,8 @@ def preserved(r):
     v = verdict_of(r)
     if v is None:
         return None
-    return code_passed(r) and v == "preserved"
+    c = code_passed(r)
+    return None if c is None else (c and v == "preserved")
 
 
 def counts(r):
@@ -115,12 +118,15 @@ def avg_counts(rs):
 
 
 def summary_row(label, rs):
-    code = sum(1 for r in rs if code_passed(r))
+    codes = [c for c in (code_passed(r) for r in rs) if c is not None]  # unrun code grades left out
     vs = [verdict_of(r) for r in rs]
     both = [b for b in (preserved(r) for r in rs) if b is not None]  # ungraded runs left out
     ungraded = len(rs) - len(both)
     major, minor = avg_counts(rs)
-    return (f"| {label} | {len(rs)} | {pct(code, len(rs))} | {vs.count('preserved')} / {vs.count('changed')} / "
+    no_code = len(rs) - len(codes)
+    return (f"| {label} | {len(rs)} | {pct(sum(codes), len(codes))}"
+            + (f" ({no_code} not graded)" if no_code else "")
+            + f" | {vs.count('preserved')} / {vs.count('changed')} / "
             f"{vs.count('unsure')}" + (f" ({ungraded} not graded)" if ungraded else "")
             + f" | {pct(sum(both), len(both))} | {major} | {minor} |")
 
