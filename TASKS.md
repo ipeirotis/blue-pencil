@@ -598,7 +598,12 @@ C3 accepts either reading of prose inside macro arguments, and the two can
 disagree in sign when an `\emph{...}` or `\footnote{...}` expands while
 ordinary prose shrinks, so growth is judged under the reading the report
 followed rather than under whichever reading happened to grow), the
-one-line growth justification `SKILL.md` requires on the next line,
+one-line growth justification `SKILL.md` requires, accepted either on the
+same `Word count:` line after the percentage or on the next line, since the
+contract text says "on the next line" while every golden example and the
+contract's own illustrations write it on the same line, so both layouts
+pass on a ref before F2 fixes one and the done-when below (every example
+passes) stays reachable,
 `References loaded:` present, `Added bridges:` present, each in the position
 the contract fixes rather than anywhere in the output (`Added bridges:` on
 the line immediately after the fenced revised block, and the Change
@@ -713,16 +718,22 @@ Check what the skill says about its own run against what it did:
   rounding to the nearest ten collapses the exact counts to equal displayed
   counts (`101` to `104` reported as `~100 to ~100 (+3%)` is honest, and so
   is `96` to `104` as `~100 to ~100 (+8%)`, so equal displayed counts are
-  accepted whenever the exact before and after counts round independently
-  to the same nearest ten, rather than by comparing the delta with the
+  accepted whenever the exact before and after counts both fall inside the
+  range the shared displayed count represents under the ref's rounding
+  granularity, rather than by comparing the delta with the
   rounding half-width, and the sign is then checked against the
   exact direction alone) (the bands alone cannot carry this, since for
   exact counts of 100 and 80 the bands 85 to 115 and 68 to 92 contain the
   rising pair 85 to 92, so an interval built from the bands would admit a
   positive percentage for a shrinking passage), and then its magnitude
   against the range the reported counts themselves imply: each reported
-  count stands for the rounding range it represents under the contract's
-  nearest-ten rounding (`~10` for 5 to 14, `~110` for 105 to 114),
+  count stands for the range it represents under the ref's rounding
+  granularity: the current contract asks for counts "to the nearest ~10
+  words" yet demonstrates `~139 to ~86`, and the examples report `~88 to
+  ~123`, so on such a ref a reported `~N` stands for `N` plus or minus
+  half the granularity whatever its last digit (`~139` for 134 to 144),
+  while on a ref whose F2 convention fixes the bins to multiples of ten the
+  bin range applies (`~10` for 5 to 14, `~110` for 105 to 114);
   intersected with the accepted exact-count tolerance band, and the
   percentage is recomputed from every direction-matching before and after
   pair inside those two intersections, with the reported value accepted if
@@ -1022,7 +1033,11 @@ On B5 cases and, in the G1 fast tier, on the restraint example: revised
 block identical to the input after applying the case's declared
 `permitted_fixes` (exact before-and-after pairs, empty on every B5 case and
 the single hyphenation fix on `examples/restraint-example.md`, each of which
-must also appear as a change line, so an undeclared fix still fails) and
+must also appear as a change line, so an undeclared fix still fails; the
+list lives in trusted fixture metadata, the A1 case file for a corpus case
+and a sidecar under `evals/fixtures/examples/` for an example, never in
+the output under test, since deriving it from the output's own change
+ledger would let a broken copy authorise any edit and pass) and
 after normalizing only
 insignificant wrapping (soft line breaks and runs of spaces inside a
 paragraph, and only the trailing whitespace that cannot affect the input
