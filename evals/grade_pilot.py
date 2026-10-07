@@ -128,7 +128,8 @@ def quality_validator(version_a, version_b):
     quote at least one passage that really occurs in each version."""
     def side_ok(side, text):
         quotes = [q for pair in re.findall(r"'([^']{3,})'|\"([^\"]{3,})\"", side) for q in pair if q]
-        return any(_quoted(q.strip(" ."), text) for q in quotes)
+        # A quote that is only dots or spaces ("'...'") is not evidence.
+        return any(q.strip(" .") and _quoted(q.strip(" ."), text) for q in quotes)
 
     def valid(parsed):
         if not valid_quality(parsed):

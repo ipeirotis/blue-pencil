@@ -41,8 +41,9 @@ _PROSE_MACROS = {"caption", "emph", "textbf", "textit", "footnote", "section",
 
 # A name starts with an uppercase letter, Latin-1/Latin Extended-A, Greek and Cyrillic
 # included ("Garc\u00eda", "M\u00fcller", "\u0141ukasz"), and continues with any letters.
+# The connectors "of" and "for" keep institutional authors whole ("University of Oxford").
 _NAME = (r"(?:[A-Z\u00c0-\u00d6\u00d8-\u00de\u0100-\u017f\u0391-\u03a9\u0410-\u042f](?:[^\W\d_]|['.&-])+|"
-         r"van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)")
+         r"van|von|der|de|del|da|di|la|le|ter|ten|dos|and|of|for|et|al\.?|&)")
 _DATE_LEAD = re.compile(
     r"^(In|On|At|By|For|From|Since|After|Before|During|Until|Between|Around|Over|Under|"
     r"The|A|An|As|Of|To|With|When|While|January|February|March|April|May|June|July|August|"
@@ -70,7 +71,7 @@ _UNIT_SYM = (r"(?-i:" + _UNIT_ONE + r"(?:(?:[/\u00b7\u22c5]| per )" + _UNIT_ONE 
              r"(?![A-Za-z0-9])")
 _UNIT_WORD = (r"(?:(?:micro|milli|centi|kilo|nano)?(?:grams?|litres?|liters?|meters?|metres?|"
               r"moles?|seconds?|minutes?|hours?|volts?|watts?|joules?)|degrees?(?: (?:celsius|fahrenheit))?|"
-              r"kelvin|hertz|calories?)\b")
+              r"kelvin|hertz|calories?|days?|weeks?|months?|years?)\b")
 _NUMBER_RE = re.compile(
     r"(?:(?:less than|more than|greater than|fewer than|at least|at most|up to|approximately|"
     r"about|around|roughly|nearly|exceeding|below|above) )?"
@@ -130,11 +131,15 @@ _FUNC = r"[A-Za-z][A-Za-z0-9_]*\([^()\s]{1,20}\)"
 _EQ_OPERAND = r"(?:" + _FUNC + r"|[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 # Subtraction counts as an operator when written " - " (spaced) or with a Unicode minus;
 # an unspaced hyphen is left out so hyphenated words ("co-op") are not equations.
-# Comparisons and assignments may also use named operands ("rate = 5", "dose < limit").
-# Only = < > and their combinations join them, so "and/or" style slashes stay prose.
+# Comparisons and assignments may also use named operands ("rate = 5", "dose < limit",
+# "rate + dose = total"). A chain with named operands counts only if it holds one of
+# = < > or their combinations, so "and/or" style slashes stay prose.
 _IDENT = r"[A-Za-z][A-Za-z0-9_]*"
-_RELATION_RE = re.compile(r"(?<![\w.\\])(?:" + _FUNC + "|" + _IDENT + r") ?(?:<=|>=|!=|==|[=<>]) ?(?:" + _FUNC + "|" + _IDENT
-                          + r"|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?![\w])")
+_REL_OPERAND = r"(?:" + _FUNC + "|" + _IDENT + r"|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
+_ARITH_OP = r"(?: ?[+*/^\u2212] ?| - )"
+_REL_OP = r" ?(?:<=|>=|!=|==|[=<>]) ?"
+_RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
+                          + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
 _EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212]) ?| - )"
                           + _EQ_OPERAND + r")+(?![\w])")
 
@@ -191,11 +196,11 @@ def _strip_lead(t):
     If nothing name-like is left ("In March 2020", "The 2019"), the match is a date,
     not a citation, and "" is returned."""
     while True:
-        m = _DATE_LEAD.match(t)
+        m = _DATE_LEAD.match(t) or re.match(r"(?:and|of|for|&) ", t)
         if not m:
             break
         t = t[m.end():]
-    return t if re.match(_NAME, t) and not re.match(r"(?:and|et|al\.?|&)\b", t) else ""
+    return t if re.match(_NAME, t) and not re.match(r"(?:et|al\.?)\b", t) else ""
 
 
 def _citation_groups(flat):
@@ -253,7 +258,7 @@ def _macros(text):
             j, shape = rest_i, ""
             if text[j:j + 1] == "[" and text.find("]", j) != -1:
                 shape, j = "[]", text.find("]", j) + 1
-            if text[j:j + 1] == "{":
+            if text[j:j + 1] == "{" and _brace_group(text, j):
                 shape += "{}"
             out.append(tok + shape)
             pos = rest_i

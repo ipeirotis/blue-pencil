@@ -131,6 +131,16 @@ def summary_row(label, rs):
             + f" | {pct(sum(both), len(both))} | {major} | {minor} |")
 
 
+def run_counts(runs):
+    """Runs per condition per case, read from the run directories (a resumed run may differ by case)."""
+    cases = sorted({r["case"] for c in CONDS for r in runs[c]})
+    n = {(case, c): sum(r["case"] == case for r in runs[c]) for case in cases for c in CONDS}
+    if len(set(n.values())) <= 1:
+        return f"{next(iter(n.values()), 0)} runs per condition per case"
+    return "runs per condition: " + "; ".join(
+        f"{case} " + ", ".join(f"{c} {n[(case, c)]}" for c in CONDS) for case in cases)
+
+
 def _fence_for(*texts):
     """A backtick fence longer than any backtick run in the texts, so a passage that
     contains its own fenced block cannot close the wrapper early."""
@@ -160,7 +170,7 @@ def main():
     L = [f"# Pilot report: {sys.argv[1]}", "",
          f"- Executor model: `{meta.get('executor_model')}` (Claude Code {meta.get('claude_code_version')})",
          f"- Blue Pencil version: {meta.get('blue_pencil_version')}, repo commit `{str(meta.get('repo_commit'))[:10]}`",
-         f"- Cases: {', '.join(meta.get('cases', []))}; {meta.get('runs_per_condition')} runs per condition per case",
+         f"- Cases: {', '.join(meta.get('cases', []))}; {run_counts(all_runs)}",
          f"- Rubric: `evals/rubric.md` {rubrics}. Revision stage: first draft."]
     for res in meta.get("resumes", []):
         L.append(f"- Resumed {res.get('started')} at repo commit `{str(res.get('repo_commit'))[:10]}`"

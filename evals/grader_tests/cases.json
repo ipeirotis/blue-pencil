@@ -20,7 +20,8 @@
     "leads": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
     "md_links": "We solve x - y = z, as [the study](paper.pdf) shows; the ~~old~~ estimate is retained.",
     "rates": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
-    "misc14": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>."
+    "misc14": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
+    "misc15": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands."
   },
   "variants": [
     {
@@ -796,6 +797,51 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Setext heading underline removed."
+    },
+    {
+      "id": "misc15-institution-changed",
+      "base": "misc15",
+      "revised": "As Institute of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands.",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Institutional author changed; only the words before the connector differ."
+    },
+    {
+      "id": "misc15-calendar-unit-changed",
+      "base": "misc15",
+      "revised": "As University of Oxford (2020) reported, participants were followed for 10 weeks, and rate + dose = total held. The \\textbf{important} point stands.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Duration unit changed from days to weeks."
+    },
+    {
+      "id": "misc15-named-arithmetic-operand-changed",
+      "base": "misc15",
+      "revised": "As University of Oxford (2020) reported, participants were followed for 10 days, and time + dose = total held. The \\textbf{important} point stands.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Named operand changed in an arithmetic chain."
+    },
+    {
+      "id": "misc15-prose-macro-unclosed",
+      "base": "misc15",
+      "revised": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important point stands.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Closing brace of a prose macro removed."
+    },
+    {
+      "id": "misc15-reordered-harmless",
+      "base": "misc15",
+      "revised": "Participants were followed for 10 days, as University of Oxford (2020) reported, and rate + dose = total held. The \\textbf{important} point stands.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; every protected token kept."
     }
   ]
 }

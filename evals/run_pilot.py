@@ -160,6 +160,7 @@ def resume_meta(meta, config, provenance, ids, runs, allow_mixed):
     meta = dict(meta)
     meta["case_fingerprints"] = {**config["case_fingerprints"], **old_cases}
     meta["cases"] = list(dict.fromkeys(meta.get("cases", []) + ids))
+    # The largest count asked for; report.py reads the actual count per case from the run directories.
     meta["runs_per_condition"] = max(meta.get("runs_per_condition") or 0, runs)
     meta.setdefault("resumes", []).append(
         {**provenance, "cases": ids, "runs_per_condition": runs, "config_differs": sorted(diffs)})
@@ -182,7 +183,10 @@ def main():
     ids = list(dict.fromkeys(args.cases or catalog))  # each case once, in order
     cases = [load_case(i, catalog.get(i, {}).get("source")) for i in ids]
     out_root = EVALS / "results" / args.run_id
-    jobs = [(c, cond, n) for c in cases for cond in CONDITIONS for n in range(1, args.runs + 1)]
+    # The two conditions alternate, and which goes first alternates by run, so neither
+    # condition runs as one batch and backend drift or throttling is not confounded with it.
+    jobs = [(c, cond, n) for c in cases for n in range(1, args.runs + 1)
+            for cond in (CONDITIONS if n % 2 else CONDITIONS[::-1])]
     print(f"run id: {args.run_id}\nmodel: {args.model}\ncases: {ids}\n"
           f"trials: {len(jobs)} ({args.runs} per condition per case)")
     if args.dry_run:
