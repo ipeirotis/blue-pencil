@@ -4,7 +4,6 @@
 - Blue Pencil version: 3.0.0, repo commit `7d9ed8b4a7`
 - Cases: exposition-introduction, exposition-methods, exposition-results, worked-example; 3 runs per condition per case
 - Rubric: `evals/rubric.md` v0.2. Revision stage: first draft.
-- **Caveat:** 11 of 12 with-skill runs read or listed files outside their workspace (such as Blue Pencil copies in the home directory), so they were not limited to the skill files this run recorded: exposition-introduction run 1 (/root/.agents/skills/blue-pencil/SKILL.md, /root/.claude/skills/blue-pencil/SKILL.md); exposition-introduction run 2 (/root/.agents/skills/blue-pencil/SKILL.md, /root/.claude/skills/blue-pencil/SKILL.md); exposition-introduction run 3 (/root/.agents/skills/blue-pencil/SKILL.md, /root/.claude/skills/blue-pencil/SKILL.md); exposition-methods run 1 (/root/.agents/skills, /root/.claude/skills); exposition-methods run 2 (/root/.agents/skills, /root/.claude/skills); exposition-methods run 3 (/root/.agents/skills, /root/.claude/skills); exposition-results run 1 (/root/.agents/skills, /root/.claude/skills); exposition-results run 2 (~/.agents/skills, ~/.claude/skills); exposition-results run 3 (/root/.agents/skills, /root/.claude/skills); worked-example run 1 (/root/.agents/skills, /root/.claude/skills); worked-example run 3 (/root/.agents/skills, /root/.claude/skills)
 
 ## 1. Preservation (all cases)
 

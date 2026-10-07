@@ -112,6 +112,7 @@ _SYMBOL_RE = re.compile(
 _NO_EMPHASIS = re.compile(r"`[^`]+`|\$\$[^$]+\$\$|\$[^$]+\$|\\\(.*?\\\)|\\\[.*?\\\]|"
                           r"\\[A-Za-z]+\*?(?:\[[^\]]*\])*\{[^}]*\}|\]\([^)]*\)")
 _STRONG_RE = re.compile(r"(?<![*_\w\\])(\*\*|__)(?=[^\s*_])(.+?)(?<=[^\s*_\\])\1(?![*_\w])")
+_STRIKE_RE = re.compile(r"(?<!~)(~~)(?=\S)(.+?)(?<=\S)~~(?!~)")  # strikethrough
 _EM_RE = re.compile(r"(?<![*_\w\\])([*_])(?=[^\s*_])(.+?)(?<=[^\s*_\\])\1(?![*_\w])")
 
 # Numeric citation groups, "[12]" or "[12, 13]" or "[3-5]". The whole bracket is one
@@ -123,7 +124,9 @@ _NUMCITE_RE = re.compile(r"\[ ?[0-9]+(?: ?[,;\u2013-] ?[0-9]+)* ?\]")
 # "n = 412"): operands of at most two letters or a number, joined by = < > + * / ^.
 # Whitespace is dropped from the token, so only a change of operand or operator counts.
 _EQ_OPERAND = r"(?:[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
-_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?: ?(?:<=|>=|!=|==|[=<>+*/^]) ?"
+# Subtraction counts as an operator when written " - " (spaced) or with a Unicode minus;
+# an unspaced hyphen is left out so hyphenated words ("co-op") are not equations.
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212]) ?| - )"
                           + _EQ_OPERAND + r")+(?![\w])")
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
@@ -155,7 +158,7 @@ def _dollar_math(flat):
 def _emphasis(flat):
     text = _NO_EMPHASIS.sub(" ", flat)
     out = []
-    for pat in (_STRONG_RE, _EM_RE):
+    for pat in (_STRIKE_RE, _STRONG_RE, _EM_RE):
         out += [m.group(1) for m in pat.finditer(text)]
         text = pat.sub(lambda m: m.group(2), text)
     return out
@@ -310,7 +313,9 @@ def tokens(cls, raw, flat):
     if cls == "crossrefs":
         return re.findall(
             r"\\(?:ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\((?:[^()]|\([^()]*\))*\)|"
-            r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat) + re.findall(r"!\[", flat)  # "![" marks an image
+            r"\]\[[^\]]*\]|\[[^\]]+\]: [^ ]+", flat) + re.findall(r"!\[", flat) + [  # "![" marks an image
+            # The opening "[" of an inline or reference link; the link text stays editable.
+            "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)]
     if cls == "callouts":
         pat = (r"(?:table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?"
                # Roman numerals (uppercase only, so "the figure did" is not a callout): "Section IV".
