@@ -49,8 +49,13 @@ comments, is correct, while a token absent from every supplied artifact
 still fails; and
 C4 knows which file an explicit apply may touch), an optional `turns` script (an ordered list of
 author messages and between-turn artifact updates, such as the scripted
-context reply in the missing-context case or the author-edited file returned
-in the repeat-round case, hashed with the rest of the case so the cache key
+context reply in the missing-context case, and for the repeat-round case a
+`prior_transcript` fixture: the stored first-round suggestion seeded into
+the conversation as history rather than generated live, with the author's
+returned file staged as the artifact's initial state, so the evaluated run
+is one agent turn graded against the same rejected transformations on every
+model and repetition, as B6 specifies; all of it hashed with the rest of
+the case so the cache key
 covers the interaction), the paper
 context as structured fields (`revision_stage`,
 `audience`, `target_venue`, `core_thesis`, `style_overrides`), the command or
@@ -281,9 +286,13 @@ timeout cannot be counted as a model parse failure; attempts that exhaust
 the retries are reported as excluded in A4 with their error class, and a
 run with more than a recorded share of excluded attempts is marked
 incomplete rather than compared. Support scripted multi-turn cases from the `turns` script in A1: when a case
-expects the skill to ask first (the missing-context ask in B6) or to receive
-an author-modified file (the repeat-round case), the runner plays the
-scripted messages and file updates in order and records every turn. Done when: a baseline run over
+expects the skill to ask first (the missing-context ask in B6), the runner
+plays the scripted messages and file updates in order and records every
+turn; for the repeat-round case it seeds the conversation with the stored
+`prior_transcript` as history (recorded with `fixture` provenance, never as
+an agent turn), stages the author's returned file as the initial worktree
+state, and runs the single evaluated turn, so the trace, snapshots, and turn
+index match the fixture model B6 and C4 grade against. Done when: a baseline run over
 the seed corpus (B2) completes unattended, every output is on disk with its
 metadata, and editing a case's text invalidates its cached runs.
 
@@ -704,10 +713,13 @@ Check what the skill says about its own run against what it did:
   `expected_passes` requires, fails). Each loaded
   file appears in the A2 trace as canonical reads of that path whose ranges
   together cover the whole file (a bounded read of the first screen does not
-  count), and the converse holds: every reference the trace shows read
-  (any file under `references/`, by canonical read events) appears on the
-  line, so a run that loads a gated-off `narrative-spine.md`, or every
-  reference, and omits the read from the line fails as an unreported load
+  count), and the converse holds: every reference the trace shows accessed
+  (any file under `references/`, by canonical read events or by a
+  content-returning `Grep` whose matches came from it, which the A2 adapter
+  records with the path and the line ranges of the matched content so a
+  search is distinguishable from a complete load) appears on the
+  line, so a run that loads or greps a gated-off `narrative-spine.md`, or
+  every reference, and omits the access from the line fails as an unreported load
   rather than passing on a report that merely matches `expected_passes`,
   since a hidden extra load is a selection failure and would contaminate
   the E4 and E5 comparisons with guidance the case should not receive; on a
@@ -872,16 +884,18 @@ output.
   fails. When `damage_mode` is `pervasive` the output asks for a cleaner
   source, contains no `Revised text` block, and the A2 snapshot shows the
   source file unchanged with no `Edit` or `Write` to it in the trace.
-- Across rounds (the scripted repeat-round case in B6): in the second turn the
-  spans the author reverted or reworded (the diff between the first turn's
-  suggestion and the author's returned file) are not moved back toward the
-  first turn's suggestion: for each such span the case records the rejected
+- Across rounds (the scripted repeat-round case in B6): in the evaluated
+  turn, which follows the stored `prior_transcript` fixture, the
+  spans the author reverted or reworded (the diff between the stored
+  suggestion and the author's returned file, both fixture data) are not
+  moved back toward the
+  stored suggestion: for each such span the case records the rejected
   transformation (the before and after wording and what the edit did, such
   as strengthening a verb or deleting a hedge), and the second turn fails
   when it re-proposes that transformation on that span under any wording
   ("shows" rejected as "demonstrates" and reoffered as "establishes" fails);
   the check has a deterministic half in C4, which fails when the rejected
-  span's first-turn wording reappears verbatim or the author's wording in
+  span's stored-suggestion wording reappears verbatim or the author's wording in
   that span is otherwise changed, and a semantic half in the judge tier,
   a D4 assertion that fails a re-proposal of the recorded transformation
   under new wording, while unrelated text in the same sentence (a new typo,
@@ -928,8 +942,9 @@ output.
   new path such as `revised.tex` fails as surely as an edit in place) and
   the trace carries no `Edit` or `Write` at all, whatever variant the
   response took; scripted between-turn updates
-  from the case's `turns` script (the author's returned file in the
-  repeat-round case) are applied by the runner between snapshots and are
+  from the case's `turns` script (a loop case's author-side file updates;
+  the repeat-round case has none, since its returned file is the staged
+  initial state) are applied by the runner between snapshots and are
   not the agent's writes, so the check compares around agent turns, never
   the initial state against the final one. This is the general form of the write checks named on the decline,
   split-and-confirm, and refusal cases; an otherwise valid full-contract,
@@ -1125,7 +1140,7 @@ existing explanation is not a bridge and the contract's `Added bridges:`
 covers newly introduced ones only; fixtures:
 ten true bridges, ten cue-word false alarms, and ten rephrasings of an
 explanation the input already carried, built without the line), re-proposal detection for
-C4 (input: the recorded rejected transformation and the second turn's span;
+C4 (input: the recorded rejected transformation and the evaluated turn's span;
 verdict: re-proposed or not; fixtures: ten re-proposals under new wording
 and ten unrelated legitimate edits), and provenance grounding for F2's
 letter assembly (input: an assembled reply and the decision, change-log
