@@ -41,7 +41,8 @@
     "misc32": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports.",
     "misc33": "One might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples.",
     "misc34": "[P1] supports the claim that x ≲ y. <!-- check with coauthor --> The bound is tight.",
-    "misc35": "Let A ∪ B denote the pooled sample; the coefficient is &alpha;, as García (2020) reports."
+    "misc35": "Let A ∪ B denote the pooled sample; the coefficient is &alpha;, as García (2020) reports.",
+    "misc36": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings."
   },
   "variants": [
     {
@@ -1663,6 +1664,51 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Author name re-encoded with a combining accent; canonically the same text."
+    },
+    {
+      "id": "misc36-decimal-comma-swapped",
+      "base": "misc36",
+      "revised": "The estimate was 5,1 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
+      "verdict": "damaged",
+      "damage_type": "number changed (transposed digits)",
+      "code_grader_should_flag": true,
+      "note": "Decimal-comma value transposed."
+    },
+    {
+      "id": "misc36-abs-operand-changed",
+      "base": "misc36",
+      "revised": "The estimate was 1,5 and we assume |y| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand inside absolute-value bars changed."
+    },
+    {
+      "id": "misc36-href-text-edited",
+      "base": "misc36",
+      "revised": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the earlier study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Link text of an \\href with a space after the macro name edited."
+    },
+    {
+      "id": "misc36-quote-env-changed",
+      "base": "misc36",
+      "revised": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was ineffective.\\end{quote}\nThere are $5!$ orderings.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Text inside a quote environment changed."
+    },
+    {
+      "id": "misc36-factorial-dropped",
+      "base": "misc36",
+      "revised": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5$ orderings.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Factorial removed from inline math."
     }
   ]
 }

@@ -61,7 +61,9 @@ _DATE_LEAD = re.compile(
 # "6 \u00d7 10^23", "6\u00d710\u00b2\u00b3", "10^5"), so changing the mantissa or the exponent is caught.
 _SUPDIG = "[\u2070\u00b9\u00b2\u00b3\u2074-\u2079]"
 _SUP = "[\u207a\u207b\u2212]?[\u2070\u00b9\u00b2\u00b3\u2074-\u2079]+"
-_NUM = (r"(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
+# A decimal comma ("1,5") is one number too, unless it sits in a bracketed list ("[1,5]",
+# "(1,2)") or a longer comma list ("1,5,7").
+_NUM = (r"(?:(?<![\[(,0-9])[0-9]+,[0-9]{1,2}(?![0-9,\])])|[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
         r"(?:[eE][+\u2212-]?[0-9]+|\^[+\u2212-]?[0-9]+|" + _SUP + "|"
         r" ?[\u00d7x] ?10(?:\^[+\u2212-]?[0-9]+|" + _SUP + r"))?")
 # Scientific units, matched case-sensitively (mM is not mm) and only as whole words, so
@@ -162,7 +164,10 @@ _IDENT = r"[A-Za-z][A-Za-z0-9_]*" + _DECOR
 _USYM = "[\u0391-\u03a9\u03b1-\u03c9\u03d1\u03d5\u03f5\u2100-\u214f\U0001d400-\U0001d7ff][A-Za-z0-9_]*" + _DECOR
 # A numeric operand may carry a sign and an exponent ("x = -5", "x = 2e10").
 # A bracketed side: "x = (a + b)", "x = [a + b]", "S = {a, b}".
-_GROUP = (r"(?:\((?:[^()\n]|\([^()\n]*\)){1,60}\)|\[(?:[^\[\]\n]|\[[^\[\]\n]*\]){1,60}\]"
+# Absolute values and norms count too ("|x| < 1", "||x|| = 1"); bars padded with spaces, as
+# in a Markdown table cell, do not.
+_GROUP = (r"(?:\|\|(?=\S)[^|\n]{1,40}(?<=\S)\|\||\|(?=\S)[^|\n]{1,40}(?<=\S)\|"
+          r"|\((?:[^()\n]|\([^()\n]*\)){1,60}\)|\[(?:[^\[\]\n]|\[[^\[\]\n]*\]){1,60}\]"
           r"|\{(?:[^{}\n]|\{[^{}\n]*\}){1,60}\})")
 # Any operand may carry a unary sign ("x = -y", "x = -(a + b)", "x = -5").
 _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|" + _GROUP
@@ -180,12 +185,14 @@ _BARE_OPERAND = r"(?:" + _FUNC + "|[A-Za-z]{1,2}" + _DECOR + "|" + _EQ_OPERAND +
 _EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|:=|=:|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213\u222a\u2229\u2295\u2297\u2216\u2218" + _UREL + r"]) ?| - | ~ )"
                           + _BARE_OPERAND + r")+(?![\w])")
 
-# An HTML tag from a fixed list of names, with only quoted attributes, so a comparison
-# chain such as "a<b and c>d" is not mistaken for a "<b>" tag.
+# An HTML tag from a fixed list of names, whose attributes have values or are known boolean
+# attributes, so a comparison chain such as "a<b and c>d" is not mistaken for a "<b>" tag.
 _HTML_TAG_RE = re.compile(
     r"</?(?:a|abbr|b|br|cite|code|del|details|div|em|figcaption|figure|h[1-6]|hr|i|img|ins|kbd|"
     r"li|mark|ol|p|pre|q|s|small|span|strong|sub|summary|sup|table|tbody|td|th|thead|tr|u|ul)"
-    r"""(?:\s+[\w:-]+=(?:"[^"]*"|'[^']*'))*\s*/?>""", re.I)
+    # Attributes: quoted or unquoted values, or a known boolean attribute ("<span hidden>").
+    r"""(?:\s+(?:[\w:-]+=(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+)|(?:hidden|open|checked|disabled|selected|"""
+    r"""controls|autoplay|loop|muted|reversed|async|defer|readonly|required|multiple)))*\s*/?>""", re.I)
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
 _PANEL = r"(?: ?\([a-z](?:[,\u2013-] ?[a-z])*\))?"
@@ -206,7 +213,7 @@ def _dollar_math(flat):
         # A slash before a unit word ("$5/kg") is a price, not division.
         inner = re.sub(r"/[A-Za-z]+\b", "", t[1:-1])
         if (not t.startswith("$$") and re.match(r"\$[-+\u2212]?[0-9][0-9,.]*(?![0-9,.A-Za-z])", t)
-                and not re.search(r"[\\^_{}=<>+*/]", inner)):
+                and not re.search(r"[\\^_{}=<>+*/]|[0-9A-Za-z)]!$", inner)):  # "$5!$" is a factorial
             pos = m.start() + 1
             continue
         out.append(t)
@@ -317,10 +324,17 @@ def _macros(text):
             break
         tok, rest_i = m.group(0), m.end()
         name = tok.lstrip("\\").rstrip("*")
+        if name == "href":
+            # TeX allows spaces after a control word and between arguments ("\href {url} {text}").
+            while text[rest_i:rest_i + 1] in (" ", "\t"):
+                rest_i += 1
         if name == "href" and text[rest_i:rest_i + 1] == "{" and _brace_group(text, rest_i):
             # \href{url}{text}: the destination is protected, the link text is editable prose.
             end = _brace_group(text, rest_i)
-            closed = text[end:end + 1] == "{" and _brace_group(text, end)
+            nxt = end
+            while text[nxt:nxt + 1] in (" ", "\t"):
+                nxt += 1
+            closed = text[nxt:nxt + 1] == "{" and _brace_group(text, nxt)
             out.append(tok + text[rest_i:end] + ("{}" if closed else ""))
             pos = end
             continue
@@ -380,7 +394,9 @@ _FROZEN_ENVS = ["lstlisting", "verbatim", "Verbatim", "minted", "alltt", "code",
                 "tabularx", "longtable", "array", "equation", "equation*", "align", "align*", "gather",
                 "gather*", "multline", "multline*", "eqnarray", "eqnarray*", "matrix", "pmatrix",
                 "bmatrix", "vmatrix", "cases", "split", "math", "displaymath", "alignat", "alignat*", "flalign",
-                "flalign*", "aligned", "alignedat", "gathered", "Bmatrix", "Vmatrix", "smallmatrix", "dcases"]
+                "flalign*", "aligned", "alignedat", "gathered", "Bmatrix", "Vmatrix", "smallmatrix", "dcases",
+                # Block quotations hold quoted text, which is protected like a Markdown "> " quote.
+                "quote", "quotation", "verse"]
 
 
 def _table_rows(raw):

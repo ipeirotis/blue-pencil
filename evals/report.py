@@ -85,16 +85,16 @@ def code_passed(r):
 
 
 def preserved(r):
-    """Code check and meaning check both pass. None if the meaning grader has no valid
-    verdict (not run, or every reply was invalid): such runs are ungraded, not failed.
-    A run with no revised text at all is a failure."""
+    """Code check and meaning check both pass. A failed code check, or no revised text at
+    all, is a failure whatever the meaning grader says. Otherwise None if either check has
+    no result (not run, or every meaning reply was invalid): such runs are ungraded."""
     if r["cm"] and not r["cm"].get("has_revised_text", True):
         return False
-    v = verdict_of(r)
-    if v is None:
-        return None
     c = code_passed(r)
-    return None if c is None else (c and v == "preserved")
+    if c is False:
+        return False
+    v = verdict_of(r)
+    return None if v is None or c is None else v == "preserved"
 
 
 def counts(r):
