@@ -149,16 +149,29 @@ write checks can attribute every change to the agent turn and permission
 state it happened under), because the `paper-reviser` agent
 exposes `Edit` and `Write` and a model that applies a revision against the
 default no-apply rule would otherwise mutate the fixture for every later
-repetition. The skill under test is installed in full from the selected ref:
-the runner points the agent at a temporary agent home (its config directory,
-selected through `HOME` or the agent's config-path override) and a worktree
-`.claude/` that the ref's own `install.sh` populated with that ref's
-`SKILL.md`, `references/`, command prompts, and `paper-reviser` definition,
-inheriting nothing from the host's global commands or subagents, and records
-the install manifest with the SHA of each installed component, since a run
-that reads the host's current command files while labeled with an older
-skill SHA would corrupt the E4 ablations and the G3 historical reruns. The
-trace format is adapter-based: one adapter per agent surface
+repetition. The skill under test is installed in full from the selected ref,
+and from nothing else: the runner exports an allowlisted runtime package from
+the ref (`SKILL.md`, `references/`, `.claude/commands/paper/`,
+`.claude/agents/`, and the executables the checker needs, never `evals/`,
+`results/`, or any other directory, since the installer links the whole
+checkout into the skill path and an agent with `Read` and `Glob` would
+otherwise reach the case definitions and expectations through
+`~/.claude/skills/blue-pencil/evals/` however clean the worktree is), points
+the agent at a temporary agent home (its config directory, selected through
+`HOME` or the agent's config-path override), and runs that package's own
+`install.sh --commands` against the temporary home, so the skill link,
+command prompts, and `paper-reviser` definition all come from the selected
+ref and nothing is inherited from the host's global commands or subagents.
+The worktree is never the installer's target: `--init` scaffolds `CLAUDE.md`
+and migrates a context block from `CLAUDE.md` or `paper-meta.md` into a new
+`AGENTS.md`, which would rewrite the A1 precedence and withheld-context
+fixtures before the agent sees them. The runner asserts before the first turn
+that every staged worktree file is byte-identical to its rendered form and
+that the temporary home contains no path under `evals/` or `results/`, and
+it records the install manifest with the SHA of each installed component,
+since a run that reads the host's current command files while labeled with
+an older skill SHA would corrupt the E4 ablations and the G3 historical
+reruns. The trace format is adapter-based: one adapter per agent surface
 maps its tool names to the canonical read and write events, and a surface
 that receives files by injection (the chat condition in E5) records them as
 `injected` provenance, and C3 marks its reference audit not applicable on
@@ -381,16 +394,21 @@ requires. For the full contract: heading order, `Word count:` shape and,
 whenever the reported or recomputed count grew, the one-line growth
 justification `SKILL.md` requires on the next line,
 `References loaded:` present, `Added bridges:` present, every quoted
-bridge sentence actually in the revised block, and the converse, gated on
-the justification-cue test in both places: an unmatched sentence in the
+bridge sentence actually in the revised block and added or changed there
+rather than carried over verbatim from the input, and the converse gated on
+the justification-cue test: an unmatched sentence in the
 revised block (no aligned source in the A3 alignment) or an added hunk inside
 an aligned pair (`The instrument is valid.` becoming `The instrument is valid
-because assignment was random.` still aligns) must appear on the line only
+because assignment was random.` still aligns) is expected on the line
 when it carries a justification cue (because, since, ensures, guarantees,
 holds, is valid, identifies, is exogenous, and a maintained lexicon); an
 unmatched sentence without a cue (a new transition, one half of a permitted
 first-draft split) is an ordinary insertion that C3 requires in the change
-ledger, not a bridge, and must not fail this check. A cue hit is a
+ledger, and its absence from the line must not fail this check, while a
+cue-free sentence the model does report on the line is accepted here (a cue
+is never required of a reported sentence, since the true bridges D4
+recognizes without one must be reportable) and validated by D4, so a correct
+output satisfies both graders. A cue hit is a
 candidate, not a verdict: the lexicon over-matches ("Since then, the
 literature has expanded" is no bridge). The split keeps C2 deterministic:
 in the fast tier C2 emits a `bridge-candidate-unreported` finding for each
@@ -455,7 +473,10 @@ Check what the skill says about its own run against what it did:
   honest), computed under the convention the skill's Length budget section
   already states (exclude citation commands, math environments, and LaTeX
   macros), which is ambiguous about prose arguments, so until F2 writes a
-  precise convention into the output contract the grader computes both
+  precise convention into the output contract (a deliverable of F2 below,
+  keyed to the skill ref under test, so the dual reading applies to a ref
+  that lacks the convention and the single reading to one that carries it)
+  the grader computes both
   readings (macro arguments excluded wholesale; command syntax excluded but
   prose arguments such as `\emph{...}`, `\footnote{...}`, `\textbf{...}`,
   and sectioning counted as prose) and accepts a report that matches either
@@ -773,13 +794,15 @@ tell a violation from a legitimate change: the full input section and the
 full revised section (so a moved sentence is judged in both contexts), every
 other manuscript section the case supplied, or, where that is too long for
 the judge's context, retrieved source passages for every unmatched added or
-moved sentence, not only for bridges: retrieval runs on each such sentence's
-content terms (lexical overlap or embedding similarity against every
+moved sentence and for every substantive added hunk inside an aligned pair
+(the hunk notion C2 uses, so a factual clause inserted into an otherwise
+aligned sentence is covered), not only for bridges: retrieval runs on each
+such sentence's or hunk's content terms (lexical overlap or embedding similarity against every
 supplied section) as well as on a bridge's cue words, so a factual sentence
 relocated from another section without `because` or another cue is traced
 to its source rather than misread as an invention; when retrieval cannot
-supply the supporting context for an added sentence, the judge returns
-`inconclusive` for that sentence rather than a violation, and inconclusive
+supply the supporting context for an added sentence or hunk, the judge
+returns `inconclusive` for it rather than a violation, and inconclusive
 verdicts are reported separately in A4 and excluded from the pass rate
 rather than folded into either side,
 the `Added bridges:` line and the matching Author question, and the
@@ -797,9 +820,13 @@ and an equal number of meaning-preserving rewordings, legitimate bridges built
 from manuscript material, and deletions logged in the rationale, so a judge
 that flags everything cannot pass. The 40 cases are split before any judge output is inspected, under the D3
 protocol: 20 for development, where the rubric may be iterated, and 20 held
-out and evaluated once after the rubric is frozen. D4 also owns the three
+out and evaluated once after the rubric is frozen. D4 also owns the four
 semantic assertions other tasks route to the judge tier, each with its own
-input contract, verdict schema, and calibrated fixtures: bridge
+input contract, verdict schema, and calibrated fixtures, where the fixture
+counts below are the held-out half and an equal development half of the same
+composition is built alongside it and split off before any judge output is
+inspected, so each rubric is iterated on one half and accepted on the other:
+bridge
 classification for C2 (input: a candidate span, the input section, and the
 `Added bridges:` line; verdict: states-why-a-claim-holds or not; fixtures:
 ten true bridges and ten cue-word false alarms), re-proposal detection for
@@ -809,9 +836,15 @@ and ten unrelated legitimate edits), and provenance grounding for F2's
 letter assembly (input: an assembled reply and the decision, change-log
 entry, and manuscript location its provenance line names; verdict:
 supported or not; fixtures: ten grounded replies and ten invented or
-misstated claims). Done when: on the held-out 20 (10 violations, 10
+misstated claims), and compact-bullet grounding for C3 (input: one
+`Top changes` bullet and the A3 alignment diff between the input and the
+revised block; verdict: the bullet describes a change present in the diff
+or not, where a bullet that quotes a span must match that span and a
+free-form bullet must name a change the diff shows; fixtures: ten grounded
+bullets and ten bullets that claim a change the diff does not contain or
+misdescribe one it does). Done when: on the held-out 20 (10 violations, 10
 legitimate changes) the frozen meaning rubric misses at most one violation
-and flags at most one legitimate change, each of the three additional
+and flags at most one legitimate change, each of the four additional
 assertions clears the same miss and false-flag bounds on its own held-out
 fixtures, and all rates are recorded with the rubrics alongside the
 development-set rates.
@@ -957,8 +990,16 @@ model's line (a listed token missing from the text, or a text token missing
 from the list, fails). Where the checker is available (the `/paper:verify`
 command and the per-section step in `/paper:loop` from F3), it appends its
 own machine-computed `Protected check:` line after the model's, so the author
-sees the attested and the verified inventories side by side. Done when: the
+sees the attested and the verified inventories side by side. F2 also
+replaces the ambiguous word-count convention in the Length budget section of
+`SKILL.md` with a precise one that says, for each LaTeX construct, whether
+its prose argument counts (sectioning titles, `\emph{...}`,
+`\textbf{...}`, and `\footnote{...}` named explicitly), states it in the
+output contract next to `Word count:`, and gives C3 the single reading to
+check on every ref that carries it. Done when: the
 line is in both output contracts, all `examples/` with a revision carry it,
+the word-count convention is in `SKILL.md` and the C3 grader reads it from
+the ref under test,
 a compact-output fixture carries it under `Top changes`, a feedback-only
 output (revised text `No rewrite requested.`, as in `/paper:triage`,
 `/paper:read`, and `/paper:consistency`) carries `Protected inventory: not
