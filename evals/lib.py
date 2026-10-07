@@ -221,21 +221,25 @@ def skill_was_loaded(events, workspace):
     subagent's tool calls are in the stream) or a Skill call for blue-pencil. The
     Agent call that starts the paper-reviser subagent does not count, since the
     subagent can fail before it reads the skill, and neither does a Read of a copy
-    installed elsewhere on the machine. Free text never counts.
+    installed elsewhere on the machine, or a call whose result is an error. Free
+    text never counts.
     """
     skill_md = str(Path(workspace) / ".claude" / "skills" / "blue-pencil" / "SKILL.md")
+    calls, ok = set(), set()
     for e in events or []:
-        if e.get("type") != "assistant":
-            continue
         for item in (e.get("message", {}).get("content") or []):
-            if item.get("type") != "tool_use":
+            if not isinstance(item, dict):
                 continue
-            inp = item.get("input") or {}
-            if item.get("name") == "Read" and inp.get("file_path") == skill_md:
-                return True
-            if item.get("name") == "Skill" and str(inp.get("skill", "")).split(":")[-1] == "blue-pencil":
-                return True
-    return False
+            if e.get("type") == "assistant" and item.get("type") == "tool_use":
+                inp = item.get("input") or {}
+                if ((item.get("name") == "Read" and inp.get("file_path") == skill_md)
+                        or (item.get("name") == "Skill"
+                            and str(inp.get("skill", "")).split(":")[-1] == "blue-pencil")):
+                    calls.add(item.get("id"))
+            # The call counts only if its result came back without an error.
+            elif e.get("type") == "user" and item.get("type") == "tool_result" and not item.get("is_error"):
+                ok.add(item.get("tool_use_id"))
+    return bool(calls & ok)
 
 
 def make_workspace(with_skill, paper_context, held_out=()):

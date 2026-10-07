@@ -69,7 +69,8 @@ def valid_meaning(parsed):
     has_major = any(p.get("severity") == "major" for p in probs)
     if parsed["verdict"] == "changed":
         return has_major
-    return parsed["verdict"] == "unsure" or not has_major
+    # "unsure" means no major problem could be asserted; a listed major problem means "changed".
+    return not has_major
 
 
 DIMENSIONS = ("clarity", "concision", "flow", "precision", "audience_fit")

@@ -80,8 +80,10 @@ _NUMBER_RE = re.compile(
     # A fraction, ratio, or other slash/colon group ("1/2", "1:2") is one ordered token.
     # A range with a hyphen, en dash, or em dash ("1.2-3.4", "1.2\u20133.4") is one ordered token.
     # "1 to 2" is a range too, and either endpoint may carry a sign ("\u22123\u2013\u22121").
+    # The first endpoint may carry its own suffix ("5%\u201310%", "5 mg\u201310 mg").
     r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM
-    + r"(?:(?:[-\u2013\u2014]| to )(?:[+-]|" + UMIN + r")?" + _NUM + r")?(?:[/:]" + _NUM + r")*%?"
+    + r"(?:(?:%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to )(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
+    r"(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?",
     re.I)
@@ -299,6 +301,9 @@ def tokens(cls, raw, flat):
         out = re.findall(r'"[^"]+"|``[^`]+\'\'', flat)
         out += re.findall(LDQ + "[^" + LDQ + RDQ + "]*" + RDQ, flat)
         out += re.findall(LSQ + "[^" + LSQ + RSQ + "]*" + RSQ, flat)
+        # Straight single quotes: an opening ' not preceded by a letter or digit and a
+        # closing ' not followed by one, so apostrophes ("don't", "authors'") do not pair.
+        out += re.findall(r"(?<![A-Za-z0-9'])'(?=\S)[^'\n]{1,200}?(?<=\S)'(?![A-Za-z0-9'])", flat)
         return out
     if cls == "comments":
         out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|> )|^\|", ln)]
@@ -329,19 +334,19 @@ def tokens(cls, raw, flat):
         # All fenced blocks form one token in document order, so swapping two whole
         # blocks is caught (each class is compared as a multiset).
         out = ["\n\n".join(out)] if out else []
-        return out + re.findall(r"`[^`]+`", "\n".join(prose))
+        # Inline spans may use any run of backticks (``a ` b``); the closing run matches it.
+        return out + [m.group(0) for m in
+                      re.finditer(r"(?<!`)(`+)(?!`)(.+?)(?<!`)\1(?!`)", "\n".join(prose), re.S)]
     if cls == "numbers":
         out = []
         for m in _NUMBER_RE.finditer(flat):
             tok = m.group(0)
-            if m.group("unit"):
-                cut = m.start("unit") - m.start()
-                tok = tok[:cut].lower() + tok[cut:].replace("\u00b5", "\u03bc")
-            elif m.group("uword"):
+            if m.group("uword"):
                 head, *rest = m.group("uword").lower().split(" ")
-                tok = tok[:m.start("uword") - m.start() - 1].lower() + " " + " ".join([head.rstrip("s")] + rest)
-            else:
-                tok = tok.lower()
+                tok = tok[:m.start("uword") - m.start() - 1] + " " + " ".join([head.rstrip("s")] + rest)
+            # Words ("Less than", "Percent", "Million") are compared case-blind; unit symbols,
+            # which are at most two letters in a row, keep their case so mM is not mm.
+            tok = re.sub(r"[A-Za-z]{3,}", lambda w: w.group(0).lower(), tok).replace("\u00b5", "\u03bc")
             out.append(tok)
         return out
     if cls == "numberwords":
