@@ -346,8 +346,12 @@ ledger, not a bridge, and must not fail this check. A cue hit is a
 candidate, not a verdict: the lexicon over-matches ("Since then, the
 literature has expanded" is no bridge). The split keeps C2 deterministic:
 in the fast tier C2 emits a `bridge-candidate-unreported` finding for each
-candidate missing from the line, which is reported but does not gate, and
-the gating assertion lives in the judge tier as a D4 check that fails the
+lexicon hit missing from the line, which is reported but does not gate, and
+the gating assertion lives in the judge tier as a D4 check that classifies
+every substantive added sentence and added hunk, not only the lexicon hits
+("Random assignment makes treatment independent of potential outcomes"
+states why identification holds with no cue word), using the lexicon only to
+order the candidates for review, and fails the
 output only when the judge confirms the candidate states why an assumption,
 identification strategy, or validity claim holds; a candidate the judge
 rejects clears the finding. A run that adds a confirmed validity argument
@@ -557,8 +561,11 @@ output.
 - On every case whose prompt did not explicitly ask to apply the revision
   (the default, per the skill's "Where the revision goes" rule): across each
   agent turn, the A2 snapshots taken before and after that turn are identical
-  for every manuscript file and the trace carries no `Edit` or `Write` to
-  them, whatever variant the response took; scripted between-turn updates
+  as complete file trees (no manuscript file changed, and no file created,
+  renamed, or deleted anywhere in the worktree, so a revision written to a
+  new path such as `revised.tex` fails as surely as an edit in place) and
+  the trace carries no `Edit` or `Write` at all, whatever variant the
+  response took; scripted between-turn updates
   from the case's `turns` script (the author's returned file in the
   repeat-round case) are applied by the runner between snapshots and are
   not the agent's writes, so the check compares around agent turns, never
@@ -677,13 +684,19 @@ set.
 
 ### D4. Meaning-preservation judge with sentence alignment (M)
 Align original and revised sentences with the A3 aligner. Ask the judge
-about every pair whose wording changed (same claim, or not?) and also about
+about every pair whose wording changed (same claim, or not?), about every
+sentence the alignment shows moved to a different paragraph or a different
+neighbour even when its wording is unchanged (at `first draft` a moved
+"This effect is robust" can acquire a new referent, so the judge sees the
+sentence in its old and new surroundings and answers whether the claim it
+makes changed), and also about
 every unmatched sentence, presented with its missing side marked: an added
 sentence with no source (possible new substance, constraint 1) and a deleted
 sentence with no counterpart (possible dropped qualifier or claim, constraint
 6). The unpaired cases are the riskiest and the protected-token and bridge
 checks do not cover arbitrary prose claims. Give the judge what it needs to
-tell a violation from a legitimate change: the full input section and every
+tell a violation from a legitimate change: the full input section and the
+full revised section (so a moved sentence is judged in both contexts), every
 other manuscript section the case supplied, or, where that is too long for
 the judge's context, the specific source passages the bridge's cue words
 point to (so a bridge built from material in another supplied section is
@@ -927,7 +940,16 @@ Every `/paper:*` command promises a specific output shape: the twelve that
 exist today plus `/paper:verify` once F3 ships it, so this task depends on F3.
 Add one case per command to the corpus and a grader for each shape (triage
 table columns, dispatch list in `/paper:read`, mapping in `/paper:rebut`,
-staged plan in `/paper:loop`, the checker report in `/paper:verify`). Done
+staged plan in `/paper:loop`, the checker report in `/paper:verify`). The
+`/paper:loop` audit needs two cases: the Step A staged plan, and a scripted
+multi-turn case whose `turns` script confirms the plan and drives the loop
+through its later phases on a short two-section manuscript, grading that the
+sections are dispatched in the planned order, that each section pass stops
+at its author checkpoint before the next begins, that the consistency check
+runs after the body and again after the second front-matter pass, that no
+write happens outside an explicitly confirmed apply, and that the stop
+condition is not declared while a planned section is unprocessed; a loop
+that returns a valid plan and then skips sections or checkpoints fails. Done
 when: every command in `.claude/commands/paper/`, enumerated at run time
 rather than hard-coded, has a case and a passing grader on the baseline or an
 F-task to fix it.
