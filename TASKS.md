@@ -166,7 +166,9 @@ and from nothing else: the runner exports an allowlisted runtime package from
 the ref (`SKILL.md`, `references/`, `examples/`, which `SKILL.md` and the
 letter command direct the agent to for worked runs and which the production
 installer makes available by linking the checkout, `.claude/commands/paper/`,
-`.claude/agents/`, and the executables the checker needs, never `evals/`,
+`.claude/agents/`, `install.sh` and the `VERSION` file it reads (without
+which the provisioning step below could not run), and the executables the
+checker needs under `scripts/`, never `evals/`,
 `results/`, or any other directory, since the installer links the whole
 checkout into the skill path and an agent with `Read` and `Glob` would
 otherwise reach the case definitions and expectations through
@@ -268,11 +270,20 @@ an unmatched addition and deletion.
 ### A4. Aggregation and report (S)
 Produce `benchmark.json` and `benchmark.md` per iteration with, for every
 assertion and configuration, the counts of passed, failed, not-applicable
-(the assertion does not apply to that case or variant), and excluded (an
+(the assertion does not apply to that case or variant), excluded (an
 audit the plan switches off for that run, such as the reference audit on an
-ablated or historical ref or an ambiguous label), and a pass rate whose
+ablated or historical ref or an ambiguous label), and incomplete (a result
+the grader could not finish on the evidence it had: the D4 meaning assertion
+whose inconclusive share crossed its coverage gate, or a run that exhausted
+A2's infrastructure retries), and a pass rate whose
 denominator is the applicable cases only, so a skipped check is never
-counted as a pass or as a failure; plus mean and standard deviation across
+counted as a pass or as a failure; incomplete results are listed per
+assertion with their reason, reported in the pass rate's denominator as
+neither pass nor fail (the rate is shown with and without them), and the E3
+decision rule and the G1 slow-tier gate fail a configuration whose
+incomplete share of an assertion's applicable cases exceeds the same
+recorded threshold, since a rising incomplete share hides regressions as
+surely as a falling pass rate shows them; plus mean and standard deviation across
 repetitions, time, and tokens,
 every one of them reported per model as well as pooled (a regression on one
 model must not be cancelled by another model's gain or by an unbalanced run
@@ -309,7 +320,11 @@ a hedge stack in an abstract, a term used before definition, machinery before
 motive, an em-dash, a left-branching preamble, uniform sentence length. Keep
 the clean original as the reference, in the grader-only `reference_clean`
 field of A1 rather than as an artifact, so A2 keeps it outside the
-disposable worktree with the other grader metadata. Done when: each class in the input-prose defect taxonomy has at least three
+disposable worktree with the other grader metadata. That field is graded
+against, never run, so each injected case also gets a runnable sibling
+clean-control case whose editable artifact is the clean original, carrying
+`must_not_flag` for the injected class and `may_return_verbatim`, linked to
+the injected case by id; C6's negative controls run on those siblings. Done when: each class in the input-prose defect taxonomy has at least three
 injected cases, where the taxonomy is the preflight checklist's prose defects
 only (tells, buried lede, hedge stack, undefined term before first use,
 machinery before motive, em-dash, left-branching preamble, uniform sentence
@@ -386,7 +401,11 @@ not only on `examples/`. A manuscript is often a wrapper whose
 `\input{...}` and `\include{...}` graph carries the sections, as the
 `/paper:read`, `/paper:consistency`, and `/paper:loop` command files already
 state, so the checker follows that graph from each root, pairs the included
-files by path relative to their root, diffs each pair and the union, and
+files by path relative to their root, decides pass or fail on the multiset
+of the whole graph (the union), reports each file pair's delta as relocation
+context rather than as token loss, since the base guarantee does not check
+placement and an unchanged sentence moved between two in-scope files leaves
+the union intact while the claim-local mode is where a move is flagged, and
 reports a file present in one graph and missing from the other as a finding
 rather than a clean result; a fixture with identical wrappers and a changed
 `sections/results.tex` must fail, since a root-only comparison would report
@@ -596,7 +615,13 @@ Check what the skill says about its own run against what it did:
   its size, since one such word can invert or broaden a claim), since a qualifier
   removed from a sentence that still aligns is the silent deletion the
   constraint most often means.
-- Every `Added bridges:` sentence has a matching Author question.
+- Every `Added bridges:` sentence has a matching Author question, matched in
+  two halves: deterministically when a question quotes the bridge sentence
+  or a distinctive span of it (a run of consecutive words of a recorded
+  minimum length), and otherwise through the sixth D4 assertion (does this
+  question ask the author to confirm this bridge?), so a question that
+  confirms the bridge in other words is not a miss and a question that
+  reuses its keywords for another purpose is not a match.
 Done when: each check has a positive and a negative fixture and runs on A2
 output.
 
@@ -692,12 +717,20 @@ output.
   On a turn whose latest author message explicitly asked to apply the
   revision (the explicit-apply case in B6, or a confirmed section in the
   loop case): the applied region of the editable artifact equals the
-  `Revised text` block exactly, where the region is the whole file for a
-  section-per-file artifact and the recorded target section range for a
-  root whose sections live inline (the loop command supports both), with
-  every byte outside that range unchanged; every other artifact's snapshot
+  accepted `Revised text` block exactly, which on a full-contract turn is
+  the block in that turn's output and on a loop apply-acknowledgment turn
+  (the A3 variant with no new revision) is the block of the revision
+  accepted at the preceding checkpoint, the latest full-contract output for
+  that section before the grant; the region is the whole file for a
+  section-per-file artifact and, for a root whose sections live inline (the
+  loop command supports both), the target section's range resolved by its
+  heading boundaries from the snapshot taken before the turn, never the
+  line range recorded in the plan, which is stale once an earlier section's
+  apply changed the line count; every byte outside that range is unchanged,
+  every other artifact's snapshot
   is unchanged, the trace shows writes to the editable artifact only, the
-  `Change rationale` states the file was updated, and no `Author questions`
+  `Change rationale` states the file was updated (on the acknowledgment
+  variant, the acknowledgment itself states it), and no `Author questions`
   item touches content inside the applied text (the skill forbids applying
   with such a question open), where "touches" is decided in two halves: a
   question that quotes a span or names a paragraph label is located
@@ -763,8 +796,10 @@ every use of the term does not count as a fix and the cutoff cannot be tuned
 after seeing outputs). B3's
 injected defects give recall per class on a known ground truth; B2's
 hand-reviewed lists give recall on ordinary prose, which is what E1 reports.
-Run negative controls alongside: the clean originals behind the B3 injected
-cases and the B5 restraint cases carry `must_not_flag` for every defect class
+Run negative controls alongside: the clean-control sibling cases B3 derives
+from each injected case's original (runnable cases, since the grader-only
+`reference_clean` field is never staged for the agent and cannot produce a
+Diagnosis) and the B5 restraint cases carry `must_not_flag` for every defect class
 they are free of, and a Diagnosis item naming such a class on such a case is
 a false positive. Report precision (or the false-positive rate) per class
 beside recall, so a model that names every class in every Diagnosis fails
@@ -884,7 +919,7 @@ and an equal number of meaning-preserving rewordings, legitimate bridges built
 from manuscript material, and deletions logged in the rationale, so a judge
 that flags everything cannot pass. The 40 cases are split before any judge output is inspected, under the D3
 protocol: 20 for development, where the rubric may be iterated, and 20 held
-out and evaluated once after the rubric is frozen. D4 also owns the five
+out and evaluated once after the rubric is frozen. D4 also owns the six
 semantic assertions other tasks route to the judge tier, each with its own
 input contract, verdict schema, and calibrated fixtures, where the fixture
 counts below are the held-out half and an equal development half of the same
@@ -911,9 +946,13 @@ misdescribe one it does), and open-question scope for C4's apply check
 the applied text, and the rest of the revised section; verdict: the question
 concerns content inside the applied text or not; fixtures: ten questions
 about the applied passage in indirect wording and ten about other
-paragraphs, the manuscript as a whole, or the author's intent). Done when: on the held-out 20 (10 violations, 10
+paragraphs, the manuscript as a whole, or the author's intent), and bridge
+confirmation for C3 (input: one `Added bridges:` sentence and one Author
+question that quotes no span of it; verdict: the question asks the author to
+confirm that bridge or not; fixtures: ten confirmations in other words and
+ten questions that share the bridge's keywords but ask something else). Done when: on the held-out 20 (10 violations, 10
 legitimate changes) the frozen meaning rubric misses at most one violation
-and flags at most one legitimate change, each of the five additional
+and flags at most one legitimate change, each of the six additional
 assertions clears the same miss and false-flag bounds on its own held-out
 fixtures, and all rates are recorded with the rubrics alongside the
 development-set rates.
@@ -1001,7 +1040,14 @@ applicable `.claude/commands/paper/*.md` prompt (the decline, table, and
 routing rules of `/paper:quick` and `/paper:triage` live there), not
 `SKILL.md` alone, since the passes
 depend on those files and a divergence caused by a missing input says nothing
-about instruction compliance. Each surface gets an A2 trace adapter that
+about instruction compliance. The same holds for an agent surface without
+native resolution of the command files (`install.sh --commands` registers
+them under `.claude/`, which Claude Code reads and a second agent such as
+Codex does not), so on such a surface the runner expands a `/paper:*`
+invocation by prepending the selected command file's body to the case
+prompt, recorded as `injected` provenance for that file, and a surface that
+receives the prompt this way is still a matched comparison rather than a
+packaging one. Each surface gets an A2 trace adapter that
 maps its own tool names to the canonical read and write events, and the chat
 condition records the injected files as `injected` provenance, and the
 trace half of the C3 reference audit is reported not applicable for that
@@ -1117,8 +1163,12 @@ standard input for one still proposed). When the loop processes a section
 that lives inline in a root manuscript, the proposed text is one section
 while the root is the whole paper, so the checker also takes a section
 selector for the original (`--range <start>:<end>` by line, or `--section
-<heading>`), the loop step passes the recorded target section range from its
-plan, and the comparison runs against that slice alone; without it every
+<heading>`), the loop step passes the section's heading, or a range it
+re-derives from the current file at check time, never the line range
+recorded in the plan, since an accepted revision to an earlier inline
+section shifts every later range and a stale slice would report false
+protected-token changes or verify unrelated text, and the comparison runs
+against that slice alone; without it every
 protected token elsewhere in the paper would read as deleted. The skill's own tool surface is read and
 edit only, so registering the command is not enough: the command file must
 grant a command-execution tool (or dispatch to a subagent that has one), the
