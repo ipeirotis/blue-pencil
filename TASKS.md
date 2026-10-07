@@ -84,7 +84,12 @@ violations for the stage), `reference_clean` on every B3 injected case (the
 clean original the defect was injected into, a grader-only field rather than
 an artifact, so it is never staged for the agent and the C6 similarity check
 against it cannot be gamed by reading the desired prose), `flagged_paragraphs` on every
-response-to-reviewers case (the authoritative mapping from each reviewer
+response-to-reviewers case that revises a supplied manuscript section, and
+forbidden by the schema on a manuscript-free case such as the B6 triage of
+reviewer comments without a manuscript, where there are no paragraphs to
+index and the command keeps its section mapping unverified until a
+manuscript arrives, so no empty or invented mapping can reach C4 as ground
+truth (the authoritative mapping from each reviewer
 label to the paragraph indices it flags, written by the corpus author, which
 C4 compares against instead of trusting the model's own labels, so a model
 cannot widen its window by declaring every paragraph flagged, with a
@@ -208,10 +213,15 @@ letter command direct the agent to for worked runs and which the production
 installer makes available by linking the checkout, with the corollary that
 no corpus case may share its input with an installed example: before each
 run the runner compares every case artifact against every file under the
-installed `examples/` with the A3 aligner (the file-level score is the share
+installed `examples/` with the A3 aligner (two file-level scores: the share
 of the artifact's sentences the aligner matches to a sentence of the example
-above its pinned sentence-similarity cutoff) and refuses to run a case
-whose score against any example exceeds a recorded threshold, since
+above its pinned sentence-similarity cutoff, and the reverse share of the
+example's sentences matched into the artifact, so a whole ten-sentence
+example embedded in a two-hundred-sentence manuscript is caught by the
+reverse share rather than diluted to five percent) and refuses to run a case
+whose either score against any example exceeds a recorded threshold or
+that contains a contiguous run of matched sentences longer than a recorded
+length, since
 an agent could otherwise read the expected revision, Diagnosis, and
 rationale through the skill path and reproduce them, `.claude/commands/paper/`,
 `.claude/agents/`, `install.sh` and the `VERSION` file it reads (without
@@ -663,18 +673,24 @@ Check what the skill says about its own run against what it did:
   prose arguments such as `\emph{...}`, `\footnote{...}`, `\textbf{...}`,
   and sectioning counted as prose) and accepts a report that matches either
   within tolerance, recording which one matched, so the E1 baseline does not
-  grade the model against a convention it was never given, and the signed percentage is checked against the range the
-  accepted count ranges imply (recompute the percentage from every before
-  and after pair inside the two tolerance bands and accept the reported value
-  if it falls within the resulting interval, with its sign), so the
+  grade the model against a convention it was never given, and the signed
+  percentage is checked in two steps: its direction first, which must agree
+  with the direction of the reported counts and of the exact counts under
+  the matched convention (the bands alone cannot carry this, since for
+  exact counts of 100 and 80 the bands 85 to 115 and 68 to 92 contain the
+  rising pair 85 to 92, so an interval built from the bands would admit a
+  positive percentage for a shrinking passage), and then its magnitude
+  against the range the accepted count ranges imply (recompute the
+  percentage from every before and after pair inside the two tolerance
+  bands whose direction matches, and accept the reported value if it falls
+  within the resulting interval), so the
   percentage check inherits the word-count tolerance in its own units
   rather than borrowing a word count as a percentage. That interval is the
-  sole percentage check: a second comparison against the percentage from the
+  sole magnitude check: a second comparison against the percentage from the
   exact counts would reject an honest rounded report (`14` to `24` reported
   as `~10 to ~20 (+100%)` is honest under the contract's rounding while the
-  exact change is about +71%), and a report whose sign contradicts the
-  counts (`~100 to ~80 (+25%)`) still fails because no pair inside the bands
-  yields a positive change.
+  exact change is about +71%), while a report whose sign contradicts the
+  counts (`~100 to ~80 (+25%)`) fails the direction step.
 - `References loaded:` equals the `expected_passes` entry from A1 for the
   agent turn or nested dispatch that produced the line, located by its A2
   trace boundary (the labelers' reading of every sweep gate, content gates included, since
