@@ -169,7 +169,10 @@ two maintainers who agree no edit is needed.
 
 ### B6. Stage and scope edge cases (M)
 Cases that exercise the rules in `SKILL.md` most likely to be skipped:
-a response-to-reviewers case where only paragraphs 2 and 4 are flagged; a quick
+a response-to-reviewers case of at least eight paragraphs where only
+paragraphs 2 and 4 are flagged, so paragraphs 6 through 8 sit outside the
+flagged-plus-neighbours window and the byte-identity check in C4 has
+something to catch; a quick
 pass requested at `response to reviewers` (must decline and route to
 `/paper:rebut`); a whole manuscript supplied as one file (must split by heading
 and confirm, never rewrite in one shot); a pasted section with no
@@ -238,7 +241,10 @@ to edit (a verbatim paragraph with a tell is itself a failure at `first
 draft`, `final polish`, and quick pass, since the scrub runs over all
 editable text; exempt only text the stage forbids editing, the unflagged
 paragraphs at `response to reviewers`, and anything a `style_overrides:`
-line permits), stage-appropriate Diagnosis headers. For the compact contract:
+line permits), stage-appropriate Diagnosis headers, and at most seven
+numbered Diagnosis items on an ordinary section edit (the cap is lifted only
+for the whole-paper diagnosis-only passes `SKILL.md` exempts). For the
+compact contract:
 exactly `Revised text`, `Top changes`, `Author questions`, at most three
 change bullets, `References loaded:` under `Top changes`, every Author
 question ending in `?`, no banned tell in any paragraph (quick pass edits
@@ -294,9 +300,12 @@ output.
 - At `response to reviewers`: paragraphs outside the flagged set and their
   immediate neighbours are byte-identical to the input.
 - At `final polish` and in quick pass: paragraph count and order unchanged,
-  and every output sentence aligns to a sentence inside the corresponding
-  input paragraph (so a sentence that migrated from the end of P1 to the
-  start of P2 fails even though neither paragraph merged or split, while an
+  and the alignment covers both directions inside each paragraph: every
+  output sentence aligns to a sentence of the corresponding input paragraph,
+  and every input sentence aligns to at least one output sentence of the
+  same paragraph (so a sentence that migrated from the end of P1 to the
+  start of P2 fails, a deleted sentence fails, since
+  `references/subtraction.md` limits the stage to phrase-level cuts, and an
   em-dash replaced by two sentences inside one paragraph, which the stage
   permits, passes).
 - Quick pass at `response to reviewers`: the output declines and names
@@ -314,8 +323,10 @@ output.
   by the order of work, no prose diagnosis or rewrite of manuscript text, and
   every classification that depends on manuscript content marked unverified.
 - PDF-extracted text with extraction damage: the output names the damage,
-  and the revised block equals the input after both are normalized by an
-  explicit, case-declared set of artifact repairs (ligature glyphs to their
+  and the raw revised block equals the input after the input alone is
+  normalized by an explicit, case-declared set of artifact repairs (so an
+  output that leaves the damage in place fails, and each declared artifact
+  is separately asserted absent from the revision) (ligature glyphs to their
   letters, hyphenation across a line break rejoined, a listed page header
   removed, merged-column boundaries), so the damaged sentence is as
   constrained as every other and a rewrite riding along with a ligature fix
@@ -345,8 +356,12 @@ across skill versions. Done when: churn is a column in the A4 report.
 On every case that carries a `must_flag` list, the B2 seed corpus as well as
 the B3 injected cases: did the Diagnosis name each expected defect (matched
 by paragraph label and a keyword list per defect class), and, where the
-revision was in scope, did it remove the defect (class-specific check: tell
-absent, definition now precedes first use, em-dash gone, and so on). B3's
+revision was in scope, did it remove the defect without destroying the prose
+around it (class-specific check: tell absent, definition now precedes first
+use, em-dash gone, and so on, plus, on B3 cases, the sentence that carried
+the injected defect still aligns to an output sentence and the revision stays
+within a similarity threshold of B3's retained clean reference, so deleting
+the sentence or every use of the term does not count as a fix). B3's
 injected defects give recall per class on a known ground truth; B2's
 hand-reviewed lists give recall on ordinary prose, which is what E1 reports.
 Run negative controls alongside: the clean originals behind the B3 injected
@@ -380,9 +395,13 @@ verdict survives the swap. Done when: the protocol is a function in the harness
 and position bias is reported per judge.
 
 ### D3. Judge calibration against human labels (M)
-Have two people label 40 (original, revised) pairs on the D1 dimensions, and
-split them before anyone looks at judge output: 20 for development, 20 held
-out and untouched. Compute agreement between each judge and the humans
+Have two people label 40 (original, revised) pairs on the D1 dimensions,
+measure their agreement with each other first, and adjudicate every
+disagreement into one consensus label (recording the pre-adjudication
+reliability), so each judge is scored against a single ground truth rather
+than against two raters who may disagree. Split the labeled pairs before
+anyone looks at judge output: 20 for development, 20 held out and
+untouched. Compute agreement between each judge and the humans
 (Cohen's kappa or Krippendorff's alpha) on the development set; rewrite any
 rubric below an agreed threshold against that set only. A rubric ships only
 on its held-out agreement, and a rubric that was rewritten more than twice
@@ -540,8 +559,13 @@ Remove or shorten blocks E4 measured as inert (never a block E4 marked
 unmeasured: an instruction the corpus does not exercise is unproven, not
 dead, and its removal would be certified non-regressing by the same corpus
 that never tested it), and move rarely triggered guidance into
-`references/` under progressive disclosure. Done when: the skill
-is measurably no worse on the corpus and the token count of `SKILL.md` drops.
+`references/` under progressive disclosure. Removal needs equivalence evidence, not an undetected regression: set a
+non-inferiority margin per assertion before the run, and delete a block only
+when the confidence bound on the pass-rate delta (the E3 interval rule) stays
+inside that margin on every assertion the block's activating cases touch.
+Done when: each removed block has its non-inferiority result recorded, the
+skill is within the margin on the corpus, and the token count of `SKILL.md`
+drops.
 
 ### F5. Tune triggering from the trigger set (S)
 Split B7 into a tuning set and a held-out set before any tuning (or write a
@@ -620,7 +644,8 @@ tier from the README alone.
 ```
 A1 -> A2 -> A3 -> A4
 B1 -> B2, B3, B4, B5, B6, B7
-C1 (needs A1, B4) -> F2, F3, G1 ; F3 -> F7
+C1 (needs A1, B4) -> F2, F3 ; F3 -> F7
+G1 (needs A2, C1 through C6, E3 for the interval rule and a stored baseline)
 C2, C3 (need A3) ; C4 (needs A3, B6) ; C5 (needs A3, B5) ; C6 (needs A3, B3)
 (the sentence aligner is part of A3, so no C grader waits on D4)
 D1 -> D2 -> D3 ; D4 (needs A3)
