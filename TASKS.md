@@ -31,11 +31,20 @@ flag, so a section case has one editable artifact while a `/paper:read`,
 `/paper:consistency`, or `/paper:loop` case carries a root-plus-includes
 graph and a `/paper:letter` case carries an editable draft beside read-only
 comments and manuscript files, and an assembly-mode letter case carries no
-editable original at all, only the read-only comment set, decisions, and
-change log the command builds from, since supplying a draft would send the
-command down its rewrite path; C1 and C3 align and diff against the editable
-artifact where one exists and skip where none does, and C4 knows which file
-an explicit apply may touch), an optional `turns` script (an ordered list of
+editable original at all, only the read-only comment set, decisions, change
+log, and the revised manuscript the command verifies each claimed change
+against (the command file routes every claim to `Author questions` when the
+manuscript is absent, so a case without it could never exercise or pass the
+grounded-reply path that F2 and D4 grade), since supplying a draft would
+send the command down its rewrite path; C1 and C3 align and diff against the
+editable artifact where one exists and skip where none does, and on the
+draft-letter lane a protected token added to the draft is excepted when it
+occurs in a supplied read-only manuscript artifact, recorded with the
+artifact it came from in the same provenance form the assembly lane uses,
+since the command requires a claimed change to point to a real manuscript
+location and a verified `Section 3` added to a draft that omitted it is
+correct, while a token absent from every supplied artifact still fails; and
+C4 knows which file an explicit apply may touch), an optional `turns` script (an ordered list of
 author messages and between-turn artifact updates, such as the scripted
 context reply in the missing-context case or the author-edited file returned
 in the repeat-round case, hashed with the rest of the case so the cache key
@@ -68,7 +77,10 @@ declared `decoy_context` of a precedence case. Expectations are split into
 `must_flag` (defects a good editor names in the Diagnosis), `must_not_flag`
 (defect classes the passage is free of, so a Diagnosis naming one is a false
 positive; required on the clean controls C6 uses), `must_not_do` (scope
-violations for the stage), `flagged_paragraphs` on every
+violations for the stage), `reference_clean` on every B3 injected case (the
+clean original the defect was injected into, a grader-only field rather than
+an artifact, so it is never staged for the agent and the C6 similarity check
+against it cannot be gamed by reading the desired prose), `flagged_paragraphs` on every
 response-to-reviewers case (the authoritative mapping from each reviewer
 label to the paragraph indices it flags, written by the corpus author, which
 C4 compares against instead of trusting the model's own labels, so a model
@@ -140,7 +152,7 @@ rather than which the model says it read, and so C4 can grade a write. Each
 run executes in a disposable worktree holding only the agent-visible inputs
 (the manuscript artifacts and the rendered context block or prompt), never
 the case definition or grader metadata (`must_flag`, `must_not_change`,
-`expected_passes`, `flagged_paragraphs`), which stay outside the worktree so
+`expected_passes`, `flagged_paragraphs`, `reference_clean`), which stay outside the worktree so
 an agent with `Glob` and `Read` cannot find the answers, with a complete
 snapshot of every file taken immediately before and after each agent turn
 (not one pair per run: scripted between-turn file updates from the `turns`
@@ -151,7 +163,9 @@ exposes `Edit` and `Write` and a model that applies a revision against the
 default no-apply rule would otherwise mutate the fixture for every later
 repetition. The skill under test is installed in full from the selected ref,
 and from nothing else: the runner exports an allowlisted runtime package from
-the ref (`SKILL.md`, `references/`, `.claude/commands/paper/`,
+the ref (`SKILL.md`, `references/`, `examples/`, which `SKILL.md` and the
+letter command direct the agent to for worked runs and which the production
+installer makes available by linking the checkout, `.claude/commands/paper/`,
 `.claude/agents/`, and the executables the checker needs, never `evals/`,
 `results/`, or any other directory, since the installer links the whole
 checkout into the skill path and an agent with `Read` and `Glob` would
@@ -293,7 +307,9 @@ Take clean, well-edited sections and inject one known defect per case so recall
 is measurable: an AI tell from `references/ai-tells-to-avoid.md`, a buried lede,
 a hedge stack in an abstract, a term used before definition, machinery before
 motive, an em-dash, a left-branching preamble, uniform sentence length. Keep
-the clean original as the reference. Done when: each class in the input-prose defect taxonomy has at least three
+the clean original as the reference, in the grader-only `reference_clean`
+field of A1 rather than as an artifact, so A2 keeps it outside the
+disposable worktree with the other grader metadata. Done when: each class in the input-prose defect taxonomy has at least three
 injected cases, where the taxonomy is the preflight checklist's prose defects
 only (tells, buried lede, hedge stack, undefined term before first use,
 machinery before motive, em-dash, left-branching preamble, uniform sentence
@@ -440,9 +456,13 @@ output only when the judge confirms the candidate states why an assumption,
 identification strategy, or validity claim holds; a candidate the judge
 rejects clears the finding. A run that adds a confirmed validity argument
 and prints `Added bridges: None.` fails the D4 assertion. No editor label
-introduced by the model inside the block (a `[P1]`-style label the input
-already carried, for a proposition or a participant, is the author's and
-stays; only a label absent from the input fails), every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
+introduced by the model inside the block, compared through the alignment
+rather than by set membership: a label occurrence in the output passes only
+when its aligned input sentence carries the same label, so a `[P1]`-style
+label the input already carried, for a proposition or a participant, stays
+where the author put it, while a further `[P1]` the model added as an edit
+annotation elsewhere fails even though the token exists in the input, and
+the label multiset of the output equals the input's. Every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
 to edit (a verbatim paragraph with a tell is itself a failure at `first
 draft`, `final polish`, and quick pass, since the scrub runs over all
 editable text; exempt only text the stage forbids editing, which at
@@ -508,9 +528,13 @@ Check what the skill says about its own run against what it did:
   and after pair inside the two tolerance bands and accept the reported value
   if it falls within the resulting interval, with its sign), so the
   percentage check inherits the word-count tolerance in its own units
-  rather than borrowing a word count as a percentage; in addition the
-  percentage recomputed from the actual counts agrees with the reported one in
-  sign and within the same tolerance (`~100 to ~80 (+25%)` fails).
+  rather than borrowing a word count as a percentage. That interval is the
+  sole percentage check: a second comparison against the percentage from the
+  exact counts would reject an honest rounded report (`14` to `24` reported
+  as `~10 to ~20 (+100%)` is honest under the contract's rounding while the
+  exact change is about +71%), and a report whose sign contradicts the
+  counts (`~100 to ~80 (+25%)`) still fails because no pair inside the bands
+  yields a positive change.
 - `References loaded:` equals the case's `expected_passes` from A1 (the
   corpus author's reading of every sweep gate, content gates included, since
   section type and stage alone cannot tell an applicable `exposition.md` read
@@ -675,7 +699,14 @@ output.
   is unchanged, the trace shows writes to the editable artifact only, the
   `Change rationale` states the file was updated, and no `Author questions`
   item touches content inside the applied text (the skill forbids applying
-  with such a question open).
+  with such a question open), where "touches" is decided in two halves: a
+  question that quotes a span or names a paragraph label is located
+  deterministically and fails the apply when the span or paragraph lies
+  inside the applied region, and a question with no locatable target is
+  routed to the fifth D4 assertion (does this question concern content
+  inside the applied text?), so an unrelated question never blocks an apply
+  on a keyword match and a vague question about the revised passage cannot
+  evade a text matcher.
 - On every turn whose latest author message did not explicitly ask to apply
   the revision (the default, per the skill's "Where the revision goes"
   rule): the A2 snapshots taken before and after that turn are identical
@@ -832,7 +863,12 @@ to its source rather than misread as an invention; when retrieval cannot
 supply the supporting context for an added sentence or hunk, the judge
 returns `inconclusive` for it rather than a violation, and inconclusive
 verdicts are reported separately in A4 and excluded from the pass rate
-rather than folded into either side,
+rather than folded into either side, under a coverage gate: a run whose
+inconclusive share of substantive additions exceeds a recorded threshold is
+marked incomplete for the meaning assertion rather than passed, with the
+inconclusive additions listed, so a run that adds unsupported claims in
+wording that retrieves no source cannot earn a clean score by exhausting
+retrieval,
 the `Added bridges:` line and the matching Author question, and the
 `Change rationale` entries (so a deletion the skill logged is judged as
 logged, not as silent). A sentence and a blank counterpart alone make the
@@ -848,7 +884,7 @@ and an equal number of meaning-preserving rewordings, legitimate bridges built
 from manuscript material, and deletions logged in the rationale, so a judge
 that flags everything cannot pass. The 40 cases are split before any judge output is inspected, under the D3
 protocol: 20 for development, where the rubric may be iterated, and 20 held
-out and evaluated once after the rubric is frozen. D4 also owns the four
+out and evaluated once after the rubric is frozen. D4 also owns the five
 semantic assertions other tasks route to the judge tier, each with its own
 input contract, verdict schema, and calibrated fixtures, where the fixture
 counts below are the held-out half and an equal development half of the same
@@ -870,9 +906,14 @@ revised block; verdict: the bullet describes a change present in the diff
 or not, where a bullet that quotes a span must match that span and a
 free-form bullet must name a change the diff shows; fixtures: ten grounded
 bullets and ten bullets that claim a change the diff does not contain or
-misdescribe one it does). Done when: on the held-out 20 (10 violations, 10
+misdescribe one it does), and open-question scope for C4's apply check
+(input: one `Author questions` item with no quoted span or paragraph label,
+the applied text, and the rest of the revised section; verdict: the question
+concerns content inside the applied text or not; fixtures: ten questions
+about the applied passage in indirect wording and ten about other
+paragraphs, the manuscript as a whole, or the author's intent). Done when: on the held-out 20 (10 violations, 10
 legitimate changes) the frozen meaning rubric misses at most one violation
-and flags at most one legitimate change, each of the four additional
+and flags at most one legitimate change, each of the five additional
 assertions clears the same miss and false-flag bounds on its own held-out
 fixtures, and all rates are recorded with the rubrics alongside the
 development-set rates.
@@ -1016,7 +1057,15 @@ few words plus its length in lines or words rather than its body, since
 repeating a `tabular` body or a block quotation twice could exhaust the output budget
 and truncate the revision; the body-level comparison of those classes is the
 checker's job (a count alone cannot see
-`smith2020` becoming `smith2021` or one number replaced by another). Nothing
+`smith2020` becoming `smith2021` or one number replaced by another). The
+number of tokens is bounded too, since a quantitative Results section can
+carry hundreds of short numbers, keys, and cross-references: a class with
+more than a fixed cap of tokens (recorded in the contract) is written as its
+input and output counts plus the list of tokens whose occurrence count
+differs between input and output, `none` when the multisets agree, so the
+line grows with the number of changes rather than the size of the section,
+and C3 verifies the counts and the differing-token list against C1's
+recomputation exactly as it verifies the full list. Nothing
 on the line may require computation the editor cannot do: the skill's tool
 surface is `Read`, `Edit`, `Grep`, and `Glob`, so no hash or digest, only
 tokens the model can list by reading. The author compares the two lists at a
@@ -1064,7 +1113,13 @@ accepts the revised text on standard input (`bp-check original.tex -`), the
 loop step pipes the proposed `Revised text` block through the
 command-execution tool without writing it anywhere in the worktree, and the
 command file documents both forms (a path for a revision already on disk,
-standard input for one still proposed). The skill's own tool surface is read and
+standard input for one still proposed). When the loop processes a section
+that lives inline in a root manuscript, the proposed text is one section
+while the root is the whole paper, so the checker also takes a section
+selector for the original (`--range <start>:<end>` by line, or `--section
+<heading>`), the loop step passes the recorded target section range from its
+plan, and the comparison runs against that slice alone; without it every
+protected token elsewhere in the paper would read as deleted. The skill's own tool surface is read and
 edit only, so registering the command is not enough: the command file must
 grant a command-execution tool (or dispatch to a subagent that has one), the
 installer must install an invocable entry point for the checker and record its
@@ -1083,7 +1138,10 @@ third end-to-end test runs it inside a temporary home provisioned exactly as
 A2 provisions one and gets the report rather than the fallback message, and a
 second end-to-end test drives the pre-apply loop path, feeding a proposed
 revision through standard input and asserting the report comes back with no
-file created in the worktree.
+file created in the worktree, once against a section-per-file original and
+once against an inline-root original with a section selector, where the
+report must be clean for an unchanged section and must not list the rest of
+the paper as deleted.
 
 ### F4. Right-size the instructions from the ablation (M)
 Remove or shorten blocks E4 measured as inert (never a block E4 marked
@@ -1127,8 +1185,8 @@ staged plan in `/paper:loop`, the checker report in `/paper:verify`). The
 `/paper:letter` audit needs two cases, since the command has two input
 routings and two output contracts: a draft-rewrite case with an editable
 draft letter beside the read-only manuscript, graded under the full
-contract, and an assembly case with comments, decisions, and a change log
-and no draft, graded under the assembly variant, so neither branch can stay
+contract, and an assembly case with comments, decisions, a change log, and
+the revised manuscript and no draft, graded under the assembly variant, so neither branch can stay
 broken while the audit passes. The
 `/paper:loop` audit needs two cases: the Step A staged plan, and a scripted
 multi-turn case whose `turns` script confirms the plan and drives the loop
