@@ -11,7 +11,8 @@
     "fenced": "We fit the model in two steps.\n```\nfit = ols(y, X)\n```\nThe first step estimates the slope; the second\nchecks the residuals.\n```\nplot(fit.resid)\n```\nCall `summary(fit)` for the table.",
     "notation": "Figure 2(a) shows about 6 × 10^23 events; the rate is 1.5e-3 per hour.",
     "markup": "The bound holds when x > y and a+b=c, at a 1:2 ratio.\n\n- first point\n- second point",
-    "two_blocks": "Set up:\n```\nx = load()\n```\nThen run:\n```\nrun(x)\n```"
+    "two_blocks": "Set up:\n```\nx = load()\n```\nThen run:\n```\nrun(x)\n```",
+    "money": "Revenue was $5 and profit was $2; the 95% CI was 1.2\u20133.4."
   },
   "variants": [
     {
@@ -409,6 +410,24 @@
       "damage_type": "markup changed",
       "code_grader_should_flag": true,
       "note": "Two whole code blocks swapped."
+    },
+    {
+      "id": "money-harmless-1",
+      "base": "money",
+      "revised": "Revenue was $5, while profit was $2; the 95% CI was 1.2\u20133.4.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Connective changed between two dollar amounts; not math."
+    },
+    {
+      "id": "money-range-reversed",
+      "base": "money",
+      "revised": "Revenue was $5 and profit was $2; the 95% CI was 3.4\u20131.2.",
+      "verdict": "damaged",
+      "damage_type": "number changed (range)",
+      "code_grader_should_flag": true,
+      "note": "En-dash interval endpoints reversed."
     }
   ]
 }

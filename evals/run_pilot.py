@@ -21,9 +21,9 @@ Usage:
 
 Rerunning with an existing run id resumes it: finished trials are skipped, and
 trials that errored or never loaded Blue Pencil are run again. The resume is
-refused if the model, flags, Claude Code version, skill files, or a shared case's
-files differ from the original run (pass --allow-mixed to override; the mix is
-then recorded).
+refused if the model, flags, Claude Code version, skill files, or runner code
+differ from the original run (pass --allow-mixed to override; the mix is then
+recorded). A change to a shared case's files is always refused.
 
 In the with_skill condition, the example file a case was built from is left out of
 the installed skill, since it holds the authored answer for that passage.
@@ -31,6 +31,8 @@ the installed skill, since it holds the authored answer for that passage.
 
 import argparse
 import datetime
+import hashlib
+import inspect
 import json
 import shutil
 import sys
@@ -46,8 +48,11 @@ CONDITIONS = ("with_skill", "without_skill")
 # Same session settings for both conditions except what defines the condition.
 COMMON = ["--setting-sources", "project"]
 FLAGS = {
+    # Read(~/**) keeps the trial inside its workspace: without it the subagent also read
+    # Blue Pencil copies installed in the home directory (~/.claude/skills, ~/.agents/skills),
+    # which are not the files the trial installed. Read rules also cover Grep and Glob.
     "with_skill": COMMON + ["--allowedTools", "Read,Grep,Glob,Skill,Agent,Task",
-                            "--disallowedTools", "Bash,Write,Edit,WebFetch,WebSearch,NotebookEdit"],
+                            "--disallowedTools", "Bash,Write,Edit,WebFetch,WebSearch,NotebookEdit,Read(~/**)"],
     "without_skill": COMMON + ["--disable-slash-commands", "--tools", ""],
 }
 
@@ -123,6 +128,15 @@ def run_trial(case, condition, n, out_root, model, provenance):
     return run_dir, status
 
 
+def runner_fingerprint():
+    """Hash of the code that decides what a trial is: how the prompt is built, how the
+    workspace is set up, how the revision is extracted, and how skill loading is judged."""
+    import lib
+    parts = [inspect.getsource(f) for f in (build_prompt, lib.make_workspace, lib.extract_revised,
+                                            lib._fenced_block, lib.skill_was_loaded, lib.call_claude)]
+    return hashlib.sha256("\n".join(parts).encode()).hexdigest()[:16]
+
+
 def resume_meta(meta, config, provenance, ids, runs, allow_mixed):
     """Keep the original run's metadata and record this resume in it.
 
@@ -133,10 +147,14 @@ def resume_meta(meta, config, provenance, ids, runs, allow_mixed):
     diffs = {k: (meta[k], v) for k, v in config.items()
              if k in meta and k != "case_fingerprints" and meta[k] != v}
     # A case's files must match for the cases both runs share; new cases may be added.
+    # This is refused even with --allow-mixed: grading reads the current case files, so
+    # trials made from the old files could never be graded correctly.
     old_cases = meta.get("case_fingerprints", {})
-    for cid, fp in config["case_fingerprints"].items():
-        if cid in old_cases and old_cases[cid] != fp:
-            diffs[f"case {cid}"] = (old_cases[cid], fp)
+    changed = [cid for cid, fp in config["case_fingerprints"].items()
+               if cid in old_cases and old_cases[cid] != fp]
+    if changed:
+        sys.exit(f"refusing to resume {meta.get('run_id')}: case files changed since it started: "
+                 f"{', '.join(changed)}. Restore them or use a new --run-id.")
     if diffs and not allow_mixed:
         lines = "\n".join(f"  {k}: run has {old!r}, now {new!r}" for k, (old, new) in diffs.items())
         sys.exit(f"refusing to resume {meta.get('run_id')}: configuration differs from the original run\n"
@@ -178,7 +196,8 @@ def main():
     config = {"executor_model": args.model, "claude_code_version": claude_version(),
               "blue_pencil_version": skill_version(), "skill_fingerprint": skill_fingerprint(),
               "flags": FLAGS, "preserve_instruction": PRESERVE,
-              "case_fingerprints": {i: case_fingerprint(i) for i in ids}}
+              "case_fingerprints": {i: case_fingerprint(i) for i in ids},
+              "runner_fingerprint": runner_fingerprint()}
     provenance = {"started": now, "repo_commit": git_sha(), **config}
     meta_path = out_root / "run_meta.json"
     if meta_path.exists():

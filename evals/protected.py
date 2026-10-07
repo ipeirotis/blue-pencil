@@ -78,7 +78,8 @@ _NUMBER_RE = re.compile(
     # so a number that moves to the start of a sentence is the same token.
     r"(?:(?:[<>]=?|" + ULE + "|" + UGE + r")[ ~]?|~)?(?:[+-]|" + UMIN + r")?"
     # A fraction, ratio, or other slash/colon group ("1/2", "1:2") is one ordered token.
-    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM + r"(?:-" + _NUM + r")?(?:[/:]" + _NUM + r")*%?"
+    # A range with a hyphen, en dash, or em dash ("1.2-3.4", "1.2\u20133.4") is one ordered token.
+    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM + r"(?:[-\u2013\u2014]" + _NUM + r")?(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?",
     re.I)
@@ -253,7 +254,10 @@ def tokens(cls, raw, flat):
                r"(?:,?[ ~](?:and[ ~]|to[ ~])?(?:[1-9][0-9]*(?:\.[0-9]+)?[a-z]?|[a-z][0-9]*)\b" + _PANEL + r")*")
         return [t.lower() for t in re.findall(pat, flat, re.I)]
     if cls == "math":
-        out = [t for t in re.findall(r"\$\$[^$]+\$\$|\$[^$]+\$", flat)
+        # A currency sign ("$5 and ... $2") is not a math delimiter: a $ before an amount
+        # that is not followed by math characters is blanked first.
+        text = re.sub(r"\$(?=[0-9][0-9,]*(?:\.[0-9]+)?(?![0-9^_{}\\+*/=$-]))", "\u00a4", flat)
+        out = [t for t in re.findall(r"\$\$[^$]+\$\$|\$[^$]+\$", text)
                if not re.match(r"^\$[0-9][0-9,.]* (million|billion|trillion|thousand|hundred|k|bn|mn)( .*)?\$$", t)]
         out += re.findall(r"\\\(.*?\\\)", flat)
         out += re.findall(r"\\\[.*?\\\]", flat)
