@@ -209,9 +209,10 @@ def main():
     provenance = {"started": now, "repo_commit": git_sha(), **config}
     meta_path = out_root / "run_meta.json"
     if meta_path.exists():
-        verified = {c["id"] for c in cases if all(
-            p.read_text() == build_prompt(c, p.parent.parent.name)
-            for p in (out_root / f"eval-{c['id']}").glob("*/run-*/prompt.txt"))}
+        # A case verifies only if it has saved prompts and every one matches.
+        saved = {c["id"]: list((out_root / f"eval-{c['id']}").glob("*/run-*/prompt.txt")) for c in cases}
+        verified = {c["id"] for c in cases if saved[c["id"]] and all(
+            p.read_text() == build_prompt(c, p.parent.parent.name) for p in saved[c["id"]])}
         meta = resume_meta(read_json(meta_path), config, provenance, ids, args.runs, args.allow_mixed, verified)
     else:
         meta = {"run_id": args.run_id, "started": now, **config, "repo_commit": provenance["repo_commit"],

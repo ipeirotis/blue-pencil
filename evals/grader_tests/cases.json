@@ -34,7 +34,8 @@
     "misc25": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n  - inner\n- next",
     "misc26": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
     "misc27": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
-    "misc28": "The signal was 10 MHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a"
+    "misc28": "The signal was 10 MHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
+    "misc29": "Results\n--\nRevenue was $5 trillion and 5k users joined."
   },
   "variants": [
     {
@@ -1422,6 +1423,33 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Shortcut reference link removed."
+    },
+    {
+      "id": "misc29-trillion-dropped",
+      "base": "misc29",
+      "revised": "Results\n--\nRevenue was $5 and 5k users joined.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Magnitude word trillion removed."
+    },
+    {
+      "id": "misc29-k-suffix-dropped",
+      "base": "misc29",
+      "revised": "Results\n--\nRevenue was $5 trillion and 5 users joined.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Thousands abbreviation removed."
+    },
+    {
+      "id": "misc29-short-setext-dropped",
+      "base": "misc29",
+      "revised": "Results\nRevenue was $5 trillion and 5k users joined.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Two-hyphen Setext underline removed."
     }
   ]
 }

@@ -298,6 +298,8 @@ def reads_outside_workspace(events):
     if cwd:
         calls = {k: (os.path.normpath(os.path.join(cwd, p)) if p and not p.startswith(("/", "~")) else p)
                  for k, p in calls.items()}
+    # "..", ".", and doubled slashes are resolved in every path before the containment check.
+    calls = {k: (os.path.normpath(p) if p.startswith("/") else p) for k, p in calls.items()}
     # Only calls that returned something count: a read that was blocked or failed, or a
     # search that found nothing, saw no files.
     return sorted({p for cid, p in calls.items() if cid in ok and p.startswith(("/", "~"))

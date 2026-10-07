@@ -100,7 +100,7 @@ _NUMBER_RE = re.compile(
     + r"(?:(?-i:US|C|A|NZ|HK|S|R)?\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
     r"(?:[/:]" + _NUM + r")*(?: ?%)?"  # SI style puts a space before % ("5 %")
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
-    r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?"
+    r"thousand|trillion|bn|mn|tn|fold|star|stars)|(?P<abbr>bn|mn|tn|k)(?![A-Za-z0-9])|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?"
     # A rate's denominator stays with the number: "$5 per kg", "10 kilometers per hour".
     r"(?: per (?:" + _UNIT_SYM + "|" + _UNIT_WORD + r"))?",
     re.I)
@@ -522,7 +522,7 @@ def tokens(cls, raw, flat):
         # ATX heading markers: up to 3 spaces of indent, then a space, a tab, or the line end.
         out += [h + " " for h in re.findall(r"^ {0,3}(#{1,6})(?:[ \t]|$)", raw, re.M)]
         # Setext heading underlines ("=====", "-----"), kept as their character only.
-        out += [m[0] for m in re.findall(r"^ {0,3}(=+|-{3,})[ \t]*$", raw, re.M)]
+        out += [m[0] for m in re.findall(r"^ {0,3}(=+|-+)[ \t]*$", raw, re.M)]
         # Markdown hard breaks: two or more trailing spaces, or a trailing backslash, before
         # another line of the same paragraph.
         out += ["  " if m[0] == " " else "\\" for m in re.findall(r"( {2,}|\\)\n(?=[ \t]*\S)", raw)]
