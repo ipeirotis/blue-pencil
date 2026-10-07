@@ -96,7 +96,16 @@ contract its command names on its single turn, and only the B6 scenarios
 permit a clarification, split-and-confirm, decline, or refusal at the turn
 where their script expects it, so an ordinary run
 that emits a clarification to dodge the contract checks fails C2 on the
-variant mismatch), `damage_mode` (an enum `none`, `localized`, or
+variant mismatch; a `/paper:loop` case, whose command runs `clarify` and
+`human` conditionally, may repeat them, and stops for a variable set of
+`Author questions`, carries instead a set of allowed transitions keyed by
+the previous variant, and its `turns` script keys each author reply to the
+variant or event it answers (a checkpoint with questions gets a reply that
+resolves or defers every question, an apply offer gets a confirmation, a
+repeated pass gets the same checkpoint reply) with termination rules (a
+recorded maximum of agent turns, and stop on the completion variant), so a
+correct run that reaches a checkpoint a fixed sequence did not anticipate
+is graded on the transition rather than failed on the index), `damage_mode` (an enum `none`, `localized`, or
 `pervasive`, so the runner and C4 select the repair branch or the refusal
 branch deterministically rather than inferring it from a missing field),
 `artifact_repairs` required when and only when `damage_mode` is `localized`
@@ -114,8 +123,12 @@ applicable under the gates in the sweep table of `SKILL.md`, including
 the content gates (unfamiliar machinery, statistical machinery, a clarity
 request), which are subjective enough that one annotator's slip would turn
 a correct reference read into a benchmark failure; the agreed set is stored,
-both labels are kept, and a disagreement tags the case `ambiguous`, which is
-the non-gating path C3 names, so C3 has a ground truth that does not depend
+both labels are kept, and a disagreement tags the disputed entries
+`ambiguous` one pass at a time, never the whole case, so the consensus
+entries and the references the sweep table loads on every pass
+(`principles.md`, `edit-checks.md`, `sentence-patterns.md`,
+`copyediting.md`) keep gating while only the disputed pass is excluded,
+which is the non-gating path C3 names, so C3 has a ground truth that does not depend
 on section type and stage alone, and including the command-owned references outside the sweep
 (`cold-read.md` for `/paper:read`, `consistency-checks.md` for
 `/paper:consistency`) on a command-driven case, so a required read is never
@@ -157,8 +170,12 @@ itself, or its digest and length past a recorded size), exit status, and
 captured output, so the F7 audit of
 `/paper:verify` can establish that the checker ran on the proposed revision
 rather than that the agent produced a plausible report or fed the checker an
-empty, truncated, or original-text payload, and a failed execution is visible rather
-than recorded as a completed run, and every subagent dispatch or nested
+empty, truncated, or original-text payload, and a failed execution is visible
+in the trace; the nested exit status never changes the run status, since the
+checker exits nonzero when it finds a protected-content change (as
+`scripts/check-protected.sh` does today) and that exit is the evidence a
+`/paper:verify` negative case is graded on, so a run stays `completed`
+unless the top-level agent or CLI itself failed, and every subagent dispatch or nested
 `/paper:*` invocation with the agent or command name, the dispatched prompt,
 the returned result, the subagent's own nested tool events, and the
 agent-turn boundary it occurred in, so the F7 loop audit can establish from
@@ -637,8 +654,11 @@ Check what the skill says about its own run against what it did:
   as a pass. The
   claim alone is what this check exists to distrust: a model that skips a
   reference and prints its name anyway must fail here, not pass. Where two
-  labelers disagree on a case's expected set, the case is tagged ambiguous
-  and this check reports but does not gate on it.
+  labelers disagree on an entry of a case's expected set, that entry is
+  tagged ambiguous and this check reports but does not gate on it, while
+  every consensus entry and every reference the sweep loads on all passes
+  keeps gating, so a dispute over `exposition.md` cannot excuse a skipped
+  `principles.md`.
 - Every `before -> after` change line describes a real edit: after
   whitespace and markup normalization, the `before` span occurs in the input
   and the `after` span occurs in the revised block (a deletion's `after` may
@@ -654,7 +674,11 @@ Check what the skill says about its own run against what it did:
   one. The converse holds for insertions as for deletions on the full
   contract only: every added hunk inside an aligned pair that is not made
   only of insignificant tokens, and every added sentence, maps to a change
-  line or to the `Added bridges:` line, so a clause inserted without a ledger
+  line, an added bridge included, since the `Added bridges:` line
+  inventories the sentence and triggers its confirmation but carries none
+  of the reader-benefit rationale the contract requires of every
+  non-trivial change; the bridge line satisfies only the separate
+  bridge-reporting assertion, and a clause inserted without a ledger
   entry fails. The compact contract carries at most three free-form
   `Top changes` bullets and no ledger by design ("Removed the
   throat-clearing opener to surface the claim" is a valid bullet with no
@@ -1147,7 +1171,12 @@ canonical read with the file's full range, and never injects the whole set
 or a bundle selected from `expected_passes`, since the first would prime
 the model with gated-off guidance before any selection and the second would
 tell it which passes apply, and either difference could be mistaken for a
-surface effect), and, for a command-driven case, the
+surface effect), the files under `examples/` through the same request
+protocol (since `SKILL.md` and the letter command direct agents to the
+worked examples and A2 installs them for the agent conditions), the
+`paper-reviser` wrapper's rules from `.claude/agents/paper-reviser.md`
+prepended to the prompt whenever the agent condition it is matched against
+runs under that wrapper, and, for a command-driven case, the
 applicable `.claude/commands/paper/*.md` prompt (the decline, table, and
 routing rules of `/paper:quick` and `/paper:triage` live there), not
 `SKILL.md` alone, since the passes
@@ -1378,7 +1407,10 @@ the revised manuscript and no draft, graded under the assembly variant, so neith
 broken while the audit passes. The
 `/paper:loop` audit needs two cases: the Step A staged plan, and a scripted
 multi-turn case whose `turns` script confirms the plan and drives the loop
-through its later phases on a short two-section manuscript, grading that the
+through its later phases on a short two-section manuscript with the
+event-keyed replies and allowed-transition set A1 defines for loop cases
+(not a fixed turn sequence, which a conditional `clarify` or `human` pass
+or a variable question set would desynchronise), grading that the
 sections are dispatched in the planned order, that each section pass stops
 at its author checkpoint before the next begins, that the consistency check
 runs after the body and again after the second front-matter pass, that no
