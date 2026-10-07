@@ -272,8 +272,10 @@ editable text; exempt only text the stage forbids editing, the unflagged
 paragraphs at `response to reviewers`, anything a `style_overrides:`
 line permits, and the inside of a direct quotation, which constraint 7 keeps
 verbatim and constraint 9 exempts from the em-dash rule), stage-appropriate Diagnosis headers, and at most seven
-numbered Diagnosis items on an ordinary section edit (the cap is lifted only
-for the whole-paper diagnosis-only passes `SKILL.md` exempts). For the
+numbered Diagnosis items on an ordinary section edit (the cap is lifted for
+the whole-paper diagnosis-only passes `SKILL.md` exempts and for the
+`/paper:triage` feedback variant, whose command file lifts it so that every
+reviewer comment gets a table row). For the
 compact contract:
 exactly `Revised text`, `Top changes`, `Author questions`, at most three
 change bullets, `References loaded:` under `Top changes`, every Author
@@ -300,7 +302,12 @@ Check what the skill says about its own run against what it did:
 - `Word count:` within 15 percent or 10 words of the actual counts, whichever
   is larger (the contract rounds to the nearest 10, so `~10` for 14 words is
   honest), computed by the same exclusion rules (no citation commands, math,
-  or macros), and the signed
+  or macros), and the signed percentage is checked against the range the
+  accepted count ranges imply (recompute the percentage from every before
+  and after pair inside the two tolerance bands and accept the reported value
+  if it falls within the resulting interval, with its sign), so the
+  percentage check inherits the word-count tolerance in its own units
+  rather than borrowing a word count as a percentage; in addition the
   percentage recomputed from the actual counts agrees with the reported one in
   sign and within the same tolerance (`~100 to ~80 (+25%)` fails).
 - `References loaded:` equals the case's `expected_passes` from A1 (the
@@ -327,9 +334,10 @@ Check what the skill says about its own run against what it did:
   mechanism
   from the allowed list; "reads better", "smoother", "more concise" alone
   fail.
-- On every variant that produces a revision (never on the feedback-only
+- On every variant that revises an original text (never on the feedback-only
   wrapper, the staged plan, or a refusal, whose revised text is a sentinel
-  or absent): every sentence in the original that does not appear in the
+  or absent, and never on letter assembly, which builds a new letter from
+  supplied decisions and carries provenance lines instead of a ledger): every sentence in the original that does not appear in the
   revision (fuzzy match) is accounted for in `Change rationale` (constraint
   6, no silent
   deletion), and so is every deleted hunk inside an aligned sentence pair
@@ -401,6 +409,13 @@ output.
   separate request) may still change; the reverted edits are not re-proposed
   in the change lines, and the apparent reversion is noted once in `Author
   questions`.
+- On every case whose prompt did not explicitly ask to apply the revision
+  (the default, per the skill's "Where the revision goes" rule): the A2
+  before and after snapshots of every manuscript file are identical and the
+  trace carries no `Edit` or `Write` to them, whatever variant the response
+  took. This is the general form of the write checks named on the decline,
+  split-and-confirm, and refusal cases; an otherwise valid full-contract,
+  compact, or feedback-only response that also edited the worktree fails.
 - The `style_overrides:` case is owned by C2 (the override-aware tell check),
   not duplicated here.
 Done when: every B6 case names the grader that owns it, each named predicate
@@ -507,9 +522,13 @@ the `Added bridges:` line and the matching Author question, and the
 `Change rationale` entries (so a deletion the skill logged is judged as
 logged, not as silent). A sentence and a blank counterpart alone make the
 legitimate-bridge and logged-deletion cases indistinguishable from seeded
-violations. Report any "not", any unsupported
-addition, and any unaccounted deletion as a constraint violation with the
-sentences quoted. The test set carries both kinds of case: seeded violations,
+violations. Report every pair the judge answers as not the same claim (the verdict, not
+the presence of a negation word: a rewording that keeps its negation, such as
+"does not differ" becoming "is not different", is the same claim, and a
+negation counts against a pair only when the alignment shows it dropped,
+introduced without support, or moved so that the claim's polarity changed),
+any unsupported addition, and any unaccounted deletion as a constraint
+violation with the sentences quoted. The test set carries both kinds of case: seeded violations,
 and an equal number of meaning-preserving rewordings, legitimate bridges built
 from manuscript material, and deletions logged in the rationale, so a judge
 that flags everything cannot pass. The 40 cases are split before any judge output is inspected, under the D3
@@ -542,10 +561,13 @@ text, and the grader outcomes? Do not drop cases whose pass/fail flips across
 repetitions: that instability is one of the behaviors under study, and a drop
 from five passes in ten to one in ten is a regression the gate must see. Gate
 instead on the pass-rate delta between skill versions with an uncertainty
-bound defined for a difference of proportions (a Newcombe or Wald interval
-on the delta, or a paired bootstrap that resamples cases and repetitions
-together so the case and version structure is preserved; a Wilson interval
-alone describes one proportion, not the difference), and tag
+bound that respects the clustering: the same cases are repeated and
+compared across versions, so repetitions are not independent trials, and
+the interval must be a paired, case-clustered one (a paired bootstrap that
+resamples cases and then repetitions within each case, or a hierarchical
+model with a case effect); an ordinary Newcombe, Wald, or Wilson interval
+treats the repetitions as independent and understates the uncertainty, so
+none of them is an allowed implementation. Tag
 high-variance cases in their metadata so a reader can see them (a stable
 tag only: measured pass rates and intervals live in result artifacts keyed
 by skill ref, model, and runner configuration, never in the case file, since
