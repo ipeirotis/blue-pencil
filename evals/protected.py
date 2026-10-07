@@ -27,6 +27,7 @@ Usage:
 
 import re
 import sys
+import unicodedata
 from collections import Counter
 
 LDQ, RDQ, LSQ, RSQ = "\u201c", "\u201d", "\u2018", "\u2019"
@@ -166,7 +167,8 @@ _GROUP = (r"(?:\((?:[^()\n]|\([^()\n]*\)){1,60}\)|\[(?:[^\[\]\n]|\[[^\[\]\n]*\])
 # Any operand may carry a unary sign ("x = -y", "x = -(a + b)", "x = -5").
 _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|" + _GROUP
                 + r"|(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
-_ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213] ?| - )"  # also times, dots, divide, plus-minus
+_ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213\u222a\u2229\u2295\u2297\u2216\u2218] ?| - )"  # also times, dots, divide, plus-minus
+# and set or algebraic operators: union, intersection, direct sum, tensor product, set minus, composition.
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
 _UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c\u223c\u2243\u2245\u2192\u2190\u2194\u21d2\u21d0\u21d4\u21a6\u2272\u2273\u227a\u227b\u227c\u227d"  # also arrows, \u2272 \u2273, \u227a \u227b
@@ -175,7 +177,7 @@ _REL_OP = r"(?: ?(?:<=|>=|!=|==|:=|=:|[=<>" + _UREL + r"]) ?| ~ )"  # also defin
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
 _BARE_OPERAND = r"(?:" + _FUNC + "|[A-Za-z]{1,2}" + _DECOR + "|" + _EQ_OPERAND + "|" + _USYM + ")"  # Greek and letterlike operands too ("\u03b1 + \u03b2")
-_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|:=|=:|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213" + _UREL + r"]) ?| - | ~ )"
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|:=|=:|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7\u00b1\u2213\u222a\u2229\u2295\u2297\u2216\u2218" + _UREL + r"]) ?| - | ~ )"
                           + _BARE_OPERAND + r")+(?![\w])")
 
 # An HTML tag from a fixed list of names, with only quoted attributes, so a comparison
@@ -554,6 +556,8 @@ def tokens(cls, raw, flat):
         out += _list_markers(raw)
         # Inline HTML tags ("<em>", "</em>", "<br>") and HTML comments, whitespace normalized.
         out += [re.sub(r"\s+", " ", t) for t in _HTML_TAG_RE.findall(raw) + re.findall(r"<!--.*?-->", raw, re.S)]
+        # HTML character references, named or numeric ("&alpha;", "&#946;", "&#x3b2;").
+        out += re.findall(r"&(?:[A-Za-z][A-Za-z0-9]{1,31}|#[0-9]{1,7}|#[xX][0-9A-Fa-f]{1,6});", raw)
         return out
     if cls == "code":
         # Fenced blocks (~~~ or ```) first, each whole block as one token so reordering
@@ -627,6 +631,8 @@ _PARA_LABEL = r"^\[[PR][0-9]+(?:\.[0-9]+)?\] ?"
 
 
 def _prep(text):
+    # Canonically equivalent spellings (a precomposed accent or a combining one) are the same text.
+    text = unicodedata.normalize("NFC", text)
     # Line-leading "[P1]" paragraph labels (and "[R1]" reviewer points) mark the passage's
     # paragraphs; a revision may drop them, so they are compared separately (see check).
     text = re.sub(_PARA_LABEL, "", text, flags=re.M)
