@@ -39,11 +39,14 @@ grounded-reply path that F2 and D4 grade), since supplying a draft would
 send the command down its rewrite path; C1 and C3 align and diff against the
 editable artifact where one exists and skip where none does, and on the
 draft-letter lane a protected token added to the draft is excepted when it
-occurs in a supplied read-only manuscript artifact, recorded with the
+occurs in any supplied read-only artifact (the manuscript, the reviewer
+comments, the author decisions, or the change log), recorded with the
 artifact it came from in the same provenance form the assembly lane uses,
 since the command requires a claimed change to point to a real manuscript
-location and a verified `Section 3` added to a draft that omitted it is
-correct, while a token absent from every supplied artifact still fails; and
+location and every comment to be covered, so a verified `Section 3` added
+to a draft that omitted it, or a reviewer's quoted figure restored from the
+comments, is correct, while a token absent from every supplied artifact
+still fails; and
 C4 knows which file an explicit apply may touch), an optional `turns` script (an ordered list of
 author messages and between-turn artifact updates, such as the scripted
 context reply in the missing-context case or the author-edited file returned
@@ -125,9 +128,12 @@ request), which are subjective enough that one annotator's slip would turn
 a correct reference read into a benchmark failure; the agreed set is stored,
 both labels are kept, and a disagreement tags the disputed entries
 `ambiguous` one pass at a time, never the whole case, so the consensus
-entries and the references the sweep table loads on every pass
-(`principles.md`, `edit-checks.md`, `sentence-patterns.md`,
-`copyediting.md`) keep gating while only the disputed pass is excluded,
+entries and the references the sweep table of the ref under test marks as
+running on every pass (today `principles.md`, `edit-checks.md`,
+`structural-patterns.md`, `sentence-patterns.md`, `subtraction.md`,
+`ai-tells-to-avoid.md`, and `copyediting.md`, read from the table rather
+than hard-coded, so a later table change moves the list) keep gating while
+only the disputed pass is excluded,
 which is the non-gating path C3 names, so C3 has a ground truth that does not depend
 on section type and stage alone, and including the command-owned references outside the sweep
 (`cold-read.md` for `/paper:read`, `consistency-checks.md` for
@@ -572,8 +578,12 @@ order the candidates for review, and fails the
 output only when the judge confirms the candidate states why an assumption,
 identification strategy, or validity claim holds and its aligned input did
 not already say so; a candidate the judge
-rejects clears the finding. A run that adds a confirmed validity argument
-and prints `Added bridges: None.` fails the D4 assertion. No editor label
+rejects clears the finding. The comparison runs in both directions: a run
+that adds a confirmed validity argument and prints `Added bridges: None.`
+fails the D4 assertion, and a sentence the model lists on the line must
+itself receive a positive verdict, so an ordinary transition or copyedit
+reported as a bridge, with its superfluous confirmation question, fails as
+a false bridge report rather than passing the self-report audit. No editor label
 introduced by the model inside the block, compared through the alignment
 rather than by set membership: a label occurrence in the output passes only
 when its aligned input sentence carries the same label, so a `[P1]`-style
@@ -1536,8 +1546,11 @@ G2, G4 anytime after A4 ; G3 (needs E1 for the first results directory and
 the next release's benchmark for the second)
 ```
 
-Suggested order: first month A1, B1, B2, and the C1 extraction core in
-parallel; second month B3 through B6, A2, A3, then C1's traps and C2 through
+Suggested order: first month A1, B1, and B4 first, then the C1 extraction
+core (which needs B4's traps as its fixtures) alongside B2's prose, with
+B2's protected inventories generated once the extraction core lands so B2
+can meet its done-when inside the month; second month B3, B5, B6, A2, A3,
+then C1's claim-local mode and C2 through
 C6; third month D1 through D4 and E1. A partial run on B2 alone is useful for
 debugging the harness, but it is labeled partial and never reported as the E1
 baseline. Nothing in F starts before E1 produces numbers.
