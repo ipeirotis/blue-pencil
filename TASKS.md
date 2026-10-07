@@ -658,14 +658,28 @@ every substantive added sentence and added hunk, not only the lexicon hits
 states why identification holds with no cue word), using the lexicon only to
 order the candidates for review, and fails the
 output only when the judge confirms the candidate states why an assumption,
-identification strategy, or validity claim holds and its aligned input did
-not already say so; a candidate the judge
-rejects clears the finding. The comparison runs in both directions: a run
-that adds a confirmed validity argument and prints `Added bridges: None.`
-fails the D4 assertion, and a sentence the model lists on the line must
-itself receive a positive verdict, so an ordinary transition or copyedit
-reported as a bridge, with its superfluous confirmation question, fails as
-a false bridge report rather than passing the self-report audit. No editor label
+identification strategy, or validity claim holds; a candidate the judge
+rejects clears the finding. The judge's verdict is three-valued
+(`new-justification`, `rephrased-justification`, `not-a-justification`),
+and which of the first two the line must carry follows the output contract
+of the skill ref under test, read from the manifest, since the contract
+`SKILL.md` ships today requires the line to quote every added sentence
+that states why such a claim holds without excluding a sentence that
+restates a justification the input already carried, so under that wording
+both `new-justification` and `rephrased-justification` candidates are
+required on the line and an unreported one of either kind fails, while
+under the sharpened wording F2 writes into the contract (restricting the
+line to justifications newly introduced to the manuscript, since a
+rephrased justification needs no author confirmation and the restated
+sentence is an edit the Change rationale already covers) only
+`new-justification` is required and a reported `rephrased-justification`
+fails as over-reporting. The comparison runs in both directions under either
+wording: a run that adds a confirmed validity argument and prints `Added
+bridges: None.` fails the D4 assertion, and a sentence the model lists on
+the line must itself receive a verdict the wording requires, so an ordinary
+transition or copyedit (`not-a-justification`) reported as a bridge, with
+its superfluous confirmation question, fails as a false bridge report
+rather than passing the self-report audit, whatever the ref. No editor label
 introduced by the model inside the block, compared through the alignment
 rather than by set membership: a label occurrence in the output passes only
 when its aligned input sentence carries the same label, so a `[P1]`-style
@@ -1056,12 +1070,17 @@ output.
   trace carries no `Edit` or `Write` at all, whatever variant the
   response took, and on a surface with command execution no
   command-execution event wrote to the worktree either, which A2 establishes
-  by monitoring filesystem writes while each command runs (an overlay mount
-  whose upper layer is inspected after every command, or an inotify or
-  syscall-level audit recording every create, write, rename, and unlink),
-  not only by snapshotting after the command returns, so a script that
-  writes a file and restores or deletes it before exiting is caught as
-  surely as one that leaves the change behind (the read-only checker
+  by an event-level audit of filesystem writes while each command runs (the
+  inotify, fanotify, or syscall-level layer the trace adapters already
+  derive canonical reads from, recording every create, write, rename, and
+  unlink as it happens), never by inspecting state after the command
+  returns: a snapshot diff or an overlay mount whose upper layer is read
+  afterwards shows nothing for a file created and unlinked within one
+  command, so neither counts as monitoring on its own, and an overlay is
+  acceptable only as a complement whose upper layer is backed by a journal
+  that retains deleted entries; under the event audit a script that writes
+  a file and restores or deletes it before exiting is caught as surely as
+  one that leaves the change behind (the read-only checker
   invocation of F3 is allowlisted by command but is still monitored, so an
   invocation that wrote would fail); scripted between-turn updates
   from the case's `turns` script (a loop case's author-side file updates;
@@ -1297,13 +1316,19 @@ the manuscript context the D4 meaning check supplies, never the model's own
 `Added bridges:` line, which is the answer under audit and would let the
 judge read `None.` as a shortcut and let the calibration fixtures score by
 correlating line and label; the harness compares the independent verdict
-with the line afterwards; verdict: states newly added justification, meaning
+with the line afterwards; verdict: three-valued, `new-justification` when
 the candidate says why an assumption, identification strategy, or validity
-claim holds and its aligned input did not already say so, so a rephrased
-existing explanation is not a bridge and the contract's `Added bridges:`
-covers newly introduced ones only; fixtures:
-ten true bridges, ten cue-word false alarms, and ten rephrasings of an
-explanation the input already carried, built without the line), re-proposal detection for
+claim holds and its aligned input did not already say so,
+`rephrased-justification` when it says so but its aligned input already
+did, and `not-a-justification` otherwise, with the harness, not the judge,
+deciding which verdicts the line must carry under the contract wording of
+the ref under test as C2 states; fixtures: ten true bridges labeled
+`new-justification`, ten cue-word false alarms labeled
+`not-a-justification`, and ten rephrasings of an explanation the input
+already carried labeled `rephrased-justification`, all built without the
+line, with the judge accepted only when it separates all three classes,
+since a judge that merges the second into either neighbor would grade one
+contract wording wrongly), re-proposal detection for
 C4 (input: the recorded rejected transformation and the evaluated turn's span;
 verdict: re-proposed or not; fixtures: ten re-proposals under new wording
 and ten unrelated legitimate edits), and provenance grounding for F2's
@@ -1548,10 +1573,18 @@ replaces the ambiguous word-count convention in the Length budget section of
 its prose argument counts (sectioning titles, `\emph{...}`,
 `\textbf{...}`, and `\footnote{...}` named explicitly), states it in the
 output contract next to `Word count:`, and gives C3 the single reading to
-check on every ref that carries it. Done when: the
+check on every ref that carries it. In the same spirit F2 sharpens the
+`Added bridges:` rule in both places `SKILL.md` states it (the output
+contract and the Output section's line description) so that the line
+quotes the sentences that introduce a justification the manuscript did not
+already carry, and says explicitly that a rewrite of an existing
+justification stays off the line, since the author confirmation the line
+triggers is for new claims and the rewrite is already in the Change
+rationale; D4's bridge classification reads which wording the ref under
+test carries from the manifest, as C2 states. Done when: the
 line is in both output contracts, all `examples/` with a revision carry it,
-the word-count convention is in `SKILL.md` and the C3 grader reads it from
-the ref under test,
+the word-count convention and the sharpened bridge rule are in `SKILL.md`
+and the C3 and D4 graders read them from the ref under test,
 a compact-output fixture carries it under `Top changes`, a feedback-only
 output (revised text `No rewrite requested.`, as in `/paper:triage`,
 `/paper:read`, and `/paper:consistency`) carries `Protected inventory: not
