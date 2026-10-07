@@ -119,7 +119,14 @@ the non-gating path C3 names, so C3 has a ground truth that does not depend
 on section type and stage alone, and including the command-owned references outside the sweep
 (`cold-read.md` for `/paper:read`, `consistency-checks.md` for
 `/paper:consistency`) on a command-driven case, so a required read is never
-scored as a phantom pass. The label is tied to the sweep table of the skill ref it was
+scored as a phantom pass. On a scripted multi-turn case the field is a
+sequence keyed by agent turn and, inside a `/paper:loop` run, by nested
+dispatch (section and command), since the cold read, each section rewrite,
+the consistency checks, and the final-polish dispatches load different
+command-owned and sweep references and two section rewrites can activate
+different content gates; C3 correlates each `References loaded:` line with
+its own dispatch's trace boundary and expected set, never with one
+case-wide set. The label is tied to the sweep table of the skill ref it was
 written against (recorded as `expected_passes_ref`); a run of a different
 ref, a historical release in G3 or an ablated variant in E4, uses a label
 re-derived for that ref's table, or the C3 reference audit is excluded for
@@ -260,9 +267,15 @@ output and asks the author to resolve its questions or confirm an apply, an
 apply acknowledgment that reports the file updated and carries no new
 revision, a consistency-check relay, and the completion message that
 declares the Step G stop condition with each section's convergence; each is
-its own variant, C2 applies no contract branch, and F7's loop predicates
-grade it against the dispatch trace and the plan, so a valid post-plan turn
-is never a parse failure), the checker report that `/paper:verify` returns
+its own variant, C2 applies no contract branch to the wrapper, and F7's loop
+predicates grade the wrapper against the dispatch trace and the plan, so a
+valid post-plan turn is never a parse failure; the dispatched result a
+checkpoint relays is not exempt: the parser extracts each nested returned
+result from the A2 dispatch event and classifies and grades it under the
+dispatched command's own variant, with C2 and C3 applied to it, before the
+outer wrapper is graded, so a loop that relays a malformed contract, an
+unreported bridge, or a dishonest change line and pauses correctly still
+fails), the checker report that `/paper:verify` returns
 once F3 ships it (the machine-computed report relayed with its `Protected
 check:` line and no contract sections, its own variant routed to the F7
 verify predicates, so a correct report is never a parse failure), and the feedback-only wrapper (the four sections
@@ -579,8 +592,9 @@ Check what the skill says about its own run against what it did:
   exact change is about +71%), and a report whose sign contradicts the
   counts (`~100 to ~80 (+25%)`) still fails because no pair inside the bands
   yields a positive change.
-- `References loaded:` equals the case's `expected_passes` from A1 (the
-  corpus author's reading of every sweep gate, content gates included, since
+- `References loaded:` equals the `expected_passes` entry from A1 for the
+  agent turn or nested dispatch that produced the line, located by its A2
+  trace boundary (the labelers' reading of every sweep gate, content gates included, since
   section type and stage alone cannot tell an applicable `exposition.md` read
   from a phantom one), with no skipped pass and no phantom one. The contract
   lets the line say briefly that a section gated a pass off, so the parser
@@ -1119,7 +1133,10 @@ numbers in its pull request.
 One pull request per cluster. Change the fewest words in `SKILL.md` or
 `references/` that move the metric, and re-run the full corpus to confirm no
 regression elsewhere. Done when: the targeted assertion's pass rate improves
-with no other assertion regressing beyond its E3 variance band.
+with no other assertion regressing under the E3 decision rule, the same
+paired, case-clustered confidence interval, per-assertion margin, and
+upper-bound test the G1 gate applies, so a pull request and the gate reach
+the same verdict on the same run.
 
 ### F2. Replace self-attestation with a machine-checkable self-report (M)
 The preflight line "No protected content changed" is the model checking itself
@@ -1182,7 +1199,13 @@ also grounded by D4's judge against the decision, change-log entry, and
 manuscript location its provenance line names, with an unsupported claim
 reported as a violation unless the reply routes it to `Author questions` as
 the command file requires, C3 verifies the line against C1's recomputation on every
-revising output, and a fixture with a swapped citation key fails.
+revising output of a skill ref whose output contract carries the line, and
+reports the assertion not applicable on a ref whose contract does not (the
+v3.0.0 baseline, historical reruns in G3), as the word-count grader already
+does for its ref-specific convention, so the before-and-after comparison
+reports the inventory as a capability F2 introduced rather than grading the
+baseline against a field it was never asked for; and a fixture with a
+swapped citation key fails.
 
 ### F3. Ship the checker to authors (M)
 Add a `/paper:verify <original> <revised>` command (and a step inside
