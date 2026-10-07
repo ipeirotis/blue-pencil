@@ -252,13 +252,16 @@ requires. For the full contract: heading order, `Word count:` shape and,
 whenever the reported or recomputed count grew, the one-line growth
 justification `SKILL.md` requires on the next line,
 `References loaded:` present, `Added bridges:` present, every quoted
-bridge sentence actually in the revised block, and the converse: every
-sentence in the revised block with no aligned source in the input (the A3
-alignment), and every added hunk inside an aligned pair (`The instrument is
-valid.` becoming `The instrument is valid because assignment was random.`
-still aligns), that carries a justification cue (because, since, ensures,
-guarantees, holds, is valid, identifies, is exogenous, and a maintained
-lexicon) must appear on the line, so a run that adds a validity argument and
+bridge sentence actually in the revised block, and the converse, gated on
+the justification-cue test in both places: an unmatched sentence in the
+revised block (no aligned source in the A3 alignment) or an added hunk inside
+an aligned pair (`The instrument is valid.` becoming `The instrument is valid
+because assignment was random.` still aligns) must appear on the line only
+when it carries a justification cue (because, since, ensures, guarantees,
+holds, is valid, identifies, is exogenous, and a maintained lexicon); an
+unmatched sentence without a cue (a new transition, one half of a permitted
+first-draft split) is an ordinary insertion that C3 requires in the change
+ledger, not a bridge, and must not fail this check. The gated rule means so a run that adds a validity argument and
 prints `Added bridges: None.` fails; a cue hit is reported as a
 finding here, and D4's judge, when it has run, classifies it so a false cue
 is visible, not gated. No `[P1]`-style label inside
@@ -389,11 +392,15 @@ output.
   fails. When the case is marked pervasive the output asks for a cleaner
   source, contains no `Revised text` block, and the A2 snapshot shows the
   source file unchanged with no `Edit` or `Write` to it in the trace.
-- Across rounds (the scripted repeat-round case in B6): in the second turn no
-  sentence the author reverted or reworded is edited back toward the first
-  turn's suggestion (byte-identical to the author's version in the revised
-  block), the reverted edits are not re-proposed in the change lines, and the
-  apparent reversion is noted once in `Author questions`.
+- Across rounds (the scripted repeat-round case in B6): in the second turn the
+  spans the author reverted or reworded (the diff between the first turn's
+  suggestion and the author's returned file) are not moved back toward the
+  first turn's suggestion: for each such span, the second turn's text is no
+  closer to the first-turn wording than the author's version is, measured by
+  edit distance, while unrelated text in the same sentence (a new typo, a
+  separate request) may still change; the reverted edits are not re-proposed
+  in the change lines, and the apparent reversion is noted once in `Author
+  questions`.
 - The `style_overrides:` case is owned by C2 (the override-aware tell check),
   not duplicated here.
 Done when: every B6 case names the grader that owns it, each named predicate
@@ -407,9 +414,11 @@ paragraph, and only the trailing whitespace that cannot affect the input
 format: in Markdown a two-space line ending is a hard break and must be
 preserved, so only a single trailing space or tab is normalized there), while
 preserving paragraph boundaries (a collapsed blank line merges two paragraphs
-and must fail) and every line
-break inside format-sensitive constructs (`tabular`, `lstlisting`, code
-fences, `%` comment lines), and `Change rationale` states the passage was
+and must fail) and the entire contents of format-sensitive constructs
+(`tabular`, `lstlisting`, code fences, `%` comment lines), which are excluded
+from every normalization, spaces and line breaks alike, so a changed code
+indentation cannot read as verbatim; and `Change rationale` states the
+passage was
 returned verbatim. Also compute the
 "churn rate" on every case: fraction of sentences changed, to track over-editing
 across skill versions. Done when: churn is a column in the A4 report.
@@ -489,8 +498,11 @@ sentence with no source (possible new substance, constraint 1) and a deleted
 sentence with no counterpart (possible dropped qualifier or claim, constraint
 6). The unpaired cases are the riskiest and the protected-token and bridge
 checks do not cover arbitrary prose claims. Give the judge what it needs to
-tell a violation from a legitimate change: the full input section (so a
-bridge built from material elsewhere in the manuscript can be traced to it),
+tell a violation from a legitimate change: the full input section and every
+other manuscript section the case supplied, or, where that is too long for
+the judge's context, the specific source passages the bridge's cue words
+point to (so a bridge built from material in another supplied section is
+traced to it rather than misread as unsupported),
 the `Added bridges:` line and the matching Author question, and the
 `Change rationale` entries (so a deletion the skill logged is judged as
 logged, not as silent). A sentence and a blank counterpart alone make the
@@ -530,7 +542,10 @@ text, and the grader outcomes? Do not drop cases whose pass/fail flips across
 repetitions: that instability is one of the behaviors under study, and a drop
 from five passes in ten to one in ten is a regression the gate must see. Gate
 instead on the pass-rate delta between skill versions with an uncertainty
-bound (a Wilson interval or a bootstrap over repetitions), and tag
+bound defined for a difference of proportions (a Newcombe or Wald interval
+on the delta, or a paired bootstrap that resamples cases and repetitions
+together so the case and version structure is preserved; a Wilson interval
+alone describes one proportion, not the difference), and tag
 high-variance cases in their metadata so a reader can see them (a stable
 tag only: measured pass rates and intervals live in result artifacts keyed
 by skill ref, model, and runner configuration, never in the case file, since
