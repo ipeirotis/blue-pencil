@@ -83,6 +83,14 @@ def case_fingerprint(case_id):
     return h.hexdigest()[:16]
 
 
+def changed_cases(meta, case_ids):
+    """Cases whose files differ from the fingerprint the run recorded. Outputs of such
+    a case were produced from different input, so they must not be graded against
+    the current files. Runs that recorded no fingerprints cannot be checked."""
+    recorded = meta.get("case_fingerprints", {})
+    return [c for c in case_ids if c in recorded and recorded[c] != case_fingerprint(c)]
+
+
 def claude_version():
     try:
         return subprocess.run(

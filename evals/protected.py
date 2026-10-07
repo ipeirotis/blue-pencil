@@ -33,7 +33,7 @@ LDQ, RDQ, LSQ, RSQ = "\u201c", "\u201d", "\u2018", "\u2019"
 ULE, UGE, UMIN = "\u2264", "\u2265", "\u2212"
 EUR, GBP, YEN = "\u20ac", "\u00a3", "\u00a5"
 
-CLASSES = ["citations", "authoryear", "crossrefs", "callouts", "math", "symbols", "environments",
+CLASSES = ["citations", "authoryear", "crossrefs", "callouts", "math", "symbols", "equations", "environments",
            "macros", "emphasis", "quotes", "comments", "code", "numbers", "numberwords"]
 
 _PROSE_MACROS = {"caption", "emph", "textbf", "textit", "footnote", "section",
@@ -77,7 +77,8 @@ _NUMBER_RE = re.compile(
     # The space after a comparator belongs to the token; a space before the number does not,
     # so a number that moves to the start of a sentence is the same token.
     r"(?:(?:[<>]=?|" + ULE + "|" + UGE + r")[ ~]?|~)?(?:[+-]|" + UMIN + r")?"
-    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM + r"(?:-" + _NUM + r")?%?"
+    # A fraction, ratio, or other slash/colon group ("1/2", "1:2") is one ordered token.
+    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM + r"(?:-" + _NUM + r")?(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?",
     re.I)
@@ -109,6 +110,13 @@ _EM_RE = re.compile(r"(?<![*_\w\\])([*_])(?=[^\s*_])(.+?)(?<=[^\s*_\\])\1(?![*_\
 # token, so reordering the numbers inside a group is caught.
 _NUMCITE_RE = re.compile(r"\[ ?[0-9]+(?: ?[,;\u2013-] ?[0-9]+)* ?\]")
 
+
+# Bare ASCII equations and comparisons outside math delimiters ("x > y", "a+b=c",
+# "n = 412"): operands of at most two letters or a number, joined by = < > + * / ^.
+# Whitespace is dropped from the token, so only a change of operand or operator counts.
+_EQ_OPERAND = r"(?:[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?)"
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?: ?(?:<=|>=|!=|==|[=<>+*/^]) ?"
+                          + _EQ_OPERAND + r")+(?![\w])")
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
 _PANEL = r"(?: ?\([a-z](?:[,\u2013-] ?[a-z])*\))?"
@@ -250,6 +258,8 @@ def tokens(cls, raw, flat):
         out += re.findall(r"\\\(.*?\\\)", flat)
         out += re.findall(r"\\\[.*?\\\]", flat)
         return out
+    if cls == "equations":
+        return [re.sub(r"\s", "", t) for t in _EQUATION_RE.findall(flat)]
     if cls == "symbols":
         return _SYMBOL_RE.findall(flat.replace("\u00b5", "\u03bc"))  # micro sign == Greek mu
     if cls == "environments":
@@ -269,6 +279,7 @@ def tokens(cls, raw, flat):
     if cls == "comments":
         out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|> )|^\|", ln)]
         out += re.findall(r"^#{1,6} ", raw, re.M)
+        out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers
         return out
     if cls == "code":
         # Fenced blocks (~~~ or ```) first, each whole block as one token so reordering
@@ -288,6 +299,9 @@ def tokens(cls, raw, flat):
                 prose.append(ln)
         if fence is not None:
             out.append("\n".join(block))  # unclosed fence: the rest is code
+        # All fenced blocks form one token in document order, so swapping two whole
+        # blocks is caught (each class is compared as a multiset).
+        out = ["\n\n".join(out)] if out else []
         return out + re.findall(r"`[^`]+`", "\n".join(prose))
     if cls == "numbers":
         out = []

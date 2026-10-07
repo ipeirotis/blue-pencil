@@ -9,7 +9,9 @@
     "science_compound": "We administered 10 mg/kg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
     "science_si": "We administered 10 mg kg⁻¹ of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
     "fenced": "We fit the model in two steps.\n```\nfit = ols(y, X)\n```\nThe first step estimates the slope; the second\nchecks the residuals.\n```\nplot(fit.resid)\n```\nCall `summary(fit)` for the table.",
-    "notation": "Figure 2(a) shows about 6 × 10^23 events; the rate is 1.5e-3 per hour."
+    "notation": "Figure 2(a) shows about 6 × 10^23 events; the rate is 1.5e-3 per hour.",
+    "markup": "The bound holds when x > y and a+b=c, at a 1:2 ratio.\n\n- first point\n- second point",
+    "two_blocks": "Set up:\n```\nx = load()\n```\nThen run:\n```\nrun(x)\n```"
   },
   "variants": [
     {
@@ -362,6 +364,51 @@
       "damage_type": "markup changed",
       "code_grader_should_flag": true,
       "note": "Arguments swapped inside a code block."
+    },
+    {
+      "id": "markup-harmless-1",
+      "base": "markup",
+      "revised": "At a 1:2 ratio, the bound holds when x > y and a + b = c.\n\n- first point\n- second point",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clause order and operator spacing changed only."
+    },
+    {
+      "id": "markup-operator-flipped",
+      "base": "markup",
+      "revised": "The bound holds when x < y and a+b=c, at a 1:2 ratio.\n\n- first point\n- second point",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "A bare comparison operator flipped."
+    },
+    {
+      "id": "markup-ratio-reversed",
+      "base": "markup",
+      "revised": "The bound holds when x > y and a+b=c, at a 2:1 ratio.\n\n- first point\n- second point",
+      "verdict": "damaged",
+      "damage_type": "number changed (ratio)",
+      "code_grader_should_flag": true,
+      "note": "Ratio reversed; same numbers."
+    },
+    {
+      "id": "markup-list-dropped",
+      "base": "markup",
+      "revised": "The bound holds when x > y and a+b=c, at a 1:2 ratio.\n\nfirst point\nsecond point",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Unordered list turned into plain lines."
+    },
+    {
+      "id": "two-blocks-swapped",
+      "base": "two_blocks",
+      "revised": "Set up:\n```\nrun(x)\n```\nThen run:\n```\nx = load()\n```",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Two whole code blocks swapped."
     }
   ]
 }

@@ -27,7 +27,8 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from lib import EVALS, GRADER_MODEL, call_claude, extract_json, read_json, rubric_version, write_json
+from lib import (EVALS, GRADER_MODEL, call_claude, changed_cases, extract_json, read_json,
+                 rubric_version, write_json)
 from protected import check
 
 GRADER_FLAGS = ["--setting-sources", "project", "--disable-slash-commands", "--tools", ""]
@@ -56,7 +57,11 @@ def valid_meaning(parsed):
     probs = parsed.get("problems", [])
     if not isinstance(probs, list) or not all(
             isinstance(p, dict) and p.get("type") in SEVERITY_OF
-            and p.get("severity") == SEVERITY_OF[p["type"]] for p in probs):
+            and p.get("severity") == SEVERITY_OF[p["type"]]
+            # evidence: a quote from at least one side (one may be empty for added or
+            # dropped text) and an explanation
+            and (_text(p.get("original_quote")) or _text(p.get("revised_quote")))
+            and _text(p.get("explanation")) for p in probs):
         return False
     has_major = any(p.get("severity") == "major" for p in probs)
     if parsed["verdict"] == "changed":
@@ -64,8 +69,23 @@ def valid_meaning(parsed):
     return parsed["verdict"] == "unsure" or not has_major
 
 
+DIMENSIONS = ("clarity", "concision", "flow", "precision", "audience_fit")
+
+
+def _text(x):
+    return isinstance(x, str) and x.strip() != ""
+
+
 def valid_quality(parsed):
-    return isinstance(parsed, dict) and parsed.get("overall") in QUALITY_VERDICTS
+    """The full reply the prompt asks for: an overall verdict, a verdict for each of the
+    five dimensions, reasoning, and evidence for every dimension that is not a tie."""
+    if not isinstance(parsed, dict) or parsed.get("overall") not in QUALITY_VERDICTS:
+        return False
+    dims, ev = parsed.get("dimensions"), parsed.get("evidence")
+    if not isinstance(dims, dict) or set(dims) != set(DIMENSIONS) or not isinstance(ev, dict):
+        return False
+    return (all(v in QUALITY_VERDICTS for v in dims.values()) and _text(parsed.get("reasoning"))
+            and all(_text(ev.get(k)) for k, v in dims.items() if v != "tie"))
 
 
 def grader_key(prompt, model):
@@ -199,6 +219,11 @@ def main():
     root = EVALS / "results" / args.run_id
     if not root.is_dir():
         sys.exit(f"no such run: {root}")
+    meta = read_json(root / "run_meta.json") if (root / "run_meta.json").exists() else {}
+    changed = changed_cases(meta, [ed.name[len("eval-"):] for ed in root.glob("eval-*")])
+    if changed:
+        sys.exit(f"case files changed since {args.run_id} ran: {', '.join(changed)}. Its outputs "
+                 "would be graded against a passage the executor never saw; restore the files.")
     jobs, h2h = [], []
     for ed in sorted(root.glob("eval-*")):
         cid = ed.name[len("eval-"):]

@@ -18,10 +18,11 @@ every table (and so are their head-to-head pairs); they are listed in the report
 Usage:  python3 report.py <run-id>
 """
 
+import re
 import statistics as st
 import sys
 
-from lib import EVALS, read_json, write_json
+from lib import EVALS, changed_cases, read_json, write_json
 
 CONDS = ("with_skill", "without_skill")
 NAMES = {"with_skill": "With Blue Pencil", "without_skill": "Without (plain Claude)"}
@@ -118,12 +119,22 @@ def summary_row(label, rs):
             + f" | {pct(sum(both), len(both))} | {major} | {minor} |")
 
 
+def _fence_for(*texts):
+    """A backtick fence longer than any backtick run in the texts, so a passage that
+    contains its own fenced block cannot close the wrapper early."""
+    longest = max((len(m) for t in texts for m in re.findall(r"`+", t)), default=0)
+    return "`" * max(3, longest + 1)
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
     root = EVALS / "results" / sys.argv[1]
     runs, pairs = load(root)
     meta = read_json(root / "run_meta.json") if (root / "run_meta.json").exists() else {}
+    changed = changed_cases(meta, sorted({r["case"] for c in CONDS for r in runs[c]}))
+    if changed:
+        sys.exit(f"case files changed since this run: {', '.join(changed)}; restore them first.")
     all_runs = runs
     excluded = [(c, r, invalid_reason(r, c)) for c in CONDS for r in runs[c] if invalid_reason(r, c)]
     runs = {c: [r for r in runs[c] if not invalid_reason(r, c)] for c in CONDS}
@@ -252,8 +263,9 @@ def main():
         orig = (EVALS / "cases" / p["case"] / "input.txt").read_text().strip()
         v1 = (root / f"eval-{p['case']}" / o1["A"] / f"run-{p['run']}" / "outputs" / "revised.txt").read_text().strip()
         v2 = (root / f"eval-{p['case']}" / o1["B"] / f"run-{p['run']}" / "outputs" / "revised.txt").read_text().strip()
-        sheet += [f"## {pid}", "", "**Original**", "", "```", orig, "```", "", "**Version 1**", "", "```", v1, "```", "",
-                  "**Version 2**", "", "```", v2, "```", "",
+        fence = _fence_for(orig, v1, v2)
+        sheet += [f"## {pid}", "", "**Original**", "", fence, orig, fence, "", "**Version 1**", "", fence, v1, fence, "",
+                  "**Version 2**", "", fence, v2, fence, "",
                   "Better written (1 / 2 / tie): ______   Meaning changed in 1? ____  in 2? ____   Notes:", ""]
     # The sheet is where a reviewer writes verdicts, so an existing one is never replaced.
     # Its key stays with it: a changed sheet and its key go to *.new.* side by side.
@@ -274,11 +286,14 @@ def main():
     if hv.exists():
         human = read_json(hv)
         agree = total = 0
+        # The key maps versions 1/2 of the reviewed sheet to conditions; the grader's
+        # verdict is the current one, the same that section 4 reports.
+        current = {f"{p['case']}/run-{p['run']}": p["consolidated"] for p in pairs}
         for pid, v in human.items():
-            if pid not in key:
+            if pid not in key or pid not in current:
                 continue
             k = key[pid]
-            g = k["grader_consolidated"]
+            g = current[pid]
             gv = "tie" if g == "tie" else ("1" if k["version_1"] == g else "2")
             total += 1
             agree += (gv == str(v))
