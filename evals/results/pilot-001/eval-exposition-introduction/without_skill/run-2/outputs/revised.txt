@@ -1,0 +1,11 @@
+The endogeneity of review valence with respect to unobserved product quality is a
+well-known obstacle to identification in this literature: because quality affects
+both the reviews a product receives and its sales, a naive comparison conflates the
+effect of valence with the effect of quality. We exploit platform-level
+heterogeneity in content moderation as a source of exogenous variation in valence.
+Specifically, we leverage the fact that platforms differentially apply moderation
+policies across review cohorts, which generates quasi-random assignment of
+valence conditional on observed covariates. Using a dataset of 3.4 million
+reviews, we estimate the effect of review valence on sales and find it to be
+positive and significant. Our identification strategy improves upon prior
+approaches that rely on instrumental variables of questionable validity.

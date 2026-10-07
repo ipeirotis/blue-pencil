@@ -1,0 +1,69 @@
+{
+  "case": "exposition-methods",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A moves the staggered rollout to the front, but that separates the timing motivation from the Callaway–Sant'Anna sentence it justifies: four sentences of TWFE detail sit between them. It also glosses the control groups tautologically ('never-treated stores, which never receive the program'), which an expert reader doesn't need. Version B uses two paragraphs, one for the TWFE specification and one for the staggered design, and its sentence 'the effect of the program may differ depending on when a store adopts it' sets up the heterogeneity that the CS estimator addresses. That gives B better flow and makes its purpose clearer. However, B pads for this audience: it explains what store and week fixed effects absorb, which quantitative marketing researchers already know, and it repeats itself ('rolled out to stores on different dates, so stores enter treatment at different times'). A is tighter and pitched better for experts. B's gains in structure and logical connection outweigh its padding in a first draft, but only narrowly.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'To address heterogeneity in treatment timing, we report...' (heterogeneity never motivated) vs B: 'the effect of the program may differ depending on when a store adopts it'",
+            "concision": "A: 'We estimate a two-way fixed effects model with store and week fixed effects' vs B: 'Store fixed effects absorb stable differences across stores, and week fixed effects absorb shocks common to all stores'",
+            "flow": "A: staggered timing opens the paragraph but 'To address heterogeneity in treatment timing' comes four sentences later vs B: 'Because treatment timing varies... To address this heterogeneity in treatment timing'",
+            "audience_fit": "A: 'two-way fixed effects model with store and week fixed effects' vs B: 'week fixed effects absorb shocks common to all stores in a given week'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version A moves the staggered rollout to the front, but that separates the timing motivation from the Callaway–Sant'Anna sentence it justifies: four sentences of TWFE detail sit between them. It also glosses the control groups tautologically ('never-treated stores, which never receive the program'), which an expert reader doesn't need. Version B uses two paragraphs, one for the TWFE specification and one for the staggered design, and its sentence 'the effect of the program may differ depending on when a store adopts it' sets up the heterogeneity that the CS estimator addresses. That gives B better flow and makes its purpose clearer. However, B pads for this audience: it explains what store and week fixed effects absorb, which quantitative marketing researchers already know, and it repeats itself ('rolled out to stores on different dates, so stores enter treatment at different times'). A is tighter and pitched better for experts. B's gains in structure and logical connection outweigh its padding in a first draft, but only narrowly.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'To address heterogeneity in treatment timing, we report...' (heterogeneity never motivated) vs B: 'the effect of the program may differ depending on when a store adopts it'\",\n    \"concision\": \"A: 'We estimate a two-way fixed effects model with store and week fixed effects' vs B: 'Store fixed effects absorb stable differences across stores, and week fixed effects absorb shocks common to all stores'\",\n    \"flow\": \"A: staggered timing opens the paragraph but 'To address heterogeneity in treatment timing' comes four sentences later vs B: 'Because treatment timing varies... To address this heterogeneity in treatment timing'\",\n    \"audience_fit\": \"A: 'two-way fixed effects model with store and week fixed effects' vs B: 'week fixed effects absorb shocks common to all stores in a given week'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0484902,
+        "seconds": 16.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states the staggered-rollout design first, which frames the rest of the specification, and it covers the same content in fewer words. Its definitions of never-treated and not-yet-treated stores are slightly tautological. Version A over-explains for this audience: it glosses what store and week fixed effects absorb, which quantitative marketing researchers already know, and it repeats itself ('rolled out to stores on different dates, so stores enter treatment at different times'). A does connect ideas better, though. It explicitly links varying adoption timing to effect heterogeneity before introducing Callaway and Sant'Anna, while B returns abruptly from the control-group discussion to the TWFE specification. On balance, B reads more efficiently and more precisely for this audience.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'We estimate a two-way fixed effects model... Store fixed effects absorb stable differences' (design motivation deferred to the second paragraph) vs B: 'The loyalty program was rolled out to stores on different dates, so treatment timing is staggered.' (opens with the identifying feature)",
+            "concision": "A: 'The loyalty program was rolled out to stores on different dates, so stores enter treatment at different times.' vs B: 'so treatment timing is staggered.'",
+            "flow": "A: 'Because treatment timing varies, the effect of the program may differ depending on when a store adopts it. To address this heterogeneity...' vs B: 'which have not yet received it. We estimate a two-way fixed effects model...' (abrupt return to the specification)",
+            "precision": "A: 'relative to stores where it has not' (loose, elliptical comparison) vs B: 'treatment timing is staggered' (standard technical term)",
+            "audience_fit": "A: 'week fixed effects absorb shocks common to all stores in a given week' (textbook gloss for experts) vs B: 'We estimate a two-way fixed effects model with store and week fixed effects' (assumes reader familiarity)"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states the staggered-rollout design first, which frames the rest of the specification, and it covers the same content in fewer words. Its definitions of never-treated and not-yet-treated stores are slightly tautological. Version A over-explains for this audience: it glosses what store and week fixed effects absorb, which quantitative marketing researchers already know, and it repeats itself ('rolled out to stores on different dates, so stores enter treatment at different times'). A does connect ideas better, though. It explicitly links varying adoption timing to effect heterogeneity before introducing Callaway and Sant'Anna, while B returns abruptly from the control-group discussion to the TWFE specification. On balance, B reads more efficiently and more precisely for this audience.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We estimate a two-way fixed effects model... Store fixed effects absorb stable differences' (design motivation deferred to the second paragraph) vs B: 'The loyalty program was rolled out to stores on different dates, so treatment timing is staggered.' (opens with the identifying feature)\",\n    \"concision\": \"A: 'The loyalty program was rolled out to stores on different dates, so stores enter treatment at different times.' vs B: 'so treatment timing is staggered.'\",\n    \"flow\": \"A: 'Because treatment timing varies, the effect of the program may differ depending on when a store adopts it. To address this heterogeneity...' vs B: 'which have not yet received it. We estimate a two-way fixed effects model...' (abrupt return to the specification)\",\n    \"precision\": \"A: 'relative to stores where it has not' (loose, elliptical comparison) vs B: 'treatment timing is staggered' (standard technical term)\",\n    \"audience_fit\": \"A: 'week fixed effects absorb shocks common to all stores in a given week' (textbook gloss for experts) vs B: 'We estimate a two-way fixed effects model with store and week fixed effects' (assumes reader familiarity)\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0459382,
+        "seconds": 14.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "tie",
+  "note": "order-dependent verdict, counted as tie"
+}

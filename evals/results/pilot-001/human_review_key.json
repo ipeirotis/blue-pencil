@@ -1,0 +1,74 @@
+{
+  "exposition-introduction/run-1": {
+    "version_1": "with_skill",
+    "version_2": "without_skill",
+    "grader_consolidated": "with_skill",
+    "grader_winner_in_this_order": "with_skill"
+  },
+  "exposition-introduction/run-2": {
+    "version_1": "without_skill",
+    "version_2": "with_skill",
+    "grader_consolidated": "with_skill",
+    "grader_winner_in_this_order": "with_skill"
+  },
+  "exposition-introduction/run-3": {
+    "version_1": "without_skill",
+    "version_2": "with_skill",
+    "grader_consolidated": "without_skill",
+    "grader_winner_in_this_order": "without_skill"
+  },
+  "exposition-methods/run-1": {
+    "version_1": "without_skill",
+    "version_2": "with_skill",
+    "grader_consolidated": "without_skill",
+    "grader_winner_in_this_order": "without_skill"
+  },
+  "exposition-methods/run-2": {
+    "version_1": "with_skill",
+    "version_2": "without_skill",
+    "grader_consolidated": "tie",
+    "grader_winner_in_this_order": "without_skill"
+  },
+  "exposition-methods/run-3": {
+    "version_1": "without_skill",
+    "version_2": "with_skill",
+    "grader_consolidated": "with_skill",
+    "grader_winner_in_this_order": "with_skill"
+  },
+  "exposition-results/run-1": {
+    "version_1": "without_skill",
+    "version_2": "with_skill",
+    "grader_consolidated": "without_skill",
+    "grader_winner_in_this_order": "without_skill"
+  },
+  "exposition-results/run-2": {
+    "version_1": "with_skill",
+    "version_2": "without_skill",
+    "grader_consolidated": "without_skill",
+    "grader_winner_in_this_order": "without_skill"
+  },
+  "exposition-results/run-3": {
+    "version_1": "without_skill",
+    "version_2": "with_skill",
+    "grader_consolidated": "without_skill",
+    "grader_winner_in_this_order": "without_skill"
+  },
+  "worked-example/run-1": {
+    "version_1": "without_skill",
+    "version_2": "with_skill",
+    "grader_consolidated": "with_skill",
+    "grader_winner_in_this_order": "with_skill"
+  },
+  "worked-example/run-2": {
+    "version_1": "with_skill",
+    "version_2": "without_skill",
+    "grader_consolidated": "with_skill",
+    "grader_winner_in_this_order": "with_skill"
+  },
+  "worked-example/run-3": {
+    "version_1": "with_skill",
+    "version_2": "without_skill",
+    "grader_consolidated": "with_skill",
+    "grader_winner_in_this_order": "with_skill"
+  }
+}

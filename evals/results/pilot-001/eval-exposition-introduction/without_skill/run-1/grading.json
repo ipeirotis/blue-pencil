@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The revision adds substantive content the original did not state: sales as the outcome, a claimed quality–sales correlation mechanism, and an explicit assertion that moderation shifts the valence consumers see for reasons unrelated to quality. The added parenthetical defining valence is a standard gloss and is not flagged."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

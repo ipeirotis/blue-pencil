@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision moves the staggered-rollout rationale and control-group choice to the front, splits the long final sentence, and adds glosses defining never-treated and not-yet-treated stores. The glosses only restate what the terms mean. The model, fixed effects, clustering, controls, coefficient of interest, and the reason for reporting the Callaway and Sant'Anna estimator are all unchanged."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

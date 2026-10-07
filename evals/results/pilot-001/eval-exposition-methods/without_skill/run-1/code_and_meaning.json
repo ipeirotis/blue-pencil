@@ -1,0 +1,58 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/pilot-001/eval-exposition-methods/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "quotes": {
+        "removed": [],
+        "added": [
+          "\"after\"",
+          "\"before\""
+        ]
+      },
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two-way"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
+          "revised_quote": "it captures how much repeat purchase changes in a store after it receives the program, relative to stores that have not received it",
+          "explanation": "The revision names the outcome variable as \"repeat purchase,\" but the original passage never states the outcome."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.",
+          "revised_quote": "stores do not share a single \"before\" and \"after\" period, and a standard two-way fixed effects estimate can be distorted when treatment timing varies",
+          "explanation": "The revision asserts that the authors' own two-way fixed effects estimate can be distorted under staggered timing, a methodological judgment the original does not make."
+        },
+        {
+          "type": "new_content",
+          "severity": "minor",
+          "original_quote": "We estimate a two-way fixed effects model with store and week fixed effects",
+          "revised_quote": "The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.",
+          "explanation": "This explanation of what the fixed effects absorb is accurate textbook interpretation, but the original does not state it."
+        }
+      ],
+      "summary": "The method details are preserved, but the revision introduces an unstated outcome variable (\"repeat purchase\"). It also adds a claim that the two-way fixed effects estimate can be distorted, which the original only implied by citing \"heterogeneity in treatment timing.\""
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"it captures how much repeat purchase changes in a store after it receives the program, relative to stores that have not received it\",\n      \"explanation\": \"The revision names the outcome variable as \\\"repeat purchase,\\\" but the original passage never states the outcome.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.\",\n      \"revised_quote\": \"stores do not share a single \\\"before\\\" and \\\"after\\\" period, and a standard two-way fixed effects estimate can be distorted when treatment timing varies\",\n      \"explanation\": \"The revision asserts that the authors' own two-way fixed effects estimate can be distorted under staggered timing, a methodological judgment the original does not make.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"We estimate a two-way fixed effects model with store and week fixed effects\",\n      \"revised_quote\": \"The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.\",\n      \"explanation\": \"This explanation of what the fixed effects absorb is accurate textbook interpretation, but the original does not state it.\"\n    }\n  ],\n  \"summary\": \"The method details are preserved, but the revision introduces an unstated outcome variable (\\\"repeat purchase\\\"). It also adds a claim that the two-way fixed effects estimate can be distorted, which the original only implied by citing \\\"heterogeneity in treatment timing.\\\"\"\n}\n```",
+    "cost_usd": 0.0408542,
+    "seconds": 10.9,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

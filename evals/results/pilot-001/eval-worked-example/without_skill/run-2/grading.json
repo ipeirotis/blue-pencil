@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision removes filler ('It is important to note that', 'It should be noted that', 'Furthermore', 'Moreover'), fixes grammar ('comprising of' to 'comprising'), and changes passive to active voice, without changing any claim, scope, or strength. Dropping 'in the existing literature' after 'somewhat underexplored' does not narrow or widen the claim, because 'to the best of our knowledge... underexplored' already refers to prior work."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

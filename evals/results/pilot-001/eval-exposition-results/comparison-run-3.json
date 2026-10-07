@@ -1,0 +1,69 @@
+{
+  "case": "exposition-results",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens with a claim ('Identity matters over and above the rating itself') and adds a short framing sentence before each estimate. The reader learns the finding before the numbers, and the sentences connect through what they say. B keeps the original's purely descriptive style. Its order is sensible (rating first, then identity with 'its own positive coefficient'), but it never states what the estimates show. B is leaner. A's 'Who the reviewer is' loosely glosses a tenure interaction, so B is more exact there. Register is comparable: A's interpretive framing suits an empirical IS results section but is slightly colloquial in places. On balance A reads better because the point comes early and the paragraph is easier to follow.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Identity matters over and above the rating itself.' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.'",
+            "concision": "A: 'Who the reviewer is also conditions the effect: the interaction with reviewer tenure is 0.09' vs B: 'In column 4, the interaction with reviewer tenure is 0.09'",
+            "flow": "A: 'and it holds at 0.15 (SE = 0.05) in column 3 once product fixed effects are added' vs B: 'In column 4, the interaction with reviewer tenure is 0.09'",
+            "precision": "A: 'Who the reviewer is also conditions the effect' vs B: 'the interaction with reviewer tenure is 0.09 (SE = 0.03)'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with a claim ('Identity matters over and above the rating itself') and adds a short framing sentence before each estimate. The reader learns the finding before the numbers, and the sentences connect through what they say. B keeps the original's purely descriptive style. Its order is sensible (rating first, then identity with 'its own positive coefficient'), but it never states what the estimates show. B is leaner. A's 'Who the reviewer is' loosely glosses a tenure interaction, so B is more exact there. Register is comparable: A's interpretive framing suits an empirical IS results section but is slightly colloquial in places. On balance A reads better because the point comes early and the paragraph is easier to follow.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Identity matters over and above the rating itself.' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.'\",\n    \"concision\": \"A: 'Who the reviewer is also conditions the effect: the interaction with reviewer tenure is 0.09' vs B: 'In column 4, the interaction with reviewer tenure is 0.09'\",\n    \"flow\": \"A: 'and it holds at 0.15 (SE = 0.05) in column 3 once product fixed effects are added' vs B: 'In column 4, the interaction with reviewer tenure is 0.09'\",\n    \"precision\": \"A: 'Who the reviewer is also conditions the effect' vs B: 'the interaction with reviewer tenure is 0.09 (SE = 0.03)'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0417302,
+        "seconds": 13.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states the point up front: 'Identity matters over and above the rating itself.' It then organizes the coefficients around that claim, linking each result to the argument. Version A only reorders the original. It leads with the star-rating control, so the reader has to work out the main finding. A is tighter, and its wording is somewhat more exact: B's 'Who the reviewer is' is a loose gloss for tenure. Still, for empirical IS readers, B's interpretive results paragraph is the more effective draft.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.' vs B: 'Identity matters over and above the rating itself.'",
+            "concision": "A: '0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3 after adding product fixed effects' vs B: 'Who the reviewer is also conditions the effect:' / 'Star rating, by comparison, carries'",
+            "flow": "A: 'In column 4, the interaction with reviewer tenure is 0.09' vs B: 'Who the reviewer is also conditions the effect: the interaction with reviewer tenure is 0.09'",
+            "precision": "A: 'the interaction with reviewer tenure is 0.09' vs B: 'Who the reviewer is also conditions the effect'",
+            "audience_fit": "A: 'The identity-disclosed indicator carries its own positive coefficient' vs B: 'it holds at 0.15 (SE = 0.05) in column 3 once product fixed effects are added'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states the point up front: 'Identity matters over and above the rating itself.' It then organizes the coefficients around that claim, linking each result to the argument. Version A only reorders the original. It leads with the star-rating control, so the reader has to work out the main finding. A is tighter, and its wording is somewhat more exact: B's 'Who the reviewer is' is a loose gloss for tenure. Still, for empirical IS readers, B's interpretive results paragraph is the more effective draft.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.' vs B: 'Identity matters over and above the rating itself.'\",\n    \"concision\": \"A: '0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3 after adding product fixed effects' vs B: 'Who the reviewer is also conditions the effect:' / 'Star rating, by comparison, carries'\",\n    \"flow\": \"A: 'In column 4, the interaction with reviewer tenure is 0.09' vs B: 'Who the reviewer is also conditions the effect: the interaction with reviewer tenure is 0.09'\",\n    \"precision\": \"A: 'the interaction with reviewer tenure is 0.09' vs B: 'Who the reviewer is also conditions the effect'\",\n    \"audience_fit\": \"A: 'The identity-disclosed indicator carries its own positive coefficient' vs B: 'it holds at 0.15 (SE = 0.05) in column 3 once product fixed effects are added'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0371502,
+        "seconds": 10.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

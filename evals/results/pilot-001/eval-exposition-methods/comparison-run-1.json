@@ -1,0 +1,68 @@
+{
+  "case": "exposition-methods",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B moves the staggered rollout to the front, so the reader knows the design problem before seeing the estimators. It is also tighter. However, its opening appositive ('a staggered rollout') is tacked on, 'Because the rollout dates differ' restates the first sentence, and the parenthetical definitions of never-treated and not-yet-treated stores are textbook material for this audience. Version A is longer and spends a sentence explaining what store and week fixed effects absorb, which this audience does not need. But it links its ideas causally: rollout dates differ, so stores lack a common before/after period, so TWFE can be distorted, therefore the control group is restricted. That chain makes the Callaway and Sant'Anna estimator feel motivated rather than appended. Both versions over-explain in different places, so audience fit is a tie. A's stronger flow and more exact wording outweigh B's concision and earlier framing.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'We estimate the effect of the loyalty program with a two-way fixed effects model' vs B: 'The loyalty program was rolled out to stores on different dates, a staggered rollout.'",
+            "concision": "A: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week' vs B: 'We estimate a two-way fixed effects model with store and week fixed effects and standard errors clustered at the store level.'",
+            "flow": "A: 'stores do not share a single \"before\" and \"after\" period... We therefore use the never-treated and not-yet-treated stores as controls, so that each treated store is compared only with' vs B: 'on different dates, a staggered rollout... Because the rollout dates differ'",
+            "precision": "A: 'it captures how much repeat purchase changes in a store after it receives the program' vs B: 'a staggered rollout' (dangling appositive) and 'as control stores'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version B moves the staggered rollout to the front, so the reader knows the design problem before seeing the estimators. It is also tighter. However, its opening appositive ('a staggered rollout') is tacked on, 'Because the rollout dates differ' restates the first sentence, and the parenthetical definitions of never-treated and not-yet-treated stores are textbook material for this audience. Version A is longer and spends a sentence explaining what store and week fixed effects absorb, which this audience does not need. But it links its ideas causally: rollout dates differ, so stores lack a common before/after period, so TWFE can be distorted, therefore the control group is restricted. That chain makes the Callaway and Sant'Anna estimator feel motivated rather than appended. Both versions over-explain in different places, so audience fit is a tie. A's stronger flow and more exact wording outweigh B's concision and earlier framing.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'We estimate the effect of the loyalty program with a two-way fixed effects model' vs B: 'The loyalty program was rolled out to stores on different dates, a staggered rollout.'\",\n    \"concision\": \"A: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week' vs B: 'We estimate a two-way fixed effects model with store and week fixed effects and standard errors clustered at the store level.'\",\n    \"flow\": \"A: 'stores do not share a single \\\"before\\\" and \\\"after\\\" period... We therefore use the never-treated and not-yet-treated stores as controls, so that each treated store is compared only with' vs B: 'on different dates, a staggered rollout... Because the rollout dates differ'\",\n    \"precision\": \"A: 'it captures how much repeat purchase changes in a store after it receives the program' vs B: 'a staggered rollout' (dangling appositive) and 'as control stores'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.045694200000000004,
+        "seconds": 16.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens with background rather than the method, tacks on 'a staggered rollout' as an awkward appositive, and repeats the rollout point. It also glosses 'never-treated' and 'not-yet-treated' in ways that restate the terms, and 'Its coefficient of interest' has an unclear referent. Version B states the estimation goal first and links the staggered timing to why TWFE can be biased, which in turn motivates the choice of controls. The ideas connect through reasoning. B is much longer, though, and spells out what fixed effects absorb, which this audience does not need. A is shorter overall, despite its padding. Both versions over-explain for quantitative marketing researchers, in different places, so audience fit is a tie. On balance B reads better.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'The loyalty program was rolled out to stores on different dates, a staggered rollout.' vs B: 'We estimate the effect of the loyalty program with a two-way fixed effects model'",
+            "concision": "A: 'we use never-treated stores ... and not-yet-treated stores ... as control stores' vs B: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.'",
+            "flow": "A: 'Because the rollout dates differ, we use never-treated stores' vs B: 'a standard two-way fixed effects estimate can be distorted when treatment timing varies. We therefore use'",
+            "precision": "A: 'Its coefficient of interest' / 'as control stores' vs B: 'The coefficient of interest is the interaction ... ; it captures how much repeat purchase changes'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with background rather than the method, tacks on 'a staggered rollout' as an awkward appositive, and repeats the rollout point. It also glosses 'never-treated' and 'not-yet-treated' in ways that restate the terms, and 'Its coefficient of interest' has an unclear referent. Version B states the estimation goal first and links the staggered timing to why TWFE can be biased, which in turn motivates the choice of controls. The ideas connect through reasoning. B is much longer, though, and spells out what fixed effects absorb, which this audience does not need. A is shorter overall, despite its padding. Both versions over-explain for quantitative marketing researchers, in different places, so audience fit is a tie. On balance B reads better.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The loyalty program was rolled out to stores on different dates, a staggered rollout.' vs B: 'We estimate the effect of the loyalty program with a two-way fixed effects model'\",\n    \"concision\": \"A: 'we use never-treated stores ... and not-yet-treated stores ... as control stores' vs B: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.'\",\n    \"flow\": \"A: 'Because the rollout dates differ, we use never-treated stores' vs B: 'a standard two-way fixed effects estimate can be distorted when treatment timing varies. We therefore use'\",\n    \"precision\": \"A: 'Its coefficient of interest' / 'as control stores' vs B: 'The coefficient of interest is the interaction ... ; it captures how much repeat purchase changes'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0450302,
+        "seconds": 14.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

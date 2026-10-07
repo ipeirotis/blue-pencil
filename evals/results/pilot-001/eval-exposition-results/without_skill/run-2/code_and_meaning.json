@@ -1,0 +1,37 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/pilot-001/eval-exposition-results/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating remains a strong predictor throughout, at 0.42 (SE = 0.02) in every specification.",
+          "explanation": "The original only reports the coefficient; the revision adds an evaluative claim that star rating is a 'strong predictor', which the author did not assert."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "it holds at 0.15 (SE = 0.05) in column 3 once we add product fixed effects",
+          "explanation": "'Holds' frames the drop from 0.18 to 0.15 as evidence that the estimate is robust, an interpretation the original's neutral reporting does not make."
+        }
+      ],
+      "summary": "The reported estimates, columns, and significance levels are unchanged, but the revision adds interpretive claims the original did not make: that the disclosure effect 'holds' with fixed effects and that star rating is a 'strong predictor'."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating remains a strong predictor throughout, at 0.42 (SE = 0.02) in every specification.\",\n      \"explanation\": \"The original only reports the coefficient; the revision adds an evaluative claim that star rating is a 'strong predictor', which the author did not assert.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"it holds at 0.15 (SE = 0.05) in column 3 once we add product fixed effects\",\n      \"explanation\": \"'Holds' frames the drop from 0.18 to 0.15 as evidence that the estimate is robust, an interpretation the original's neutral reporting does not make.\"\n    }\n  ],\n  \"summary\": \"The reported estimates, columns, and significance levels are unchanged, but the revision adds interpretive claims the original did not make: that the disclosure effect 'holds' with fixed effects and that star rating is a 'strong predictor'.\"\n}\n```",
+    "cost_usd": 0.0385102,
+    "seconds": 10.9,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

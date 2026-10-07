@@ -1,0 +1,70 @@
+{
+  "case": "worked-example",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted'). B goes further. It drops intensifiers and puffery such as 'fundamentally', 'Crucially', 'somewhat', 'novel' and 'important implications', and it replaces 'leverage' with 'use' and 'demonstrates' with 'finds'. The result is leaner and more measured, which suits empirical IS readers. A flows a little better because it joins the prior-work citation and its finding into one sentence. B splits them and repeats 'studies' ('Several studies... These studies found'). B's clarity, concision, precision and audience-fit gains outweigh A's small flow advantage.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Crucially, however, whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored' vs B: 'However, to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored'",
+            "concision": "A: 'has fundamentally transformed' / 'a novel dataset of 1.2 million reviews' vs B: 'has transformed' / 'a dataset of 1.2 million reviews'",
+            "flow": "A: '(…Dellarocas 2003), and these studies find that reviews matter' vs B: 'Several studies have investigated… These studies found that reviews matter'",
+            "precision": "A: 'we leverage' / 'Our analysis demonstrates' vs B: 'we use' / 'Our analysis finds'",
+            "audience_fit": "A: 'This finding has important implications' vs B: 'This finding has implications'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted'). B goes further. It drops intensifiers and puffery such as 'fundamentally', 'Crucially', 'somewhat', 'novel' and 'important implications', and it replaces 'leverage' with 'use' and 'demonstrates' with 'finds'. The result is leaner and more measured, which suits empirical IS readers. A flows a little better because it joins the prior-work citation and its finding into one sentence. B splits them and repeats 'studies' ('Several studies... These studies found'). B's clarity, concision, precision and audience-fit gains outweigh A's small flow advantage.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Crucially, however, whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored' vs B: 'However, to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored'\",\n    \"concision\": \"A: 'has fundamentally transformed' / 'a novel dataset of 1.2 million reviews' vs B: 'has transformed' / 'a dataset of 1.2 million reviews'\",\n    \"flow\": \"A: '(…Dellarocas 2003), and these studies find that reviews matter' vs B: 'Several studies have investigated… These studies found that reviews matter'\",\n    \"precision\": \"A: 'we leverage' / 'Our analysis demonstrates' vs B: 'we use' / 'Our analysis finds'\",\n    \"audience_fit\": \"A: 'This finding has important implications' vs B: 'This finding has implications'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0425822,
+        "seconds": 12.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the worst throat-clearing ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted') and fix the comma splice and 'comprising of'. A cuts further. It drops intensifiers and hype ('fundamentally', 'Crucially', 'somewhat', 'novel', 'leverage', 'important implications') and states the gap and finding more directly. B keeps hedges like 'somewhat underexplored' and buzzwords like 'leverage a novel dataset' and 'demonstrates', which IS reviewers often flag. B's merged second sentence makes the citation-to-finding link smoother, which gives it a small edge in flow. A specifies 'effect on this relationship', which is more precise than B's bare 'significant effect'. Overall A reads tighter and more appropriate for the venue.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'However, to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored' vs B: 'Crucially, however, whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored'",
+            "concision": "A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'",
+            "flow": "A: 'Several studies have investigated... These studies found that reviews matter' vs B: '(... Dellarocas 2003), and these studies find that reviews matter'",
+            "precision": "A: 'reviewer identity has a significant effect on this relationship' vs B: 'reviewer identity has a significant effect'",
+            "audience_fit": "A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the worst throat-clearing ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted') and fix the comma splice and 'comprising of'. A cuts further. It drops intensifiers and hype ('fundamentally', 'Crucially', 'somewhat', 'novel', 'leverage', 'important implications') and states the gap and finding more directly. B keeps hedges like 'somewhat underexplored' and buzzwords like 'leverage a novel dataset' and 'demonstrates', which IS reviewers often flag. B's merged second sentence makes the citation-to-finding link smoother, which gives it a small edge in flow. A specifies 'effect on this relationship', which is more precise than B's bare 'significant effect'. Overall A reads tighter and more appropriate for the venue.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'However, to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored' vs B: 'Crucially, however, whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored'\",\n    \"concision\": \"A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'\",\n    \"flow\": \"A: 'Several studies have investigated... These studies found that reviews matter' vs B: '(... Dellarocas 2003), and these studies find that reviews matter'\",\n    \"precision\": \"A: 'reviewer identity has a significant effect on this relationship' vs B: 'reviewer identity has a significant effect'\",\n    \"audience_fit\": \"A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0348782,
+        "seconds": 8.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

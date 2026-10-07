@@ -1,0 +1,6 @@
+<paper_context>
+target_venue: Management Science
+audience: empirical economists and IS researchers
+core_thesis: Platforms moderate reviews unequally, and that unequal moderation is what lets us identify the causal effect of a review's valence on sales.
+revision_stage: first draft
+</paper_context>

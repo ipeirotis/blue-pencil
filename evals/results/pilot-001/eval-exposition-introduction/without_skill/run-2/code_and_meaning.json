@@ -1,0 +1,44 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/pilot-001/eval-exposition-introduction/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "is a well-known obstacle to identification in this literature.",
+          "revised_quote": "is a well-known obstacle to identification in this literature: because quality affects both the reviews a product receives and its sales, a naive comparison conflates the effect of valence with the effect of quality.",
+          "explanation": "The revision adds a causal mechanism (quality affects both reviews and sales) and a claim about naive comparisons that the original never stated."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant.",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant.",
+          "explanation": "The original never names the outcome variable; the revision specifies sales as the outcome, which the original passage does not support."
+        },
+        {
+          "type": "new_content",
+          "severity": "minor",
+          "original_quote": "as a source of exogenous variation. ... which generates quasi-random assignment conditional on observed covariates.",
+          "revised_quote": "as a source of exogenous variation in valence. ... which generates quasi-random assignment of valence conditional on observed covariates.",
+          "explanation": "The revision specifies that the exogenous variation and quasi-random assignment are in valence, which is plausible from context but not stated in the original; minor because it follows closely from the opening sentence."
+        }
+      ],
+      "summary": "The revision adds an explanatory mechanism and names sales as the outcome variable, neither of which appears in the original. These additions assert content the author did not state, so the meaning has changed."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"is a well-known obstacle to identification in this literature: because quality affects both the reviews a product receives and its sales, a naive comparison conflates the effect of valence with the effect of quality.\",\n      \"explanation\": \"The revision adds a causal mechanism (quality affects both reviews and sales) and a claim about naive comparisons that the original never stated.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant.\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant.\",\n      \"explanation\": \"The original never names the outcome variable; the revision specifies sales as the outcome, which the original passage does not support.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"as a source of exogenous variation. ... which generates quasi-random assignment conditional on observed covariates.\",\n      \"revised_quote\": \"as a source of exogenous variation in valence. ... which generates quasi-random assignment of valence conditional on observed covariates.\",\n      \"explanation\": \"The revision specifies that the exogenous variation and quasi-random assignment are in valence, which is plausible from context but not stated in the original; minor because it follows closely from the opening sentence.\"\n    }\n  ],\n  \"summary\": \"The revision adds an explanatory mechanism and names sales as the outcome variable, neither of which appears in the original. These additions assert content the author did not state, so the meaning has changed.\"\n}\n```",
+    "cost_usd": 0.0360302,
+    "seconds": 9.2,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

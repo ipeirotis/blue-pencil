@@ -1,0 +1,51 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/pilot-001/eval-exposition-methods/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
+          "revised_quote": "which captures how repeat purchase changes in a store once the loyalty program reaches it, relative to stores where it has not",
+          "explanation": "The revision names the outcome variable as 'repeat purchase', which the original passage never specifies, and adds an interpretation of the coefficient."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "We estimate a two-way fixed effects model with store and week fixed effects,",
+          "revised_quote": "Store fixed effects absorb stable differences across stores, and week fixed effects absorb shocks common to all stores in a given week.",
+          "explanation": "The revision adds an explanation of what the fixed effects absorb, which the author did not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "to address heterogeneity in treatment timing.",
+          "revised_quote": "Because treatment timing varies, the effect of the program may differ depending on when a store adopts it.",
+          "explanation": "The original names only variation in treatment timing; the revision adds a claim that the program's effect may differ by adoption date, i.e., heterogeneous treatment effects across cohorts."
+        }
+      ],
+      "summary": "The design, controls, clustering, comparison groups, and estimators are all kept, but the revision adds content the original lacks: a named outcome ('repeat purchase'), interpretations of the fixed effects, and a claim that effects may vary by adoption time."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"which captures how repeat purchase changes in a store once the loyalty program reaches it, relative to stores where it has not\",\n      \"explanation\": \"The revision names the outcome variable as 'repeat purchase', which the original passage never specifies, and adds an interpretation of the coefficient.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"We estimate a two-way fixed effects model with store and week fixed effects,\",\n      \"revised_quote\": \"Store fixed effects absorb stable differences across stores, and week fixed effects absorb shocks common to all stores in a given week.\",\n      \"explanation\": \"The revision adds an explanation of what the fixed effects absorb, which the author did not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"to address heterogeneity in treatment timing.\",\n      \"revised_quote\": \"Because treatment timing varies, the effect of the program may differ depending on when a store adopts it.\",\n      \"explanation\": \"The original names only variation in treatment timing; the revision adds a claim that the program's effect may differ by adoption date, i.e., heterogeneous treatment effects across cohorts.\"\n    }\n  ],\n  \"summary\": \"The design, controls, clustering, comparison groups, and estimators are all kept, but the revision adds content the original lacks: a named outcome ('repeat purchase'), interpretations of the fixed effects, and a claim that effects may vary by adoption time.\"\n}\n```",
+    "cost_usd": 0.0412022,
+    "seconds": 11.0,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

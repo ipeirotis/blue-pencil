@@ -1,0 +1,51 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/pilot-001/eval-exposition-results/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.",
+          "revised_quote": "Identity matters over and above the rating itself.",
+          "explanation": "The revision adds an interpretive claim that identity has an effect beyond star rating, which the original never states; the original only reports coefficients."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "revised_quote": "Who the reviewer is also conditions the effect: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "explanation": "The revision adds a moderation claim and widens the scope from reviewer tenure, a single measured variable, to 'who the reviewer is' in general."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "and it holds at 0.15 (SE = 0.05) in column 3 once product fixed effects are added",
+          "explanation": "'Holds' adds a robustness judgment that the original does not make; the original only reports that the coefficient falls from 0.18 to 0.15."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating, by comparison, carries a coefficient of 0.42 (SE = 0.02) across all specifications.",
+          "explanation": "'By comparison' frames star rating as a benchmark against the identity effect, which the original does not do."
+        }
+      ],
+      "summary": "The original is a neutral report of the coefficients. The revision adds interpretive claims: identity matters beyond rating, the estimate is robust, and reviewer identity in general conditions the effect. It also frames star rating as a comparison point. None of these claims appear in the original."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.\",\n      \"revised_quote\": \"Identity matters over and above the rating itself.\",\n      \"explanation\": \"The revision adds an interpretive claim that identity has an effect beyond star rating, which the original never states; the original only reports coefficients.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"Who the reviewer is also conditions the effect: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"explanation\": \"The revision adds a moderation claim and widens the scope from reviewer tenure, a single measured variable, to 'who the reviewer is' in general.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"and it holds at 0.15 (SE = 0.05) in column 3 once product fixed effects are added\",\n      \"explanation\": \"'Holds' adds a robustness judgment that the original does not make; the original only reports that the coefficient falls from 0.18 to 0.15.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating, by comparison, carries a coefficient of 0.42 (SE = 0.02) across all specifications.\",\n      \"explanation\": \"'By comparison' frames star rating as a benchmark against the identity effect, which the original does not do.\"\n    }\n  ],\n  \"summary\": \"The original is a neutral report of the coefficients. The revision adds interpretive claims: identity matters beyond rating, the estimate is robust, and reviewer identity in general conditions the effect. It also frames star rating as a comparison point. None of these claims appear in the original.\"\n}\n```",
+    "cost_usd": 0.0410902,
+    "seconds": 10.9,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

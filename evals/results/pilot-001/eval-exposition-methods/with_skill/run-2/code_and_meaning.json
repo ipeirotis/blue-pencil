@@ -1,0 +1,22 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/pilot-001/eval-exposition-methods/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision reorders the sentences and adds glosses ('so treatment timing is staggered'; 'which never receive the program'; 'which have not yet received it'). These only restate what the original terms already mean. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the reason for reporting Callaway and Sant'Anna are all unchanged in content and strength."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision reorders the sentences and adds glosses ('so treatment timing is staggered'; 'which never receive the program'; 'which have not yet received it'). These only restate what the original terms already mean. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the reason for reporting Callaway and Sant'Anna are all unchanged in content and strength.\"\n}\n```",
+    "cost_usd": 0.0282182,
+    "seconds": 6.1,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

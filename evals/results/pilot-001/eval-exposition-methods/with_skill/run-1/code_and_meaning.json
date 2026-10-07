@@ -1,0 +1,22 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/pilot-001/eval-exposition-methods/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision reorders sentences, labels the rollout as staggered, and adds plain-language definitions of never-treated and not-yet-treated stores that match the standard meanings implied by the original. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are all kept at the same strength and scope."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision reorders sentences, labels the rollout as staggered, and adds plain-language definitions of never-treated and not-yet-treated stores that match the standard meanings implied by the original. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are all kept at the same strength and scope.\"\n}\n```",
+    "cost_usd": 0.0284302,
+    "seconds": 6.9,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/pilot-001/eval-worked-example/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "remains, to the best of our knowledge, somewhat underexplored in the existing literature",
+          "revised_quote": "to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored",
+          "explanation": "Dropping the hedge \"somewhat\" makes the claimed research gap stronger than the authors stated."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "reviewer identity has a significant effect",
+          "revised_quote": "reviewer identity has a significant effect on this relationship",
+          "explanation": "The original does not say what the effect is on; the revision makes it a moderating effect on the review–sales relationship, which is a specific claim about the finding that the original does not make."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "has fundamentally transformed",
+          "revised_quote": "has transformed",
+          "explanation": "The intensifier \"fundamentally\" was dropped."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "a novel dataset",
+          "revised_quote": "a dataset",
+          "explanation": "The novelty qualifier on the dataset was dropped."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "has important implications for platform design",
+          "revised_quote": "has implications for platform design",
+          "explanation": "The qualifier \"important\" on the implications was dropped."
+        }
+      ],
+      "summary": "Most edits are faithful tightening, but removing \"somewhat\" strengthens the research-gap claim, and adding \"on this relationship\" states what the effect is on when the original did not. Several minor qualifiers were also dropped."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"remains, to the best of our knowledge, somewhat underexplored in the existing literature\",\n      \"revised_quote\": \"to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored\",\n      \"explanation\": \"Dropping the hedge \\\"somewhat\\\" makes the claimed research gap stronger than the authors stated.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"reviewer identity has a significant effect\",\n      \"revised_quote\": \"reviewer identity has a significant effect on this relationship\",\n      \"explanation\": \"The original does not say what the effect is on; the revision makes it a moderating effect on the review–sales relationship, which is a specific claim about the finding that the original does not make.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"has fundamentally transformed\",\n      \"revised_quote\": \"has transformed\",\n      \"explanation\": \"The intensifier \\\"fundamentally\\\" was dropped.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"a novel dataset\",\n      \"revised_quote\": \"a dataset\",\n      \"explanation\": \"The novelty qualifier on the dataset was dropped.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"has important implications for platform design\",\n      \"revised_quote\": \"has implications for platform design\",\n      \"explanation\": \"The qualifier \\\"important\\\" on the implications was dropped.\"\n    }\n  ],\n  \"summary\": \"Most edits are faithful tightening, but removing \\\"somewhat\\\" strengthens the research-gap claim, and adding \\\"on this relationship\\\" states what the effect is on when the original did not. Several minor qualifiers were also dropped.\"\n}\n```",
+    "cost_usd": 0.0502302,
+    "seconds": 15.7,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

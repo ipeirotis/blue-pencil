@@ -1,0 +1,1909 @@
+{
+  "bases": {
+    "results": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+    "causal": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+    "intro": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Chevalier and Mayzlin\n2006; Forman et al. 2008; Dellarocas 2003). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials.",
+    "grouped": "Prior work reports the effect (Smith 2010; Jones 2012). We test it in a new sample.",
+    "science": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+    "unicode_cite": "Disclosure raises trust, as García (2020) and Łukasz et al. (2019) report.",
+    "science_compound": "We administered 10 mg/kg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+    "science_si": "We administered 10 mg kg⁻¹ of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+    "fenced": "We fit the model in two steps.\n```\nfit = ols(y, X)\n```\nThe first step estimates the slope; the second\nchecks the residuals.\n```\nplot(fit.resid)\n```\nCall `summary(fit)` for the table.",
+    "notation": "Figure 2(a) shows about 6 × 10^23 events; the rate is 1.5e-3 per hour.",
+    "markup": "The bound holds when x > y and a+b=c, at a 1:2 ratio.\n\n- first point\n- second point",
+    "two_blocks": "Set up:\n```\nx = load()\n```\nThen run:\n```\nrun(x)\n```",
+    "money": "Revenue was $5 and profit was $2; the 95% CI was 1.2\u20133.4.",
+    "refs": "As Section IV shows, the dose of 10 mg per kg raised scores from 0.31 to 0.47, and $5 \\in S$ holds.",
+    "suffixed": "The dose was 5 mg\u201310 mg, the share 5%\u201310%, and the report calls this 'robust'; use ``a ` b`` here.",
+    "latex_misc": "The estimate is 5 ± 2 and $5x$ grows. % TODO verify cohort\nAbout 5% of firms agree.",
+    "narrative": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
+    "leads": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
+    "md_links": "We solve x - y = z, as [the study](paper.pdf) shows; the ~~old~~ estimate is retained.",
+    "rates": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+    "misc14": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
+    "misc15": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands.",
+    "misc16": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+    "misc17": "The estimate was x = -5 and rate = 2e10.\n\n>quoted source text",
+    "misc18": "We have x ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees.",
+    "misc19": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
+    "misc20": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
+    "misc21": "The equation is x = -y, the response rate was five percent, and Figs. 2 and 3 show it.",
+    "misc22": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
+    "misc23": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
+    "misc24": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
+    "misc25": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n  - inner\n- next",
+    "misc26": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+    "misc27": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+    "misc28": "The signal was 10 MHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
+    "misc29": "Results\n--\nRevenue was $5 trillion and 5k users joined.",
+    "misc30": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
+    "misc31": "The map is x → y, consumption was 5 MWh, and Smith [2020] called it \"the treatment group\".",
+    "misc32": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports.",
+    "misc33": "One might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples.",
+    "misc34": "[P1] supports the claim that x ≲ y. <!-- check with coauthor --> The bound is tight.",
+    "misc35": "Let A ∪ B denote the pooled sample; the coefficient is &alpha;, as García (2020) reports.",
+    "misc36": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
+    "misc37": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
+    "misc38": "We call <code>fit(model)</code> once and report the result.",
+    "misc39": "The risk doubled in a double-blind study of ٥ groups, and √x is the score.",
+    "misc40": "A third of subjects responded.\n\\begin{verbatim}\n\\caption{alpha}\n\\end{verbatim}",
+    "misc41": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 lb and sat 10 feet away.",
+    "misc42": "Study II replicates the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note"
+  },
+  "variants": [
+    {
+      "id": "results-harmless-1",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. Disclosing identity raises the outcome: the coefficient is 0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3 once product fixed effects are added. The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4, and the coefficient on star rating is 0.42 (SE = 0.02) across all specifications. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Tightens and reorders sentences, keeps every figure. Note 'raises the outcome' is a mild causal flavor; judged harmless only if the reader treats the original coefficient as the same claim."
+    },
+    {
+      "id": "results-harmless-2",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. In column 2 the identity-disclosed indicator has a coefficient of 0.18 (SE = 0.04); adding product fixed effects in column 3 gives 0.15 (SE = 0.05). Column 4 shows an interaction with reviewer tenure of 0.09 (SE = 0.03). Star rating has a coefficient of 0.42 (SE = 0.02) in every specification. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level, except the interaction, which is significant at the 5% level.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Pure rephrasing, all numbers and structure preserved."
+    },
+    {
+      "id": "causal-harmless-1",
+      "base": "causal",
+      "revised": "Earlier work reports that remote work goes together with higher self-reported productivity (Bloom et al. 2015). Among our 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore read it as suggestive, not causal.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Synonym swaps only; hedging and the qualification are intact."
+    },
+    {
+      "id": "causal-harmless-2",
+      "base": "causal",
+      "revised": "Remote work is associated with higher self-reported productivity in prior work (Bloom et al. 2015). The association also holds in the first year of our sample of 412 call-center employees (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Reordering for flow, nothing changed."
+    },
+    {
+      "id": "results-damaged-digit",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.81 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "number changed (transposed digits)",
+      "code_grader_should_flag": true,
+      "note": "0.18 became 0.81."
+    },
+    {
+      "id": "results-damaged-level",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 5% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "significance level changed",
+      "code_grader_should_flag": true,
+      "note": "1% became 5% for most coefficients."
+    },
+    {
+      "id": "results-damaged-dropped-se",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.15. The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "number dropped",
+      "code_grader_should_flag": true,
+      "note": "One standard error silently removed."
+    },
+    {
+      "id": "results-damaged-column",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.18 (SE = 0.04) in column 3. In column 3, after adding product fixed effects,\nthe coefficient is 0.15 (SE = 0.05). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Points the reader to the wrong column."
+    },
+    {
+      "id": "results-damaged-swap",
+      "base": "results",
+      "revised": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator\nis 0.15 (SE = 0.05) in column 2. In column 3, after adding product fixed effects,\nthe coefficient is 0.18 (SE = 0.04). The interaction with reviewer tenure is 0.09\n(SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across\nall specifications. R-squared rises from 0.31 to 0.47 across the columns. All\ncoefficients are significant at the 1% level except the interaction, which is\nsignificant at the 5% level.",
+      "verdict": "damaged",
+      "damage_type": "two coefficients swapped between sentences",
+      "code_grader_should_flag": false,
+      "note": "Every number still appears, attached to the wrong claim. Known blind spot of the code grader."
+    },
+    {
+      "id": "causal-damaged-citation-year",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2016). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "citation year changed",
+      "code_grader_should_flag": true,
+      "note": "Bloom et al. 2015 became 2016."
+    },
+    {
+      "id": "causal-damaged-sample",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 421 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "number changed (sample size)",
+      "code_grader_should_flag": true,
+      "note": "412 became 421."
+    },
+    {
+      "id": "causal-damaged-causes",
+      "base": "causal",
+      "revised": "Prior work finds that remote work causes higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "association upgraded to causation",
+      "code_grader_should_flag": false,
+      "note": "'associated with' became 'causes'."
+    },
+    {
+      "id": "causal-damaged-dropped-qualification",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05). We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "qualification dropped",
+      "code_grader_should_flag": false,
+      "note": "The robustness caveat is silently gone."
+    },
+    {
+      "id": "causal-damaged-conclusion",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds in the first year (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as causal.",
+      "verdict": "damaged",
+      "damage_type": "conclusion strength reversed",
+      "code_grader_should_flag": false,
+      "note": "'suggestive, not causal' became 'causal'."
+    },
+    {
+      "id": "causal-damaged-scope",
+      "base": "causal",
+      "revised": "Prior work finds that remote work is associated with higher self-reported productivity (Bloom et al. 2015). In our sample of 412 call-center employees, the association holds throughout the sample (b = 0.12, p < 0.05), though it is not robust to firm fixed effects. We therefore interpret it as suggestive, not causal.",
+      "verdict": "damaged",
+      "damage_type": "scope widened",
+      "code_grader_should_flag": false,
+      "note": "'first year' became 'throughout the sample'."
+    },
+    {
+      "id": "intro-damaged-citation-order",
+      "base": "intro",
+      "revised": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Dellarocas 2003; Forman et al. 2008; Chevalier and Mayzlin\n2006). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials.",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Same three citations, different order inside the group. Citations must not be touched."
+    },
+    {
+      "id": "intro-damaged-citation-author",
+      "base": "intro",
+      "revised": "It is important to note that the proliferation of online platforms has\nfundamentally transformed the way in which consumers make purchasing\ndecisions. Furthermore, an investigation of the relationship between online\nreviews and sales was conducted by several researchers (Chevalier and Mayzlin\n2006; Forman et al. 2009; Dellarocas 2003). Moreover, these studies found that\nreviews matter, a one-star increase leads to a 5-9% increase in revenue.\nCrucially, however, the question of whether the identity of reviewers affects\nthis relationship remains, to the best of our knowledge, somewhat underexplored\nin the existing literature.\n\nIn order to investigate this question, we leverage a novel dataset comprising\nof 1.2 million reviews. The results of our analysis demonstrate that reviewer\nidentity has a significant effect. It should be noted that this finding has\nimportant implications for platform design: managers should consider\nhighlighting reviewer credentials.",
+      "verdict": "damaged",
+      "damage_type": "citation year changed",
+      "code_grader_should_flag": true,
+      "note": "Forman et al. 2008 became 2009."
+    },
+    {
+      "id": "grouped-harmless-group-moved",
+      "base": "grouped",
+      "revised": "We test an effect reported in prior work (Smith 2010; Jones 2012), in a new sample.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "The whole group moves to another sentence in the same order. Restructuring is allowed."
+    },
+    {
+      "id": "grouped-damaged-order",
+      "base": "grouped",
+      "revised": "Prior work reports the effect (Jones 2012; Smith 2010). We test it in a new sample.",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Order inside the group changed."
+    },
+    {
+      "id": "grouped-damaged-dropped",
+      "base": "grouped",
+      "revised": "Prior work reports the effect (Smith 2010). We test it in a new sample.",
+      "verdict": "damaged",
+      "damage_type": "citation dropped",
+      "code_grader_should_flag": true,
+      "note": "Jones 2012 removed."
+    },
+    {
+      "id": "science-harmless-1",
+      "base": "science",
+      "revised": "24 mice held at 20 °C received 10 mg of the compound daily. Following earlier designs [12, 13], we estimate the effect β by least squares; the estimate is **robust** to the bandwidth choice.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Reorders sentences so a number opens one; units, symbols, citation group, emphasis and the listing are unchanged."
+    },
+    {
+      "id": "science-unit-changed",
+      "base": "science",
+      "revised": "We administered 10 g of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Dose unit mg became g; the number is the same."
+    },
+    {
+      "id": "science-temperature-unit-changed",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °F, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Celsius became Fahrenheit."
+    },
+    {
+      "id": "science-symbol-changed",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect γ by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "A Unicode Greek parameter outside math delimiters changed."
+    },
+    {
+      "id": "science-numeric-citations-reordered",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [13, 12]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Numbered citation group reordered."
+    },
+    {
+      "id": "science-emphasis-dropped",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is robust to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Markdown bold removed."
+    },
+    {
+      "id": "science-listing-lines-joined",
+      "base": "science",
+      "revised": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X); print(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Two lstlisting source lines joined into one."
+    },
+    {
+      "id": "science-compound-unit-changed",
+      "base": "science",
+      "revised": "We administered 10 mg/kg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Dose mg became mg/kg."
+    },
+    {
+      "id": "science-compound-denominator-changed",
+      "base": "science_compound",
+      "revised": "We administered 10 mg/mL of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Compound unit denominator kg became mL."
+    },
+    {
+      "id": "unicode-cite-author-changed",
+      "base": "unicode_cite",
+      "revised": "Disclosure raises trust, as Müller (2020) and Łukasz et al. (2019) report.",
+      "verdict": "damaged",
+      "damage_type": "citation author changed",
+      "code_grader_should_flag": true,
+      "note": "A non-ASCII author name swapped for another; the year is unchanged."
+    },
+    {
+      "id": "unicode-cite-harmless-1",
+      "base": "unicode_cite",
+      "revised": "García (2020) and Łukasz et al. (2019) report that disclosure raises trust.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Citations move to the front of the sentence, unchanged."
+    },
+    {
+      "id": "science-si-unit-changed",
+      "base": "science_si",
+      "revised": "We administered 10 mg L⁻¹ of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "SI-style compound unit: the denominator kg became L."
+    },
+    {
+      "id": "fenced-prose-harmless-1",
+      "base": "fenced",
+      "revised": "We fit the model in two steps.\n```\nfit = ols(y, X)\n```\nThe first step estimates the slope, and the second checks the residuals.\n```\nplot(fit.resid)\n```\nCall `summary(fit)` for the table.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Only the prose between two ``` code blocks changed."
+    },
+    {
+      "id": "fenced-code-changed",
+      "base": "fenced",
+      "revised": "We fit the model in two steps.\n```\nfit = ols(y, X)\n```\nThe first step estimates the slope; the second\nchecks the residuals.\n```\nplot(fit.fitted)\n```\nCall `summary(fit)` for the table.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Code inside a ``` block changed."
+    },
+    {
+      "id": "notation-harmless-1",
+      "base": "notation",
+      "revised": "The rate is 1.5e-3 per hour, and Figure 2(a) shows about 6 × 10^23 events.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; values and the panel callout unchanged."
+    },
+    {
+      "id": "notation-exponent-changed",
+      "base": "notation",
+      "revised": "Figure 2(a) shows about 6 × 10^23 events; the rate is 1.5e-4 per hour.",
+      "verdict": "damaged",
+      "damage_type": "number changed (exponent)",
+      "code_grader_should_flag": true,
+      "note": "Only the exponent of a scientific-notation value changed."
+    },
+    {
+      "id": "notation-power-changed",
+      "base": "notation",
+      "revised": "Figure 2(a) shows about 6 × 10^22 events; the rate is 1.5e-3 per hour.",
+      "verdict": "damaged",
+      "damage_type": "number changed (exponent)",
+      "code_grader_should_flag": true,
+      "note": "Only the power of ten changed."
+    },
+    {
+      "id": "notation-panel-changed",
+      "base": "notation",
+      "revised": "Figure 2(b) shows about 6 × 10^23 events; the rate is 1.5e-3 per hour.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Figure panel (a) became (b)."
+    },
+    {
+      "id": "fenced-code-lines-swapped",
+      "base": "fenced",
+      "revised": "We fit the model in two steps.\n```\nfit = ols(X, y)\n```\nThe first step estimates the slope; the second\nchecks the residuals.\n```\nplot(fit.resid)\n```\nCall `summary(fit)` for the table.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Arguments swapped inside a code block."
+    },
+    {
+      "id": "markup-harmless-1",
+      "base": "markup",
+      "revised": "At a 1:2 ratio, the bound holds when x > y and a + b = c.\n\n- first point\n- second point",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clause order and operator spacing changed only."
+    },
+    {
+      "id": "markup-operator-flipped",
+      "base": "markup",
+      "revised": "The bound holds when x < y and a+b=c, at a 1:2 ratio.\n\n- first point\n- second point",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "A bare comparison operator flipped."
+    },
+    {
+      "id": "markup-ratio-reversed",
+      "base": "markup",
+      "revised": "The bound holds when x > y and a+b=c, at a 2:1 ratio.\n\n- first point\n- second point",
+      "verdict": "damaged",
+      "damage_type": "number changed (ratio)",
+      "code_grader_should_flag": true,
+      "note": "Ratio reversed; same numbers."
+    },
+    {
+      "id": "markup-list-dropped",
+      "base": "markup",
+      "revised": "The bound holds when x > y and a+b=c, at a 1:2 ratio.\n\nfirst point\nsecond point",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Unordered list turned into plain lines."
+    },
+    {
+      "id": "two-blocks-swapped",
+      "base": "two_blocks",
+      "revised": "Set up:\n```\nrun(x)\n```\nThen run:\n```\nx = load()\n```",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Two whole code blocks swapped."
+    },
+    {
+      "id": "money-harmless-1",
+      "base": "money",
+      "revised": "Revenue was $5, while profit was $2; the 95% CI was 1.2\u20133.4.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Connective changed between two dollar amounts; not math."
+    },
+    {
+      "id": "money-range-reversed",
+      "base": "money",
+      "revised": "Revenue was $5 and profit was $2; the 95% CI was 3.4\u20131.2.",
+      "verdict": "damaged",
+      "damage_type": "number changed (range)",
+      "code_grader_should_flag": true,
+      "note": "En-dash interval endpoints reversed."
+    },
+    {
+      "id": "refs-harmless-1",
+      "base": "refs",
+      "revised": "The dose of 10 mg per kg raised scores from 0.31 to 0.47, as Section IV shows, and $5 \\in S$ holds.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered only."
+    },
+    {
+      "id": "refs-roman-section-changed",
+      "base": "refs",
+      "revised": "As Section VI shows, the dose of 10 mg per kg raised scores from 0.31 to 0.47, and $5 \\in S$ holds.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Roman-numeral section reference changed."
+    },
+    {
+      "id": "refs-per-unit-changed",
+      "base": "refs",
+      "revised": "As Section IV shows, the dose of 10 mg per L raised scores from 0.31 to 0.47, and $5 \\in S$ holds.",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Denominator of a per-joined unit changed."
+    },
+    {
+      "id": "refs-to-range-reversed",
+      "base": "refs",
+      "revised": "As Section IV shows, the dose of 10 mg per kg raised scores from 0.47 to 0.31, and $5 \\in S$ holds.",
+      "verdict": "damaged",
+      "damage_type": "number changed (range)",
+      "code_grader_should_flag": true,
+      "note": "Endpoints of a 'from X to Y' change reversed."
+    },
+    {
+      "id": "refs-dollar-math-changed",
+      "base": "refs",
+      "revised": "As Section IV shows, the dose of 10 mg per kg raised scores from 0.31 to 0.47, and $5 \\in T$ holds.",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Inline math that starts with a number changed."
+    },
+    {
+      "id": "suffixed-harmless-1",
+      "base": "suffixed",
+      "revised": "The report calls this 'robust'; the dose was 5 mg\u201310 mg and the share 5%\u201310%; use ``a ` b`` here.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered only."
+    },
+    {
+      "id": "suffixed-range-reversed",
+      "base": "suffixed",
+      "revised": "The dose was 10 mg\u20135 mg, the share 5%\u201310%, and the report calls this 'robust'; use ``a ` b`` here.",
+      "verdict": "damaged",
+      "damage_type": "number changed (range)",
+      "code_grader_should_flag": true,
+      "note": "Range with units on both endpoints reversed."
+    },
+    {
+      "id": "suffixed-percent-range-reversed",
+      "base": "suffixed",
+      "revised": "The dose was 5 mg\u201310 mg, the share 10%\u20135%, and the report calls this 'robust'; use ``a ` b`` here.",
+      "verdict": "damaged",
+      "damage_type": "number changed (range)",
+      "code_grader_should_flag": true,
+      "note": "Percent range reversed."
+    },
+    {
+      "id": "suffixed-single-quote-changed",
+      "base": "suffixed",
+      "revised": "The dose was 5 mg\u201310 mg, the share 5%\u201310%, and the report calls this 'fragile'; use ``a ` b`` here.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Text in straight single quotes changed."
+    },
+    {
+      "id": "suffixed-multi-backtick-code-changed",
+      "base": "suffixed",
+      "revised": "The dose was 5 mg\u201310 mg, the share 5%\u201310%, and the report calls this 'robust'; use ``a ` c`` here.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Code in a double-backtick span changed."
+    },
+    {
+      "id": "latex-misc-harmless-1",
+      "base": "latex_misc",
+      "revised": "$5x$ grows, and the estimate is 5 ± 2. % TODO verify cohort\nAbout 5% of firms agree.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; percent sign not read as a comment."
+    },
+    {
+      "id": "latex-misc-pm-swapped",
+      "base": "latex_misc",
+      "revised": "The estimate is 2 ± 5 and $5x$ grows. % TODO verify cohort\nAbout 5% of firms agree.",
+      "verdict": "damaged",
+      "damage_type": "number changed (uncertainty)",
+      "code_grader_should_flag": true,
+      "note": "Estimate and uncertainty swapped."
+    },
+    {
+      "id": "latex-misc-math-variable-changed",
+      "base": "latex_misc",
+      "revised": "The estimate is 5 ± 2 and $5y$ grows. % TODO verify cohort\nAbout 5% of firms agree.",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Variable in number-led inline math changed."
+    },
+    {
+      "id": "latex-misc-comment-dropped",
+      "base": "latex_misc",
+      "revised": "The estimate is 5 ± 2 and $5x$ grows.\nAbout 5% of firms agree.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Trailing LaTeX comment removed."
+    },
+    {
+      "id": "narrative-harmless-1",
+      "base": "narrative",
+      "revised": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10, and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nThis paper studies pricing.\n\\end{abstract}",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose inside an abstract environment edited; slash prices not read as math."
+    },
+    {
+      "id": "narrative-cites-reordered",
+      "base": "narrative",
+      "revised": "Prior work by Jones (2021); Smith (2020) found costs of $5 to $10 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Adjacent narrative citations reordered."
+    },
+    {
+      "id": "narrative-money-range-reversed",
+      "base": "narrative",
+      "revised": "Prior work by Smith (2020); Jones (2021) found costs of $10 to $5 and $5/kg and $10/kg. See ![study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
+      "verdict": "damaged",
+      "damage_type": "number changed (range)",
+      "code_grader_should_flag": true,
+      "note": "Monetary range reversed."
+    },
+    {
+      "id": "narrative-image-to-link",
+      "base": "narrative",
+      "revised": "Prior work by Smith (2020); Jones (2021) found costs of $5 to $10 and $5/kg and $10/kg. See [study flow](flow.png).\n\\begin{abstract}\nWe study pricing.\n\\end{abstract}",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Markdown image turned into a link."
+    },
+    {
+      "id": "leads-harmless-1",
+      "base": "leads",
+      "revised": "The loss was $-5 at p = .05, which is \\textbf{crucial}, as Smith (2020) showed.\n\n1. First item\n2. Second item",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; bold text reworded."
+    },
+    {
+      "id": "leads-cite-after-as-changed",
+      "base": "leads",
+      "revised": "As Jones (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
+      "verdict": "damaged",
+      "damage_type": "citation author changed",
+      "code_grader_should_flag": true,
+      "note": "Author after a leading 'As' changed."
+    },
+    {
+      "id": "leads-negative-currency-dropped",
+      "base": "leads",
+      "revised": "As Smith (2020) showed, the loss was -5 at p = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Currency sign dropped from a negative amount."
+    },
+    {
+      "id": "leads-decimal-equation-changed",
+      "base": "leads",
+      "revised": "As Smith (2020) showed, the loss was $-5 at q = .05, which is \\textbf{important}.\n\n1. First item\n2. Second item",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Variable in a bare equation with a leading-decimal operand changed."
+    },
+    {
+      "id": "leads-macro-braces-dropped",
+      "base": "leads",
+      "revised": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf important.\n\n1. First item\n2. Second item",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Braces of a prose macro removed."
+    },
+    {
+      "id": "leads-ordered-list-dropped",
+      "base": "leads",
+      "revised": "As Smith (2020) showed, the loss was $-5 at p = .05, which is \\textbf{important}.\n\n1 First item\n2 Second item",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Ordered-list delimiters removed."
+    },
+    {
+      "id": "md-links-harmless-1",
+      "base": "md_links",
+      "revised": "As [our study](paper.pdf) shows, we solve x - y = z; the ~~old~~ estimate is retained.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; link text edited."
+    },
+    {
+      "id": "md-links-subtraction-operand-changed",
+      "base": "md_links",
+      "revised": "We solve w - y = z, as [the study](paper.pdf) shows; the ~~old~~ estimate is retained.",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Operand before a subtraction changed."
+    },
+    {
+      "id": "md-links-open-bracket-dropped",
+      "base": "md_links",
+      "revised": "We solve x - y = z, as the study](paper.pdf) shows; the ~~old~~ estimate is retained.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Opening bracket of a link removed."
+    },
+    {
+      "id": "md-links-strikethrough-dropped",
+      "base": "md_links",
+      "revised": "We solve x - y = z, as [the study](paper.pdf) shows; the old estimate is retained.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Strikethrough removed."
+    },
+    {
+      "id": "rates-harmless-1",
+      "base": "rates",
+      "revised": "As \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show, we define rate = 5 at $5 per kg.[^methods]\n\n| A concise description | 5 |\n|---|---|",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; table cell prose edited."
+    },
+    {
+      "id": "rates-per-unit-changed",
+      "base": "rates",
+      "revised": "We define rate = 5 at $5 per L, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Rate denominator changed."
+    },
+    {
+      "id": "rates-named-operand-changed",
+      "base": "rates",
+      "revised": "We define dose = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Named operand of an assignment changed."
+    },
+    {
+      "id": "rates-cite-commands-reordered",
+      "base": "rates",
+      "revised": "We define rate = 5 at $5 per kg, as \\cite{Jones2021}; \\cite{Smith2020} and [1]; [2] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Adjacent citation commands reordered."
+    },
+    {
+      "id": "rates-numbered-cites-reordered",
+      "base": "rates",
+      "revised": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [2]; [1] show.[^methods]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Adjacent numbered citations reordered."
+    },
+    {
+      "id": "rates-footnote-changed",
+      "base": "rates",
+      "revised": "We define rate = 5 at $5 per kg, as \\cite{Smith2020}; \\cite{Jones2021} and [1]; [2] show.[^results]\n\n| A verbose description | 5 |\n|---|---|",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Footnote reference retargeted."
+    },
+    {
+      "id": "misc14-harmless-1",
+      "base": "misc14",
+      "revised": "Results\n=======\nWith ½ the risk, the value is f(x) = 5; she wrote «the effect was large». See <https://a.example/path>.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered only."
+    },
+    {
+      "id": "misc14-function-renamed",
+      "base": "misc14",
+      "revised": "Results\n=======\nThe value is g(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Function name in a bare equation changed."
+    },
+    {
+      "id": "misc14-vulgar-fraction-changed",
+      "base": "misc14",
+      "revised": "Results\n=======\nThe value is f(x) = 5 with ¼ the risk; she wrote «the effect was large». See <https://a.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Unicode fraction changed."
+    },
+    {
+      "id": "misc14-guillemet-quote-changed",
+      "base": "misc14",
+      "revised": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was small». See <https://a.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Text in guillemets changed."
+    },
+    {
+      "id": "misc14-autolink-changed",
+      "base": "misc14",
+      "revised": "Results\n=======\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://b.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Autolink destination changed."
+    },
+    {
+      "id": "misc14-setext-dropped",
+      "base": "misc14",
+      "revised": "Results\nThe value is f(x) = 5 with ½ the risk; she wrote «the effect was large». See <https://a.example/path>.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Setext heading underline removed."
+    },
+    {
+      "id": "misc15-institution-changed",
+      "base": "misc15",
+      "revised": "As Institute of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands.",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Institutional author changed; only the words before the connector differ."
+    },
+    {
+      "id": "misc15-calendar-unit-changed",
+      "base": "misc15",
+      "revised": "As University of Oxford (2020) reported, participants were followed for 10 weeks, and rate + dose = total held. The \\textbf{important} point stands.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Duration unit changed from days to weeks."
+    },
+    {
+      "id": "misc15-named-arithmetic-operand-changed",
+      "base": "misc15",
+      "revised": "As University of Oxford (2020) reported, participants were followed for 10 days, and time + dose = total held. The \\textbf{important} point stands.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Named operand changed in an arithmetic chain."
+    },
+    {
+      "id": "misc15-prose-macro-unclosed",
+      "base": "misc15",
+      "revised": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important point stands.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Closing brace of a prose macro removed."
+    },
+    {
+      "id": "misc15-reordered-harmless",
+      "base": "misc15",
+      "revised": "Participants were followed for 10 days, as University of Oxford (2020) reported, and rate + dose = total held. The \\textbf{important} point stands.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; every protected token kept."
+    },
+    {
+      "id": "misc16-temperature-scale-changed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees F, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Abbreviated temperature scale changed."
+    },
+    {
+      "id": "misc16-function-renamed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and g(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Function with two arguments renamed."
+    },
+    {
+      "id": "misc16-unicode-relation-operand-changed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with z ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a Unicode relation changed."
+    },
+    {
+      "id": "misc16-undated-citation-changed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Jones (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Undated citation author changed."
+    },
+    {
+      "id": "misc16-reference-definition-changed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://b.example/x",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Reference definition destination changed (no space after colon)."
+    },
+    {
+      "id": "misc16-table-pipes-removed",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA B\n1 2\n\n[id]:https://a.example/x",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Table without outer pipes flattened."
+    },
+    {
+      "id": "misc16-inch-marks-reworded",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" in length and 6\" in width; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose between two inch marks edited."
+    },
+    {
+      "id": "misc16-href-text-edited",
+      "base": "misc16",
+      "revised": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{full appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Link text inside \\href edited."
+    },
+    {
+      "id": "misc17-signed-operand-renamed",
+      "base": "misc17",
+      "revised": "The estimate was y = -5 and rate = 2e10.\n\n>quoted source text",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable with a negative value renamed."
+    },
+    {
+      "id": "misc17-scientific-operand-renamed",
+      "base": "misc17",
+      "revised": "The estimate was x = -5 and cost = 2e10.\n\n>quoted source text",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable with a value in exponent notation renamed."
+    },
+    {
+      "id": "misc17-blockquote-marker-removed",
+      "base": "misc17",
+      "revised": "The estimate was x = -5 and rate = 2e10.\n\nquoted source text",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Blockquote marker without a following space removed."
+    },
+    {
+      "id": "misc18-membership-operand-changed",
+      "base": "misc18",
+      "revised": "We have y ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Element of a set-membership relation changed."
+    },
+    {
+      "id": "misc18-spelled-sign-dropped",
+      "base": "misc18",
+      "revised": "We have x ∈ S, the coefficient was 5, and O’Neil (2020) agrees.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Spelled-out minus sign removed."
+    },
+    {
+      "id": "misc18-curly-apostrophe-author-changed",
+      "base": "misc18",
+      "revised": "We have x ∈ S, the coefficient was minus 5, and A’Neil (2020) agrees.",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Author with a curly apostrophe changed."
+    },
+    {
+      "id": "misc18-apostrophe-straightened",
+      "base": "misc18",
+      "revised": "We have x ∈ S, the coefficient was minus 5, and O'Neil (2020) agrees.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Curly apostrophe in an author name made straight."
+    },
+    {
+      "id": "misc19-greek-equation-reversed",
+      "base": "misc19",
+      "revised": "We set β = α and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Equation between Greek letters reversed."
+    },
+    {
+      "id": "misc19-currency-code-changed",
+      "base": "misc19",
+      "revised": "We set α = β and spent 10 CAD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Currency code after an amount changed."
+    },
+    {
+      "id": "misc19-indented-heading-dropped",
+      "base": "misc19",
+      "revised": "We set α = β and spent 10 USD.\n\n   Results\n\nCall \\verb|foo_bar| first.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Indented ATX heading marker removed."
+    },
+    {
+      "id": "misc19-verb-contents-changed",
+      "base": "misc19",
+      "revised": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|delete_all| first.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Contents of an inline verbatim command changed."
+    },
+    {
+      "id": "misc20-spaced-percent-dropped",
+      "base": "misc20",
+      "revised": "The response rate was 5, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Percent sign after a space removed."
+    },
+    {
+      "id": "misc20-spaced-percent-closed",
+      "base": "misc20",
+      "revised": "The response rate was 5%, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Space before the percent sign removed; same value."
+    },
+    {
+      "id": "misc20-grouped-operand-renamed",
+      "base": "misc20",
+      "revised": "The response rate was 5 %, and y = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable equated to a parenthesized expression renamed."
+    },
+    {
+      "id": "misc20-superscript-citations-reordered",
+      "base": "misc20",
+      "revised": "The response rate was 5 %, and x = (a + b) holds, as prior work²,¹ shows.\n\n***\n\nNext part.",
+      "verdict": "damaged",
+      "damage_type": "citation order changed",
+      "code_grader_should_flag": true,
+      "note": "Superscript citation run reordered."
+    },
+    {
+      "id": "misc20-thematic-break-removed",
+      "base": "misc20",
+      "revised": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\nNext part.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Thematic break removed."
+    },
+    {
+      "id": "misc21-negated-operand-renamed",
+      "base": "misc21",
+      "revised": "The equation is z = -y, the response rate was five percent, and Figs. 2 and 3 show it.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable equated to a negated variable renamed."
+    },
+    {
+      "id": "misc21-spelled-percent-dropped",
+      "base": "misc21",
+      "revised": "The equation is x = -y, the response rate was five, and Figs. 2 and 3 show it.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Percent after a spelled-out number removed."
+    },
+    {
+      "id": "misc21-plural-fig-label-dropped",
+      "base": "misc21",
+      "revised": "The equation is x = -y, the response rate was five percent, and 2 and 3 show it.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Plural figure abbreviation removed."
+    },
+    {
+      "id": "misc22-paren-numeric-citations-reordered",
+      "base": "misc22",
+      "revised": "Prior work (2, 1) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "citation order changed",
+      "code_grader_should_flag": true,
+      "note": "Parenthesized numeric citations reordered."
+    },
+    {
+      "id": "misc22-compound-number-word-reordered",
+      "base": "misc22",
+      "revised": "Prior work (1, 2) studied five hundred and one participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Compound number word reordered (105 to 501)."
+    },
+    {
+      "id": "misc22-subscripted-operand-renamed",
+      "base": "misc22",
+      "revised": "Prior work (1, 2) studied one hundred and five participants, with z₁ = y.  \nSee \\begin{math}x\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable with a Unicode subscript renamed."
+    },
+    {
+      "id": "misc22-math-env-contents-changed",
+      "base": "misc22",
+      "revised": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}y\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Contents of a math environment changed."
+    },
+    {
+      "id": "misc22-hard-break-removed",
+      "base": "misc22",
+      "revised": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.\nSee \\begin{math}x\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Two-space Markdown hard break removed."
+    },
+    {
+      "id": "misc23-bracketed-operand-renamed",
+      "base": "misc23",
+      "revised": "We set y = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable equated to a square-bracketed expression renamed."
+    },
+    {
+      "id": "misc23-spelled-ratio-reversed",
+      "base": "misc23",
+      "revised": "We set x = [a + b]; five in one reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Spelled-out ratio reversed."
+    },
+    {
+      "id": "misc23-doi-changed",
+      "base": "misc23",
+      "revised": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/abc).\n\n- [x] Included\n- [ ] Pending",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "DOI identifier changed."
+    },
+    {
+      "id": "misc23-task-box-unchecked",
+      "base": "misc23",
+      "revised": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [ ] Included\n- [ ] Pending",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Task-list item unchecked."
+    },
+    {
+      "id": "misc24-primed-operand-renamed",
+      "base": "misc24",
+      "revised": "We define w' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable with an ASCII prime renamed."
+    },
+    {
+      "id": "misc24-product-operand-changed",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × c; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand after a Unicode times sign changed."
+    },
+    {
+      "id": "misc24-nested-emphasis-removed",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × b; note this, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Combined bold-italic emphasis removed."
+    },
+    {
+      "id": "misc24-and-joined-citations-reordered",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × b; ***note this***, as [2] and [1] show.\n\n##\tResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "citation order changed",
+      "code_grader_should_flag": true,
+      "note": "Numeric citations joined by 'and' reordered."
+    },
+    {
+      "id": "misc24-tab-heading-dropped",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\nResults\n\nContact <user@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "ATX heading followed by a tab removed."
+    },
+    {
+      "id": "misc24-email-autolink-changed",
+      "base": "misc24",
+      "revised": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <other@example.com>.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Email autolink address changed."
+    },
+    {
+      "id": "misc25-spelled-sign-dropped",
+      "base": "misc25",
+      "revised": "Returns fell by five percent, and α + β is the total.\n\n- outer\n  - inner\n- next",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Sign of a spelled-out number removed."
+    },
+    {
+      "id": "misc25-greek-arithmetic-changed",
+      "base": "misc25",
+      "revised": "Returns fell by minus five percent, and α - β is the total.\n\n- outer\n  - inner\n- next",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operator between Greek operands changed."
+    },
+    {
+      "id": "misc25-list-item-unnested",
+      "base": "misc25",
+      "revised": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n- inner\n- next",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Nested list item moved to the top level."
+    },
+    {
+      "id": "misc25-list-reindented",
+      "base": "misc25",
+      "revised": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n    - inner\n- next",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Nested list item re-indented at the same depth."
+    },
+    {
+      "id": "misc26-fraction-word-dropped",
+      "base": "misc26",
+      "revised": "One of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Denominator of a spelled-out fraction removed."
+    },
+    {
+      "id": "misc26-regional-dollar-changed",
+      "base": "misc26",
+      "revised": "One third of participants paid C$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Regional dollar prefix changed."
+    },
+    {
+      "id": "misc26-letter-citation-changed",
+      "base": "misc26",
+      "revised": "One third of participants paid US$5 million, as [T1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Lettered citation label changed."
+    },
+    {
+      "id": "misc26-bare-product-changed",
+      "base": "misc26",
+      "revised": "One third of participants paid US$5 million, as [S1] and a × c show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a bare Unicode product changed."
+    },
+    {
+      "id": "misc26-tab-list-marker-dropped",
+      "base": "misc26",
+      "revised": "One third of participants paid US$5 million, as [S1] and a × b show.\n\nitem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Tab-separated list marker removed."
+    },
+    {
+      "id": "misc26-alignat-contents-changed",
+      "base": "misc26",
+      "revised": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= z\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Contents of an alignat environment changed."
+    },
+    {
+      "id": "misc27-definition-operand-renamed",
+      "base": "misc27",
+      "revised": "We set z := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Defined variable renamed."
+    },
+    {
+      "id": "misc27-primed-sum-changed",
+      "base": "misc27",
+      "revised": "We set x := y and x' - y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operator between primed operands changed."
+    },
+    {
+      "id": "misc27-lettered-run-reordered",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S2] and [S1]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "citation order changed",
+      "code_grader_should_flag": true,
+      "note": "Lettered citation run reordered."
+    },
+    {
+      "id": "misc27-apostrophe-quote-changed",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the writer's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Single-quoted text with an apostrophe changed."
+    },
+    {
+      "id": "misc27-spelled-decimal-swapped",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', five point one times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Spelled-out decimal swapped."
+    },
+    {
+      "id": "misc27-bare-url-changed",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.org/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Bare URL changed."
+    },
+    {
+      "id": "misc27-year-phrase-reworded",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. The survey we ran in 2020 agreed.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Ordinary year phrase reworded; the year is kept."
+    },
+    {
+      "id": "misc28-mega-unit-changed",
+      "base": "misc28",
+      "revised": "The signal was 10 GHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Uppercase SI prefix changed."
+    },
+    {
+      "id": "misc28-mega-milli-confused",
+      "base": "misc28",
+      "revised": "The signal was 10 mHz and x ± y held. See [appendix].\n\n[appendix]: https://example.com/a",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Mega prefix changed to milli."
+    },
+    {
+      "id": "misc28-plus-minus-operand-changed",
+      "base": "misc28",
+      "revised": "The signal was 10 MHz and x ± z held. See [appendix].\n\n[appendix]: https://example.com/a",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a plus-minus expression changed."
+    },
+    {
+      "id": "misc28-shortcut-link-removed",
+      "base": "misc28",
+      "revised": "The signal was 10 MHz and x ± y held. See appendix.\n\n[appendix]: https://example.com/a",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Shortcut reference link removed."
+    },
+    {
+      "id": "misc29-trillion-dropped",
+      "base": "misc29",
+      "revised": "Results\n--\nRevenue was $5 and 5k users joined.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Magnitude word trillion removed."
+    },
+    {
+      "id": "misc29-k-suffix-dropped",
+      "base": "misc29",
+      "revised": "Results\n--\nRevenue was $5 trillion and 5 users joined.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Thousands abbreviation removed."
+    },
+    {
+      "id": "misc29-short-setext-dropped",
+      "base": "misc29",
+      "revised": "Results\nRevenue was $5 trillion and 5k users joined.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Two-hyphen Setext underline removed."
+    },
+    {
+      "id": "misc30-similarity-operand-changed",
+      "base": "misc30",
+      "revised": "We assume Z ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a similarity relation changed."
+    },
+    {
+      "id": "misc30-cjk-author-changed",
+      "base": "misc30",
+      "revised": "We assume X ∼ Y, as 李 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Author written in an uncased script changed."
+    },
+    {
+      "id": "misc30-escaped-quote-content-changed",
+      "base": "misc30",
+      "revised": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"control\\\" group\".",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Word inside escaped quotes within a quotation changed."
+    },
+    {
+      "id": "misc31-arrow-operand-changed",
+      "base": "misc31",
+      "revised": "The map is z → y, consumption was 5 MWh, and Smith [2020] called it \"the treatment group\".",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of an arrow relation changed."
+    },
+    {
+      "id": "misc31-watt-hour-changed",
+      "base": "misc31",
+      "revised": "The map is x → y, consumption was 5 kWh, and Smith [2020] called it \"the treatment group\".",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Watt-hour prefix changed."
+    },
+    {
+      "id": "misc31-bracket-year-author-changed",
+      "base": "misc31",
+      "revised": "The map is x → y, consumption was 5 MWh, and Jones [2020] called it \"the treatment group\".",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Author of a bracketed-year citation changed."
+    },
+    {
+      "id": "misc31-quotes-curled",
+      "base": "misc31",
+      "revised": "The map is x → y, consumption was 5 MWh, and Smith [2020] called it “the treatment group”.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Straight quotation marks made curly."
+    },
+    {
+      "id": "misc32-html-prose-edited",
+      "base": "misc32",
+      "revised": "Apply <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Word next to an inline HTML tag edited; the tag is markup, not a comparison."
+    },
+    {
+      "id": "misc32-tilde-operand-changed",
+      "base": "misc32",
+      "revised": "Use <em>careful prose</em> when z ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable in a spaced-tilde distribution statement changed."
+    },
+    {
+      "id": "misc32-url-paren-changed",
+      "base": "misc32",
+      "revised": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(baz). Revenue reached five trillion dollars, as محمد (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Parenthesized part of a bare URL changed."
+    },
+    {
+      "id": "misc32-trillion-dropped",
+      "base": "misc32",
+      "revised": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five dollars, as محمد (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Spelled-out magnitude word dropped."
+    },
+    {
+      "id": "misc32-arabic-author-changed",
+      "base": "misc32",
+      "revised": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as أحمد (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "citation author changed",
+      "code_grader_should_flag": true,
+      "note": "Arabic-script author name changed."
+    },
+    {
+      "id": "misc33-html-tag-changed",
+      "base": "misc33",
+      "revised": "One might expect <strong>larger</strong> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Inline HTML emphasis tag changed."
+    },
+    {
+      "id": "misc33-bracket-group-reordered",
+      "base": "misc33",
+      "revised": "One might expect <em>larger</em> effects [Jones 2021; Smith 2020].[^1]\n\n[^1]: This holds in both samples.",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Square-bracketed author-year group reordered."
+    },
+    {
+      "id": "misc33-footnote-prose-edited",
+      "base": "misc33",
+      "revised": "One might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: It holds in both samples.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "First word of a footnote definition edited."
+    },
+    {
+      "id": "misc33-pronoun-one-edited",
+      "base": "misc33",
+      "revised": "We might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Pronoun 'one' replaced; no number changed."
+    },
+    {
+      "id": "misc34-leading-label-changed",
+      "base": "misc34",
+      "revised": "[P2] supports the claim that x ≲ y. <!-- check with coauthor --> The bound is tight.",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Line-leading bracketed citation in the original changed."
+    },
+    {
+      "id": "misc34-approx-operand-changed",
+      "base": "misc34",
+      "revised": "[P1] supports the claim that z ≲ y. <!-- check with coauthor --> The bound is tight.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of an approximate inequality changed."
+    },
+    {
+      "id": "misc34-html-comment-dropped",
+      "base": "misc34",
+      "revised": "[P1] supports the claim that x ≲ y. The bound is tight.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "HTML comment removed."
+    },
+    {
+      "id": "misc34-prose-edited",
+      "base": "misc34",
+      "revised": "[P1] supports the claim that x ≲ y. <!-- check with coauthor --> This bound is tight.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose edit outside the protected spans."
+    },
+    {
+      "id": "misc35-set-operand-changed",
+      "base": "misc35",
+      "revised": "Let C ∪ B denote the pooled sample; the coefficient is &alpha;, as García (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a set union changed."
+    },
+    {
+      "id": "misc35-entity-changed",
+      "base": "misc35",
+      "revised": "Let A ∪ B denote the pooled sample; the coefficient is &beta;, as García (2020) reports.",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Named HTML entity changed."
+    },
+    {
+      "id": "misc35-decomposed-accent",
+      "base": "misc35",
+      "revised": "Let A ∪ B denote the pooled sample; the coefficient is &alpha;, as García (2020) reports.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Author name re-encoded with a combining accent; canonically the same text."
+    },
+    {
+      "id": "misc36-decimal-comma-swapped",
+      "base": "misc36",
+      "revised": "The estimate was 5,1 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
+      "verdict": "damaged",
+      "damage_type": "number changed (transposed digits)",
+      "code_grader_should_flag": true,
+      "note": "Decimal-comma value transposed."
+    },
+    {
+      "id": "misc36-abs-operand-changed",
+      "base": "misc36",
+      "revised": "The estimate was 1,5 and we assume |y| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand inside absolute-value bars changed."
+    },
+    {
+      "id": "misc36-href-text-edited",
+      "base": "misc36",
+      "revised": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the earlier study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Link text of an \\href with a space after the macro name edited."
+    },
+    {
+      "id": "misc36-quote-env-changed",
+      "base": "misc36",
+      "revised": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was ineffective.\\end{quote}\nThere are $5!$ orderings.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Text inside a quote environment changed."
+    },
+    {
+      "id": "misc36-factorial-dropped",
+      "base": "misc36",
+      "revised": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5$ orderings.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Factorial removed from inline math."
+    },
+    {
+      "id": "misc37-phase-changed",
+      "base": "misc37",
+      "revised": "In a phase III trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Roman-numeral trial phase changed."
+    },
+    {
+      "id": "misc37-fold-changed",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew tenfold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Closed-up multiplier changed."
+    },
+    {
+      "id": "misc37-function-renamed",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew fivefold; the estimator g(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Standalone function call renamed."
+    },
+    {
+      "id": "misc37-html-quote-changed",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was ineffective</q>.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Text inside an HTML <q> element changed."
+    },
+    {
+      "id": "misc37-macro-group-dropped",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf this matters. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Braces of a spaced \\textbf argument removed."
+    },
+    {
+      "id": "misc37-prose-edited",
+      "base": "misc37",
+      "revised": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} is important. The author wrote <q>the treatment was effective</q>.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose edit outside protected spans."
+    },
+    {
+      "id": "misc38-html-code-changed",
+      "base": "misc38",
+      "revised": "We call <code>fit(data)</code> once and report the result.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Code inside an HTML <code> element changed."
+    },
+    {
+      "id": "misc38-prose-edited",
+      "base": "misc38",
+      "revised": "We call <code>fit(model)</code> once and report its output.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose outside the code element edited."
+    },
+    {
+      "id": "misc39-multiplier-changed",
+      "base": "misc39",
+      "revised": "The risk tripled in a double-blind study of ٥ groups, and √x is the score.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Multiplicative verb changed."
+    },
+    {
+      "id": "misc39-arabic-digit-changed",
+      "base": "misc39",
+      "revised": "The risk doubled in a double-blind study of ٦ groups, and √x is the score.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Arabic-Indic digit changed."
+    },
+    {
+      "id": "misc39-radicand-changed",
+      "base": "misc39",
+      "revised": "The risk doubled in a double-blind study of ٥ groups, and √y is the score.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a square root changed."
+    },
+    {
+      "id": "misc39-blind-reworded",
+      "base": "misc39",
+      "revised": "The risk doubled in a double-masked study of ٥ groups, and √x is the score.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Adjective 'double' in a compound reworded; not a quantity."
+    },
+    {
+      "id": "misc40-fraction-changed",
+      "base": "misc40",
+      "revised": "A quarter of subjects responded.\n\\begin{verbatim}\n\\caption{alpha}\n\\end{verbatim}",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Article-led fraction changed."
+    },
+    {
+      "id": "misc40-verbatim-caption-changed",
+      "base": "misc40",
+      "revised": "A third of subjects responded.\n\\begin{verbatim}\n\\caption{beta}\n\\end{verbatim}",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Literal \\caption text inside a verbatim environment changed."
+    },
+    {
+      "id": "misc41-lazy-quote-changed",
+      "base": "misc41",
+      "revised": "> The treatment was\nineffective in all arms.\n\nEach specimen weighed 5 lb and sat 10 feet away.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Lazy continuation line of a block quote changed."
+    },
+    {
+      "id": "misc41-imperial-unit-changed",
+      "base": "misc41",
+      "revised": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 oz and sat 10 feet away.",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Imperial unit changed."
+    },
+    {
+      "id": "misc41-prose-edited",
+      "base": "misc41",
+      "revised": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 lb and was placed 10 feet away.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose after the quote edited."
+    },
+    {
+      "id": "misc42-study-label-changed",
+      "base": "misc42",
+      "revised": "Study III replicates the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Roman-numeral study label changed."
+    },
+    {
+      "id": "misc42-doi-suffix-changed",
+      "base": "misc42",
+      "revised": "Study II replicates the result (doi:10.1002/(SICX)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Parenthesized part of a DOI suffix changed."
+    },
+    {
+      "id": "misc42-latex-comment-changed",
+      "base": "misc42",
+      "revised": "Study II replicates the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % changed note",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "LaTeX comment after a number changed."
+    },
+    {
+      "id": "misc42-prose-edited",
+      "base": "misc42",
+      "revised": "Study II reproduces the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose edit outside protected spans."
+    }
+  ]
+}

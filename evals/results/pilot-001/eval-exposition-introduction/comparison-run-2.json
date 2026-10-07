@@ -1,0 +1,68 @@
+{
+  "case": "exposition-introduction",
+  "run": 2,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B restructures the passage into a cleaner arc: it states the problem plainly, places prior approaches next to the problem they fail to solve, presents the contribution as an improvement on them, and ends with the result. That makes the contribution easier to find and the paragraph tighter. Version A keeps the original order, so the claim about prior IVs is left dangling at the end, and its opening sentence is long and stacked with clauses. Version A is more precise in places. It specifies 'exogenous variation in valence' and 'quasi-random assignment of valence', and it names the confounding channel through both reviews and sales. Version B's 'a raw comparison of reviews' leaves the outcome unstated. Both registers suit empirical economists. B's 'moves with' is slightly informal but standard in the field.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: '...a well-known obstacle to identification in this literature: because quality affects both the reviews a product receives and its sales...' vs B: 'Review valence moves with unobserved product quality, so a raw comparison of reviews cannot isolate the effect of valence itself.'",
+            "concision": "A: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature: because...' vs B: 'This endogeneity is a well-known obstacle to identification in this literature'",
+            "flow": "A: 'Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity.' (closing, detached) vs B: 'prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon them by exploiting...'",
+            "precision": "A: 'exogenous variation in valence' / 'quasi-random assignment of valence' vs B: 'a source of exogenous variation' / 'a raw comparison of reviews'"
+          },
+          "overall": "B"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"Version B restructures the passage into a cleaner arc: it states the problem plainly, places prior approaches next to the problem they fail to solve, presents the contribution as an improvement on them, and ends with the result. That makes the contribution easier to find and the paragraph tighter. Version A keeps the original order, so the claim about prior IVs is left dangling at the end, and its opening sentence is long and stacked with clauses. Version A is more precise in places. It specifies 'exogenous variation in valence' and 'quasi-random assignment of valence', and it names the confounding channel through both reviews and sales. Version B's 'a raw comparison of reviews' leaves the outcome unstated. Both registers suit empirical economists. B's 'moves with' is slightly informal but standard in the field.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: '...a well-known obstacle to identification in this literature: because quality affects both the reviews a product receives and its sales...' vs B: 'Review valence moves with unobserved product quality, so a raw comparison of reviews cannot isolate the effect of valence itself.'\",\n    \"concision\": \"A: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature: because...' vs B: 'This endogeneity is a well-known obstacle to identification in this literature'\",\n    \"flow\": \"A: 'Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity.' (closing, detached) vs B: 'prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon them by exploiting...'\",\n    \"precision\": \"A: 'exogenous variation in valence' / 'quasi-random assignment of valence' vs B: 'a source of exogenous variation' / 'a raw comparison of reviews'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.041606199999999996,
+        "seconds": 14.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "A leads with a plain statement of the confounding problem. It places the critique of prior IV work right before the paper's own strategy, so 'improves upon them' follows directly from it. It also drops filler such as 'Specifically, we leverage the fact that.' B keeps the nominalized opening ('The endogeneity of review valence with respect to...') and ends on a detached claim about prior work. B is more exact in two places: it states that quality drives both reviews and sales, and it names valence as the thing that varies ('exogenous variation in valence', 'assignment of valence'). A's 'moves with' is slightly looser. Both registers suit empirical economists and IS researchers. A reads better on clarity, concision, and flow, and B wins on precision.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Review valence moves with unobserved product quality, so a raw comparison of reviews cannot isolate the effect' vs B: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle'",
+            "concision": "A: 'Platforms apply moderation policies differently across review cohorts' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies across review cohorts'",
+            "flow": "A: 'prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon them' vs B: 'find it to be positive and significant. Our identification strategy improves upon prior approaches'",
+            "precision": "A: 'Review valence moves with unobserved product quality' / 'a source of exogenous variation' vs B: 'because quality affects both the reviews a product receives and its sales' / 'exogenous variation in valence'"
+          },
+          "overall": "A"
+        },
+        "raw": "```json\n{\n  \"reasoning\": \"A leads with a plain statement of the confounding problem. It places the critique of prior IV work right before the paper's own strategy, so 'improves upon them' follows directly from it. It also drops filler such as 'Specifically, we leverage the fact that.' B keeps the nominalized opening ('The endogeneity of review valence with respect to...') and ends on a detached claim about prior work. B is more exact in two places: it states that quality drives both reviews and sales, and it names valence as the thing that varies ('exogenous variation in valence', 'assignment of valence'). A's 'moves with' is slightly looser. Both registers suit empirical economists and IS researchers. A reads better on clarity, concision, and flow, and B wins on precision.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Review valence moves with unobserved product quality, so a raw comparison of reviews cannot isolate the effect' vs B: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle'\",\n    \"concision\": \"A: 'Platforms apply moderation policies differently across review cohorts' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies across review cohorts'\",\n    \"flow\": \"A: 'prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon them' vs B: 'find it to be positive and significant. Our identification strategy improves upon prior approaches'\",\n    \"precision\": \"A: 'Review valence moves with unobserved product quality' / 'a source of exogenous variation' vs B: 'because quality affects both the reviews a product receives and its sales' / 'exogenous variation in valence'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0414862,
+        "seconds": 12.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

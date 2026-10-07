@@ -1,0 +1,37 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/pilot-001/eval-exposition-introduction/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "a well-known obstacle to identification in this literature",
+          "revised_quote": "a well-known obstacle to identifying its effect on sales",
+          "explanation": "The original never names the outcome; the revision says the identification problem concerns valence's effect on sales and drops the reference to 'this literature'."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of valence on sales and find it positive and significant",
+          "explanation": "The revision says the estimated effect is valence on sales, which the original passage does not state."
+        }
+      ],
+      "summary": "The revision is mostly a faithful reordering, but in two places it says the effect being identified and estimated is review valence on sales. The original passage never names that outcome."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"a well-known obstacle to identifying its effect on sales\",\n      \"explanation\": \"The original never names the outcome; the revision says the identification problem concerns valence's effect on sales and drops the reference to 'this literature'.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of valence on sales and find it positive and significant\",\n      \"explanation\": \"The revision says the estimated effect is valence on sales, which the original passage does not state.\"\n    }\n  ],\n  \"summary\": \"The revision is mostly a faithful reordering, but in two places it says the effect being identified and estimated is review valence on sales. The original passage never names that outcome.\"\n}\n```",
+    "cost_usd": 0.0304102,
+    "seconds": 8.0,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

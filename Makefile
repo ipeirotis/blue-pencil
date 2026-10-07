@@ -6,7 +6,7 @@
 SHELL := /usr/bin/env bash
 INSTALL := ./install.sh
 
-.PHONY: help install update uninstall init check version lint check-version check-examples check-protected test-install bump test
+.PHONY: help install update uninstall init check version lint check-version check-examples check-protected test-install bump test eval-selftest
 
 help:
 	@echo "blue-pencil"
@@ -26,7 +26,8 @@ help:
 	@echo "  make check-protected Diff protected content between example input and output"
 	@echo "  make test-install   Hermetic tests for install.sh (init, commands, refresh, update)"
 	@echo "  make bump VERSION=x.y.z   Bump the version in all three sites"
-	@echo "  make test           Run check-version, lint, check-examples, check-protected, test-install"
+	@echo "  make test           Run check-version, lint, check-examples, check-protected, test-install, eval-selftest"
+	@echo "  make eval-selftest  Offline self-test of the evaluation pilot code grader (evals/)"
 
 install:
 	@$(INSTALL)
@@ -65,5 +66,8 @@ bump:
 	@if [ -z "$(VERSION)" ]; then echo "Usage: make bump VERSION=x.y.z" >&2; exit 1; fi
 	@./scripts/bump-version.sh $(VERSION)
 
-test: check-version lint check-examples check-protected test-install
+eval-selftest:
+	@python3 -m unittest evals/grader_tests/test_protected.py
+
+test: check-version lint check-examples check-protected test-install eval-selftest
 	@echo "All checks passed."

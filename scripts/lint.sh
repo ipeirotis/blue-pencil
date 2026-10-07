@@ -13,13 +13,14 @@ cd "$ROOT"
 
 fail=0
 
-# 1. No em-dash (U+2014) or en-dash (U+2013) anywhere in tracked files. The
+# 1. No em-dash (U+2014) or en-dash (U+2013) anywhere in tracked files, except
+#    evals/results/, which holds raw saved model replies (data, not repo prose). The
 #    search chars are built from hex byte escapes (UTF-8 e2 80 94 / e2 80 93)
 #    so this script stays pure ASCII and never flags itself.
 echo "Checking for em-dashes and en-dashes..."
 emdash="$(printf '\xe2\x80\x94')"
 endash="$(printf '\xe2\x80\x93')"
-if hits="$(git grep --untracked -n -F -e "$emdash" -e "$endash" -- . 2>/dev/null)"; then
+if hits="$(git grep --untracked -n -F -e "$emdash" -e "$endash" -- . ':(exclude)evals/results' 2>/dev/null)"; then
   echo "ERROR: em-dash or en-dash characters found in tracked files:" >&2
   printf '%s\n' "$hits" >&2
   echo "Replace with a comma, colon, parentheses, or two sentences." >&2

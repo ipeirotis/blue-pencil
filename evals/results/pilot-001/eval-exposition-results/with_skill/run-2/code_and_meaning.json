@@ -1,0 +1,22 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/pilot-001/eval-exposition-results/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision reorders sentences and merges the column 2 and column 3 estimates into one sentence. Every coefficient, specification, and significance statement is retained at the same strength. The added phrase \"carries a separate coefficient\" only states that the indicator has its own estimate, so it adds no new claim."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision reorders sentences and merges the column 2 and column 3 estimates into one sentence. Every coefficient, specification, and significance statement is retained at the same strength. The added phrase \\\"carries a separate coefficient\\\" only states that the indicator has its own estimate, so it adds no new claim.\"\n}\n```",
+    "cost_usd": 0.0261502,
+    "seconds": 5.1,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/pilot-001/eval-exposition-results/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Table 3 reports the estimates, and identity matters.",
+          "explanation": "The original only reports estimates; the revision adds an interpretive claim that identity matters."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "It holds up in column 3, where adding product fixed effects leaves it at 0.15",
+          "explanation": "The revision adds a robustness judgment ('holds up') that the original does not make; the original simply reports the smaller coefficient."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "revised_quote": "The interaction with reviewer tenure, 0.09 (SE = 0.03) in column 4, shows that the effect of disclosure grows with tenure.",
+          "explanation": "The revision adds an interpretation of the interaction ('the effect of disclosure grows with tenure') that the original does not state."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating remains a strong driver of sales",
+          "explanation": "A reported coefficient is recast as a causal claim ('driver') with an added magnitude judgment ('strong')."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "of sales",
+          "explanation": "The revision names sales as the outcome variable, which the original passage does not specify."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "yet identity adds to it",
+          "explanation": "The revision asserts that identity has an incremental effect beyond star rating, which the original does not claim."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.",
+          "revised_quote": "Table 3 reports the estimates, and identity matters.",
+          "explanation": "The original's neutral, report-only register is replaced with an argumentative, interpretive voice."
+        }
+      ],
+      "summary": "The original reports coefficients without interpreting them. The revision adds several new claims: that identity matters, that the estimate is robust, that the disclosure effect grows with tenure, that star rating causally drives sales, and that identity adds to that effect."
+    },
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and identity matters.\",\n      \"explanation\": \"The original only reports estimates; the revision adds an interpretive claim that identity matters.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"It holds up in column 3, where adding product fixed effects leaves it at 0.15\",\n      \"explanation\": \"The revision adds a robustness judgment ('holds up') that the original does not make; the original simply reports the smaller coefficient.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"The interaction with reviewer tenure, 0.09 (SE = 0.03) in column 4, shows that the effect of disclosure grows with tenure.\",\n      \"explanation\": \"The revision adds an interpretation of the interaction ('the effect of disclosure grows with tenure') that the original does not state.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating remains a strong driver of sales\",\n      \"explanation\": \"A reported coefficient is recast as a causal claim ('driver') with an added magnitude judgment ('strong').\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"of sales\",\n      \"explanation\": \"The revision names sales as the outcome variable, which the original passage does not specify.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"yet identity adds to it\",\n      \"explanation\": \"The revision asserts that identity has an incremental effect beyond star rating, which the original does not claim.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and identity matters.\",\n      \"explanation\": \"The original's neutral, report-only register is replaced with an argumentative, interpretive voice.\"\n    }\n  ],\n  \"summary\": \"The original reports coefficients without interpreting them. The revision adds several new claims: that identity matters, that the estimate is robust, that the disclosure effect grows with tenure, that star rating causally drives sales, and that identity adds to that effect.\"\n}\n```",
+    "cost_usd": 0.0428062,
+    "seconds": 10.9,
+    "models": [
+      "claude-opus-5-5"
+    ]
+  }
+}
