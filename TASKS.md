@@ -84,7 +84,10 @@ against it cannot be gamed by reading the desired prose), `flagged_paragraphs` o
 response-to-reviewers case (the authoritative mapping from each reviewer
 label to the paragraph indices it flags, written by the corpus author, which
 C4 compares against instead of trusting the model's own labels, so a model
-cannot widen its window by declaring every paragraph flagged),
+cannot widen its window by declaring every paragraph flagged, with a
+`structural` marker on a label whose comment objects to a flagged
+paragraph's organisation, since the stage forbids reorganising only the
+paragraphs reviewers did not complain about),
 `expected_variants` (one A3 result variant per agent turn, so a scripted
 case lists a sequence, for example clarification then full contract for the
 missing-context case, derived at validation time from the command, context,
@@ -243,7 +246,10 @@ revision, a consistency-check relay, and the completion message that
 declares the Step G stop condition with each section's convergence; each is
 its own variant, C2 applies no contract branch, and F7's loop predicates
 grade it against the dispatch trace and the plan, so a valid post-plan turn
-is never a parse failure), and the feedback-only wrapper (the four sections
+is never a parse failure), the checker report that `/paper:verify` returns
+once F3 ships it (the machine-computed report relayed with its `Protected
+check:` line and no contract sections, its own variant routed to the F7
+verify predicates, so a correct report is never a parse failure), and the feedback-only wrapper (the four sections
 with `No rewrite requested.` as the revised text) carrying a Diagnosis in a
 command-specific shape: the severity-ranked comment table of
 `/paper:triage`, which applies even when reviewer comments arrive without a
@@ -628,9 +634,15 @@ output.
 ### C4. Scope and stage graders (M)
 - At `response to reviewers`: paragraphs outside the flagged set and their
   immediate neighbours are byte-identical to the input, and paragraph count,
-  boundaries, and order are unchanged across the whole section, since the
-  stage permits sentence-level work inside the window and forbids
-  reorganising paragraphs anywhere. On a `/paper:rebut` run the neighbours
+  boundaries, and order are unchanged for every paragraph without a
+  `structural` marker in `flagged_paragraphs`, since the stage permits
+  sentence-level work inside the window and forbids reorganising the
+  paragraphs reviewers did not complain about; a flagged paragraph whose
+  marker records a structural complaint may be split or merged with its
+  flagged neighbour, and then every sentence of the resulting paragraphs
+  aligns into the flagged paragraphs' text (no sentence crosses into or out
+  of the unflagged set), so splitting an overloaded paragraph a reviewer
+  objected to passes while a reorganisation elsewhere fails. On a `/paper:rebut` run the neighbours
   are stricter still, per the command file: a neighbour may change only in
   its transition or setup sentence, and only when a change line maps that
   edit to a reviewer label whose flagged paragraph is adjacent; any other
@@ -926,9 +938,13 @@ counts below are the held-out half and an equal development half of the same
 composition is built alongside it and split off before any judge output is
 inspected, so each rubric is iterated on one half and accepted on the other:
 bridge
-classification for C2 (input: a candidate span, the input section, and the
-`Added bridges:` line; verdict: states-why-a-claim-holds or not; fixtures:
-ten true bridges and ten cue-word false alarms), re-proposal detection for
+classification for C2 (input: a candidate span and the input section with
+the manuscript context the D4 meaning check supplies, never the model's own
+`Added bridges:` line, which is the answer under audit and would let the
+judge read `None.` as a shortcut and let the calibration fixtures score by
+correlating line and label; the harness compares the independent verdict
+with the line afterwards; verdict: states-why-a-claim-holds or not; fixtures:
+ten true bridges and ten cue-word false alarms, built without the line), re-proposal detection for
 C4 (input: the recorded rejected transformation and the second turn's span;
 verdict: re-proposed or not; fixtures: ten re-proposals under new wording
 and ten unrelated legitimate edits), and provenance grounding for F2's
@@ -1277,9 +1293,14 @@ cases, three repetitions, one model), posting the benchmark delta as a workflow
 summary and failing the job when any assertion's pass rate drops against the
 stored smoke baseline by more than the E3 decision rule allows (the recorded
 confidence level, per-assertion margin, and upper-bound test). The baseline
-is a run of the baseline skill ref under the same nightly invocation (the
-same smoke case ids, repetition count, model, and runner configuration),
-stored and refreshed whenever that invocation changes; the full E1 baseline
+is a run of the baseline skill ref under the same evaluation stack as the
+candidate, keyed by the same identities A2 hashes (the content hash of every
+smoke case, not its id alone, the repetition count, the model id and
+immutable revision, the runner configuration, the grader and judge versions,
+and the harness SHA with its cache-schema version), stored and rerun on the
+baseline ref whenever any of them differs, since an edited case, a changed
+grader, or a harness update under unchanged workflow arguments would
+otherwise attribute the suite's change to the skill; the full E1 baseline
 is never the comparator, since its case mix, repetitions, and models differ.
 So the no-regression
 merge policy in the ground rules is enforced by CI rather than by reading a
