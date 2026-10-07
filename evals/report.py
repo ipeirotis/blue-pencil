@@ -22,7 +22,9 @@ import re
 import statistics as st
 import sys
 
-from lib import EVALS, changed_cases, read_json, total_tokens, write_json
+import json
+
+from lib import EVALS, changed_cases, reads_outside_workspace, read_json, total_tokens, write_json
 
 CONDS = ("with_skill", "without_skill")
 NAMES = {"with_skill": "With Blue Pencil", "without_skill": "Without (plain Claude)"}
@@ -49,7 +51,11 @@ def load(root):
                 tr = read_json(rd / "trial.json") if (rd / "trial.json").exists() else {}
                 tm = read_json(rd / "timing.json") if (rd / "timing.json").exists() else {}
                 n = int(rd.name.split("-")[1])
-                runs[cond].append({"case": cid, "n": n, "cm": cm, "trial": tr, "timing": tm})
+                outside = []
+                if cond == "with_skill" and (rd / "transcript.jsonl").exists():
+                    events = [json.loads(ln) for ln in (rd / "transcript.jsonl").read_text().splitlines() if ln.strip()]
+                    outside = reads_outside_workspace(events)
+                runs[cond].append({"case": cid, "n": n, "cm": cm, "trial": tr, "timing": tm, "outside": outside})
     pairs = []
     for f in sorted(root.glob("eval-*/comparison-run-*.json")):
         pairs.append(read_json(f))
@@ -157,6 +163,14 @@ def main():
     if excluded:
         L.append(f"- Excluded {len(excluded)} invalid runs: "
                  + "; ".join(f"{NAMES[c]}, {r['case']}, run {r['n']} ({why})" for c, r, why in excluded))
+    leaky = [r for r in runs["with_skill"] if r["outside"]]
+    if leaky:
+        # Not excluded (that would remove most of a run made before the isolation fix), but
+        # the reader must know these trials were not limited to the recorded skill files.
+        L.append(f"- **Caveat:** {len(leaky)} of {len(runs['with_skill'])} with-skill runs read or listed files "
+                 "outside their workspace (such as Blue Pencil copies in the home directory), so they were "
+                 "not limited to the skill files this run recorded: "
+                 + "; ".join(f"{r['case']} run {r['n']} ({', '.join(r['outside'])})" for r in leaky))
     if ungraded:
         L.append(f"- {len(ungraded)} head-to-head pairs have no valid quality verdict and are left out: "
                  + ", ".join(f"{p['case']} run {p['run']}" for p in ungraded))

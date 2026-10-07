@@ -14,7 +14,8 @@
     "two_blocks": "Set up:\n```\nx = load()\n```\nThen run:\n```\nrun(x)\n```",
     "money": "Revenue was $5 and profit was $2; the 95% CI was 1.2\u20133.4.",
     "refs": "As Section IV shows, the dose of 10 mg per kg raised scores from 0.31 to 0.47, and $5 \\in S$ holds.",
-    "suffixed": "The dose was 5 mg\u201310 mg, the share 5%\u201310%, and the report calls this 'robust'; use ``a ` b`` here."
+    "suffixed": "The dose was 5 mg\u201310 mg, the share 5%\u201310%, and the report calls this 'robust'; use ``a ` b`` here.",
+    "latex_misc": "The estimate is 5 ± 2 and $5x$ grows. % TODO verify cohort\nAbout 5% of firms agree."
   },
   "variants": [
     {
@@ -520,6 +521,42 @@
       "damage_type": "markup changed",
       "code_grader_should_flag": true,
       "note": "Code in a double-backtick span changed."
+    },
+    {
+      "id": "latex-misc-harmless-1",
+      "base": "latex_misc",
+      "revised": "$5x$ grows, and the estimate is 5 ± 2. % TODO verify cohort\nAbout 5% of firms agree.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Clauses reordered; percent sign not read as a comment."
+    },
+    {
+      "id": "latex-misc-pm-swapped",
+      "base": "latex_misc",
+      "revised": "The estimate is 2 ± 5 and $5x$ grows. % TODO verify cohort\nAbout 5% of firms agree.",
+      "verdict": "damaged",
+      "damage_type": "number changed (uncertainty)",
+      "code_grader_should_flag": true,
+      "note": "Estimate and uncertainty swapped."
+    },
+    {
+      "id": "latex-misc-math-variable-changed",
+      "base": "latex_misc",
+      "revised": "The estimate is 5 ± 2 and $5y$ grows. % TODO verify cohort\nAbout 5% of firms agree.",
+      "verdict": "damaged",
+      "damage_type": "math symbol changed",
+      "code_grader_should_flag": true,
+      "note": "Variable in number-led inline math changed."
+    },
+    {
+      "id": "latex-misc-comment-dropped",
+      "base": "latex_misc",
+      "revised": "The estimate is 5 ± 2 and $5x$ grows.\nAbout 5% of firms agree.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Trailing LaTeX comment removed."
     }
   ]
 }

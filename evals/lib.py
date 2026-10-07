@@ -242,6 +242,21 @@ def skill_was_loaded(events, workspace):
     return bool(calls & ok)
 
 
+def reads_outside_workspace(events):
+    """Paths that Read, Grep, or Glob calls touched outside the trial's own workspace.
+
+    The workspace is the bp-eval-* temp directory the trial ran in. A with-skill trial
+    that reads elsewhere (for example a Blue Pencil copy installed in the home
+    directory) did not run only on the skill files the run recorded."""
+    calls = [item.get("input") or {} for e in events or [] if e.get("type") == "assistant"
+             for item in (e.get("message", {}).get("content") or [])
+             if isinstance(item, dict) and item.get("type") == "tool_use"
+             and item.get("name") in ("Read", "Grep", "Glob")]
+    paths = [str(c.get("file_path") or c.get("path") or "") for c in calls]
+    ws = next((m.group(0) for p in paths for m in [re.match(r".*/bp-eval-[^/]+", p)] if m), None)
+    return sorted({p for p in paths if p.startswith(("/", "~")) and not (ws and p.startswith(ws))})
+
+
 def make_workspace(with_skill, paper_context, held_out=()):
     """Create a throwaway working directory for one trial.
 

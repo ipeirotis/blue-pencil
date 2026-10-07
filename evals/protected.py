@@ -82,7 +82,8 @@ _NUMBER_RE = re.compile(
     # "1 to 2" is a range too, and either endpoint may carry a sign ("\u22123\u2013\u22121").
     # The first endpoint may carry its own suffix ("5%\u201310%", "5 mg\u201310 mg").
     r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?" + _NUM
-    + r"(?:(?:%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to )(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
+    # An estimate with its uncertainty ("5 \u00b1 2") is one ordered token too.
+    + r"(?:(?:%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
     r"(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?",
@@ -138,7 +139,8 @@ def _dollar_math(flat):
         if not m:
             return out
         t = m.group(0)
-        if (not t.startswith("$$") and re.match(r"\$[0-9]", t)
+        # "$5x$": a letter right after the leading number is a variable, so it is math.
+        if (not t.startswith("$$") and re.match(r"\$[0-9][0-9,.]*(?![0-9,.A-Za-z])", t)
                 and not re.search(r"[\\^_{}=<>+*/]", t[1:-1])):
             pos = m.start() + 1
             continue
@@ -307,6 +309,9 @@ def tokens(cls, raw, flat):
         return out
     if cls == "comments":
         out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|> )|^\|", ln)]
+        # Trailing LaTeX comments: an unescaped % after whitespace, not after a number,
+        # so a percentage ("5 %", "5%") is not mistaken for a comment.
+        out += re.findall(r"(?<![0-9\\\s])\s+(%.*)$", raw, re.M)
         out += re.findall(r"^#{1,6} ", raw, re.M)
         out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers
         return out
