@@ -115,7 +115,9 @@ _NUMWORD_RE = re.compile(
     r"(?:(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
     r"fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|"
     r"seventy|eighty|ninety|hundred|thousand|million|billion|trillion|twice|half|dozen)(?:fold)?(?:-[a-z]+)?|"  # "fivefold"
-    r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+)\b"
+    r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+|"
+    # Multiplicative verbs ("the risk doubled"); the bare adjectives ("double-blind") are left out.
+    r"(?:doubl|tripl|quadrupl)(?:ed|ing)|halv(?:ed|ing))\b"
     # A unit or percent after a spelled-out number stays with it ("five percent").
     # A spaced fraction keeps its denominator ("one third", "three quarters").
     r"(?: (?P<unit>percentage points?|percent|per cent|halves|half|thirds?|quarters?|fourths?|fifths?|"
@@ -525,6 +527,9 @@ def tokens(cls, raw, flat):
         # a decorated identifier ("x\u2081", "y\u2032", "x\u00b2").
         alone = re.findall(r"(?<![\w.\\])[A-Za-z]{1,3}\((?:[^()\n]|\([^()\n]*\)){1,40}\)", flat)
         alone += re.findall(r"(?<![\w\\])[A-Za-z]{1,2}[\u2080-\u209c\u2070-\u207f\u00b2\u00b3\u00b9\u2032-\u2034]+", flat)
+        # A unary operator with its operand: root, negation, partial, nabla, sum, product, integral.
+        alone += re.findall(r"[\u221a\u221b\u221c\u00ac\u2202\u2207\u2211\u220f\u222b] ?(?:" + _FUNC + r"|\((?:[^()\n]){1,40}\)"
+                            r"|[A-Za-z]{1,3}\b|[0-9]+(?:\.[0-9]+)?)", flat)
         return [re.sub(r"\s", "", t) for t in _EQUATION_RE.findall(flat) + _RELATION_RE.findall(flat) + alone]
     if cls == "symbols":
         return _SYMBOL_RE.findall(flat.replace("\u00b5", "\u03bc"))  # micro sign == Greek mu
@@ -662,6 +667,8 @@ _PARA_LABEL = r"^\[[PR][0-9]+(?:\.[0-9]+)?\] ?"
 def _prep(text):
     # Canonically equivalent spellings (a precomposed accent or a combining one) are the same text.
     text = unicodedata.normalize("NFC", text)
+    # Decimal digits of other scripts ("\u0665", "\u06f5", fullwidth "\uff15") are compared as ASCII digits.
+    text = re.sub(r"(?![0-9])\d", lambda m: str(unicodedata.decimal(m.group())), text)
     # Line-leading "[P1]" paragraph labels (and "[R1]" reviewer points) mark the passage's
     # paragraphs; a revision may drop them, so they are compared separately (see check).
     text = re.sub(_PARA_LABEL, "", text, flags=re.M)

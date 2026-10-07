@@ -44,7 +44,8 @@
     "misc35": "Let A ∪ B denote the pooled sample; the coefficient is &alpha;, as García (2020) reports.",
     "misc36": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
     "misc37": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
-    "misc38": "We call <code>fit(model)</code> once and report the result."
+    "misc38": "We call <code>fit(model)</code> once and report the result.",
+    "misc39": "The risk doubled in a double-blind study of ٥ groups, and √x is the score."
   },
   "variants": [
     {
@@ -1783,6 +1784,42 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Prose outside the code element edited."
+    },
+    {
+      "id": "misc39-multiplier-changed",
+      "base": "misc39",
+      "revised": "The risk tripled in a double-blind study of ٥ groups, and √x is the score.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Multiplicative verb changed."
+    },
+    {
+      "id": "misc39-arabic-digit-changed",
+      "base": "misc39",
+      "revised": "The risk doubled in a double-blind study of ٦ groups, and √x is the score.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Arabic-Indic digit changed."
+    },
+    {
+      "id": "misc39-radicand-changed",
+      "base": "misc39",
+      "revised": "The risk doubled in a double-blind study of ٥ groups, and √y is the score.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a square root changed."
+    },
+    {
+      "id": "misc39-blind-reworded",
+      "base": "misc39",
+      "revised": "The risk doubled in a double-masked study of ٥ groups, and √x is the score.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Adjective 'double' in a compound reworded; not a quantity."
     }
   ]
 }

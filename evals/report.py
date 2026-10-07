@@ -199,6 +199,11 @@ def main():
     ungraded = [p for p in pairs if p["consolidated"] not in CONDS + ("tie",)]
     pairs = [p for p in pairs if p not in ungraded
              and all((c, p["case"], p["run"]) in valid_ids for c in CONDS)]
+    # A pair whose two runs are both valid but which has no comparison file yet (the quality
+    # stage has not run) is ungraded too, not silently absent.
+    have = {(p["case"], p["run"]) for p in pairs} | {(p["case"], p["run"]) for p in ungraded}
+    ungraded += [{"case": cid, "run": n, "consolidated": "not run"} for cid, n in sorted(
+        {(cid, n) for c, cid, n in valid_ids if all((d, cid, n) in valid_ids for d in CONDS)} - have)]
     # Meaning verdicts saved before the rubric version was recorded were graded under v0.2.
     rubrics = " and ".join(sorted({((r["cm"] or {}).get("meaning") or {}).get("rubric", "v0.2")
                                    for c in CONDS for r in runs[c] if meaning(r)})) or "(meaning not graded)"
