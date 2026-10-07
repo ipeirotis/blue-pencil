@@ -212,10 +212,19 @@ and the agent runs inside a filesystem namespace (a container, mount
 namespace, or sandbox) that exposes only the staged worktree and the
 allowlisted runtime package in the temporary home, since directory
 placement alone would not stop `Read`, `Glob`, or a shell command from
-traversing an absolute or parent path into a checkout's `evals/`; the runner
-asserts the namespace before each run by reading a canary path outside it
-from inside and requiring the read to fail, so an agent with `Glob`,
-`Read`, or command execution cannot find the answers, with a complete
+traversing an absolute or parent path into a checkout's `evals/`, and that
+denies outbound network access except to the agent's own provider endpoint
+(and, where the surface needs one, its package or auth endpoints, each
+named on a recorded allowlist), since the installed `SKILL.md` names the
+public repository and a shell command with network access could fetch the
+committed `evals/` files, grader metadata included, from the remote as
+easily as from a sibling directory; the runner asserts both before each
+run by reading a canary path outside the namespace from inside and
+fetching a canary URL on the repository host from inside, requiring both
+to fail, so an agent with `Glob`, `Read`, or command execution cannot find
+the answers locally or remotely (a surface whose agent cannot run inside
+such a namespace is reported as unisolated in A4 and its runs excluded
+from any gate rather than trusted), with a complete
 snapshot of every file taken immediately before and after each agent turn
 (not one pair per run: scripted between-turn file updates from the `turns`
 script are applied by the runner outside those pairs, so the C4 per-turn
@@ -271,14 +280,24 @@ installed `references/`, `examples/`, and the worktree, from the same
 inotify, fanotify, or syscall-level layer), so every command-mediated access
 emits a canonical read event whatever the command's form (`awk`, `dd`, a
 shell script, or an executable whose path argument is not recoverable from
-the command line), and the command line and captured output serve only to
-derive the range (from `cat`, `sed -n`, `head`, `tail`, or an interpreter
-one-liner and the output's line count); where a command's range cannot be
-derived the audited read is recorded as unranged and the
-C3 full-read half is reported not applicable for that run rather than
-failed, while the C3 converse check still sees the access, so a valid run is
-never scored as a skipped reference because of
-the surface's tool API and a hidden read is never invisible to it; and a surface
+the command line), and the range comes first from the audit layer itself,
+where it records the offset and length of each `read`, `pread`, and `mmap`
+on the file (a syscall-level or eBPF audit does; a bare inotify or fanotify
+watch does not, and a surface run under one is configured with the
+syscall layer for reads), so coverage is measured independently of command
+syntax, and only as a fallback from the command line and captured output
+(`cat`, `sed -n`, `head`, `tail`, or an interpreter one-liner and the
+output's line count); where neither source yields a range the audited read
+is recorded as unranged and the C3 full-read half is reported `incomplete`
+for that run, listed in A4 with the file and command, never `not
+applicable`, since an agent could otherwise read the first lines of every
+expected reference through a command the adapter cannot parse, report
+every filename, and have the one check that distinguishes a partial load
+from a complete one drop out of the denominator; the configuration-level
+coverage gate counts these runs like D4's inconclusive ones, while the C3
+converse check still sees the access, so a valid run is never scored as a
+skipped reference because of the surface's tool API, a hidden read is
+never invisible to it, and an unprovable load is never scored as proven; and a surface
 that receives files by injection (the chat condition in E5) records them as
 `injected` provenance for the files handed over up front and canonical
 reads for the references it obtains through the E5 request protocol, so the
@@ -290,7 +309,14 @@ an included section, draft letter, comment file, decision list, or change
 log edited in place at the same path would otherwise reuse output produced
 from the old bytes while the graders inspect the new, the payload of every
 scripted between-turn update, the context block, and the expectations),
-the skill SHA, the model id, the runner configuration, the
+the skill SHA together with the install manifest's content hash over
+every installed component (the bytes of `SKILL.md`, each reference, each
+command and agent file, and the rest of the allowlisted package) and the
+hash of any ablation or variant spec applied to it, since E4 produces its
+variants by rewriting the exported package rather than by committing each
+one, and two variants sharing a base SHA would otherwise collide on the
+key and let one ablation reuse output produced for the baseline or for a
+different removed block, the model id, the runner configuration, the
 harness's own commit SHA together with a cache-schema version (so a fix to
 prompt rendering, worktree setup, trace adapters, or multi-turn handling
 invalidates runs the old code produced), the agent runtime version (the
@@ -409,9 +435,10 @@ ablated or historical ref or an ambiguous label, and an attempt that
 exhausted A2's infrastructure retries, reported with its error class, as A2
 specifies), and incomplete (never an attempt-level state: at result level,
 the D4 meaning assertion on a run with any inconclusive substantive
-addition; at configuration level, a configuration whose share of such runs
-crossed D4's coverage gate or whose excluded share of attempts crossed A2's
-recorded threshold), and a pass rate whose
+addition and the C3 full-read half on a run with any unranged audited read
+of an expected reference; at configuration level, a configuration whose
+share of such runs crossed D4's coverage gate or whose excluded share of
+attempts crossed A2's recorded threshold), and a pass rate whose
 denominator is the applicable cases only, so a skipped check is never
 counted as a pass or as a failure; incomplete results are listed per
 assertion with their reason, reported in the pass rate's denominator as
@@ -1528,7 +1555,12 @@ measured behavior, and which are inert? An ablation that removes a loading gate 
 should load, so each experimental variant carries its own `expected_passes`
 derivation (or the C3 reference audit is excluded for that variant and the
 exclusion reported), otherwise the intended treatment is scored as a skipped
-pass. An ablation measures nothing unless the corpus exercises the block:
+pass. Each variant is identified by a committed ablation spec (the base
+skill ref and the exact components emptied or removed), and the runner
+applies the spec to the exported package and records its hash with the
+install manifest's content hash in A2's cache key and in every result, so
+two variants of one base ref never share a cache entry and the ablation
+table can be regenerated from the specs alone. An ablation measures nothing unless the corpus exercises the block:
 each ablated block needs at least one case in the run whose `expected_passes`
 or scenario activates it, and a block with no activating case is reported as
 unmeasured, never as inert. Done when: an ablation table lists each removed
