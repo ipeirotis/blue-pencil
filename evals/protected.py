@@ -105,7 +105,9 @@ _NUMWORD_RE = re.compile(
     r"\b(?:(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
     r"fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|"
     r"seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(?:-[a-z]+)?|"
-    r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+)\b", re.I)
+    r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+)\b"
+    # A unit or percent after a spelled-out number stays with it ("five percent").
+    r"(?: (?P<unit>percentage points?|percent|per cent|" + _UNIT_WORD + r"))?", re.I)
 
 
 # Mathematical symbols written as Unicode in prose, outside any math delimiters: Greek
@@ -147,8 +149,9 @@ _IDENT = r"[A-Za-z][A-Za-z0-9_]*"
 _USYM = "[\u0391-\u03a9\u03b1-\u03c9\u03d1\u03d5\u03f5\u2100-\u214f\U0001d400-\U0001d7ff][A-Za-z0-9_]*"
 # A numeric operand may carry a sign and an exponent ("x = -5", "x = 2e10").
 _GROUP = r"\((?:[^()\n]|\([^()\n]*\)){1,60}\)"  # a parenthesized side, "x = (a + b)"
-_REL_OPERAND = (r"(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|" + _GROUP + r"|(?:[+-]|\u2212)?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
-                r"(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
+# Any operand may carry a unary sign ("x = -y", "x = -(a + b)", "x = -5").
+_REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|" + _GROUP
+                + r"|(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
 _ARITH_OP = r"(?: ?[+*/^\u2212] ?| - )"
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
@@ -400,7 +403,7 @@ def tokens(cls, raw, flat):
             # The opening "[" of an inline or reference link; the link text stays editable.
             "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)]
     if cls == "callouts":
-        pat = (r"(?:table|figure|fig\.|section|appendix|appendices|column|panel|equation|eq\.)s?"
+        pat = (r"(?:(?:table|figure|section|appendix|column|panel|equation)s?|appendices|figs?\.|eqs?\.)"
                # Roman numerals (uppercase only, so "the figure did" is not a callout): "Section IV".
                r"[ ~]\(?(?:[0-9]+(?:\.[0-9]+)?[a-z]?|(?-i:[IVXLCDM]+)|[a-z][0-9]*)\b" + _PANEL +
                # Later items in a list ("Tables 1, 2 and 3") may not start with 0, so a
@@ -505,7 +508,14 @@ def tokens(cls, raw, flat):
             out.append(tok)
         return out
     if cls == "numberwords":
-        return [m.group(0).lower() for m in _NUMWORD_RE.finditer(flat)]
+        out = []
+        for m in _NUMWORD_RE.finditer(flat):
+            tok = m.group(0).lower()
+            if m.group("unit"):  # plural and singular units agree, as for digit numbers
+                head, *rest = m.group("unit").lower().split(" ")
+                tok = tok[:m.start("unit") - m.start()] + " ".join([head.rstrip("s")] + rest)
+            out.append(tok)
+        return out
     raise ValueError(cls)
 
 

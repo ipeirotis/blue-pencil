@@ -166,7 +166,7 @@ def extract_revised(text, original=None):
     fenced block; a plain Claude reply may have no heading, and then the first
     fenced block is taken.
     """
-    m = re.search(r"###\s*2\.\s*Revised text\s*\n+(?=```|~~~)", text)
+    m = re.search(r"###\s*2\.\s*Revised text\s*\n+(?= {0,3}(?:```|~~~))", text)
     # With the heading present, only the block under it counts: falling back to the whole
     # reply could pick up an earlier, unrelated block.
     return _fenced_block(text[m.end():], original) if m else _fenced_block(text, original)

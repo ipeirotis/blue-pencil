@@ -26,7 +26,8 @@
     "misc17": "The estimate was x = -5 and rate = 2e10.\n\n>quoted source text",
     "misc18": "We have x ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees.",
     "misc19": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
-    "misc20": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part."
+    "misc20": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
+    "misc21": "The equation is x = -y, the response rate was five percent, and Figs. 2 and 3 show it."
   },
   "variants": [
     {
@@ -1063,6 +1064,33 @@
       "damage_type": "markup dropped",
       "code_grader_should_flag": true,
       "note": "Thematic break removed."
+    },
+    {
+      "id": "misc21-negated-operand-renamed",
+      "base": "misc21",
+      "revised": "The equation is z = -y, the response rate was five percent, and Figs. 2 and 3 show it.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable equated to a negated variable renamed."
+    },
+    {
+      "id": "misc21-spelled-percent-dropped",
+      "base": "misc21",
+      "revised": "The equation is x = -y, the response rate was five, and Figs. 2 and 3 show it.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Percent after a spelled-out number removed."
+    },
+    {
+      "id": "misc21-plural-fig-label-dropped",
+      "base": "misc21",
+      "revised": "The equation is x = -y, the response rate was five percent, and 2 and 3 show it.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Plural figure abbreviation removed."
     }
   ]
 }

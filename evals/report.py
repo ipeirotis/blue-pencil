@@ -146,7 +146,7 @@ def _pair_texts(sheet):
     without the line where the reviewer writes verdicts."""
     out, pid = {}, None
     for ln in sheet.splitlines():
-        if ln.startswith("## "):
+        if re.fullmatch(r"## \S+/run-[0-9]+", ln):  # pair headers only, not headings in a passage
             pid = ln[3:].strip()
             out[pid] = []
         elif pid and not ln.startswith("Better written"):
