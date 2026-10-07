@@ -185,8 +185,10 @@ letter command direct the agent to for worked runs and which the production
 installer makes available by linking the checkout, with the corollary that
 no corpus case may share its input with an installed example: before each
 run the runner compares every case artifact against every file under the
-installed `examples/` with the C5 sentence aligner and refuses to run a case
-whose text matches an example above a recorded similarity threshold, since
+installed `examples/` with the A3 aligner (the file-level score is the share
+of the artifact's sentences the aligner matches to a sentence of the example
+above its pinned sentence-similarity cutoff) and refuses to run a case
+whose score against any example exceeds a recorded threshold, since
 an agent could otherwise read the expected revision, Diagnosis, and
 rationale through the skill path and reproduce them, `.claude/commands/paper/`,
 `.claude/agents/`, `install.sh` and the `VERSION` file it reads (without
@@ -314,10 +316,11 @@ assertion and configuration, the counts of passed, failed, not-applicable
 audit the plan switches off for that run, such as the reference audit on an
 ablated or historical ref or an ambiguous label, and an attempt that
 exhausted A2's infrastructure retries, reported with its error class, as A2
-specifies), and incomplete (a configuration-level state, never an
-attempt-level one: the D4 meaning assertion whose inconclusive share crossed
-its coverage gate, or a configuration whose excluded share of attempts
-crossed A2's recorded threshold), and a pass rate whose
+specifies), and incomplete (never an attempt-level state: at result level,
+the D4 meaning assertion on a run with any inconclusive substantive
+addition; at configuration level, a configuration whose share of such runs
+crossed D4's coverage gate or whose excluded share of attempts crossed A2's
+recorded threshold), and a pass rate whose
 denominator is the applicable cases only, so a skipped check is never
 counted as a pass or as a failure; incomplete results are listed per
 assertion with their reason, reported in the pass rate's denominator as
@@ -340,10 +343,19 @@ Markdown table is readable in a pull request.
 
 ### B1. Sourcing and licensing policy (S)
 Write down what may enter the corpus: arXiv papers whose license permits
-redistribution (CC BY, CC0), the maintainers' own papers, and faculty or
+redistribution (CC BY, CC0), the maintainers' own papers only when the
+maintainer still holds redistribution rights (authorship alone does not
+establish that, since copyright or exclusive publication rights may have
+passed to a publisher), so such a paper carries either a
+redistribution-compatible license or an explicit written grant covering
+publication in this corpus, and faculty or
 student drafts only under a signed permission note kept alongside the case.
-Record source, license, and permission for every case in its metadata. Done
-when: `evals/README.md` carries the policy and every case has the three fields.
+Record source, license, and permission for every case in its metadata, and
+have the A1 schema validate the values, not only the presence of the fields:
+the license is one of an allowed list, or the permission field names a grant
+or note file that exists beside the case. Done
+when: `evals/README.md` carries the policy, every case has the three fields,
+and a case with an unlisted license and no grant fails validation.
 
 ### B2. Seed corpus v1 (L)
 About 30 sections covering: fields (economics, information systems, CS,
@@ -649,10 +661,19 @@ Check what the skill says about its own run against what it did:
   the bullets are not required to be exhaustive. Grounding the bullets does
   not enforce the compact contract's own scope, which forbids adding
   explanatory substance, so a compact output also carries a deterministic
-  scope assertion: every unmatched added sentence and every added hunk
-  inside an aligned pair that is not made only of insignificant tokens fails
-  it, however honestly a bullet describes the insertion and however well the
-  manuscript supports it, since the quick pass may not add substance at all.
+  scope assertion that separates explanatory substance from ordinary
+  rewording: every unmatched added sentence fails it, and an added hunk
+  inside an aligned pair fails it when it is a pure insertion (no deleted
+  counterpart in the pair) carrying content words, or a replacement whose
+  added side carries at least a recorded number of content words more than
+  its deleted side after lemmatization, so `utilize` becoming `use`, a
+  reordered clause, or a shortened phrase passes as the sentence-level
+  copyedit the contract permits, while `The instrument is valid.` becoming
+  `The instrument is valid because assignment was random.` fails, however
+  honestly a bullet describes the insertion and however well the manuscript
+  supports it, since the quick pass may not add substance at all; a
+  positive and a negative fixture for each of those forms ship with the
+  grader.
   Its `why` names a
   mechanism
   from the allowed list; "reads better", "smoother", "more concise" alone
@@ -964,13 +985,14 @@ relocated from another section without `because` or another cue is traced
 to its source rather than misread as an invention; when retrieval cannot
 supply the supporting context for an added sentence or hunk, the judge
 returns `inconclusive` for it rather than a violation, and inconclusive
-verdicts are reported separately in A4 and excluded from the pass rate
-rather than folded into either side, under a coverage gate: a run whose
-inconclusive share of substantive additions exceeds a recorded threshold is
-marked incomplete for the meaning assertion rather than passed, with the
-inconclusive additions listed, so a run that adds unsupported claims in
-wording that retrieves no source cannot earn a clean score by exhausting
-retrieval,
+verdicts are reported separately in A4 and never folded into either side,
+and a run with any inconclusive substantive addition is marked incomplete
+for the meaning assertion rather than passed, with the additions listed, so
+one invented factual sentence beside several supported ones cannot earn a
+clean score by retrieving no source; a separate coverage gate on the
+configuration (the share of runs marked incomplete this way against a
+recorded threshold) decides whether the configuration's meaning results are
+usable at all,
 the `Added bridges:` line and the matching Author question, and the
 `Change rationale` entries (so a deletion the skill logged is judged as
 logged, not as silent). A sentence and a blank counterpart alone make the
