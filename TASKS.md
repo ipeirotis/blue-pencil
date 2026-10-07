@@ -415,12 +415,18 @@ passed to a publisher), so such a paper carries either a
 redistribution-compatible license or an explicit written grant covering
 publication in this corpus, and faculty or
 student drafts only under a signed permission note kept alongside the case.
-Record source, license, and permission for every case in its metadata, and
-have the A1 schema validate the values, not only the presence of the fields:
-the license is one of an allowed list, or the permission field names a grant
-or note file that exists beside the case. Done
-when: `evals/README.md` carries the policy, every case has the three fields,
-and a case with an unlisted license and no grant fails validation.
+Record source, license, and permission for every artifact of every case in
+its metadata, not one triple per case, since a composite case can bundle a
+CC-licensed manuscript with confidential reviewer comments, an author
+decision file, and a draft letter that each have their own owner and
+status; have the A1 schema validate the values per artifact, not only the
+presence of the fields: each artifact's license is one of an allowed list,
+or its permission field names a grant or note file that exists beside the
+case and lists that artifact, so a case-level grant covers only the
+artifacts it names. Done
+when: `evals/README.md` carries the policy, every artifact of every case has
+the three fields, and a case with one artifact under an unlisted license and
+no grant naming it fails validation even when its manuscript is CC-licensed.
 
 ### B2. Seed corpus v1 (L)
 About 30 sections covering: fields (economics, information systems, CS,
@@ -697,10 +703,12 @@ Check what the skill says about its own run against what it did:
   percentage is checked in two steps: its direction first, which must agree
   with the direction of the exact counts under the matched convention, and
   with the direction of the reported counts except where the contract's
-  rounding to the nearest ten collapses the exact delta to equal displayed
-  counts (`101` to `104` reported as `~100 to ~100 (+3%)` is honest, so
-  equal displayed counts are accepted whenever the exact delta is smaller
-  than the rounding half-width, and the sign is then checked against the
+  rounding to the nearest ten collapses the exact counts to equal displayed
+  counts (`101` to `104` reported as `~100 to ~100 (+3%)` is honest, and so
+  is `96` to `104` as `~100 to ~100 (+8%)`, so equal displayed counts are
+  accepted whenever the exact before and after counts round independently
+  to the same nearest ten, rather than by comparing the delta with the
+  rounding half-width, and the sign is then checked against the
   exact direction alone) (the bands alone cannot carry this, since for
   exact counts of 100 and 80 the bands 85 to 115 and 68 to 92 contain the
   rising pair 85 to 92, so an interval built from the bands would admit a
@@ -795,7 +803,10 @@ Check what the skill says about its own run against what it did:
   inside an aligned pair fails it when it is a pure insertion (no deleted
   counterpart in the pair) that introduces a new clause or a noun phrase
   whose head noun is absent from the whole input section after
-  lemmatization, or a replacement whose
+  lemmatization, or a replacement whose added side introduces such a clause
+  or head noun that its deleted side lacked (so `The design was demonstrably
+  and clearly valid` becoming `Random assignment makes the design valid`
+  fails for the causal explanation it adds at equal length) or whose
   added side carries at least a recorded number of content words more than
   its deleted side after lemmatization; a pure insertion that repairs a
   referent with a noun the input section already uses (`It increased`
@@ -965,9 +976,15 @@ output.
   rule): the A2 snapshots taken before and after that turn are identical
   as complete file trees (no manuscript file changed, and no file created,
   renamed, or deleted anywhere in the worktree, so a revision written to a
-  new path such as `revised.tex` fails as surely as an edit in place) and
-  the trace carries no `Edit` or `Write` at all, whatever variant the
-  response took; scripted between-turn updates
+  new path such as `revised.tex` fails as surely as an edit in place), the
+  trace carries no `Edit` or `Write` at all, whatever variant the
+  response took, and on a surface with command execution no
+  command-execution event mutated the worktree either, which A2 establishes
+  by snapshotting after every execution event rather than only at turn
+  boundaries, so a file created or modified by a shell command and deleted
+  or restored before the turn ends is caught at the command that made it
+  (the read-only checker invocation of F3 is allowlisted by command but is
+  still snapshot-checked, so an invocation that wrote would fail); scripted between-turn updates
   from the case's `turns` script (a loop case's author-side file updates;
   the repeat-round case has none, since its returned file is the staged
   initial state) are applied by the runner between snapshots and are
@@ -999,7 +1016,11 @@ and must fail) and the entire contents of format-sensitive constructs
 from every normalization, spaces and line breaks alike, so a changed code
 indentation cannot read as verbatim; `Change rationale` states the
 passage was
-returned verbatim; and the Diagnosis affirmatively recommends leaving the
+returned verbatim when `permitted_fixes` is empty, and otherwise states
+that it was unchanged apart from the declared fixes, each logged as its own
+change line, as the restraint example does for its hyphen fix, so the
+anchor is never asked to make a false verbatim claim; and the Diagnosis
+affirmatively recommends leaving the
 passage unchanged, carrying the `no safe improvement available` line the
 skill prescribes for each paragraph (or an equivalent explicit no-edit
 recommendation) and naming no defect class from the case's `must_not_flag`,
