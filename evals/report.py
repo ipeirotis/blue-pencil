@@ -38,6 +38,8 @@ def invalid_reason(r, cond):
         return "no trial.json (the call did not finish)"
     if r["trial"].get("is_error"):
         return "claude -p reported an error"
+    if not r["revised"]:
+        return "no revision was extracted from the reply (the runner retries such trials)"
     if cond == "with_skill" and r["trial"].get("skill_loaded") is not True:
         return "Blue Pencil was not loaded, or loading was not recorded"
     if cond == "with_skill" and r["outside"]:
@@ -76,6 +78,7 @@ def load(root):
                                    for e in events for item in (e.get("message", {}).get("content") or [])
                                    if isinstance(item, dict))
                 runs[cond].append({"case": cid, "n": n, "cm": cm, "trial": tr, "timing": tm, "outside": outside,
+                                   "revised": rev.exists(),
                                    "examples": examples, "other_skills": other_skills, "listed": listed})
     pairs = []
     for f in sorted(root.glob("eval-*/comparison-run-*.json")):

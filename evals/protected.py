@@ -72,7 +72,9 @@ _NUM = (r"(?:(?<![\[(,0-9])[0-9]+,[0-9]{1,2}(?![0-9,\])])|[0-9]+(?:,[0-9]{3})*(?
 _MICRO = "(?:\u00b5|\u03bc)"
 _UNIT_ONE = (r"(?:(?:[kmnMGT]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|Wh|W|J|Hz|Pa)|mL|cm|kcal|cal|"
              r"USD|EUR|GBP|JPY|CNY|RMB|CAD|AUD|NZD|CHF|INR|HKD|SGD|SEK|NOK|DKK|KRW|BRL|MXN|ZAR|RUB|TRY|"
-             r"min|h|hr|hrs|K|kDa|Da|bp|kb|Mb|[KMGT]B|\u00b0 ?[CF]|\u00b0)"
+             r"min|h|hr|hrs|K|kDa|Da|bp|kb|Mb|[KMGT]B|"
+             # Imperial and clinical units ("5 lb", "10 mi", "120 mmHg", "400 IU").
+             r"lbs?|oz|mi|ft|yd|mph|gal|qt|psi|ha|mmHg|bpm|IU|mEq|\u00b0 ?[CF]|\u00b0)"
              r"(?:\^-?[0-9]+|[\u207b\u00b9\u00b2\u00b3\u2070-\u2079]+)?")  # exponent: m^2, s\u207b\u00b9
 # A compound unit ("mg/kg", "m/s", "kg\u00b7m", or SI style "mg kg\u207b\u00b9") is one token,
 # so changing any part is caught. A space joins a component only if it has a negative
@@ -86,7 +88,9 @@ _CUR_CODE = ("(?-i:USD|EUR|GBP|JPY|CNY|RMB|CAD|AUD|NZD|CHF|INR|HKD|SGD|SEK|NOK|D
              "MXN|ZAR|RUB|TRY)")
 _UNIT_WORD = (r"(?:(?:micro|milli|centi|kilo|nano)?(?:grams?|litres?|liters?|meters?|metres?|"
               r"moles?|seconds?|minutes?|hours?|volts?|watts?|joules?)|degrees?(?: (?:celsius|fahrenheit|(?-i:[CF])))?|"
-              r"kelvin|hertz|calories?|days?|weeks?|months?|years?)\b")
+              r"kelvin|hertz|calories?|days?|weeks?|months?|years?|"
+              r"pounds?|ounces?|miles?|feet|foot|inch(?:es)?|yards?|gallons?|acres?|hectares?)\b")
+_UNIT_SINGULAR = {"feet": "foot", "inches": "inch"}  # plurals that are not "+s"
 _NUMBER_RE = re.compile(
     r"(?:(?:less than|more than|greater than|fewer than|at least|at most|up to|approximately|"
     r"about|around|roughly|nearly|exceeding|below|above) )?"
@@ -573,7 +577,17 @@ def tokens(cls, raw, flat):
         # is a punctuation fix, not a changed quote.
         return [q.translate({ord(LDQ): '"', ord(RDQ): '"', ord(LSQ): "'", ord(RSQ): "'"}) for q in out]
     if cls == "comments":
-        out = [ln for ln in raw.splitlines() if re.match(r"^\s*(%|>)", ln)]
+        out, quoted = [], False
+        for ln in raw.splitlines():
+            # A "> " quote paragraph runs on through unmarked lines until a blank line
+            # (CommonMark lazy continuation), and the whole paragraph is quoted text.
+            if re.match(r"^\s*(%|>)", ln):
+                out.append(ln)
+                quoted = ln.lstrip().startswith(">") and bool(ln.lstrip()[1:].strip())
+            elif quoted and ln.strip():
+                out.append(ln)
+            else:
+                quoted = False
         # Markdown table rows: the structure (separator rows whole, the pipes of other rows)
         # is protected; cell prose stays editable, its numbers and citations still checked.
         out += [ln.strip() if re.fullmatch(r"[\s|:\-]+", ln) else re.sub(r"[^|]", "", ln)
@@ -631,7 +645,8 @@ def tokens(cls, raw, flat):
             tok = m.group(0)
             if m.group("uword"):
                 head, *rest = m.group("uword").lower().split(" ")
-                tok = (tok[:m.start("uword") - m.start() - 1] + " " + " ".join([head.rstrip("s")] + rest)
+                head = _UNIT_SINGULAR.get(head, head.rstrip("s"))
+                tok = (tok[:m.start("uword") - m.start() - 1] + " " + " ".join([head] + rest)
                        + tok[m.end("uword") - m.start():])
             # Words ("Less than", "Percent", "Million") are compared case-blind; unit symbols
             # keep their case, so mM is not mm and MHz is not mHz.

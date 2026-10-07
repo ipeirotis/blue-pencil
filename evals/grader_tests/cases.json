@@ -46,7 +46,8 @@
     "misc37": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
     "misc38": "We call <code>fit(model)</code> once and report the result.",
     "misc39": "The risk doubled in a double-blind study of ٥ groups, and √x is the score.",
-    "misc40": "A third of subjects responded.\n\\begin{verbatim}\n\\caption{alpha}\n\\end{verbatim}"
+    "misc40": "A third of subjects responded.\n\\begin{verbatim}\n\\caption{alpha}\n\\end{verbatim}",
+    "misc41": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 lb and sat 10 feet away."
   },
   "variants": [
     {
@@ -1839,6 +1840,33 @@
       "damage_type": "markup changed",
       "code_grader_should_flag": true,
       "note": "Literal \\caption text inside a verbatim environment changed."
+    },
+    {
+      "id": "misc41-lazy-quote-changed",
+      "base": "misc41",
+      "revised": "> The treatment was\nineffective in all arms.\n\nEach specimen weighed 5 lb and sat 10 feet away.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Lazy continuation line of a block quote changed."
+    },
+    {
+      "id": "misc41-imperial-unit-changed",
+      "base": "misc41",
+      "revised": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 oz and sat 10 feet away.",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "Imperial unit changed."
+    },
+    {
+      "id": "misc41-prose-edited",
+      "base": "misc41",
+      "revised": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 lb and was placed 10 feet away.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose after the quote edited."
     }
   ]
 }

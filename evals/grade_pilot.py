@@ -294,9 +294,9 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
 
 
 def _valid_trial(rd, cond):
-    """The trials report.py counts: finished without error and, with the skill, loaded it,
+    """The trials report.py counts: finished without error with a revision and, with the skill, loaded it,
     read nothing outside its workspace, and called no other skill."""
-    if not (rd / "trial.json").exists():
+    if not (rd / "trial.json").exists() or not (rd / "outputs" / "revised.txt").exists():
         return False
     t = read_json(rd / "trial.json")
     return not t.get("is_error") and (cond != "with_skill" or (
