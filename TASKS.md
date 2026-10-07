@@ -108,11 +108,15 @@ in a header or a mangled token inside a quotation, so a required repair is
 not also scored as a protected-content violation while any token change the
 oracle does not declare still fails C1),
 and `may_return_verbatim` (restraint cases).
-Each case also carries `expected_passes`: the sweep passes the corpus author
-judges applicable under the gates in the sweep table of `SKILL.md`, including
+Each case also carries `expected_passes`: the sweep passes two labelers (the
+corpus author and a second maintainer, labeling independently) judge
+applicable under the gates in the sweep table of `SKILL.md`, including
 the content gates (unfamiliar machinery, statistical machinery, a clarity
-request), so C3 has a ground truth that does not depend on section type and
-stage alone, and including the command-owned references outside the sweep
+request), which are subjective enough that one annotator's slip would turn
+a correct reference read into a benchmark failure; the agreed set is stored,
+both labels are kept, and a disagreement tags the case `ambiguous`, which is
+the non-gating path C3 names, so C3 has a ground truth that does not depend
+on section type and stage alone, and including the command-owned references outside the sweep
 (`cold-read.md` for `/paper:read`, `consistency-checks.md` for
 `/paper:consistency`) on a command-driven case, so a required read is never
 scored as a phantom pass. The label is tied to the sweep table of the skill ref it was
@@ -141,9 +145,12 @@ timestamp, wall time, token counts, and the agent's tool trace (every `Read`,
 `Grep`, `Glob`, `Edit`, and `Write` call with its path and, for a read, the
 line or byte range it returned, so a truncated read of a reference's first
 screen is distinguishable from a full one, and every command-execution call
-with its command line, exit status, and captured output, so the F7 audit of
-`/paper:verify` can establish that the checker ran rather than that the
-agent produced a plausible report, and a failed execution is visible rather
+with its command line, the bytes supplied on its standard input (the payload
+itself, or its digest and length past a recorded size), exit status, and
+captured output, so the F7 audit of
+`/paper:verify` can establish that the checker ran on the proposed revision
+rather than that the agent produced a plausible report or fed the checker an
+empty, truncated, or original-text payload, and a failed execution is visible rather
 than recorded as a completed run, and every subagent dispatch or nested
 `/paper:*` invocation with the agent or command name, the dispatched prompt,
 the returned result, the subagent's own nested tool events, and the
@@ -191,7 +198,16 @@ it records the install manifest with the SHA of each installed component,
 since a run that reads the host's current command files while labeled with
 an older skill SHA would corrupt the E4 ablations and the G3 historical
 reruns. The trace format is adapter-based: one adapter per agent surface
-maps its tool names to the canonical read and write events, and a surface
+maps its tool names to the canonical read and write events; for a surface
+that reads files through command execution rather than a `Read` tool (the
+Codex-style condition in E5), the adapter derives canonical ranged reads
+from the execution events, taking the path and range from the command line
+of `cat`, `sed -n`, `head`, `tail`, or an interpreter one-liner and the
+range actually returned from the captured output's line count, and where a
+command's range cannot be derived the read is recorded as unranged and the
+C3 full-read half is reported not applicable for that run rather than
+failed, so a valid run is never scored as a skipped reference because of
+the surface's tool API; and a surface
 that receives files by injection (the chat condition in E5) records them as
 `injected` provenance, and C3 marks the trace half of its reference audit
 not applicable on that surface, since injected files leave no reads to
@@ -278,10 +294,12 @@ Produce `benchmark.json` and `benchmark.md` per iteration with, for every
 assertion and configuration, the counts of passed, failed, not-applicable
 (the assertion does not apply to that case or variant), excluded (an
 audit the plan switches off for that run, such as the reference audit on an
-ablated or historical ref or an ambiguous label), and incomplete (a result
-the grader could not finish on the evidence it had: the D4 meaning assertion
-whose inconclusive share crossed its coverage gate, or a run that exhausted
-A2's infrastructure retries), and a pass rate whose
+ablated or historical ref or an ambiguous label, and an attempt that
+exhausted A2's infrastructure retries, reported with its error class, as A2
+specifies), and incomplete (a configuration-level state, never an
+attempt-level one: the D4 meaning assertion whose inconclusive share crossed
+its coverage gate, or a configuration whose excluded share of attempts
+crossed A2's recorded threshold), and a pass rate whose
 denominator is the applicable cases only, so a skipped check is never
 counted as a pass or as a failure; incomplete results are listed per
 assertion with their reason, reported in the pass rate's denominator as
@@ -316,8 +334,9 @@ work, methods, results, discussion, conclusion), formats (LaTeX, Markdown with
 pandoc citations, pasted plain text), and stages (`first draft`,
 `response to reviewers`, `final polish`). Each case carries a hand-written
 `must_flag` list of the defects a careful editor should name, and a generated
-`must_not_change` inventory. Done when: 30 cases validate against A1 and two
-maintainers have reviewed each `must_flag` list.
+`must_not_change` inventory. Done when: 30 cases validate against A1, two
+maintainers have reviewed each `must_flag` list, and every `expected_passes`
+set carries its two independent labels.
 
 ### B3. Defect-injected cases (M)
 Take clean, well-edited sections and inject one known defect per case so recall
@@ -1175,7 +1194,12 @@ accepts the revised text on standard input (`bp-check original.tex -`), the
 loop step pipes the proposed `Revised text` block through the
 command-execution tool without writing it anywhere in the worktree, and the
 command file documents both forms (a path for a revision already on disk,
-standard input for one still proposed). When the loop processes a section
+standard input for one still proposed). The F7 audit of this path compares
+the standard-input bytes A2 recorded for the execution with the parsed
+`Revised text` block of the revision under check, and the grader reruns the
+checker itself on that block and compares the two reports, so a run that
+executed the checker on the wrong payload fails even when its relayed report
+reads clean. When the loop processes a section
 that lives inline in a root manuscript, the proposed text is one section
 while the root is the whole paper, so the checker also takes a section
 selector for the original (`--range <start>:<end>` by line, or `--section
@@ -1260,9 +1284,15 @@ through its later phases on a short two-section manuscript, grading that the
 sections are dispatched in the planned order, that each section pass stops
 at its author checkpoint before the next begins, that the consistency check
 runs after the body and again after the second front-matter pass, that no
-write happens outside an explicitly confirmed apply, and that the stop
+write happens outside an explicitly confirmed apply, that every mandatory
+phase of the command file appears in the dispatch trace before the
+completion variant is accepted (the Step B whole-paper cold read before any
+section pass, the Step E re-run of the abstract and introduction after the
+body, and a Step F final-polish dispatch for every section not on the Step A
+skip list), and that the stop
 condition is not declared while a planned section is unprocessed; a loop
-that returns a valid plan and then skips sections or checkpoints fails. Done
+that returns a valid plan and then skips sections, checkpoints, or any of
+those phases fails. Done
 when: every command in `.claude/commands/paper/`, enumerated at run time
 rather than hard-coded, has a case and a passing grader on the baseline or an
 F-task to fix it.
