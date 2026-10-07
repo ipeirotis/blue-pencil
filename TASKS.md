@@ -30,8 +30,16 @@ place of a single input (each artifact with a path, a role such as
 flag, so a section case has one editable artifact while a `/paper:read`,
 `/paper:consistency`, or `/paper:loop` case carries a root-plus-includes
 graph and a `/paper:letter` case carries an editable draft beside read-only
-comments and manuscript files; C1 and C3 align and diff against the editable
-artifact, and C4 knows which file an explicit apply may touch), the paper
+comments and manuscript files, and an assembly-mode letter case carries no
+editable original at all, only the read-only comment set, decisions, and
+change log the command builds from, since supplying a draft would send the
+command down its rewrite path; C1 and C3 align and diff against the editable
+artifact where one exists and skip where none does, and C4 knows which file
+an explicit apply may touch), an optional `turns` script (an ordered list of
+author messages and between-turn artifact updates, such as the scripted
+context reply in the missing-context case or the author-edited file returned
+in the repeat-round case, hashed with the rest of the case so the cache key
+covers the interaction), the paper
 context as structured fields (`revision_stage`,
 `audience`, `target_venue`, `core_thesis`, `style_overrides`), the command or
 plain-English prompt, and the expectations. The `<paper_context>` block the
@@ -93,9 +101,10 @@ expectations), the skill SHA, the model id, the runner configuration, the
 harness's own commit SHA together with a cache-schema version (so a fix to
 prompt rendering, worktree setup, trace adapters, or multi-turn handling
 invalidates runs the old code produced), and the repetition index, so an edited case never reuses output generated for its
-older definition. Support scripted multi-turn cases: when a case expects the
-skill to ask first (the missing-context ask in B6), the runner supplies the
-scripted author reply and records every turn. Done when: a baseline run over
+older definition. Support scripted multi-turn cases from the `turns` script in A1: when a case
+expects the skill to ask first (the missing-context ask in B6) or to receive
+an author-modified file (the repeat-round case), the runner plays the
+scripted messages and file updates in order and records every turn. Done when: a baseline run over
 the seed corpus (B2) completes unattended, every output is on disk with its
 metadata, and editing a case's text invalidates its cached runs.
 
@@ -408,7 +417,12 @@ output.
   (a one-shot rewrite applied to the worktree and then followed by a
   confirmation question is the violation this case exists to catch).
 - Missing `<paper_context>`: exactly one clarifying message, then an
-  `Assumed context:` line.
+  `Assumed context:` line whose values match the skill's conservative
+  fallback for that case: `final polish` as the stage when the scripted reply
+  carries no restrictive signal (`response to reviewers` when it carries
+  reviewer comments), the skill's default reader model as the audience, and
+  venue and thesis marked unknown; a line claiming `first draft`, or an empty
+  line, fails.
 - Reviewer comments with no manuscript: the output is the feedback-only
   four-section wrapper that `.claude/commands/paper/triage.md` requires, with
   `No rewrite requested.` as the revised text, a Diagnosis that is the
@@ -416,6 +430,9 @@ output.
   by the order of work, no prose diagnosis or rewrite of manuscript text, and
   every classification that depends on manuscript content marked unverified.
 - PDF-extracted text with extraction damage: the output names the damage,
+  the Diagnosis is limited to the extraction artifacts and carries no
+  prose-quality finding (the skill forbids diagnosing the author's prose from
+  damaged text, so a style or structure item fails),
   and the raw revised block equals the input after the input alone is
   normalized by an explicit, case-declared set of artifact repairs (so an
   output that leaves the damage in place fails, and each declared artifact
@@ -604,7 +621,12 @@ the interval must be a paired, case-clustered one (a paired bootstrap that
 resamples cases and then repetitions within each case, or a hierarchical
 model with a case effect); an ordinary Newcombe, Wald, or Wilson interval
 treats the repetitions as independent and understates the uncertainty, so
-none of them is an allowed implementation. Tag
+none of them is an allowed implementation. Fix the decision rule before the
+first gated run and record it with the results: the confidence level (95
+percent unless the maintainers set another before any run), the regression
+margin per assertion, and the rule that an assertion fails when the upper
+bound of the interval on the drop exceeds the margin, so two implementations
+reach the same verdict on the same delta. Tag
 high-variance cases in their metadata so a reader can see them (a stable
 tag only: measured pass rates and intervals live in result artifacts keyed
 by skill ref, model, and runner configuration, never in the case file, since
@@ -767,7 +789,9 @@ fails on the push that introduces it rather than in the next API-backed run.
 Slow tier nightly and on demand: the runner on a smoke subset (about ten cases,
 three repetitions, one model), posting the benchmark delta as a workflow
 summary and failing the job when any assertion's pass rate drops against the
-stored baseline by more than the E3 interval rule allows, so the no-regression
+stored baseline by more than the E3 decision rule allows (the recorded
+confidence level, per-assertion margin, and upper-bound test), so the
+no-regression
 merge policy in the ground rules is enforced by CI rather than by reading a
 summary. Done when: `.github/workflows/ci.yml` runs the fast tier, a new
 `evals.yml` runs the slow tier with the API key from repository secrets, and
@@ -812,7 +836,8 @@ D1 (needs A3 for the aligned-pair rubric) -> D2 -> D3 ; D4 (needs A3, and D3 for
 E1 (needs A4, B2 through B6, C1 through C6, D1 through D4) -> E2, E3 -> F1, F6
 E4, E5 (need E1) -> F4
 B7 -> F5
-G2, G3, G4 anytime after A4
+G2, G4 anytime after A4 ; G3 (needs E1 for the first results directory and
+the next release's benchmark for the second)
 ```
 
 Suggested order: first month A1, B1, B2, and the C1 extraction core in
