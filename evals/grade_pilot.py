@@ -30,7 +30,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from lib import (EVALS, GRADER_MODEL, call_claude, changed_cases, claude_version, extract_json,
-                 outside_reads, read_json, rubric_version, write_json)
+                 other_skills_used, outside_reads, read_json, rubric_version, transcript_events,
+                 write_json)
 from protected import check
 
 GRADER_FLAGS = ["--setting-sources", "project", "--disable-slash-commands", "--tools", ""]
@@ -293,13 +294,14 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
 
 
 def _valid_trial(rd, cond):
-    """The trials report.py counts: finished without error and, with the skill, loaded it
-    and read nothing outside its workspace."""
+    """The trials report.py counts: finished without error and, with the skill, loaded it,
+    read nothing outside its workspace, and called no other skill."""
     if not (rd / "trial.json").exists():
         return False
     t = read_json(rd / "trial.json")
     return not t.get("is_error") and (cond != "with_skill" or (
-        t.get("skill_loaded") is True and not outside_reads(rd)))
+        t.get("skill_loaded") is True and not outside_reads(rd)
+        and not other_skills_used(transcript_events(rd))))
 
 
 def main():

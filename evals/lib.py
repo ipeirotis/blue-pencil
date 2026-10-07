@@ -271,6 +271,27 @@ def skill_was_loaded(events, workspace):
     return bool(calls & ok)
 
 
+def other_skills_used(events):
+    """Skills other than Blue Pencil that a trial invoked with the Skill tool. A user-level
+    skill installed on the machine is visible to the trial, so a call to one means the
+    trial did not run on Blue Pencil alone."""
+    names = set()
+    for e in events or []:
+        if e.get("type") != "assistant":
+            continue
+        for item in (e.get("message", {}).get("content") or []):
+            if isinstance(item, dict) and item.get("type") == "tool_use" and item.get("name") == "Skill":
+                name = str((item.get("input") or {}).get("skill", ""))
+                if name != "blue-pencil" and not name.startswith(("paper:", "blue-pencil:")):
+                    names.add(name)
+    return sorted(names)
+
+
+def transcript_events(run_dir):
+    p = Path(run_dir) / "transcript.jsonl"
+    return [json.loads(ln) for ln in p.read_text().splitlines() if ln.strip()] if p.exists() else []
+
+
 def outside_reads(run_dir):
     """reads_outside_workspace for a saved trial's transcript ([] when there is none)."""
     p = Path(run_dir) / "transcript.jsonl"

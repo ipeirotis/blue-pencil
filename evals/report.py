@@ -24,7 +24,8 @@ import sys
 
 import json
 
-from lib import EVALS, changed_cases, reads_outside_workspace, read_json, total_tokens, write_json
+from lib import (EVALS, changed_cases, other_skills_used, reads_outside_workspace, read_json,
+                 total_tokens, write_json)
 from protected import check
 
 CONDS = ("with_skill", "without_skill")
@@ -41,6 +42,8 @@ def invalid_reason(r, cond):
         return "Blue Pencil was not loaded, or loading was not recorded"
     if cond == "with_skill" and r["outside"]:
         return "read or listed files outside its workspace: " + ", ".join(r["outside"])
+    if cond == "with_skill" and r["other_skills"]:
+        return "called a skill other than Blue Pencil: " + ", ".join(r["other_skills"])
     return None
 
 
@@ -60,16 +63,20 @@ def load(root):
                 tr = read_json(rd / "trial.json") if (rd / "trial.json").exists() else {}
                 tm = read_json(rd / "timing.json") if (rd / "timing.json").exists() else {}
                 n = int(rd.name.split("-")[1])
-                outside, examples = [], False
+                outside, examples, other_skills, listed = [], False, [], set()
                 if cond == "with_skill" and (rd / "transcript.jsonl").exists():
                     events = [json.loads(ln) for ln in (rd / "transcript.jsonl").read_text().splitlines() if ln.strip()]
                     outside = reads_outside_workspace(events)
+                    other_skills = other_skills_used(events)
+                    # Skills the session listed as available (user-level ones included).
+                    listed = {s for e in events if e.get("type") == "system" and e.get("subtype") == "init"
+                              for s in (e.get("skills") or [])}
                     # Did any tool call name an example file (for runs made before held-out examples)?
                     examples = any(item.get("type") == "tool_use" and "examples" in json.dumps(item.get("input"))
                                    for e in events for item in (e.get("message", {}).get("content") or [])
                                    if isinstance(item, dict))
                 runs[cond].append({"case": cid, "n": n, "cm": cm, "trial": tr, "timing": tm, "outside": outside,
-                                   "examples": examples})
+                                   "examples": examples, "other_skills": other_skills, "listed": listed})
     pairs = []
     for f in sorted(root.glob("eval-*/comparison-run-*.json")):
         pairs.append(read_json(f))
@@ -226,7 +233,13 @@ def main():
         L.append("- **Caveat:** this run predates equal workspaces: only the with-skill workspace held "
                  "AGENTS.md with the paper context (both prompts included it), so the conditions differ "
                  "in that as well as in the skill. Rerun under a new run id to isolate the skill.")
-    # Trials that read outside their workspace are not counted (see invalid_reason).
+    # Trials that read outside their workspace or called another skill are not counted (see
+    # invalid_reason); skills that were only listed are reported here.
+    extra = sorted(set().union(*(r["listed"] for r in all_runs["with_skill"])) - {"blue-pencil"})
+    if extra:
+        L.append(f"- **Caveat:** with-skill sessions also listed {len(extra)} other skills, built into Claude Code "
+                 f"or installed for the user ({', '.join(extra)}); the baseline, run without slash commands, "
+                 "listed none. No counted trial called one.")
     legacy = [r for r in runs["with_skill"] if r["trial"] and "held_out_examples" not in r["trial"]]
     if legacy:
         touched = [f"{r['case']} run {r['n']}" for r in legacy if r["examples"]]

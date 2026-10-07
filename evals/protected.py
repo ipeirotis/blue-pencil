@@ -403,6 +403,9 @@ _FROZEN_ENVS = ["lstlisting", "verbatim", "verbatim*", "Verbatim", "Verbatim*", 
                 "quote", "quotation", "verse"]
 
 
+_VERBATIM_ENVS = {"lstlisting", "verbatim", "verbatim*", "Verbatim", "Verbatim*", "minted", "alltt", "code"}
+
+
 def _table_rows(raw):
     """Lines of Markdown tables: any line starting with "|", plus every line with a pipe in a
     block (lines between blank lines) that holds a separator row, so a table written
@@ -539,10 +542,15 @@ def tokens(cls, raw, flat):
         # (code, verbatim, tables, display math); prose environments such as abstract,
         # itemize, or quote stay editable, with their numbers, citations, macros, and so on
         # still checked by the other classes. (check-protected.sh freezes every environment.)
-        text = _strip_captions("\n".join(ln.rstrip() for ln in raw.splitlines()))
+        unstripped = "\n".join(ln.rstrip() for ln in raw.splitlines())
+        text = _strip_captions(unstripped)
         out = re.findall(r"\\(?:begin|end)\{[^}]*\}", text)
         names = "|".join(re.escape(n) for n in _FROZEN_ENVS)
-        out += [m.group(0) for m in re.finditer(r"\\begin\{(" + names + r")\}.*?\\end\{\1\}", text, re.S)]
+        out += [m.group(0) for m in re.finditer(r"\\begin\{(" + names + r")\}.*?\\end\{\1\}", text, re.S)
+                if m.group(1) not in _VERBATIM_ENVS]
+        # In verbatim-like bodies "\caption{...}" is literal code, not caption prose.
+        verb = "|".join(re.escape(n) for n in _VERBATIM_ENVS)
+        out += [m.group(0) for m in re.finditer(r"\\begin\{(" + verb + r")\}.*?\\end\{\1\}", unstripped, re.S)]
         return out
     if cls == "macros":
         return _macros(flat)
@@ -657,6 +665,9 @@ def tokens(cls, raw, flat):
             else:
                 out.append(tok)
             prev_end, prev_unit = m.end(), bool(m.group("unit"))
+        # A fraction led by an article ("a third of", "a quarter of"); "one third" is above.
+        out += [f"a {m.group(1).lower()} of" for m in re.finditer(
+            r"\ban? (third|quarter|fifth|sixth|seventh|eighth|ninth|tenth)s? of\b", flat, re.I)]
         return out
     raise ValueError(cls)
 

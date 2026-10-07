@@ -45,7 +45,8 @@
     "misc36": "The estimate was 1,5 and we assume |x| < 1; see \\href {https://example.com}{the old study}.\n\\begin{quote}The treatment was effective.\\end{quote}\nThere are $5!$ orderings.",
     "misc37": "In a phase II trial the effect grew fivefold; the estimator f(x) is consistent, and \\textbf {this} matters. The author wrote <q>the treatment was effective</q>.",
     "misc38": "We call <code>fit(model)</code> once and report the result.",
-    "misc39": "The risk doubled in a double-blind study of ٥ groups, and √x is the score."
+    "misc39": "The risk doubled in a double-blind study of ٥ groups, and √x is the score.",
+    "misc40": "A third of subjects responded.\n\\begin{verbatim}\n\\caption{alpha}\n\\end{verbatim}"
   },
   "variants": [
     {
@@ -1820,6 +1821,24 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Adjective 'double' in a compound reworded; not a quantity."
+    },
+    {
+      "id": "misc40-fraction-changed",
+      "base": "misc40",
+      "revised": "A quarter of subjects responded.\n\\begin{verbatim}\n\\caption{alpha}\n\\end{verbatim}",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Article-led fraction changed."
+    },
+    {
+      "id": "misc40-verbatim-caption-changed",
+      "base": "misc40",
+      "revised": "A third of subjects responded.\n\\begin{verbatim}\n\\caption{beta}\n\\end{verbatim}",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Literal \\caption text inside a verbatim environment changed."
     }
   ]
 }

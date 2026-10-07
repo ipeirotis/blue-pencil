@@ -40,7 +40,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from lib import (EVALS, EXECUTOR_MODEL, call_claude, case_fingerprint, claude_version,
-                 extract_revised, git_sha, make_workspace, outside_reads, read_json, skill_fingerprint,
+                 extract_revised, git_sha, make_workspace, other_skills_used, outside_reads, read_json,
+                 skill_fingerprint, transcript_events,
                  skill_version, skill_was_loaded, total_tokens, write_json)
 
 CONDITIONS = ("with_skill", "without_skill")
@@ -79,13 +80,14 @@ def build_prompt(case, condition):
 
 def completed(run_dir, condition):
     """A trial counts as done only if it produced a revision without an error and,
-    with the skill, actually loaded Blue Pencil and read nothing outside its workspace
-    (such as the repository's own examples). Anything else is run again."""
+    with the skill, actually loaded Blue Pencil, read nothing outside its workspace (such
+    as the repository's own examples), and called no other skill. Anything else is run again."""
     if not (run_dir / "outputs" / "revised.txt").exists() or not (run_dir / "trial.json").exists():
         return False
     t = read_json(run_dir / "trial.json")
     return not t.get("is_error") and (condition != "with_skill" or (
-        t.get("skill_loaded") is True and not outside_reads(run_dir)))
+        t.get("skill_loaded") is True and not outside_reads(run_dir)
+        and not other_skills_used(transcript_events(run_dir))))
 
 
 def held_out_for(case):
@@ -139,7 +141,8 @@ def runner_fingerprint():
     workspace is set up, how the revision is extracted, and how skill loading is judged."""
     import lib
     parts = [inspect.getsource(f) for f in (build_prompt, run_trial, completed, held_out_for,
-                                            lib.outside_reads, lib.reads_outside_workspace, lib.make_workspace,
+                                            lib.outside_reads, lib.reads_outside_workspace, lib.other_skills_used,
+                                            lib.make_workspace,
                                             lib.extract_revised,
                                             lib._fenced_block, lib._fence_lines, lib.skill_was_loaded, lib.call_claude)]
     return hashlib.sha256("\n".join(parts).encode()).hexdigest()[:16]
