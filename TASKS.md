@@ -308,8 +308,14 @@ command-specific shape: the severity-ranked comment table of
 `/paper:triage`, which applies even when reviewer comments arrive without a
 manuscript, and the whole-paper diagnoses of `/paper:read` and
 `/paper:consistency`. Read each command file under `.claude/commands/paper/`
-when building the variant's fixture; the command, not this list, is the
-authority on its shape. Only an output matching no variant is
+when building the variant's fixture, taking the file from the runtime
+package A2 installed for the run's recorded skill SHA rather than from the
+evaluation checkout, so a historical rerun in G3 or a before-and-after run
+around an F-task that changes a command's output shape is parsed and graded
+against the contract that ref actually carried, as F2 already requires for
+the inventory line and the word-count convention, and a packaging change
+never reads as a behavioral regression; the command at that ref, not this
+list, is the authority on its shape. Only an output matching no variant is
 a graded parse failure, never a crash; an output whose variant is not the
 entry of the case's `expected_variants` for the current agent-turn index
 parses, and then fails C2 as an unexpected variant transition before any
@@ -433,6 +439,11 @@ two maintainers who agree no edit is needed.
 
 ### B6. Stage and scope edge cases (M)
 Cases that exercise the rules in `SKILL.md` most likely to be skipped:
+two context-precedence cases, one with `AGENTS.md` and `CLAUDE.md` present
+and one with `CLAUDE.md` and `paper-meta.md`, each rendering the A1
+`decoy_context` with a different stage into the lower-precedence file, so
+the output passes only when the higher-precedence file's stage drives it
+and a runner or skill that reads the decoy fails on the stage mismatch;
 a response-to-reviewers case of at least eight paragraphs where only
 paragraphs 2 and 4 are flagged, so paragraphs 6 through 8 sit outside the
 flagged-plus-neighbours window and the byte-identity check in C4 has
@@ -457,7 +468,8 @@ author's wording alone; a `/paper:polish` run with the stage stored as
 `response to reviewers`, which must stop and route to `/paper:rebut`; and an
 explicit-apply case whose prompt asks the skill to apply the revision to the
 editable artifact, so the C4 apply predicate has a real run to grade. Done when: each rule above has one case and a matching grader in C4, or in
-C2 for the style-override case that C4 delegates there.
+C2 for the style-override case that C4 delegates there, and both precedence
+cases fail when the runner is pointed at the decoy file.
 
 ### B7. Trigger set (S)
 Twenty to forty prompts labeled should-trigger and should-not-trigger, following
@@ -525,8 +537,13 @@ mode passes.
 Port the checks in `scripts/check-examples.sh` to a grader that runs on parsed
 A3 output and applies the checks the parsed variant's contract actually
 requires. For the full contract: heading order, `Word count:` shape and,
-whenever the reported or recomputed count grew, the one-line growth
-justification `SKILL.md` requires on the next line,
+whenever the reported count grew or the recomputed count grew under the
+counting convention that matched the reported counts (on a ref before F2,
+C3 accepts either reading of prose inside macro arguments, and the two can
+disagree in sign when an `\emph{...}` or `\footnote{...}` expands while
+ordinary prose shrinks, so growth is judged under the reading the report
+followed rather than under whichever reading happened to grow), the
+one-line growth justification `SKILL.md` requires on the next line,
 `References loaded:` present, `Added bridges:` present, every quoted
 bridge sentence actually in the revised block and added or changed there
 rather than carried over verbatim from the input, and the converse gated on
@@ -1418,7 +1435,10 @@ write happens outside an explicitly confirmed apply, that every mandatory
 phase of the command file appears in the dispatch trace before the
 completion variant is accepted (the Step B whole-paper cold read before any
 section pass, the Step E re-run of the abstract and introduction after the
-body, and a Step F final-polish dispatch for every section not on the Step A
+body, the Step E closing `/paper:read` dispatched after the re-validation
+and before any Step F dispatch and returning clean under the Step G terms,
+since the command file makes that read the exit criterion, and a Step F
+final-polish dispatch for every section not on the Step A
 skip list), and that the stop
 condition is not declared while a planned section is unprocessed; a loop
 that returns a valid plan and then skips sections, checkpoints, or any of
