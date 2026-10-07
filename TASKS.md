@@ -60,10 +60,13 @@ response-to-reviewers case (the authoritative mapping from each reviewer
 label to the paragraph indices it flags, written by the corpus author, which
 C4 compares against instead of trusting the model's own labels, so a model
 cannot widen its window by declaring every paragraph flagged),
-`expected_variant` (the A3 result variant the case's command and context
-permit, derived at validation time: a plain revision case permits only the
-full or compact contract its command names, and only the B6 scenarios permit
-a clarification, split-and-confirm, decline, or refusal, so an ordinary run
+`expected_variants` (one A3 result variant per agent turn, so a scripted
+case lists a sequence, for example clarification then full contract for the
+missing-context case, derived at validation time from the command, context,
+and `turns` script: a plain revision case permits only the full or compact
+contract its command names on its single turn, and only the B6 scenarios
+permit a clarification, split-and-confirm, decline, or refusal at the turn
+where their script expects it, so an ordinary run
 that emits a clarification to dodge the contract checks fails C2 on the
 variant mismatch), `artifact_repairs` on every localized-extraction case
 (the structured oracle mapping each damaged span to its allowed repaired
@@ -94,7 +97,10 @@ validate against a JSON schema file.
 ### A2. Runner: skill version x model x corpus x repetitions (M)
 A Python script that runs a chosen git ref of the skill against every case on a
 chosen model, N times, through the agent's headless mode (`claude -p` or the
-Agent SDK), and stores each raw output with the skill SHA, model id, prompt,
+Agent SDK), and stores each raw output with an explicit run status
+(`completed`, or an infrastructure error classified as timeout, rate limit,
+authentication, provider error, or crashed CLI, with the exit code and the
+provider's error payload), the skill SHA, model id, prompt,
 timestamp, wall time, token counts, and the agent's tool trace (every `Read`,
 `Grep`, `Glob`, `Edit`, and `Write` call with its path and, for a read, the
 line or byte range it returned, so a truncated read of a reference's first
@@ -123,7 +129,13 @@ invalidates runs the old code produced), the agent runtime version (the
 Claude CLI or Agent SDK release, or the equivalent for another surface) and
 the provider's immutable model revision behind any mutable model alias, with
 reuse disabled when either cannot be resolved, and the repetition index, so an edited case never reuses output generated for its
-older definition. Support scripted multi-turn cases from the `turns` script in A1: when a case
+older definition. An attempt whose status is an infrastructure error is
+retried under a fixed policy (a recorded number of attempts with backoff),
+is never cached as a result, and is never handed to A3, so a provider
+timeout cannot be counted as a model parse failure; attempts that exhaust
+the retries are reported as excluded in A4 with their error class, and a
+run with more than a recorded share of excluded attempts is marked
+incomplete rather than compared. Support scripted multi-turn cases from the `turns` script in A1: when a case
 expects the skill to ask first (the missing-context ask in B6) or to receive
 an author-modified file (the repeat-round case), the runner plays the
 scripted messages and file updates in order and records every turn. Done when: a baseline run over
@@ -647,7 +659,11 @@ disagreement into one consensus label (recording the pre-adjudication
 reliability), so each judge is scored against a single ground truth rather
 than against two raters who may disagree. Split the labeled pairs before
 anyone looks at judge output: 20 for development, 20 held out and
-untouched. Compute agreement between each judge and the humans
+untouched, with the split stratified so that every D1 dimension has at
+least five positive (violation present) and five negative labels in the
+held-out half, adding labeled pairs until that holds, since an unstratified
+split may leave a dimension such as voice preservation with no violation to
+detect and an agreement score that is undefined or vacuous. Compute agreement between each judge and the humans
 (Cohen's kappa or Krippendorff's alpha) on the development set; rewrite any
 rubric below the agreed threshold against that set only. The threshold is
 written into `evals/judges/CALIBRATION.md` before anyone inspects held-out
@@ -687,10 +703,24 @@ and an equal number of meaning-preserving rewordings, legitimate bridges built
 from manuscript material, and deletions logged in the rationale, so a judge
 that flags everything cannot pass. The 40 cases are split before any judge output is inspected, under the D3
 protocol: 20 for development, where the rubric may be iterated, and 20 held
-out and evaluated once after the rubric is frozen. Done when: on the held-out
-20 (10 violations, 10 legitimate changes) the frozen rubric misses at most
-one violation and flags at most one legitimate change, and both rates are
-recorded with the rubric alongside the development-set rates.
+out and evaluated once after the rubric is frozen. D4 also owns the three
+semantic assertions other tasks route to the judge tier, each with its own
+input contract, verdict schema, and calibrated fixtures: bridge
+classification for C2 (input: a candidate span, the input section, and the
+`Added bridges:` line; verdict: states-why-a-claim-holds or not; fixtures:
+ten true bridges and ten cue-word false alarms), re-proposal detection for
+C4 (input: the recorded rejected transformation and the second turn's span;
+verdict: re-proposed or not; fixtures: ten re-proposals under new wording
+and ten unrelated legitimate edits), and provenance grounding for F2's
+letter assembly (input: an assembled reply and the decision, change-log
+entry, and manuscript location its provenance line names; verdict:
+supported or not; fixtures: ten grounded replies and ten invented or
+misstated claims). Done when: on the held-out 20 (10 violations, 10
+legitimate changes) the frozen meaning rubric misses at most one violation
+and flags at most one legitimate change, each of the three additional
+assertions clears the same miss and false-flag bounds on its own held-out
+fixtures, and all rates are recorded with the rubrics alongside the
+development-set rates.
 
 ---
 
@@ -710,7 +740,12 @@ in `SKILL.md` or `references/` is not doing its job. Done when: each cluster has
 a linked F-task or an explicit "won't fix" with a reason.
 
 ### E3. Repetition and variance study (S)
-Ten repetitions on ten cases. How stable are the Diagnosis items, the revised
+Ten repetitions on a stratified case set chosen so that every assertion G1
+will gate has at least three applicable cases (B6 alone defines more than
+ten distinct scenarios, so the set is larger than ten where coverage needs
+it); an assertion with fewer applicable cases is marked ungated, excluded
+from the no-regression claim, and listed as such in the report. How stable
+are the Diagnosis items, the revised
 text, and the grader outcomes? Do not drop cases whose pass/fail flips across
 repetitions: that instability is one of the behaviors under study, and a drop
 from five passes in ten to one in ten is a regression the gate must see. Gate
@@ -805,10 +840,11 @@ merely their counts: for the same class set C1 extracts (citations, numbers
 and number words, math spans, cross-references and prose callouts, macros,
 environments, quotes, comment lines, code), the sorted list of tokens the
 model found in the input and in its output, written out, with `none` for an
-empty class, and bounded for the classes whose tokens are themselves large
-(environments, macros with long arguments, code blocks): there the line
-carries the token's name and first line plus its line count rather than its
-body, since repeating a `tabular` body twice could exhaust the output budget
+empty class, and bounded for every class whose tokens can be long
+(environments, macros with long arguments, code blocks, direct quotations,
+and comment lines): there the line carries the token's name or its first
+few words plus its length in lines or words rather than its body, since
+repeating a `tabular` body or a block quotation twice could exhaust the output budget
 and truncate the revision; the body-level comparison of those classes is the
 checker's job (a count alone cannot see
 `smith2020` becoming `smith2021` or one number replaced by another). Nothing
@@ -906,8 +942,9 @@ deterministic grader (C1 through C6) run over `examples/`, over stored golden
 outputs, and over each grader's own positive and negative fixtures, so a
 regression in word-count honesty, stage scope, restraint, or defect recall
 fails on the push that introduces it rather than in the next API-backed run.
-Slow tier nightly and on demand: the runner on a smoke subset (about ten cases,
-three repetitions, one model), posting the benchmark delta as a workflow
+Slow tier nightly and on demand: the runner on the E3 smoke set (the
+stratified set that gives every gated assertion at least three applicable
+cases, three repetitions, one model), posting the benchmark delta as a workflow
 summary and failing the job when any assertion's pass rate drops against the
 stored smoke baseline by more than the E3 decision rule allows (the recorded
 confidence level, per-assertion margin, and upper-bound test). The baseline
@@ -933,8 +970,11 @@ full evaluation configuration (corpus version, grader and judge versions,
 model ids, repetition count, harness SHA). Scores are comparable only under an
 identical suite and model: a new regression case can lower a later score while
 the skill improved, and a model change moves it on its own. Present a trend
-only across results with matching suite, model, runner configuration, grader, judge-rubric, and
-harness identifiers (a stricter grader would otherwise read as a skill
+only across results with matching suite, model, immutable provider model
+revision, agent runtime version, runner configuration, grader, judge-rubric,
+and harness identifiers, with comparison disabled when an immutable model
+revision was not resolvable for either result (a stricter grader, a
+retargeted model alias, or a runtime upgrade would otherwise read as a skill
 regression), and otherwise rerun the earlier skill refs under the current
 evaluation stack through A2 (cheap, since the runner takes a git ref). Add a one-line summary to each `CHANGELOG.md` entry.
 Done when: v3.0.0 and the next release both have results directories with
