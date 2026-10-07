@@ -107,7 +107,10 @@ damage: the output asks for a cleaner source and carries no `Revised text`
 block), the letter-assembly output of `/paper:letter` (a full four-section
 output whose Change rationale opens with an assembled-letter note and carries
 provenance lines instead of a word count and change ledger, per the command
-file), and the feedback-only wrapper (the four sections
+file), the staged plan that `/paper:loop` returns from its Step A (a
+numbered plan with exactly the parts the command file lists and no
+full-contract sections; C2 applies no contract branch to it and routes it to
+the F7 plan predicates), and the feedback-only wrapper (the four sections
 with `No rewrite requested.` as the revised text) carrying a Diagnosis in a
 command-specific shape: the severity-ranked comment table of
 `/paper:triage`, which applies even when reviewer comments arrive without a
@@ -321,8 +324,11 @@ Check what the skill says about its own run against what it did:
   mechanism
   from the allowed list; "reads better", "smoother", "more concise" alone
   fail.
-- Every sentence in the original that does not appear in the revision (fuzzy
-  match) is accounted for in `Change rationale` (constraint 6, no silent
+- On every variant that produces a revision (never on the feedback-only
+  wrapper, the staged plan, or a refusal, whose revised text is a sentinel
+  or absent): every sentence in the original that does not appear in the
+  revision (fuzzy match) is accounted for in `Change rationale` (constraint
+  6, no silent
   deletion), and so is every deleted hunk inside an aligned sentence pair
   that drops a clause or a qualifier (a word-level diff of the pair; a hunk made only of tokens on an explicit
   insignificant list, articles and punctuation, is ignored, while a hunk
@@ -337,7 +343,10 @@ output.
 
 ### C4. Scope and stage graders (M)
 - At `response to reviewers`: paragraphs outside the flagged set and their
-  immediate neighbours are byte-identical to the input.
+  immediate neighbours are byte-identical to the input, and paragraph count,
+  boundaries, and order are unchanged across the whole section, since the
+  stage permits sentence-level work inside the window and forbids
+  reorganising paragraphs anywhere.
 - At `final polish`, in quick pass, and on every `/paper:polish` run whatever
   the stored stage (the command applies final-polish constraints at `first
   draft` too): paragraph count and order unchanged,
@@ -437,7 +446,13 @@ justification: clarity gained by a non-specialist reader; voice preserved
 (would the author recognize this as theirs); meaning preserved per aligned
 sentence pair (any technical claim strengthened, weakened, or changed);
 diagnosis validity (does each numbered item point at a real problem in the
-cited paragraph); AI-tell residue not on the banned list. Done when: rubrics
+cited paragraph); AI-tell residue not on the banned list; and emphasis and
+framing preserved (constraint 8: the same findings headline, the same
+limitations acknowledged with the same weight, the same contribution frame),
+judged holistically over the whole section, because a reorder of unchanged
+sentences can bury a limitation or promote a secondary result while every
+protected token and every aligned pair still passes; its calibration set in
+D3 includes seeded reorders of that kind. Done when: rubrics
 are in `evals/judges/` and each has been run on five examples with results a
 maintainer agrees with.
 
@@ -639,9 +654,11 @@ drops.
 Split B7 into a tuning set and a held-out set before any tuning (or write a
 second, blind set of the same size, labeled by someone who did not see the
 first), then use the tuning set with the skill-creator description optimizer
-to fix false triggers and misses in the frontmatter `description`. Report
-precision and recall on the held-out set only. Done when: held-out precision
-and recall are both above an agreed threshold and recorded with the split.
+to fix false triggers and misses in the frontmatter `description`. Record
+the precision and recall thresholds before the held-out set is run or
+inspected, as D3 does for judges, and report precision and recall on the
+held-out set only. Done when: held-out precision and recall both clear the
+pre-recorded thresholds and are recorded with the split.
 
 ### F6. Promote recurring failures to examples and CI anchors (S, recurring)
 When an F-task fixes a cluster, add one representative case as a new
@@ -713,11 +730,11 @@ tier from the README alone.
 ```
 A1 -> A2 -> A3 -> A4
 B1 -> B2, B3, B4, B5, B6, B7
-C1 (needs A1, B4) -> F2, F3 ; F3 -> F7
+C1 extraction core (needs A1, B4) ; C1 claim-local mode (needs A3) -> F2, F3 ; F3 -> F7
 G1 (needs A2, C1 through C6, E3 for the interval rule and a stored baseline)
 C2, C3 (need A3) ; C4 (needs A3, B6) ; C5 (needs A3, B5) ; C6 (needs A3, B3)
 (the sentence aligner is part of A3, so no C grader waits on D4)
-D1 -> D2 -> D3 ; D4 (needs A3, and D3 for the held-out protocol)
+D1 (needs A3 for the aligned-pair rubric) -> D2 -> D3 ; D4 (needs A3, and D3 for the held-out protocol)
 E1 (needs A4, B2 through B6, C1 through C6, D1 through D4) -> E2, E3 -> F1, F6
 E4, E5 (need E1) -> F4
 B7 -> F5
