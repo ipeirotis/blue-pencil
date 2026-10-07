@@ -48,7 +48,8 @@
     "misc39": "The risk doubled in a double-blind study of ٥ groups, and √x is the score.",
     "misc40": "A third of subjects responded.\n\\begin{verbatim}\n\\caption{alpha}\n\\end{verbatim}",
     "misc41": "> The treatment was\neffective in all arms.\n\nEach specimen weighed 5 lb and sat 10 feet away.",
-    "misc42": "Study II replicates the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note"
+    "misc42": "Study II replicates the result (doi:10.1002/(SICI)1099-1409(199909)3:6<672::AID-JPP192>3.0.CO;2-8).\nSee \\ref{sec:data} and Section 3 % keep this note",
+    "misc44": "Effects ranged from 5 \u2013 9 percent at a 1 : 2 ratio (Figure S1A), as prior work¹² found; the estimate is in column 2, and it holds. He called it „effective“.\n> fixed quotation\n# Old heading"
   },
   "variants": [
     {
@@ -1904,6 +1905,69 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Prose edit outside protected spans."
+    },
+    {
+      "id": "misc44-spaced-range-reversed",
+      "base": "misc44",
+      "revised": "Effects ranged from 9 \u2013 5 percent at a 1 : 2 ratio (Figure S1A), as prior work¹² found; the estimate is in column 2, and it holds. He called it „effective“.\n> fixed quotation\n# Old heading",
+      "verdict": "damaged",
+      "damage_type": "number changed (range)",
+      "code_grader_should_flag": true,
+      "note": "Spaced range endpoints swapped."
+    },
+    {
+      "id": "misc44-spaced-range-closed",
+      "base": "misc44",
+      "revised": "Effects ranged from 5\u20139 percent at a 1 : 2 ratio (Figure S1A), as prior work¹² found; the estimate is in column 2, and it holds. He called it „effective“.\n> fixed quotation\n# Old heading",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Spaces around a range dash removed."
+    },
+    {
+      "id": "misc44-supplement-panel-changed",
+      "base": "misc44",
+      "revised": "Effects ranged from 5 \u2013 9 percent at a 1 : 2 ratio (Figure S1B), as prior work¹² found; the estimate is in column 2, and it holds. He called it „effective“.\n> fixed quotation\n# Old heading",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Supplementary figure panel changed."
+    },
+    {
+      "id": "misc44-superscript-citation-changed",
+      "base": "misc44",
+      "revised": "Effects ranged from 5 \u2013 9 percent at a 1 : 2 ratio (Figure S1A), as prior work²¹ found; the estimate is in column 2, and it holds. He called it „effective“.\n> fixed quotation\n# Old heading",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Unseparated superscript citation number changed."
+    },
+    {
+      "id": "misc44-low-quote-changed",
+      "base": "misc44",
+      "revised": "Effects ranged from 5 \u2013 9 percent at a 1 : 2 ratio (Figure S1A), as prior work¹² found; the estimate is in column 2, and it holds. He called it „ineffective“.\n> fixed quotation\n# Old heading",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Text inside low-9 quotation marks changed."
+    },
+    {
+      "id": "misc44-heading-after-quote-edited",
+      "base": "misc44",
+      "revised": "Effects ranged from 5 \u2013 9 percent at a 1 : 2 ratio (Figure S1A), as prior work¹² found; the estimate is in column 2, and it holds. He called it „effective“.\n> fixed quotation\n# New heading",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Heading text after a block quote edited; the heading is not part of the quote."
+    },
+    {
+      "id": "misc44-callout-prose-after-edited",
+      "base": "misc44",
+      "revised": "Effects ranged from 5 \u2013 9 percent at a 1 : 2 ratio (Figure S1A), as prior work¹² found; the estimate is in column 2, and it is robust. He called it „effective“.\n> fixed quotation\n# Old heading",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Prose after a column callout edited."
     }
   ]
 }

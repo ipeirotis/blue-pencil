@@ -106,9 +106,9 @@ _NUMBER_RE = re.compile(
     # A sign may also follow the currency sign ("$-5", "\u20ac\u22125").
     r"(?:(?-i:US|C|A|NZ|HK|S|R)?\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM
     # An estimate with its uncertainty ("5 \u00b1 2") is one ordered token too.
-    + r"(?:(?: ?%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?"
+    + r"(?:(?: ?%|(?: |-)?" + _UNIT_SYM + r")?(?:[-]| ?[\u2013\u2014] ?| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?"
     + r"(?:(?-i:US|C|A|NZ|HK|S|R)?\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
-    r"(?:[/:]" + _NUM + r")*(?: ?%)?"  # SI style puts a space before % ("5 %")
+    r"(?:(?:/| ?: ?)" + _NUM + r")*(?: ?%)?"  # a ratio may be spaced ("1 : 2")  # SI style puts a space before % ("5 %")
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|trillion|bn|mn|tn|fold|star|stars)|(?P<abbr>bn|mn|tn|k)(?![A-Za-z0-9])|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?"
     # A rate's denominator stays with the number: "$5 per kg", "10 kilometers per hour".
@@ -484,7 +484,9 @@ def tokens(cls, raw, flat):
             re.sub(r" ", "", t).replace("\u2013", "-")
             for t in re.findall(r"\([0-9]+(?: ?[,;\u2013-] ?[0-9]+)+\)", flat)] + (
             # Superscript citation runs ("work\u00b9,\u00b2", "\u00b9\u207b\u00b3") are one ordered token.
-            re.findall(_SUPDIG + r"+(?:[,\u2013\u207b-]" + _SUPDIG + r"+)+", flat)) + [
+            re.findall(_SUPDIG + r"+(?:[,\u2013\u207b-]" + _SUPDIG + r"+)+", flat)
+            # An unseparated run after a word is one citation number ("work\u00b9\u00b2" is 12).
+            + re.findall(r"(?<=[A-Za-z.,;:)\]])" + _SUPDIG + r"{2,}(?![,\u2013\u207b-]?" + _SUPDIG + ")", flat)) + [
             # DOIs, bare or as doi.org links, compared by the identifier itself.
             # Balanced (...) and <...> belong to the suffix ("10.1002/(SICI)1099-1409<672::AID>3.0.CO;2-W").
             m.rstrip(".").lower() for m in re.findall(
@@ -516,11 +518,11 @@ def tokens(cls, raw, flat):
     if cls == "callouts":
         pat = (r"(?:(?:table|figure|section|appendix|column|panel|equation)s?|appendices|figs?\.|eqs?\.)"
                # Roman numerals (uppercase only, so "the figure did" is not a callout): "Section IV".
-               r"[ ~]\(?(?:[0-9]+(?:\.[0-9]+)?[a-z]?|(?-i:[IVXLCDM]+)|[a-z][0-9]*)\b" + _PANEL +
+               r"[ ~]\(?(?:[0-9]+(?:\.[0-9]+)?[a-z]?|(?-i:[IVXLCDM]+)|[a-z][0-9]+[a-z]?|[a-z])\b" + _PANEL +
                # Later items in a list ("Tables 1, 2 and 3") may not start with 0, so a
                # decimal such as the coefficient 0.15 is not swallowed as a table number.
                # (check-protected.sh lacks this guard; its examples never trigger it.)
-               r"(?:,?[ ~](?:and[ ~]|to[ ~])?(?:[1-9][0-9]*(?:\.[0-9]+)?[a-z]?|(?-i:[IVXLCDM]+)|[a-z][0-9]*)\b"
+               r"(?:,?[ ~](?:and[ ~]|to[ ~])?(?:[1-9][0-9]*(?:\.[0-9]+)?[a-z]?|(?-i:[IVXLCDM]+)|[a-z][0-9]+[a-z]?|[a-z])\b"
                + _PANEL + r")*")
         return [t.lower() for t in re.findall(pat, flat, re.I)]
     if cls == "math":
@@ -573,6 +575,9 @@ def tokens(cls, raw, flat):
         out += re.findall(r"(?<![A-Za-z0-9'])'(?=\S)(?:[^'\n]|(?<=[A-Za-z])'(?=[A-Za-z])){1,200}?(?<=\S)'"
                           r"(?![A-Za-z0-9'])", flat)
         out += re.findall("\u00ab[^\u00ab\u00bb]*\u00bb|\u2039[^\u2039\u203a]*\u203a", flat)  # guillemets
+        # Low-9 quotes ("\u201eso\u201c", "\u201aso\u2018") and CJK corner brackets ("\u300cso\u300d", "\u300eso\u300f").
+        out += re.findall("\u201e[^\u201c\u201d\u201e]*[\u201c\u201d]|\u201a[^\u2018\u2019\u201a]*[\u2018\u2019]|"
+                          "\u300c[^\u300d]*\u300d|\u300e[^\u300f]*\u300f", flat)
         # HTML quotation elements: the quoted text inside <q> and <blockquote>.
         out += [m.group(2) for m in re.finditer(r"<(q|blockquote)\b[^>]*>(.*?)</\1>", flat, re.I | re.S)]
         # Straight and curly marks are the same quotation: turning "x" into a curly-quoted x
@@ -586,7 +591,10 @@ def tokens(cls, raw, flat):
             if re.match(r"^\s*(%|>)", ln):
                 out.append(ln)
                 quoted = ln.lstrip().startswith(">") and bool(ln.lstrip()[1:].strip())
-            elif quoted and ln.strip():
+            elif quoted and ln.strip() and not re.match(
+                    r"^ {0,3}(?:#{1,6}(?:\s|$)|[-*+]\s|[0-9]+[.)]\s|```|~~~|[-*_](?:\s*[-*_]){2,}\s*$|\||<|\\begin)", ln):
+                # Only paragraph text continues the quote; a heading, list item, fence, rule,
+                # table row, HTML block or environment starts a new block.
                 out.append(ln)
             else:
                 quoted = False
@@ -659,6 +667,9 @@ def tokens(cls, raw, flat):
             tok = re.sub(r"[A-Za-z]{3,}", lambda w: w.group(0) if re.fullmatch(_UNIT_ONE, w.group(0))
                          else w.group(0).lower(), tok).replace("\u00b5", "\u03bc")
             tok = re.sub(r"(?<=[0-9]) %", "%", tok)  # "5 %" and "5%" are the same value
+            # Spacing around a range dash or ratio colon is typography: "5 \u2013 9" is "5\u20139".
+            tok = re.sub(r"\s*([\u2013\u2014])\s*", r"\1", tok)
+            tok = re.sub(r"(?<=[0-9])\s*:\s*(?=[0-9])", ":", tok)
             out.append(tok)
         # Roman numerals after a word that numbers a category ("phase II", "type I", "grade III").
         out += [f"{m.group(1).lower()} {m.group(2)}" for m in re.finditer(
