@@ -352,7 +352,8 @@ entry of the case's `expected_variants` for the current agent-turn index
 set permits from the previous variant or event, since such a case has no
 indexed entry and may reach a checkpoint by any allowed path)
 parses, and then fails C2 as an unexpected variant transition before any
-contract branch runs. A reference request under the E5 chat protocol is not
+contract branch runs. A resource request under the E5 chat protocol, for a
+reference or a worked example alike, is not
 a result turn: the adapter records it as a read event and the harness's
 reply as the supplied file, neither advances the agent-turn index, and the
 parser never sees it, so a compliant chat run is graded on its final output
@@ -469,7 +470,11 @@ every known limit listed there has one case that documents it.
 
 ### B5. Restraint cases (S)
 Sections that are already good and should come back verbatim, with the
-Diagnosis saying so (the behavior in `examples/restraint-example.md`). Include
+Diagnosis saying so (the judgment modeled in `examples/restraint-example.md`,
+which itself logs one safe mechanical fix, `out of domain` to
+`out-of-domain`; B5 cases are chosen to need no fix at all, and each
+carries an empty `permitted_fixes` list, while the example carries its one
+fix so the C5 predicate can grade both). Include
 a "trap" where the prose is good but unusual in voice, to test whether the
 skill flattens a distinctive style. Done when: eight cases, each reviewed by
 two maintainers who agree no edit is needed.
@@ -581,7 +586,13 @@ disagree in sign when an `\emph{...}` or `\footnote{...}` expands while
 ordinary prose shrinks, so growth is judged under the reading the report
 followed rather than under whichever reading happened to grow), the
 one-line growth justification `SKILL.md` requires on the next line,
-`References loaded:` present, `Added bridges:` present, every quoted
+`References loaded:` present, `Added bridges:` present, each in the position
+the contract fixes rather than anywhere in the output (`Added bridges:` on
+the line immediately after the fenced revised block, and the Change
+rationale opening with `Word count:`, then the optional growth line, then
+`References loaded:` before any change entry, so a bridge line parked under
+`Author questions` or a reference line after the ledger fails as malformed),
+every quoted
 bridge sentence actually in the revised block and added or changed there
 rather than carried over verbatim from the input, and the converse gated on
 the justification-cue test: an unmatched sentence in the
@@ -684,8 +695,13 @@ Check what the skill says about its own run against what it did:
   within tolerance, recording which one matched, so the E1 baseline does not
   grade the model against a convention it was never given, and the signed
   percentage is checked in two steps: its direction first, which must agree
-  with the direction of the reported counts and of the exact counts under
-  the matched convention (the bands alone cannot carry this, since for
+  with the direction of the exact counts under the matched convention, and
+  with the direction of the reported counts except where the contract's
+  rounding to the nearest ten collapses the exact delta to equal displayed
+  counts (`101` to `104` reported as `~100 to ~100 (+3%)` is honest, so
+  equal displayed counts are accepted whenever the exact delta is smaller
+  than the rounding half-width, and the sign is then checked against the
+  exact direction alone) (the bands alone cannot carry this, since for
   exact counts of 100 and 80 the bands 85 to 115 and 68 to 92 contain the
   rising pair 85 to 92, so an interval built from the bands would admit a
   positive percentage for a shrinking passage), and then its magnitude
@@ -704,7 +720,14 @@ Check what the skill says about its own run against what it did:
   agent turn or nested dispatch that produced the line, located by its A2
   trace boundary (the labelers' reading of every sweep gate, content gates included, since
   section type and stage alone cannot tell an applicable `exposition.md` read
-  from a phantom one), with no skipped pass and no phantom one. The contract
+  from a phantom one), with no skipped pass and no phantom one, and in the
+  order the sweep prescribes: the first complete load of each expected sweep
+  reference in the trace follows the sweep-table order of the evaluated
+  skill ref, since `SKILL.md` makes the sweep an ordered walk with earlier
+  passes outranking later ones, so a run that loads `copyediting.md` before
+  `principles.md` fails even when it eventually reads and reports every
+  expected file (command-owned references outside the sweep are exempt from
+  the ordering). The contract
   lets the line say briefly that a section gated a pass off, so the parser
   separates entries claimed as loaded from entries annotated as gated off,
   the equality check runs over the loaded entries only, and a gated-off entry
@@ -747,7 +770,10 @@ Check what the skill says about its own run against what it did:
   input span and an unrelated output span fails along with a wholly invented
   one. The converse holds for insertions as for deletions on the full
   contract only: every added hunk inside an aligned pair that is not made
-  only of insignificant tokens, and every added sentence, maps to a change
+  only of insignificant tokens, every added sentence, and every move the
+  canonical alignment identifies (a sentence or paragraph relocated
+  unchanged, which produces neither an added hunk nor an added sentence and
+  which the first-draft stage permits) maps to a change
   line, an added bridge included, since the `Added bridges:` line
   inventories the sentence and triggers its confirmation but carries none
   of the reader-benefit rationale the contract requires of every
@@ -956,7 +982,12 @@ has a positive and a negative fixture, and the baseline run reports a pass
 rate for each.
 
 ### C5. Restraint grader (S)
-On B5 cases: revised block identical to the input after normalizing only
+On B5 cases and, in the G1 fast tier, on the restraint example: revised
+block identical to the input after applying the case's declared
+`permitted_fixes` (exact before-and-after pairs, empty on every B5 case and
+the single hyphenation fix on `examples/restraint-example.md`, each of which
+must also appear as a change line, so an undeclared fix still fails) and
+after normalizing only
 insignificant wrapping (soft line breaks and runs of spaces inside a
 paragraph, and only the trailing whitespace that cannot affect the input
 format: in Markdown a two-space line ending or a backslash before the
@@ -1086,7 +1117,11 @@ sentence with no counterpart (possible dropped qualifier or claim, constraint
 checks do not cover arbitrary prose claims. Give the judge what it needs to
 tell a violation from a legitimate change: the full input section and the
 full revised section (so a moved sentence is judged in both contexts), every
-other manuscript section the case supplied, or, where that is too long for
+other manuscript section the case supplied, and on a letter case every
+other authoritative read-only artifact (the reviewer comments, author
+decisions, and change log, which A1 lets a draft-letter revision draw on, so
+a restored reviewer quotation has retrievable support rather than reading
+as inconclusive), or, where that is too long for
 the judge's context, retrieved source passages for every unmatched added or
 moved sentence and for every substantive added hunk inside an aligned pair
 (the hunk notion C2 uses, so a factual clause inserted into an otherwise
