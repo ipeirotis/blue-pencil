@@ -61,6 +61,7 @@ _NUM = (r"(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
 # too, with the hyphen and plural normalized so "10 grams" and "a 10-gram dose" agree.
 _MICRO = "(?:\u00b5|\u03bc)"
 _UNIT_ONE = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|W|J|Hz|Pa)|mL|cm|kcal|cal|"
+             r"USD|EUR|GBP|JPY|CNY|RMB|CAD|AUD|NZD|CHF|INR|HKD|SGD|SEK|NOK|DKK|KRW|BRL|MXN|ZAR|RUB|TRY|"
              r"min|h|hr|hrs|K|kDa|Da|bp|kb|Mb|[KMGT]B|\u00b0 ?[CF]|\u00b0)"
              r"(?:\^-?[0-9]+|[\u207b\u00b9\u00b2\u00b3\u2070-\u2079]+)?")  # exponent: m^2, s\u207b\u00b9
 # A compound unit ("mg/kg", "m/s", "kg\u00b7m", or SI style "mg kg\u207b\u00b9") is one token,
@@ -70,6 +71,9 @@ _UNIT_NEG = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|J)|mL|cm|min|h|K)
              r"(?:\^-[0-9]+|\u207b[\u00b9\u00b2\u00b3\u2070-\u2079]+)")
 _UNIT_SYM = (r"(?-i:" + _UNIT_ONE + r"(?:(?:[/\u00b7\u22c5]| per )" + _UNIT_ONE + r"| " + _UNIT_NEG + r")*)"
              r"(?![A-Za-z0-9])")
+# ISO currency codes, before or after an amount ("USD 10 million", "10 CAD").
+_CUR_CODE = ("(?-i:USD|EUR|GBP|JPY|CNY|RMB|CAD|AUD|NZD|CHF|INR|HKD|SGD|SEK|NOK|DKK|KRW|BRL|"
+             "MXN|ZAR|RUB|TRY)")
 _UNIT_WORD = (r"(?:(?:micro|milli|centi|kilo|nano)?(?:grams?|litres?|liters?|meters?|metres?|"
               r"moles?|seconds?|minutes?|hours?|volts?|watts?|joules?)|degrees?(?: (?:celsius|fahrenheit|(?-i:[CF])))?|"
               r"kelvin|hertz|calories?|days?|weeks?|months?|years?)\b")
@@ -86,10 +90,10 @@ _NUMBER_RE = re.compile(
     # "1 to 2" is a range too, and either endpoint may carry a sign ("\u22123\u2013\u22121").
     # The first endpoint may carry its own suffix ("5%\u201310%", "5 mg\u201310 mg").
     # A sign may also follow the currency sign ("$-5", "\u20ac\u22125").
-    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?(?:[+-]|" + UMIN + r")?" + _NUM
+    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM
     # An estimate with its uncertainty ("5 \u00b1 2") is one ordered token too.
     + r"(?:(?:%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?"
-    + r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r")?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
+    + r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
     r"(?:[/:]" + _NUM + r")*%?"
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?"
@@ -138,8 +142,10 @@ _EQ_OPERAND = r"(?:" + _FUNC + r"|[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 # "rate + dose = total"). A chain with named operands counts only if it holds one of
 # = < > or their combinations, so "and/or" style slashes stay prose.
 _IDENT = r"[A-Za-z][A-Za-z0-9_]*"
+# A Greek, letterlike, or math-alphanumeric symbol is an operand too ("\u03b1 = \u03b2").
+_USYM = "[\u0391-\u03a9\u03b1-\u03c9\u03d1\u03d5\u03f5\u2100-\u214f\U0001d400-\U0001d7ff][A-Za-z0-9_]*"
 # A numeric operand may carry a sign and an exponent ("x = -5", "x = 2e10").
-_REL_OPERAND = (r"(?:" + _FUNC + "|" + _IDENT + r"|(?:[+-]|\u2212)?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
+_REL_OPERAND = (r"(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + r"|(?:[+-]|\u2212)?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
                 r"(?:[eE](?:[+-]|\u2212)?[0-9]+)?)")
 _ARITH_OP = r"(?: ?[+*/^\u2212] ?| - )"
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
@@ -270,6 +276,22 @@ def _macros(text):
             out.append(tok + text[rest_i:end] + ("{}" if closed else ""))
             pos = end
             continue
+        if name in ("verb", "lstinline"):
+            # Inline verbatim: the whole span up to the closing delimiter ("\\verb|x_y|",
+            # "\\lstinline[style]{x}") is protected code.
+            j = rest_i
+            if name == "lstinline" and text[j:j + 1] == "[" and text.find("]", j) != -1:
+                j = text.find("]", j) + 1
+            end = None
+            if text[j:j + 1] == "{":
+                end = _brace_group(text, j)
+            elif j < len(text) and not text[j].isalnum() and not text[j].isspace():
+                k = text.find(text[j], j + 1)
+                end = k + 1 if k != -1 else None
+            if end:
+                out.append(text[m.start():end])
+                pos = end
+                continue
         if name in _PROSE_MACROS:
             # The argument is editable prose, but its delimiters are markup: record
             # whether an optional [..] and a {..} follow ("\\textbf{}" vs "\\textbf").
@@ -427,7 +449,7 @@ def tokens(cls, raw, flat):
         # Trailing LaTeX comments: an unescaped % after text, with or without a space, but
         # not after a number, so a percentage ("5 %", "5%") is not mistaken for a comment.
         out += re.findall(r"(?<=[^0-9\\\s])\s*(%.*)$", raw, re.M)
-        out += re.findall(r"^#{1,6} ", raw, re.M)
+        out += [h + " " for h in re.findall(r"^ {0,3}(#{1,6}) ", raw, re.M)]  # up to 3 spaces of indent
         # Setext heading underlines ("=====", "-----"), kept as their character only.
         out += [m[0] for m in re.findall(r"^ {0,3}(=+|-{3,})[ \t]*$", raw, re.M)]
         out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers

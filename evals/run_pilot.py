@@ -91,6 +91,8 @@ def run_trial(case, condition, n, out_root, model, provenance):
     if completed(run_dir, condition):
         return run_dir, "skipped (already done)"
     shutil.rmtree(run_dir, ignore_errors=True)  # a failed earlier attempt; start clean
+    # A comparison graded against the discarded output no longer applies.
+    (out_root / f"eval-{case['id']}" / f"comparison-run-{n}.json").unlink(missing_ok=True)
     (run_dir / "outputs").mkdir(parents=True, exist_ok=True)
     prompt = build_prompt(case, condition)
     (run_dir / "prompt.txt").write_text(prompt)

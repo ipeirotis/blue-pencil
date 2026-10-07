@@ -24,7 +24,8 @@
     "misc15": "As University of Oxford (2020) reported, participants were followed for 10 days, and rate + dose = total held. The \\textbf{important} point stands.",
     "misc16": "Samples were held at 20 degrees C, and f(x, y) = 5 with x ≤ y. Smith (n.d.) used boards 5\" long and 6\" wide; see the \\href{https://a.example}{detailed appendix} and [source][id].\n\nA | B\n---|---\n1 | 2\n\n[id]:https://a.example/x",
     "misc17": "The estimate was x = -5 and rate = 2e10.\n\n>quoted source text",
-    "misc18": "We have x ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees."
+    "misc18": "We have x ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees.",
+    "misc19": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first."
   },
   "variants": [
     {
@@ -980,6 +981,42 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Curly apostrophe in an author name made straight."
+    },
+    {
+      "id": "misc19-greek-equation-reversed",
+      "base": "misc19",
+      "revised": "We set β = α and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Equation between Greek letters reversed."
+    },
+    {
+      "id": "misc19-currency-code-changed",
+      "base": "misc19",
+      "revised": "We set α = β and spent 10 CAD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Currency code after an amount changed."
+    },
+    {
+      "id": "misc19-indented-heading-dropped",
+      "base": "misc19",
+      "revised": "We set α = β and spent 10 USD.\n\n   Results\n\nCall \\verb|foo_bar| first.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Indented ATX heading marker removed."
+    },
+    {
+      "id": "misc19-verb-contents-changed",
+      "base": "misc19",
+      "revised": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|delete_all| first.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Contents of an inline verbatim command changed."
     }
   ]
 }

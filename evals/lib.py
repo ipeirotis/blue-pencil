@@ -163,12 +163,13 @@ def extract_revised(text, original=None):
     """Return the revised passage from a model reply, or None.
 
     Blue Pencil replies have a '### 2. Revised text' heading followed by a
-    fenced block; a plain Claude reply may have no heading, so fall back to the
-    first fenced block.
+    fenced block; a plain Claude reply may have no heading, and then the first
+    fenced block is taken.
     """
     m = re.search(r"###\s*2\.\s*Revised text\s*\n+(?=```|~~~)", text)
-    found = _fenced_block(text[m.end():], original) if m else None
-    return found if found is not None else _fenced_block(text, original)
+    # With the heading present, only the block under it counts: falling back to the whole
+    # reply could pick up an earlier, unrelated block.
+    return _fenced_block(text[m.end():], original) if m else _fenced_block(text, original)
 
 
 def _fence_lines(text):
