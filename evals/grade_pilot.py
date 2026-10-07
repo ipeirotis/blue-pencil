@@ -21,6 +21,7 @@ prompt and texts; verdicts saved before this check existed are graded again.
 import argparse
 import hashlib
 import random
+import shutil
 import sys
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
@@ -41,6 +42,7 @@ def fill(template, **kw):
 
 MEANING_VERDICTS = ("preserved", "changed", "unsure")
 QUALITY_VERDICTS = ("A", "B", "tie")
+SEVERITIES = ("major", "minor", "recorded")
 
 
 def valid_meaning(parsed):
@@ -49,7 +51,8 @@ def valid_meaning(parsed):
     if not isinstance(parsed, dict) or parsed.get("verdict") not in MEANING_VERDICTS:
         return False
     probs = parsed.get("problems", [])
-    if not isinstance(probs, list) or not all(isinstance(p, dict) for p in probs):
+    if not isinstance(probs, list) or not all(
+            isinstance(p, dict) and p.get("severity") in SEVERITIES for p in probs):
         return False
     has_major = any(p.get("severity") == "major" for p in probs)
     if parsed["verdict"] == "changed":
@@ -75,17 +78,20 @@ def model_json(prompt, model, valid):
     """
     ws = Path(tempfile.mkdtemp(prefix="bp-grade-"))
     last = None
-    for _ in range(2):
-        res = call_claude(prompt, model, ws, GRADER_FLAGS)
-        parsed = extract_json(res["text"])
-        ok = valid(parsed)
-        last = {"parsed": parsed if ok else None, "key": grader_key(prompt, model),
-                "requested_model": model, "raw": res["text"], "cost_usd": res["cost_usd"],
-                "seconds": res["seconds"], "models": list(res["model_usage"].keys())}
-        if not ok:
-            last["invalid_reply"] = parsed
-        if ok:
-            break
+    try:
+        for _ in range(2):
+            res = call_claude(prompt, model, ws, GRADER_FLAGS)
+            parsed = extract_json(res["text"])
+            ok = valid(parsed)
+            last = {"parsed": parsed if ok else None, "key": grader_key(prompt, model),
+                    "requested_model": model, "raw": res["text"], "cost_usd": res["cost_usd"],
+                    "seconds": res["seconds"], "models": list(res["model_usage"].keys())}
+            if not ok:
+                last["invalid_reply"] = parsed
+            if ok:
+                break
+    finally:
+        shutil.rmtree(ws, ignore_errors=True)
     return last
 
 

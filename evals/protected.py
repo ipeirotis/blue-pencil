@@ -56,8 +56,13 @@ _MICRO = "(?:\u00b5|\u03bc)"
 _UNIT_ONE = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|W|J|Hz|Pa)|mL|cm|kcal|cal|"
              r"min|h|hr|hrs|K|kDa|Da|bp|kb|Mb|[KMGT]B|\u00b0 ?[CF]|\u00b0)"
              r"(?:\^-?[0-9]+|[\u207b\u00b9\u00b2\u00b3\u2070-\u2079]+)?")  # exponent: m^2, s\u207b\u00b9
-# A compound unit ("mg/kg", "m/s", "kg\u00b7m") is one token, so changing any part is caught.
-_UNIT_SYM = r"(?-i:" + _UNIT_ONE + r"(?:[/\u00b7\u22c5]" + _UNIT_ONE + r")*)(?![A-Za-z0-9])"
+# A compound unit ("mg/kg", "m/s", "kg\u00b7m", or SI style "mg kg\u207b\u00b9") is one token,
+# so changing any part is caught. A space joins a component only if it has a negative
+# exponent, so "10 m and" or "5 g s" in prose is not swallowed.
+_UNIT_NEG = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|J)|mL|cm|min|h|K)"
+             r"(?:\^-[0-9]+|\u207b[\u00b9\u00b2\u00b3\u2070-\u2079]+)")
+_UNIT_SYM = (r"(?-i:" + _UNIT_ONE + r"(?:[/\u00b7\u22c5]" + _UNIT_ONE + r"| " + _UNIT_NEG + r")*)"
+             r"(?![A-Za-z0-9])")
 _UNIT_WORD = (r"(?:(?:micro|milli|centi|kilo|nano)?(?:grams?|litres?|liters?|meters?|metres?|"
               r"moles?|seconds?|minutes?|hours?|volts?|watts?|joules?)|degrees?(?: (?:celsius|fahrenheit))?|"
               r"kelvin|hertz|calories?)\b")
@@ -257,14 +262,21 @@ def tokens(cls, raw, flat):
         out += re.findall(r"^#{1,6} ", raw, re.M)
         return out
     if cls == "code":
-        out, inb = [], False
+        # Fenced blocks (~~~ or ```) first, line by line; inline `...` spans are looked for
+        # only outside them, so the backticks of two fences never pair up across prose.
+        out, fence, prose = [], None, []
         for ln in raw.splitlines():
-            if ln.startswith("~~~"):
-                inb = not inb
+            m = re.match(r"\s*(~~~|```)", ln)
+            if fence is None and m:
+                fence = m.group(1)
                 out.append(ln)
-            elif inb:
+            elif fence is not None:
                 out.append(ln)
-        return out + re.findall(r"`[^`]+`", raw)
+                if ln.strip().startswith(fence):
+                    fence = None
+            else:
+                prose.append(ln)
+        return out + re.findall(r"`[^`]+`", "\n".join(prose))
     if cls == "numbers":
         out = []
         for m in _NUMBER_RE.finditer(flat):

@@ -29,6 +29,8 @@ NAMES = {"with_skill": "With Blue Pencil", "without_skill": "Without (plain Clau
 
 def invalid_reason(r, cond):
     """Why a run cannot count as a model outcome, or None if it can."""
+    if not r["trial"]:
+        return "no trial.json (the call did not finish)"
     if r["trial"].get("is_error"):
         return "claude -p reported an error"
     if cond == "with_skill" and r["trial"].get("skill_loaded") is False:
@@ -254,13 +256,19 @@ def main():
                   "**Version 2**", "", "```", v2, "```", "",
                   "Better written (1 / 2 / tie): ______   Meaning changed in 1? ____  in 2? ____   Notes:", ""]
     # The sheet is where a reviewer writes verdicts, so an existing one is never replaced.
+    # Its key stays with it: a changed sheet and its key go to *.new.* side by side.
     sheet_text, sheet_path = "\n".join(sheet) + "\n", root / "human_review.md"
-    if not sheet_path.exists():
-        sheet_path.write_text(sheet_text)
-    elif sheet_path.read_text() != sheet_text:
+    key_path = root / "human_review_key.json"
+    if sheet_path.exists() and sheet_path.read_text() != sheet_text:
         (root / "human_review.new.md").write_text(sheet_text)
-        print("kept existing human_review.md; a fresh blank sheet is in human_review.new.md")
-    write_json(root / "human_review_key.json", key)
+        write_json(root / "human_review_key.new.json", key)
+        print("kept existing human_review.md and its key; a fresh sheet and key are in "
+              "human_review.new.md and human_review_key.new.json")
+        if key_path.exists():
+            key = read_json(key_path)  # human verdicts refer to the kept sheet
+    else:
+        sheet_path.write_text(sheet_text)
+        write_json(key_path, key)
 
     hv = root / "human_verdicts.json"
     if hv.exists():
@@ -276,7 +284,7 @@ def main():
             agree += (gv == str(v))
         L += ["## 7. Human vs. quality grader", "", f"Agreement on {total} pairs: **{agree}/{total}**.", ""]
     (root / "report.md").write_text("\n".join(L) + "\n")
-    print(f"wrote {root / 'report.md'} and human_review_key.json")
+    print(f"wrote {root / 'report.md'}")
 
 
 if __name__ == "__main__":

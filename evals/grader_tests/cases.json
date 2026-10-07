@@ -6,7 +6,9 @@
     "grouped": "Prior work reports the effect (Smith 2010; Jones 2012). We test it in a new sample.",
     "science": "We administered 10 mg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
     "unicode_cite": "Disclosure raises trust, as García (2020) and Łukasz et al. (2019) report.",
-    "science_compound": "We administered 10 mg/kg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}"
+    "science_compound": "We administered 10 mg/kg of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+    "science_si": "We administered 10 mg kg⁻¹ of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+    "fenced": "We fit the model in two steps.\n```\nfit = ols(y, X)\n```\nThe first step estimates the slope; the second\nchecks the residuals.\n```\nplot(fit.resid)\n```\nCall `summary(fit)` for the table."
   },
   "variants": [
     {
@@ -287,6 +289,33 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Citations move to the front of the sentence, unchanged."
+    },
+    {
+      "id": "science-si-unit-changed",
+      "base": "science_si",
+      "revised": "We administered 10 mg L⁻¹ of the compound daily to 24 mice held at 20 °C, and we\nestimate the effect β by least squares, following earlier designs [12, 13]. The\nestimate is **robust** to the choice of bandwidth.\n\\begin{lstlisting}\nfit = ols(y, X)\nprint(fit.beta)\n\\end{lstlisting}",
+      "verdict": "damaged",
+      "damage_type": "unit changed",
+      "code_grader_should_flag": true,
+      "note": "SI-style compound unit: the denominator kg became L."
+    },
+    {
+      "id": "fenced-prose-harmless-1",
+      "base": "fenced",
+      "revised": "We fit the model in two steps.\n```\nfit = ols(y, X)\n```\nThe first step estimates the slope, and the second checks the residuals.\n```\nplot(fit.resid)\n```\nCall `summary(fit)` for the table.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Only the prose between two ``` code blocks changed."
+    },
+    {
+      "id": "fenced-code-changed",
+      "base": "fenced",
+      "revised": "We fit the model in two steps.\n```\nfit = ols(y, X)\n```\nThe first step estimates the slope; the second\nchecks the residuals.\n```\nplot(fit.fitted)\n```\nCall `summary(fit)` for the table.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Code inside a ``` block changed."
     }
   ]
 }
