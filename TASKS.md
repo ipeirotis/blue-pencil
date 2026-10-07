@@ -209,12 +209,27 @@ output.
   confirmation, and contains no `Revised text` block.
 - Missing `<paper_context>`: exactly one clarifying message, then an
   `Assumed context:` line.
-Done when: every B6 case has a grader and the baseline run reports a pass rate
-for each.
+- Reviewer comments with no manuscript: the output is a triage table, contains
+  no `Revised text` block and no prose diagnosis, and every classification
+  that depends on manuscript content is marked unverified.
+- PDF-extracted text with ligature damage: the output names the damage, the
+  revised block fixes only mechanical damage (every other sentence unchanged
+  by the C5 comparison), and when the case is marked pervasive the output asks
+  for a cleaner source and contains no `Revised text` block.
+- The `style_overrides:` case is owned by C2 (the override-aware tell check),
+  not duplicated here.
+Done when: every B6 case names the grader that owns it, each named predicate
+has a positive and a negative fixture, and the baseline run reports a pass
+rate for each.
 
 ### C5. Restraint grader (S)
-On B5 cases: revised block byte-identical (modulo whitespace) to the input, and
-`Change rationale` states the passage was returned verbatim. Also compute the
+On B5 cases: revised block identical to the input after normalizing only
+insignificant wrapping (soft line breaks and runs of spaces inside a
+paragraph, trailing whitespace), while preserving paragraph boundaries (a
+collapsed blank line merges two paragraphs and must fail) and every line
+break inside format-sensitive constructs (`tabular`, `lstlisting`, code
+fences, `%` comment lines), and `Change rationale` states the passage was
+returned verbatim. Also compute the
 "churn rate" on every case: fraction of sentences changed, to track over-editing
 across skill versions. Done when: churn is a column in the A4 report.
 
@@ -261,8 +276,12 @@ sentence with no counterpart (possible dropped qualifier or claim, constraint
 6). The unpaired cases are the riskiest and the protected-token and bridge
 checks do not cover arbitrary prose claims. Report any "not", any unsupported
 addition, and any unaccounted deletion as a constraint violation with the
-sentences quoted. Done when: it flags the seeded meaning changes, additions,
-and deletions in a test set of 20 cases with at most one miss.
+sentences quoted. The test set carries both kinds of case: seeded violations,
+and an equal number of meaning-preserving rewordings, legitimate bridges built
+from manuscript material, and deletions logged in the rationale, so a judge
+that flags everything cannot pass. Done when: on a test set of 20 violations
+and 20 legitimate changes it misses at most one violation and flags at most
+two legitimate changes, and both rates are recorded with the rubric.
 
 ---
 
@@ -293,9 +312,15 @@ variance table is in the E1 report, every case carries its pass rate and
 interval, and the regression gate in G1 uses the interval rule.
 
 ### E4. Instruction ablation (L)
-`SKILL.md` is about 65 KB and the references add more. Remove one section or
+`SKILL.md` is about 65 KB and the references add more. Ablate one section or
 one reference at a time (the preflight checklist, the sweep table, a single
-pass, the read-cold pass) and rerun the corpus. Which instructions change
+pass, the read-cold pass) and rerun the corpus. Ablating a reference means
+emptying its instructional content while leaving a resolvable file with the
+same name in place, so the sweep's binding "load this file" instructions
+still succeed and the measured effect is the guidance's, not a missing
+dependency's; a condition that instead removes the file must also remove
+every loading gate that names it, consistently, and is reported as a separate
+condition. Which instructions change
 measured behavior, and which are inert? Done when: an ablation table lists each
 removed block with its effect on pass rate, churn, and judge scores.
 
@@ -326,11 +351,17 @@ with no other assertion regressing beyond its E3 variance band.
 ### F2. Replace self-attestation with a machine-checkable self-report (M)
 The preflight line "No protected content changed" is the model checking itself
 (the header of `scripts/check-protected.sh` calls it the known-weak link). Add a
-short `Protected inventory:` line to the Change rationale that states counts per
-class (citations, numbers, math spans, cross-references, quotes) for input and
-output, so the C1 checker can verify the claim and a mismatch is visible to the
-author even without running the tool. Done when: the line is in the output
-contract, all `examples/` carry it, and C3 verifies it.
+short `Protected inventory:` line to the Change rationale that identifies the
+protected tokens, not merely their counts: per class (citations, numbers, math
+spans, cross-references, quotes), the count plus a short digest of the sorted
+token list, and for small classes the tokens themselves (the citation keys,
+the numbers). A count alone cannot see `smith2020` becoming `smith2021` or one
+number replaced by another. The author compares the input and output
+identities at a glance, and C1 recomputes the digests from both texts so C3
+can verify the line and a mismatch is visible even without running the tool.
+Done when: the line is in the output contract, all `examples/` carry it, C3
+verifies it against C1's recomputation, and a fixture with a swapped
+citation key fails.
 
 ### F3. Ship the checker to authors (M)
 Add a `/paper:verify <original> <revised>` command (and a step inside
@@ -345,9 +376,12 @@ guidance into `references/` under progressive disclosure. Done when: the skill
 is measurably no worse on the corpus and the token count of `SKILL.md` drops.
 
 ### F5. Tune triggering from the trigger set (S)
-Use B7 and the skill-creator description optimizer to fix false triggers and
-misses in the frontmatter `description`. Done when: precision and recall on the
-trigger set are both above an agreed threshold and recorded.
+Split B7 into a tuning set and a held-out set before any tuning (or write a
+second, blind set of the same size, labeled by someone who did not see the
+first), then use the tuning set with the skill-creator description optimizer
+to fix false triggers and misses in the frontmatter `description`. Report
+precision and recall on the held-out set only. Done when: held-out precision
+and recall are both above an agreed threshold and recorded with the split.
 
 ### F6. Promote recurring failures to examples and CI anchors (S, recurring)
 When an F-task fixes a cluster, add one representative case as a new
@@ -360,19 +394,25 @@ each fixed cluster has an anchor example and a CI assertion that fails on the
 pre-fix output and passes on the fixed one.
 
 ### F7. Per-command output audit (M)
-The twelve `/paper:*` commands each promise a specific output shape. Add one
-case per command to the corpus and a grader for each shape (triage table
-columns, dispatch list in `/paper:read`, mapping in `/paper:rebut`, staged plan
-in `/paper:loop`). Done when: every command has a case and a passing grader on
-the baseline or an F-task to fix it.
+Every `/paper:*` command promises a specific output shape: the twelve that
+exist today plus `/paper:verify` once F3 ships it, so this task depends on F3.
+Add one case per command to the corpus and a grader for each shape (triage
+table columns, dispatch list in `/paper:read`, mapping in `/paper:rebut`,
+staged plan in `/paper:loop`, the checker report in `/paper:verify`). Done
+when: every command in `.claude/commands/paper/`, enumerated at run time
+rather than hard-coded, has a case and a passing grader on the baseline or an
+F-task to fix it.
 
 ---
 
 ## G. CI and process `[ci]`
 
 ### G1. Two-tier CI (M)
-Fast tier on every push, no API calls: the existing bash checks, plus the C1
-checker and C2 grader run over `examples/` and over stored golden outputs.
+Fast tier on every push, no API calls: the existing bash checks, plus every
+deterministic grader (C1 through C6) run over `examples/`, over stored golden
+outputs, and over each grader's own positive and negative fixtures, so a
+regression in word-count honesty, stage scope, restraint, or defect recall
+fails on the push that introduces it rather than in the next API-backed run.
 Slow tier nightly and on demand: the runner on a smoke subset (about ten cases,
 three repetitions, one model), posting the benchmark delta as a workflow
 summary. Done when: `.github/workflows/ci.yml` runs the fast tier, a new
@@ -409,7 +449,7 @@ tier from the README alone.
 ```
 A1 -> A2 -> A3 -> A4
 B1 -> B2, B3, B4, B5, B6, B7
-C1 (needs A1, B4) -> F2, F3, G1
+C1 (needs A1, B4) -> F2, F3, G1 ; F3 -> F7
 C2, C3 (need A3) ; C4 (needs A3, B6) ; C5 (needs A3, B5) ; C6 (needs A3, B3)
 D1 -> D2 -> D3 ; D4 (needs A3)
 E1 (needs A4, B2 through B6, C1 through C6, D1 through D4) -> E2, E3 -> F1, F6
