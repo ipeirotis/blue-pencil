@@ -10,7 +10,7 @@ Writes into results/<run-id>/:
 If human_verdicts.json exists ({"<case>/run-<n>": "1" | "2" | "tie"}), the
 report also shows how often the human and the quality grader agree.
 
-Follows evals/rubric.md (v0.2): preservation, quality, and clean improvements
+Follows evals/rubric.md: preservation, quality, and clean improvements
 are reported separately and never combined into one score. Runs whose `claude -p`
 call failed, and with-skill runs that never loaded Blue Pencil, are excluded from
 every table (and so are their head-to-head pairs); they are listed in the report.
@@ -67,7 +67,11 @@ def code_passed(r):
 
 
 def preserved(r):
-    """Code check and meaning check both pass. None if the meaning grader did not run."""
+    """Code check and meaning check both pass. None if the meaning grader has no valid
+    verdict (not run, or every reply was invalid): such runs are ungraded, not failed.
+    A run with no revised text at all is a failure."""
+    if r["cm"] and not r["cm"].get("has_revised_text", True):
+        return False
     v = verdict_of(r)
     if v is None:
         return None
@@ -104,10 +108,12 @@ def avg_counts(rs):
 def summary_row(label, rs):
     code = sum(1 for r in rs if code_passed(r))
     vs = [verdict_of(r) for r in rs]
-    both = [preserved(r) for r in rs]
+    both = [b for b in (preserved(r) for r in rs) if b is not None]  # ungraded runs left out
+    ungraded = len(rs) - len(both)
     major, minor = avg_counts(rs)
     return (f"| {label} | {len(rs)} | {pct(code, len(rs))} | {vs.count('preserved')} / {vs.count('changed')} / "
-            f"{vs.count('unsure')} | {pct(sum(1 for b in both if b), len(rs))} | {major} | {minor} |")
+            f"{vs.count('unsure')}" + (f" ({ungraded} not graded)" if ungraded else "")
+            + f" | {pct(sum(both), len(both))} | {major} | {minor} |")
 
 
 def main():
@@ -123,11 +129,14 @@ def main():
     ungraded = [p for p in pairs if p["consolidated"] not in CONDS + ("tie",)]
     pairs = [p for p in pairs if p not in ungraded
              and all((c, p["case"], p["run"]) in valid_ids for c in CONDS)]
+    # Meaning verdicts saved before the rubric version was recorded were graded under v0.2.
+    rubrics = " and ".join(sorted({((r["cm"] or {}).get("meaning") or {}).get("rubric", "v0.2")
+                                   for c in CONDS for r in runs[c] if meaning(r)})) or "(meaning not graded)"
     L = [f"# Pilot report: {sys.argv[1]}", "",
          f"- Executor model: `{meta.get('executor_model')}` (Claude Code {meta.get('claude_code_version')})",
          f"- Blue Pencil version: {meta.get('blue_pencil_version')}, repo commit `{str(meta.get('repo_commit'))[:10]}`",
          f"- Cases: {', '.join(meta.get('cases', []))}; {meta.get('runs_per_condition')} runs per condition per case",
-         "- Rubric: `evals/rubric.md` v0.2. Revision stage: first draft."]
+         f"- Rubric: `evals/rubric.md` {rubrics}. Revision stage: first draft."]
     for res in meta.get("resumes", []):
         L.append(f"- Resumed {res.get('started')} at repo commit `{str(res.get('repo_commit'))[:10]}`"
                  + (f"; configuration differed: {', '.join(res['config_differs'])}"
@@ -185,15 +194,22 @@ def main():
     both_ok = [p for p in pairs if preserved(by[("with_skill", p["case"], p["run"])])
                and preserved(by[("without_skill", p["case"], p["run"])])]
     clean = {c: 0 for c in CONDS}
+    decided = 0  # pairs whose clean-improvement status is known (the winner's meaning was graded)
     rows = []
     for p in pairs:
         wp = preserved(by[("with_skill", p["case"], p["run"])])
         np_ = preserved(by[("without_skill", p["case"], p["run"])])
         w = p["consolidated"]
-        is_clean = (w in CONDS) and bool({"with_skill": wp, "without_skill": np_}[w])
-        if is_clean:
-            clean[w] += 1
-        rows.append(f"| {p['case']} | {p['run']} | {w} | {wp} | {np_} | {'yes' if is_clean else 'no'} |")
+        winner_preserved = {"with_skill": wp, "without_skill": np_}.get(w, False)
+        if winner_preserved is None:
+            status = "n/a (meaning not graded)"
+        else:
+            decided += 1
+            is_clean = (w in CONDS) and winner_preserved
+            if is_clean:
+                clean[w] += 1
+            status = "yes" if is_clean else "no"
+        rows.append(f"| {p['case']} | {p['run']} | {w} | {wp} | {np_} | {status} |")
     ta, tb = tally(pairs), tally(both_ok)
     L += ["## 4. Quality (blinded, both orders)", "",
           "| Pairs | Blue Pencil wins | Plain Claude wins | Ties or order-dependent |", "|---|---|---|---|",
@@ -201,8 +217,8 @@ def main():
           f"| Both passed preservation ({len(both_ok)}) | {tb['with_skill']} | {tb['without_skill']} | {tb['tie']} |",
           "", "## 5. Clean improvements (passes preservation and wins quality)", "",
           "| Condition | Clean improvements |", "|---|---|",
-          f"| {NAMES['with_skill']} | {pct(clean['with_skill'], len(pairs))} |",
-          f"| {NAMES['without_skill']} | {pct(clean['without_skill'], len(pairs))} |", "",
+          f"| {NAMES['with_skill']} | {pct(clean['with_skill'], decided)} |",
+          f"| {NAMES['without_skill']} | {pct(clean['without_skill'], decided)} |", "",
           "| Case | Run | Quality winner | Blue Pencil preserved? | Plain Claude preserved? | Clean improvement? |",
           "|---|---|---|---|---|---|"] + rows
 

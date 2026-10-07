@@ -19,9 +19,14 @@ Usage:
     python3 run_pilot.py --cases worked-example --runs 1        # one run per condition, quick check
     python3 run_pilot.py --runs 3 --run-id pilot-001            # full pilot
 
-Rerunning with an existing run id resumes it: finished trials are skipped. The
-resume is refused if the model, flags, Claude Code version, or skill files differ
-from the original run (pass --allow-mixed to override; the mix is then recorded).
+Rerunning with an existing run id resumes it: finished trials are skipped, and
+trials that errored or never loaded Blue Pencil are run again. The resume is
+refused if the model, flags, Claude Code version, skill files, or a shared case's
+files differ from the original run (pass --allow-mixed to override; the mix is
+then recorded).
+
+In the with_skill condition, the example file a case was built from is left out of
+the installed skill, since it holds the authored answer for that passage.
 """
 
 import argparse
@@ -32,9 +37,9 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from lib import (EVALS, EXECUTOR_MODEL, call_claude, claude_version, extract_revised,
-                 git_sha, make_workspace, read_json, skill_fingerprint, skill_version,
-                 skill_was_loaded, write_json)
+from lib import (EVALS, EXECUTOR_MODEL, call_claude, case_fingerprint, claude_version,
+                 extract_revised, git_sha, make_workspace, read_json, skill_fingerprint,
+                 skill_version, skill_was_loaded, write_json)
 
 CONDITIONS = ("with_skill", "without_skill")
 
@@ -52,9 +57,9 @@ PRESERVE = ("Preserve my meaning, claims, and voice, and do not change any numbe
             "or citation, including the order of citations.")
 
 
-def load_case(case_id):
+def load_case(case_id, source=None):
     d = EVALS / "cases" / case_id
-    return {"id": case_id,
+    return {"id": case_id, "source": source,
             "context": (d / "context.txt").read_text().strip(),
             "request": (d / "request.txt").read_text().strip(),
             "passage": (d / "input.txt").read_text().strip()}
@@ -67,14 +72,26 @@ def build_prompt(case, condition):
     return ("/paper:revise " + body) if condition == "with_skill" else body
 
 
+def completed(run_dir, condition):
+    """A trial counts as done only if it produced a revision without an error and,
+    with the skill, actually loaded Blue Pencil. Anything else is run again."""
+    if not (run_dir / "outputs" / "revised.txt").exists() or not (run_dir / "trial.json").exists():
+        return False
+    t = read_json(run_dir / "trial.json")
+    return not t.get("is_error") and (condition != "with_skill" or t.get("skill_loaded") is not False)
+
+
 def run_trial(case, condition, n, out_root, model, provenance):
     run_dir = out_root / f"eval-{case['id']}" / condition / f"run-{n}"
-    if (run_dir / "outputs" / "revised.txt").exists():
+    if completed(run_dir, condition):
         return run_dir, "skipped (already done)"
+    shutil.rmtree(run_dir, ignore_errors=True)  # a failed earlier attempt; start clean
     (run_dir / "outputs").mkdir(parents=True, exist_ok=True)
     prompt = build_prompt(case, condition)
     (run_dir / "prompt.txt").write_text(prompt)
-    ws = make_workspace(condition == "with_skill", case["context"])
+    source = case["source"] or ""
+    held_out = [source.split("/", 1)[1]] if source.startswith("examples/") else []
+    ws = make_workspace(condition == "with_skill", case["context"], held_out)
     try:
         res = call_claude(prompt, model, ws, FLAGS[condition], stream=True)
     finally:
@@ -99,7 +116,8 @@ def run_trial(case, condition, n, out_root, model, provenance):
         "models_used": list(res["model_usage"].keys()), "usage": usage,
         "model_usage": res["model_usage"], "flags": FLAGS[condition],
         "returncode": res["returncode"], "is_error": res["is_error"],
-        "skill_loaded": skill_was_loaded(events) if condition == "with_skill" else None,
+        "skill_loaded": skill_was_loaded(events, ws) if condition == "with_skill" else None,
+        "held_out_examples": held_out if condition == "with_skill" else None,
         "revised_text_found": bool(revised), "stderr_tail": res["stderr"], "provenance": provenance})
     status = "ok" if revised and not res["is_error"] else "PROBLEM (see trial.json)"
     return run_dir, status
@@ -112,12 +130,19 @@ def resume_meta(meta, config, provenance, ids, runs, allow_mixed):
     a different configuration would mix the two, so that is refused unless allowed.
     Fields the original run did not record (older runs) cannot be checked.
     """
-    diffs = {k: (meta[k], v) for k, v in config.items() if k in meta and meta[k] != v}
+    diffs = {k: (meta[k], v) for k, v in config.items()
+             if k in meta and k != "case_fingerprints" and meta[k] != v}
+    # A case's files must match for the cases both runs share; new cases may be added.
+    old_cases = meta.get("case_fingerprints", {})
+    for cid, fp in config["case_fingerprints"].items():
+        if cid in old_cases and old_cases[cid] != fp:
+            diffs[f"case {cid}"] = (old_cases[cid], fp)
     if diffs and not allow_mixed:
         lines = "\n".join(f"  {k}: run has {old!r}, now {new!r}" for k, (old, new) in diffs.items())
         sys.exit(f"refusing to resume {meta.get('run_id')}: configuration differs from the original run\n"
                  f"{lines}\nUse a new --run-id, or pass --allow-mixed to resume anyway.")
     meta = dict(meta)
+    meta["case_fingerprints"] = {**config["case_fingerprints"], **old_cases}
     meta["cases"] = list(dict.fromkeys(meta.get("cases", []) + ids))
     meta["runs_per_condition"] = max(meta.get("runs_per_condition") or 0, runs)
     meta.setdefault("resumes", []).append(
@@ -137,8 +162,9 @@ def main():
                     help="resume an existing run even if its configuration differs (recorded in run_meta.json)")
     args = ap.parse_args()
 
-    ids = args.cases or [c["id"] for c in read_json(EVALS / "cases" / "cases.json")["cases"]]
-    cases = [load_case(i) for i in ids]
+    catalog = {c["id"]: c for c in read_json(EVALS / "cases" / "cases.json")["cases"]}
+    ids = args.cases or list(catalog)
+    cases = [load_case(i, catalog.get(i, {}).get("source")) for i in ids]
     out_root = EVALS / "results" / args.run_id
     jobs = [(c, cond, n) for c in cases for cond in CONDITIONS for n in range(1, args.runs + 1)]
     print(f"run id: {args.run_id}\nmodel: {args.model}\ncases: {ids}\n"
@@ -151,7 +177,8 @@ def main():
     now = datetime.datetime.now().isoformat(timespec="seconds")
     config = {"executor_model": args.model, "claude_code_version": claude_version(),
               "blue_pencil_version": skill_version(), "skill_fingerprint": skill_fingerprint(),
-              "flags": FLAGS, "preserve_instruction": PRESERVE}
+              "flags": FLAGS, "preserve_instruction": PRESERVE,
+              "case_fingerprints": {i: case_fingerprint(i) for i in ids}}
     provenance = {"started": now, "repo_commit": git_sha(), **config}
     meta_path = out_root / "run_meta.json"
     if meta_path.exists():

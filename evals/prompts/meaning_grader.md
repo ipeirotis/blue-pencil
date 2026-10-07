@@ -9,6 +9,7 @@ Major (the passage now says something different about the data, method, or resul
 - caveat_or_scope: a condition, exception, population, sample, or time window was dropped or widened.
 - new_content: the revision asserts something the original did not.
 - lost_content: a finding, step, or definition the reader needs was removed.
+- reassigned: a number, citation, or quote now belongs to a different claim, variable, group, column, or condition. Example: the original gives 0.18 for column 2 and 0.15 for column 3, and the revision swaps them.
 
 Minor (counted, but never makes the verdict "changed"):
 - qualifier_word: a qualifier word was dropped. Example: "novel".
@@ -23,7 +24,7 @@ Recorded only:
 - Grammar and punctuation fixes.
 - Swapping neutral attribution verbs, such as "the results demonstrate" and "we find".
 - Connectives such as "therefore", "however", or "thus". Do not grade them.
-- Numbers, citations, equations, and quotes. A separate program checks those.
+- Changes to the values of numbers, citations, equations, and quotes. A separate program checks that each one still appears unchanged. It cannot see what each one is attached to, so check that yourself and report a mismatch as "reassigned".
 
 ## Rules
 
@@ -41,7 +42,7 @@ Reply with one JSON object and nothing else:
   "verdict": "preserved" | "changed" | "unsure",
   "problems": [
     {
-      "type": "claim_strength" | "caveat_or_scope" | "new_content" | "lost_content" | "qualifier_word" | "voice",
+      "type": "claim_strength" | "caveat_or_scope" | "new_content" | "lost_content" | "reassigned" | "qualifier_word" | "voice",
       "severity": "major" | "minor" | "recorded",
       "original_quote": "...",
       "revised_quote": "... (empty if the text was dropped)",

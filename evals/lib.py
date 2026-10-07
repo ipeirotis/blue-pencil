@@ -69,6 +69,20 @@ def skill_fingerprint():
     return h.hexdigest()[:16]
 
 
+def rubric_version():
+    """The version in rubric.md's title, e.g. "v0.3"."""
+    m = re.search(r"\((?:draft )?(v[0-9.]+)\)", (EVALS / "rubric.md").read_text().splitlines()[0])
+    return m.group(1) if m else "unknown"
+
+
+def case_fingerprint(case_id):
+    """Hash of the files that make up one case's prompt and original passage."""
+    h = hashlib.sha256()
+    for name in ("context.txt", "request.txt", "input.txt"):
+        h.update(name.encode() + b"\0" + (EVALS / "cases" / case_id / name).read_bytes() + b"\0")
+    return h.hexdigest()[:16]
+
+
 def claude_version():
     try:
         return subprocess.run(
@@ -156,32 +170,40 @@ def extract_json(text):
     return None
 
 
-def skill_was_loaded(events):
-    """True if the event stream shows a tool call that invokes or reads Blue Pencil.
+def skill_was_loaded(events, workspace):
+    """True if the event stream shows the trial's own copy of Blue Pencil being loaded.
 
-    Looks only at tool calls (the Agent call to the paper-reviser subagent, or a
-    Read of the skill's SKILL.md), never at free text, so the mere presence of
-    the word in the prompt cannot count.
+    Counts only a Read of the workspace's .claude/skills/blue-pencil/SKILL.md (the
+    subagent's tool calls are in the stream) or a Skill call for blue-pencil. The
+    Agent call that starts the paper-reviser subagent does not count, since the
+    subagent can fail before it reads the skill, and neither does a Read of a copy
+    installed elsewhere on the machine. Free text never counts.
     """
-    markers = ("blue-pencil", "paper-reviser")
+    skill_md = str(Path(workspace) / ".claude" / "skills" / "blue-pencil" / "SKILL.md")
     for e in events or []:
         if e.get("type") != "assistant":
             continue
         for item in (e.get("message", {}).get("content") or []):
-            if item.get("type") == "tool_use":
-                payload = json.dumps(item.get("input", {})) + item.get("name", "")
-                if any(mk in payload for mk in markers):
-                    return True
+            if item.get("type") != "tool_use":
+                continue
+            inp = item.get("input") or {}
+            if item.get("name") == "Read" and inp.get("file_path") == skill_md:
+                return True
+            if item.get("name") == "Skill" and str(inp.get("skill", "")).split(":")[-1] == "blue-pencil":
+                return True
     return False
 
 
-def make_workspace(with_skill, paper_context):
+def make_workspace(with_skill, paper_context, held_out=()):
     """Create a throwaway working directory for one trial.
 
     with_skill=True: a mini paper repo with Blue Pencil's commands, subagent and
     skill installed project-locally, plus an AGENTS.md carrying the paper
     context, which is how a real user's repo looks after `install.sh --init`.
     with_skill=False: an empty directory, so nothing from this repo is visible.
+    held_out: example files (names under examples/) left out of the skill copy.
+    The case being edited is held out, because its example file holds the
+    authored answer for that same passage.
     """
     ws = Path(tempfile.mkdtemp(prefix="bp-eval-"))
     if with_skill:
@@ -191,6 +213,7 @@ def make_workspace(with_skill, paper_context):
         skill_dir.mkdir(parents=True)
         shutil.copy(REPO / "SKILL.md", skill_dir / "SKILL.md")
         shutil.copytree(REPO / "references", skill_dir / "references")
-        shutil.copytree(REPO / "examples", skill_dir / "examples")
+        shutil.copytree(REPO / "examples", skill_dir / "examples",
+                        ignore=lambda d, names: [n for n in names if n in held_out])
         (ws / "AGENTS.md").write_text("# Paper context\n\n" + paper_context.strip() + "\n")
     return ws

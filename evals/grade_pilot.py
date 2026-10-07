@@ -14,16 +14,19 @@ Usage:
     python3 grade_pilot.py <run-id> --stage quality   # blinded head-to-head only
     python3 grade_pilot.py <run-id>                   # all graders
 Saved verdicts are reused, so a stage is never paid for twice (use --force to redo).
+A saved verdict is reused only if it was made by the same grader model with the same
+prompt and texts; verdicts saved before this check existed are graded again.
 """
 
 import argparse
+import hashlib
 import random
 import sys
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from lib import EVALS, GRADER_MODEL, call_claude, extract_json, read_json, write_json
+from lib import EVALS, GRADER_MODEL, call_claude, extract_json, read_json, rubric_version, write_json
 from protected import check
 
 GRADER_FLAGS = ["--setting-sources", "project", "--disable-slash-commands", "--tools", ""]
@@ -41,11 +44,27 @@ QUALITY_VERDICTS = ("A", "B", "tie")
 
 
 def valid_meaning(parsed):
-    return isinstance(parsed, dict) and parsed.get("verdict") in MEANING_VERDICTS
+    """The verdict must be allowed and agree with the problems: "changed" exactly when
+    at least one major problem is reported (see rubric.md)."""
+    if not isinstance(parsed, dict) or parsed.get("verdict") not in MEANING_VERDICTS:
+        return False
+    probs = parsed.get("problems", [])
+    if not isinstance(probs, list) or not all(isinstance(p, dict) for p in probs):
+        return False
+    has_major = any(p.get("severity") == "major" for p in probs)
+    if parsed["verdict"] == "changed":
+        return has_major
+    return parsed["verdict"] == "unsure" or not has_major
 
 
 def valid_quality(parsed):
     return isinstance(parsed, dict) and parsed.get("overall") in QUALITY_VERDICTS
+
+
+def grader_key(prompt, model):
+    """Cache key for a saved verdict: the requested model and the full filled-in prompt
+    (template, original, and revised text). A saved verdict is reused only if it matches."""
+    return hashlib.sha256((model + "\0" + prompt).encode()).hexdigest()[:16]
 
 
 def model_json(prompt, model, valid):
@@ -60,7 +79,8 @@ def model_json(prompt, model, valid):
         res = call_claude(prompt, model, ws, GRADER_FLAGS)
         parsed = extract_json(res["text"])
         ok = valid(parsed)
-        last = {"parsed": parsed if ok else None, "raw": res["text"], "cost_usd": res["cost_usd"],
+        last = {"parsed": parsed if ok else None, "key": grader_key(prompt, model),
+                "requested_model": model, "raw": res["text"], "cost_usd": res["cost_usd"],
                 "seconds": res["seconds"], "models": list(res["model_usage"].keys())}
         if not ok:
             last["invalid_reply"] = parsed
@@ -92,10 +112,11 @@ def grade_run(case_id, original, run_dir, model, do_meaning, force):
         out["code"] = check(original, revised)
         prior = run_dir / "code_and_meaning.json"
         out["meaning"] = read_json(prior).get("meaning") if prior.exists() else None  # keep earlier verdicts
-        done = valid_meaning((out["meaning"] or {}).get("parsed"))
+        prompt = fill((EVALS / "prompts" / "meaning_grader.md").read_text(), ORIGINAL=original, REVISED=revised)
+        done = (valid_meaning((out["meaning"] or {}).get("parsed"))
+                and (out["meaning"] or {}).get("key") == grader_key(prompt, model))
         if do_meaning and (force or not done):
-            out["meaning"] = model_json(fill((EVALS / "prompts" / "meaning_grader.md").read_text(),
-                                             ORIGINAL=original, REVISED=revised), model, valid_meaning)
+            out["meaning"] = {**model_json(prompt, model, valid_meaning), "rubric": rubric_version()}
     write_json(run_dir / "code_and_meaning.json", out)
     # skill-creator compatible grading.json
     exps = [{"text": "Protected content unchanged (code grader)", "passed": out["code"]["passed"],
@@ -117,19 +138,24 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
     revised = {c: revised_of(eval_dir / c / f"run-{n}") for c in CONDS}
     if not all(revised.values()):
         return None
+    rng = random.Random(f"{case_id}-{n}")
+    first = rng.choice(CONDS)               # which condition is shown as "A" in order 1
+    plan = []
+    for a_cond in (first, CONDS[1] if first == CONDS[0] else CONDS[0]):
+        b_cond = CONDS[1] if a_cond == CONDS[0] else CONDS[0]
+        plan.append((a_cond, b_cond, fill((EVALS / "prompts" / "quality_grader.md").read_text(),
+                                          AUDIENCE=audience_of(case_id), ORIGINAL=original,
+                                          VERSION_A=revised[a_cond], VERSION_B=revised[b_cond])))
     prior = eval_dir / f"comparison-run-{n}.json"
     if prior.exists() and not force:
         old = read_json(prior)
-        if all(valid_quality((o["grader"] or {}).get("parsed")) for o in old["orders"]):
-            return old  # already judged; do not spend model calls again
-    rng = random.Random(f"{case_id}-{n}")
-    first = rng.choice(CONDS)               # which condition is shown as "A" in order 1
+        if all(valid_quality((o["grader"] or {}).get("parsed"))
+               and (o["grader"] or {}).get("key") == grader_key(prompt, model)
+               for o, (_, _, prompt) in zip(old["orders"], plan)):
+            return old  # already judged with this model and prompt; do not spend model calls again
     orders = []
-    for a_cond in (first, CONDS[1] if first == CONDS[0] else CONDS[0]):
-        b_cond = CONDS[1] if a_cond == CONDS[0] else CONDS[0]
-        g = model_json(fill((EVALS / "prompts" / "quality_grader.md").read_text(),
-                            AUDIENCE=audience_of(case_id), ORIGINAL=original,
-                            VERSION_A=revised[a_cond], VERSION_B=revised[b_cond]), model, valid_quality)
+    for a_cond, b_cond, prompt in plan:
+        g = model_json(prompt, model, valid_quality)
         overall = (g["parsed"] or {}).get("overall")
         winner = None if overall is None else {"A": a_cond, "B": b_cond, "tie": "tie"}[overall]
         orders.append({"A": a_cond, "B": b_cond, "grader": g, "winner": winner})

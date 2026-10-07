@@ -39,7 +39,10 @@ CLASSES = ["citations", "authoryear", "crossrefs", "callouts", "math", "symbols"
 _PROSE_MACROS = {"caption", "emph", "textbf", "textit", "footnote", "section",
                  "subsection", "subsubsection", "paragraph"}
 
-_NAME = r"(?:[A-Z][A-Za-z'.&-]+|van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)"
+# A name starts with an uppercase letter, Latin-1/Latin Extended-A, Greek and Cyrillic
+# included ("Garc\u00eda", "M\u00fcller", "\u0141ukasz"), and continues with any letters.
+_NAME = (r"(?:[A-Z\u00c0-\u00d6\u00d8-\u00de\u0100-\u017f\u0391-\u03a9\u0410-\u042f](?:[^\W\d_]|['.&-])+|"
+         r"van|von|der|de|del|da|di|la|le|ter|ten|dos|and|et|al\.?|&)")
 _DATE_LEAD = re.compile(
     r"^(In|On|At|By|For|From|Since|After|Before|During|Until|Between|Around|Over|Under|"
     r"The|A|An|As|Of|To|With|When|While|January|February|March|April|May|June|July|August|"
@@ -49,9 +52,12 @@ _NUM = r"(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?|\.[0-9]+)"
 # Scientific units, matched case-sensitively (mM is not mm) and only as whole words, so
 # "10 mg" to "10 kg" or "20 \u00b0C" to "20 \u00b0F" is caught. Spelled-out units are matched
 # too, with the hyphen and plural normalized so "10 grams" and "a 10-gram dose" agree.
-_MICRO = "(?:µ|μ)"
-_UNIT_SYM = (r"(?-i:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|W|J|Hz|Pa)|mL|cm|kcal|cal|"
-             r"min|h|hr|hrs|K|kDa|Da|bp|kb|Mb|[KMGT]B|° ?[CF]|°)(?![A-Za-z0-9])")
+_MICRO = "(?:\u00b5|\u03bc)"
+_UNIT_ONE = (r"(?:(?:[kmn]|" + _MICRO + r")?(?:g|l|L|m|M|mol|s|V|W|J|Hz|Pa)|mL|cm|kcal|cal|"
+             r"min|h|hr|hrs|K|kDa|Da|bp|kb|Mb|[KMGT]B|\u00b0 ?[CF]|\u00b0)"
+             r"(?:\^-?[0-9]+|[\u207b\u00b9\u00b2\u00b3\u2070-\u2079]+)?")  # exponent: m^2, s\u207b\u00b9
+# A compound unit ("mg/kg", "m/s", "kg\u00b7m") is one token, so changing any part is caught.
+_UNIT_SYM = r"(?-i:" + _UNIT_ONE + r"(?:[/\u00b7\u22c5]" + _UNIT_ONE + r")*)(?![A-Za-z0-9])"
 _UNIT_WORD = (r"(?:(?:micro|milli|centi|kilo|nano)?(?:grams?|litres?|liters?|meters?|metres?|"
               r"moles?|seconds?|minutes?|hours?|volts?|watts?|joules?)|degrees?(?: (?:celsius|fahrenheit))?|"
               r"kelvin|hertz|calories?)\b")

@@ -1,4 +1,4 @@
-# Evaluation rubric (draft v0.2)
+# Evaluation rubric (draft v0.3)
 
 **Code grader:** fails the revision if any of these differ from the original.
 
@@ -19,6 +19,7 @@
 | Caveat or scope | a condition or exception is dropped or widened | Major |
 | New content | a claim not in the original is added | Major |
 | Lost content | a finding, step, or definition is removed | Major |
+| Reassigned value | a number, citation, or quote now belongs to a different claim | Major |
 | Qualifier word | one is dropped: "novel" | Minor |
 | Voice | the author's style is replaced | Recorded only |
 
