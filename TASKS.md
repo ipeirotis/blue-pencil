@@ -182,7 +182,13 @@ repetition. The skill under test is installed in full from the selected ref,
 and from nothing else: the runner exports an allowlisted runtime package from
 the ref (`SKILL.md`, `references/`, `examples/`, which `SKILL.md` and the
 letter command direct the agent to for worked runs and which the production
-installer makes available by linking the checkout, `.claude/commands/paper/`,
+installer makes available by linking the checkout, with the corollary that
+no corpus case may share its input with an installed example: before each
+run the runner compares every case artifact against every file under the
+installed `examples/` with the C5 sentence aligner and refuses to run a case
+whose text matches an example above a recorded similarity threshold, since
+an agent could otherwise read the expected revision, Diagnosis, and
+rationale through the skill path and reproduce them, `.claude/commands/paper/`,
 `.claude/agents/`, `install.sh` and the `VERSION` file it reads (without
 which the provisioning step below could not run), and the executables the
 checker needs under `scripts/`, never `evals/`,
@@ -216,10 +222,9 @@ C3 full-read half is reported not applicable for that run rather than
 failed, so a valid run is never scored as a skipped reference because of
 the surface's tool API; and a surface
 that receives files by injection (the chat condition in E5) records them as
-`injected` provenance, and C3 marks the trace half of its reference audit
-not applicable on that surface, since injected files leave no reads to
-cover, while the self-report half still runs because the chat condition
-receives the complete reference set rather than the expected one (E5). Runs
+`injected` provenance for the files handed over up front and canonical
+reads for the references it obtains through the E5 request protocol, so the
+C3 reference audit runs on it in full. Runs
 are resumable and cached, keyed
 by a hash of the full case definition (prompt, manuscript, context block,
 expectations), the skill SHA, the model id, the runner configuration, the
@@ -462,7 +467,12 @@ localized-damage fixture whose declared repair touches a protected class
 passes C1 and C4 together while the same fixture with one undeclared token
 change fails C1. Unit tests: one test per extraction
 class, one per known limit in the shell script's header (documenting the limit
-or closing it). The shell script stays until CI switches over (G1).
+or closing it), with one limit that must be closed rather than documented:
+the shell script's restriction of manuscript code fences to `~~~` exists only
+because `examples/` uses triple backticks as its outer fixture delimiter,
+while the tool reads manuscript files directly, so it parses backtick and
+tilde fences of any valid length per CommonMark, and a fixture that changes
+the contents or indentation of an ordinary triple-backtick block must fail. The shell script stays until CI switches over (G1).
 State the guarantee precisely, in the tool's output and its docs: a multiset
 diff proves that no protected token was added, dropped, or changed, not that
 every token kept its place in the argument (two coefficients swapped between
@@ -636,7 +646,14 @@ Check what the skill says about its own run against what it did:
   instead grounded by a judge-tier D4 assertion against the actual diff (does
   the bullet describe a change present in the diff?), with the deterministic
   half limited to the bullet count and the `References loaded:` line, and
-  the bullets are not required to be exhaustive. Its `why` names a
+  the bullets are not required to be exhaustive. Grounding the bullets does
+  not enforce the compact contract's own scope, which forbids adding
+  explanatory substance, so a compact output also carries a deterministic
+  scope assertion: every unmatched added sentence and every added hunk
+  inside an aligned pair that is not made only of insignificant tokens fails
+  it, however honestly a bullet describes the insertion and however well the
+  manuscript supports it, since the quick pass may not add substance at all.
+  Its `why` names a
   mechanism
   from the allowed list; "reads better", "smoother", "more concise" alone
   fail.
@@ -816,9 +833,14 @@ preserving paragraph boundaries (a collapsed blank line merges two paragraphs
 and must fail) and the entire contents of format-sensitive constructs
 (`tabular`, `lstlisting`, code fences, `%` comment lines), which are excluded
 from every normalization, spaces and line breaks alike, so a changed code
-indentation cannot read as verbatim; and `Change rationale` states the
+indentation cannot read as verbatim; `Change rationale` states the
 passage was
-returned verbatim. Also compute the
+returned verbatim; and the Diagnosis affirmatively recommends leaving the
+passage unchanged, carrying the `no safe improvement available` line the
+skill prescribes for each paragraph (or an equivalent explicit no-edit
+recommendation) and naming no defect class from the case's `must_not_flag`,
+so a run that returns the input verbatim while its Diagnosis lists problems
+is not counted as restraint. Also compute the
 "churn rate" on every case: fraction of sentences changed, to track over-editing
 across skill versions. Done when: churn is a column in the A4 report.
 
@@ -1079,12 +1101,14 @@ judge scores, or marks it unmeasured.
 ### E5. Cross-agent comparison (M)
 Run the same corpus through at least two agents that read the skill (Claude
 Code and one other, for example Codex) and one chat surface. Give every
-surface the same inputs: the chat condition gets `SKILL.md`, every file
-under `references/` (the complete set, never only the files the sweep loads
-for the case, since a bundle selected from `expected_passes` would tell the
-chat model which passes apply and prime it with only their guidance, a
-treatment leak that would credit the surface for the selection the agents
-had to make themselves), and, for a command-driven case, the
+surface the same inputs: the chat condition gets `SKILL.md`, on-demand
+access to `references/` through a request protocol (the harness supplies a
+reference only when the model names it in a request turn, records that as a
+canonical read with the file's full range, and never injects the whole set
+or a bundle selected from `expected_passes`, since the first would prime
+the model with gated-off guidance before any selection and the second would
+tell it which passes apply, and either difference could be mistaken for a
+surface effect), and, for a command-driven case, the
 applicable `.claude/commands/paper/*.md` prompt (the decline, table, and
 routing rules of `/paper:quick` and `/paper:triage` live there), not
 `SKILL.md` alone, since the passes
@@ -1098,12 +1122,12 @@ prompt, recorded as `injected` provenance for that file, and a surface that
 receives the prompt this way is still a matched comparison rather than a
 packaging one. Each surface gets an A2 trace adapter that
 maps its own tool names to the canonical read and write events, and the chat
-condition records the injected files as `injected` provenance, and the
-trace half of the C3 reference audit is reported not applicable for that
-condition rather than passed, since injected files leave no reads to cover,
-while its self-report half (the `References loaded:` line against
-`expected_passes`) still runs, because the model had to select from the
-complete set; every other grader
+condition records the manuscript and command files it received up front as
+`injected` provenance and each reference supplied on request as a canonical
+read, so the full C3 reference audit runs on it; a chat surface that cannot
+run the request protocol and must take every reference in its prompt is
+reported as a packaging comparison, never as a matched surface comparison;
+every other grader
 runs unchanged where its assertion can be observed on that surface: an
 assertion that requires a tool event the surface does not expose (the
 observed `Edit` or `Write` in the B6 explicit-apply case, the trace half of
@@ -1113,8 +1137,8 @@ failed, the matched comparison covers only the assertions applicable on
 every compared surface, and the report lists the excluded assertions per
 surface, so the comparison measures behavior rather than
 instrumentation. If a surface
-cannot take the full set, report that run as a packaging comparison,
-separately. Hold the model and inference configuration fixed across surfaces wherever a
+cannot take the manuscript and command inputs in full, report that run as a
+packaging comparison, separately. Hold the model and inference configuration fixed across surfaces wherever a
 surface allows it, since two agents on different underlying models would
 confound surface with model; where a surface cannot run the same model,
 report its result as a model-plus-surface comparison and attribute nothing
@@ -1281,7 +1305,11 @@ pre-recorded thresholds and are recorded with the split.
 
 ### F6. Promote recurring failures to examples and CI anchors (S, recurring)
 When an F-task fixes a cluster, add one representative case as a new
-`examples/*.md` anchor and an executable assertion for the fixed behavior: a
+`examples/*.md` anchor, written on fresh prose rather than copied from a
+corpus case (or retire the corpus case the anchor is drawn from, since A2
+refuses to run a case whose input matches an installed example and the
+ground rules keep recurring failures in the corpus), and an executable
+assertion for the fixed behavior: a
 grader in C that runs in the fast CI tier over the stored golden output, or a
 case in the slow tier's smoke subset. The existing bash checks guard output
 shape, protected-token inventories, and mechanical tells only; a buried lede,
