@@ -30,7 +30,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from lib import (EVALS, GRADER_MODEL, call_claude, changed_cases, claude_version, extract_json,
-                 other_skills_used, outside_reads, read_json, rubric_version, transcript_events,
+                 outside_reads, read_json, rubric_version, transcript_events, unexpected_tools,
                  write_json)
 from protected import check
 
@@ -295,13 +295,13 @@ def head_to_head(case_id, original, eval_dir, n, model, force):
 
 def _valid_trial(rd, cond):
     """The trials report.py counts: finished without error with a revision and, with the skill, loaded it,
-    read nothing outside its workspace, and called no other skill."""
+    read nothing outside its workspace, and used only Blue Pencil's tools."""
     if not (rd / "trial.json").exists() or not (rd / "outputs" / "revised.txt").exists():
         return False
     t = read_json(rd / "trial.json")
     return not t.get("is_error") and (cond != "with_skill" or (
         t.get("skill_loaded") is True and not outside_reads(rd)
-        and not other_skills_used(transcript_events(rd))))
+        and not unexpected_tools(transcript_events(rd))))
 
 
 def main():

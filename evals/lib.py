@@ -271,19 +271,33 @@ def skill_was_loaded(events, workspace):
     return bool(calls & ok)
 
 
-def other_skills_used(events):
-    """Skills other than Blue Pencil that a trial invoked with the Skill tool. A user-level
-    skill installed on the machine is visible to the trial, so a call to one means the
-    trial did not run on Blue Pencil alone."""
+# What a with-skill trial may use: reading tools, the Blue Pencil skill, and its
+# paper-reviser subagent.
+_TRIAL_TOOLS = {"Read", "Grep", "Glob"}
+_TRIAL_AGENTS = {"paper-reviser"}
+
+
+def unexpected_tools(events):
+    """Tool calls outside Blue Pencil's own set: another skill, another subagent type, or
+    any other tool (an MCP server's, a built-in one). Tools installed on the machine are
+    visible to the trial, so a call to one means it did not run on Blue Pencil alone."""
     names = set()
     for e in events or []:
         if e.get("type") != "assistant":
             continue
         for item in (e.get("message", {}).get("content") or []):
-            if isinstance(item, dict) and item.get("type") == "tool_use" and item.get("name") == "Skill":
-                name = str((item.get("input") or {}).get("skill", ""))
+            if not (isinstance(item, dict) and item.get("type") == "tool_use"):
+                continue
+            tool, inp = item.get("name"), item.get("input") or {}
+            if tool == "Skill":
+                name = str(inp.get("skill", ""))
                 if name != "blue-pencil" and not name.startswith(("paper:", "blue-pencil:")):
-                    names.add(name)
+                    names.add("Skill:" + name)
+            elif tool in ("Agent", "Task"):
+                if inp.get("subagent_type") not in _TRIAL_AGENTS:
+                    names.add(f"{tool}:{inp.get('subagent_type')}")
+            elif tool not in _TRIAL_TOOLS:
+                names.add(str(tool))
     return sorted(names)
 
 

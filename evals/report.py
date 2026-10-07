@@ -24,7 +24,7 @@ import sys
 
 import json
 
-from lib import (EVALS, changed_cases, other_skills_used, reads_outside_workspace, read_json,
+from lib import (EVALS, changed_cases, reads_outside_workspace, read_json, unexpected_tools,
                  total_tokens, write_json)
 from protected import check
 
@@ -45,7 +45,7 @@ def invalid_reason(r, cond):
     if cond == "with_skill" and r["outside"]:
         return "read or listed files outside its workspace: " + ", ".join(r["outside"])
     if cond == "with_skill" and r["other_skills"]:
-        return "called a skill other than Blue Pencil: " + ", ".join(r["other_skills"])
+        return "used tools outside Blue Pencil's set: " + ", ".join(r["other_skills"])
     return None
 
 
@@ -69,7 +69,7 @@ def load(root):
                 if cond == "with_skill" and (rd / "transcript.jsonl").exists():
                     events = [json.loads(ln) for ln in (rd / "transcript.jsonl").read_text().splitlines() if ln.strip()]
                     outside = reads_outside_workspace(events)
-                    other_skills = other_skills_used(events)
+                    other_skills = unexpected_tools(events)
                     # Skills the session listed as available (user-level ones included).
                     listed = {s for e in events if e.get("type") == "system" and e.get("subtype") == "init"
                               for s in (e.get("skills") or [])}
@@ -236,8 +236,8 @@ def main():
         L.append("- **Caveat:** this run predates equal workspaces: only the with-skill workspace held "
                  "AGENTS.md with the paper context (both prompts included it), so the conditions differ "
                  "in that as well as in the skill. Rerun under a new run id to isolate the skill.")
-    # Trials that read outside their workspace or called another skill are not counted (see
-    # invalid_reason); skills that were only listed are reported here.
+    # Trials that read outside their workspace or used tools outside Blue Pencil's set are not
+    # counted (see invalid_reason); skills that were only listed are reported here.
     extra = sorted(set().union(*(r["listed"] for r in all_runs["with_skill"])) - {"blue-pencil"})
     if extra:
         L.append(f"- **Caveat:** with-skill sessions also listed {len(extra)} other skills, built into Claude Code "
