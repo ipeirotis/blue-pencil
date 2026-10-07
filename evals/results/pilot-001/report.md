@@ -4,6 +4,7 @@
 - Blue Pencil version: 3.0.0, repo commit `7d9ed8b4a7`
 - Cases: exposition-introduction, exposition-methods, exposition-results, worked-example; 3 runs per condition per case
 - Rubric: `evals/rubric.md` v0.2. Revision stage: first draft.
+- **Caveat:** this run predates equal workspaces: only the with-skill workspace held AGENTS.md with the paper context (both prompts included it), so the conditions differ in that as well as in the skill. Rerun under a new run id to isolate the skill.
 
 ## 1. Preservation (all cases)
 

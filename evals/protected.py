@@ -91,10 +91,10 @@ _NUMBER_RE = re.compile(
     # "1 to 2" is a range too, and either endpoint may carry a sign ("\u22123\u2013\u22121").
     # The first endpoint may carry its own suffix ("5%\u201310%", "5 mg\u201310 mg").
     # A sign may also follow the currency sign ("$-5", "\u20ac\u22125").
-    r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM
+    r"(?:(?-i:US|C|A|NZ|HK|S|R)?\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM
     # An estimate with its uncertainty ("5 \u00b1 2") is one ordered token too.
     + r"(?:(?: ?%|(?: |-)?" + _UNIT_SYM + r")?(?:[-\u2013\u2014]| to | ?\u00b1 ?)(?:[+-]|" + UMIN + r")?"
-    + r"(?:\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
+    + r"(?:(?-i:US|C|A|NZ|HK|S|R)?\$|" + EUR + "|" + GBP + "|" + YEN + r"|\b" + _CUR_CODE + r" ?)?(?:[+-]|" + UMIN + r")?" + _NUM + r")?"
     r"(?:[/:]" + _NUM + r")*(?: ?%)?"  # SI style puts a space before % ("5 %")
     r"(?:(?: |-)(?:percentage points?|percentage|percent|points?|pp|bps|million|billion|"
     r"thousand|fold|star|stars)|(?: |-)(?P<uword>" + _UNIT_WORD + r")|(?: |-)?(?P<unit>" + _UNIT_SYM + r"))?"
@@ -108,7 +108,9 @@ _NUMWORD_RE = re.compile(
     r"seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(?:-[a-z]+)?|"
     r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+)\b"
     # A unit or percent after a spelled-out number stays with it ("five percent").
-    r"(?: (?P<unit>percentage points?|percent|per cent|" + _UNIT_WORD + r"))?", re.I)
+    # A spaced fraction keeps its denominator ("one third", "three quarters").
+    r"(?: (?P<unit>percentage points?|percent|per cent|halves|half|thirds?|quarters?|fourths?|fifths?|"
+    r"sixths?|sevenths?|eighths?|ninths?|tenths?|" + _UNIT_WORD + r"))?", re.I)
 
 
 # Mathematical symbols written as Unicode in prose, outside any math delimiters: Greek
@@ -131,7 +133,8 @@ _EM_RE = re.compile(r"(?<![*_\w\\])([*_])(?=[^\s*_])(.+?)(?<=[^\s*_\\])\1(?![*_\
 
 # Numeric citation groups, "[12]" or "[12, 13]" or "[3-5]". The whole bracket is one
 # token, so reordering the numbers inside a group is caught.
-_NUMCITE_RE = re.compile(r"\[ ?[0-9]+(?: ?[,;\u2013-] ?[0-9]+)* ?\]")
+# Labels may carry a short letter prefix ("[S1]", "[e1, e2]").
+_NUMCITE_RE = re.compile(r"\[ ?[A-Za-z]{0,2}[0-9]+(?: ?[,;\u2013-] ?[A-Za-z]{0,2}[0-9]+)* ?\]")
 
 
 # Bare ASCII equations and comparisons outside math delimiters ("x > y", "a+b=c",
@@ -165,7 +168,7 @@ _REL_OP = r" ?(?:<=|>=|!=|==|[=<>" + _UREL + r"]) ?"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
 _BARE_OPERAND = r"(?:" + _EQ_OPERAND + "|" + _USYM + ")"  # Greek and letterlike operands too ("\u03b1 + \u03b2")
-_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212" + _UREL + r"]) ?| - )"
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7" + _UREL + r"]) ?| - )"
                           + _BARE_OPERAND + r")+(?![\w])")
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
@@ -355,7 +358,8 @@ def _macros(text):
 _FROZEN_ENVS = ["lstlisting", "verbatim", "Verbatim", "minted", "alltt", "code", "tabular", "tabular*",
                 "tabularx", "longtable", "array", "equation", "equation*", "align", "align*", "gather",
                 "gather*", "multline", "multline*", "eqnarray", "eqnarray*", "matrix", "pmatrix",
-                "bmatrix", "vmatrix", "cases", "split", "math", "displaymath"]
+                "bmatrix", "vmatrix", "cases", "split", "math", "displaymath", "alignat", "alignat*", "flalign",
+                "flalign*", "aligned", "alignedat", "gathered", "Bmatrix", "Vmatrix", "smallmatrix", "dcases"]
 
 
 def _table_rows(raw):
@@ -380,7 +384,7 @@ def _list_markers(raw):
     list item ends the list."""
     out, stack = [], []
     for ln in raw.splitlines():
-        m = re.match(r"^(\s*)([-*+] (?:\[[ xX]\] )?|[0-9]{1,3}[.)] )", ln)
+        m = re.match(r"^(\s*)([-*+][ \t](?:\[[ xX]\][ \t])?|[0-9]{1,3}[.)][ \t])", ln)
         if not m:
             if ln.strip() and not ln[:1].isspace():
                 stack = []

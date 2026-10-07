@@ -167,7 +167,7 @@ def main():
     root = EVALS / "results" / sys.argv[1]
     runs, pairs = load(root)
     meta = read_json(root / "run_meta.json") if (root / "run_meta.json").exists() else {}
-    changed = changed_cases(meta, sorted({r["case"] for c in CONDS for r in runs[c]}))
+    changed = changed_cases(meta, sorted({r["case"] for c in CONDS for r in runs[c]}), root)
     if changed:
         sys.exit(f"case files changed since this run: {', '.join(changed)}; restore them first.")
     all_runs = runs
@@ -192,6 +192,13 @@ def main():
     if excluded:
         L.append(f"- Excluded {len(excluded)} invalid runs: "
                  + "; ".join(f"{NAMES[c]}, {r['case']}, run {r['n']} ({why})" for c, r, why in excluded))
+    if meta.get("workspace_context") != "both conditions":
+        # Runs made before the workspaces were equalized gave only the with-skill workspace
+        # the paper context as AGENTS.md (both prompts carried it), so the conditions
+        # differed in that as well as in the skill.
+        L.append("- **Caveat:** this run predates equal workspaces: only the with-skill workspace held "
+                 "AGENTS.md with the paper context (both prompts included it), so the conditions differ "
+                 "in that as well as in the skill. Rerun under a new run id to isolate the skill.")
     leaky = [r for r in runs["with_skill"] if r["outside"]]
     if leaky:
         # Not excluded (that would remove most of a run made before the isolation fix), but

@@ -205,7 +205,7 @@ def main():
               "blue_pencil_version": skill_version(), "skill_fingerprint": skill_fingerprint(),
               "flags": FLAGS, "preserve_instruction": PRESERVE,
               "case_fingerprints": {i: case_fingerprint(i) for i in ids},
-              "runner_fingerprint": runner_fingerprint()}
+              "runner_fingerprint": runner_fingerprint(), "workspace_context": "both conditions"}
     provenance = {"started": now, "repo_commit": git_sha(), **config}
     meta_path = out_root / "run_meta.json"
     if meta_path.exists():

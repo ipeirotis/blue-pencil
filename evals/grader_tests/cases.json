@@ -31,7 +31,8 @@
     "misc22": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
     "misc23": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
     "misc24": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
-    "misc25": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n  - inner\n- next"
+    "misc25": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n  - inner\n- next",
+    "misc26": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}"
   },
   "variants": [
     {
@@ -1266,6 +1267,60 @@
       "damage_type": null,
       "code_grader_should_flag": false,
       "note": "Nested list item re-indented at the same depth."
+    },
+    {
+      "id": "misc26-fraction-word-dropped",
+      "base": "misc26",
+      "revised": "One of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Denominator of a spelled-out fraction removed."
+    },
+    {
+      "id": "misc26-regional-dollar-changed",
+      "base": "misc26",
+      "revised": "One third of participants paid C$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Regional dollar prefix changed."
+    },
+    {
+      "id": "misc26-letter-citation-changed",
+      "base": "misc26",
+      "revised": "One third of participants paid US$5 million, as [T1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "citation changed",
+      "code_grader_should_flag": true,
+      "note": "Lettered citation label changed."
+    },
+    {
+      "id": "misc26-bare-product-changed",
+      "base": "misc26",
+      "revised": "One third of participants paid US$5 million, as [S1] and a × c show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operand of a bare Unicode product changed."
+    },
+    {
+      "id": "misc26-tab-list-marker-dropped",
+      "base": "misc26",
+      "revised": "One third of participants paid US$5 million, as [S1] and a × b show.\n\nitem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Tab-separated list marker removed."
+    },
+    {
+      "id": "misc26-alignat-contents-changed",
+      "base": "misc26",
+      "revised": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= z\\end{alignat}",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Contents of an alignat environment changed."
     }
   ]
 }

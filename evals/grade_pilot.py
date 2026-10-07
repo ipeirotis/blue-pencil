@@ -290,7 +290,7 @@ def main():
     if not root.is_dir():
         sys.exit(f"no such run: {root}")
     meta = read_json(root / "run_meta.json") if (root / "run_meta.json").exists() else {}
-    changed = changed_cases(meta, [ed.name[len("eval-"):] for ed in root.glob("eval-*")])
+    changed = changed_cases(meta, [ed.name[len("eval-"):] for ed in root.glob("eval-*")], root)
     if changed:
         sys.exit(f"case files changed since {args.run_id} ran: {', '.join(changed)}. Its outputs "
                  "would be graded against a passage the executor never saw; restore the files.")

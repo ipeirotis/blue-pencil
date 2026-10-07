@@ -86,12 +86,25 @@ def case_fingerprint(case_id):
     return h.hexdigest()[:16]
 
 
-def changed_cases(meta, case_ids):
+def changed_cases(meta, case_ids, root=None):
     """Cases whose files differ from the fingerprint the run recorded. Outputs of such
     a case were produced from different input, so they must not be graded against
-    the current files. Runs that recorded no fingerprints cannot be checked."""
+    the current files. For a run that recorded no fingerprint for a case, every saved
+    prompt.txt under `root` must contain the current passage and paper context; a case
+    with no saved prompt to check counts as changed."""
     recorded = meta.get("case_fingerprints", {})
-    return [c for c in case_ids if c in recorded and recorded[c] != case_fingerprint(c)]
+    out = []
+    for c in case_ids:
+        if c in recorded:
+            if recorded[c] != case_fingerprint(c):
+                out.append(c)
+            continue
+        d = EVALS / "cases" / c
+        need = [(d / "input.txt").read_text().strip(), (d / "context.txt").read_text().strip()]
+        prompts = list((Path(root) / f"eval-{c}").glob("*/run-*/prompt.txt")) if root else []
+        if not prompts or not all(all(x in p.read_text() for x in need) for p in prompts):
+            out.append(c)
+    return out
 
 
 def claude_version():
