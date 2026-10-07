@@ -137,7 +137,7 @@ def runner_fingerprint():
     return hashlib.sha256("\n".join(parts).encode()).hexdigest()[:16]
 
 
-def resume_meta(meta, config, provenance, ids, runs, allow_mixed):
+def resume_meta(meta, config, provenance, ids, runs, allow_mixed, verified=()):
     """Keep the original run's metadata and record this resume in it.
 
     Trials already in the directory were produced under `meta`; adding new ones under
@@ -152,8 +152,12 @@ def resume_meta(meta, config, provenance, ids, runs, allow_mixed):
     old_cases = meta.get("case_fingerprints", {})
     changed = [cid for cid, fp in config["case_fingerprints"].items()
                if cid in old_cases and old_cases[cid] != fp]
+    # An older run recorded no fingerprints. Its trials for a shared case are kept only if
+    # their saved prompts match the prompts the current case files give (`verified`).
+    changed += [cid for cid in ids if cid in meta.get("cases", []) and cid not in old_cases
+                and cid not in verified]
     if changed:
-        sys.exit(f"refusing to resume {meta.get('run_id')}: case files changed since it started: "
+        sys.exit(f"refusing to resume {meta.get('run_id')}: case files changed (or cannot be verified) since it started: "
                  f"{', '.join(changed)}. Restore them or use a new --run-id.")
     if diffs and not allow_mixed:
         lines = "\n".join(f"  {k}: run has {old!r}, now {new!r}" for k, (old, new) in diffs.items())
@@ -205,11 +209,15 @@ def main():
     provenance = {"started": now, "repo_commit": git_sha(), **config}
     meta_path = out_root / "run_meta.json"
     if meta_path.exists():
-        meta = resume_meta(read_json(meta_path), config, provenance, ids, args.runs, args.allow_mixed)
+        verified = {c["id"] for c in cases if all(
+            p.read_text() == build_prompt(c, p.parent.parent.name)
+            for p in (out_root / f"eval-{c['id']}").glob("*/run-*/prompt.txt"))}
+        meta = resume_meta(read_json(meta_path), config, provenance, ids, args.runs, args.allow_mixed, verified)
     else:
         meta = {"run_id": args.run_id, "started": now, **config, "repo_commit": provenance["repo_commit"],
                 "cases": ids, "runs_per_condition": args.runs,
-                "note": "Each trial is a fresh `claude -p` session in an empty temp directory."}
+                "note": "Each trial is a fresh `claude -p` session in a temp directory holding only "
+                        "AGENTS.md with the paper context, plus the skill in the with-skill condition."}
     write_json(meta_path, meta)
     t0 = time.time()
     with ThreadPoolExecutor(max_workers=args.workers) as ex:

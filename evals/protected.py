@@ -102,7 +102,8 @@ _NUMBER_RE = re.compile(
     r"(?: per (?:" + _UNIT_SYM + "|" + _UNIT_WORD + r"))?",
     re.I)
 _NUMWORD_RE = re.compile(
-    r"\b(?:(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
+    r"\b(?:(?:minus|negative) )?"  # a spelled-out sign stays with its number, as for digits
+    r"(?:(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
     r"fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|"
     r"seventy|eighty|ninety|hundred|thousand|million|billion|twice|half|dozen)(?:-[a-z]+)?|"
     r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)-[a-z]+)\b"
@@ -163,8 +164,9 @@ _UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u228
 _REL_OP = r" ?(?:<=|>=|!=|==|[=<>" + _UREL + r"]) ?"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
-_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _EQ_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212" + _UREL + r"]) ?| - )"
-                          + _EQ_OPERAND + r")+(?![\w])")
+_BARE_OPERAND = r"(?:" + _EQ_OPERAND + "|" + _USYM + ")"  # Greek and letterlike operands too ("\u03b1 + \u03b2")
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212" + _UREL + r"]) ?| - )"
+                          + _BARE_OPERAND + r")+(?![\w])")
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
 _PANEL = r"(?: ?\([a-z](?:[,\u2013-] ?[a-z])*\))?"
@@ -368,6 +370,31 @@ def _table_rows(raw):
     return rows
 
 
+def _list_markers(raw):
+    """List markers with their nesting depth, so moving an item in or out a level is caught
+    while re-indenting a whole list the same way is not.
+
+    Unordered markers keep a task-list box if present ("- [x]", "- [ ]"). Ordered markers
+    ("1.", "2)") have at most three digits, so a hard-wrapped line that starts with a year
+    ("2006). Moreover") is not taken for a list item. A non-indented line that is not a
+    list item ends the list."""
+    out, stack = [], []
+    for ln in raw.splitlines():
+        m = re.match(r"^(\s*)([-*+] (?:\[[ xX]\] )?|[0-9]{1,3}[.)] )", ln)
+        if not m:
+            if ln.strip() and not ln[:1].isspace():
+                stack = []
+            continue
+        indent = len(m.group(1).expandtabs(4))
+        while stack and stack[-1] > indent:
+            stack.pop()
+        if not stack or stack[-1] < indent:
+            stack.append(indent)
+        marker = re.sub(r"\s+", " ", m.group(2).strip()).replace("X", "x")
+        out.append("  " * (len(stack) - 1) + marker)
+    return out
+
+
 def _strip_captions(text):
     """Caption text is editable prose; blank it before diffing environments."""
     out, pos = [], 0
@@ -487,12 +514,7 @@ def tokens(cls, raw, flat):
         out += ["  " if m[0] == " " else "\\" for m in re.findall(r"( {2,}|\\)\n(?=[ \t]*\S)", raw)]
         # Thematic breaks ("***", "___", "* * *"), kept as their character only.
         out += re.findall(r"^ {0,3}([*_])(?:[ \t]*\1){2,}[ \t]*$", raw, re.M)
-        # Unordered-list markers, with a task-list box if present ("- [x] ", "- [ ] ").
-        out += [re.sub(r"\s+", " ", m.strip()).replace("X", "x")
-                for m in re.findall(r"^\s*[-*+] (?:\[[ xX]\] )?", raw, re.M)]
-        # Ordered-list markers ("1.", "2)"); at most three digits, so a hard-wrapped line
-        # that starts with a year ("2006). Moreover") is not taken for a list item.
-        out += [m.strip() for m in re.findall(r"^\s*[0-9]{1,3}[.)] ", raw, re.M)]
+        out += _list_markers(raw)
         return out
     if cls == "code":
         # Fenced blocks (~~~ or ```) first, each whole block as one token so reordering

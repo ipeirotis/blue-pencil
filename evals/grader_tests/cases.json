@@ -30,7 +30,8 @@
     "misc21": "The equation is x = -y, the response rate was five percent, and Figs. 2 and 3 show it.",
     "misc22": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
     "misc23": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
-    "misc24": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>."
+    "misc24": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
+    "misc25": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n  - inner\n- next"
   },
   "variants": [
     {
@@ -1229,6 +1230,42 @@
       "damage_type": "table reference changed",
       "code_grader_should_flag": true,
       "note": "Email autolink address changed."
+    },
+    {
+      "id": "misc25-spelled-sign-dropped",
+      "base": "misc25",
+      "revised": "Returns fell by five percent, and α + β is the total.\n\n- outer\n  - inner\n- next",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Sign of a spelled-out number removed."
+    },
+    {
+      "id": "misc25-greek-arithmetic-changed",
+      "base": "misc25",
+      "revised": "Returns fell by minus five percent, and α - β is the total.\n\n- outer\n  - inner\n- next",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operator between Greek operands changed."
+    },
+    {
+      "id": "misc25-list-item-unnested",
+      "base": "misc25",
+      "revised": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n- inner\n- next",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Nested list item moved to the top level."
+    },
+    {
+      "id": "misc25-list-reindented",
+      "base": "misc25",
+      "revised": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n    - inner\n- next",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Nested list item re-indented at the same depth."
     }
   ]
 }

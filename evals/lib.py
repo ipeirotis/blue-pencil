@@ -288,10 +288,11 @@ def reads_outside_workspace(events):
 def make_workspace(with_skill, paper_context, held_out=()):
     """Create a throwaway working directory for one trial.
 
-    with_skill=True: a mini paper repo with Blue Pencil's commands, subagent and
-    skill installed project-locally, plus an AGENTS.md carrying the paper
-    context, which is how a real user's repo looks after `install.sh --init`.
-    with_skill=False: an empty directory, so nothing from this repo is visible.
+    Both conditions get the same AGENTS.md carrying the paper context, so the only
+    difference between them is the skill.
+    with_skill=True: also Blue Pencil's commands, subagent and skill installed
+    project-locally, which is how a real user's repo looks after `install.sh --init`.
+    with_skill=False: nothing else, so nothing from this repo is visible.
     held_out: example files (names under examples/) left out of the skill copy.
     The case being edited is held out, because its example file holds the
     authored answer for that same passage.
@@ -306,5 +307,5 @@ def make_workspace(with_skill, paper_context, held_out=()):
         shutil.copytree(REPO / "references", skill_dir / "references")
         shutil.copytree(REPO / "examples", skill_dir / "examples",
                         ignore=lambda d, names: [n for n in names if n in held_out])
-        (ws / "AGENTS.md").write_text("# Paper context\n\n" + paper_context.strip() + "\n")
+    (ws / "AGENTS.md").write_text("# Paper context\n\n" + paper_context.strip() + "\n")
     return ws
