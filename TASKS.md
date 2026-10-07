@@ -174,9 +174,11 @@ an older skill SHA would corrupt the E4 ablations and the G3 historical
 reruns. The trace format is adapter-based: one adapter per agent surface
 maps its tool names to the canonical read and write events, and a surface
 that receives files by injection (the chat condition in E5) records them as
-`injected` provenance, and C3 marks its reference audit not applicable on
-that surface, since handing the model exactly the expected references gives
-it the answer and leaves nothing to audit. Runs are resumable and cached, keyed
+`injected` provenance, and C3 marks the trace half of its reference audit
+not applicable on that surface, since injected files leave no reads to
+cover, while the self-report half still runs because the chat condition
+receives the complete reference set rather than the expected one (E5). Runs
+are resumable and cached, keyed
 by a hash of the full case definition (prompt, manuscript, context block,
 expectations), the skill SHA, the model id, the runner configuration, the
 harness's own commit SHA together with a cache-schema version (so a fix to
@@ -217,7 +219,15 @@ provenance lines instead of a word count and change ledger, per the command
 file), the staged plan that `/paper:loop` returns from its Step A (a
 numbered plan with exactly the parts the command file lists and no
 full-contract sections; C2 applies no contract branch to it and routes it to
-the F7 plan predicates), and the feedback-only wrapper (the four sections
+the F7 plan predicates), the later orchestration turns of a scripted
+`/paper:loop` run (a section checkpoint that relays a dispatched pass's
+output and asks the author to resolve its questions or confirm an apply, an
+apply acknowledgment that reports the file updated and carries no new
+revision, a consistency-check relay, and the completion message that
+declares the Step G stop condition with each section's convergence; each is
+its own variant, C2 applies no contract branch, and F7's loop predicates
+grade it against the dispatch trace and the plan, so a valid post-plan turn
+is never a parse failure), and the feedback-only wrapper (the four sections
 with `No rewrite requested.` as the revised text) carrying a Diagnosis in a
 command-specific shape: the severity-ranked comment table of
 `/paper:triage`, which applies even when reviewer comments arrive without a
@@ -356,7 +366,15 @@ the skill-creator description-optimization script runs against it.
 ### C1. Standalone protected-content checker (L)
 Port the logic of `scripts/check-protected.sh` to a Python tool
 (`bp-check original.tex revised.tex`) that anyone can run on any manuscript,
-not only on `examples/`. Same extraction classes, same multiset diff, a
+not only on `examples/`. A manuscript is often a wrapper whose
+`\input{...}` and `\include{...}` graph carries the sections, as the
+`/paper:read`, `/paper:consistency`, and `/paper:loop` command files already
+state, so the checker follows that graph from each root, pairs the included
+files by path relative to their root, diffs each pair and the union, and
+reports a file present in one graph and missing from the other as a finding
+rather than a clean result; a fixture with identical wrappers and a changed
+`sections/results.tex` must fail, since a root-only comparison would report
+it clean. Same extraction classes, same multiset diff, a
 machine-readable report (which class, which token, added or removed), an
 exceptions file for author-approved changes, and an `inventory` subcommand that
 emits the `must_not_change` block for A1. An exception names a class, the
@@ -427,8 +445,12 @@ already carried, for a proposition or a participant, is the author's and
 stays; only a label absent from the input fails), every Author question ends with `?`, no banned tell in any paragraph the stage allowed the model
 to edit (a verbatim paragraph with a tell is itself a failure at `first
 draft`, `final polish`, and quick pass, since the scrub runs over all
-editable text; exempt only text the stage forbids editing, the unflagged
-paragraphs at `response to reviewers`, anything a `style_overrides:`
+editable text; exempt only text the stage forbids editing, which at
+`response to reviewers` means the unflagged paragraphs outside the
+neighbour window and, inside a neighbour the stage lets the model touch,
+the sentences it left unchanged, so the transition or setup sentence
+`/paper:rebut` permits is scanned and a tell or em-dash introduced there
+fails even though C4 accepts the edit as in scope; anything a `style_overrides:`
 line permits, the inside of a direct quotation, which constraint 7 keeps
 verbatim and constraint 9 exempts from the em-dash rule, and every
 constraint-5 opaque span the skill keeps verbatim: environments, `%`
@@ -492,7 +514,13 @@ Check what the skill says about its own run against what it did:
 - `References loaded:` equals the case's `expected_passes` from A1 (the
   corpus author's reading of every sweep gate, content gates included, since
   section type and stage alone cannot tell an applicable `exposition.md` read
-  from a phantom one), with no skipped pass and no phantom one, and each named
+  from a phantom one), with no skipped pass and no phantom one. The contract
+  lets the line say briefly that a section gated a pass off, so the parser
+  separates entries claimed as loaded from entries annotated as gated off,
+  the equality check runs over the loaded entries only, and a gated-off entry
+  passes only when its file is absent from `expected_passes` and from the
+  trace (a file annotated as gated off that the trace shows read, or that
+  `expected_passes` requires, fails). Each loaded
   file appears in the A2 trace as canonical reads of that path whose ranges
   together cover the whole file (a bounded read of the first screen does not
   count); on a surface that received the files by injection the audit is
@@ -922,17 +950,24 @@ judge scores, or marks it unmeasured.
 ### E5. Cross-agent comparison (M)
 Run the same corpus through at least two agents that read the skill (Claude
 Code and one other, for example Codex) and one chat surface. Give every
-surface the same inputs: the chat condition gets `SKILL.md`, every
-`references/` file the sweep loads, and, for a command-driven case, the
+surface the same inputs: the chat condition gets `SKILL.md`, every file
+under `references/` (the complete set, never only the files the sweep loads
+for the case, since a bundle selected from `expected_passes` would tell the
+chat model which passes apply and prime it with only their guidance, a
+treatment leak that would credit the surface for the selection the agents
+had to make themselves), and, for a command-driven case, the
 applicable `.claude/commands/paper/*.md` prompt (the decline, table, and
 routing rules of `/paper:quick` and `/paper:triage` live there), not
 `SKILL.md` alone, since the passes
 depend on those files and a divergence caused by a missing input says nothing
 about instruction compliance. Each surface gets an A2 trace adapter that
 maps its own tool names to the canonical read and write events, and the chat
-condition records the injected files as `injected` provenance, and the C3
-reference audit is reported not applicable for that condition rather than
-passed, since the injection supplies the expected set; every other grader
+condition records the injected files as `injected` provenance, and the
+trace half of the C3 reference audit is reported not applicable for that
+condition rather than passed, since injected files leave no reads to cover,
+while its self-report half (the `References loaded:` line against
+`expected_passes`) still runs, because the model had to select from the
+complete set; every other grader
 runs unchanged where its assertion can be observed on that surface: an
 assertion that requires a tool event the surface does not expose (the
 observed `Edit` or `Write` in the B6 explicit-apply case, the trace half of
@@ -1034,9 +1069,18 @@ edit only, so registering the command is not enough: the command file must
 grant a command-execution tool (or dispatch to a subagent that has one), the
 installer must install an invocable entry point for the checker and record its
 path, and the command must fall back to a clear message when the entry point
-is missing. Done when: `install.sh --init` registers the command and installs
-the entry point, `test-install.sh` covers both, and an end-to-end test runs
-`/paper:verify` on a fixture pair and gets the checker's report back, and a
+is missing. The entry point lives at a stable path inside the runtime
+package (`scripts/`, part of the A2 allowlist) and the command file invokes
+it through the installed skill link, so both installer modes carry it:
+`--init` for a paper repository and `--commands` for a home, which is the
+mode A2 uses to provision every isolated run, and an F7 or loop run that saw
+no executable would otherwise fall back to the missing-entry-point message
+on every run. Done when: `install.sh --init` and `install.sh --commands`
+each register the command and install the entry point, `test-install.sh`
+covers both modes, an end-to-end test runs
+`/paper:verify` on a fixture pair and gets the checker's report back, a
+third end-to-end test runs it inside a temporary home provisioned exactly as
+A2 provisions one and gets the report rather than the fallback message, and a
 second end-to-end test drives the pre-apply loop path, feeding a proposed
 revision through standard input and asserting the report comes back with no
 file created in the worktree.
@@ -1109,6 +1153,16 @@ deterministic grader (C1 through C6) run over `examples/`, over stored golden
 outputs, and over each grader's own positive and negative fixtures, so a
 regression in word-count honesty, stage scope, restraint, or defect recall
 fails on the push that introduces it rather than in the next API-backed run.
+The assertions split by what they need: output-only assertions run over
+`examples/`, which carry scenario text and rendered output and nothing else;
+runtime assertions (the C3 full-read audit of `References loaded:`, the C4
+write, snapshot, and per-turn permission checks, the F7 dispatch and
+execution audits) run over trace-bearing fixtures, meaning stored golden
+runs saved with their A2 trace and snapshots and at least one positive and
+one negative hand-built trace fixture per runtime assertion, and over
+`examples/` they report not applicable, never pass, so the fast tier
+enforces every check it claims to anchor rather than skipping the runtime
+half silently.
 Slow tier nightly and on demand: the runner on the E3 smoke set (the
 stratified set that gives every gated assertion at least three applicable
 cases, three repetitions, one model), posting the benchmark delta as a workflow
