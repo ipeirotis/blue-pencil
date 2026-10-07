@@ -683,7 +683,11 @@ the sentences it left unchanged, so the transition or setup sentence
 fails even though C4 accepts the edit as in scope; anything a `style_overrides:`
 line permits, the inside of a direct quotation, which constraint 7 keeps
 verbatim and constraint 9 exempts from the em-dash rule, and every
-constraint-5 opaque span the skill keeps verbatim: environments, `%`
+constraint-5 opaque span the skill keeps verbatim: environments with their
+`\caption{...}` text carved out first, since constraint 5 makes caption
+prose editable even inside an opaque `figure` and the protected-content
+extractor already treats it so, so a tell or em-dash introduced in a
+caption fails while the rest of the environment stays exempt, `%`
 comment lines, code spans and fences, math, and macro arguments that are
 not prose), stage-appropriate Diagnosis headers, and at most seven
 numbered Diagnosis items on an ordinary section edit (the cap is lifted for
@@ -804,10 +808,14 @@ Check what the skill says about its own run against what it did:
   every reference, and omits the access from the line fails as an unreported load
   rather than passing on a report that merely matches `expected_passes`,
   since a hidden extra load is a selection failure and would contaminate
-  the E4 and E5 comparisons with guidance the case should not receive; on a
-  surface that received the files by injection the audit is
-  not applicable and is reported as such (A4's not-applicable state), never
-  as a pass. The
+  the E4 and E5 comparisons with guidance the case should not receive; the
+  audit is not applicable, and reported as such (A4's not-applicable state),
+  never as a pass, only on a surface whose reference contents themselves
+  were injected without observable reads (a packaging comparison), while the
+  matched E5 chat condition, whose manuscript and command prompt are
+  injected but whose references arrive through the request protocol as
+  canonical reads, keeps the full audit, since the selection behavior it
+  records is what the cross-surface comparison measures. The
   claim alone is what this check exists to distrust: a model that skips a
   reference and prints its name anyway must fail here, not pass. Where two
   labelers disagree on an entry of a case's expected set, that entry is
@@ -1113,9 +1121,15 @@ polarity-aware matcher so that a negated or absent-marking mention such as
 fixtures for the matcher), and, where the
 revision was in scope, did it remove the defect without destroying the prose
 around it (class-specific check: tell absent, definition now precedes first
-use, em-dash gone, and so on, plus, on B3 cases, the sentence that carried
-the injected defect still aligns to an output sentence and the revision stays
-within a similarity threshold of B3's retained clean reference, with the
+use, em-dash gone, and so on, plus, on B3 cases, the injection's recorded
+anchor region still aligns into the output and the revision stays
+within a similarity threshold of B3's retained clean reference over that
+region, where each B3 case records the anchor its class needs (one
+sentence for a tell, an em-dash, or an undefined term; a sentence set for
+a buried lede, machinery before motive, or uniform sentence length; the
+paragraph for a missing payoff, which is an absence with no carrying
+sentence), so the anti-deletion safeguard has a defined region for every
+class rather than a sentence some classes do not have, with the
 metric and cutoff (for example a normalized token-edit ratio against the
 clean sentence and its neighbours) written down before the baseline run and
 boundary fixtures on both sides of the cutoff, so deleting the sentence
@@ -1332,7 +1346,13 @@ development-set rates.
 ## E. Baseline and analysis `[analysis]`
 
 ### E1. Baseline benchmark for the current release (M)
-Run v3.0.0 on the full corpus, two or three models, five repetitions each. Run
+Run v3.0.0 on the full corpus, two or three models, five repetitions each,
+where "v3.0.0" is an immutable Git ref: the repository's tags stop at the
+1.x series while `VERSION` reads 3.0.0, so before this task runs the
+maintainers cut a `v3.0.0` tag on the commit that set that version (or
+`evals/README.md` records that commit's SHA as the baseline ref), and A2
+and G3 resolve the baseline by that tag or SHA, never by the version file's
+content. Run
 every grader from C and every judge from D whose assertion applies to the
 parsed variant: the rewrite dimensions (clarity gain, voice preservation,
 sentence-aligned meaning) are reported not applicable on a feedback-only
