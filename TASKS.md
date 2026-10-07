@@ -55,7 +55,12 @@ is rejected by the schema unless it matches the rendered one. Expectations are s
 `must_flag` (defects a good editor names in the Diagnosis), `must_not_flag`
 (defect classes the passage is free of, so a Diagnosis naming one is a false
 positive; required on the clean controls C6 uses), `must_not_do` (scope
-violations for the stage), and `may_return_verbatim` (restraint cases).
+violations for the stage), `flagged_paragraphs` on every
+response-to-reviewers case (the authoritative mapping from each reviewer
+label to the paragraph indices it flags, written by the corpus author, which
+C4 compares against instead of trusting the model's own labels, so a model
+cannot widen its window by declaring every paragraph flagged), and
+`may_return_verbatim` (restraint cases).
 Each case also carries `expected_passes`: the sweep passes the corpus author
 judges applicable under the gates in the sweep table of `SKILL.md`, including
 the content gates (unfamiliar machinery, statistical machinery, a clarity
@@ -88,8 +93,12 @@ line or byte range it returned, so a truncated read of a reference's first
 screen is distinguishable from a full one), captured from the
 streaming JSON output so C3 can check which `references/` files were read
 rather than which the model says it read, and so C4 can grade a write. Each
-run executes in a disposable worktree holding only that case's files, with a
-before and after snapshot of every file, because the `paper-reviser` agent
+run executes in a disposable worktree holding only the agent-visible inputs
+(the manuscript artifacts and the rendered context block or prompt), never
+the case definition or grader metadata (`must_flag`, `must_not_change`,
+`expected_passes`, `flagged_paragraphs`), which stay outside the worktree so
+an agent with `Glob` and `Read` cannot find the answers, with a before and
+after snapshot of every file, because the `paper-reviser` agent
 exposes `Edit` and `Write` and a model that applies a revision against the
 default no-apply rule would otherwise mutate the fixture for every later
 repetition. The trace format is adapter-based: one adapter per agent surface
@@ -100,7 +109,10 @@ by a hash of the full case definition (prompt, manuscript, context block,
 expectations), the skill SHA, the model id, the runner configuration, the
 harness's own commit SHA together with a cache-schema version (so a fix to
 prompt rendering, worktree setup, trace adapters, or multi-turn handling
-invalidates runs the old code produced), and the repetition index, so an edited case never reuses output generated for its
+invalidates runs the old code produced), the agent runtime version (the
+Claude CLI or Agent SDK release, or the equivalent for another surface) and
+the provider's immutable model revision behind any mutable model alias, with
+reuse disabled when either cannot be resolved, and the repetition index, so an edited case never reuses output generated for its
 older definition. Support scripted multi-turn cases from the `turns` script in A1: when a case
 expects the skill to ask first (the missing-context ask in B6) or to receive
 an author-modified file (the repeat-round case), the runner plays the
@@ -135,8 +147,13 @@ manuscript, and the whole-paper diagnoses of `/paper:read` and
 `/paper:consistency`. Read each command file under `.claude/commands/paper/`
 when building the variant's fixture; the command, not this list, is the
 authority on its shape. Only an output matching no variant is
-a graded parse failure, never a crash. The parser also ships the sentence aligner (difflib first, embeddings as an
-option) that pairs input and revised sentences and marks unmatched ones; the
+a graded parse failure, never a crash. The parser also ships the sentence aligner, with one canonical pinned
+configuration used for every gated result (the algorithm, any embedding
+model and its version, the match threshold, and the split and merge policy,
+recorded in `evals/README.md`; difflib-based by default, with an alternative
+aligner allowed only as a separately recorded experimental configuration
+that never feeds a gate), that pairs input and revised sentences and marks
+unmatched ones; the
 C graders and D4 all use this one aligner, so none of them depends on the
 judge. Done when: the parser round-trips every file in `examples/`, the raw
 outputs from A2, and one fixture per variant above, with zero unhandled
@@ -232,7 +249,10 @@ em-dashes; and a scripted repeat round for the across-rounds rule in
 `SKILL.md` (the current file is the author's decision record): the first turn
 revises a section, the scripted reply returns the file with two of the
 suggested edits reverted and one reworded, and the second turn must leave the
-author's wording alone. Done when: each rule above has one case and a matching grader in C4, or in
+author's wording alone; a `/paper:polish` run with the stage stored as
+`response to reviewers`, which must stop and route to `/paper:rebut`; and an
+explicit-apply case whose prompt asks the skill to apply the revision to the
+editable artifact, so the C4 apply predicate has a real run to grade. Done when: each rule above has one case and a matching grader in C4, or in
 C2 for the style-override case that C4 delegates there.
 
 ### B7. Trigger set (S)
@@ -516,8 +536,12 @@ revision was in scope, did it remove the defect without destroying the prose
 around it (class-specific check: tell absent, definition now precedes first
 use, em-dash gone, and so on, plus, on B3 cases, the sentence that carried
 the injected defect still aligns to an output sentence and the revision stays
-within a similarity threshold of B3's retained clean reference, so deleting
-the sentence or every use of the term does not count as a fix). B3's
+within a similarity threshold of B3's retained clean reference, with the
+metric and cutoff (for example a normalized token-edit ratio against the
+clean sentence and its neighbours) written down before the baseline run and
+boundary fixtures on both sides of the cutoff, so deleting the sentence or
+every use of the term does not count as a fix and the cutoff cannot be tuned
+after seeing outputs). B3's
 injected defects give recall per class on a known ground truth; B2's
 hand-reviewed lists give recall on ordinary prose, which is what E1 reports.
 Run negative controls alongside: the clean originals behind the B3 injected
@@ -551,10 +575,15 @@ are in `evals/judges/` and each has been run on five examples with results a
 maintainer agrees with.
 
 ### D2. Blind pairwise protocol (S)
-For comparisons (original vs revised; skill version A vs B), present both texts
-to the judge without labels, in both orders, and count a win only when the
-verdict survives the swap. Done when: the protocol is a function in the harness
-and position bias is reported per judge.
+For comparisons, hide what the judge must not know and keep what it must:
+for a version-A versus version-B comparison the two candidates are unlabeled
+and shown in both orders, and a win counts only when the verdict survives the
+swap; for the asymmetric rubrics (meaning preserved, voice preserved, clarity
+gained, unsupported addition versus deletion) the source and candidate roles
+are always labeled, since swapping them changes the question, and only the
+display order and the skill-version identity are randomized. Done when: the
+protocol is a function in the harness and position bias is reported per
+judge.
 
 ### D3. Judge calibration against human labels (M)
 Have two people label 40 (original, revised) pairs on the D1 dimensions,
@@ -752,9 +781,14 @@ revising output, and a fixture with a swapped citation key fails.
 ### F3. Ship the checker to authors (M)
 Add a `/paper:verify <original> <revised>` command (and a step inside
 `/paper:loop` after each section) that runs the C1 checker and reports the diff
-before the author applies a revision. The installer offers to install the tool.
-Done when: `install.sh --init` registers the command and `test-install.sh`
-covers it.
+before the author applies a revision. The skill's own tool surface is read and
+edit only, so registering the command is not enough: the command file must
+grant a command-execution tool (or dispatch to a subagent that has one), the
+installer must install an invocable entry point for the checker and record its
+path, and the command must fall back to a clear message when the entry point
+is missing. Done when: `install.sh --init` registers the command and installs
+the entry point, `test-install.sh` covers both, and an end-to-end test runs
+`/paper:verify` on a fixture pair and gets the checker's report back.
 
 ### F4. Right-size the instructions from the ablation (M)
 Remove or shorten blocks E4 measured as inert (never a block E4 marked
@@ -812,9 +846,13 @@ fails on the push that introduces it rather than in the next API-backed run.
 Slow tier nightly and on demand: the runner on a smoke subset (about ten cases,
 three repetitions, one model), posting the benchmark delta as a workflow
 summary and failing the job when any assertion's pass rate drops against the
-stored baseline by more than the E3 decision rule allows (the recorded
-confidence level, per-assertion margin, and upper-bound test), so the
-no-regression
+stored smoke baseline by more than the E3 decision rule allows (the recorded
+confidence level, per-assertion margin, and upper-bound test). The baseline
+is a run of the baseline skill ref under the same nightly invocation (the
+same smoke case ids, repetition count, model, and runner configuration),
+stored and refreshed whenever that invocation changes; the full E1 baseline
+is never the comparator, since its case mix, repetitions, and models differ.
+So the no-regression
 merge policy in the ground rules is enforced by CI rather than by reading a
 summary. Done when: `.github/workflows/ci.yml` runs the fast tier, a new
 `evals.yml` runs the slow tier with the API key from repository secrets, and
