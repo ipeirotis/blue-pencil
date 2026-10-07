@@ -890,7 +890,20 @@ Check what the skill says about its own run against what it did:
   referent with a noun the input section already uses (`It increased`
   becoming `The estimate increased`), restores a dropped article or
   connective, or names an antecedent is the copyedit the contract permits
-  and passes, so `utilize` becoming `use`, a
+  and passes, and the one position where a head noun absent from the input
+  is not failed outright is that same referent-repair position: when the
+  deleted side is a pronoun, a demonstrative, or a bare `the [noun]` phrase
+  of the kind the skill's read-cold pass tells the model to resolve, and
+  the added side is a noun phrase with no new clause, the hunk becomes a
+  `referent-repair-candidate` routed to a D4 referent-grounding check
+  (input: the candidate, its deleted side, and the input section; verdict:
+  the noun names an antecedent the input already describes, or it
+  introduces a thing the input never mentioned), so `It increased response
+  rates` becoming `The payment increased response rates` passes when the
+  preceding sentence describes a cash incentive it never called a payment,
+  while the same shape introducing a referent the section never described
+  fails as substance; a head noun absent from the input in any other
+  position still fails deterministically, so `utilize` becoming `use`, a
   reordered clause, or a shortened phrase passes as the sentence-level
   copyedit the contract permits, while `The instrument is valid.` becoming
   `The instrument is valid because assignment was random.` fails, however
@@ -1191,13 +1204,29 @@ verbatim return is never scored below an unnecessary rewrite and the
 baseline is not biased toward churn); voice preserved
 (would the author recognize this as theirs); meaning preserved per aligned
 sentence pair (any technical claim strengthened, weakened, or changed);
-diagnosis validity (does each numbered item point at a real problem in the
-cited paragraph); AI-tell residue not on the banned list; and emphasis and
+diagnosis validity, whose unit and grounding target follow the parsed
+variant (on a section pass, each numbered Diagnosis item against the
+paragraph it cites; on the `/paper:triage` table, each comment row against
+the reviewer comment it labels, with the severity, type, and cluster read
+for defensibility, and against the mapped section only when a manuscript
+was supplied; on `/paper:read`, each reading-log entry, colleague-test or
+delight-audit finding, venue-compliance finding, and dispatch-list item
+against the section or quoted passage it names; on `/paper:consistency`,
+each cross-section finding against every section it names, with a finding
+that names one section or none failing before the judge reads it), so the
+judge asks of each unit whether it points at a real problem in its target
+and a command-specific shape is graded by its own units rather than ignored
+or failed for lacking numbered paragraph items; AI-tell residue not on the
+banned list; and emphasis and
 framing preserved (constraint 8: the same findings headline, the same
 limitations acknowledged with the same weight, the same contribution frame),
 judged holistically over the whole section, because a reorder of unchanged
 sentences can bury a limitation or promote a secondary result while every
-protected token and every aligned pair still passes; its calibration set in
+protected token and every aligned pair still passes, and marked not
+applicable, with clarity, voice, and sentence-aligned meaning, on any
+variant without an original-to-revision pair (a feedback-only output, a
+staged plan, a refusal, a checker report, letter assembly), since the
+question compares a revision's frame against the original's; its calibration set in
 D3 includes seeded reorders of that kind. Done when: rubrics
 are in `evals/judges/` and each has been run on five examples with results a
 maintainer agrees with.
@@ -1215,11 +1244,15 @@ judge.
 
 ### D3. Judge calibration against human labels (M)
 Have two people label 40 (original, revised) pairs on the D1 dimensions,
-where each labeling record also carries the parsed Diagnosis items with
-their paragraph references and the case context, so the diagnosis-validity
-dimension has a labelable input (does each numbered item point at a real
-problem in the cited paragraph?) rather than a text pair that never shows
-the Diagnosis,
+where each labeling record also carries the parsed Diagnosis units of the
+case's variant with their grounding targets (numbered items with their
+paragraph references on a section pass, comment rows with their reviewer
+comments on a triage table, log entries and dispatch items with the
+passages they name on a cold read, cross-section findings with the
+sections they name on a consistency pass) and the case context, so the
+diagnosis-validity dimension has a labelable input for every shape it
+grades rather than a text pair that never shows the Diagnosis, and the
+labeled set includes at least one case of each shape,
 measure their agreement with each other first, and adjudicate every
 disagreement into one consensus label (recording the pre-adjudication
 reliability), so each judge is scored against a single ground truth rather
@@ -1390,7 +1423,8 @@ and G3 resolve the baseline by that tag or SHA, never by the version file's
 content. Run
 every grader from C and every judge from D whose assertion applies to the
 parsed variant: the rewrite dimensions (clarity gain, voice preservation,
-sentence-aligned meaning) are reported not applicable on a feedback-only
+sentence-aligned meaning, and emphasis and framing preservation) are
+reported not applicable on a feedback-only
 output, a staged plan, a refusal, a checker report, and letter assembly,
 none of which carries an original-to-revision pair, so a correct
 `/paper:read` or `/paper:triage` run is never scored as a total deletion,
