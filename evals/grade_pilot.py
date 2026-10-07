@@ -316,16 +316,27 @@ def main():
             ns = sorted({int(p.name.split("-")[1]) for p in (ed / "with_skill").glob("run-*")})
             h2h += [(cid, original, ed, n) for n in ns
                     if all(_valid_trial(ed / c / f"run-{n}", c) for c in CONDS)]
+    missing = []
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         if args.stage != "quality":
             # The code grader is free and runs on every trial; the paid meaning grader runs
             # only on trials the report counts.
-            list(ex.map(lambda j: grade_run(*j[:3], args.model, do_meaning and j[3], args.force), jobs))
+            graded = list(ex.map(lambda j: grade_run(*j[:3], args.model, do_meaning and j[3], args.force), jobs))
+            # A requested meaning verdict that is still missing after the retry.
+            missing += [out["run_dir"] for out, j in zip(graded, jobs)
+                        if do_meaning and j[3] and out["has_revised_text"] and not (out["meaning"] or {}).get("parsed")]
         if h2h:
-            list(ex.map(lambda j: head_to_head(*j, args.model, args.force), h2h))
+            pairs = list(ex.map(lambda j: head_to_head(*j, args.model, args.force), h2h))
+            missing += [f"{j[0]} pair run-{j[3]}" for r, j in zip(pairs, h2h)
+                        if r is None or r["consolidated"] == "ungraded"]
     print(f"graded {len(jobs)} runs" + (f" and {len(h2h)} head-to-head pairs" if h2h else "")
           + f" in {root}")
+    if missing:
+        # The rest is saved; the report leaves these out until a later run grades them.
+        print(f"{len(missing)} verdicts are missing (no valid grader reply): {', '.join(missing)}. "
+              "Run the same command again to retry them.", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

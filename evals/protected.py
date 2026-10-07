@@ -264,13 +264,16 @@ def _strip_lead(t):
 
 
 def _citation_groups(flat):
-    """Ordered author-year groups inside one parenthetical, e.g. (A 2006; B 2008).
+    """Ordered author-year groups inside one parenthetical or bracket, e.g. (A 2006; B 2008).
 
     Only groups of two or more citations are returned. A whole group may move to
     another sentence, but the order inside it must not change.
     """
     groups = []
-    for span in re.findall(r"\(([^()]*(?:[12][0-9]{3}|n\.d\.|in press|forthcoming)[^()]*)\)", flat):
+    # Square-bracketed groups too, "[A 2006; B 2008]".
+    for span in re.findall(r"\(([^()]*(?:[12][0-9]{3}|n\.d\.|in press|forthcoming)[^()]*)\)|"
+                           r"\[([^\[\]]*(?:[12][0-9]{3}|n\.d\.|in press|forthcoming)[^\[\]]*)\]", flat):
+        span = span[0] or span[1]
         toks = [re.sub(r"[()\[\]]", "", t).replace(RSQ, "'").strip(", ")
                 for t in map(_strip_lead, _AY_PAT.findall(span)) if t]
         if len(toks) >= 2:
@@ -466,7 +469,8 @@ def tokens(cls, raw, flat):
             r"\\(?:ref|eqref|autoref|cref|Cref|label) ?\{[^}]*\}|\]\((?:[^()]|\([^()]*\))*\)|"
             r"\]\[[^\]]*\]", flat) + [
             # Reference definitions, "[id]: url" or "[id]:url"; the space is normalized.
-            m.group(1) + " " + m.group(2) for m in re.finditer(r"(\[[^\]]+\]:) ?([^ ]+)", flat)] + re.findall(r"!\[", flat) + re.findall(
+            # A footnote definition ("[^1]: text") is not one: its text is editable prose.
+            m.group(1) + " " + m.group(2) for m in re.finditer(r"(\[[^\]^][^\]]*\]:) ?([^ ]+)", flat)] + re.findall(r"!\[", flat) + re.findall(
             r"\[\^[^\]]+\]", flat) + re.findall(r"<(?:https?://|mailto:)[^>\s]+>|<[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+>", flat) + [
             # Bare URLs, outside link destinations and autolinks; trailing punctuation dropped.
             # Balanced parentheses belong to the URL ("wiki/Foo_(bar)").
@@ -548,6 +552,8 @@ def tokens(cls, raw, flat):
         # Thematic breaks ("***", "___", "* * *"), kept as their character only.
         out += re.findall(r"^ {0,3}([*_])(?:[ \t]*\1){2,}[ \t]*$", raw, re.M)
         out += _list_markers(raw)
+        # Inline HTML tags ("<em>", "</em>", "<br>"), whitespace normalized.
+        out += [re.sub(r"\s+", " ", t) for t in _HTML_TAG_RE.findall(raw)]
         return out
     if cls == "code":
         # Fenced blocks (~~~ or ```) first, each whole block as one token so reordering
@@ -595,6 +601,10 @@ def tokens(cls, raw, flat):
         out, prev_end, prev_unit = [], None, False
         for m in _NUMWORD_RE.finditer(flat):
             tok = m.group(0).lower()
+            # "One might expect", "one can see": the pronoun, not a quantity.
+            if tok == "one" and re.match(r" (?:might|may|can|cannot|could|would|should|must|will|shall)\b",
+                                         flat[m.end():], re.I):
+                continue
             if m.group("unit"):  # plural and singular units agree, as for digit numbers
                 head, *rest = m.group("unit").lower().split(" ")
                 tok = tok[:m.start("unit") - m.start()] + " ".join([head.rstrip("s")] + rest)

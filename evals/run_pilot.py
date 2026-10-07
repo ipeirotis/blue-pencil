@@ -184,6 +184,8 @@ def main():
     ap.add_argument("--allow-mixed", action="store_true",
                     help="resume an existing run even if its configuration differs (recorded in run_meta.json)")
     args = ap.parse_args()
+    if args.runs < 1:
+        ap.error("--runs must be at least 1")
 
     catalog = {c["id"]: c for c in read_json(EVALS / "cases" / "cases.json")["cases"]}
     ids = list(dict.fromkeys(args.cases or catalog))  # each case once, in order

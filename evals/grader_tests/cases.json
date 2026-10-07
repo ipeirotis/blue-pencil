@@ -38,7 +38,8 @@
     "misc29": "Results\n--\nRevenue was $5 trillion and 5k users joined.",
     "misc30": "We assume X ∼ Y, as 王 (2020) reports. He wrote \"the \\\"treatment\\\" group\".",
     "misc31": "The map is x → y, consumption was 5 MWh, and Smith [2020] called it \"the treatment group\".",
-    "misc32": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports."
+    "misc32": "Use <em>careful prose</em> when x ~ N(0, 1); see https://en.wikipedia.org/wiki/Foo_(bar). Revenue reached five trillion dollars, as محمد (2020) reports.",
+    "misc33": "One might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples."
   },
   "variants": [
     {
@@ -1561,6 +1562,42 @@
       "damage_type": "citation author changed",
       "code_grader_should_flag": true,
       "note": "Arabic-script author name changed."
+    },
+    {
+      "id": "misc33-html-tag-changed",
+      "base": "misc33",
+      "revised": "One might expect <strong>larger</strong> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples.",
+      "verdict": "damaged",
+      "damage_type": "markup changed",
+      "code_grader_should_flag": true,
+      "note": "Inline HTML emphasis tag changed."
+    },
+    {
+      "id": "misc33-bracket-group-reordered",
+      "base": "misc33",
+      "revised": "One might expect <em>larger</em> effects [Jones 2021; Smith 2020].[^1]\n\n[^1]: This holds in both samples.",
+      "verdict": "damaged",
+      "damage_type": "citation group reordered",
+      "code_grader_should_flag": true,
+      "note": "Square-bracketed author-year group reordered."
+    },
+    {
+      "id": "misc33-footnote-prose-edited",
+      "base": "misc33",
+      "revised": "One might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: It holds in both samples.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "First word of a footnote definition edited."
+    },
+    {
+      "id": "misc33-pronoun-one-edited",
+      "base": "misc33",
+      "revised": "We might expect <em>larger</em> effects [Smith 2020; Jones 2021].[^1]\n\n[^1]: This holds in both samples.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Pronoun 'one' replaced; no number changed."
     }
   ]
 }

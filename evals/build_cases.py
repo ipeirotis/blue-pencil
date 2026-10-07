@@ -17,25 +17,27 @@ from pathlib import Path
 
 from lib import EVALS, REPO, write_json
 
-FENCE = "```"
-
 
 def input_block(lines):
     """Last fenced block before '## Skill output' that is not the context block."""
-    blocks, buf, inb = [], [], False
+    # A block closes only on a fence at least as long as the one that opened it, so a
+    # passage wrapped in four backticks may hold a three-backtick code block.
+    blocks, buf, fence = [], [], None
     for line in lines:
         if line.startswith("## Skill output"):
             break
-        if line.startswith(FENCE):
-            if inb:
-                text = "\n".join(buf)
-                if "revision_stage:" not in text:
-                    blocks.append(text)
-                buf = []
-            inb = not inb
+        m = re.match(r"`{3,}", line)
+        if fence is None:
+            if m:
+                fence, buf = m.group(0), []
             continue
-        if inb:
-            buf.append(line)
+        if m and len(m.group(0)) >= len(fence) and not line[m.end():].strip():
+            text = "\n".join(buf)
+            if "revision_stage:" not in text:
+                blocks.append(text)
+            fence = None
+            continue
+        buf.append(line)
     return blocks[-1].strip() if blocks else ""
 
 
