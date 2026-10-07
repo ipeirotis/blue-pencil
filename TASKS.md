@@ -296,7 +296,11 @@ authority on its shape. Only an output matching no variant is
 a graded parse failure, never a crash; an output whose variant is not the
 entry of the case's `expected_variants` for the current agent-turn index
 parses, and then fails C2 as an unexpected variant transition before any
-contract branch runs. The parser also ships the sentence aligner, with one canonical pinned
+contract branch runs. A reference request under the E5 chat protocol is not
+a result turn: the adapter records it as a read event and the harness's
+reply as the supplied file, neither advances the agent-turn index, and the
+parser never sees it, so a compliant chat run is graded on its final output
+rather than failed on an intermediate request. The parser also ships the sentence aligner, with one canonical pinned
 configuration used for every gated result (the algorithm, any embedding
 model and its version, the match threshold, and the split and merge policy,
 recorded in `evals/README.md`; difflib-based by default, with an alternative
@@ -532,7 +536,8 @@ every substantive added sentence and added hunk, not only the lexicon hits
 states why identification holds with no cue word), using the lexicon only to
 order the candidates for review, and fails the
 output only when the judge confirms the candidate states why an assumption,
-identification strategy, or validity claim holds; a candidate the judge
+identification strategy, or validity claim holds and its aligned input did
+not already say so; a candidate the judge
 rejects clears the finding. A run that adds a confirmed validity argument
 and prints `Added bridges: None.` fails the D4 assertion. No editor label
 introduced by the model inside the block, compared through the alignment
@@ -664,9 +669,15 @@ Check what the skill says about its own run against what it did:
   scope assertion that separates explanatory substance from ordinary
   rewording: every unmatched added sentence fails it, and an added hunk
   inside an aligned pair fails it when it is a pure insertion (no deleted
-  counterpart in the pair) carrying content words, or a replacement whose
+  counterpart in the pair) that introduces a new clause or a noun phrase
+  whose head noun is absent from the whole input section after
+  lemmatization, or a replacement whose
   added side carries at least a recorded number of content words more than
-  its deleted side after lemmatization, so `utilize` becoming `use`, a
+  its deleted side after lemmatization; a pure insertion that repairs a
+  referent with a noun the input section already uses (`It increased`
+  becoming `The estimate increased`), restores a dropped article or
+  connective, or names an antecedent is the copyedit the contract permits
+  and passes, so `utilize` becoming `use`, a
   reordered clause, or a shortened phrase passes as the sentence-level
   copyedit the contract permits, while `The instrument is valid.` becoming
   `The instrument is valid because assignment was random.` fails, however
@@ -1015,13 +1026,19 @@ counts below are the held-out half and an equal development half of the same
 composition is built alongside it and split off before any judge output is
 inspected, so each rubric is iterated on one half and accepted on the other:
 bridge
-classification for C2 (input: a candidate span and the input section with
+classification for C2 (input: a candidate span, the aligned input sentence
+or deleted side it replaced, and the input section with
 the manuscript context the D4 meaning check supplies, never the model's own
 `Added bridges:` line, which is the answer under audit and would let the
 judge read `None.` as a shortcut and let the calibration fixtures score by
 correlating line and label; the harness compares the independent verdict
-with the line afterwards; verdict: states-why-a-claim-holds or not; fixtures:
-ten true bridges and ten cue-word false alarms, built without the line), re-proposal detection for
+with the line afterwards; verdict: states newly added justification, meaning
+the candidate says why an assumption, identification strategy, or validity
+claim holds and its aligned input did not already say so, so a rephrased
+existing explanation is not a bridge and the contract's `Added bridges:`
+covers newly introduced ones only; fixtures:
+ten true bridges, ten cue-word false alarms, and ten rephrasings of an
+explanation the input already carried, built without the line), re-proposal detection for
 C4 (input: the recorded rejected transformation and the second turn's span;
 verdict: re-proposed or not; fixtures: ten re-proposals under new wording
 and ten unrelated legitimate edits), and provenance grounding for F2's
@@ -1188,18 +1205,26 @@ the same verdict on the same run.
 The preflight line "No protected content changed" is the model checking itself
 (the header of `scripts/check-protected.sh` calls it the known-weak link). Add a
 short `Protected inventory:` line to the Change rationale (and, in the
-compact contract, under `Top changes` after `References loaded:`, since a
-quick pass has no Change rationale) that identifies the protected tokens, not
+compact contract, under `Top changes` immediately before `References
+loaded:`, since a quick pass has no Change rationale and the compact
+contract in `SKILL.md` requires `Top changes` to end with the
+`References loaded:` line, which stays the terminator so no parser or
+example built on the current contract rejects a correct quick pass) that identifies the protected tokens, not
 merely their counts: for the same class set C1 extracts (citations, numbers
 and number words, math spans, cross-references and prose callouts, macros,
 environments, quotes, comment lines, code), the sorted list of tokens the
 model found in the input and in its output, written out, with `none` for an
 empty class, and bounded for every class whose tokens can be long
 (environments, macros with long arguments, code blocks, direct quotations,
-and comment lines): there the line carries the token's name or its first
-few words plus its length in lines or words rather than its body, since
+and comment lines): there the line carries the token's name, its first few
+words and its last few words, its length in lines or words, and its
+occurrence index within the class, rather than its body, since
 repeating a `tabular` body or a block quotation twice could exhaust the output budget
-and truncate the revision; the body-level comparison of those classes is the
+and truncate the revision, and since a prefix and a length alone collide
+when two quotations or code blocks open alike and run to the same length, so
+a change to their later contents would leave the summary unchanged; the
+summary is stated as identifying the token's position and extent, not its
+body, and the body-level comparison of those classes is the
 checker's job (a count alone cannot see
 `smith2020` becoming `smith2021` or one number replaced by another). The
 number of tokens is bounded too, since a quantitative Results section can
