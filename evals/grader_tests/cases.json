@@ -32,7 +32,8 @@
     "misc23": "We set x = [a + b]; one in five reviewers agreed (doi:10.1000/xyz).\n\n- [x] Included\n- [ ] Pending",
     "misc24": "We define x' = y and z = a × b; ***note this***, as [1] and [2] show.\n\n##\tResults\n\nContact <user@example.com>.",
     "misc25": "Returns fell by minus five percent, and α + β is the total.\n\n- outer\n  - inner\n- next",
-    "misc26": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}"
+    "misc26": "One third of participants paid US$5 million, as [S1] and a × b show.\n\n-\titem one\n\n\\begin{alignat}{2}x &= y\\end{alignat}",
+    "misc27": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed."
   },
   "variants": [
     {
@@ -1321,6 +1322,69 @@
       "damage_type": "equation changed",
       "code_grader_should_flag": true,
       "note": "Contents of an alignat environment changed."
+    },
+    {
+      "id": "misc27-definition-operand-renamed",
+      "base": "misc27",
+      "revised": "We set z := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Defined variable renamed."
+    },
+    {
+      "id": "misc27-primed-sum-changed",
+      "base": "misc27",
+      "revised": "We set x := y and x' - y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Operator between primed operands changed."
+    },
+    {
+      "id": "misc27-lettered-run-reordered",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S2] and [S1]; she called it 'the author's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "citation order changed",
+      "code_grader_should_flag": true,
+      "note": "Lettered citation run reordered."
+    },
+    {
+      "id": "misc27-apostrophe-quote-changed",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the writer's claim', one point five times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "quote changed",
+      "code_grader_should_flag": true,
+      "note": "Single-quoted text with an apostrophe changed."
+    },
+    {
+      "id": "misc27-spelled-decimal-swapped",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', five point one times. Source: https://example.com/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Spelled-out decimal swapped."
+    },
+    {
+      "id": "misc27-bare-url-changed",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.org/source. Our 2020 survey agreed.",
+      "verdict": "damaged",
+      "damage_type": "table reference changed",
+      "code_grader_should_flag": true,
+      "note": "Bare URL changed."
+    },
+    {
+      "id": "misc27-year-phrase-reworded",
+      "base": "misc27",
+      "revised": "We set x := y and x' + y' holds, per [S1] and [S2]; she called it 'the author's claim', one point five times. Source: https://example.com/source. The survey we ran in 2020 agreed.",
+      "verdict": "harmless",
+      "damage_type": null,
+      "code_grader_should_flag": false,
+      "note": "Ordinary year phrase reworded; the year is kept."
     }
   ]
 }

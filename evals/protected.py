@@ -48,7 +48,10 @@ _NAME = (r"(?:[A-Z\u00c0-\u00d6\u00d8-\u00de\u0100-\u017f\u0391-\u03a9\u0410-\u0
 _DATE_LEAD = re.compile(
     r"^(In|On|At|By|For|From|Since|After|Before|During|Until|Between|Around|Over|Under|"
     r"The|A|An|As|Of|To|With|When|While|January|February|March|April|May|June|July|August|"
-    r"September|October|November|December|Early|Late|Mid) ")
+    r"September|October|November|December|Early|Late|Mid|"
+    # Words that begin ordinary year phrases ("Our 2020 survey", "Version 2020").
+    r"Our|Their|This|That|These|Those|Its|His|Her|My|Your|Each|Every|Version|Model|Fiscal|Year|"
+    r"Spring|Summer|Fall|Autumn|Winter) ")
 
 # A number, with any scientific-notation exponent kept in the same token ("2e10", "1.5E-3",
 # "6 \u00d7 10^23", "6\u00d710\u00b2\u00b3", "10^5"), so changing the mantissa or the exponent is caught.
@@ -163,12 +166,12 @@ _REL_OPERAND = (r"(?:[+-]|\u2212)?(?:" + _FUNC + "|" + _IDENT + "|" + _USYM + "|
 _ARITH_OP = r"(?: ?[+*/^\u2212\u00d7\u00b7\u22c5\u00f7] ?| - )"  # also times, middle dots, divide
 # Unicode relations too: \u2264 \u2265 \u2248 \u2260 \u2261 \u221d \u226a \u226b, and set
 # membership and inclusion, \u2208 \u2209 \u2282 \u2283 \u2286 \u2287.
-_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287"
-_REL_OP = r" ?(?:<=|>=|!=|==|[=<>" + _UREL + r"]) ?"
+_UREL = "\u2264\u2265\u2248\u2260\u2261\u221d\u226a\u226b\u2208\u2209\u2282\u2283\u2286\u2287\u2254\u225c"
+_REL_OP = r" ?(?:<=|>=|!=|==|:=|=:|[=<>" + _UREL + r"]) ?"  # also definitions, ":=", "=:"
 _RELATION_RE = re.compile(r"(?<![\w.\\])" + _REL_OPERAND + r"(?:" + _ARITH_OP + _REL_OPERAND + r")*" + _REL_OP
                           + _REL_OPERAND + r"(?:(?:" + _ARITH_OP + "|" + _REL_OP + r")" + _REL_OPERAND + r")*(?![\w])")
-_BARE_OPERAND = r"(?:" + _EQ_OPERAND + "|" + _USYM + ")"  # Greek and letterlike operands too ("\u03b1 + \u03b2")
-_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7" + _UREL + r"]) ?| - )"
+_BARE_OPERAND = r"(?:" + _FUNC + "|[A-Za-z]{1,2}" + _DECOR + "|" + _EQ_OPERAND + "|" + _USYM + ")"  # Greek and letterlike operands too ("\u03b1 + \u03b2")
+_EQUATION_RE = re.compile(r"(?<![\w.\\])" + _BARE_OPERAND + r"(?:(?: ?(?:<=|>=|!=|==|:=|=:|[=<>+*/^\u2212\u00d7\u00b7\u22c5\u00f7" + _UREL + r"]) ?| - )"
                           + _BARE_OPERAND + r")+(?![\w])")
 
 # A parenthesized panel suffix belongs to its callout: "Figure 2(a)", "Figure 2 (b-d)".
@@ -231,7 +234,7 @@ _NARRATIVE_RUN = re.compile(_NARRATIVE_CITE.pattern + r"(?:(?:;|,|,? and) " + _N
 
 _CMD_CITE = r"\\[Cc]ite[a-zA-Z]*\*?(?:\[[^\]]*\])*\{[^}]*\}"
 _CMD_RUN = _CMD_CITE + r"(?:[;,]? ?" + _CMD_CITE + r")+"
-_NUM_RUN = r"\[[0-9]+\](?:(?:[;,]? ?|,? (?:and|&) )\[[0-9]+\])+"  # "[1], [2]", "[1] and [2]"
+_NUM_RUN = r"\[[A-Za-z]{0,2}[0-9]+\](?:(?:[;,]? ?|,? (?:and|&) )\[[A-Za-z]{0,2}[0-9]+\])+"  # "[1], [2]", "[1] and [2]"
 
 
 def _strip_lead(t):
@@ -267,7 +270,7 @@ def _citation_groups(flat):
         if len(toks) >= 2:
             groups.append(tuple(toks))
     # Adjacent citation commands ("\\cite{A}; \\cite{B}") and numbered citations ("[1]; [2]").
-    for pat, one in ((_CMD_RUN, _CMD_CITE), (_NUM_RUN, r"\[[0-9]+\]")):
+    for pat, one in ((_CMD_RUN, _CMD_CITE), (_NUM_RUN, r"\[[A-Za-z]{0,2}[0-9]+\]")):
         for run in re.finditer(pat, flat):
             groups.append(tuple(re.findall(one, run.group(0))))
     return groups
@@ -452,6 +455,8 @@ def tokens(cls, raw, flat):
             # Reference definitions, "[id]: url" or "[id]:url"; the space is normalized.
             m.group(1) + " " + m.group(2) for m in re.finditer(r"(\[[^\]]+\]:) ?([^ ]+)", flat)] + re.findall(r"!\[", flat) + re.findall(
             r"\[\^[^\]]+\]", flat) + re.findall(r"<(?:https?://|mailto:)[^>\s]+>|<[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+>", flat) + [
+            # Bare URLs, outside link destinations and autolinks; trailing punctuation dropped.
+            u.rstrip(".,;:!?") for u in re.findall(r"(?<![<({/\w])https?://[^\s<>()\[\]{}\"']+", flat)] + [
             # "![" marks an image; "[^id]" is a footnote reference; <https://...> is an autolink
             # The opening "[" of an inline or reference link; the link text stays editable.
             "[" for _ in re.finditer(r"\[(?=[^\[\]]*\] ?[\[(])", flat)]
@@ -497,7 +502,9 @@ def tokens(cls, raw, flat):
         out += re.findall(LSQ + "[^" + LSQ + RSQ + "]*" + RSQ, flat)
         # Straight single quotes: an opening ' not preceded by a letter or digit and a
         # closing ' not followed by one, so apostrophes ("don't", "authors'") do not pair.
-        out += re.findall(r"(?<![A-Za-z0-9'])'(?=\S)[^'\n]{1,200}?(?<=\S)'(?![A-Za-z0-9'])", flat)
+        # An apostrophe between letters ("author's", "don't") stays inside the quote.
+        out += re.findall(r"(?<![A-Za-z0-9'])'(?=\S)(?:[^'\n]|(?<=[A-Za-z])'(?=[A-Za-z])){1,200}?(?<=\S)'"
+                          r"(?![A-Za-z0-9'])", flat)
         out += re.findall("\u00ab[^\u00ab\u00bb]*\u00bb|\u2039[^\u2039\u203a]*\u203a", flat)  # guillemets
         return out
     if cls == "comments":
@@ -570,10 +577,10 @@ def tokens(cls, raw, flat):
                 tok = tok[:m.start("unit") - m.start()] + " ".join([head.rstrip("s")] + rest)
             # Adjacent number words are one compound number, in order ("one hundred and five"),
             # so 105 written as 501 is caught; "and" joins only after hundred, thousand, ...
-            # Spelled-out ranges and ratios ("five to ten", "one in five", "two out of three")
-            # are ordered tokens too, as digit ranges are.
+            # Spelled-out ranges, ratios, and decimals ("five to ten", "one in five", "two out
+            # of three", "one point five") are ordered tokens too, as digit ones are.
             gap = flat[prev_end:m.start()].lower() if prev_end is not None else None
-            if out and (gap in (" to ", " in ", " out of ") or not prev_unit and (gap == " " or (
+            if out and (gap in (" to ", " in ", " out of ", " point ") or not prev_unit and (gap == " " or (
                     gap == " and " and re.search(r"(?:hundred|thousand|million|billion)$", out[-1])))):
                 out[-1] += gap + tok
             else:

@@ -90,7 +90,7 @@ def changed_cases(meta, case_ids, root=None):
     """Cases whose files differ from the fingerprint the run recorded. Outputs of such
     a case were produced from different input, so they must not be graded against
     the current files. For a run that recorded no fingerprint for a case, every saved
-    prompt.txt under `root` must contain the current passage and paper context; a case
+    prompt.txt under `root` must equal the prompt the current case files give; a case
     with no saved prompt to check counts as changed."""
     recorded = meta.get("case_fingerprints", {})
     out = []
@@ -99,10 +99,10 @@ def changed_cases(meta, case_ids, root=None):
             if recorded[c] != case_fingerprint(c):
                 out.append(c)
             continue
-        d = EVALS / "cases" / c
-        need = [(d / "input.txt").read_text().strip(), (d / "context.txt").read_text().strip()]
+        from run_pilot import build_prompt, load_case  # imported here: run_pilot imports lib
+        case = load_case(c)
         prompts = list((Path(root) / f"eval-{c}").glob("*/run-*/prompt.txt")) if root else []
-        if not prompts or not all(all(x in p.read_text() for x in need) for p in prompts):
+        if not prompts or not all(p.read_text() == build_prompt(case, p.parent.parent.name) for p in prompts):
             out.append(c)
     return out
 
@@ -277,8 +277,10 @@ def reads_outside_workspace(events):
     The workspace is the bp-eval-* temp directory the trial ran in. A with-skill trial
     that reads elsewhere (for example a Blue Pencil copy installed in the home
     directory) did not run only on the skill files the run recorded."""
-    calls, ok = {}, set()
+    calls, ok, cwd = {}, set(), None
     for e in events or []:
+        if e.get("type") == "system" and e.get("subtype") == "init":
+            cwd = e.get("cwd") or cwd
         for item in (e.get("message", {}).get("content") or []):
             if not isinstance(item, dict):
                 continue
@@ -291,11 +293,15 @@ def reads_outside_workspace(events):
                 text = c if isinstance(c, str) else json.dumps(c)
                 if not re.match(r"\s*No (files|matches) found", text):
                     ok.add(item.get("tool_use_id"))
-    ws = next((m.group(0) for p in calls.values() for m in [re.match(r".*/bp-eval-[^/]+", p)] if m), None)
+    ws = cwd or next((m.group(0) for p in calls.values() for m in [re.match(r".*/bp-eval-[^/]+", p)] if m), None)
+    # A relative path ("../other") is resolved against the trial's working directory.
+    if cwd:
+        calls = {k: (os.path.normpath(os.path.join(cwd, p)) if p and not p.startswith(("/", "~")) else p)
+                 for k, p in calls.items()}
     # Only calls that returned something count: a read that was blocked or failed, or a
     # search that found nothing, saw no files.
-    return sorted({p for cid, p in calls.items() if cid in ok
-                   and p.startswith(("/", "~")) and not (ws and p.startswith(ws))})
+    return sorted({p for cid, p in calls.items() if cid in ok and p.startswith(("/", "~"))
+                   and not (ws and (p == ws or p.startswith(ws.rstrip("/") + "/")))})
 
 
 def make_workspace(with_skill, paper_context, held_out=()):

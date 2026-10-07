@@ -129,10 +129,13 @@ def valid_quality(parsed):
     if not (all(v in QUALITY_VERDICTS for v in dims.values()) and _text(parsed.get("reasoning"))
             and all(_text(ev.get(k)) for k, v in dims.items() if v != "tie")):
         return False
-    # An overall winner that no dimension favors while some dimension favors the other
-    # version contradicts the reply's own dimensions.
-    other = {"A": "B", "B": "A"}.get(parsed["overall"])
-    return not (other and parsed["overall"] not in dims.values() and other in dims.values())
+    # The overall verdict must follow from the dimensions: a winner needs at least one
+    # dimension in its favor, and a tie cannot stand against dimensions that all favor
+    # the same version.
+    votes = set(dims.values())
+    if parsed["overall"] in ("A", "B"):
+        return parsed["overall"] in votes
+    return votes not in ({"A"}, {"B"})
 
 
 def quality_validator(version_a, version_b):
