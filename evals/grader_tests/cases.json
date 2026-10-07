@@ -27,7 +27,8 @@
     "misc18": "We have x ∈ S, the coefficient was minus 5, and O’Neil (2020) agrees.",
     "misc19": "We set α = β and spent 10 USD.\n\n   ## Results\n\nCall \\verb|foo_bar| first.",
     "misc20": "The response rate was 5 %, and x = (a + b) holds, as prior work¹,² shows.\n\n***\n\nNext part.",
-    "misc21": "The equation is x = -y, the response rate was five percent, and Figs. 2 and 3 show it."
+    "misc21": "The equation is x = -y, the response rate was five percent, and Figs. 2 and 3 show it.",
+    "misc22": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}."
   },
   "variants": [
     {
@@ -1091,6 +1092,51 @@
       "damage_type": "table reference changed",
       "code_grader_should_flag": true,
       "note": "Plural figure abbreviation removed."
+    },
+    {
+      "id": "misc22-paren-numeric-citations-reordered",
+      "base": "misc22",
+      "revised": "Prior work (2, 1) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "citation order changed",
+      "code_grader_should_flag": true,
+      "note": "Parenthesized numeric citations reordered."
+    },
+    {
+      "id": "misc22-compound-number-word-reordered",
+      "base": "misc22",
+      "revised": "Prior work (1, 2) studied five hundred and one participants, with x₁ = y.  \nSee \\begin{math}x\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "number changed",
+      "code_grader_should_flag": true,
+      "note": "Compound number word reordered (105 to 501)."
+    },
+    {
+      "id": "misc22-subscripted-operand-renamed",
+      "base": "misc22",
+      "revised": "Prior work (1, 2) studied one hundred and five participants, with z₁ = y.  \nSee \\begin{math}x\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Variable with a Unicode subscript renamed."
+    },
+    {
+      "id": "misc22-math-env-contents-changed",
+      "base": "misc22",
+      "revised": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.  \nSee \\begin{math}y\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "equation changed",
+      "code_grader_should_flag": true,
+      "note": "Contents of a math environment changed."
+    },
+    {
+      "id": "misc22-hard-break-removed",
+      "base": "misc22",
+      "revised": "Prior work (1, 2) studied one hundred and five participants, with x₁ = y.\nSee \\begin{math}x\\end{math}.",
+      "verdict": "damaged",
+      "damage_type": "markup dropped",
+      "code_grader_should_flag": true,
+      "note": "Two-space Markdown hard break removed."
     }
   ]
 }

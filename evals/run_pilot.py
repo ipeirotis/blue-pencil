@@ -133,7 +133,7 @@ def runner_fingerprint():
     import lib
     parts = [inspect.getsource(f) for f in (build_prompt, run_trial, completed, lib.make_workspace,
                                             lib.extract_revised,
-                                            lib._fenced_block, lib.skill_was_loaded, lib.call_claude)]
+                                            lib._fenced_block, lib._fence_lines, lib.skill_was_loaded, lib.call_claude)]
     return hashlib.sha256("\n".join(parts).encode()).hexdigest()[:16]
 
 

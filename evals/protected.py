@@ -144,9 +144,11 @@ _EQ_OPERAND = r"(?:" + _FUNC + r"|[A-Za-z]{1,2}|[0-9]+(?:\.[0-9]+)?|\.[0-9]+)"
 # Comparisons and assignments may also use named operands ("rate = 5", "dose < limit",
 # "rate + dose = total"). A chain with named operands counts only if it holds one of
 # = < > or their combinations, so "and/or" style slashes stay prose.
-_IDENT = r"[A-Za-z][A-Za-z0-9_]*"
+# Unicode sub- and superscripts and primes decorate an identifier ("x\u2081", "x\u2032", "x\u00b2").
+_DECOR = "[\u2080-\u209c\u2070-\u207f\u00b2\u00b3\u00b9\u2032-\u2034]*"
+_IDENT = r"[A-Za-z][A-Za-z0-9_]*" + _DECOR
 # A Greek, letterlike, or math-alphanumeric symbol is an operand too ("\u03b1 = \u03b2").
-_USYM = "[\u0391-\u03a9\u03b1-\u03c9\u03d1\u03d5\u03f5\u2100-\u214f\U0001d400-\U0001d7ff][A-Za-z0-9_]*"
+_USYM = "[\u0391-\u03a9\u03b1-\u03c9\u03d1\u03d5\u03f5\u2100-\u214f\U0001d400-\U0001d7ff][A-Za-z0-9_]*" + _DECOR
 # A numeric operand may carry a sign and an exponent ("x = -5", "x = 2e10").
 _GROUP = r"\((?:[^()\n]|\([^()\n]*\)){1,60}\)"  # a parenthesized side, "x = (a + b)"
 # Any operand may carry a unary sign ("x = -y", "x = -(a + b)", "x = -5").
@@ -336,7 +338,7 @@ def _macros(text):
 _FROZEN_ENVS = ["lstlisting", "verbatim", "Verbatim", "minted", "alltt", "code", "tabular", "tabular*",
                 "tabularx", "longtable", "array", "equation", "equation*", "align", "align*", "gather",
                 "gather*", "multline", "multline*", "eqnarray", "eqnarray*", "matrix", "pmatrix",
-                "bmatrix", "vmatrix", "cases", "split"]
+                "bmatrix", "vmatrix", "cases", "split", "math", "displaymath"]
 
 
 def _table_rows(raw):
@@ -383,7 +385,10 @@ def tokens(cls, raw, flat):
         return re.findall(
             r"\\[Cc]ite[a-zA-Z]*\*? ?(?:\[[^\]]*\] ?)*\{[^}]*\}|\[[^\]@]*@[^\]]*\]|"
             r"-?@[A-Za-z0-9_][A-Za-z0-9_:-]*(?:\.[A-Za-z0-9_:-]+)*", flat) + [
-            re.sub(r" ", "", t).replace("\u2013", "-") for t in _NUMCITE_RE.findall(flat)] + (
+            re.sub(r" ", "", t).replace("\u2013", "-") for t in _NUMCITE_RE.findall(flat)] + [
+            # Parenthesized numeric groups, "(1, 2)" or "(3\u20135)", are ordered tokens too.
+            re.sub(r" ", "", t).replace("\u2013", "-")
+            for t in re.findall(r"\([0-9]+(?: ?[,;\u2013-] ?[0-9]+)+\)", flat)] + (
             # Superscript citation runs ("work\u00b9,\u00b2", "\u00b9\u207b\u00b3") are one ordered token.
             re.findall(_SUPDIG + r"+(?:[,\u2013\u207b-]" + _SUPDIG + r"+)+", flat))
     if cls == "authoryear":
@@ -459,6 +464,9 @@ def tokens(cls, raw, flat):
         out += [h + " " for h in re.findall(r"^ {0,3}(#{1,6}) ", raw, re.M)]  # up to 3 spaces of indent
         # Setext heading underlines ("=====", "-----"), kept as their character only.
         out += [m[0] for m in re.findall(r"^ {0,3}(=+|-{3,})[ \t]*$", raw, re.M)]
+        # Markdown hard breaks: two or more trailing spaces, or a trailing backslash, before
+        # another line of the same paragraph.
+        out += ["  " if m[0] == " " else "\\" for m in re.findall(r"( {2,}|\\)\n(?=[ \t]*\S)", raw)]
         # Thematic breaks ("***", "___", "* * *"), kept as their character only.
         out += re.findall(r"^ {0,3}([*_])(?:[ \t]*\1){2,}[ \t]*$", raw, re.M)
         out += [m.strip() for m in re.findall(r"^\s*[-*+] ", raw, re.M)]  # unordered-list markers
@@ -508,13 +516,21 @@ def tokens(cls, raw, flat):
             out.append(tok)
         return out
     if cls == "numberwords":
-        out = []
+        out, prev_end, prev_unit = [], None, False
         for m in _NUMWORD_RE.finditer(flat):
             tok = m.group(0).lower()
             if m.group("unit"):  # plural and singular units agree, as for digit numbers
                 head, *rest = m.group("unit").lower().split(" ")
                 tok = tok[:m.start("unit") - m.start()] + " ".join([head.rstrip("s")] + rest)
-            out.append(tok)
+            # Adjacent number words are one compound number, in order ("one hundred and five"),
+            # so 105 written as 501 is caught; "and" joins only after hundred, thousand, ...
+            gap = flat[prev_end:m.start()].lower() if prev_end is not None else None
+            if out and not prev_unit and (gap == " " or (gap == " and " and re.search(
+                    r"(?:hundred|thousand|million|billion)$", out[-1]))):
+                out[-1] += gap + tok
+            else:
+                out.append(tok)
+            prev_end, prev_unit = m.end(), bool(m.group("unit"))
         return out
     raise ValueError(cls)
 
