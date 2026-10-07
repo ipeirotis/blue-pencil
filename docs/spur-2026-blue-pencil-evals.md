@@ -72,7 +72,8 @@ more than any particular course.
 
 **Briefly describe for the student applicants how the supervised instructional
 time will be met:** This 10 week SPUR project will be meeting every week for
-less than 1.5 hours, either in person or over Zoom, to review eval results,
+less than 1.5 hours, in person by default and over Zoom when travel or scheduling
+requires, to review eval results,
 decide which failures to chase, and plan the next round of changes to the
 skill. I expect the student to spend at least 3 hours a week building the
 corpus and graders, running experiments, and opening pull requests against the
