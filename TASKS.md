@@ -775,7 +775,13 @@ Check what the skill says about its own run against what it did:
   passes outranking later ones, so a run that loads `copyediting.md` before
   `principles.md` fails even when it eventually reads and reports every
   expected file (command-owned references outside the sweep are exempt from
-  the ordering). The contract
+  the ordering, and so are the preloads a command file directs up front,
+  read from that command file at the evaluated ref: `exposition.md` for
+  `/paper:clarify`, `narrative-spine.md` with `ai-tells-to-avoid.md` for
+  `/paper:human`, `copyediting.md` with `ai-tells-to-avoid.md` and
+  `sentence-patterns.md` for `/paper:polish`, so the ordering is judged over
+  the sweep's own loads after those preloads and a compliant command run is
+  not failed for obeying its command file). The contract
   lets the line say briefly that a section gated a pass off, so the parser
   separates entries claimed as loaded from entries annotated as gated off,
   the equality check runs over the loaded entries only, and a gated-off entry
@@ -1140,7 +1146,11 @@ justification: clarity gained for the reader named in the case's `audience`
 field (the skill's default reader model when the field is absent, a
 specialist or an undergraduate when the case says so, since a fixed
 non-specialist judge would penalize terminology a specialist audience
-expects); voice preserved
+expects), with an explicit `already clear, no edit warranted` outcome that
+scores as a success rather than as zero gain, and the dimension marked not
+applicable on a B5 case whose C5 restraint predicate passed, so a correct
+verbatim return is never scored below an unnecessary rewrite and the
+baseline is not biased toward churn); voice preserved
 (would the author recognize this as theirs); meaning preserved per aligned
 sentence pair (any technical claim strengthened, weakened, or changed);
 diagnosis validity (does each numbered item point at a real problem in the
@@ -1274,10 +1284,19 @@ explanation the input already carried, built without the line), re-proposal dete
 C4 (input: the recorded rejected transformation and the evaluated turn's span;
 verdict: re-proposed or not; fixtures: ten re-proposals under new wording
 and ten unrelated legitimate edits), and provenance grounding for F2's
-letter assembly (input: an assembled reply and the decision, change-log
-entry, and manuscript location its provenance line names; verdict:
-supported or not; fixtures: ten grounded replies and ten invented or
-misstated claims), and compact-bullet grounding for C3 (input: one
+letter assembly and for the draft-letter rewrite alike (input: a reply and
+the decision, change-log entry, and manuscript location its provenance line
+or claim names, with each supplied artifact labeled by role; verdict:
+supported or not, where the roles bound what each artifact can support, so
+reviewer comments support a restored quotation, author decisions support
+the author's stated position, and a claimed manuscript change is supported
+only by the supplied manuscript itself or by routing to `Author questions`,
+never by the change log alone, since "we added a robustness analysis" must
+resolve to a real manuscript location as the command file requires;
+fixtures: ten grounded replies and ten invented or
+misstated claims, including a change claim the change log asserts but the
+manuscript lacks), and F7's draft-rewrite case runs this assertion beside
+the full contract, and compact-bullet grounding for C3 (input: one
 `Top changes` bullet and the A3 alignment diff between the input and the
 revised block; verdict: the bullet describes a change present in the diff
 or not, where a bullet that quotes a span must match that span and a
@@ -1512,10 +1531,16 @@ comparison for it; the letter-assembly output of `/paper:letter`, which has
 a revised block but no original letter, carries a provenance-based form
 instead (`Protected inventory: assembled; tokens drawn from <artifact>` per
 class, listing the protected tokens the assembled letter uses and the
-supplied artifact each came from), and C3 verifies that every protected
-token in the assembled letter appears in the named artifact rather than
+supplied artifact each came from, plus a `computed` provenance for editorial
+counts and structural labels the assembly itself produces, such as the
+`two` in "the reviewers' two main concerns" or a reply's own numbering,
+which `SKILL.md` places outside the unverified-substance rule, each stated
+with what was counted), and C3 verifies that every protected
+token in the assembled letter appears in the named artifact, or, for a
+`computed` token, that recomputing the stated count over the supplied
+artifacts yields it, rather than
 diffing the letter against the input bundle, so a legitimate omission is not
-reported as a loss; and because an invented change claim ("we added a
+reported as a loss and a verified count is not reported as an invention; and because an invented change claim ("we added a
 robustness analysis") carries no protected token, each assembled reply is
 also grounded by D4's judge against the decision, change-log entry, and
 manuscript location its provenance line names, with an unsupported claim
