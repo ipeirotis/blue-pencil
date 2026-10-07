@@ -319,8 +319,11 @@ change line, and each Author question. Handle the compact quick-pass contract
 parser must classify them as their own result variants rather than as
 failures: a clarification question (the single context ask), a
 split-and-confirm message listing detected sections (whole manuscript
-supplied as one file), a decline with a routing suggestion (quick pass at
-`response to reviewers`), a source-quality refusal (pervasive extraction
+supplied as one file), a decline with a routing suggestion (a quick pass at
+`response to reviewers`, and a `/paper:polish` run at that stage, which the
+command file has stop and route to `/paper:rebut` with no `Revised text`
+block, so C4 can grade the stop rather than the parser failing it), a
+source-quality refusal (pervasive extraction
 damage: the output asks for a cleaner source and carries no `Revised text`
 block), the letter-assembly output of `/paper:letter` (a full four-section
 output whose Change rationale opens with an assembled-letter note and carries
@@ -889,12 +892,15 @@ output.
 ### C4. Scope and stage graders (M)
 - At `response to reviewers`: paragraphs outside the flagged set and their
   immediate neighbours are byte-identical to the input, and paragraph count,
-  boundaries, and order are unchanged for every paragraph without a
-  `structural` marker in `flagged_paragraphs`, since the stage permits
+  boundaries, and order are unchanged for every paragraph that neither
+  carries a `structural` marker in `flagged_paragraphs` nor is the flagged
+  merge partner of one that does, since the stage permits
   sentence-level work inside the window and forbids reorganising the
   paragraphs reviewers did not complain about; a flagged paragraph whose
   marker records a structural complaint may be split or merged with its
-  flagged neighbour, and then every sentence of the resulting paragraphs
+  flagged neighbour (whose boundary the merge necessarily changes, so that
+  partner is exempt from the boundary check for that merge alone, while an
+  unflagged neighbour never is), and then every sentence of the resulting paragraphs
   aligns into the flagged paragraphs' text (no sentence crosses into or out
   of the unflagged set), so splitting an overloaded paragraph a reviewer
   objected to passes while a reorganisation elsewhere fails. On a `/paper:rebut` run the neighbours
