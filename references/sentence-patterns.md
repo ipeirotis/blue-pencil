@@ -122,11 +122,11 @@ Auxiliaries and modals stack into verb phrases the reader has to unpack before r
 
 | Before | After |
 |---|---|
-| The estimates can be seen to have been affected by the outliers. | The outliers affected the estimates. |
+| The estimates can be seen to have been affected by the outliers. | The outliers appear to have affected the estimates. |
 | These features have been being used as proxies for income. | These features have been used as proxies for income. |
 | The results could be seen to be suggesting a ceiling. | The results suggest a ceiling. |
 
-Diagnostic: count the auxiliaries and modals between the subject and the main verb. Two is ordinary ("has been shown"); three or more is a stack. Keep the tense (the second row keeps its present perfect) and the one modal that carries the claim's calibration; in the third row "suggest" already carries it, so "could be seen to" goes. Some stacks hide an agent or a time: "the effect would have been expected to be larger" may mean "we predicted" or "theory predicts", and that difference is content, so when the rewrite would have to choose an agent or a time the original left open, ask the author rather than choosing. A modal that carries calibration counts toward the claim's one hedge (see "Hedge stacking" above).
+Diagnostic: count the auxiliaries and modals between the subject and the main verb. Two is ordinary ("has been shown"); three or more is a stack. Keep the tense (the second row keeps its present perfect) and one marker that carries the claim's calibration: in the first row "appear to" keeps the uncertainty that "can be seen to" expressed, and in the third row "suggest" already carries it, so "could be seen to" goes. When you cannot tell whether a stacked modal marks real uncertainty or only verbosity, keep a marker and ask; dropping the last one turns a qualified claim into a categorical one. Some stacks hide an agent or a time: "the effect would have been expected to be larger" may mean "we predicted" or "theory predicts", and that difference is content, so when the rewrite would have to choose an agent or a time the original left open, ask the author rather than choosing. A modal that carries calibration counts toward the claim's one hedge (see "Hedge stacking" above).
 
 ## Overclaiming
 
@@ -204,7 +204,7 @@ A sentence carries one topic: one claim, one step, or one relation between two t
 |---|---|
 | We recruited 412 participants through the panel provider, who completed the survey in about 14 minutes on average, and we excluded those who failed both attention checks, which removed 38 respondents. | We recruited 412 participants through the panel provider. They completed the survey in about 14 minutes on average. We excluded the 38 who failed both attention checks. |
 
-Diagnostic: for each sentence past the mark, name its topic in a few words. If you need "and" to name it, the sentence carries two topics; split it at the join, carrying every qualifier and number through unchanged (a split that moves a number still falls under the numerical-claim constraint, so check the number survives exactly). A long sentence that carries one topic with a clean core stays: the mark finds candidates and never sets a cap, because uniform short sentences are their own tell ("Sentence-length variety" above). The rewrite in the table keeps a long-short rhythm without the original's three topics.
+Diagnostic: for each sentence past the mark, name its topic in a few words. If you need "and" to name it, the sentence carries two topics; split it at the join, carrying every qualifier and number through unchanged. A split that moves or rephrases a numerical clause is a change to a numerical claim, so it needs both checks: the number and its referent survive exactly, and the change is flagged for human review under the numerical-claim constraint in `SKILL.md` (in the table, "which removed 38 respondents" becoming "the 38 who failed" is such a change). A long sentence that carries one topic with a clean core stays: the mark finds candidates and never sets a cap, because uniform short sentences are their own tell ("Sentence-length variety" above). The rewrite in the table keeps a long-short rhythm without the original's three topics.
 
 ## The dropped connector
 
@@ -301,9 +301,9 @@ Note: the banned-transition list in `references/ai-tells-to-avoid.md` is the can
 | Before | After |
 |---|---|
 | Accuracy rose to 91%, with recall on rare classes falling to 40%. | Accuracy rose to 91%, but recall on rare classes fell to 40%. |
-| Turnout fell in rural districts, with polling places closing in 30 counties. | Turnout fell in rural districts, where polling places closed in 30 counties. |
+| Turnout fell in rural districts, with polling places closing in 30 counties. | Turnout fell in rural districts. Polling places closed in 30 counties. (Flag: are the closures in those districts, and do they explain the fall?) |
 
-Diagnostic: for each "with" followed by a noun and an "-ing" or past-participle verb, name the relation (contrast, cause, place, time, manner) and use the word that states it. The license is the same as for "Accumulation instead of argument" below: make explicit only a relation the author's text supports. In the second row, "because polling places closed" would be a causal claim the sentence does not make; "where" keeps the original's claim, and the causal reading goes to `Author questions` if the paper seems to intend it. "With" in its plain senses ("trained with dropout", "participants with a degree") is fine.
+Diagnostic: for each "with" followed by a noun and an "-ing" or past-participle verb, name the relation (contrast, cause, place, time, manner) and use the word that states it. The license is the same as for "Accumulation instead of argument" below: make explicit only a relation the author's text supports. In the first row the contrast is in the facts themselves (one rate rose, the other fell), so "but" adds nothing the sentence did not say. In the second row the text supports no relation: "because" would add a causal claim and "where" a claim about location, since the 30 counties may lie partly outside the rural districts. When no relation is supported, keep the two facts as two sentences and ask the author in `Author questions` which relation they mean. "With" in its plain senses ("trained with dropout", "participants with a degree") is fine.
 
 ## Accumulation instead of argument
 
