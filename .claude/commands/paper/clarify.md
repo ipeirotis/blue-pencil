@@ -16,7 +16,8 @@ the isolated dispatch.
 
 This is an exposition-focused pass. The goal is teaching: a smart reader trained
 in the venue area, but not expert in this exact topic, should be able to acquire
-the idea with less effort after the edit. Load `references/exposition.md` and run
+the idea with less effort after the edit, including when they read English as a
+second language or through a translation tool. Load `references/exposition.md` and run
 the exposition pass (question before machinery, role before name, intuition
 before formalism, one new object at a time, concrete anchor after abstraction,
 payoff after effort).

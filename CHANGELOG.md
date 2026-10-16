@@ -10,9 +10,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Se
 - `evals/`: an evaluation pilot that runs the same editing request with and without Blue Pencil and grades the results with a code grader, a meaning grader, and a blinded quality grader. Includes a rubric, test cases built from the repo's examples, an offline self-test for the code grader, and one saved run (`results/pilot-001`).
 - `make eval-selftest`: runs the code grader's offline self-test.
 
+- Diagnostics adapted from ASD-STE100 (Simplified Technical English, Issue 9) for readers who read English as a second language or through a translation tool. `references/principles.md` gains an ASD-STE100 section that maps each transferable rule to its home in the skill and lists the rules the skill does not adopt (the dictionary, hard word caps, the semicolon ban, the imperative, American spelling).
+- `references/sentence-patterns.md`: new patterns for two-way "-ing" forms, stacked verb phrases, one topic per sentence (about 25 words as the point to check, never a cap), the dropped connector, idioms and phrasal verbs, the vague "with", and complex series; vague verbs join vague abstractions.
+- `references/copyediting.md`: one word, one sense ("since", "as", "while", "once", "may", "should"), false friends, and "i.e." against "e.g.", each a consistency risk when the context leaves the sense open.
+- `references/structural-patterns.md`: procedural passages in Methods (one step per sentence, order of performance, condition before action), the limitation without a consequence, and one claimed change per sentence in response letters.
+
 ### Changed
 
 - `scripts/lint.sh` skips `evals/results/`, which holds raw saved model replies.
+- `SKILL.md`, `references/exposition.md`, `/paper:polish`, and `/paper:clarify` name the second-language reader and point to the new checks from the writing-quality rule, the restraint checklist, and the read-cold pass.
 
 ## [3.0.0] - 2026-08-14
 

@@ -63,6 +63,16 @@ Methods sections have different conventions across fields (a computer science me
 
 The most common methods pathology is the **procedural recitation**: a chronological account of what the authors did, in the order they did it, with no structural signal of what matters. Methods should be organized for the reader's understanding, not the author's memory of the project timeline.
 
+**Procedural passages.** Inside a Methods section, some passages are procedures a reader may repeat: a data-cleaning pipeline, an exclusion protocol, an annotation workflow, a stimulus sequence. The recitation pathology is about how the section is organized; inside a procedure, order of performance is the right order, because the reader will follow it. Here the instruction-writing rules of ASD-STE100 (rules 5.2 and 5.4) carry over in the past tense:
+
+- **One step per sentence**, unless two actions happened at the same time. A sentence that packs three steps hides their order.
+- **Steps in the order performed.** When the text says "after" or "before" to recover an order the sentences do not show, reorder the sentences (at `first draft`, or flag at later stages).
+- **The condition before the action.** "If a respondent failed both attention checks, we excluded them" tells the reader which cases the step covers before it describes the step. One leading condition is fine; a stack of them is the left-branching preamble (`references/sentence-patterns.md`).
+- **Name the agent and the parameter** when the step depends on them: who coded the responses, what threshold triggered the exclusion. A missing agent or parameter is substance, so it goes to `Author questions`, never into the text.
+
+Bad: "Responses were cleaned, deduplicated by IP after removing speeders, and coded by two annotators, with disagreements adjudicated."
+Good: "We first removed speeders. We then removed duplicate responses from the same IP address. Two annotators coded the remaining responses, and their disagreements were adjudicated." (The order "speeders, then duplicates" comes from the original's "after". The original does not say who adjudicated, so the passive stays and `Author questions` asks; writing "a third annotator" would add substance.)
+
 ## Results
 
 Results sections in scientific papers usually follow a claim-evidence-claim-evidence pattern. Each paragraph should:
@@ -93,6 +103,7 @@ Common pathologies:
 - **The discussion-that-overclaims.** Treats correlational evidence as causal, generalizes from one dataset to all cases, extrapolates from a controlled study to the wild. Catch this yourself before reviewers do.
 - **The discussion-without-limitations.** Either there are none stated (implausible) or they are buried in one sentence. Reviewers read this as evasion.
 - **The discussion-with-too-many-limitations.** The author hedges everything until the contribution disappears. Limitations should be honest, not abject.
+- **The limitation without a consequence.** "Our sample is drawn from one platform" names a limitation but leaves the reader to work out what it does to the result. ASD-STE100 requires a safety warning to state the possible result of ignoring it (rule 7.3), and a limitation serves the reader the same way: it says which way, or how far, the result could be wrong ("so the estimate may not hold for older respondents, who are rare on the platform"). When the manuscript states the consequence elsewhere, move it next to the limitation where the stage allows; when it does not, ask the author in `Author questions`, because the consequence is a claim.
 
 ## Conclusion
 
@@ -125,6 +136,8 @@ Rebuttals have their own genre conventions, and most authors get them wrong. Use
 **Disagreements:** state them clearly. "We respectfully disagree, for the following reason: ..." is fine. Wishy-washy half-agreements are read as evasion.
 
 **Common pathology:** the rebuttal that promises future changes without making any. Reviewers want to see the change, not the promise.
+
+**One change per sentence.** In the per-comment reply and the change log, state each change in its own sentence, with what changed and where: "We added the attrition rates by arm to Table 3. We moved the robustness check to Appendix B." A sentence that bundles three changes makes the reviewer search the manuscript to find which went where, and many reviewers read the letter in a second language. This follows the one-instruction-per-sentence rule of ASD-STE100 (rule 5.2); the letter license in `SKILL.md` still requires every claimed change to point to a real location.
 
 ## Grant proposals
 

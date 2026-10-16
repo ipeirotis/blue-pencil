@@ -100,6 +100,46 @@ Their rules in compressed form:
 
 For section-by-section application of these rules, load `references/structural-patterns.md`.
 
+## ASD-STE100: Simplified Technical English as a reader-in-a-second-language test
+
+ASD-STE100 (Simplified Technical English, Issue 9, 2025) is a controlled language written for aerospace maintenance manuals: a set of writing rules plus a dictionary of approved words, each with one approved meaning. Its reader is a technician who may read English as a second language, may read through a machine translation, and cannot ask the author what a sentence meant. Most readers of an international journal fit that description: they read in English, many not in their first language, and some through a translation tool, and none can query the author.
+
+The underlying claim is that most misreadings come from a small set of causes: a word that carries two senses, a word the writer dropped to save space, a verb phrase built from stacked auxiliaries, an "-ing" form that parses two ways, and a sentence that carries more than one topic. Each cause costs a native reader a moment and can cost a second-language reader or a translation tool the whole sentence. STE removes the causes by rule. This skill takes the causes as diagnostics and leaves the rules as rules for manuals.
+
+### What transfers, and where it lives
+
+| STE rule (Issue 9 numbering) | Academic version | Home in this skill |
+|---|---|---|
+| 1.3, 9.2: use each word only in its approved meaning | One word, one sense: "since", "as", "while", "once", "may", "should" each in one sense, never two in one passage | `references/copyediting.md`, item 11 |
+| 1.11, 9.4: do not use different technical nouns for the same thing | One construct, one term, already the terminology-consistency rule; no synonyms for variety | `references/copyediting.md`, items 4 and 11 |
+| 1.10, 1.9: no slang, regional, or jargon words as technical nouns; prefer short, clear ones | Jargon earns its place; a term of art stays, an idiom does not | `SKILL.md` Style rules; `references/sentence-patterns.md`, "Idioms and phrasal verbs" |
+| 2.1: multi-word nouns of not more than three nouns | The noun pile-up threshold (three suspicious, four almost always wrong) | `references/sentence-patterns.md`, "Noun pile-ups" |
+| 3.4: do not use auxiliary verbs to make complex verb constructions | Stacked verb phrases ("would have been expected to have") | `references/sentence-patterns.md`, "Stacked verb phrases" |
+| 3.5: use the "-ing" form only as a noun or a noun modifier | Flag an "-ing" form that parses two ways, and the dangling "-ing" opener | `references/sentence-patterns.md`, "Two-way -ing forms" |
+| 3.6, 3.7: active voice; an action in a verb, not a noun | Already the character-action rule above and the nominalization pattern; the passive stays legal where the receiver is the topic | `references/sentence-patterns.md`, "Nominalizations" and "Voice issues" |
+| 4.1 and Section 6: short, clear sentences, one topic each; key topic first | One topic per sentence, with about 25 words as the point to check, not a cap | `references/sentence-patterns.md`, "One topic per sentence" |
+| 4.2 and GR-1: do not omit words to make a sentence shorter; keep the conjunction "that" | The dropped connector: a missing "that", article, or verb that sends the reader down the wrong parse | `references/sentence-patterns.md`, "The dropped connector" |
+| 4.3: use a vertical list for complex text | Label a long or comma-heavy inline series; a vertical list only where the venue and stage allow | `references/sentence-patterns.md`, "Complex series" |
+| 4.4: connect related sentences with connecting words | Name the relation (because, so, but), already "Accumulation instead of argument" | `references/sentence-patterns.md` |
+| 4.5 and GR-4: use an article or a demonstrative before a noun; "this" needs a noun | The "this + noun" rule | `references/sentence-patterns.md`, "Dangling references" |
+| GR-2: the preposition "with" | The vague "with" that attaches a clause and hides its relation | `references/sentence-patterns.md`, "The vague with" |
+| GR-5, GR-6: false friends, Latin abbreviations | Flag false friends; check "i.e." against "e.g." | `references/copyediting.md`, items 12 and 13 |
+| 5.2, 5.4: one instruction per sentence; a condition before its command | Procedural passages in Methods: one step per sentence in order of performance, the condition before the action | `references/structural-patterns.md`, "Methodology" |
+| 7.3: give an explanation to show the risk or possible result | A limitation names its consequence for the reading of the result | `references/structural-patterns.md`, "Discussion" |
+| 5.2 (applied to letters) | One claimed change per sentence, each with its location | `references/structural-patterns.md`, "Rebuttal letters" |
+| 9.3: do not make phrasal verbs | Replace an idiomatic phrasal verb with a single verb of equal precision | `references/sentence-patterns.md`, "Idioms and phrasal verbs" |
+
+### What does not transfer
+
+- **The dictionary.** Academic prose needs the full vocabulary of its field. The transferable part of the dictionary is its principle (one word, one sense), not its word list.
+- **Hard word caps.** STE caps descriptive sentences at 25 words and procedural ones at 20. A cap would flatten rhythm, and uniform sentence length is itself a tell (`references/sentence-patterns.md`). Here 25 words is the point at which a sentence is checked for a second topic, never a limit it must meet.
+- **The semicolon ban (8.1).** Academic style uses the semicolon to join two closely related clauses and to separate series items that contain commas. Keep it; check only that the relation between the joined clauses is one the reader can see.
+- **The imperative mood and the strict passive rule (3.6, 5.3).** Papers report what was done and what was found. The past-tense passive is legitimate where the receiver of the action is the topic (`references/sentence-patterns.md`, "Voice issues").
+- **American spelling (1.14).** Spelling follows the venue, and `references/copyediting.md` forbids silent normalization.
+- **The six-sentence paragraph.** One topic per paragraph transfers (it is already the paragraph-craft rule); the count does not.
+
+STE is a floor for comprehension, not a model of good prose. An edit made under one of these diagnostics must still clear the Restraint rule in `SKILL.md`: a sentence that already parses in one pass for a second-language reader stays as it is.
+
 ## On Strunk and White
 
 "Omit needless words" remains one of the most useful pieces of writing advice ever given. Most of the rest of *The Elements of Style* is either too general to be actionable, prescriptively wrong (the passive voice rule, in particular, has been demonstrated to be partly based on misidentification of passive constructions by Geoffrey Pullum and others), or oriented toward a register of writing that is no longer current.

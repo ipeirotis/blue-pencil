@@ -35,6 +35,12 @@ They know the field and its research norms. They do not know the paper's private
 vocabulary, its exact dataset, its institutional context, its modelling
 assumptions, or its identification logic.
 
+Assume also that the reader may read English as a second language, or through a
+translation tool, as many readers of an international venue do. This changes no
+claim and lowers no level: it means each word carries one sense, the small words a
+parse needs stay in, and each sentence carries one topic (the ASD-STE100 diagnostics
+in `references/principles.md`).
+
 Do not write down to the reader. Write the missing steps. The fix for the curse of
 knowledge is not simpler claims; it is the inferential bridge the author has
 internalised and skipped.
