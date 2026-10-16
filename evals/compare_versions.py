@@ -6,7 +6,7 @@ a win counts only if it survives the order swap; otherwise a tie.
 
 Usage: python3 compare_versions.py <evals_dir> <before_root> <after_root> <out.json>
 
-A pair already judged in <out.json> with the same two texts is reused, so running the
+A pair already judged in <out.json> with the same grader prompt, model, and environment is reused, so running the
 same command again retries only the pairs that got no valid verdict. The script exits
 nonzero while any pair is still ungraded.
 """
@@ -30,16 +30,26 @@ def pair(case_id, n, saved):
     rds = {v: r / f"eval-{case_id}" / "with_skill" / f"run-{n}" for v, r in ROOTS.items()}
     revised = {v: gp.revised_of(rd) for v, rd in rds.items()}
     texts_sha = hashlib.sha256((revised["before"] + "\0" + revised["after"]).encode()).hexdigest()[:16]
-    old = saved.get((case_id, n))
-    if old and old.get("texts_sha") == texts_sha and old.get("consolidated") in ("before", "after", "tie"):
-        return old  # already judged on these exact texts
     original = (evals_dir / "cases" / case_id / "input.txt").read_text().strip()
     first = random.Random(f"bva-{case_id}-{n}").choice(("before", "after"))
-    orders = []
+    plan = []
     for a in (first, "after" if first == "before" else "before"):
         b = "after" if a == "before" else "before"
         prompt = gp.fill(TEMPLATE, AUDIENCE=gp.audience_of(case_id), ORIGINAL=original,
                          VERSION_A=revised[a], VERSION_B=revised[b])
+        plan.append((a, b, prompt))
+    # Reuse a saved verdict only if, as in grade_pilot.py, each order was judged with the
+    # same full prompt (template, audience, original, both texts), requested model, and
+    # grader environment; anything else is graded again.
+    old = saved.get((case_id, n))
+    if (old and old.get("texts_sha") == texts_sha and old.get("consolidated") in ("before", "after", "tie")
+            and len(old.get("orders", [])) == len(plan)
+            and all((o.get("grader") or {}).get("key") == gp.grader_key(prompt, gp.GRADER_MODEL)
+                    and gp.same_env(o.get("grader")) and (o.get("A"), o.get("B")) == (a, b)
+                    for o, (a, b, prompt) in zip(old["orders"], plan))):
+        return old
+    orders = []
+    for a, b, prompt in plan:
         g = gp.model_json(prompt, gp.GRADER_MODEL, gp.quality_validator(revised[a], revised[b]))
         overall = (g["parsed"] or {}).get("overall")
         # Keep the full grader record (requested and actual models, environment, cache key,
