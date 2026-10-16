@@ -15,6 +15,7 @@ from pathlib import Path
 evals_dir, before_root, after_root, out_path = map(Path, sys.argv[1:5])
 sys.path.insert(0, str(evals_dir))
 import grade_pilot as gp  # noqa: E402
+from lib import changed_cases, read_json  # noqa: E402
 
 TEMPLATE = (evals_dir / "prompts" / "quality_grader.md").read_text()
 ROOTS = {"before": before_root, "after": after_root}
@@ -40,6 +41,18 @@ def pair(case_id, n):
     cons = "ungraded" if None in (w1, w2) else (w1 if w1 == w2 else "tie")
     return {"case": case_id, "run": n, "consolidated": cons, "orders": orders}
 
+
+# Refuse runs that cannot be compared: a case edited since either run, or runs that
+# differ in executor model, Claude Code version, flags, or case fingerprints.
+metas = {v: read_json(r / "run_meta.json") for v, r in ROOTS.items()}
+case_ids = sorted(ed.name[len("eval-"):] for ed in after_root.glob("eval-*"))
+for v, r in ROOTS.items():
+    stale = changed_cases(metas[v], case_ids, r)
+    if stale:
+        sys.exit(f"{v} run: case files changed since it ran: {', '.join(stale)}")
+for key in ("executor_model", "claude_code_version", "flags", "preserve_instruction", "case_fingerprints"):
+    if metas["before"].get(key) != metas["after"].get(key):
+        sys.exit(f"before and after runs differ in {key}; they are not comparable")
 
 jobs = []
 for ed in sorted(after_root.glob("eval-*")):

@@ -71,7 +71,7 @@ The most common methods pathology is the **procedural recitation**: a chronologi
 - **Name the agent and the parameter** when the step depends on them: who coded the responses, what threshold triggered the exclusion. A missing agent or parameter is substance, so it goes to `Author questions`, never into the text.
 
 Bad: "Responses were deduplicated by IP after removing speeders and coded by two annotators, with disagreements adjudicated."
-Good: "Speeders were removed first. Duplicate responses from the same IP address were removed next. Two annotators coded the remaining responses. Their disagreements were then adjudicated." (Every step in the original survives, one per sentence. The order "speeders, then duplicates" comes from the original's "after", and adjudication follows coding because it resolves the coders' disagreements. The original names no agent for removal or adjudication, so the passive stays and `Author questions` asks who adjudicated; writing "we" or "a third annotator" would add substance.)
+Good: "Speeders were removed first. Duplicate responses from the same IP address were removed next. Two annotators coded the responses. Their disagreements were then adjudicated." (Every step in the original survives, one per sentence. The order "speeders, then duplicates" comes from the original's "after", and adjudication follows coding because it resolves the coders' disagreements. The original does not say whether coding came before or after the removals, so the rewrite says "the responses", not "the remaining responses", and `Author questions` asks. It names no agent for removal or adjudication either, so the passive stays and `Author questions` asks who adjudicated; writing "we" or "a third annotator" would add substance.)
 
 ## Results
 
