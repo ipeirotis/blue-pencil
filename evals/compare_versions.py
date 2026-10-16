@@ -12,9 +12,10 @@ nonzero while any pair is still ungraded.
 """
 import hashlib
 import json
+import threading
 import random
 import sys
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 evals_dir, before_root, after_root, out_path = map(Path, sys.argv[1:5])
@@ -42,7 +43,9 @@ def pair(case_id, n, saved):
     # same full prompt (template, audience, original, both texts), requested model, and
     # grader environment; anything else is graded again.
     old = saved.get((case_id, n))
-    if (old and old.get("texts_sha") == texts_sha and old.get("consolidated") in ("before", "after", "tie")
+    # The key covers the full prompt, both texts included, so it alone decides; texts_sha is
+    # kept only as a readable record and is not required (older results lack it).
+    if (old and old.get("consolidated") in ("before", "after", "tie")
             and len(old.get("orders", [])) == len(plan)
             and all((o.get("grader") or {}).get("key") == gp.grader_key(prompt, gp.GRADER_MODEL)
                     and gp.same_env(o.get("grader")) and (o.get("A"), o.get("B")) == (a, b)
@@ -96,9 +99,28 @@ if invalid:
     sys.exit("invalid trials (errored, no revision, or skill not loaded); resume the run to retry them first: "
              + "; ".join(invalid))
 saved = {(r["case"], r["run"]): r for r in json.loads(out_path.read_text())} if out_path.exists() else {}
+# Write each pair to out_path as soon as it is judged, so an interrupted or failing run keeps
+# every verdict already paid for; pairs not yet judged keep their saved entry, if any.
+done, lock = {}, threading.Lock()
+
+
+def checkpoint():
+    rows = [done.get(j) or saved.get(j) for j in jobs]
+    out_path.write_text(json.dumps([r for r in rows if r], indent=2))
+
+
 with ThreadPoolExecutor(max_workers=4) as ex:
-    results = list(ex.map(lambda j: pair(*j, saved), jobs))
-out_path.write_text(json.dumps(results, indent=2))
+    futures = {ex.submit(pair, c, n, saved): (c, n) for c, n in jobs}
+    for f in as_completed(futures):
+        c, n = futures[f]
+        try:
+            r = f.result()
+        except Exception as e:  # a grader failure leaves this pair to the next run
+            r = {"case": c, "run": n, "consolidated": "ungraded", "error": repr(e)}
+        with lock:
+            done[(c, n)] = r
+            checkpoint()
+results = [done[j] for j in jobs]
 tally = {}
 for r in results:
     tally[r["consolidated"]] = tally.get(r["consolidated"], 0) + 1
