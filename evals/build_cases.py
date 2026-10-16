@@ -64,6 +64,14 @@ def request_text(lines):
 
 
 def main():
+    # A hand-written case (any origin other than a repo example) must never share an id with
+    # an example: the loop below would overwrite its files. Check before writing anything.
+    catalog = EVALS / "cases" / "cases.json"
+    hand = {c["id"] for c in read_json(catalog)["cases"] if c.get("origin") != "repo example"} \
+        if catalog.exists() else set()
+    clash = sorted(hand & {p.stem for p in (REPO / "examples").glob("*.md")})
+    if clash:
+        sys.exit(f"example files share an id with hand-written cases: {', '.join(clash)}; rename one")
     cases = []
     for path in sorted((REPO / "examples").glob("*.md")):
         text = path.read_text()
@@ -89,7 +97,6 @@ def main():
         print(f"case {cid}: {len(passage.split())} words")
     # Keep hand-written cases (any origin other than a repo example): they have no
     # example to rebuild from, and rewriting the catalog must not drop them.
-    catalog = EVALS / "cases" / "cases.json"
     if catalog.exists():
         built = {c["id"] for c in cases}
         cases += [c for c in read_json(catalog)["cases"]

@@ -4,7 +4,10 @@
 Reuses evals/grade_pilot.py's quality grader prompt, validator, and two-order rule:
 a win counts only if it survives the order swap; otherwise a tie.
 
-Usage: python3 compare_versions.py <evals_dir> <before_root> <after_root> <out.json>
+Usage: python3 compare_versions.py <evals_dir> <before_root> <after_root> <out.json> [--same-skill]
+
+The two runs must record different skill fingerprints, since the skill version is what
+is being compared; pass --same-skill only for a deliberate control run of one version.
 
 A pair already judged in <out.json> with the same grader prompt, model, and environment is reused, so running the
 same command again retries only the pairs that got no valid verdict. The script exits
@@ -18,6 +21,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+SAME_SKILL = "--same-skill" in sys.argv[5:]
 evals_dir, before_root, after_root, out_path = map(Path, sys.argv[1:5])
 sys.path.insert(0, str(evals_dir))
 import grade_pilot as gp  # noqa: E402
@@ -88,6 +92,14 @@ for key in ("executor_model", "claude_code_version", "flags", "preserve_instruct
     if metas["before"].get(key) != metas["after"].get(key):
         sys.exit(f"before and after runs differ in {key}; they are not comparable")
 
+# The skill version is the independent variable: both runs must record it, and it must differ
+# unless this is a declared same-version control run.
+fps = {v: m.get("skill_fingerprint") for v, m in metas.items()}
+if not all(fps.values()):
+    sys.exit("a run does not record skill_fingerprint (an older run); the versions compared cannot be verified")
+if fps["before"] == fps["after"] and not SAME_SKILL:
+    sys.exit(f"both runs record skill fingerprint {fps['before']}; pass --same-skill for a same-version control run")
+
 # Both runs must cover the same planned cases and run count, and every planned with_skill
 # run must exist in both, so a partial run cannot pass for a smaller complete comparison.
 for key in ("cases", "runs_per_condition"):
@@ -98,10 +110,13 @@ missing = [f"{v}: {c} run-{n}" for v, r in ROOTS.items() for c, n in jobs
            if not (r / f"eval-{c}" / "with_skill" / f"run-{n}").is_dir()]
 if missing:
     sys.exit("runs missing, comparison would be incomplete: " + "; ".join(missing))
+# _valid_trial checks only that revised.txt exists; an empty extracted revision is incomplete too,
+# as grade_pilot.head_to_head treats it.
 invalid = [f"{v}: {c} run-{n}" for v, r in ROOTS.items() for c, n in jobs
-           if not gp._valid_trial(r / f"eval-{c}" / "with_skill" / f"run-{n}", "with_skill")]
+           if not gp._valid_trial(r / f"eval-{c}" / "with_skill" / f"run-{n}", "with_skill")
+           or not gp.revised_of(r / f"eval-{c}" / "with_skill" / f"run-{n}")]
 if invalid:
-    sys.exit("invalid trials (errored, no revision, or skill not loaded); resume the run to retry them first: "
+    sys.exit("invalid trials (errored, empty or missing revision, or skill not loaded); resume the run to retry them first: "
              + "; ".join(invalid))
 # The requested executor can route to another model; compare the models each trial
 # actually used, pair by pair, so routing differences are never credited to the skill.
