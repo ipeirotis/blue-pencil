@@ -1,0 +1,1 @@
+This is the data-processing paragraph of our methods section. A colleague said they could not tell what order the steps happened in or which ones a replicator would need to repeat. Can you make it clearer?

@@ -1,0 +1,6 @@
+<paper_context>
+target_venue: ACL
+audience: NLP researchers, many of whom read English as a second language
+core_thesis: Retrieval augmentation helps mainly on long-tail questions, and its benefit is limited by the relevance of what the retriever returns.
+revision_stage: first draft
+</paper_context>

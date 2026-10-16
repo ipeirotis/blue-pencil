@@ -1,0 +1,6 @@
+<paper_context>
+target_venue: RecSys
+audience: recommender-systems researchers and practitioners
+core_thesis: A warm-start stage trained on content features makes engagement predictions for new users accurate enough to act on.
+revision_stage: first draft
+</paper_context>
