@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision removes filler ('It is important to note that', 'It should be noted that'), merges sentences, switches passive to active voice, and fixes grammar ('comprising of' to 'comprising'). Every claim, qualifier, citation, number, and hedge ('to the best of our knowledge, somewhat underexplored', 'novel', 'should consider') is still present and attached to the same statement."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

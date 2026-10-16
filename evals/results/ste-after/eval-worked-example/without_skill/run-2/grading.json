@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision keeps every claim, number, citation, and caveat attached to the same statements as the original. It mostly removes filler such as 'It is important to note that' and 'It should be noted that'. Dropping 'in the existing literature' does not change the scope, because 'underexplored' already refers to prior work. The only loss is the qualifier 'Crucially'."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

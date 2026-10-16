@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two-way']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The core specification, controls, clustering, control groups, and estimators are preserved. The revision adds substantive material the original did not contain, most importantly naming repeat purchase as the outcome, plus new claims about why a before-and-after comparison is unavailable and how TWFE can distort results."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

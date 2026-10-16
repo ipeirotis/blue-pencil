@@ -1,0 +1,93 @@
+{
+  "case": "worked-example",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover'). A goes further. It drops intensifiers and buzzwords ('proliferation', 'fundamentally', 'leverage a novel') and says the managerial implication directly. B keeps more of the original's inflated diction. B's flow is slightly smoother because it merges the prior-work sentences into one, while A's short declaratives read a bit choppy. For clarity, both state the gap and the finding early. A front-loads the hedge and B puts it mid-sentence, which roughly balances out. A's plainer wording and its precise 'effect on this relationship' suit empirical IS readers better, so A wins overall.",
+          "dimensions": {
+            "clarity": "tie",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "concision": "A: 'Online platforms have transformed how' vs B: 'The proliferation of online platforms has fundamentally transformed how'",
+            "flow": "A: 'Several researchers have investigated... These studies found that' vs B: '...Dellarocas 2003), and they find that reviews matter'",
+            "precision": "A: 'reviewer identity has a significant effect on this relationship' vs B: 'reviewer identity has a significant effect'",
+            "audience_fit": "A: 'we use a dataset comprising 1.2 million reviews' vs B: 'we leverage a novel dataset comprising 1.2 million reviews'"
+          },
+          "overall": "A"
+        },
+        "key": "8107e59edd2f83ac",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover'). A goes further. It drops intensifiers and buzzwords ('proliferation', 'fundamentally', 'leverage a novel') and says the managerial implication directly. B keeps more of the original's inflated diction. B's flow is slightly smoother because it merges the prior-work sentences into one, while A's short declaratives read a bit choppy. For clarity, both state the gap and the finding early. A front-loads the hedge and B puts it mid-sentence, which roughly balances out. A's plainer wording and its precise 'effect on this relationship' suit empirical IS readers better, so A wins overall.\",\n  \"dimensions\": {\n    \"clarity\": \"tie\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"concision\": \"A: 'Online platforms have transformed how' vs B: 'The proliferation of online platforms has fundamentally transformed how'\",\n    \"flow\": \"A: 'Several researchers have investigated... These studies found that' vs B: '...Dellarocas 2003), and they find that reviews matter'\",\n    \"precision\": \"A: 'reviewer identity has a significant effect on this relationship' vs B: 'reviewer identity has a significant effect'\",\n    \"audience_fit\": \"A: 'we use a dataset comprising 1.2 million reviews' vs B: 'we leverage a novel dataset comprising 1.2 million reviews'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0441472,
+        "seconds": 16.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted'). B goes further. It cuts the intensifier 'fundamentally', replaces the buzzword 'leverage' with 'use', and turns the closing implication into a single direct sentence linked by 'therefore'. A merges the literature sentences but switches tense ('have investigated... they find'). B keeps 'found' consistent with past studies and says what the effect is on ('on this relationship'). A keeps a little more connective merging, but B is tighter, plainer, and more exact, which suits empirical IS readers.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'reviewer identity has a significant effect.' vs B: 'reviewer identity has a significant effect on this relationship.'",
+            "concision": "A: 'This finding has important implications for platform design: managers should consider' vs B: 'Platform managers should therefore consider'",
+            "flow": "A: 'This finding has important implications for platform design:' vs B: 'Platform managers should therefore consider'",
+            "precision": "A: 'have investigated ... and they find that' vs B: 'These studies found that'",
+            "audience_fit": "A: 'we leverage a novel dataset' vs B: 'we use a dataset'"
+          },
+          "overall": "B"
+        },
+        "key": "f239eacad6fe3948",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted'). B goes further. It cuts the intensifier 'fundamentally', replaces the buzzword 'leverage' with 'use', and turns the closing implication into a single direct sentence linked by 'therefore'. A merges the literature sentences but switches tense ('have investigated... they find'). B keeps 'found' consistent with past studies and says what the effect is on ('on this relationship'). A keeps a little more connective merging, but B is tighter, plainer, and more exact, which suits empirical IS readers.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'reviewer identity has a significant effect.' vs B: 'reviewer identity has a significant effect on this relationship.'\",\n    \"concision\": \"A: 'This finding has important implications for platform design: managers should consider' vs B: 'Platform managers should therefore consider'\",\n    \"flow\": \"A: 'This finding has important implications for platform design:' vs B: 'Platform managers should therefore consider'\",\n    \"precision\": \"A: 'have investigated ... and they find that' vs B: 'These studies found that'\",\n    \"audience_fit\": \"A: 'we leverage a novel dataset' vs B: 'we use a dataset'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0388472,
+        "seconds": 12.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

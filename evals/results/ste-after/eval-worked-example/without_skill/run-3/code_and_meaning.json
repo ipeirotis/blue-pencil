@@ -1,0 +1,43 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/ste-after/eval-worked-example/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "remains, to the best of our knowledge, somewhat underexplored in the existing literature",
+          "revised_quote": "remains, to the best of our knowledge, underexplored",
+          "explanation": "Dropping the hedge \"somewhat\" makes the claim about the research gap stronger: the topic is now simply underexplored rather than somewhat underexplored."
+        }
+      ],
+      "summary": "Most edits only remove filler, fix grammar (\"comprising of\"), or merge sentences, and all citations and numbers stay attached to the same claims. The one change in meaning is the removal of \"somewhat\", which strengthens the authors' claim about the gap in the literature."
+    },
+    "key": "ef260a67dd330d08",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"remains, to the best of our knowledge, somewhat underexplored in the existing literature\",\n      \"revised_quote\": \"remains, to the best of our knowledge, underexplored\",\n      \"explanation\": \"Dropping the hedge \\\"somewhat\\\" makes the claim about the research gap stronger: the topic is now simply underexplored rather than somewhat underexplored.\"\n    }\n  ],\n  \"summary\": \"Most edits only remove filler, fix grammar (\\\"comprising of\\\"), or merge sentences, and all citations and numbers stay attached to the same claims. The one change in meaning is the removal of \\\"somewhat\\\", which strengthens the authors' claim about the gap in the literature.\"\n}\n```",
+    "cost_usd": 0.0374952,
+    "seconds": 12.3,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

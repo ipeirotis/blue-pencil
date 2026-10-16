@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision removes filler ('It is important to note that', 'It should be noted that'), merges sentences, and fixes grammar ('comprising of'). Every claim, citation, number (5-9%, 1.2 million), qualifier ('novel', 'somewhat', 'to the best of our knowledge'), and recommendation stays attached to the same statement at the same strength. Dropping 'in the existing literature' is redundant with 'underexplored' and does not narrow or widen the scope."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision removes filler ('It is important to note that', 'Furthermore', 'Moreover', 'It should be noted that'), fixes 'comprising of', and tightens wording. The claims, citations, numbers (5-9%, 1.2 million), and hedges ('to the best of our knowledge', 'somewhat underexplored', 'novel', 'should consider') are unchanged and attached to the same claims. Dropping 'in the existing literature' doesn't change the meaning, since 'to the best of our knowledge... underexplored' already refers to prior work."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

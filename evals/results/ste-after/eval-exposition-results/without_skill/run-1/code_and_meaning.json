@@ -1,0 +1,78 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste-after/eval-exposition-results/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Table 3 reports the estimates, and identity matters.",
+          "explanation": "The revision adds an interpretive conclusion that identity matters, which the original, a purely descriptive report of estimates, does not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "it holds up when product fixed effects are added in column 3, where it is 0.15 (SE = 0.05)",
+          "explanation": "The revision adds a robustness judgment ('holds up') that the original does not make; it only reports the column 3 coefficient."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "revised_quote": "Reviewer tenure strengthens the effect: the interaction in column 4 is 0.09 (SE = 0.03).",
+          "explanation": "The original reports an interaction coefficient, and the revision turns it into a causal-sounding claim that tenure strengthens the effect."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating remains a powerful driver throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications.",
+          "explanation": "Calling star rating a 'powerful driver' adds causal and magnitude language that the original's neutral report of the coefficient does not contain."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "R-squared rises from 0.31 to 0.47 across the columns.",
+          "revised_quote": "Explanatory power rises accordingly, as R-squared climbs from 0.31 to 0.47 across the columns.",
+          "explanation": "'Accordingly' adds an implied link between the reported findings and the R-squared increase that the original does not assert."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.",
+          "revised_quote": "Table 3 reports the estimates, and identity matters.",
+          "explanation": "The author's restrained, descriptive register is replaced with persuasive, interpretive prose."
+        }
+      ],
+      "summary": "All numbers stay attached to the correct columns and variables, and the significance statement is unchanged. However, the revision adds interpretive and causal claims ('identity matters', 'holds up', 'strengthens the effect', 'powerful driver') that are absent from the purely descriptive original."
+    },
+    "key": "bf6a884ed3c3adf1",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and identity matters.\",\n      \"explanation\": \"The revision adds an interpretive conclusion that identity matters, which the original, a purely descriptive report of estimates, does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"it holds up when product fixed effects are added in column 3, where it is 0.15 (SE = 0.05)\",\n      \"explanation\": \"The revision adds a robustness judgment ('holds up') that the original does not make; it only reports the column 3 coefficient.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"Reviewer tenure strengthens the effect: the interaction in column 4 is 0.09 (SE = 0.03).\",\n      \"explanation\": \"The original reports an interaction coefficient, and the revision turns it into a causal-sounding claim that tenure strengthens the effect.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating remains a powerful driver throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications.\",\n      \"explanation\": \"Calling star rating a 'powerful driver' adds causal and magnitude language that the original's neutral report of the coefficient does not contain.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"revised_quote\": \"Explanatory power rises accordingly, as R-squared climbs from 0.31 to 0.47 across the columns.\",\n      \"explanation\": \"'Accordingly' adds an implied link between the reported findings and the R-squared increase that the original does not assert.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and identity matters.\",\n      \"explanation\": \"The author's restrained, descriptive register is replaced with persuasive, interpretive prose.\"\n    }\n  ],\n  \"summary\": \"All numbers stay attached to the correct columns and variables, and the significance statement is unchanged. However, the revision adds interpretive and causal claims ('identity matters', 'holds up', 'strengthens the effect', 'powerful driver') that are absent from the purely descriptive original.\"\n}\n```",
+    "cost_usd": 0.04349120000000001,
+    "seconds": 13.1,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

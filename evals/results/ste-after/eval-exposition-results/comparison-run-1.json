@@ -1,0 +1,94 @@
+{
+  "case": "exposition-results",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens with a takeaway ('identity matters') and links each estimate to an interpretation ('holds up', 'strengthens the effect'), so the reader knows what each number shows. Version B is tighter and merges the sentences sensibly, but it is still a recitation of the table with no stated point. However, A uses loose, overclaiming language ('powerful driver', 'rises accordingly', the breezy 'identity matters') that is imprecise and less suited to empirical IS readers, who expect measured wording. B's neutral phrasing is more exact and register-appropriate. On balance, A reads better as a results paragraph because it tells the reader what the table means. Its word choices should be toned down.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Table 3 reports the estimates, and identity matters.' vs B: 'In Table 3, the identity-disclosed indicator has a coefficient of 0.18'",
+            "concision": "A: 'Explanatory power rises accordingly, as R-squared climbs from 0.31 to 0.47' vs B: 'and R-squared rises from 0.31 to 0.47'",
+            "flow": "A: 'it holds up when product fixed effects are added' / 'Reviewer tenure strengthens the effect:' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'",
+            "precision": "A: 'Star rating remains a powerful driver throughout' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02)'",
+            "audience_fit": "A: 'and identity matters' / 'a powerful driver' vs B: 'once product fixed effects are added'"
+          },
+          "overall": "A"
+        },
+        "key": "c91ac81e8fec7556",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with a takeaway ('identity matters') and links each estimate to an interpretation ('holds up', 'strengthens the effect'), so the reader knows what each number shows. Version B is tighter and merges the sentences sensibly, but it is still a recitation of the table with no stated point. However, A uses loose, overclaiming language ('powerful driver', 'rises accordingly', the breezy 'identity matters') that is imprecise and less suited to empirical IS readers, who expect measured wording. B's neutral phrasing is more exact and register-appropriate. On balance, A reads better as a results paragraph because it tells the reader what the table means. Its word choices should be toned down.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Table 3 reports the estimates, and identity matters.' vs B: 'In Table 3, the identity-disclosed indicator has a coefficient of 0.18'\",\n    \"concision\": \"A: 'Explanatory power rises accordingly, as R-squared climbs from 0.31 to 0.47' vs B: 'and R-squared rises from 0.31 to 0.47'\",\n    \"flow\": \"A: 'it holds up when product fixed effects are added' / 'Reviewer tenure strengthens the effect:' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'\",\n    \"precision\": \"A: 'Star rating remains a powerful driver throughout' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02)'\",\n    \"audience_fit\": \"A: 'and identity matters' / 'a powerful driver' vs B: 'once product fixed effects are added'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.042615200000000006,
+        "seconds": 15.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A merges the original's choppy sentences into a compact report of the results with no padding. Version B states a takeaway up front ('identity matters'), which helps readers find the point. Its connective phrasing ('holds up', 'strengthens the effect') also gives it better flow. However, B adds words and uses loose, somewhat promotional language. 'Powerful driver' is vague and causal. 'Rises accordingly' implies a link the table does not show. Empirical IS reviewers are wary of that kind of language in a results paragraph. B wins clarity and flow. A wins concision, precision, and audience fit, and is the better-written version overall.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'In Table 3, the identity-disclosed indicator has a coefficient of 0.18' vs B: 'Table 3 reports the estimates, and identity matters.'",
+            "concision": "A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications' vs B: 'Star rating remains a powerful driver throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications'",
+            "flow": "A: 'The interaction with reviewer tenure is 0.09' vs B: 'Reviewer tenure strengthens the effect: the interaction in column 4 is 0.09'",
+            "precision": "A: 'R-squared rises from 0.31 to 0.47' vs B: 'Explanatory power rises accordingly, as R-squared climbs'",
+            "audience_fit": "A: 'Star rating has a coefficient of 0.42' vs B: 'Star rating remains a powerful driver throughout'"
+          },
+          "overall": "A"
+        },
+        "key": "9eb4f47fef18fda8",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A merges the original's choppy sentences into a compact report of the results with no padding. Version B states a takeaway up front ('identity matters'), which helps readers find the point. Its connective phrasing ('holds up', 'strengthens the effect') also gives it better flow. However, B adds words and uses loose, somewhat promotional language. 'Powerful driver' is vague and causal. 'Rises accordingly' implies a link the table does not show. Empirical IS reviewers are wary of that kind of language in a results paragraph. B wins clarity and flow. A wins concision, precision, and audience fit, and is the better-written version overall.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'In Table 3, the identity-disclosed indicator has a coefficient of 0.18' vs B: 'Table 3 reports the estimates, and identity matters.'\",\n    \"concision\": \"A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications' vs B: 'Star rating remains a powerful driver throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications'\",\n    \"flow\": \"A: 'The interaction with reviewer tenure is 0.09' vs B: 'Reviewer tenure strengthens the effect: the interaction in column 4 is 0.09'\",\n    \"precision\": \"A: 'R-squared rises from 0.31 to 0.47' vs B: 'Explanatory power rises accordingly, as R-squared climbs'\",\n    \"audience_fit\": \"A: 'Star rating has a coefficient of 0.42' vs B: 'Star rating remains a powerful driver throughout'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0359752,
+        "seconds": 9.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "tie",
+  "note": "order-dependent verdict, counted as tie"
+}

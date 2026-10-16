@@ -1,0 +1,7 @@
+```
+Table 3 reports the estimates, and they point to a clear role for reviewer identity. Disclosing the reviewer's identity raises the outcome by 0.18 (SE = 0.04) in column 2, and the effect holds when we add product fixed effects in column 3, where the coefficient is 0.15 (SE = 0.05). Identity also conditions the weight a review carries: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. Star rating matters as well, with a coefficient of 0.42 (SE = 0.02) across all specifications, but it does not account for the identity effects, which persist alongside it. Model fit improves as identity measures enter, with R-squared rising from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+```
+
+I kept every number and the order of the columns. I tightened the flow and framed the findings around your thesis that identity matters beyond the rating.
+
+Two things to check. "Raises the outcome" is a placeholder, because your original never names the dependent variable, so swap in the actual measure (for example, sales). I also wrote that model fit improves "as identity measures enter," which assumes the R-squared gain comes from the added identity terms. If the columns add other controls too, soften that clause.

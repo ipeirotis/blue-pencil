@@ -1,0 +1,93 @@
+{
+  "case": "exposition-methods",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A explains textbook concepts (what fixed effects absorb, what clustering allows) that quantitative marketing researchers already know. That makes it long and mismatched to the audience. It also repeats itself: it opens two consecutive sentences with 'Because', and its final sentence states the timing motivation and then restates it as 'to address heterogeneity in treatment timing'. Version B leads with the staggered rollout, which motivates the control-group choice. It defines the two control types compactly and then gives the specification. Its only addition is a brief parenthetical label, 'a staggered rollout', which suits the field. B's ordering makes the design logic visible early. A's gloss 'relative to stores without it' is also loose, because not-yet-treated controls do eventually receive the program. B is better on every dimension.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'which includes a separate intercept for each store and each week. The store effects absorb stable differences...' vs B: 'The loyalty program was rolled out to stores on different dates (a staggered rollout). We therefore use two kinds of stores as the control group'",
+            "concision": "A: 'which allows observations from the same store to be correlated over time' vs B: 'clustering standard errors at the store level'",
+            "flow": "A: 'Because the loyalty program was rolled out... Because two-way fixed effects estimates can be sensitive' vs B: 'rolled out to stores on different dates... We therefore use two kinds of stores as the control group'",
+            "precision": "A: 'relative to stores without it' and 'sensitive to differences in treatment timing, we report... to address heterogeneity in treatment timing' vs B: 'not-yet-treated stores, which have not yet received it at a given date'",
+            "audience_fit": "A: 'the week effects absorb shocks that affect all stores in a given week' vs B: 'two-way fixed effects model with store and week fixed effects'"
+          },
+          "overall": "B"
+        },
+        "key": "4c7eba9905b0b8b9",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A explains textbook concepts (what fixed effects absorb, what clustering allows) that quantitative marketing researchers already know. That makes it long and mismatched to the audience. It also repeats itself: it opens two consecutive sentences with 'Because', and its final sentence states the timing motivation and then restates it as 'to address heterogeneity in treatment timing'. Version B leads with the staggered rollout, which motivates the control-group choice. It defines the two control types compactly and then gives the specification. Its only addition is a brief parenthetical label, 'a staggered rollout', which suits the field. B's ordering makes the design logic visible early. A's gloss 'relative to stores without it' is also loose, because not-yet-treated controls do eventually receive the program. B is better on every dimension.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'which includes a separate intercept for each store and each week. The store effects absorb stable differences...' vs B: 'The loyalty program was rolled out to stores on different dates (a staggered rollout). We therefore use two kinds of stores as the control group'\",\n    \"concision\": \"A: 'which allows observations from the same store to be correlated over time' vs B: 'clustering standard errors at the store level'\",\n    \"flow\": \"A: 'Because the loyalty program was rolled out... Because two-way fixed effects estimates can be sensitive' vs B: 'rolled out to stores on different dates... We therefore use two kinds of stores as the control group'\",\n    \"precision\": \"A: 'relative to stores without it' and 'sensitive to differences in treatment timing, we report... to address heterogeneity in treatment timing' vs B: 'not-yet-treated stores, which have not yet received it at a given date'\",\n    \"audience_fit\": \"A: 'the week effects absorb shocks that affect all stores in a given week' vs B: 'two-way fixed effects model with store and week fixed effects'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0396832,
+        "seconds": 14.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "For quantitative marketing researchers, Version B over-explains standard tools. It defines what store and week fixed effects absorb, what clustering does, and what the interaction captures. That costs concision and suits a less technical reader. B also ends with a redundant sentence: it cites sensitivity to treatment timing and then repeats 'to address heterogeneity in treatment timing.' Version A opens with the staggered rollout, so the design motivation comes first. Its definitions are brief and stay on the non-obvious terms (never-treated vs. not-yet-treated). B's 'treated stores do not share a single before-and-after period' links nicely to the control-group choice. But A also connects that choice to the rollout. A then splits the timing rationale between its opening and its closing sentence, so flow is roughly even.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "tie",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'The loyalty program was rolled out to stores on different dates (a staggered rollout). We therefore use...' vs B: 'which includes a separate intercept for each store and each week. The store effects absorb stable differences...'",
+            "concision": "A: 'We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level.' vs B: 'We cluster standard errors at the store level, which allows observations from the same store to be correlated over time.'",
+            "precision": "A: 'To address heterogeneity in treatment timing across stores, we report the Callaway and Sant'Anna estimator' vs B: 'Because two-way fixed effects estimates can be sensitive to differences in treatment timing, we report ... to address heterogeneity in treatment timing.'",
+            "audience_fit": "A: 'with store and week fixed effects' vs B: 'which includes a separate intercept for each store and each week'"
+          },
+          "overall": "A"
+        },
+        "key": "d0967130e1a4eae1",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"For quantitative marketing researchers, Version B over-explains standard tools. It defines what store and week fixed effects absorb, what clustering does, and what the interaction captures. That costs concision and suits a less technical reader. B also ends with a redundant sentence: it cites sensitivity to treatment timing and then repeats 'to address heterogeneity in treatment timing.' Version A opens with the staggered rollout, so the design motivation comes first. Its definitions are brief and stay on the non-obvious terms (never-treated vs. not-yet-treated). B's 'treated stores do not share a single before-and-after period' links nicely to the control-group choice. But A also connects that choice to the rollout. A then splits the timing rationale between its opening and its closing sentence, so flow is roughly even.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"tie\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The loyalty program was rolled out to stores on different dates (a staggered rollout). We therefore use...' vs B: 'which includes a separate intercept for each store and each week. The store effects absorb stable differences...'\",\n    \"concision\": \"A: 'We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level.' vs B: 'We cluster standard errors at the store level, which allows observations from the same store to be correlated over time.'\",\n    \"precision\": \"A: 'To address heterogeneity in treatment timing across stores, we report the Callaway and Sant'Anna estimator' vs B: 'Because two-way fixed effects estimates can be sensitive to differences in treatment timing, we report ... to address heterogeneity in treatment timing.'\",\n    \"audience_fit\": \"A: 'with store and week fixed effects' vs B: 'which includes a separate intercept for each store and each week'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0419992,
+        "seconds": 14.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

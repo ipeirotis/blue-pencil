@@ -1,0 +1,35 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste-after/eval-exposition-methods/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision moves the staggered-rollout rationale to the front and restates never-treated and not-yet-treated controls in plain terms. The model, fixed effects, clustering, controls, coefficient of interest, and the use of the Callaway and Sant'Anna estimator to address heterogeneity in treatment timing are all unchanged."
+    },
+    "key": "2c58fb387290ec19",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision moves the staggered-rollout rationale to the front and restates never-treated and not-yet-treated controls in plain terms. The model, fixed effects, clustering, controls, coefficient of interest, and the use of the Callaway and Sant'Anna estimator to address heterogeneity in treatment timing are all unchanged.\"\n}\n```",
+    "cost_usd": 0.0274152,
+    "seconds": 6.6,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

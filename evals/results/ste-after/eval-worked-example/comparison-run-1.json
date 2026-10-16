@@ -1,0 +1,94 @@
+{
+  "case": "worked-example",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's throat-clearing ('It is important to note', 'It should be noted') and fix 'comprising of'. B goes further. It drops intensifiers and hype ('fundamentally', 'novel', 'Crucially'), the double hedge ('to the best of our knowledge... somewhat'), and the jargon verb 'leverage'. That makes B tighter and more exact, and the gap reaches the reader sooner. A has one advantage in flow: 'Our analysis demonstrates' ties the dataset sentence to the result. B states the finding as a bare fact, which reads as a small jump. On balance, B reads better for empirical IS researchers.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Crucially, however, whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored' vs B: 'Yet to our knowledge, whether reviewer identity affects this relationship remains underexplored'",
+            "concision": "A: 'we leverage a novel dataset comprising 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'",
+            "flow": "A: 'Our analysis demonstrates that reviewer identity has a significant effect' vs B: 'Reviewer identity has a significant effect on the relationship between reviews and sales'",
+            "precision": "A: 'has fundamentally transformed' / 'somewhat underexplored' vs B: 'has transformed' / 'remains underexplored'",
+            "audience_fit": "A: 'we leverage a novel dataset' vs B: 'we use a dataset'"
+          },
+          "overall": "B"
+        },
+        "key": "e3e23a4cb6c7f41a",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's throat-clearing ('It is important to note', 'It should be noted') and fix 'comprising of'. B goes further. It drops intensifiers and hype ('fundamentally', 'novel', 'Crucially'), the double hedge ('to the best of our knowledge... somewhat'), and the jargon verb 'leverage'. That makes B tighter and more exact, and the gap reaches the reader sooner. A has one advantage in flow: 'Our analysis demonstrates' ties the dataset sentence to the result. B states the finding as a bare fact, which reads as a small jump. On balance, B reads better for empirical IS researchers.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Crucially, however, whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored' vs B: 'Yet to our knowledge, whether reviewer identity affects this relationship remains underexplored'\",\n    \"concision\": \"A: 'we leverage a novel dataset comprising 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'\",\n    \"flow\": \"A: 'Our analysis demonstrates that reviewer identity has a significant effect' vs B: 'Reviewer identity has a significant effect on the relationship between reviews and sales'\",\n    \"precision\": \"A: 'has fundamentally transformed' / 'somewhat underexplored' vs B: 'has transformed' / 'remains underexplored'\",\n    \"audience_fit\": \"A: 'we leverage a novel dataset' vs B: 'we use a dataset'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0409672,
+        "seconds": 13.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the worst filler from the original, but A goes further. It cuts intensifiers and hedges ('fundamentally', 'Crucially, however', 'somewhat', 'important') and buzzwords ('leverage', 'novel', 'comprising'). It also merges the literature sentences into one clean claim. B keeps much of the original's inflated register, and its sentence 'have investigated ... and they find' shifts tense awkwardly. A's 'Yet' links the gap to the prior findings by contrast without an empty signpost. One weakness in A is that it drops attribution to the analysis ('Reviewer identity has a significant effect...'), so the result reads as a bare assertion. That is minor next to A's gains in concision and register. On every dimension, A reads more directly for empirical IS researchers.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'Yet to our knowledge, whether reviewer identity affects this relationship remains underexplored' vs B: 'Crucially, however, whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored'",
+            "concision": "A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset comprising 1.2 million reviews'",
+            "flow": "A: 'Several studies of the relationship ... found that reviews matter' vs B: 'Several researchers have investigated ... and they find that reviews matter'",
+            "precision": "A: 'has transformed how consumers' vs B: 'has fundamentally transformed how consumers'; B also shifts tense in 'have investigated ... they find'",
+            "audience_fit": "A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'"
+          },
+          "overall": "A"
+        },
+        "key": "5d312901ff118bd7",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the worst filler from the original, but A goes further. It cuts intensifiers and hedges ('fundamentally', 'Crucially, however', 'somewhat', 'important') and buzzwords ('leverage', 'novel', 'comprising'). It also merges the literature sentences into one clean claim. B keeps much of the original's inflated register, and its sentence 'have investigated ... and they find' shifts tense awkwardly. A's 'Yet' links the gap to the prior findings by contrast without an empty signpost. One weakness in A is that it drops attribution to the analysis ('Reviewer identity has a significant effect...'), so the result reads as a bare assertion. That is minor next to A's gains in concision and register. On every dimension, A reads more directly for empirical IS researchers.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Yet to our knowledge, whether reviewer identity affects this relationship remains underexplored' vs B: 'Crucially, however, whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored'\",\n    \"concision\": \"A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset comprising 1.2 million reviews'\",\n    \"flow\": \"A: 'Several studies of the relationship ... found that reviews matter' vs B: 'Several researchers have investigated ... and they find that reviews matter'\",\n    \"precision\": \"A: 'has transformed how consumers' vs B: 'has fundamentally transformed how consumers'; B also shifts tense in 'have investigated ... they find'\",\n    \"audience_fit\": \"A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0388992,
+        "seconds": 11.1,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

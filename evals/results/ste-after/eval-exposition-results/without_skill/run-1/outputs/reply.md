@@ -1,0 +1,5 @@
+```
+Table 3 reports the estimates, and identity matters. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2, and it holds up when product fixed effects are added in column 3, where it is 0.15 (SE = 0.05). Reviewer tenure strengthens the effect: the interaction in column 4 is 0.09 (SE = 0.03). Star rating remains a powerful driver throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications. Explanatory power rises accordingly, as R-squared climbs from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+```
+
+I kept every number, SE, and significance level unchanged and in their original order. The changes are in framing: opening with the takeaway, saying the identity coefficient "holds up" after adding fixed effects, and linking the tenure interaction and R-squared to what they show. "Powerful driver" and "strengthens" are mild interpretive words; if you'd rather keep the language strictly descriptive, swap them for "remains positive" and "is positive."

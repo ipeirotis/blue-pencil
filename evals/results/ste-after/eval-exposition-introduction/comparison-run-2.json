@@ -1,0 +1,93 @@
+{
+  "case": "exposition-introduction",
+  "run": 2,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's main problem, the undefined 'the effect', by naming valence-on-sales as the estimand. Version A does this by adding a definition of valence and an explanation of endogeneity. Empirical economists and IS researchers do not need either, so A gets longer and sounds aimed at a lay reader. Version B states the causal question and the obstacle in its first sentence. It then moves the critique of prior IV approaches ahead of the contribution, so the claim that 'our strategy improves upon these approaches' follows directly from the problem it solves. In A, that claim is left dangling at the end. On precision the two are roughly even. A's mechanism sentence is exact. B's 'endogenous to unobserved product quality' is equally exact for this audience, though 'differently to different review cohorts' is slightly clumsy.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'A central question in this literature is how a review's valence...' (contribution only at the end) vs B: 'Estimating the causal effect of a review's valence on sales is difficult because...'",
+            "concision": "A: 'a review's valence, meaning whether it is positive or negative,' vs B: 'a review's valence'",
+            "flow": "A: 'Our identification strategy improves upon prior approaches...' (appended last) vs B: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches by exploiting...'",
+            "audience_fit": "A: 'quality shapes both the reviews a product receives and its sales, so the two may be correlated without one causing the other' vs B: 'valence is endogenous to unobserved product quality'"
+          },
+          "overall": "B"
+        },
+        "key": "9d2e99b2523a67f7",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's main problem, the undefined 'the effect', by naming valence-on-sales as the estimand. Version A does this by adding a definition of valence and an explanation of endogeneity. Empirical economists and IS researchers do not need either, so A gets longer and sounds aimed at a lay reader. Version B states the causal question and the obstacle in its first sentence. It then moves the critique of prior IV approaches ahead of the contribution, so the claim that 'our strategy improves upon these approaches' follows directly from the problem it solves. In A, that claim is left dangling at the end. On precision the two are roughly even. A's mechanism sentence is exact. B's 'endogenous to unobserved product quality' is equally exact for this audience, though 'differently to different review cohorts' is slightly clumsy.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'A central question in this literature is how a review's valence...' (contribution only at the end) vs B: 'Estimating the causal effect of a review's valence on sales is difficult because...'\",\n    \"concision\": \"A: 'a review's valence, meaning whether it is positive or negative,' vs B: 'a review's valence'\",\n    \"flow\": \"A: 'Our identification strategy improves upon prior approaches...' (appended last) vs B: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches by exploiting...'\",\n    \"audience_fit\": \"A: 'quality shapes both the reviews a product receives and its sales, so the two may be correlated without one causing the other' vs B: 'valence is endogenous to unobserved product quality'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0415672,
+        "seconds": 14.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions now state the research question up front, which the original lacked. Version A does it in one sentence and then reorders the argument: obstacle, weakness of prior IV approaches, our improvement, mechanism, result. That makes the contribution clear and gives a natural progression. Version B keeps the original's order, so the comparison with prior work trails at the end as an afterthought. B also adds definitions of 'valence' and of endogeneity that empirical economists and IS researchers do not need. And B keeps wordy constructions such as 'we leverage the fact that' and 'find it to be.' B's main strength is that it names the effect explicitly ('the effect of review valence on sales'). A's 'this effect' is still unambiguous because A defines the effect in its first sentence. Overall, A is tighter, flows better, and suits the expert audience.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'Estimating the causal effect of a review's valence on sales is difficult because...' vs B: 'A central question in this literature is how a review's valence, meaning whether it is positive or negative, affects...'",
+            "concision": "A: 'find it positive and significant' vs B: 'we leverage the fact that platforms differentially apply... find it to be positive and significant'",
+            "flow": "A: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches by...' vs B: ending with 'Our identification strategy improves upon prior approaches that rely on...'",
+            "precision": "A: 'platforms apply moderation policies differently to different review cohorts' vs B: 'platforms differentially apply moderation policies across review cohorts, which generates'",
+            "audience_fit": "A: 'valence is endogenous to unobserved product quality, a well-known obstacle' vs B: 'quality shapes both the reviews a product receives and its sales, so the two may be correlated without one causing the other'"
+          },
+          "overall": "A"
+        },
+        "key": "ea34b0033fc01364",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions now state the research question up front, which the original lacked. Version A does it in one sentence and then reorders the argument: obstacle, weakness of prior IV approaches, our improvement, mechanism, result. That makes the contribution clear and gives a natural progression. Version B keeps the original's order, so the comparison with prior work trails at the end as an afterthought. B also adds definitions of 'valence' and of endogeneity that empirical economists and IS researchers do not need. And B keeps wordy constructions such as 'we leverage the fact that' and 'find it to be.' B's main strength is that it names the effect explicitly ('the effect of review valence on sales'). A's 'this effect' is still unambiguous because A defines the effect in its first sentence. Overall, A is tighter, flows better, and suits the expert audience.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Estimating the causal effect of a review's valence on sales is difficult because...' vs B: 'A central question in this literature is how a review's valence, meaning whether it is positive or negative, affects...'\",\n    \"concision\": \"A: 'find it positive and significant' vs B: 'we leverage the fact that platforms differentially apply... find it to be positive and significant'\",\n    \"flow\": \"A: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches by...' vs B: ending with 'Our identification strategy improves upon prior approaches that rely on...'\",\n    \"precision\": \"A: 'platforms apply moderation policies differently to different review cohorts' vs B: 'platforms differentially apply moderation policies across review cohorts, which generates'\",\n    \"audience_fit\": \"A: 'valence is endogenous to unobserved product quality, a well-known obstacle' vs B: 'quality shapes both the reviews a product receives and its sales, so the two may be correlated without one causing the other'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.043147200000000004,
+        "seconds": 15.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

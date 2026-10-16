@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision keeps the citations, the 5-9% per-star effect, the 1.2 million review sample, the hedged \"somewhat underexplored\" gap, and the main finding and recommendation. Only emphasis qualifiers (\"fundamentally\", \"novel\", \"important implications\") were lost. Making explicit that the effect is \"on this relationship\" matches the research question the original posed, so it is not new content."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

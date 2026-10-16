@@ -1,0 +1,35 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste-after/eval-exposition-results/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision reorders the sentences so star rating comes first and merges the column 2 and column 3 sentences. Every coefficient, standard error, column, specification, and significance level stays attached to the same variable as in the original."
+    },
+    "key": "c302df81f6b15902",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision reorders the sentences so star rating comes first and merges the column 2 and column 3 sentences. Every coefficient, standard error, column, specification, and significance level stays attached to the same variable as in the original.\"\n}\n```",
+    "cost_usd": 0.0250832,
+    "seconds": 6.1,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

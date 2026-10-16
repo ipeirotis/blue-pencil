@@ -1,0 +1,64 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste-after/eval-exposition-introduction/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.",
+          "revised_quote": "A well-known obstacle to identifying the causal effect of review valence on sales is endogeneity: valence is correlated with unobserved product quality, which itself affects sales.",
+          "explanation": "The original never names sales as the outcome or says product quality affects sales; the revision adds both claims."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of valence on sales and find it to be positive and significant",
+          "explanation": "The original leaves the estimated effect unspecified; the revision says the positive, significant result is specifically an effect of valence on sales."
+        },
+        {
+          "type": "caveat_or_scope",
+          "severity": "major",
+          "original_quote": "a well-known obstacle to identification in this literature",
+          "revised_quote": "A well-known obstacle to identifying the causal effect of review valence on sales",
+          "explanation": "The original frames the obstacle as well known in 'this literature'; the revision drops that reference and narrows the obstacle to a single valence-on-sales effect."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "platform-level heterogeneity in content moderation",
+          "revised_quote": "differences across platforms in how they moderate content",
+          "explanation": "The author's technical phrasing was replaced by plainer generic wording with the same meaning."
+        }
+      ],
+      "summary": "The revision names sales as the outcome variable throughout. The original never mentions sales, so this is a substantive addition to both the identification problem and the reported result. Other changes are rewording."
+    },
+    "key": "187b351f7bfeb40c",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"A well-known obstacle to identifying the causal effect of review valence on sales is endogeneity: valence is correlated with unobserved product quality, which itself affects sales.\",\n      \"explanation\": \"The original never names sales as the outcome or says product quality affects sales; the revision adds both claims.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original leaves the estimated effect unspecified; the revision says the positive, significant result is specifically an effect of valence on sales.\"\n    },\n    {\n      \"type\": \"caveat_or_scope\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"A well-known obstacle to identifying the causal effect of review valence on sales\",\n      \"explanation\": \"The original frames the obstacle as well known in 'this literature'; the revision drops that reference and narrows the obstacle to a single valence-on-sales effect.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"platform-level heterogeneity in content moderation\",\n      \"revised_quote\": \"differences across platforms in how they moderate content\",\n      \"explanation\": \"The author's technical phrasing was replaced by plainer generic wording with the same meaning.\"\n    }\n  ],\n  \"summary\": \"The revision names sales as the outcome variable throughout. The original never mentions sales, so this is a substantive addition to both the identification problem and the reported result. Other changes are rewording.\"\n}\n```",
+    "cost_usd": 0.025448,
+    "seconds": 12.1,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

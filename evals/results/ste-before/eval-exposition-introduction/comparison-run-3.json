@@ -1,0 +1,92 @@
+{
+  "case": "exposition-introduction",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens with the research question ('Do more favorable online reviews cause higher sales?') and explains why valence is endogenous, so the reader knows the stakes and the identification problem before the strategy appears. The sequence runs from question to obstacle to mechanism to solution. Version B is tighter. It turns the nominalized opener into a direct claim and uses the more exact 'statistically significant.' But it places the contribution claim before the reader knows what the strategy is, and its opening appositive ('a well-known obstacle') attaches loosely to the whole clause. B wins on concision and precision. A wins on clarity and flow. Both registers suit empirical economists. Because A's added motivation and causal explanation make the passage easier to follow, A is better overall.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Do more favorable online reviews cause higher sales?' vs B: 'Review valence is endogenous to unobserved product quality, a well-known obstacle'",
+            "concision": "A: 'The endogeneity of review valence with respect to unobserved product quality' vs B: 'Review valence is endogenous to unobserved product quality'",
+            "flow": "A: 'the same unobserved quality that leads consumers to leave favorable reviews also leads them to buy the product' vs B: 'Our identification strategy improves upon prior approaches ...: it exploits'",
+            "precision": "A: 'find it to be positive and significant' vs B: 'find it positive and statistically significant'"
+          },
+          "overall": "A"
+        },
+        "key": "7180b86e3b479aac",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with the research question ('Do more favorable online reviews cause higher sales?') and explains why valence is endogenous, so the reader knows the stakes and the identification problem before the strategy appears. The sequence runs from question to obstacle to mechanism to solution. Version B is tighter. It turns the nominalized opener into a direct claim and uses the more exact 'statistically significant.' But it places the contribution claim before the reader knows what the strategy is, and its opening appositive ('a well-known obstacle') attaches loosely to the whole clause. B wins on concision and precision. A wins on clarity and flow. Both registers suit empirical economists. Because A's added motivation and causal explanation make the passage easier to follow, A is better overall.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Do more favorable online reviews cause higher sales?' vs B: 'Review valence is endogenous to unobserved product quality, a well-known obstacle'\",\n    \"concision\": \"A: 'The endogeneity of review valence with respect to unobserved product quality' vs B: 'Review valence is endogenous to unobserved product quality'\",\n    \"flow\": \"A: 'the same unobserved quality that leads consumers to leave favorable reviews also leads them to buy the product' vs B: 'Our identification strategy improves upon prior approaches ...: it exploits'\",\n    \"precision\": \"A: 'find it to be positive and significant' vs B: 'find it positive and statistically significant'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.042003200000000004,
+        "seconds": 15.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B opens with a clear research question and explains why endogeneity arises, so readers find the point quickly. However, it keeps the original's sentence order, which leaves the claimed improvement as a detached final sentence. It also keeps wordier constructions such as 'The endogeneity of review valence with respect to' and 'find it to be'. Version A is tighter: it states the endogeneity directly and moves the claimed improvement up front so it introduces the strategy. Each later sentence builds on the one before it. A also says 'statistically significant' rather than just 'significant', which is more exact. One weakness of A is that 'unequally' is a slightly less standard term than 'differentially' for this audience. Both registers suit empirical economists; B's opening rhetorical question is acceptable in this field. On balance, A reads better.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Review valence is endogenous to unobserved product quality' vs B: 'Do more favorable online reviews cause higher sales?'",
+            "concision": "A: 'Review valence is endogenous to unobserved product quality' vs B: 'The endogeneity of review valence with respect to unobserved product quality'",
+            "flow": "A: 'Our identification strategy improves upon prior approaches ... : it exploits platform-level heterogeneity' vs B: ends with the detached 'Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity.'",
+            "precision": "A: 'find it positive and statistically significant' vs B: 'find it to be positive and significant'"
+          },
+          "overall": "A"
+        },
+        "key": "7ca9647d8c4fb831",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B opens with a clear research question and explains why endogeneity arises, so readers find the point quickly. However, it keeps the original's sentence order, which leaves the claimed improvement as a detached final sentence. It also keeps wordier constructions such as 'The endogeneity of review valence with respect to' and 'find it to be'. Version A is tighter: it states the endogeneity directly and moves the claimed improvement up front so it introduces the strategy. Each later sentence builds on the one before it. A also says 'statistically significant' rather than just 'significant', which is more exact. One weakness of A is that 'unequally' is a slightly less standard term than 'differentially' for this audience. Both registers suit empirical economists; B's opening rhetorical question is acceptable in this field. On balance, A reads better.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Review valence is endogenous to unobserved product quality' vs B: 'Do more favorable online reviews cause higher sales?'\",\n    \"concision\": \"A: 'Review valence is endogenous to unobserved product quality' vs B: 'The endogeneity of review valence with respect to unobserved product quality'\",\n    \"flow\": \"A: 'Our identification strategy improves upon prior approaches ... : it exploits platform-level heterogeneity' vs B: ends with the detached 'Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity.'\",\n    \"precision\": \"A: 'find it positive and statistically significant' vs B: 'find it to be positive and significant'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0402792,
+        "seconds": 14.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "tie",
+  "note": "order-dependent verdict, counted as tie"
+}

@@ -1,0 +1,35 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste-after/eval-exposition-results/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "Every number stays attached to the same coefficient, column, and condition. The 1% and 5% significance qualifications are kept, and the edits only merge sentences and fold 'Table 3 reports the estimates' into the next sentence."
+    },
+    "key": "1f606d73b7854c40",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"Every number stays attached to the same coefficient, column, and condition. The 1% and 5% significance qualifications are kept, and the edits only merge sentences and fold 'Table 3 reports the estimates' into the next sentence.\"\n}\n```",
+    "cost_usd": 0.0248672,
+    "seconds": 7.5,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

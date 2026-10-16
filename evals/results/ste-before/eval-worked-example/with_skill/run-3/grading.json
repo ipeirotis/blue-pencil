@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The citations, the 5-9% figure, and the 1.2 million count remain attached to the same claims. However, the revision removes the hedge \"somewhat\" from the research-gap claim and specifies that the effect of reviewer identity is on the review–sales relationship, which the original did not state. Several qualifiers were also dropped."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

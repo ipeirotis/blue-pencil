@@ -1,0 +1,5 @@
+```
+Table 3 reports the estimates, and they show that who writes a review matters alongside what it says. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2, and it remains substantial at 0.15 (SE = 0.05) in column 3 after we add product fixed effects. Identity also works in combination with experience: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. Star rating, by comparison, carries a coefficient of 0.42 (SE = 0.02) across all specifications. Explanatory power rises accordingly, with R-squared increasing from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+```
+
+I kept every number and the significance statements unchanged, and opened with a sentence that ties the table to your thesis. I also replaced the list-like sequence with connected sentences so the identity result, its robustness, and the tenure interaction read as one argument.

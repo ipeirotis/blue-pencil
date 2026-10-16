@@ -1,0 +1,93 @@
+{
+  "case": "exposition-methods",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "For quantitative marketing researchers, Version B over-explains standard machinery: what fixed effects absorb, what a staggered rollout is, and why TWFE is problematic under staggered timing. This costs concision and audience fit, though B does build a clear causal chain from staggered rollout to choice of controls to choice of estimator. Version A is tight but splits the staggered-timing theme: it opens with the rollout and control groups, moves to the TWFE specification, then returns to timing heterogeneity at the end. Both versions include near-tautological glosses (A: 'never-treated stores, which never receive the program'; B: 'never-treated stores (those that never receive the program)'), and B repeats 'Because…' and states its motivation twice in the last sentence. Precision is therefore even. Overall A suits this expert audience better.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'We estimate a two-way fixed effects model with store and week fixed effects' (the core design is stated in one sentence) vs B: 'which includes a separate intercept for each store and each week. The store effects absorb stable differences…' (the core design is diluted by textbook explanation)",
+            "concision": "A: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator' vs B: 'Because two-way fixed effects estimates can be hard to interpret when treatment timing differs across stores, we report … to address heterogeneity in treatment timing' (the motivation is stated twice)",
+            "flow": "A: 'The loyalty program was rolled out to stores on different dates, so we use two kinds of control stores…' (then the timing issue is dropped until the final sentence) vs B: 'there is no single date at which treatment begins for all stores. We therefore use the never-treated stores…' (rollout leads directly to controls and then to the estimator)",
+            "audience_fit": "A: 'store and week fixed effects' vs B: 'The store effects absorb stable differences across stores, and the week effects absorb shocks common to all stores' (explains basics that quantitative marketing researchers already know)"
+          },
+          "overall": "A"
+        },
+        "key": "1b354e2e62f502de",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"For quantitative marketing researchers, Version B over-explains standard machinery: what fixed effects absorb, what a staggered rollout is, and why TWFE is problematic under staggered timing. This costs concision and audience fit, though B does build a clear causal chain from staggered rollout to choice of controls to choice of estimator. Version A is tight but splits the staggered-timing theme: it opens with the rollout and control groups, moves to the TWFE specification, then returns to timing heterogeneity at the end. Both versions include near-tautological glosses (A: 'never-treated stores, which never receive the program'; B: 'never-treated stores (those that never receive the program)'), and B repeats 'Because…' and states its motivation twice in the last sentence. Precision is therefore even. Overall A suits this expert audience better.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We estimate a two-way fixed effects model with store and week fixed effects' (the core design is stated in one sentence) vs B: 'which includes a separate intercept for each store and each week. The store effects absorb stable differences…' (the core design is diluted by textbook explanation)\",\n    \"concision\": \"A: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator' vs B: 'Because two-way fixed effects estimates can be hard to interpret when treatment timing differs across stores, we report … to address heterogeneity in treatment timing' (the motivation is stated twice)\",\n    \"flow\": \"A: 'The loyalty program was rolled out to stores on different dates, so we use two kinds of control stores…' (then the timing issue is dropped until the final sentence) vs B: 'there is no single date at which treatment begins for all stores. We therefore use the never-treated stores…' (rollout leads directly to controls and then to the estimator)\",\n    \"audience_fit\": \"A: 'store and week fixed effects' vs B: 'The store effects absorb stable differences across stores, and the week effects absorb shocks common to all stores' (explains basics that quantitative marketing researchers already know)\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0443952,
+        "seconds": 16.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A explains concepts quantitative marketing researchers already know, such as what store and week fixed effects absorb and what never-treated means. This makes it long and slightly condescending for the venue. It also states the Callaway and Sant'Anna motivation twice ('hard to interpret when treatment timing differs' and then 'to address heterogeneity in treatment timing'). Version B keeps the technical register and states each element once. Its reordering puts the staggered rollout first, which justifies the control-group choice up front. However, that order separates the rollout from the Callaway and Sant'Anna estimator it also motivates. A keeps that causal chain intact with 'therefore' and 'Because,' so A connects ideas slightly better. On clarity, concision, precision, and audience fit, B is stronger.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'which includes a separate intercept for each store and each week. The store effects absorb stable differences...' vs B: 'We estimate a two-way fixed effects model with store and week fixed effects'",
+            "concision": "A: 'the never-treated stores (those that never receive the program) and the not-yet-treated stores (those that have not yet received it at a given point in time)' vs B: 'never-treated stores, which never receive the program, and not-yet-treated stores, which have not yet received it'",
+            "flow": "A: 'there is no single date at which treatment begins for all stores. We therefore use the never-treated stores...' vs B: 'which have not yet received it. We estimate a two-way fixed effects model'",
+            "precision": "A: 'can be hard to interpret when treatment timing differs across stores, we report ... to address heterogeneity in treatment timing' vs B: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator'",
+            "audience_fit": "A: 'the week effects absorb shocks common to all stores in a given week' vs B: 'with store and week fixed effects, clustering standard errors at the store level'"
+          },
+          "overall": "B"
+        },
+        "key": "547b9cd060e1d2cc",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A explains concepts quantitative marketing researchers already know, such as what store and week fixed effects absorb and what never-treated means. This makes it long and slightly condescending for the venue. It also states the Callaway and Sant'Anna motivation twice ('hard to interpret when treatment timing differs' and then 'to address heterogeneity in treatment timing'). Version B keeps the technical register and states each element once. Its reordering puts the staggered rollout first, which justifies the control-group choice up front. However, that order separates the rollout from the Callaway and Sant'Anna estimator it also motivates. A keeps that causal chain intact with 'therefore' and 'Because,' so A connects ideas slightly better. On clarity, concision, precision, and audience fit, B is stronger.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'which includes a separate intercept for each store and each week. The store effects absorb stable differences...' vs B: 'We estimate a two-way fixed effects model with store and week fixed effects'\",\n    \"concision\": \"A: 'the never-treated stores (those that never receive the program) and the not-yet-treated stores (those that have not yet received it at a given point in time)' vs B: 'never-treated stores, which never receive the program, and not-yet-treated stores, which have not yet received it'\",\n    \"flow\": \"A: 'there is no single date at which treatment begins for all stores. We therefore use the never-treated stores...' vs B: 'which have not yet received it. We estimate a two-way fixed effects model'\",\n    \"precision\": \"A: 'can be hard to interpret when treatment timing differs across stores, we report ... to address heterogeneity in treatment timing' vs B: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator'\",\n    \"audience_fit\": \"A: 'the week effects absorb shocks common to all stores in a given week' vs B: 'with store and week fixed effects, clustering standard errors at the store level'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0440552,
+        "seconds": 15.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

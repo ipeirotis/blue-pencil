@@ -1,0 +1,64 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste-after/eval-exposition-methods/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two-way"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level.",
+          "revised_quote": "We estimate a two-way fixed effects model, which includes a separate intercept for each store and each week. The store effects absorb stable differences across stores, and the week effects absorb shocks common to all stores in a given week.",
+          "explanation": "The author's compact technical statement is expanded into textbook-style explanation; the added definitions of the fixed effects are accurate glosses, not new claims about the data or results."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
+          "revised_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator, which captures how outcomes change at a store once it receives the loyalty program, relative to stores that have not received it.",
+          "explanation": "An interpretive gloss of the coefficient is added; it describes the standard intended estimand and does not change the specification or any result."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.",
+          "revised_quote": "Because two-way fixed effects estimates can be hard to interpret when treatment timing differs across stores, we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.",
+          "explanation": "The added motivation spells out what the original's \"to address heterogeneity in treatment timing\" already implies, at a hedged strength (\"can be hard to interpret\"), so it adds no new substantive claim."
+        }
+      ],
+      "summary": "All methodological elements (fixed effects, store-level clustering, the three controls, the interaction term, the never-treated and not-yet-treated control groups, and the Callaway and Sant'Anna estimator) are retained and correctly attached. The additions are expository definitions and motivation consistent with the original, so the meaning is preserved, although the author's concise voice is replaced by explanatory prose."
+    },
+    "key": "5a886adea57cfb80",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level.\",\n      \"revised_quote\": \"We estimate a two-way fixed effects model, which includes a separate intercept for each store and each week. The store effects absorb stable differences across stores, and the week effects absorb shocks common to all stores in a given week.\",\n      \"explanation\": \"The author's compact technical statement is expanded into textbook-style explanation; the added definitions of the fixed effects are accurate glosses, not new claims about the data or results.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator, which captures how outcomes change at a store once it receives the loyalty program, relative to stores that have not received it.\",\n      \"explanation\": \"An interpretive gloss of the coefficient is added; it describes the standard intended estimand and does not change the specification or any result.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.\",\n      \"revised_quote\": \"Because two-way fixed effects estimates can be hard to interpret when treatment timing differs across stores, we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.\",\n      \"explanation\": \"The added motivation spells out what the original's \\\"to address heterogeneity in treatment timing\\\" already implies, at a hedged strength (\\\"can be hard to interpret\\\"), so it adds no new substantive claim.\"\n    }\n  ],\n  \"summary\": \"All methodological elements (fixed effects, store-level clustering, the three controls, the interaction term, the never-treated and not-yet-treated control groups, and the Callaway and Sant'Anna estimator) are retained and correctly attached. The additions are expository definitions and motivation consistent with the original, so the meaning is preserved, although the author's concise voice is replaced by explanatory prose.\"\n}\n```",
+    "cost_usd": 0.0495192,
+    "seconds": 15.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

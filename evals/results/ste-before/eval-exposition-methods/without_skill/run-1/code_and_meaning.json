@@ -1,0 +1,78 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste-before/eval-exposition-methods/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "quotes": {
+        "removed": [],
+        "added": [
+          "\"after\"",
+          "\"before\""
+        ]
+      },
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two-way"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
+          "revised_quote": "which captures the change in outcomes at a store after it receives the loyalty program, relative to stores that have not yet received it",
+          "explanation": "The revision adds an interpretation of the coefficient that the original did not give, and it names only not-yet-treated stores as the comparison, while the original's control group also includes never-treated stores."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Because the loyalty program was rolled out to stores on different dates,",
+          "revised_quote": "In this setting, stores that were treated earlier can end up serving as implicit comparisons for stores treated later, which can distort the two-way fixed effects estimate when the effect differs across stores or over time.",
+          "explanation": "The revision adds a methodological claim, a specific bias mechanism in the TWFE estimate, that the original did not state; the original only cited 'heterogeneity in treatment timing'."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "We estimate a two-way fixed effects model with store and week fixed effects,",
+          "revised_quote": "The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in a given week.",
+          "explanation": "The revision adds an explanation of what each set of fixed effects absorbs, which the original did not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Because the loyalty program was rolled out to stores on different dates,",
+          "revised_quote": "(a staggered design), there is no single date that separates \"before\" from \"after\" for all stores.",
+          "explanation": "The revision adds a label and a further claim about the design that the original did not make."
+        }
+      ],
+      "summary": "The original methods (TWFE, clustering, controls, coefficient, CS estimator, control groups) are all kept, but the revision adds several explanatory assertions the author did not make. One of them describes the comparison group as only not-yet-treated stores, which leaves out the never-treated controls."
+    },
+    "key": "5477879724159e4a",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"which captures the change in outcomes at a store after it receives the loyalty program, relative to stores that have not yet received it\",\n      \"explanation\": \"The revision adds an interpretation of the coefficient that the original did not give, and it names only not-yet-treated stores as the comparison, while the original's control group also includes never-treated stores.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Because the loyalty program was rolled out to stores on different dates,\",\n      \"revised_quote\": \"In this setting, stores that were treated earlier can end up serving as implicit comparisons for stores treated later, which can distort the two-way fixed effects estimate when the effect differs across stores or over time.\",\n      \"explanation\": \"The revision adds a methodological claim, a specific bias mechanism in the TWFE estimate, that the original did not state; the original only cited 'heterogeneity in treatment timing'.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"We estimate a two-way fixed effects model with store and week fixed effects,\",\n      \"revised_quote\": \"The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in a given week.\",\n      \"explanation\": \"The revision adds an explanation of what each set of fixed effects absorbs, which the original did not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Because the loyalty program was rolled out to stores on different dates,\",\n      \"revised_quote\": \"(a staggered design), there is no single date that separates \\\"before\\\" from \\\"after\\\" for all stores.\",\n      \"explanation\": \"The revision adds a label and a further claim about the design that the original did not make.\"\n    }\n  ],\n  \"summary\": \"The original methods (TWFE, clustering, controls, coefficient, CS estimator, control groups) are all kept, but the revision adds several explanatory assertions the author did not make. One of them describes the comparison group as only not-yet-treated stores, which leaves out the never-treated controls.\"\n}\n```",
+    "cost_usd": 0.0433392,
+    "seconds": 13.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

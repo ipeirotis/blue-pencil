@@ -1,0 +1,93 @@
+{
+  "case": "exposition-results",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions put the main finding up front. A states it concretely ('positive coefficient ... persists after product fixed effects'). B states it with a slogan ('identity matters') and then gives the numbers. A is tighter: it merges the column 2 and column 3 estimates into one sentence and drops B's commentary. B connects ideas better in places. 'remains substantial' and 'Reviewer tenure amplifies the effect' tell the reader why each number matters, where A partly lists coefficients. But B's 'it does not tell the whole story' is vague and does not clearly link star rating to the R-squared rise. B's informal phrasing also sits poorly with empirical IS readers, who expect plain reporting of estimates; A uses that register. Overall, A reads as cleaner and more exact results prose.",
+          "dimensions": {
+            "clarity": "tie",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "concision": "A: '0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3' vs B: 'Table 3 reports the estimates, and identity matters. ... it remains substantial at 0.15 (SE = 0.05) in column 3 after we add product fixed effects'",
+            "flow": "A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Reviewer tenure amplifies the effect: the interaction is 0.09'",
+            "precision": "A: 'a positive coefficient ... that persists after product fixed effects are added' vs B: 'but it does not tell the whole story'",
+            "audience_fit": "A: 'Table 3 reports a positive coefficient on the identity-disclosed indicator' vs B: 'Table 3 reports the estimates, and identity matters.'"
+          },
+          "overall": "A"
+        },
+        "key": "22e4082c70bdfe44",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions put the main finding up front. A states it concretely ('positive coefficient ... persists after product fixed effects'). B states it with a slogan ('identity matters') and then gives the numbers. A is tighter: it merges the column 2 and column 3 estimates into one sentence and drops B's commentary. B connects ideas better in places. 'remains substantial' and 'Reviewer tenure amplifies the effect' tell the reader why each number matters, where A partly lists coefficients. But B's 'it does not tell the whole story' is vague and does not clearly link star rating to the R-squared rise. B's informal phrasing also sits poorly with empirical IS readers, who expect plain reporting of estimates; A uses that register. Overall, A reads as cleaner and more exact results prose.\",\n  \"dimensions\": {\n    \"clarity\": \"tie\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"concision\": \"A: '0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3' vs B: 'Table 3 reports the estimates, and identity matters. ... it remains substantial at 0.15 (SE = 0.05) in column 3 after we add product fixed effects'\",\n    \"flow\": \"A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Reviewer tenure amplifies the effect: the interaction is 0.09'\",\n    \"precision\": \"A: 'a positive coefficient ... that persists after product fixed effects are added' vs B: 'but it does not tell the whole story'\",\n    \"audience_fit\": \"A: 'Table 3 reports a positive coefficient on the identity-disclosed indicator' vs B: 'Table 3 reports the estimates, and identity matters.'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0423592,
+        "seconds": 15.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B puts the substantive finding first: a positive identity-disclosure coefficient that survives product fixed effects. It does so in one compact sentence, and it merges the star-rating and R-squared results without adding interpretive filler. Version A opens with the vague claim 'identity matters' and adds 'but it does not tell the whole story', which carries no information. It also uses 'amplifies', which overstates what an interaction coefficient shows. A does connect its results through interpretive links ('it remains substantial', 'Reviewer tenure amplifies the effect'), so it reads more as an argument. B is closer to a list of results. On balance, B is tighter and more exact, and its measured register suits empirical IS researchers better.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Table 3 reports the estimates, and identity matters.' vs B: 'Table 3 reports a positive coefficient on the identity-disclosed indicator that persists after product fixed effects are added'",
+            "concision": "A: 'Star rating remains a strong predictor... but it does not tell the whole story.' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications, and R-squared rises'",
+            "flow": "A: 'and it remains substantial at 0.15... Reviewer tenure amplifies the effect' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'",
+            "precision": "A: 'Reviewer tenure amplifies the effect' / 'does not tell the whole story' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03)'",
+            "audience_fit": "A: 'identity matters' / 'does not tell the whole story' vs B: 'a positive coefficient ... that persists after product fixed effects are added'"
+          },
+          "overall": "B"
+        },
+        "key": "818f9713bb9128a8",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B puts the substantive finding first: a positive identity-disclosure coefficient that survives product fixed effects. It does so in one compact sentence, and it merges the star-rating and R-squared results without adding interpretive filler. Version A opens with the vague claim 'identity matters' and adds 'but it does not tell the whole story', which carries no information. It also uses 'amplifies', which overstates what an interaction coefficient shows. A does connect its results through interpretive links ('it remains substantial', 'Reviewer tenure amplifies the effect'), so it reads more as an argument. B is closer to a list of results. On balance, B is tighter and more exact, and its measured register suits empirical IS researchers better.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Table 3 reports the estimates, and identity matters.' vs B: 'Table 3 reports a positive coefficient on the identity-disclosed indicator that persists after product fixed effects are added'\",\n    \"concision\": \"A: 'Star rating remains a strong predictor... but it does not tell the whole story.' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications, and R-squared rises'\",\n    \"flow\": \"A: 'and it remains substantial at 0.15... Reviewer tenure amplifies the effect' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'\",\n    \"precision\": \"A: 'Reviewer tenure amplifies the effect' / 'does not tell the whole story' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03)'\",\n    \"audience_fit\": \"A: 'identity matters' / 'does not tell the whole story' vs B: 'a positive coefficient ... that persists after product fixed effects are added'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0402072,
+        "seconds": 13.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

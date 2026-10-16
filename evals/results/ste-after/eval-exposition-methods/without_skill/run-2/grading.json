@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two-way']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: All methodological elements (fixed effects, store-level clustering, the three controls, the interaction term, the never-treated and not-yet-treated control groups, and the Callaway and Sant'Anna estimator) are retained and correctly attached. The additions are expository definitions and motivation consistent with the original, so the meaning is preserved, although the author's concise voice is replaced by explanatory prose."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "run_id": "ste-after",
+  "started": "2026-10-16T19:24:40",
+  "executor_model": "claude-sonnet-5-5",
+  "claude_code_version": "2.1.301 (Claude Code)",
+  "blue_pencil_version": "3.0.0",
+  "skill_fingerprint": "1b405efd85e1dc7e",
+  "flags": {
+    "with_skill": [
+      "--setting-sources",
+      "project",
+      "--allowedTools",
+      "Read,Grep,Glob,Skill,Agent,Task",
+      "--disallowedTools",
+      "Bash,Write,Edit,WebFetch,WebSearch,NotebookEdit,Read(~/**)"
+    ],
+    "without_skill": [
+      "--setting-sources",
+      "project",
+      "--disable-slash-commands",
+      "--tools",
+      ""
+    ]
+  },
+  "preserve_instruction": "Preserve my meaning, claims, and voice, and do not change any number, statistic, or citation, including the order of citations.",
+  "case_fingerprints": {
+    "exposition-introduction": "d39eaf55c6289628",
+    "exposition-methods": "c54b0f4af17170bc",
+    "exposition-results": "718fcf139d552419",
+    "worked-example": "3076102c0449642a"
+  },
+  "runner_fingerprint": "a76413854f201083",
+  "workspace_context": "both conditions",
+  "repo_commit": "c3980c71db971ae6edfad36dd7e201799d250d56",
+  "cases": [
+    "exposition-introduction",
+    "exposition-methods",
+    "exposition-results",
+    "worked-example"
+  ],
+  "runs_per_condition": 3,
+  "note": "Each trial is a fresh `claude -p` session in a temp directory holding only AGENTS.md with the paper context, plus the skill in the with-skill condition.",
+  "resumes": [
+    {
+      "started": "2026-10-16T19:33:00",
+      "repo_commit": "c3980c71db971ae6edfad36dd7e201799d250d56",
+      "executor_model": "claude-sonnet-5-5",
+      "claude_code_version": "2.1.301 (Claude Code)",
+      "blue_pencil_version": "3.0.0",
+      "skill_fingerprint": "1b405efd85e1dc7e",
+      "flags": {
+        "with_skill": [
+          "--setting-sources",
+          "project",
+          "--allowedTools",
+          "Read,Grep,Glob,Skill,Agent,Task",
+          "--disallowedTools",
+          "Bash,Write,Edit,WebFetch,WebSearch,NotebookEdit,Read(~/**)"
+        ],
+        "without_skill": [
+          "--setting-sources",
+          "project",
+          "--disable-slash-commands",
+          "--tools",
+          ""
+        ]
+      },
+      "preserve_instruction": "Preserve my meaning, claims, and voice, and do not change any number, statistic, or citation, including the order of citations.",
+      "case_fingerprints": {
+        "exposition-introduction": "d39eaf55c6289628",
+        "exposition-methods": "c54b0f4af17170bc",
+        "exposition-results": "718fcf139d552419",
+        "worked-example": "3076102c0449642a"
+      },
+      "runner_fingerprint": "a76413854f201083",
+      "workspace_context": "both conditions",
+      "cases": [
+        "exposition-introduction",
+        "exposition-methods",
+        "exposition-results",
+        "worked-example"
+      ],
+      "runs_per_condition": 3,
+      "config_differs": []
+    }
+  ]
+}

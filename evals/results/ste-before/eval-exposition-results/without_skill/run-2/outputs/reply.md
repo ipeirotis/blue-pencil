@@ -1,0 +1,3 @@
+```
+Table 3 reports the estimates, and identity matters. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2, and it remains substantial at 0.15 (SE = 0.05) in column 3 after we add product fixed effects. Reviewer tenure amplifies the effect: the interaction is 0.09 (SE = 0.03) in column 4. Star rating remains a strong predictor, with a coefficient of 0.42 (SE = 0.02) across all specifications, but it does not tell the whole story. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+```

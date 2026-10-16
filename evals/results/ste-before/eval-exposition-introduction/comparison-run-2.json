@@ -1,0 +1,92 @@
+{
+  "case": "exposition-introduction",
+  "run": 2,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens by stating the causal question (valence to sales) and why endogeneity arises, so the reader knows the estimand from the first sentence. B keeps the dense nominalized opening and does not name the outcome until the fourth sentence. B is tighter sentence by sentence: it cuts 'Specifically, we leverage the fact that' and 'find it to be', and it links the strategy to the problem with 'We address this obstacle by'. A's restatement 'This endogeneity is a well-known obstacle' after already explaining it is mildly redundant. On precision, each version sharpens a different vague spot. A specifies what is assigned ('of reviews to moderation treatment'). B specifies 'statistically significant'. Both suit the audience. A narrowly wins overall because stating the question up front is the largest readability gain for an identification paragraph.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Estimating the causal effect of a review's valence on product sales is difficult' vs B: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle'",
+            "concision": "A: 'Specifically, we leverage the fact that platforms differentially apply' vs B: 'Platforms apply their moderation policies unequally'",
+            "flow": "A: 'This endogeneity is a well-known obstacle... We exploit' vs B: 'We address this obstacle by exploiting'"
+          },
+          "overall": "A"
+        },
+        "key": "f99ae2b168a1ae08",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens by stating the causal question (valence to sales) and why endogeneity arises, so the reader knows the estimand from the first sentence. B keeps the dense nominalized opening and does not name the outcome until the fourth sentence. B is tighter sentence by sentence: it cuts 'Specifically, we leverage the fact that' and 'find it to be', and it links the strategy to the problem with 'We address this obstacle by'. A's restatement 'This endogeneity is a well-known obstacle' after already explaining it is mildly redundant. On precision, each version sharpens a different vague spot. A specifies what is assigned ('of reviews to moderation treatment'). B specifies 'statistically significant'. Both suit the audience. A narrowly wins overall because stating the question up front is the largest readability gain for an identification paragraph.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Estimating the causal effect of a review's valence on product sales is difficult' vs B: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle'\",\n    \"concision\": \"A: 'Specifically, we leverage the fact that platforms differentially apply' vs B: 'Platforms apply their moderation policies unequally'\",\n    \"flow\": \"A: 'This endogeneity is a well-known obstacle... We exploit' vs B: 'We address this obstacle by exploiting'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.049627199999999996,
+        "seconds": 18.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "B opens by stating the estimand (effect of valence on sales) and why it is hard, so the point arrives early. It also specifies what is quasi-randomly assigned. However, it spends words explaining endogeneity, which empirical economists already understand, and it keeps the filler 'Specifically, we leverage the fact that'. A is tighter and links the strategy directly to the problem ('We address this obstacle by exploiting'). It replaces the vague 'estimate the effect and find it to be' with a direct statement of a 'statistically significant effect of review valence on sales'. B wins on clarity and on precision about the treatment. A wins on concision, flow, and register, and is the better-written passage overall.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'The endogeneity of review valence with respect to unobserved product quality' vs B: 'Estimating the causal effect of a review's valence on product sales is difficult because valence is endogenous'",
+            "concision": "A: 'Platforms apply their moderation policies unequally across review cohorts' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies'",
+            "flow": "A: 'We address this obstacle by exploiting platform-level heterogeneity' vs B: 'This endogeneity is a well-known obstacle... We exploit platform-level heterogeneity'",
+            "precision": "A: 'generates quasi-random assignment conditional on observed covariates' vs B: 'quasi-random assignment of reviews to moderation treatment conditional on observed covariates'",
+            "audience_fit": "A: 'is a well-known obstacle to identification in this literature' vs B: 'it is correlated with unobserved product quality, which also drives sales. This endogeneity is a well-known obstacle'"
+          },
+          "overall": "A"
+        },
+        "key": "023fd39572d1ee8c",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"B opens by stating the estimand (effect of valence on sales) and why it is hard, so the point arrives early. It also specifies what is quasi-randomly assigned. However, it spends words explaining endogeneity, which empirical economists already understand, and it keeps the filler 'Specifically, we leverage the fact that'. A is tighter and links the strategy directly to the problem ('We address this obstacle by exploiting'). It replaces the vague 'estimate the effect and find it to be' with a direct statement of a 'statistically significant effect of review valence on sales'. B wins on clarity and on precision about the treatment. A wins on concision, flow, and register, and is the better-written passage overall.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The endogeneity of review valence with respect to unobserved product quality' vs B: 'Estimating the causal effect of a review's valence on product sales is difficult because valence is endogenous'\",\n    \"concision\": \"A: 'Platforms apply their moderation policies unequally across review cohorts' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies'\",\n    \"flow\": \"A: 'We address this obstacle by exploiting platform-level heterogeneity' vs B: 'This endogeneity is a well-known obstacle... We exploit platform-level heterogeneity'\",\n    \"precision\": \"A: 'generates quasi-random assignment conditional on observed covariates' vs B: 'quasi-random assignment of reviews to moderation treatment conditional on observed covariates'\",\n    \"audience_fit\": \"A: 'is a well-known obstacle to identification in this literature' vs B: 'it is correlated with unobserved product quality, which also drives sales. This endogeneity is a well-known obstacle'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0415792,
+        "seconds": 14.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "tie",
+  "note": "order-dependent verdict, counted as tie"
+}

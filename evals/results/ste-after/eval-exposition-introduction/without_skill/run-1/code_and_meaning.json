@@ -1,0 +1,64 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste-after/eval-exposition-introduction/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "a well-known obstacle to identification in this literature",
+          "revised_quote": "a well-known obstacle to identifying the causal effect of reviews on sales",
+          "explanation": "The original never names sales as the outcome or the estimand; the revision adds it and drops the 'in this literature' framing."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of valence on sales and find it to be positive and significant",
+          "explanation": "The original does not say what the effect is of or on; the revision says the positive, significant result is valence on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "which generates quasi-random assignment conditional on observed covariates",
+          "revised_quote": "This generates quasi-random assignment of review valence conditional on observed covariates, so that otherwise comparable products are exposed to different sets of reviews for reasons unrelated to their quality.",
+          "explanation": "The revision says what is assigned (review valence) and adds an exogeneity claim that exposure is unrelated to product quality, which the original does not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "is a well-known obstacle to identification in this literature.",
+          "revised_quote": "a product that receives favorable reviews may also simply be a better product.",
+          "explanation": "The revision adds an explanation of the endogeneity mechanism that the original does not contain, though it is consistent with the original."
+        }
+      ],
+      "summary": "The revision adds substance the original does not state: it names sales as the outcome and estimand, says review valence is what is quasi-randomly assigned, and asserts that exposure is unrelated to quality. These may match the authors' intent, but they are new claims."
+    },
+    "key": "a82c806324fc2595",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"a well-known obstacle to identifying the causal effect of reviews on sales\",\n      \"explanation\": \"The original never names sales as the outcome or the estimand; the revision adds it and drops the 'in this literature' framing.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original does not say what the effect is of or on; the revision says the positive, significant result is valence on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"which generates quasi-random assignment conditional on observed covariates\",\n      \"revised_quote\": \"This generates quasi-random assignment of review valence conditional on observed covariates, so that otherwise comparable products are exposed to different sets of reviews for reasons unrelated to their quality.\",\n      \"explanation\": \"The revision says what is assigned (review valence) and adds an exogeneity claim that exposure is unrelated to product quality, which the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"a product that receives favorable reviews may also simply be a better product.\",\n      \"explanation\": \"The revision adds an explanation of the endogeneity mechanism that the original does not contain, though it is consistent with the original.\"\n    }\n  ],\n  \"summary\": \"The revision adds substance the original does not state: it names sales as the outcome and estimand, says review valence is what is quasi-randomly assigned, and asserts that exposure is unrelated to quality. These may match the authors' intent, but they are new claims.\"\n}\n```",
+    "cost_usd": 0.0451352,
+    "seconds": 15.2,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

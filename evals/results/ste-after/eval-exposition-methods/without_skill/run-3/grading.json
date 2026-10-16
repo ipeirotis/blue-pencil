@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two-way']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: Most additions are accurate expository glosses (fixed effects, clustering, never-/not-yet-treated definitions, and TWFE sensitivity to timing, which the original implies). However, the added interpretation of the coefficient of interest is a new and arguably imprecise claim about what the estimator measures."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

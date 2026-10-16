@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision moves the staggered-rollout rationale to the front and restates never-treated and not-yet-treated controls in plain terms. The model, fixed effects, clustering, controls, coefficient of interest, and the use of the Callaway and Sant'Anna estimator to address heterogeneity in treatment timing are all unchanged."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

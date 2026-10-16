@@ -1,0 +1,65 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste-after/eval-exposition-introduction/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "one",
+          "two"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The original never names the outcome variable, but the revision says the estimated effect is on sales, which assigns the positive, significant result to a specific outcome."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "",
+          "revised_quote": "A central question in this literature is how a review's valence, meaning whether it is positive or negative, affects a product's sales.",
+          "explanation": "The revision adds a framing claim that does not appear in the original: that valence-on-sales is a central question in this literature."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "is a well-known obstacle to identification in this literature.",
+          "revised_quote": "is a well-known obstacle to identification: quality shapes both the reviews a product receives and its sales, so the two may be correlated without one causing the other.",
+          "explanation": "The revision adds a causal mechanism for the endogeneity that the original does not state, including that quality affects sales."
+        }
+      ],
+      "summary": "The revision adds sales as the outcome variable, plus a framing claim and a mechanism built around it. None of these are in the original, so the estimated effect is now tied to a specific outcome the author never named."
+    },
+    "key": "5f886273a47f9812",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original never names the outcome variable, but the revision says the estimated effect is on sales, which assigns the positive, significant result to a specific outcome.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"\",\n      \"revised_quote\": \"A central question in this literature is how a review's valence, meaning whether it is positive or negative, affects a product's sales.\",\n      \"explanation\": \"The revision adds a framing claim that does not appear in the original: that valence-on-sales is a central question in this literature.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"is a well-known obstacle to identification: quality shapes both the reviews a product receives and its sales, so the two may be correlated without one causing the other.\",\n      \"explanation\": \"The revision adds a causal mechanism for the endogeneity that the original does not state, including that quality affects sales.\"\n    }\n  ],\n  \"summary\": \"The revision adds sales as the outcome variable, plus a framing claim and a mechanism built around it. None of these are in the original, so the estimated effect is now tied to a specific outcome the author never named.\"\n}\n```",
+    "cost_usd": 0.0360032,
+    "seconds": 10.9,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

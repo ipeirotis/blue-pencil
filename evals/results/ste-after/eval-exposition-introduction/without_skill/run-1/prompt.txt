@@ -1,0 +1,22 @@
+<paper_context>
+target_venue: Management Science
+audience: empirical economists and IS researchers
+core_thesis: Platforms moderate reviews unequally, and that unequal moderation is what lets us identify the causal effect of a review's valence on sales.
+revision_stage: first draft
+</paper_context>
+
+Here is my introduction's opening. Is it clear enough for a general Management Science reader, or does it assume too much?
+
+Preserve my meaning, claims, and voice, and do not change any number, statistic, or citation, including the order of citations.
+
+The endogeneity of review valence with respect to unobserved product quality is a
+well-known obstacle to identification in this literature. We exploit
+platform-level heterogeneity in content moderation as a source of exogenous
+variation. Specifically, we leverage the fact that platforms differentially apply
+moderation policies across review cohorts, which generates quasi-random assignment
+conditional on observed covariates. Using a dataset of 3.4 million reviews, we
+estimate the effect and find it to be positive and significant. Our identification
+strategy improves upon prior approaches that rely on instrumental variables of
+questionable validity.
+
+Put the revised text in a single fenced code block.

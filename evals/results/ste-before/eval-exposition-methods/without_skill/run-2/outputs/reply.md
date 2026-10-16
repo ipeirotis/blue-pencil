@@ -1,0 +1,10 @@
+```
+We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level. The specification includes controls for foot traffic, local unemployment, and promotional intensity. The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator; it captures the change in repeat purchase at a store after the loyalty program arrives, relative to the change at comparison stores over the same weeks.
+
+Because the loyalty program was rolled out to stores on different dates, a standard two-way fixed effects model can be misleading: it may use stores that were already treated as controls for stores treated later, which can distort the estimate when the program's effect changes over time or differs across stores. To avoid this, we compare each treated store only with stores that have not yet received the program at that time, namely the never-treated and not-yet-treated stores. We report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address this heterogeneity in treatment timing.
+```
+
+I kept your model description, controls, and the estimator citation as written, and changed no numbers. Two things to check:
+
+- I added a sentence defining the interaction coefficient and a sentence explaining why staggered timing is a problem for two-way fixed effects. Both are explanatory additions to help readers new to staggered designs; they add no new claims beyond what the standard literature says, but confirm they match how you want to frame it.
+- Your original treats the never-treated and not-yet-treated stores as controls for the whole analysis, which I read as applying to the Callaway and Sant'Anna estimator. My wording attributes that control group to the comparison approach in general. If the control group applies only to Callaway and Sant'Anna and not to the two-way fixed effects model, that distinction should be made explicit.

@@ -1,0 +1,43 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste-before/eval-exposition-introduction/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it positive and statistically significant",
+          "explanation": "The original never names the outcome variable; the revision adds that the estimated effect is on sales, which the original does not say."
+        }
+      ],
+      "summary": "The reordering and rewording of the identification strategy keep the original meaning. The revision, however, states that the outcome is sales, which the original passage does not say."
+    },
+    "key": "64dc885cbcdf8ee7",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it positive and statistically significant\",\n      \"explanation\": \"The original never names the outcome variable; the revision adds that the estimated effect is on sales, which the original does not say.\"\n    }\n  ],\n  \"summary\": \"The reordering and rewording of the identification strategy keep the original meaning. The revision, however, states that the outcome is sales, which the original passage does not say.\"\n}\n```",
+    "cost_usd": 0.0346778,
+    "seconds": 7.7,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

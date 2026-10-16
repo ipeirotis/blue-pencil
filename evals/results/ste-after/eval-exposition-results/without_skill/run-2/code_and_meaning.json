@@ -1,0 +1,71 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste-after/eval-exposition-results/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Table 3 reports the estimates, and they point to a clear role for reviewer identity.",
+          "explanation": "The original only reports estimates; the revision adds an interpretive claim that the results show a clear role for reviewer identity."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "It remains substantial after we add product fixed effects in column 3, where it is 0.15 (SE = 0.05).",
+          "explanation": "The revision calls the effect 'substantial,' an evaluative judgment of magnitude that the original does not make."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "revised_quote": "Identity also conditions the effect of a review: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "explanation": "The revision adds a substantive interpretation (identity conditions the effect of a review) that the original does not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating matters throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it rather than being absorbed by it.",
+          "explanation": "The revision asserts that identity is not absorbed by star rating and adds to it, a claim absent from the original."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "R-squared rises from 0.31 to 0.47 across the columns.",
+          "revised_quote": "Model fit improves accordingly, as R-squared rises from 0.31 to 0.47 across the columns.",
+          "explanation": "'Accordingly' attributes the R-squared increase to the identity variables, although columns also add fixed effects and the original makes no such attribution."
+        }
+      ],
+      "summary": "All numbers remain attached to the correct coefficients and columns, but the revision turns a purely descriptive passage into an interpretive one, adding several claims about the role of reviewer identity that the original does not make."
+    },
+    "key": "72540a35f26fe210",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and they point to a clear role for reviewer identity.\",\n      \"explanation\": \"The original only reports estimates; the revision adds an interpretive claim that the results show a clear role for reviewer identity.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"It remains substantial after we add product fixed effects in column 3, where it is 0.15 (SE = 0.05).\",\n      \"explanation\": \"The revision calls the effect 'substantial,' an evaluative judgment of magnitude that the original does not make.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"Identity also conditions the effect of a review: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"explanation\": \"The revision adds a substantive interpretation (identity conditions the effect of a review) that the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating matters throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it rather than being absorbed by it.\",\n      \"explanation\": \"The revision asserts that identity is not absorbed by star rating and adds to it, a claim absent from the original.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"revised_quote\": \"Model fit improves accordingly, as R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"explanation\": \"'Accordingly' attributes the R-squared increase to the identity variables, although columns also add fixed effects and the original makes no such attribution.\"\n    }\n  ],\n  \"summary\": \"All numbers remain attached to the correct coefficients and columns, but the revision turns a purely descriptive passage into an interpretive one, adding several claims about the role of reviewer identity that the original does not make.\"\n}\n```",
+    "cost_usd": 0.0403632,
+    "seconds": 11.2,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

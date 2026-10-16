@@ -13,6 +13,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versions use [Se
 - Diagnostics adapted from ASD-STE100 (Simplified Technical English, Issue 9) for readers who read English as a second language or through a translation tool. `references/principles.md` gains an ASD-STE100 section that maps each transferable rule to its home in the skill and lists the rules the skill does not adopt (the dictionary, hard word caps, the semicolon ban, the imperative, American spelling).
 - `references/sentence-patterns.md`: new patterns for two-way "-ing" forms, stacked verb phrases, one topic per sentence (about 25 words as the point to check, never a cap), the dropped connector, idioms and phrasal verbs, the vague "with", and complex series; vague verbs join vague abstractions.
 - `references/copyediting.md`: one word, one sense ("since", "as", "while", "once", "may", "should"), false friends, and "i.e." against "e.g.", each a consistency risk when the context leaves the sense open.
+- `evals/results/ste-before`, `evals/results/ste-after`, and `evals/results/ste-comparison`: the before/after benchmark for the ASD-STE100 change, with a summary. `evals/compare_versions.py` runs the blinded quality grader on two skill versions' outputs, case by case and run by run.
 - `references/structural-patterns.md`: procedural passages in Methods (one step per sentence, order of performance, condition before action), the limitation without a consequence, and one claimed change per sentence in response letters.
 
 ### Changed

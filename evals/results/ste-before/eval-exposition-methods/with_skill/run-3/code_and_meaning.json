@@ -1,0 +1,35 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste-before/eval-exposition-methods/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision reorders the passage and adds glosses: 'no single date separates before from after' follows from the staggered rollout, and it defines not-yet-treated and never-treated controls. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are all unchanged, and each stays attached to the same purpose."
+    },
+    "key": "b948f2a3a1405553",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision reorders the passage and adds glosses: 'no single date separates before from after' follows from the staggered rollout, and it defines not-yet-treated and never-treated controls. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are all unchanged, and each stays attached to the same purpose.\"\n}\n```",
+    "cost_usd": 0.031055199999999998,
+    "seconds": 8.9,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}
