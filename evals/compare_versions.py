@@ -67,6 +67,11 @@ missing = [f"{v}: {c} run-{n}" for v, r in ROOTS.items() for c, n in jobs
            if not (r / f"eval-{c}" / "with_skill" / f"run-{n}").is_dir()]
 if missing:
     sys.exit("runs missing, comparison would be incomplete: " + "; ".join(missing))
+invalid = [f"{v}: {c} run-{n}" for v, r in ROOTS.items() for c, n in jobs
+           if not gp._valid_trial(r / f"eval-{c}" / "with_skill" / f"run-{n}", "with_skill")]
+if invalid:
+    sys.exit("invalid trials (errored, no revision, or skill not loaded); resume the run to retry them first: "
+             + "; ".join(invalid))
 with ThreadPoolExecutor(max_workers=4) as ex:
     results = list(ex.map(lambda j: pair(*j), jobs))
 out_path.write_text(json.dumps(results, indent=2))
