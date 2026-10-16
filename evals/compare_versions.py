@@ -41,14 +41,17 @@ def pair(case_id, n, saved):
         plan.append((a, b, prompt))
     # Reuse a saved verdict only if, as in grade_pilot.py, each order was judged with the
     # same full prompt (template, audience, original, both texts), requested model, and
-    # grader environment; anything else is graded again.
+    # recorded grader environment, and its saved reply still passes the current validator;
+    # anything else is graded again.
     old = saved.get((case_id, n))
     # The key covers the full prompt, both texts included, so it alone decides; texts_sha is
     # kept only as a readable record and is not required (older results lack it).
     if (old and old.get("consolidated") in ("before", "after", "tie")
             and len(old.get("orders", [])) == len(plan)
             and all((o.get("grader") or {}).get("key") == gp.grader_key(prompt, gp.GRADER_MODEL)
-                    and gp.same_env(o.get("grader")) and (o.get("A"), o.get("B")) == (a, b)
+                    and "env" in (o.get("grader") or {}) and gp.same_env(o.get("grader"))
+                    and gp.quality_validator(revised[a], revised[b])((o.get("grader") or {}).get("parsed"))
+                    and (o.get("A"), o.get("B")) == (a, b)
                     for o, (a, b, prompt) in zip(old["orders"], plan))):
         return old
     orders = []
@@ -100,6 +103,16 @@ invalid = [f"{v}: {c} run-{n}" for v, r in ROOTS.items() for c, n in jobs
 if invalid:
     sys.exit("invalid trials (errored, no revision, or skill not loaded); resume the run to retry them first: "
              + "; ".join(invalid))
+# The requested executor can route to another model; compare the models each trial
+# actually used, pair by pair, so routing differences are never credited to the skill.
+def models_of(r, c, n):
+    t = read_json(r / f"eval-{c}" / "with_skill" / f"run-{n}" / "trial.json")
+    return sorted(t.get("models_used") or [])
+routed = [f"{c} run-{n}: {models_of(before_root, c, n)} vs {models_of(after_root, c, n)}" for c, n in jobs
+          if not models_of(before_root, c, n) or models_of(before_root, c, n) != models_of(after_root, c, n)]
+if routed:
+    sys.exit("trials used different or unrecorded executor models: " + "; ".join(routed))
+out_path.parent.mkdir(parents=True, exist_ok=True)
 saved = {(r["case"], r["run"]): r for r in json.loads(out_path.read_text())} if out_path.exists() else {}
 # Write each pair to out_path as soon as it is judged, so an interrupted or failing run keeps
 # every verdict already paid for; pairs not yet judged keep their saved entry, if any.
