@@ -45,14 +45,15 @@ def pair(case_id, n):
 
 
 # Refuse runs that cannot be compared: a case edited since either run, or runs that
-# differ in executor model, Claude Code version, flags, or case fingerprints.
+# differ in executor model, Claude Code version, flags, case fingerprints, or runner code.
 metas = {v: read_json(r / "run_meta.json") for v, r in ROOTS.items()}
 case_ids = sorted(set(metas["before"].get("cases") or []) | set(metas["after"].get("cases") or []))
 for v, r in ROOTS.items():
     stale = changed_cases(metas[v], case_ids, r)
     if stale:
         sys.exit(f"{v} run: case files changed since it ran: {', '.join(stale)}")
-for key in ("executor_model", "claude_code_version", "flags", "preserve_instruction", "case_fingerprints"):
+for key in ("executor_model", "claude_code_version", "flags", "preserve_instruction", "case_fingerprints",
+            "runner_fingerprint"):
     if metas["before"].get(key) != metas["after"].get(key):
         sys.exit(f"before and after runs differ in {key}; they are not comparable")
 
