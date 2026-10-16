@@ -98,11 +98,11 @@ An "-ing" word in front of a noun can be a verb acting on that noun or an adject
 
 | Before | After |
 |---|---|
-| Testing conditions differed across sites. | The test conditions differed across sites. (Or, if the act of testing is meant: The way we tested the conditions differed across sites.) |
+| Testing conditions differed across sites. | The test conditions differed across sites. (Or, if the act of testing is meant: The way the conditions were tested differed across sites.) |
 | Labeling errors reduced recall. | Errors in the labels reduced recall. (Or: Errors made during labeling reduced recall.) |
-| Using a larger sample, the effect disappeared. | When we used a larger sample, the effect disappeared. |
+| Using a larger sample, the effect disappeared. | In the larger sample, the effect disappeared. |
 
-Diagnostic: for each "-ing" word before a noun, read it once as a verb ("testing the conditions") and once as a modifier ("conditions for testing"). If both readings fit the context, recast with a noun, a preposition, or a clause that names the agent. When the two readings make different claims and the context does not decide between them, ask the author which one is meant; do not pick. The third row is the dangling "-ing" opener: its implied subject ("we") is not the sentence's subject ("the effect"), so name the agent. A term of art that ends in "-ing" ("matching estimator", "boosting", "training set") is a name, not an ambiguity; leave it.
+Diagnostic: for each "-ing" word before a noun, read it once as a verb ("testing the conditions") and once as a modifier ("conditions for testing"). If both readings fit the context, recast with a noun, a preposition, or a clause that names the agent. When the two readings make different claims and the context does not decide between them, ask the author which one is meant; do not pick. The third row is the dangling "-ing" opener: its implied subject (whoever used the sample) is not the sentence's subject ("the effect"). Repair it without naming an agent the text does not name, as the third row does; write "when we used" only when the passage already says the authors did it, and otherwise ask. A term of art that ends in "-ing" ("matching estimator", "boosting", "training set") is a name, not an ambiguity; leave it.
 
 ## Hedge stacking
 
@@ -202,7 +202,7 @@ A sentence carries one topic: one claim, one step, or one relation between two t
 
 | Before | After |
 |---|---|
-| We recruited 412 participants through the panel provider, who completed the survey in about 14 minutes on average, and we excluded those who failed both attention checks, which removed 38 respondents. | We recruited 412 participants through the panel provider. They completed the survey in about 14 minutes on average. We excluded the 38 who failed both attention checks. |
+| We recruited 412 participants through the panel provider, and the participants completed the survey in about 14 minutes on average, and we excluded those who failed both attention checks, which removed 38 respondents. | We recruited 412 participants through the panel provider. They completed the survey in about 14 minutes on average. We excluded the 38 who failed both attention checks. |
 
 Diagnostic: for each sentence past the mark, list the independent claims or steps it makes: parts that each have their own subject and verb and could be true or false, or done or not done, without the others. One relation between two things is one topic even though naming it takes "and" ("the trade-off between accuracy and latency"), and a qualifier belongs to the claim it governs. If the sentence makes two or more independent claims or steps, split it between them, carrying every qualifier and number through unchanged. A split that moves or rephrases a numerical clause is a change to a numerical claim, so it needs both checks: the number and its referent survive exactly, and the change is flagged for human review under the numerical-claim constraint in `SKILL.md` (in the table, "which removed 38 respondents" becoming "the 38 who failed" is such a change). A long sentence that carries one topic with a clean core stays: the mark finds candidates and never sets a cap, because uniform short sentences are their own tell ("Sentence-length variety" above). The rewrite in the table keeps a long-short rhythm without the original's three topics.
 
@@ -259,7 +259,7 @@ A phrasal verb whose meaning is not the sum of its words ("come up with", "end u
 | The gain turned out to be smaller in the second wave. | The gain was smaller in the second wave. |
 | Most respondents ended up choosing the default. | Most respondents chose the default. |
 
-Exceptions: a phrasal verb that is a term of art or the plain verb of the field ("rule out", "set up" for an experiment, "drop out" for attrition) stays, and so does one whose single-verb replacement is longer, rarer, or less precise ("find out" is often clearer than "ascertain"). "Turned out to be" can carry surprise; when it does, the surprise is content, so keep it or ask. This pattern never licenses swapping a plain word for a Latinate one: the "use, not utilize" rule in `references/ai-tells-to-avoid.md` still holds.
+Exceptions: a phrasal verb that is a term of art or the plain verb of the field ("rule out", "set up" for an experiment, "drop out" for attrition) stays, and so does one whose single-verb replacement is longer, rarer, or less precise ("find out" is often clearer than "ascertain"). Some phrasal verbs carry meaning their single-verb replacement drops: "turned out to be" can mark a surprise, and "ended up" can mark an outcome reached after deliberation or against an expectation. The rows above assume the context shows no such meaning; when it does, or when you cannot tell, the meaning is content, so keep the phrasal verb or ask. This pattern never licenses swapping a plain word for a Latinate one: the "use, not utilize" rule in `references/ai-tells-to-avoid.md` still holds.
 
 ## Vague abstractions
 
