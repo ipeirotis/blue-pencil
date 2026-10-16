@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: The numbers, columns, and significance levels are preserved. However, the revision turns a neutral report of coefficients into a causal, interpretive story: it adds claims of effects, robustness, and persistence, and credits the R-squared gain to identity measures, none of which the original states."
+      "evidence": "verdict=changed: Every number stays attached to the correct column and variable, and the significance statement is unchanged. However, the revision turns a purely descriptive report into an interpretive one, adding claims about a consistent role for identity, its sizability, its conditioning on the speaker, and its contribution beyond star rating."
     }
   ],
   "summary": {

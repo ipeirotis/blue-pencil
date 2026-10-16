@@ -1,37 +1,43 @@
-### 1. Diagnosis
+## Diagnosis
 
-- **Voice:** Your voice is impersonal and agentless. It uses compact "(SE = …)" notation, plain reporting verbs, and one short factual sentence per estimate.
-- **Reader:** Your readers know the identity-versus-rating question but haven't seen Table 3 yet. They should leave with the identity coefficient, how stable it is across columns 2 and 3, and the tenure interaction.
-- **Jargon:** None needs unpacking for this audience.
-- **Buried lede:** The identity-disclosed indicator is your paper's subject, but "Table 3 reports the estimates." comes first and makes no claim. The star-rating coefficient also interrupts the identity estimates.
-- **Flat rhythm:** Seven sentences have the same shape ("The X is N (SE = …)"). This is the flatness you noticed.
-- **Awkward phrasing:** "In column 3, after adding product fixed effects, the coefficient is 0.15" puts the condition before the core. "The coefficient" also refers back to a sentence two lines earlier.
-- **Limit:** The paragraph can't be made to land by wording alone. The text doesn't say what the outcome variable is or what the interaction means, so I routed those gaps to the questions below instead of filling them in.
+Assumed context: none. `audience`, `revision_stage` (first draft), `target_venue`, and `core_thesis` all come from `AGENTS.md`. Triage was preset: direct rewrite of one results paragraph.
 
-### 2. Revised text
+Voice tics kept: impersonal reporting, "coefficient ... is X (SE = Y)" with the column named, short declaratives beside one longer sentence, significance levels stated in words, and "R-squared" spelled out.
+
+Findings:
+
+1. **Announcing opener.** "Table 3 reports the estimates" announces content instead of making a claim.
+2. **Buried lede.** The identity-disclosed estimate (0.18) and its product-fixed-effects counterpart (0.15) sit in separate sentences. The reader has to do the comparison, and it is the paragraph's main turn.
+3. **Weak ending.** The paragraph ends on a procedural significance note, so the model-fit change isn't in the stress position.
+4. **List rhythm.** Every sentence has the same "X is Y" shape, so the paragraph reads as a list.
+5. **Missing outcome.** The paragraph never names the outcome the coefficients are on. I could not state what 0.18 means without adding substance. See the questions below.
+6. **Altitude.** Altitude and precision are right for a Results paragraph. The SEs, significance levels and unqualified statements all stay.
+
+## Revised text
 
 ```
-In Table 3, the identity-disclosed indicator has a coefficient of 0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3 once product fixed effects are added. The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications, and R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+In Table 3, the coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2 and falls to 0.15 (SE = 0.05) in column 3 once product fixed effects are added. The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. The coefficient on star rating is 0.42 (SE = 0.02) across all specifications. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level. R-squared rises from 0.31 to 0.47 across the columns.
 ```
 
-### 3. Change rationale
+## Change rationale
 
-Word count is about 90 before and after. The skill loaded these references: principles, edit-checks, structural-patterns, exposition, altitude, narrative-spine, reader-pleasure, sentence-patterns, subtraction, ai-tells-to-avoid and copyediting. It skipped precision-budget because that pass is for abstracts, introductions and contribution paragraphs. It skipped cold-read and consistency-checks because they are whole-paper passes.
+Word count: about 90 before and after.
 
-- **Opening:** The paragraph now opens on the finding and cites the table as evidence. The empty topic sentence is gone.
-- **Columns 2 and 3:** The two identity estimates sit in one sentence, so the reader sees the contrast together. "Once … are added" replaces the dangling "after adding", and the condition now follows the core.
-- **Interaction:** The wording is unchanged. It stays a short sentence between two longer ones, which varies the rhythm.
-- **Star rating and R-squared:** I merged them into one sentence after the identity results, so they read as supporting material.
-- **Significance sentence:** It is unchanged. It closes the paragraph and keeps the 5% qualifier on the interaction.
-- **Not added:** I added no interpretation or closing "what this means" sentence, because the supplied text gives no outcome variable or stated interpretation.
-- **Preserved:** All numbers, SEs, column numbers, the table reference and the significance levels are unchanged.
+References loaded: principles.md, edit-checks.md, structural-patterns.md, exposition.md, altitude.md, narrative-spine.md, reader-pleasure.md, sentence-patterns.md, subtraction.md, ai-tells-to-avoid.md, copyediting.md. Skipped: precision-budget.md, because the section is not an abstract, introduction or contribution paragraph, and no hedge was added or removed.
 
-### 4. Author questions
+- **Opener merged with the first estimate.** The claim now opens the paragraph and the table reference stays as evidence. This removes the flat-list opener.
+- **Comparison in one sentence.** The 0.18 and 0.15 estimates are now in a single sentence, with the second estimate in the stress position. "Falls" only describes the direction of the two numbers already reported. The passive "are added" keeps your impersonal voice.
+- **Closing order swapped.** The significance sentence now comes before the R-squared sentence, so the paragraph ends on the model-fit change (0.31 to 0.47). The interaction's 5% status stays attached to the significance claim.
+- **Unchanged sentences.** The interaction, star rating and significance sentences are as you wrote them. A synonym swap would not clearly improve them.
+- **Rhythm.** One long opener, then medium and short sentences, breaks the uniform run of reports.
+- **Nothing else cut.** No banned transitions, em-dashes or promotional adjectives were present or introduced. "Significant" is used only in the statistical sense.
 
-- **Table callout:** "Table 3 reports the estimates" is now "In Table 3". Does it still point at the right table, and are columns 2, 3 and 4 the ones you mean?
-- **Interaction significance:** The interaction is 0.09 (SE = 0.03), a ratio of 3, which would usually clear the 1% threshold. The paragraph says 5%. Are the SEs clustered differently in column 4, or is the 5% marker or an SE a slip?
-- **Star rating:** Is it exactly 0.42 (SE = 0.02) in every column, or does it vary slightly and round to the same value? I kept "across all specifications" as written.
-- **Outcome variable:** What do these coefficients predict (sales, or something else)? The paragraph never says. Stating it once would let the opening say what the identity indicator is associated with. That is the biggest lever for making the paragraph land.
-- **Interaction meaning:** What does the tenure interaction mean in plain terms, and which variable is it formed with? A one-clause reading of its sign would give the reader the payoff, but I can't supply it without asserting a result.
-- **Closing sentence:** Do you want a short closing sentence tying the result to your thesis that a reviewer's identity, not just the rating, shapes how much a review moves sales? That would be new substance, and some journals keep it for the Discussion, so I left it out.
-- **Column 1:** What does it contain, and should the paragraph mention it? "Across the columns" implies a baseline column, but the text jumps from column 2 to column 3.
+## Author questions
+
+- **Numbers and table references:** No number, SE, R-squared value or significance level was altered. The Table 3 callout sentence was restructured, so please confirm the callout and the column references (2, 3, 4) still point where you intend.
+- **Interaction significance:** The interaction is 0.09 (SE = 0.03), which is 3 times its SE. Is the 5% level correct, or should it read 1%? Is it clustered or computed differently from the other coefficients? I left the text as written.
+- **Outcome variable:** What is the dependent variable, and what unit does 0.18 carry? If Methods already states it, may a short clause naming it be added to the first sentence? I did not add one.
+- **Columns 2 and 3:** Are they estimated on the same sample, so that the comparison is valid? Do you want to say anything about whether the two estimates differ?
+- **Interpretation:** Your thesis is that reviewer identity shapes how much a review moves sales, beyond the rating. Does the Discussion say what the identity coefficient, with the star-rating coefficient alongside, implies? I added no interpretation here, but I want to confirm it lives elsewhere.
+- **Interaction term:** "Reviewer tenure" interacts with which variable? Presumably the identity-disclosed indicator. May the sentence name it?
+- **Column 1:** It is never described, though R-squared "from 0.31" implies a baseline specification. Is it described elsewhere, such as Methods or the table notes?

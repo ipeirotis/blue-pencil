@@ -7,14 +7,14 @@
     },
     {
       "text": "Meaning preserved (meaning grader)",
-      "passed": true,
-      "evidence": "verdict=preserved: The revision keeps the citations, the 5-9% per-star effect, the 1.2 million review sample, the hedged \"somewhat underexplored\" gap, and the main finding and recommendation. Only emphasis qualifiers (\"fundamentally\", \"novel\", \"important implications\") were lost. Making explicit that the effect is \"on this relationship\" matches the research question the original posed, so it is not new content."
+      "passed": false,
+      "evidence": "verdict=changed: Citations, the 5-9% figure, and the main finding stay attached to the right claims. However, removing 'somewhat' strengthens the research-gap claim, and several qualifiers ('fundamentally', 'novel', 'important') were dropped."
     }
   ],
   "summary": {
-    "passed": 2,
-    "failed": 0,
+    "passed": 1,
+    "failed": 1,
     "total": 2,
-    "pass_rate": 1.0
+    "pass_rate": 0.5
   }
 }

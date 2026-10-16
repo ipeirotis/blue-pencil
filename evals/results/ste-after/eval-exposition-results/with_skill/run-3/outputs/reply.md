@@ -1,34 +1,42 @@
 ## Diagnosis
 
-- **Voice:** The paragraph uses plain declaratives, a "coefficient is X (SE = Y)" frame, and a column-by-column walk-through.
-- **Buried lede:** The identity-disclosed coefficient (0.18, then 0.15 with product fixed effects) is the finding that bears on your thesis. It sits second in a list of equally weighted coefficients.
-- **Anchor:** The star-rating coefficient (0.42 in every specification) is the benchmark the identity coefficient is read against. It currently appears near the end.
-- **Narrative spine:** The paragraph reads as a flat run of numbers with no tension or payoff. It ends on a significance footnote.
-- **Jargon:** None needs unpacking.
+Assumed context: none. The paper context supplied the audience, stage, venue, and thesis. I used a direct rewrite of this one results paragraph at first-draft stage.
+
+**Voice:** Plain declaratives, each number given as a coefficient with its SE in parentheses, and column-by-column callouts. The paragraph reports but never argues.
+
+**Buried lede:** The identity-disclosed coefficient is your focal estimate. It sits in sentence two, ahead of the star-rating baseline that gives it context. The interaction, star rating, and fit statistics then follow at equal weight.
+
+**Concrete anchor:** The star-rating coefficient of 0.42, already in your paragraph, works as the baseline for reading the identity coefficients.
+
+1. **Flat list.** Six facts arrive in table order at equal weight. The baseline comes after the estimates it contextualizes.
+2. **Given-new order.** Leading with star rating makes it the given and the disclosure indicator the new item.
+3. **Repeated frame.** "The coefficient on X is" opens three sentences in a row. I varied it once.
+4. **Ambiguous scope.** "After adding product fixed effects" could be read as applying to column 2 or to both columns. I tied it to column 3.
+5. **Restraint.** The interaction, R-squared, and significance sentences were already sound, so I left them verbatim. The significance sentence is a fair closing payoff.
+6. **Thesis link.** Your thesis (identity shapes how much a review moves sales) appears nowhere in the paragraph, and the outcome variable isn't named. I did not add an interpretive sentence, because that would be new substance. See the questions below.
 
 ## Revised text
 
 ```
-Table 3 reports the estimates. Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications. Alongside it, the identity-disclosed indicator has a coefficient of 0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3 after adding product fixed effects. The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+Table 3 reports the estimates. Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications. The identity-disclosed indicator has its own: 0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3, which adds product fixed effects. The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
 ```
 
 ## Change rationale
 
-The revision is about 5% longer, from roughly 90 to 95 words. Every number, SE, column reference and the Table 3 reference is unchanged.
+Word count rose about 5%, from roughly 90 to roughly 95. Two sentences were split, and "has its own" was added. Nothing was cut.
 
-- **Star rating moved to second.** It is in every specification, so it is the known benchmark. The identity sentences now open on old information.
-- **Two identity sentences joined.** The numbers now come before the "after adding product fixed effects" qualifier. 0.18 and 0.15 sit side by side so the reader sees them together.
-- **Interaction, R-squared and significance sentences untouched.** They already parse in one pass. The significance sentence keeps its full scope.
-- **No stronger payoff added.** A "but/therefore" tension would need an interpretation of the 0.18 to 0.15 change or the tenure interaction that your text doesn't state. I left that for you (see the last question below).
+References loaded: principles.md, edit-checks.md, structural-patterns.md, exposition.md, altitude.md, narrative-spine.md, reader-pleasure.md, sentence-patterns.md, subtraction.md, ai-tells-to-avoid.md, copyediting.md. Skipped: precision-budget.md, which applies only to abstracts, introductions, and contribution paragraphs, or when a hedge is added or removed.
 
-The reviser ran every applicable reference pass except the precision-budget pass. That pass is skipped because this is a Results paragraph and no hedge was added or removed.
+- **Baseline first:** Star rating now comes first, so the disclosure coefficient arrives as the new item in stress position.
+- **Varied frame:** The three "The coefficient on X is" openings became "has a coefficient of" and "has its own".
+- **Column 3 scope:** The fixed-effects note now attaches only to column 3.
+- **Disclosure estimates together:** The column 2 and column 3 coefficients share a sentence so readers can compare them directly.
+- **Unchanged:** The interaction, R-squared, and significance sentences are verbatim.
 
 ## Author questions
 
-1. **Order check:** I reordered and joined the sentences with 0.42, 0.18 and 0.15. Does the new order still match Table 3?
-2. **"Alongside it":** Is star rating in the model in columns 2 and 3? Does "across all specifications" include a column 1 with no identity indicator?
-3. **Significance of the interaction:** 0.09 with SE = 0.03 is a ratio of about 3.0, which would usually be significant at the 1% level, yet the paragraph says 5%. Is that rounding in the displayed figures, or should the statement be checked against Table 3?
-4. **Which interaction:** Is "the interaction with reviewer tenure" the identity-disclosed indicator times tenure? If so, may I write that out?
-5. **R-squared endpoints:** Does 0.31 belong to column 1 and 0.47 to column 4?
-6. **Outcome and units:** The paragraph never says what the dependent variable is or what 0.18 means in its units. Where is that defined, and may a clause pointing to it open the paragraph?
-7. **Takeaway:** What should the reader conclude from the 0.18 to 0.15 change and the tenure interaction? A one-sentence takeaway tying it to your thesis would let the paragraph end on a payoff. I didn't supply one.
+- Every number and every column and table reference is unchanged, but the 0.42 now comes before the 0.18 and 0.15. Does each number still sit next to the right label?
+- The interaction (0.09 / 0.03) and the column 3 disclosure coefficient (0.15 / 0.05) both have a ratio of 3.0, yet one is reported at the 5% level and the other at the 1% level. Is that a rounding artifact, or should the significance sentence be checked against Table 3?
+- What is the dependent variable? Without it I couldn't link the coefficients to your thesis. Would you like one interpretive sentence added after the numbers, in your own wording from elsewhere in the paper?
+- Is the interaction the identity-disclosed indicator times tenure, and is tenure continuous? Naming it would be new content, so I left the phrase as written.
+- Does column 1 fall under "across all specifications" for the star coefficient and under the 0.31 to 0.47 R-squared range?

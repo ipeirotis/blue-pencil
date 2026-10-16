@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: The revision adds substance the original does not state: it names sales as the outcome and estimand, says review valence is what is quasi-randomly assigned, and asserts that exposure is unrelated to quality. These may match the authors' intent, but they are new claims."
+      "evidence": "verdict=changed: The revision adds sales as the outcome variable and adds a claim that quality drives sales; the original specified neither, so the stated estimand and result now differ. The remaining edits rephrase the original without changing its meaning."
     }
   ],
   "summary": {

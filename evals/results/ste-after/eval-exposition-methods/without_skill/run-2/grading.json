@@ -3,18 +3,18 @@
     {
       "text": "Protected content unchanged (code grader)",
       "passed": false,
-      "evidence": "numberwords: -[] +['two-way']"
+      "evidence": "numberwords: -[] +['two']"
     },
     {
       "text": "Meaning preserved (meaning grader)",
-      "passed": true,
-      "evidence": "verdict=preserved: All methodological elements (fixed effects, store-level clustering, the three controls, the interaction term, the never-treated and not-yet-treated control groups, and the Callaway and Sant'Anna estimator) are retained and correctly attached. The additions are expository definitions and motivation consistent with the original, so the meaning is preserved, although the author's concise voice is replaced by explanatory prose."
+      "passed": false,
+      "evidence": "verdict=changed: The specification, fixed effects, clustering, controls, and estimators are all kept. However, the revision adds the editor's own definitions. The most consequential one recasts 'heterogeneity in treatment timing' as heterogeneity in treatment effects across cohorts, which the original does not say."
     }
   ],
   "summary": {
-    "passed": 1,
-    "failed": 1,
+    "passed": 0,
+    "failed": 2,
     "total": 2,
-    "pass_rate": 0.5
+    "pass_rate": 0.0
   }
 }

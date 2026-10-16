@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: Most of the rewording is faithful, but the revision twice names 'sales' as the outcome variable. The original never states this, so the main result is now tied to a specific estimand the author did not give."
+      "evidence": "verdict=changed: Most of the edit is reordering and rephrasing that keeps the meaning, but the revision introduces \"sales\" as the outcome variable twice. The original never specifies the outcome."
     }
   ],
   "summary": {

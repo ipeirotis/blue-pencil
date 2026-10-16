@@ -10,9 +10,9 @@
     "parsed": {
       "verdict": "preserved",
       "problems": [],
-      "summary": "Every number stays attached to the same coefficient, column, and condition. The 1% and 5% significance qualifications are kept, and the edits only merge sentences and fold 'Table 3 reports the estimates' into the next sentence."
+      "summary": "The revision merges the column 2 and column 3 sentences and moves the R-squared sentence, but every coefficient, standard error, column, significance level, and condition stays attached to the same item. \"Falls to\" only restates the direction from 0.18 to 0.15 and adds no new claim."
     },
-    "key": "1f606d73b7854c40",
+    "key": "e12ac497d3ee6d93",
     "env": {
       "flags": [
         "--setting-sources",
@@ -24,9 +24,9 @@
       "claude_code_version": "2.1.301 (Claude Code)"
     },
     "requested_model": "claude-opus-5-5",
-    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"Every number stays attached to the same coefficient, column, and condition. The 1% and 5% significance qualifications are kept, and the edits only merge sentences and fold 'Table 3 reports the estimates' into the next sentence.\"\n}\n```",
-    "cost_usd": 0.0248672,
-    "seconds": 7.5,
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision merges the column 2 and column 3 sentences and moves the R-squared sentence, but every coefficient, standard error, column, significance level, and condition stays attached to the same item. \\\"Falls to\\\" only restates the direction from 0.18 to 0.15 and adds no new claim.\"\n}\n```",
+    "cost_usd": 0.027215200000000002,
+    "seconds": 7.0,
     "models": [
       "claude-opus-5-5"
     ],

@@ -1,29 +1,24 @@
-Yes, it assumes too much in a few places. A general Management Science reader will stumble on these:
+Yes, it assumes too much in three places, and the main risk is for readers outside the review-valence literature:
 
-- **The question is never stated.** "The effect" has no referent. Your thesis says it is the effect of review valence on sales, so I named both.
-- **The mechanism is compressed.** The link between unequal moderation and exogenous variation is the core idea, but it is only implied. I spelled it out in one clause, using your thesis wording.
-- **"Quasi-random assignment conditional on observed covariates" is jargon-dense.** I kept the claim and added a short gloss.
-- **The endogeneity sentence is abstract.** I made the concern concrete without changing the claim.
+- **The estimand is never named.** "The effect" has no stated outcome or treatment. I added "of valence on sales", taken from your thesis statement.
+- **The endogeneity problem is stated only abstractly.** One clause on the mechanism (unobserved quality drives both valence and sales) makes it accessible without a literature detour.
+- **The moderation mechanism is compressed.** "Platform-level heterogeneity" and "differentially apply" are jargon-heavy. I spelled out that platforms differ in how they moderate reviews, without adding any claim about direction.
 
-I made no changes to the number (3.4 million), and the draft has no citations to preserve.
-
-```
-The endogeneity of review valence with respect to unobserved product quality is a
-well-known obstacle to identifying the causal effect of reviews on sales: a
-product that receives favorable reviews may also simply be a better product. We
-exploit platform-level heterogeneity in content moderation as a source of
-exogenous variation. Specifically, platforms moderate reviews unequally, and we
-leverage the fact that they differentially apply moderation policies across
-review cohorts. This generates quasi-random assignment of review valence
-conditional on observed covariates, so that otherwise comparable products are
-exposed to different sets of reviews for reasons unrelated to their quality.
-Using a dataset of 3.4 million reviews, we estimate the effect of valence on
-sales and find it to be positive and significant. Our identification strategy
-improves upon prior approaches that rely on instrumental variables of
-questionable validity.
+```text
+A well-known obstacle to identifying the effect of a review's valence on sales is
+endogeneity: valence is correlated with unobserved product quality, which itself
+drives sales. We exploit differences across platforms in how reviews are moderated
+as a source of exogenous variation. Specifically, we leverage the fact that
+platforms apply their moderation policies unequally across review cohorts, which
+generates quasi-random assignment of moderation conditional on observed covariates.
+Using a dataset of 3.4 million reviews, we estimate the effect of valence on sales
+and find it to be positive and significant. Our identification strategy improves
+upon prior approaches that rely on instrumental variables of questionable validity.
 ```
 
-Two things to check on your side:
+Two things I left alone because they are substantive claims, but a Management Science referee will probably press on them:
 
-1. **"Quasi-random assignment of review valence."** The draft says assignment, but does not say of what. I assumed valence. If moderation changes which reviews are visible rather than valence itself, "assignment of exposure to reviews" may be more accurate.
-2. **Platform-level vs. cohort-level.** The first sentence says variation is at the platform level and the next says it is across review cohorts. A reader may ask which one drives identification, so you may want to reconcile them early.
+1. **What is quasi-randomly assigned?** Your original says "quasi-random assignment" without an object. I wrote "of moderation", which is my reading. If you mean something else, such as exposure to positive versus negative reviews, change that phrase.
+2. **Exogeneity of the moderation itself.** Your thesis rests on unequal moderation being exogenous, but platforms may moderate unequally for reasons tied to product quality or sales. The opening asserts exogeneity without a sentence on why moderation is plausibly unrelated to quality. One sentence here would help readers who are skeptical of the identification strategy.
+
+"Positive and significant" is also vague for this audience. You asked me not to change numbers, so I left it, but a magnitude would strengthen the paragraph if you want to add one.

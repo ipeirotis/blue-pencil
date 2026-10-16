@@ -13,21 +13,14 @@
         {
           "type": "new_content",
           "severity": "major",
-          "original_quote": "we estimate the effect and find it to be positive and significant",
-          "revised_quote": "Estimating the causal effect of a review's valence on sales is difficult",
-          "explanation": "The original never names the outcome; the revision adds that the effect is on sales, and that pins the estimated effect to a specific dependent variable the original did not state."
-        },
-        {
-          "type": "caveat_or_scope",
-          "severity": "major",
-          "original_quote": "Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity.",
-          "revised_quote": "Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches",
-          "explanation": "The original limits the claim to the prior approaches that use questionable instruments; the revision makes it a general statement that prior approaches rely on such instruments."
+          "original_quote": "a well-known obstacle to identification in this literature",
+          "revised_quote": "a well-known obstacle to identification in the literature on the effect of review valence on sales",
+          "explanation": "The original never names the outcome variable; the revision adds 'sales', which also tells the reader that the later 'we estimate the effect' is an effect on sales."
         }
       ],
-      "summary": "The revision adds an outcome variable (sales) the original never specified. It also turns a restrictive clause about which prior approaches it improves on into a blanket statement about all prior approaches. The description of the moderation-based identification and the 3.4 million review result is otherwise preserved."
+      "summary": "The sentence reordering and the merged clauses keep the meaning. The revision adds a claim the original does not make: that the literature, and so the estimated effect, concerns review valence on sales."
     },
-    "key": "a26ea9c487c145dd",
+    "key": "b17c4909db7d5b61",
     "env": {
       "flags": [
         "--setting-sources",
@@ -39,9 +32,9 @@
       "claude_code_version": "2.1.301 (Claude Code)"
     },
     "requested_model": "claude-opus-5-5",
-    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"Estimating the causal effect of a review's valence on sales is difficult\",\n      \"explanation\": \"The original never names the outcome; the revision adds that the effect is on sales, and that pins the estimated effect to a specific dependent variable the original did not state.\"\n    },\n    {\n      \"type\": \"caveat_or_scope\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity.\",\n      \"revised_quote\": \"Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches\",\n      \"explanation\": \"The original limits the claim to the prior approaches that use questionable instruments; the revision makes it a general statement that prior approaches rely on such instruments.\"\n    }\n  ],\n  \"summary\": \"The revision adds an outcome variable (sales) the original never specified. It also turns a restrictive clause about which prior approaches it improves on into a blanket statement about all prior approaches. The description of the moderation-based identification and the 3.4 million review result is otherwise preserved.\"\n}\n```",
-    "cost_usd": 0.0347272,
-    "seconds": 11.9,
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"a well-known obstacle to identification in the literature on the effect of review valence on sales\",\n      \"explanation\": \"The original never names the outcome variable; the revision adds 'sales', which also tells the reader that the later 'we estimate the effect' is an effect on sales.\"\n    }\n  ],\n  \"summary\": \"The sentence reordering and the merged clauses keep the meaning. The revision adds a claim the original does not make: that the literature, and so the estimated effect, concerns review valence on sales.\"\n}\n```",
+    "cost_usd": 0.0292192,
+    "seconds": 8.8,
     "models": [
       "claude-opus-5-5"
     ],

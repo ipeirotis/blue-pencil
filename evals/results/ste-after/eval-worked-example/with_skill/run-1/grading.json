@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: Most edits only remove filler, but dropping \"somewhat\" strengthens the literature-gap claim, and the revision states what the effect of reviewer identity is on, which the original does not. Three qualifiers (\"fundamentally\", \"novel\", \"important\") were also dropped."
+      "evidence": "verdict=changed: Most edits are filler removal and tightening, but the revision removes the hedge \"somewhat\" from the gap claim and specifies what reviewer identity affects, which the original left open. Several minor qualifiers (\"fundamentally\", \"novel\", \"important\") were also dropped."
     }
   ],
   "summary": {

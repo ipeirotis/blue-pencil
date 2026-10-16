@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: The reordering and sentence restructuring keep the meaning, but the revision twice names sales as the outcome, once for the literature and once for the estimated effect, and the original passage never says this."
+      "evidence": "verdict=changed: The reordering and rewording of the moderation-based identification strategy keep the original meaning. However, the revision adds sales as the outcome and adds an explanation of why valence is endogenous, and neither appears in the original."
     }
   ],
   "summary": {

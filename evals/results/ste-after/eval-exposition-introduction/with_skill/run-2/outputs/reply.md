@@ -1,51 +1,44 @@
-### 1. Diagnosis
+## Diagnosis
 
-**Your question:** The opening is clear for your stated audience (empirical economists and IS researchers). It assumes too much for a general Management Science reader. Three things carry most of that.
+**Is it clear enough for a general Management Science reader? It assumes too much.** Empirical economists and IS researchers would follow the endogeneity framing and the terms "exogenous variation" and "quasi-random conditional on covariates". A general reader would stall in four places, and jargon density isn't the cause:
 
-- **Undefined objects.** The passage never names the outcome (sales). It also never defines valence, content moderation or review cohorts.
-- **The central step is asserted, not shown.** The reader is told that unequal moderation gives "quasi-random assignment". Nothing says why moderation would be unrelated to unobserved quality, and the whole paper rests on that.
-- **Identification shorthand.** "Exogenous variation" and "quasi-random assignment conditional on observed covariates" are used without explanation, and they sit in mild tension with each other.
+- **The outcome is never named.** "The effect" has no referent, because the passage never says what valence affects.
+- **"Content moderation" and "review cohorts" are undefined.**
+- **The step from unequal moderation to quasi-random assignment is asserted, not explained.**
+- **The prior instrumental-variable approaches are unnamed.**
 
-I fixed what the text supports: the missing outcome, the order of the argument, and sentence-level problems. The rest is in Author questions, because I can't supply it without drafting new content.
+The reviser fixed what the page supports. The rest needs your input (see the questions below).
 
 Other findings:
-- **Out-of-order spine.** The tension (instrumental variables of questionable validity) came last, after the finding, so it read as an afterthought. I moved it before your solution.
-- **Opening sentence.** It was a nominalization that never stated the research question.
-- **Sentence-level problems.** "Leverage" is a banned verb. "We leverage the fact that" repeated "We exploit" from the sentence before. "Which generates" had no clear antecedent.
-- **Unsupported assertions.** "Well-known" and "questionable validity" carry no citation or specific instance in this passage.
+- **Terminology drift.** Sentence 2 describes variation across platforms. Sentence 3 describes variation across review cohorts. The text also calls the variation "exogenous" in one place and "quasi-random conditional on covariates" in another. These may be two sources and two claims, so I preserved them as written.
+- **Unsupported superiority claim.** "Improves upon prior approaches" has no named approach and no citation.
+- **No handle.** Your thesis phrase "unequal moderation" doesn't appear in the passage.
+- **Hedges.** There are none to cut. "Conditional on observed covariates" is a scope limit, so it stays.
 
-### 2. Revised text
+## Revised text
 
 ```
-Estimating the causal effect of a review's valence on sales is difficult because valence is endogenous to unobserved product quality, a well-known obstacle to identification in this literature. Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches by exploiting platform-level heterogeneity in content moderation as a source of exogenous variation. Specifically, platforms apply moderation policies differently to different review cohorts, and, conditional on observed covariates, this difference generates quasi-random assignment. Using a dataset of 3.4 million reviews, we estimate this effect and find it positive and significant.
+Review valence is endogenous with respect to unobserved product quality, a well-known obstacle to identification in the literature on the effect of review valence on sales. We exploit platform-level heterogeneity in content moderation as a source of exogenous variation. Platforms apply moderation policies differentially across review cohorts, and this variation generates quasi-random assignment conditional on observed covariates. Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity. Using a dataset of 3.4 million reviews, we estimate the effect and find it to be positive and significant.
 ```
 
-### 3. Change rationale
+## Change rationale
 
-Word count: about 90 before and after.
+The word count is essentially flat (about 90 words before and after). No number, statistic, or citation was touched.
 
-References loaded: principles.md, edit-checks.md, structural-patterns.md, exposition.md, altitude.md, precision-budget.md, narrative-spine.md, reader-pleasure.md, sentence-patterns.md, subtraction.md, ai-tells-to-avoid.md, copyediting.md. All were kept and none was skipped.
+- **Sentence 1.** The subject is now "review valence" instead of a nominalization. "This literature" had nothing before it to refer to, so it now names the literature. That also gives "the effect" in the last sentence a referent. I took "sales" from your `core_thesis`, so please confirm it.
+- **Sentence 3.** The ambiguous "which" now has an antecedent ("this variation"). I cut "leverage" and the throat-clearing "Specifically, … the fact that".
+- **Order.** I swapped the last two sentences, both verbatim. The strategy comparison now follows the description of the strategy, and the result closes the paragraph. This changes your closing emphasis, so it is the edit most worth checking.
+- **Kept deliberately.** "Conditional on observed covariates", "differentially", "3.4 million", and "positive and significant".
 
-- **Sentence 1:** The nominalization became a predicate adjective, and the question now comes before the machinery. "Sales" and "causal" come from your `core_thesis`, so please confirm them.
-- **Reorder:** The instrumental-variable contrast moved ahead of your strategy, which gives the paragraph a "but, therefore" spine. The improvement claim is kept, and you can revert the order if you prefer the original emphasis.
-- **"We exploit" sentence:** It is now joined to the contrast it answers, with its wording unchanged.
-- **"Specifically" sentence:**
-  - "We leverage the fact that" is cut.
-  - "Which" became "this difference".
-  - "Differentially ... across" became "differently to different".
-  - The claim that platforms apply policies unequally is kept as a plain assertion.
-- **Last sentence:** "This effect" now has a referent, and "to be" is dropped. "Significant" is left as written.
-- **Protected material:** No number, statistic or citation was changed. "3.4 million" is untouched, and the section contained no citations.
+## Author questions
 
-### 4. Author questions
-
-- Are the outcome "sales" and the framing "causal effect of a review's valence" correct? Your section names neither, so I added both from `core_thesis`.
-- Is "valence" the star rating, text sentiment, or something else? Should one clause define it?
-- What does "content moderation" consist of (removal, delay, flagging, something else)? What is a "review cohort" (time window, product category, platform)?
-- Why does unequal moderation make assignment quasi-random? What makes moderation unrelated to unobserved product quality? One sentence on this is what a general reader most needs.
-- Is the claim exogeneity or conditional independence? What is assigned, and to what?
-- Are "platform-level heterogeneity" and moderation "across review cohorts" the same construct, or is one variation between platforms and the other within a platform?
-- What makes the prior instruments "of questionable validity"? Should they be named or cited? Is "well-known obstacle" supported by a citation elsewhere in the introduction?
-- Does "significant" mean statistical significance? Should a magnitude appear here?
-- Does the Methods section state the full identification argument? It was outside my scope, so I couldn't check it. Without it, the introduction's claims are unsupported.
-- Are you comfortable with the reorder?
+1. Is the outcome sales and the treatment review valence, as in your thesis? Is valence a rating, a sentiment score, or something else?
+2. What does moderation do to a review (removal, delay, down-ranking, flagging)? What is a "review cohort" (by time, rating, product, or something else)? One sentence each would help a non-specialist.
+3. Which units are quasi-randomly assigned to what? Why is unequal moderation unrelated to unobserved quality, given that endogeneity with respect to quality is the stated obstacle? Should the intro give a one-sentence reason?
+4. Is the variation across platforms, across cohorts within platforms, or both? Are "exogenous variation" and "quasi-random assignment conditional on covariates" the same claim?
+5. Which prior IV approaches do you mean, and why is their validity questionable? Should the claim be argued or cited here? The reviser could not add or alter citations.
+6. Is the sentence swap acceptable, or do you prefer your original closing?
+7. Does "significant" mean statistically significant? Can the intro give the direction plus a magnitude from your results?
+8. Is "unequal moderation" the phrase you want readers to carry away? If so, should it be used consistently in the intro?
+9. Do the body sections fully support the "exogenous", "quasi-random", and superiority claims? I haven't seen those sections.
+10. Would a concrete example fit, such as one moderated and one unmoderated review of comparable products?

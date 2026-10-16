@@ -216,7 +216,7 @@ Writers drop small words to save space: the conjunction "that", an article, a re
 | Prior work assumes the labels reflect the construct. | Prior work assumes that the labels reflect the construct. |
 | Model trained on the full corpus outperforms baseline. | The model trained on the full corpus outperforms the baseline. |
 
-Diagnostic: after each reporting verb, check whether the noun phrase that follows could be its object ("found the effect"). If it could, and a verb follows that makes it the subject of a new clause instead, restore "that". Restore a dropped article in running prose (the third row); captions, table headers, and figure labels may stay telegraphic when the venue's convention is telegraphic. Short objects that cannot mislead ("We found it was small") need no "that".
+Diagnostic: after each reporting verb, check whether the noun phrase that follows could be its object ("found the effect"). If it could, and a verb follows that makes it the subject of a new clause instead, restore "that". Restore a dropped article in running prose, but the choice between "the" and "a" says which thing is meant, so take it from the context: the third row assumes the paper has already introduced one model and one baseline, and when the context does not settle which article is meant, ask in `Author questions` instead of choosing; captions, table headers, and figure labels may stay telegraphic when the venue's convention is telegraphic. Short objects that cannot mislead ("We found it was small") need no "that".
 
 ## Wordiness compounds
 
@@ -300,10 +300,10 @@ Note: the banned-transition list in `references/ai-tells-to-avoid.md` is the can
 
 | Before | After |
 |---|---|
-| Accuracy rose to 91%, with recall on rare classes falling to 40%. | Accuracy rose to 91%, but recall on rare classes fell to 40%. |
+| Accuracy rose to 91%, with recall on rare classes falling to 40%. | Accuracy rose to 91%. Recall on rare classes fell to 40%. (Flag: are these a trade-off, or independent?) |
 | Turnout fell in rural districts, with polling places closing in 30 counties. | Turnout fell in rural districts. Polling places closed in 30 counties. (Flag: are the closures in those districts, and do they explain the fall?) |
 
-Diagnostic: for each "with" followed by a noun and an "-ing" or past-participle verb, name the relation (contrast, cause, place, time, manner) and use the word that states it. The license is the same as for "Accumulation instead of argument" below: make explicit only a relation the author's text supports. In the first row the contrast is in the facts themselves (one rate rose, the other fell), so "but" adds nothing the sentence did not say. In the second row the text supports no relation: "because" would add a causal claim and "where" a claim about location, since the 30 counties may lie partly outside the rural districts. When no relation is supported, keep the two facts as two sentences and ask the author in `Author questions` which relation they mean. "With" in its plain senses ("trained with dropout", "participants with a degree") is fine.
+Diagnostic: for each "with" followed by a noun and an "-ing" or past-participle verb, name the relation (contrast, cause, place, time, manner) and use the word that states it. The license is the same as for "Accumulation instead of argument" below: make explicit only a relation the author's text supports. Two numbers moving in opposite directions do not by themselves make a contrast: in the first row "but" would present the recall drop as a trade-off against the accuracy gain, which is a claim about the result, so it needs the paper to say so. In the second row the text likewise supports no relation: "because" would add a causal claim and "where" a claim about location, since the 30 counties may lie partly outside the rural districts. When no relation is supported, keep the two facts as two sentences and ask the author in `Author questions` which relation they mean. "With" in its plain senses ("trained with dropout", "participants with a degree") is fine.
 
 ## Accumulation instead of argument
 

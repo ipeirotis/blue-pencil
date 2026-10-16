@@ -1,50 +1,47 @@
-## 1. Diagnosis
+## Diagnosis
 
-**Short answer:** It's mostly clear to empirical economists and IS researchers, but it assumes too much in four places:
-- The effect is never named. "Sales" appears only in your thesis, not in the passage.
-- Content moderation is never explained.
-- The step from unequal moderation to variation in valence is skipped.
-- The contrast with prior work names no alternative.
+**Is it clear enough for a general Management Science reader?** The vocabulary suits your stated audience of empirical economists and IS researchers. The problem is missing objects, not hard words. The passage assumes four things the reader doesn't have:
 
-Other issues:
-- **Definition debt (S1, S4):** S4 says "the effect," but S1 never names an effect or an outcome. I used "sales" from your thesis. Please confirm it.
-- **Compressed inference (S2, S3):** The passage jumps from "platforms moderate differently" to "quasi-random assignment." A non-specialist can't rebuild the step, and the passage doesn't supply it, so it's an author question.
-- **Possible logic gap (S1 vs S3):** S1 names *unobserved* quality as the obstacle, but S3 claims quasi-random assignment *conditional on observed covariates*. A reviewer will ask why conditioning on observables handles unobserved quality. I kept the qualifier because it is the identifying condition.
-- **Level inconsistency (S2 vs S3):** S2 says "platform-level" heterogeneity, but S3 says variation "across review cohorts." Those are different sources of variation, and the text doesn't say which one you mean.
-- **Expert-only contrast (S5):** "Instrumental variables of questionable validity" names no approach and has no citation. I left the sentence verbatim.
-- **Result (S4):** It gives direction and significance but no magnitude. The dataset's source isn't named.
-- **Sentence level:** S1 is a nominalization that puts the machinery before the question. "Leverage" is on the banned-verb list. In S3, "which generates" can attach to "cohorts."
+- **The outcome is never named.** Only the paper context says "sales".
+- **The effect of moderation is never described.** The reader isn't told what moderation does to a review.
+- **"Assignment" has no object.** The text never says what is assigned.
+- **"Review cohorts" is undefined.** "Valence" is never glossed either.
 
-I couldn't check the Methods and Results sections because they weren't supplied.
+A reader who knows instrumental-variable (IV) methods but not your setting can't rebuild why unequal moderation is exogenous. In sentence 4, "the effect" has no referent. Your core idea, that platforms moderate reviews unequally, appears only in abstract form and never in plain words.
 
-## 2. Revised text
+Other findings:
+- **Order:** the prior-work contrast came after the result, so the paragraph ended on a comparison instead of its finding.
+- **Result:** the result has a sign but no magnitude. "Significant" could mean statistical or economic.
+- **Prior work:** the contrast with earlier IV approaches is uncited and doesn't say which instruments you mean.
+- **Sentence level:** "leverage", "Specifically," and an ambiguous "which" in sentence 3.
+- **Hedges:** none to classify. "Conditional on observed covariates" is a scope condition, so it stays.
+
+## Revised text
 
 ```
-The effect of review valence on sales is hard to identify because valence is endogenous to unobserved product quality, a well-known obstacle in this literature. We exploit differences in content moderation across platforms as a source of exogenous variation. Specifically, we use the fact that platforms apply moderation policies differently across review cohorts. This difference generates quasi-random assignment conditional on observed covariates. Using a dataset of 3.4 million reviews, we estimate the effect of review valence on sales and find it to be positive and significant. Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity.
+Identifying the causal effect of review valence on sales is difficult because valence is endogenous with respect to unobserved product quality, a well-known obstacle in this literature. We exploit platform-level heterogeneity in content moderation as a source of exogenous variation. Platforms apply moderation policies differently across review cohorts, and conditional on observed covariates this generates quasi-random assignment. Our identification strategy improves upon prior approaches that rely on instrumental variables of questionable validity. Using a dataset of 3.4 million reviews, we estimate a positive and significant effect of review valence on sales.
 ```
 
-## 3. Change rationale
+## Change rationale
 
-Length goes from about 90 to about 100 words (+11%). The additions are the missing outcome ("on sales," twice) and one sentence split.
+The text grows from about 90 to about 95 words (+4%) because the first sentence now names the outcome and the question. References loaded: principles.md, edit-checks.md, structural-patterns.md, exposition.md, altitude.md, precision-budget.md, narrative-spine.md, reader-pleasure.md, sentence-patterns.md, subtraction.md, ai-tells-to-avoid.md, copyediting.md. All eleven passes applied.
 
-References loaded: principles.md, edit-checks.md, structural-patterns.md, exposition.md, altitude.md, precision-budget.md, narrative-spine.md, reader-pleasure.md, sentence-patterns.md, subtraction.md, ai-tells-to-avoid.md, copyediting.md. No pass was gated off. `cold-read.md` and `consistency-checks.md` are whole-paper passes and were not loaded.
+- **Sentence 1:** it now names the question (the causal effect of valence on sales) before the obstacle, which gives "the effect" a referent. "Sales" and "causal" come from your core thesis, so please confirm them. "Well-known" and the claim are unchanged.
+- **Sentence 2:** unchanged. These are your terms of art, and the sentence states the strategy plainly.
+- **Sentence 3:** "Specifically, we leverage the fact that platforms differentially apply… which generates" became "Platforms apply moderation policies differently across review cohorts, and conditional on observed covariates this generates quasi-random assignment." This drops the filler, removes the ambiguous "which", and keeps every qualifier.
+- **Prior-work sentence:** moved ahead of the result so the paragraph ends on its finding. The text is unchanged.
+- **Result sentence:** it now names the effect and puts "sales" in the stress position. "Significant" is kept as you wrote it.
+- **Untouched:** the 3.4 million figure and the sentence on instrumental variables. No number, statistic or citation was changed, and none was added.
 
-- **S1:** "The effect of review valence on sales is hard to identify because valence is endogenous to unobserved product quality…" puts the question first and names the missing object. "Unobserved" and "well-known" are kept.
-- **S2:** "differences in content moderation across platforms" replaces the abstract "platform-level heterogeneity."
-- **S3:** "leverage" becomes "use," and the sentence is split so "this difference" fixes the referent. The quasi-random and conditional-on-observed-covariates claim is carried over verbatim.
-- **S4:** "the effect" becomes "the effect of review valence on sales," because two sentences about moderation had intervened.
-- **S5:** Unchanged. It already ends on the contribution claim, and its gaps are substance rather than wording.
-- **Numbers and claims:** "3.4 million" and "positive and significant" are verbatim. The passage had no citations, and I added none.
+## Author questions
 
-## 4. Author questions
-
-- Is the outcome "sales," as your thesis says? The pasted text never named it.
-- What does moderation do to a review (removal, down-ranking, delayed display)? How does unequal moderation turn into variation in valence? I did not supply that step.
-- What licenses quasi-random assignment conditional on *observed* covariates when the obstacle is *unobserved* quality? Do you want a one-clause pointer to where the paper argues it?
-- Is the variation across platforms, across cohorts within a platform, or both? The two sentences should use one level or say how they relate.
-- Should "valence" be glossed as star rating, text sentiment, or both?
-- Which prior IV approaches do you mean, and why is their validity questionable? Should the sentence carry one or two citations?
-- Can the opening report a magnitude next to "positive and significant"? Is "significant" statistical significance, and at what level? Any change here is a numerical claim for you to decide.
-- Which platforms, products, and period make up the 3.4 million reviews?
-- Do you want a named handle for the idea, such as "unequal moderation" from your thesis? I did not invent one.
-- Where in Methods and Results are the identifying assumptions and full specification stated?
+- **Outcome and framing:** is sales the outcome and "causal" the intended framing? I took both from your core thesis.
+- **Valence:** how is it measured (star rating, text sentiment, something else)? A few words of gloss at first use would help readers outside the review literature.
+- **Moderation and assignment:** what does moderation do to a review (remove, delay, hide, reorder)? What exactly is "assigned" in "quasi-random assignment": moderation, exposure to a review, or valence?
+- **Review cohorts:** what is a cohort? Does the exogenous variation come from differences across platforms, from differences across cohorts within a platform, or both?
+- **Scope of "exogenous":** is the claim unconditional, or only conditional on observed covariates as sentence 3 says? If the latter, should sentence 2 be softened to match?
+- **Identification logic:** why does unequal moderation yield quasi-random assignment? One sentence drawn from your Methods section would let a non-specialist follow. The Methods section was out of scope, so I couldn't check it against the introduction's claims.
+- **Result:** can you add a magnitude? Does "significant" mean statistically significant, economically significant, or both? Which platform or platforms supply the 3.4 million reviews?
+- **Prior IV approaches:** which ones do you mean, and why is their validity questionable? A referee may probe this uncited claim. Does "improves upon" mean you avoid instruments altogether, or use better ones?
+- **Takeaway phrase:** what phrase should readers carry away? "Unequal moderation", from your thesis, would work, but I didn't invent a slogan.
+- **"This literature":** which literature is meant, given that the opening hasn't named one yet?

@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: The revision adds an outcome variable (sales) the original never specified. It also turns a restrictive clause about which prior approaches it improves on into a blanket statement about all prior approaches. The description of the moderation-based identification and the 3.4 million review result is otherwise preserved."
+      "evidence": "verdict=changed: The sentence reordering and the merged clauses keep the meaning. The revision adds a claim the original does not make: that the literature, and so the estimated effect, concerns review valence on sales."
     }
   ],
   "summary": {

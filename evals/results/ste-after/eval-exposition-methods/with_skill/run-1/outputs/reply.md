@@ -1,54 +1,54 @@
 ## Diagnosis
 
-Assumed context: none. The dispatch and `AGENTS.md` supply all four fields (audience: quantitative marketing researchers; revision_stage: first draft; target_venue: Journal of Marketing Research; core_thesis: staggered rollout of a loyalty program identifies the effect on repeat purchase without a clean control group). The thesis-dependent check is limited to this paragraph's local job, because the unit is one Methods paragraph.
+Assumed context: none. `AGENTS.md` supplies all four fields: audience is quantitative marketing researchers, stage is `first draft`, venue is Journal of Marketing Research, and the core thesis is the staggered-rollout identification claim. The section is a single methods paragraph, labelled [P1].
 
-Voice tics: first-person plural "we" with active verbs; short declarative sentences; "alongside" and "to address" as the author's own connectives; terms of art kept in full ("two-way fixed effects", "Callaway and Sant'Anna estimator"); no hedging.
+Voice tics: first-person plural ("We estimate", "we report"); short declarative sentences that name the specification piece by piece; spelled-out "two-way fixed effects" and "Callaway and Sant'Anna"; serial commas; the author's own terms of art ("coefficient of interest", "never-treated", "not-yet-treated").
 
-Reader map: starts as a trained marketing-methods reader who knows fixed effects but not staggered-adoption estimators. The reader must learn that rollout on different dates is why this design uses particular control stores and a second estimator. They should leave understanding that the two-way fixed effects estimate is reported next to the Callaway and Sant'Anna estimate because treatment timing varies.
+Reader map: starts with [a quantitative marketing researcher who knows two-way fixed effects and clustering but not staggered-adoption estimators]; must learn [the staggered rollout supplies the control stores, and a second estimator is reported because treatment timing differs across stores]; should leave with [how the effect is identified and why two estimators appear].
 
-Jargon to unpack [P1]: "never-treated" and "not-yet-treated" stores (glossed from the author's own terms). "Heterogeneity in treatment timing" cannot be unpacked from the manuscript, so it goes to Author questions.
+Jargon to unpack [P1]: "never-treated" and "not-yet-treated" stores; "heterogeneity in treatment timing", which has no visible link to the rollout; "staggered", which this paragraph never names.
 
-Buried lede [P1]: the staggered rollout. It appears in the fourth sentence, after the model, controls, and coefficient.
+Buried lede [P1]: the rollout dates differ across stores, and that is where the control stores come from. The paragraph states it in its last sentence, after the model machinery.
 
-Concrete anchor [P1]: the loyalty-program rollout to stores on different dates, already in the paragraph. It becomes the opening and carries the control-group definitions.
+Concrete anchor [P1]: the stores' different rollout dates, which are already in the paragraph.
 
-1. [P1] Machinery before motive. The reader meets the fixed-effects specification, the covariates, and the coefficient before learning that rollout dates differ. Fix: open with the rollout, using only the author's own fact.
-2. [P1] Definition debt. "Never-treated" and "not-yet-treated" are used as controls with no statement of who they are. Fix: gloss each from the author's own terms.
-3. [P1] One word, two senses. "Controls" means control stores in sentence 4 and covariates in sentence 2. Fix: "control stores" for the stores; "controls for" stays for covariates.
-4. [P1] Compressed inference. The paragraph never says why staggered timing creates a problem for the two-way fixed effects estimate, or what the Callaway and Sant'Anna estimator does differently. That bridge is not on the page, so I did not write it (see Author questions).
-5. [P1] The "coefficient of interest" is named without saying what it measures or which outcome it is for. The outcome is not stated in the paragraph, so this goes to Author questions.
-6. [P1] One topic per sentence. The final sentence packs the rollout reason, the control-group choice, the second estimator, and its purpose. Fix: split these across sentences.
-7. [P1] Payoff. The paragraph ends mid-procedure. Fix: end on the author's own purpose clause, with the Callaway and Sant'Anna sentence last.
+1. [P1] Machinery before motive. The model, controls, and coefficient arrive before the reader learns the design that makes the comparison possible. Sentences 1 to 3 read as a specification list.
+2. [P1] Definition debt. "Never-treated" and "not-yet-treated" are used without a plain statement of what separates the two kinds of control store, and the rollout is never named as staggered.
+3. [P1] One topic per sentence. The 43-word final sentence carries the reason for the rollout, the choice of controls, and the second estimator.
+4. [P1] Word sense. "Controls" means control stores in the last sentence and covariates in sentence 2.
+5. [P1] Compressed inference. A reader new to staggered designs cannot tell why different treatment dates call for a second estimator next to two-way fixed effects. The manuscript does not say, so this goes to Author questions.
+6. [P1] The "coefficient of interest" is not tied to any outcome or interpretation, and the two indicators are undefined for a staggered setting. The material is absent, so this goes to Author questions.
 
 ## Revised text
 
 ```
-The loyalty program was rolled out to stores on different dates. At a given date, some stores had not yet received the program, and others never did; we use both groups as control stores. We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level. The specification includes controls for foot traffic, local unemployment, and promotional intensity. The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator. We report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate, to address heterogeneity in treatment timing.
+The loyalty program was rolled out to stores on different dates (a staggered rollout). We therefore use two kinds of control stores: never-treated stores, which never received the program, and not-yet-treated stores, which had not yet received it. We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level. The specification includes controls for foot traffic, local unemployment, and promotional intensity. The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator. We report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.
 ```
 
 Added bridges: None.
 
 ## Change rationale
 
-Word count: ~90 to ~100 (+11%). The growth comes from two short glosses on the control groups and the split of the old final sentence. Each addition restates the author's own terms and adds no new claim.
+Word count: ~90 to ~110 (+20%).
+The paragraph grew because it now labels the staggered rollout and glosses the two kinds of control store. Both additions answer the non-specialist request and use only the paragraph's own material.
 
-References loaded: principles.md, edit-checks.md, structural-patterns.md, exposition.md, altitude.md, narrative-spine.md, reader-pleasure.md, sentence-patterns.md, subtraction.md, ai-tells-to-avoid.md, copyediting.md. Skipped: precision-budget.md (not an abstract, introduction, or contribution paragraph, and no hedge was added or removed in the high-cost zone). cold-read.md and consistency-checks.md drive whole-paper passes and are not part of this per-section sweep.
+References loaded: principles.md, edit-checks.md, structural-patterns.md, exposition.md, altitude.md, narrative-spine.md, reader-pleasure.md, sentence-patterns.md, subtraction.md, ai-tells-to-avoid.md, copyediting.md. Skipped: precision-budget.md, because this is a methods paragraph, not an abstract, introduction, or contribution paragraph, and no hedge was added or removed. cold-read.md and consistency-checks.md belong to other dispatches. Altitude: the machinery already sits in its home section, so nothing was relocated.
 
-- The "Because the loyalty program was rolled out to stores on different dates" clause moved to the opening as its own sentence. This puts the buried lede first.
-- "we use the never-treated and not-yet-treated stores as controls" became "At a given date, some stores had not yet received the program, and others never did; we use both groups as control stores." This defines the two terms from the author's wording and gives "controls" a single sense (stores).
-- The model, covariates, and coefficient sentences are kept verbatim and in order. They were fine, so the original wording stays.
-- The old four-part final sentence is now separate sentences for the control stores and for the Callaway and Sant'Anna estimator.
-- The causal "because" link from rollout dates to the choice of control stores is now carried by adjacency. This is a logged loss, and Author questions asks whether the "because" should return.
-- The Callaway and Sant'Anna sentence keeps its original words and now closes the paragraph, so it ends on its purpose and not on procedure.
-- No numbers, statistics, or citations appear in the passage, and none were changed. Terms of art and the estimator name are unchanged.
+- "Because the loyalty program was rolled out to stores on different dates" (end of sentence 4) → its own opening sentence, with "(a staggered rollout)" added. This puts the question before the machinery, brings the buried lede forward, and names the design at first use.
+- "we use the never-treated and not-yet-treated stores as controls" → "We therefore use two kinds of control stores: never-treated stores, which never received the program, and not-yet-treated stores, which had not yet received it." This defines both terms at first use. "Therefore" keeps the author's "because" link, so the rollout dates hand the control group to the next sentence.
+- "as controls" → "control stores". The word now has one sense, because "controls for foot traffic" keeps the covariate sense.
+- "and we report the Callaway and Sant'Anna estimator ..." → a separate final sentence. Each sentence now has one topic, and the paragraph ends on "treatment timing", which echoes the opening rollout dates.
+- "Because ... different dates" repeated before the final clause → not repeated. The reason is stated once, as the say-it-once rule requires.
+- Sentences 2 and 3 are unchanged; the model, covariate, and coefficient sentences have no safe improvement available. Sentence 1 changed only in position.
+- Nothing was deleted. No number, statistic, or citation was touched, and the order of the estimators' names is preserved.
 
 ## Author questions
 
-- Your paragraph never says why staggered rollout is a problem for the two-way fixed effects estimate. Do you want one sentence stating that problem, in your own words, so a reader new to staggered designs sees why the second estimator is needed?
-- The paragraph does not say what the Callaway and Sant'Anna estimator does differently, and it carries no citation. Should a one-line description and the reference go here, or do they live elsewhere in the manuscript?
-- Does the coefficient on the interaction measure the loyalty program's effect on repeat purchase? The outcome variable is not named in this paragraph. Would you like it stated at "The coefficient of interest"?
-- How are the "post-rollout indicator" and the "treatment indicator" defined under staggered timing (for example, is the post indicator store-specific, and does the treatment indicator mark ever-treated stores)? A reader outside staggered designs will need this, and I could not supply it from the text.
-- Does my gloss match your definitions: "not-yet-treated" as stores that had not yet received the program at a given date, and "never-treated" as stores that never receive it?
-- Is the never-treated and not-yet-treated control group used for both estimators, or only for the Callaway and Sant'Anna estimator? Your original sentence could be read either way, and the revision keeps that ambiguity.
-- Should the causal "Because ... different dates" link between the rollout and the choice of control stores return as an explicit connective? I replaced it with sentence adjacency.
-- Is "control stores" (for the comparison stores) acceptable next to "controls" for the covariates elsewhere in the manuscript, or do you prefer another term for the stores?
+- Is "staggered rollout" the term the paper uses elsewhere for this design, and is it defined earlier in the manuscript?
+- Are my glosses right: "never received the program" for never-treated and "had not yet received it" for not-yet-treated? Is "not yet" measured against each treated store's treatment date, or against each week?
+- Do both estimators (two-way fixed effects and Callaway and Sant'Anna) use the never-treated and not-yet-treated stores as controls? The original sentence left this open, and my reordering places the control sentence before both.
+- Can you add one sentence on why different treatment dates call for a second estimator next to two-way fixed effects? A reader new to staggered designs cannot infer this, and I cannot supply it without asserting methodology the manuscript does not contain.
+- Should the paragraph name the outcome (repeat purchase, per your core thesis) and say that the interaction coefficient is the estimated effect of the program on that outcome? Neither is in the paragraph now.
+- Should the post-rollout indicator and the treatment indicator be defined in one clause each? Is the post-rollout indicator store-specific, taking the value 1 after that store's own rollout date?
+- Is Callaway and Sant'Anna cited elsewhere in the paper? I added no citation.
+- I changed "controls" to "control stores" in the second sentence so it does not collide with "controls for foot traffic". Do you want both uses to keep the single word "controls"?

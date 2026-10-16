@@ -8,308 +8,540 @@
         "A": "before",
         "B": "after",
         "winner": "before",
-        "parsed": {
-          "reasoning": "Both versions name the estimand (valence on sales) early, which the original did not. A opens with the research task as its subject ('Estimating the effect... runs into'), so the problem is easier to grasp than in B's long nominalized subject. A also orders the argument as problem, then weak prior fixes, then our improvement. B places its improvement claim between the mechanism and the data, which breaks the line from identification to estimation. A is slightly tighter ('find it positive'). B is more precise in places: 'differentially apply' is the standard econometric term, and 'this variation generates quasi-random assignment' names the source of identification more exactly than A's 'this difference generates'. Both registers suit empirical economists. Overall, A reads better.",
-          "dimensions": {
-            "clarity": "A",
-            "concision": "A",
-            "flow": "A",
-            "precision": "B",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions open with the identification problem and move the prior-approaches critique ahead of the contribution, which is a structural gain over the original. A is tighter. It folds the improvement claim into the sentence that introduces the strategy ('We improve on these approaches by exploiting...'). B states the contrast ('We instead exploit') and then repeats it later in a standalone sentence ('Our identification strategy improves upon these prior approaches'). That sentence is redundant and interrupts the step from mechanism to results. B also adds a sentence explaining why valence is endogenous. That helps a lay reader, but this expert audience already knows it, and it largely restates the preceding clause. A also says exactly which effect is estimated ('effect of valence on sales'), where B says only 'the effect'. A drops the filler 'to be'. B's 'unequally' carries a faint normative tone, while A's 'differently' is neutral.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "A",
+              "flow": "A",
+              "precision": "A",
+              "audience_fit": "A"
+            },
+            "evidence": {
+              "clarity": "A: 'We improve on these approaches by exploiting platform-level heterogeneity' vs B: 'We instead exploit... Our identification strategy improves upon these prior approaches.' (contribution split across two places)",
+              "concision": "A: 'and find it positive and significant' vs B: 'How positive or negative a product's reviews are reflects that quality, which also shapes sales.' plus 'find it to be positive and significant'",
+              "flow": "A: '...quasi-random assignment conditional on observed covariates. Using a dataset of 3.4 million reviews' vs B: '...generates quasi-random assignment. Our identification strategy improves upon these prior approaches. Using a dataset'",
+              "precision": "A: 'we estimate the effect of valence on sales' vs B: 'we estimate the effect'",
+              "audience_fit": "A: 'valence is endogenous with respect to unobserved product quality. Prior approaches rely on...' vs B: 'How positive or negative a product's reviews are reflects that quality, which also shapes sales.' (explains a concept this audience already knows)"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "clarity": "A: 'Estimating the effect of review valence on sales runs into a well-known obstacle' vs B: 'In research on the effect of review valence on sales, the endogeneity of valence with respect to unobserved product quality is a well-known obstacle'",
-            "concision": "A: 'find it positive and significant' vs B: 'find it to be positive and significant'",
-            "flow": "A: 'Prior approaches rely on instrumental variables of questionable validity. We improve on these approaches by exploiting...' vs B: '...conditional on observed covariates. Our identification strategy improves upon prior approaches... Using a dataset...'",
-            "precision": "A: 'apply their moderation policies differently... this difference generates' vs B: 'differentially apply moderation policies... this variation generates'"
+          "key": "4feac53836ed217d",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0380152
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions open with the identification problem and move the prior-approaches critique ahead of the contribution, which is a structural gain over the original. A is tighter. It folds the improvement claim into the sentence that introduces the strategy ('We improve on these approaches by exploiting...'). B states the contrast ('We instead exploit') and then repeats it later in a standalone sentence ('Our identification strategy improves upon these prior approaches'). That sentence is redundant and interrupts the step from mechanism to results. B also adds a sentence explaining why valence is endogenous. That helps a lay reader, but this expert audience already knows it, and it largely restates the preceding clause. A also says exactly which effect is estimated ('effect of valence on sales'), where B says only 'the effect'. A drops the filler 'to be'. B's 'unequally' carries a faint normative tone, while A's 'differently' is neutral.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'We improve on these approaches by exploiting platform-level heterogeneity' vs B: 'We instead exploit... Our identification strategy improves upon these prior approaches.' (contribution split across two places)\",\n    \"concision\": \"A: 'and find it positive and significant' vs B: 'How positive or negative a product's reviews are reflects that quality, which also shapes sales.' plus 'find it to be positive and significant'\",\n    \"flow\": \"A: '...quasi-random assignment conditional on observed covariates. Using a dataset of 3.4 million reviews' vs B: '...generates quasi-random assignment. Our identification strategy improves upon these prior approaches. Using a dataset'\",\n    \"precision\": \"A: 'we estimate the effect of valence on sales' vs B: 'we estimate the effect'\",\n    \"audience_fit\": \"A: 'valence is endogenous with respect to unobserved product quality. Prior approaches rely on...' vs B: 'How positive or negative a product's reviews are reflects that quality, which also shapes sales.' (explains a concept this audience already knows)\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.028384399999999997,
+          "seconds": 14.7,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "after",
         "B": "before",
         "winner": "before",
-        "parsed": {
-          "reasoning": "Version B opens with the estimand and the obstacle together ('Estimating the effect of review valence on sales runs into...'), so the research question is clear from the start. It then moves logically from prior approaches, to the improvement, to the mechanism, to the result. Version A places the claim of improving on prior IVs between the mechanism and the results, where it interrupts the progression from design to findings. B is slightly tighter ('find it positive' vs 'find it to be positive'). On precision, A's 'In research on the effect of review valence on sales' gives a clear antecedent, while B's 'in this literature' is left dangling with nothing to refer back to. Both use a register suited to empirical economists and IS researchers.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "B",
-            "flow": "B",
-            "precision": "A",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions open the same way, stating the estimand and the endogeneity problem. Version B then moves straight to prior approaches and folds its claim to improve on them into the sentence that introduces the strategy. Version A adds a sentence explaining why valence is endogenous, which this audience already knows. It also places 'Our identification strategy improves upon these prior approaches' after the mechanism, far from the prior approaches it refers to, which breaks the logical sequence. B is tighter and connects ideas more directly. B also names the estimate exactly ('effect of valence on sales'), while A leaves it vague ('the effect'). A's 'this unequal application' is slightly sharper than B's 'this difference', but B is more precise overall. A's extra exposition reads as slightly over-explained for empirical economists and IS researchers.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "B",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "B"
+            },
+            "evidence": {
+              "clarity": "A: 'Our identification strategy improves upon these prior approaches.' (contribution separated from the method) vs B: 'We improve on these approaches by exploiting platform-level heterogeneity' (contribution and method stated together)",
+              "concision": "A: 'How positive or negative a product's reviews are reflects that quality, which also shapes sales.' plus a separate improvement sentence vs B: omits both and merges the claim into 'We improve on these approaches by exploiting...'",
+              "flow": "A: 'this unequal application generates quasi-random assignment. Our identification strategy improves upon these prior approaches.' (jumps back to prior work) vs B: 'Prior approaches rely on instrumental variables of questionable validity. We improve on these approaches by...'",
+              "precision": "A: 'we estimate the effect and find it to be positive' vs B: 'we estimate the effect of valence on sales and find it positive'",
+              "audience_fit": "A: 'How positive or negative a product's reviews are reflects that quality, which also shapes sales.' (explains a familiar concept) vs B: 'valence is endogenous with respect to unobserved product quality.' (trusts the reader)"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'In research on the effect of review valence on sales, the endogeneity of valence...' vs B: 'Estimating the effect of review valence on sales runs into a well-known obstacle'",
-            "concision": "A: 'find it to be positive and significant' vs B: 'find it positive and significant'",
-            "flow": "A: 'Our identification strategy improves upon prior approaches...' placed after the mechanism vs B: 'Prior approaches rely on instrumental variables of questionable validity. We improve on these approaches by exploiting...'",
-            "precision": "A: 'In research on the effect of review valence on sales' vs B: 'a well-known obstacle to identification in this literature' (no antecedent for 'this literature')"
+          "key": "8b31f26b54993e30",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0358312
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions open the same way, stating the estimand and the endogeneity problem. Version B then moves straight to prior approaches and folds its claim to improve on them into the sentence that introduces the strategy. Version A adds a sentence explaining why valence is endogenous, which this audience already knows. It also places 'Our identification strategy improves upon these prior approaches' after the mechanism, far from the prior approaches it refers to, which breaks the logical sequence. B is tighter and connects ideas more directly. B also names the estimate exactly ('effect of valence on sales'), while A leaves it vague ('the effect'). A's 'this unequal application' is slightly sharper than B's 'this difference', but B is more precise overall. A's extra exposition reads as slightly over-explained for empirical economists and IS researchers.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Our identification strategy improves upon these prior approaches.' (contribution separated from the method) vs B: 'We improve on these approaches by exploiting platform-level heterogeneity' (contribution and method stated together)\",\n    \"concision\": \"A: 'How positive or negative a product's reviews are reflects that quality, which also shapes sales.' plus a separate improvement sentence vs B: omits both and merges the claim into 'We improve on these approaches by exploiting...'\",\n    \"flow\": \"A: 'this unequal application generates quasi-random assignment. Our identification strategy improves upon these prior approaches.' (jumps back to prior work) vs B: 'Prior approaches rely on instrumental variables of questionable validity. We improve on these approaches by...'\",\n    \"precision\": \"A: 'we estimate the effect and find it to be positive' vs B: 'we estimate the effect of valence on sales and find it positive'\",\n    \"audience_fit\": \"A: 'How positive or negative a product's reviews are reflects that quality, which also shapes sales.' (explains a familiar concept) vs B: 'valence is endogenous with respect to unobserved product quality.' (trusts the reader)\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.029408400000000005,
+          "seconds": 16.5,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
   {
     "case": "exposition-introduction",
     "run": 2,
-    "consolidated": "after",
+    "consolidated": "before",
     "orders": [
       {
         "A": "before",
         "B": "after",
-        "winner": "after",
-        "parsed": {
-          "reasoning": "Version B restructures the passage around the research question. It names the estimand up front (the effect of valence on sales) and moves the critique of prior IV approaches before the contribution, so 'improves upon these approaches' leads naturally into the identification strategy. Version A keeps the original order. It adds a useful link ('We address this obstacle') and makes the result more exact ('statistically significant effect of review valence on sales'), but it still ends on a tacked-on comparison with prior work. A is slightly tighter and more exact in wording. B's 'differently to different review cohorts' is clunky, and B keeps 'Specifically'. B wins on clarity and flow, which matter most in a first draft where structural change is welcome. Register suits the audience equally in both.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "A",
-            "flow": "B",
-            "precision": "A",
-            "audience_fit": "tie"
+        "winner": "before",
+        "grader": {
+          "parsed": {
+            "reasoning": "Version B opens more directly, with an active subject-verb claim, and names the research question (the effect of review valence on sales) in its first sentence, so a reader finds the point sooner. Its first sentence is long, though. Version A's second sentence, 'We address this obstacle by exploiting', ties the design to the problem it solves, which gives A the better flow. A also states the finding more exactly ('a positive and statistically significant effect of review valence on sales') and more economically than B's 'estimate the effect and find it to be positive and significant'. B moves the claim of improvement over prior work ahead of the result, which adds little. Both use a register suited to empirical economists and IS researchers.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "A",
+              "flow": "A",
+              "precision": "A",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle' vs B: 'Review valence is endogenous ... in the literature on the effect of review valence on sales'",
+              "concision": "A: 'we estimate a positive and statistically significant effect' vs B: 'we estimate the effect and find it to be positive and significant'",
+              "flow": "A: 'We address this obstacle by exploiting platform-level heterogeneity' vs B: 'We exploit platform-level heterogeneity'",
+              "precision": "A: 'statistically significant effect of review valence on sales' vs B: 'find it to be positive and significant'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "clarity": "A: 'The endogeneity of review valence with respect to unobserved product quality' (estimand not stated until the end) vs B: 'Estimating the causal effect of a review's valence on sales is difficult because\u2026'",
-            "concision": "A: 'Platforms apply their moderation policies unequally across review cohorts' vs B: 'Specifically, platforms apply moderation policies differently to different review cohorts'",
-            "flow": "A: 'Our identification strategy improves upon prior approaches\u2026' (appended at end) vs B: 'Prior approaches rely on\u2026 Our identification strategy improves upon these approaches by exploiting\u2026'",
-            "precision": "A: 'a positive and statistically significant effect of review valence on sales' vs B: 'differently to different review cohorts' / 'find it positive and significant'"
+          "key": "d801a271abe4ac0e",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0385872
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Version B opens more directly, with an active subject-verb claim, and names the research question (the effect of review valence on sales) in its first sentence, so a reader finds the point sooner. Its first sentence is long, though. Version A's second sentence, 'We address this obstacle by exploiting', ties the design to the problem it solves, which gives A the better flow. A also states the finding more exactly ('a positive and statistically significant effect of review valence on sales') and more economically than B's 'estimate the effect and find it to be positive and significant'. B moves the claim of improvement over prior work ahead of the result, which adds little. Both use a register suited to empirical economists and IS researchers.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle' vs B: 'Review valence is endogenous ... in the literature on the effect of review valence on sales'\",\n    \"concision\": \"A: 'we estimate a positive and statistically significant effect' vs B: 'we estimate the effect and find it to be positive and significant'\",\n    \"flow\": \"A: 'We address this obstacle by exploiting platform-level heterogeneity' vs B: 'We exploit platform-level heterogeneity'\",\n    \"precision\": \"A: 'statistically significant effect of review valence on sales' vs B: 'find it to be positive and significant'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.0396232,
+          "seconds": 15.5,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "after",
         "B": "before",
-        "winner": "after",
-        "parsed": {
-          "reasoning": "Version A opens by naming the estimand ('causal effect of a review's valence on sales'), so the reader knows the research question before the identification problem. It then moves from problem to prior work to its own fix, which reads as a single argument. Version B keeps the original order and ends with the comparison to prior IVs, which feels tacked on. B is tighter in places: it drops 'Specifically' and avoids A's interrupted clause. B is also more exact at the result, stating 'statistically significant effect of review valence on sales' where A says 'this effect,' which points back several sentences. B's 'unequally,' however, carries a slight connotation of unfairness that A's 'differently' avoids. Both suit the audience. A's gains in clarity and flow outweigh B's edge in concision and precision.",
-          "dimensions": {
-            "clarity": "A",
-            "concision": "B",
-            "flow": "A",
-            "precision": "B",
-            "audience_fit": "tie"
+        "winner": "before",
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions keep the original's structure largely intact. Version B's main gain is in the finding sentence: it names the effect as 'a positive and statistically significant effect of review valence on sales', while A leaves the result as the vague 'the effect'. A defines the literature in its first sentence instead. A also moves the methodological claim ahead of the result, so the paper's finding sits last, and it drops the explicit link from obstacle to solution. B ties obstacle to solution with 'We address this obstacle by', which improves flow. A does turn the nominalized opener into a direct clause ('Review valence is endogenous'), but it adds words elsewhere, so concision roughly balances out. B's 'unequally' is slightly looser than A's 'differentially', but B's precise statement of the effect outweighs this. Register suits the audience in both.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "tie",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'we estimate the effect and find it to be positive and significant' (placed last) vs B: 'we estimate a positive and statistically significant effect of review valence on sales'",
+              "flow": "A: 'We exploit platform-level heterogeneity' vs B: 'We address this obstacle by exploiting platform-level heterogeneity'",
+              "precision": "A: 'find it to be positive and significant' vs B: 'positive and statistically significant effect of review valence on sales'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'Estimating the causal effect of a review's valence on sales is difficult because...' vs B: 'The endogeneity of review valence with respect to unobserved product quality is...'",
-            "concision": "A: 'and, conditional on observed covariates, this difference generates quasi-random assignment' vs B: 'and this generates quasi-random assignment conditional on observed covariates'",
-            "flow": "A: 'Prior approaches rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches by exploiting...' vs B: 'Our identification strategy improves upon prior approaches...' (final sentence, detached from the method)",
-            "precision": "A: 'we estimate this effect and find it positive and significant' vs B: 'we estimate a positive and statistically significant effect of review valence on sales'"
+          "key": "3a33371a2fed0bef",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0397672
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions keep the original's structure largely intact. Version B's main gain is in the finding sentence: it names the effect as 'a positive and statistically significant effect of review valence on sales', while A leaves the result as the vague 'the effect'. A defines the literature in its first sentence instead. A also moves the methodological claim ahead of the result, so the paper's finding sits last, and it drops the explicit link from obstacle to solution. B ties obstacle to solution with 'We address this obstacle by', which improves flow. A does turn the nominalized opener into a direct clause ('Review valence is endogenous'), but it adds words elsewhere, so concision roughly balances out. B's 'unequally' is slightly looser than A's 'differentially', but B's precise statement of the effect outweighs this. Register suits the audience in both.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"tie\",\n    \"flow\": \"B\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'we estimate the effect and find it to be positive and significant' (placed last) vs B: 'we estimate a positive and statistically significant effect of review valence on sales'\",\n    \"flow\": \"A: 'We exploit platform-level heterogeneity' vs B: 'We address this obstacle by exploiting platform-level heterogeneity'\",\n    \"precision\": \"A: 'find it to be positive and significant' vs B: 'positive and statistically significant effect of review valence on sales'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0362592,
+          "seconds": 12.7,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
   {
     "case": "exposition-introduction",
     "run": 3,
-    "consolidated": "before",
+    "consolidated": "after",
     "orders": [
       {
         "A": "after",
         "B": "before",
-        "winner": "before",
-        "parsed": {
-          "reasoning": "Version A names the estimand in its first sentence ('effect of review valence on sales'), so the point is found sooner. Version B delays the outcome variable to the last sentence. B is tighter, though. It folds the contribution claim into the strategy sentence and drops the filler 'Specifically, we use the fact that'. B also links its ideas causally: the strategy beats prior IVs because it exploits moderation, and the variation arises because of unequal application. A strings together short declaratives, and its 'This difference' has a vague referent. On precision, B's 'statistically significant' is more exact than A's 'significant'. B's 'unequally' is slightly less apt than A's 'differently', so B's edge there is modest. Both versions suit an empirical economics and IS audience.",
-          "dimensions": {
-            "clarity": "A",
-            "concision": "B",
-            "flow": "B",
-            "precision": "B",
-            "audience_fit": "tie"
+        "winner": "after",
+        "grader": {
+          "parsed": {
+            "reasoning": "Clarity: A names the research question in its opening clause ('the causal effect of review valence on sales'). B opens with the endogeneity problem and does not mention sales until the last sentence. Concision: the two versions are about the same length. A's longer first sentence is offset by B's connective 'The variation arises because', so this is a tie. Flow: B links the contribution claim to the mechanism with a colon and then explains where the variation comes from. A drops the 'improves upon prior approaches' sentence between the mechanism and the result, which breaks the sequence. Precision: B's 'statistically significant' is more exact, but its 'unequally' wrongly suggests unfairness where A's 'differently' is accurate. This is a tie. Audience fit: both use standard econometrics register, so this is a tie. Overall, A's up-front statement of the estimand matters most for this audience, and it outweighs B's smoother middle.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "tie",
+              "flow": "B",
+              "precision": "tie",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'Identifying the causal effect of review valence on sales is difficult' vs B: 'Review valence is endogenous to unobserved product quality'",
+              "flow": "A: 'Our identification strategy improves upon prior approaches... Using a dataset' vs B: 'questionable validity: it exploits platform-level heterogeneity... The variation arises because'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "clarity": "A: 'The effect of review valence on sales is hard to identify because...' vs B: 'Review valence is endogenous to unobserved product quality' (outcome not named until the final sentence)",
-            "concision": "A: 'Specifically, we use the fact that platforms apply moderation policies differently across review cohorts. This difference generates...' vs B: 'The variation arises because platforms apply moderation policies unequally across review cohorts; conditional on observed covariates, this generates...'",
-            "flow": "A: 'This difference generates quasi-random assignment' (choppy, vague referent) vs B: 'improves upon prior approaches ... : it exploits platform-level heterogeneity'",
-            "precision": "A: 'find it to be positive and significant' vs B: 'find it positive and statistically significant'"
+          "key": "8c62b267ff589498",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0398152
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Clarity: A names the research question in its opening clause ('the causal effect of review valence on sales'). B opens with the endogeneity problem and does not mention sales until the last sentence. Concision: the two versions are about the same length. A's longer first sentence is offset by B's connective 'The variation arises because', so this is a tie. Flow: B links the contribution claim to the mechanism with a colon and then explains where the variation comes from. A drops the 'improves upon prior approaches' sentence between the mechanism and the result, which breaks the sequence. Precision: B's 'statistically significant' is more exact, but its 'unequally' wrongly suggests unfairness where A's 'differently' is accurate. This is a tie. Audience fit: both use standard econometrics register, so this is a tie. Overall, A's up-front statement of the estimand matters most for this audience, and it outweighs B's smoother middle.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"tie\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Identifying the causal effect of review valence on sales is difficult' vs B: 'Review valence is endogenous to unobserved product quality'\",\n    \"flow\": \"A: 'Our identification strategy improves upon prior approaches... Using a dataset' vs B: 'questionable validity: it exploits platform-level heterogeneity... The variation arises because'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.0409312,
+          "seconds": 15.1,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "before",
         "B": "after",
-        "winner": "before",
-        "parsed": {
-          "reasoning": "Version B states the research question (the effect of review valence on sales) in its first sentence, so the reader learns the target early. Version A withholds the outcome until the last sentence, though it does lead with the contribution. A is tighter: it merges the 'Specifically...' and 'This difference generates...' sentences and drops filler like 'to be'. A also connects ideas better. Its colon ties the improvement claim directly to the strategy, and 'The variation arises because' links back to the previous sentence. B instead ends on a contribution sentence that feels detached. On precision, A's 'statistically significant' is more exact than B's bare 'significant', although A's 'unequally' carries a slight unwanted connotation. Both use a register suited to empirical economists and IS researchers.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "A",
-            "flow": "A",
-            "precision": "A",
-            "audience_fit": "tie"
+        "winner": "after",
+        "grader": {
+          "parsed": {
+            "reasoning": "Version B opens by naming the estimand (the effect of valence on sales) and then gives the endogeneity problem. A reader in this field learns the research question right away. Version A states the endogeneity problem without saying what effect is at stake, and the outcome (sales) appears only in the last sentence. On flow, A connects ideas better. Its colon ties the claim of improvement directly to the strategy, and 'The variation arises because' links the mechanism to the preceding sentence. B places its 'improves upon' sentence after the mechanism, which interrupts the path from design to data. A is also slightly shorter for nearly the same content. On precision the two balance out. A's 'statistically significant' is more exact, but 'unequally' hints at unfairness where 'differently' is neutral, and B's 'estimate a positive and significant effect' is tighter. Both registers suit empirical economists. Overall, B's clear statement of the research question up front matters more than A's modest gains in flow and concision.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "A",
+              "flow": "A",
+              "precision": "tie",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'Review valence is endogenous to unobserved product quality' (sales not mentioned until the end) vs B: 'Identifying the causal effect of review valence on sales is difficult because...'",
+              "concision": "A: 'Review valence is endogenous to unobserved product quality' vs B: 'Identifying the causal effect of review valence on sales is difficult because valence is endogenous with respect to unobserved product quality'",
+              "flow": "A: 'improves upon prior approaches...: it exploits platform-level heterogeneity' / 'The variation arises because' vs B: '...generates quasi-random assignment. Our identification strategy improves upon prior approaches'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'Review valence is endogenous to unobserved product quality' (outcome not named until the end) vs B: 'The effect of review valence on sales is hard to identify because...'",
-            "concision": "A: 'conditional on observed covariates, this generates quasi-random assignment' vs B: 'Specifically, we use the fact that... This difference generates quasi-random assignment...'",
-            "flow": "A: 'improves upon prior approaches...: it exploits platform-level heterogeneity' vs B: '...positive and significant. Our identification strategy improves upon prior approaches...'",
-            "precision": "A: 'positive and statistically significant' vs B: 'find it to be positive and significant'"
+          "key": "47c9a9698747e4b3",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0376712
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Version B opens by naming the estimand (the effect of valence on sales) and then gives the endogeneity problem. A reader in this field learns the research question right away. Version A states the endogeneity problem without saying what effect is at stake, and the outcome (sales) appears only in the last sentence. On flow, A connects ideas better. Its colon ties the claim of improvement directly to the strategy, and 'The variation arises because' links the mechanism to the preceding sentence. B places its 'improves upon' sentence after the mechanism, which interrupts the path from design to data. A is also slightly shorter for nearly the same content. On precision the two balance out. A's 'statistically significant' is more exact, but 'unequally' hints at unfairness where 'differently' is neutral, and B's 'estimate a positive and significant effect' is tighter. Both registers suit empirical economists. Overall, B's clear statement of the research question up front matters more than A's modest gains in flow and concision.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"A\",\n    \"precision\": \"tie\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Review valence is endogenous to unobserved product quality' (sales not mentioned until the end) vs B: 'Identifying the causal effect of review valence on sales is difficult because...'\",\n    \"concision\": \"A: 'Review valence is endogenous to unobserved product quality' vs B: 'Identifying the causal effect of review valence on sales is difficult because valence is endogenous with respect to unobserved product quality'\",\n    \"flow\": \"A: 'improves upon prior approaches...: it exploits platform-level heterogeneity' / 'The variation arises because' vs B: '...generates quasi-random assignment. Our identification strategy improves upon prior approaches'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0515352,
+          "seconds": 18.8,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
   {
     "case": "exposition-methods",
     "run": 1,
-    "consolidated": "tie",
+    "consolidated": "after",
     "orders": [
       {
         "A": "before",
         "B": "after",
         "winner": "after",
-        "parsed": {
-          "reasoning": "Both versions move the staggered-rollout motivation to the front, which helps the reader see why the control groups matter before the specification details. A defines the two control groups with their standard technical labels, which is precise for this audience. However, A then glosses 'heterogeneity in treatment timing' as 'the different dates on which stores received the program,' which repeats its opening sentence and over-explains a concept quantitative marketers know well. B splits the long opening into shorter sentences and avoids that repetition, so it reads more cleanly and economically. But B drops the field terms 'never-treated' and 'not-yet-treated' in favor of a plain paraphrase. It also places an unnecessary comma before 'to address.' A is more precise. Both over-explain in different ways for an expert audience, so audience fit is roughly even. On balance, B's cleaner structure and lack of redundancy outweigh A's terminological precision.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "B",
-            "flow": "B",
-            "precision": "A",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions move the staggered-rollout rationale to the front and gloss the two control groups, so clarity is close. B splits the opening into two sentences joined by 'therefore', names the design with the field's standard term ('staggered rollout'), and drops the redundant closing gloss. A ends by re-explaining 'heterogeneity in treatment timing', which only restates its first sentence and talks down to quantitative marketing readers. A is more exact in one place: 'at the date in question' anchors not-yet-treated status to a point in time, while B's 'had not yet received it' leaves the reference time implicit. On balance B reads tighter and suits the audience better.",
+            "dimensions": {
+              "clarity": "tie",
+              "concision": "B",
+              "flow": "B",
+              "precision": "A",
+              "audience_fit": "B"
+            },
+            "evidence": {
+              "concision": "A: 'to address heterogeneity in treatment timing, that is, the different dates on which stores received the program' vs B: 'to address heterogeneity in treatment timing.'",
+              "flow": "A: 'Because the loyalty program was rolled out ... we use two kinds of control stores: never-treated stores, which ...' (one long sentence, plus a closing gloss that circles back) vs B: 'on different dates (a staggered rollout). We therefore use two kinds of control stores'",
+              "precision": "A: 'which have not yet received it at the date in question' vs B: 'which had not yet received it'",
+              "audience_fit": "A: 'that is, the different dates on which stores received the program' vs B: '(a staggered rollout)'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'we use two kinds of control stores: never-treated stores, which never receive the program, and not-yet-treated stores, which have not yet received it at the date in question' vs B: 'At a given date, some stores had not yet received the program, and others never did; we use both groups as control stores.'",
-            "concision": "A: 'to address heterogeneity in treatment timing, that is, the different dates on which stores received the program' vs B: 'to address heterogeneity in treatment timing'",
-            "flow": "A: ending gloss 'that is, the different dates on which stores received the program' circles back to the opening sentence vs B: 'The loyalty program was rolled out to stores on different dates.' stated once and built upon",
-            "precision": "A: 'never-treated stores ... and not-yet-treated stores' (standard terms) vs B: 'some stores had not yet received the program, and others never did' (terms dropped) and 'estimate, to address' (stray comma)"
+          "key": "205227354b601309",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0257422
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions move the staggered-rollout rationale to the front and gloss the two control groups, so clarity is close. B splits the opening into two sentences joined by 'therefore', names the design with the field's standard term ('staggered rollout'), and drops the redundant closing gloss. A ends by re-explaining 'heterogeneity in treatment timing', which only restates its first sentence and talks down to quantitative marketing readers. A is more exact in one place: 'at the date in question' anchors not-yet-treated status to a point in time, while B's 'had not yet received it' leaves the reference time implicit. On balance B reads tighter and suits the audience better.\",\n  \"dimensions\": {\n    \"clarity\": \"tie\",\n    \"concision\": \"B\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"concision\": \"A: 'to address heterogeneity in treatment timing, that is, the different dates on which stores received the program' vs B: 'to address heterogeneity in treatment timing.'\",\n    \"flow\": \"A: 'Because the loyalty program was rolled out ... we use two kinds of control stores: never-treated stores, which ...' (one long sentence, plus a closing gloss that circles back) vs B: 'on different dates (a staggered rollout). We therefore use two kinds of control stores'\",\n    \"precision\": \"A: 'which have not yet received it at the date in question' vs B: 'which had not yet received it'\",\n    \"audience_fit\": \"A: 'that is, the different dates on which stores received the program' vs B: '(a staggered rollout)'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0408592,
+          "seconds": 14.7,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "after",
         "B": "before",
-        "winner": "before",
-        "parsed": {
-          "reasoning": "Both versions open with the staggered rollout, which is the right structural move. B keeps the causal link ('Because ... we use') and names the two control groups with the field's standard terms, so the reader sees the design logic at once. A breaks that logic into two sentences and replaces the technical labels with a paraphrase ('some stores had not yet received the program, and others never did'). That paraphrase is readable, but it is less exact for readers who expect 'never-treated' and 'not-yet-treated.' A is tighter. B's closing gloss ('that is, the different dates on which stores received the program') repeats the first sentence, and its definitions of standard terms are unnecessary for quantitative marketing researchers. B over-explains and A under-labels, so on audience fit these roughly cancel. On balance, B's clearer design logic and exact terminology outweigh A's concision.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "A",
-            "flow": "B",
-            "precision": "B",
-            "audience_fit": "tie"
+        "winner": "after",
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions move the staggered-rollout rationale to the front and define the two control groups. Those definitions are somewhat redundant for quantitative marketing researchers. A names the design with the field's standard term, 'staggered rollout,' and avoids a further gloss. B ends by explaining 'heterogeneity in treatment timing,' which this audience already knows and which adds words without content. B has two real strengths. Its causal 'Because' clause joins rollout and control choice in one sentence, and 'also' links the Callaway and Sant'Anna estimator to the TWFE estimate. B's definition of not-yet-treated stores is also more exact, since 'at the date in question' captures the time-relative nature of the comparison. A is tighter and pitched better to experts, so it edges ahead overall.",
+            "dimensions": {
+              "clarity": "tie",
+              "concision": "A",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "A"
+            },
+            "evidence": {
+              "concision": "A: 'to address heterogeneity in treatment timing.' vs B: 'to address heterogeneity in treatment timing, that is, the different dates on which stores received the program.'",
+              "flow": "A: 'We report the Callaway and Sant'Anna estimator' vs B: 'We also report the Callaway and Sant'Anna estimator'",
+              "precision": "A: 'which had not yet received it' vs B: 'which have not yet received it at the date in question'",
+              "audience_fit": "A: 'on different dates (a staggered rollout)' vs B: 'that is, the different dates on which stores received the program'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "clarity": "A: 'some stores had not yet received the program, and others never did; we use both groups' vs B: 'we use two kinds of control stores: never-treated stores ... and not-yet-treated stores'",
-            "concision": "A: 'to address heterogeneity in treatment timing.' vs B: 'to address heterogeneity in treatment timing, that is, the different dates on which stores received the program'",
-            "flow": "A: 'The loyalty program was rolled out to stores on different dates. At a given date,' vs B: 'Because the loyalty program was rolled out to stores on different dates, we use'",
-            "precision": "A: 'others never did; we use both groups as control stores' vs B: 'never-treated stores, which never receive the program, and not-yet-treated stores'"
+          "key": "3fb8aa27e35b813b",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0434032
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions move the staggered-rollout rationale to the front and define the two control groups. Those definitions are somewhat redundant for quantitative marketing researchers. A names the design with the field's standard term, 'staggered rollout,' and avoids a further gloss. B ends by explaining 'heterogeneity in treatment timing,' which this audience already knows and which adds words without content. B has two real strengths. Its causal 'Because' clause joins rollout and control choice in one sentence, and 'also' links the Callaway and Sant'Anna estimator to the TWFE estimate. B's definition of not-yet-treated stores is also more exact, since 'at the date in question' captures the time-relative nature of the comparison. A is tighter and pitched better to experts, so it edges ahead overall.\",\n  \"dimensions\": {\"clarity\": \"tie\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"concision\": \"A: 'to address heterogeneity in treatment timing.' vs B: 'to address heterogeneity in treatment timing, that is, the different dates on which stores received the program.'\",\n    \"flow\": \"A: 'We report the Callaway and Sant'Anna estimator' vs B: 'We also report the Callaway and Sant'Anna estimator'\",\n    \"precision\": \"A: 'which had not yet received it' vs B: 'which have not yet received it at the date in question'\",\n    \"audience_fit\": \"A: 'on different dates (a staggered rollout)' vs B: 'that is, the different dates on which stores received the program'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.0402072,
+          "seconds": 15.1,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
   {
     "case": "exposition-methods",
     "run": 2,
-    "consolidated": "tie",
+    "consolidated": "before",
     "orders": [
       {
         "A": "after",
         "B": "before",
-        "winner": "tie",
-        "parsed": {
-          "reasoning": "Both versions make the same structural change: they move the staggered-rollout rationale and the control-group definition to the front, and the remaining sentences are nearly identical. Clarity: A fronts the purpose in the final sentence ('To address heterogeneity in treatment timing, we report...'), so the reader learns why the Callaway and Sant'Anna estimator appears before it is named; B leaves the purpose trailing. Concision: A merges the opening into one sentence ('so we use two kinds of control stores'), while B is tighter later ('controls for' vs 'includes controls for'), so the word savings roughly cancel. Flow: A's 'so' and B's 'therefore' link cause and consequence equally well. Precision: B's 'The specification controls for' is more direct than A's 'includes controls for'; A's 'kinds of control stores' and B's 'groups of stores as controls' are both acceptable. Audience fit: both use standard applied-econometrics register. The small advantages offset each other.",
-          "dimensions": {
-            "clarity": "A",
-            "concision": "tie",
-            "flow": "tie",
-            "precision": "B",
-            "audience_fit": "tie"
+        "winner": "before",
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions open with the staggered rollout, which motivates the design. Version A adds parenthetical glosses of standard terms (never-treated, post-rollout indicator, heterogeneity in treatment timing). Quantitative marketing researchers already know these terms, so the glosses lengthen the text without adding anything. A's final gloss also repeats the opening sentence. A uses 'also' in two consecutive sentences, which reads awkwardly. B states the same design more directly: it names the two control groups with a colon and appositive clauses, and it avoids redundancy. B is better on every dimension except flow, where its ordering is only slightly better.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "B",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "B"
+            },
+            "evidence": {
+              "clarity": "A: 'the never-treated stores (stores that never received the program) and the not-yet-treated stores (stores that had not yet received it)' vs B: 'two groups of stores as controls: never-treated stores, which never receive the program, and not-yet-treated stores'",
+              "concision": "A: 'to address heterogeneity in treatment timing, meaning that stores entered treatment on different dates' vs B: 'to address heterogeneity in treatment timing.'",
+              "flow": "A: 'The specification also adjusts for... We also report' vs B: 'The specification controls for... We report'",
+              "precision": "A: 'the post-rollout indicator (weeks after rollout) and the treatment indicator (stores that received the program)' vs B: 'the interaction between the post-rollout indicator and the treatment indicator'",
+              "audience_fit": "A: 'heterogeneity in treatment timing, meaning that stores entered treatment on different dates' vs B: 'heterogeneity in treatment timing'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator' vs B: 'We report the Callaway and Sant'Anna estimator ... to address heterogeneity in treatment timing'",
-            "precision": "A: 'The specification includes controls for foot traffic' vs B: 'The specification controls for foot traffic'"
+          "key": "3915e823caba5cf6",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "tie"
-        },
-        "cost_usd": 0.0401552
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions open with the staggered rollout, which motivates the design. Version A adds parenthetical glosses of standard terms (never-treated, post-rollout indicator, heterogeneity in treatment timing). Quantitative marketing researchers already know these terms, so the glosses lengthen the text without adding anything. A's final gloss also repeats the opening sentence. A uses 'also' in two consecutive sentences, which reads awkwardly. B states the same design more directly: it names the two control groups with a colon and appositive clauses, and it avoids redundancy. B is better on every dimension except flow, where its ordering is only slightly better.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'the never-treated stores (stores that never received the program) and the not-yet-treated stores (stores that had not yet received it)' vs B: 'two groups of stores as controls: never-treated stores, which never receive the program, and not-yet-treated stores'\",\n    \"concision\": \"A: 'to address heterogeneity in treatment timing, meaning that stores entered treatment on different dates' vs B: 'to address heterogeneity in treatment timing.'\",\n    \"flow\": \"A: 'The specification also adjusts for... We also report' vs B: 'The specification controls for... We report'\",\n    \"precision\": \"A: 'the post-rollout indicator (weeks after rollout) and the treatment indicator (stores that received the program)' vs B: 'the interaction between the post-rollout indicator and the treatment indicator'\",\n    \"audience_fit\": \"A: 'heterogeneity in treatment timing, meaning that stores entered treatment on different dates' vs B: 'heterogeneity in treatment timing'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0365192,
+          "seconds": 11.6,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "before",
         "B": "after",
-        "winner": "after",
-        "parsed": {
-          "reasoning": "Both versions make the same useful structural move: they put the staggered rollout first, which motivates the choice of control groups. The difference is mainly in the closing sentence. B fronts the purpose ('To address heterogeneity in treatment timing'), so the reader learns why the Callaway and Sant'Anna estimator appears before being told it is reported, and that phrase links back to the opening point about different rollout dates. A leaves the rationale trailing at the end. On concision the two roughly cancel out: B merges the first two sentences with 'so', while A trims 'includes controls for' to 'controls for'. Word choice and register are equivalent and suit quantitative marketing researchers.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "tie",
-            "flow": "B",
-            "precision": "tie",
-            "audience_fit": "tie"
+        "winner": "before",
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions open with the staggered rollout, which motivates the control-group choice. Version B adds parenthetical glosses ('weeks after rollout', 'stores that received the program') and a closing explanation of heterogeneity in treatment timing. Quantitative marketing researchers already know these terms. The closing explanation also repeats the first sentence. Version A keeps its definitions shorter and avoids B's 'also ... also' repetition, so it reads more tightly. Both versions place the Callaway and Sant'Anna sentence away from the timing motivation, so neither fully links the estimator to its rationale. Overall, A is leaner and better pitched to the audience.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "A",
+              "flow": "A",
+              "precision": "A",
+              "audience_fit": "A"
+            },
+            "evidence": {
+              "clarity": "A: 'The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.' vs B: 'the post-rollout indicator (weeks after rollout) and the treatment indicator (stores that received the program)'",
+              "concision": "A: 'to address heterogeneity in treatment timing.' vs B: 'to address heterogeneity in treatment timing, meaning that stores entered treatment on different dates.'",
+              "flow": "A: 'The specification controls for foot traffic...' vs B: 'The specification also adjusts for... We also report'",
+              "precision": "A: 'to address heterogeneity in treatment timing.' vs B: 'meaning that stores entered treatment on different dates' (restates the rollout fact rather than defining the estimation problem)",
+              "audience_fit": "A: 'the post-rollout indicator and the treatment indicator' vs B: 'the post-rollout indicator (weeks after rollout)'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "clarity": "A: 'We report the Callaway and Sant'Anna estimator ... to address heterogeneity in treatment timing' vs B: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator'",
-            "flow": "A: 'different dates. We therefore use two groups of stores as controls' vs B: 'different dates, so we use two kinds of control stores', with B's closing 'To address heterogeneity in treatment timing' tying back to the staggered rollout"
+          "key": "203b3e5136d7c8a8",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0378112
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions open with the staggered rollout, which motivates the control-group choice. Version B adds parenthetical glosses ('weeks after rollout', 'stores that received the program') and a closing explanation of heterogeneity in treatment timing. Quantitative marketing researchers already know these terms. The closing explanation also repeats the first sentence. Version A keeps its definitions shorter and avoids B's 'also ... also' repetition, so it reads more tightly. Both versions place the Callaway and Sant'Anna sentence away from the timing motivation, so neither fully links the estimator to its rationale. Overall, A is leaner and better pitched to the audience.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.' vs B: 'the post-rollout indicator (weeks after rollout) and the treatment indicator (stores that received the program)'\",\n    \"concision\": \"A: 'to address heterogeneity in treatment timing.' vs B: 'to address heterogeneity in treatment timing, meaning that stores entered treatment on different dates.'\",\n    \"flow\": \"A: 'The specification controls for foot traffic...' vs B: 'The specification also adjusts for... We also report'\",\n    \"precision\": \"A: 'to address heterogeneity in treatment timing.' vs B: 'meaning that stores entered treatment on different dates' (restates the rollout fact rather than defining the estimation problem)\",\n    \"audience_fit\": \"A: 'the post-rollout indicator and the treatment indicator' vs B: 'the post-rollout indicator (weeks after rollout)'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.0389352,
+          "seconds": 14.1,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
   {
     "case": "exposition-methods",
     "run": 3,
-    "consolidated": "tie",
+    "consolidated": "before",
     "orders": [
       {
         "A": "after",
         "B": "before",
         "winner": "before",
-        "parsed": {
-          "reasoning": "Both versions restructure the original the same way: rollout timing first, then the control group, the TWFE specification, and the Callaway\u2013Sant'Anna estimator. B motivates the control-group choice by stating its consequence ('no single date separates before from after'), so the 'therefore' follows from the content. A labels the design with a parenthetical '(a staggered rollout)' and then spends extra words on a 'two kinds of stores' frame and near-tautological definitions ('never-treated stores, which never receive the program'). B's definitions are tighter, and 'The model also controls for' is leaner than 'The specification includes controls for'. A's use of the term of art 'staggered rollout' suits quantitative marketing researchers, though as a parenthetical gloss it reads a bit textbook-like. Precision is comparable: both are grammatical and accurate. B reads better overall.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "B",
-            "flow": "B",
-            "precision": "tie",
-            "audience_fit": "A"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions move the staggered rollout to the front, which is a sound structural choice. B uses it better: it states the consequence ('no single date separates before from after') and goes straight to the control-group choice, so the motivation and the design decision sit together. A opens with the timing, then places three unrelated sentences before returning with 'Because of this timing'. That leaves the causal link far from its cause. A's opening clause, 'shapes how we estimate its effect', is vague where B's is concrete. A's parenthetical definitions of never-treated and not-yet-treated stores add words and explain terms that quantitative marketing researchers already know. B gives the terms only as short labels. B is tighter overall and reads more like a methods section written for specialists.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "B",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "B"
+            },
+            "evidence": {
+              "clarity": "A: 'this staggered timing shapes how we estimate its effect' vs B: 'so no single date separates before from after. We therefore use as control stores...'",
+              "concision": "A: 'never-treated stores (stores that never receive the program) and not-yet-treated stores (stores that receive it later than the week in question)' vs B: 'those that have not yet received the program (not-yet-treated) and those that never receive it (never-treated)'",
+              "flow": "A: 'Because of this timing, we use never-treated stores' (three sentences after the timing is introduced) vs B: 'We therefore use as control stores' (immediately after the timing sentence)",
+              "precision": "A: 'shapes how we estimate its effect' vs B: 'no single date separates before from after'",
+              "audience_fit": "A: '(stores that never receive the program)' vs B: '(never-treated)'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'on different dates (a staggered rollout). We therefore use two kinds of stores' vs B: 'on different dates, so no single date separates before from after. We therefore use'",
-            "concision": "A: 'never-treated stores, which never receive the program, and not-yet-treated stores, which have not yet received it at a given date' vs B: 'those that have not yet received the program (not-yet-treated) and those that never receive it (never-treated)'",
-            "flow": "A: '(a staggered rollout). We therefore use two kinds of stores' vs B: 'so no single date separates before from after. We therefore use as control stores'",
-            "audience_fit": "A: 'on different dates (a staggered rollout)' vs B: 'so no single date separates before from after'"
+          "key": "63a914ca947e3e74",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.040823200000000004
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions move the staggered rollout to the front, which is a sound structural choice. B uses it better: it states the consequence ('no single date separates before from after') and goes straight to the control-group choice, so the motivation and the design decision sit together. A opens with the timing, then places three unrelated sentences before returning with 'Because of this timing'. That leaves the causal link far from its cause. A's opening clause, 'shapes how we estimate its effect', is vague where B's is concrete. A's parenthetical definitions of never-treated and not-yet-treated stores add words and explain terms that quantitative marketing researchers already know. B gives the terms only as short labels. B is tighter overall and reads more like a methods section written for specialists.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"B\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'this staggered timing shapes how we estimate its effect' vs B: 'so no single date separates before from after. We therefore use as control stores...'\",\n    \"concision\": \"A: 'never-treated stores (stores that never receive the program) and not-yet-treated stores (stores that receive it later than the week in question)' vs B: 'those that have not yet received the program (not-yet-treated) and those that never receive it (never-treated)'\",\n    \"flow\": \"A: 'Because of this timing, we use never-treated stores' (three sentences after the timing is introduced) vs B: 'We therefore use as control stores' (immediately after the timing sentence)\",\n    \"precision\": \"A: 'shapes how we estimate its effect' vs B: 'no single date separates before from after'\",\n    \"audience_fit\": \"A: '(stores that never receive the program)' vs B: '(never-treated)'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.039047200000000004,
+          "seconds": 13.1,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "before",
         "B": "after",
-        "winner": "after",
-        "parsed": {
-          "reasoning": "Both versions make the same structural fix: they lead with the staggered rollout and the control-group choice, then the TWFE specification, then the Callaway-Sant'Anna estimator. A explains why the timing matters ('no single date separates before from after'), which gives the 'therefore' a real causal link. Its control sentence is shorter, though 'use as control stores those that' is slightly awkward. B names the design with the field's standard term ('staggered rollout'). Its definition of not-yet-treated stores is more exact ('at a given date'), which suits quantitative marketing readers who expect that vocabulary. A's motivating clause, while clear, reads a little elementary for this audience. A wins on flow and concision; B wins on precision and audience fit. B edges ahead overall because exact terminology matters most in a methods paragraph for this venue.",
-          "dimensions": {
-            "clarity": "tie",
-            "concision": "A",
-            "flow": "A",
-            "precision": "B",
-            "audience_fit": "B"
+        "winner": "before",
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions move the staggered rollout to the front, which helps. Version A follows that point straight away with its consequence, the choice of control stores, and then gives the specification. Version B opens with a vague signpost, then three sentences about the specification, and only then returns to the timing with 'Because of this timing,' a reference that is now three sentences away. So A connects its ideas through content, and B relies on a distant back-reference. A is also tighter. B defines not-yet-treated stores more exactly, relative to the week in question, but its opening sentence 'shapes how we estimate its effect' says little. On precision, A's slightly awkward 'use as control stores those that' roughly balances B's exact definition against its vague opener. Both registers suit quantitative marketing researchers, and both gloss the control-group terms in similar ways.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "A",
+              "flow": "A",
+              "precision": "tie",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'so no single date separates before from after. We therefore use as control stores...' vs B: 'this staggered timing shapes how we estimate its effect' (the consequence is deferred to the fifth sentence)",
+              "concision": "A: 'those that have not yet received the program (not-yet-treated)' vs B: 'not-yet-treated stores (stores that receive it later than the week in question) as control stores'",
+              "flow": "A: 'We therefore use as control stores' (directly follows the timing point) vs B: 'Because of this timing, we use never-treated stores' (refers back across three intervening sentences)"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "concision": "A: 'The model also controls for foot traffic' vs B: 'The specification includes controls for foot traffic'",
-            "flow": "A: 'so no single date separates before from after. We therefore use' vs B: 'on different dates (a staggered rollout). We therefore use'",
-            "precision": "A: 'those that have not yet received the program (not-yet-treated)' vs B: 'not-yet-treated stores, which have not yet received it at a given date'",
-            "audience_fit": "A: 'no single date separates before from after' vs B: '(a staggered rollout)'"
+          "key": "326456ebfa1db9df",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0400872
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions move the staggered rollout to the front, which helps. Version A follows that point straight away with its consequence, the choice of control stores, and then gives the specification. Version B opens with a vague signpost, then three sentences about the specification, and only then returns to the timing with 'Because of this timing,' a reference that is now three sentences away. So A connects its ideas through content, and B relies on a distant back-reference. A is also tighter. B defines not-yet-treated stores more exactly, relative to the week in question, but its opening sentence 'shapes how we estimate its effect' says little. On precision, A's slightly awkward 'use as control stores those that' roughly balances B's exact definition against its vague opener. Both registers suit quantitative marketing researchers, and both gloss the control-group terms in similar ways.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'so no single date separates before from after. We therefore use as control stores...' vs B: 'this staggered timing shapes how we estimate its effect' (the consequence is deferred to the fifth sentence)\",\n    \"concision\": \"A: 'those that have not yet received the program (not-yet-treated)' vs B: 'not-yet-treated stores (stores that receive it later than the week in question) as control stores'\",\n    \"flow\": \"A: 'We therefore use as control stores' (directly follows the timing point) vs B: 'Because of this timing, we use never-treated stores' (refers back across three intervening sentences)\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.0382472,
+          "seconds": 14.5,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
@@ -322,44 +554,84 @@
         "A": "after",
         "B": "before",
         "winner": "after",
-        "parsed": {
-          "reasoning": "Both versions merge the column 2 and column 3 results into one sentence, which improves on the original. Version A does this cleanly with 'once product fixed effects are added'. Version B says the coefficient 'remains 0.15', which is inaccurate because the estimate falls from 0.18. B also adds 'By comparison' before star rating, but the sentence draws no actual comparison, so the connector does no work. B's ending on R-squared after the significance statement is defensible, but A's pairing of star rating with R-squared is equally clear. Both use standard econometric register, though B's 'coefficient on' is slightly more idiomatic. Overall A is tighter and more accurate.",
-          "dimensions": {
-            "clarity": "tie",
-            "concision": "A",
-            "flow": "A",
-            "precision": "A",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "The two versions are identical apart from two edits. Version A says the coefficient 'falls to 0.15 ... once product fixed effects are added'. That verb matches the move from 0.18 to 0.15, and the clause is grammatical. Version B says it 'remains 0.15', which misdescribes a change as stability. Its participial phrase 'after adding product fixed effects' also has no clear agent. B then adds 'By comparison' before the star-rating coefficient. That connector implies a contrast the passage never develops, since star rating is a control and not a comparison point for the disclosure effect. Version A shows how the estimate moves across columns without that connector. Length differs by only two words, so A's concision edge is slight and comes from dropping a transition that does no work. Register is the same in both, but B's 'remains' would read oddly to empirical IS researchers checking the numbers against the table.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "A",
+              "flow": "A",
+              "precision": "A",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'falls to 0.15 (SE = 0.05) in column 3' vs B: 'remains 0.15 (SE = 0.05) in column 3'",
+              "concision": "A: 'The coefficient on star rating is 0.42' vs B: 'By comparison, the coefficient on star rating is 0.42'",
+              "flow": "A: 'The coefficient on star rating is 0.42 (SE = 0.02)' vs B: 'By comparison, the coefficient on star rating'",
+              "precision": "A: 'falls to 0.15 ... once product fixed effects are added' vs B: 'remains 0.15 ... after adding product fixed effects'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "concision": "A: 'and 0.15 (SE = 0.05) in column 3 once product fixed effects are added' vs B: 'and remains 0.15 (SE = 0.05) in column 3, after adding product fixed effects'; B also adds 'By comparison,'",
-            "flow": "A: 'Star rating has a coefficient of 0.42' vs B: 'By comparison, the coefficient on star rating is 0.42' (the connector names a comparison the sentence never makes)",
-            "precision": "A: '0.18 ... and 0.15 ... once product fixed effects are added' vs B: 'remains 0.15' (the value changes from 0.18, so 'remains' misdescribes it)"
+          "key": "4f7a33ba88d3e7d0",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0360752
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"The two versions are identical apart from two edits. Version A says the coefficient 'falls to 0.15 ... once product fixed effects are added'. That verb matches the move from 0.18 to 0.15, and the clause is grammatical. Version B says it 'remains 0.15', which misdescribes a change as stability. Its participial phrase 'after adding product fixed effects' also has no clear agent. B then adds 'By comparison' before the star-rating coefficient. That connector implies a contrast the passage never develops, since star rating is a control and not a comparison point for the disclosure effect. Version A shows how the estimate moves across columns without that connector. Length differs by only two words, so A's concision edge is slight and comes from dropping a transition that does no work. Register is the same in both, but B's 'remains' would read oddly to empirical IS researchers checking the numbers against the table.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'falls to 0.15 (SE = 0.05) in column 3' vs B: 'remains 0.15 (SE = 0.05) in column 3'\",\n    \"concision\": \"A: 'The coefficient on star rating is 0.42' vs B: 'By comparison, the coefficient on star rating is 0.42'\",\n    \"flow\": \"A: 'The coefficient on star rating is 0.42 (SE = 0.02)' vs B: 'By comparison, the coefficient on star rating'\",\n    \"precision\": \"A: 'falls to 0.15 ... once product fixed effects are added' vs B: 'remains 0.15 ... after adding product fixed effects'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.035639199999999996,
+          "seconds": 12.0,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "before",
         "B": "after",
         "winner": "after",
-        "parsed": {
-          "reasoning": "Both versions merge the original's choppy opening into one sentence, and they are close in length. A's 'remains 0.15' suggests the estimate is unchanged when it actually falls from 0.18. A's 'By comparison' signals a contrast the passage never draws. A also ends on R-squared after the significance statement, so the final sentence trails. B links the column 3 estimate with 'once product fixed effects are added' and pairs the star-rating result with the R-squared trend. It then closes on significance, which reads more naturally. Clarity, concision, and register are essentially equal.",
-          "dimensions": {
-            "clarity": "tie",
-            "concision": "tie",
-            "flow": "B",
-            "precision": "B",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "The two versions are nearly identical. Both open with the main result and restructure the original the same way, so clarity is a tie. The differences are two phrases. A says the coefficient 'remains 0.15' after moving from 0.18. 'Remains' implies no change, which is the wrong word for a drop. B's 'falls to 0.15 ... once product fixed effects are added' is exact and links the change to its cause. A also adds 'By comparison' before the star-rating coefficient. That connective sets up a comparison the passage never develops, and comparing magnitudes across different regressors is not meaningful here. B omits it, so it is slightly shorter and reads more naturally. Register suits empirical IS researchers in both, so audience fit is a tie.",
+            "dimensions": {
+              "clarity": "tie",
+              "concision": "B",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "concision": "A: 'By comparison, the coefficient on star rating' vs B: 'The coefficient on star rating'",
+              "flow": "A: 'remains 0.15 (SE = 0.05) in column 3, after adding product fixed effects' vs B: 'falls to 0.15 (SE = 0.05) in column 3 once product fixed effects are added'",
+              "precision": "A: 'is 0.18 ... and remains 0.15' vs B: 'is 0.18 ... and falls to 0.15'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "flow": "A: 'By comparison, the coefficient on star rating... R-squared rises from 0.31 to 0.47 across the columns.' (final) vs B: 'Star rating has a coefficient of 0.42..., and R-squared rises from 0.31 to 0.47'",
-            "precision": "A: 'remains 0.15 (SE = 0.05) in column 3' vs B: 'and 0.15 (SE = 0.05) in column 3 once product fixed effects are added'"
+          "key": "800638484d46fa9d",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0333992
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"The two versions are nearly identical. Both open with the main result and restructure the original the same way, so clarity is a tie. The differences are two phrases. A says the coefficient 'remains 0.15' after moving from 0.18. 'Remains' implies no change, which is the wrong word for a drop. B's 'falls to 0.15 ... once product fixed effects are added' is exact and links the change to its cause. A also adds 'By comparison' before the star-rating coefficient. That connective sets up a comparison the passage never develops, and comparing magnitudes across different regressors is not meaningful here. B omits it, so it is slightly shorter and reads more naturally. Register suits empirical IS researchers in both, so audience fit is a tie.\",\n  \"dimensions\": {\n    \"clarity\": \"tie\",\n    \"concision\": \"B\",\n    \"flow\": \"B\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"concision\": \"A: 'By comparison, the coefficient on star rating' vs B: 'The coefficient on star rating'\",\n    \"flow\": \"A: 'remains 0.15 (SE = 0.05) in column 3, after adding product fixed effects' vs B: 'falls to 0.15 (SE = 0.05) in column 3 once product fixed effects are added'\",\n    \"precision\": \"A: 'is 0.18 ... and remains 0.15' vs B: 'is 0.18 ... and falls to 0.15'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0357392,
+          "seconds": 11.9,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
@@ -372,47 +644,82 @@
         "A": "after",
         "B": "before",
         "winner": "before",
-        "parsed": {
-          "reasoning": "Version B opens with the substantive finding (a positive coefficient that persists after fixed effects), so the reader knows the point before the numbers. Version A keeps the original's flat opener, 'Table 3 reports the estimates,' and lists coefficients without saying what they show. B also cuts that empty first sentence and joins the star-rating and R-squared sentences, which saves words. In B the numbers follow from the claim they support, while A only merges the column 2 and column 3 coefficients. Both versions are grammatical and precise. A's 'after product fixed effects are added,' placed after the column 3 figures, is slightly awkward but not wrong. Both suit an IS audience, and B's habit of leading with the result fits empirical results-writing a little better.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "B",
-            "flow": "B",
-            "precision": "tie",
-            "audience_fit": "B"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions merge the first three sentences of the original and keep the remaining content intact. B's opening sentence states the takeaway up front: the coefficient is positive and 'persists after product fixed effects are added'. A states that the coefficient is positive but leaves the robustness to an embedded clause. B also joins the star-rating and R-squared sentences, which removes one choppy break, although the two facts are only loosely related. Word counts are nearly identical. A's 'after adding product fixed effects' has an implied agent, but it is standard in this genre, so precision is a tie. Register suits empirical IS researchers in both.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "tie",
+              "flow": "B",
+              "precision": "tie",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'the coefficient on the identity-disclosed indicator is positive: 0.18 ... and, after adding product fixed effects, 0.15' vs B: 'a positive coefficient on the identity-disclosed indicator that persists after product fixed effects are added'",
+              "flow": "A: '...across all specifications. R-squared rises...' vs B: '...across all specifications, and R-squared rises...'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'Table 3 reports the estimates.' vs B: 'Table 3 reports a positive coefficient on the identity-disclosed indicator that persists after product fixed effects are added'",
-            "concision": "A: 'Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18' vs B: 'Table 3 reports a positive coefficient ... : 0.18 (SE = 0.04) in column 2'",
-            "flow": "A: 'The interaction ... in column 4. Across all specifications, the coefficient on star rating' vs B: 'that persists after product fixed effects are added: 0.18 ... and 0.15'",
-            "audience_fit": "A: 'Table 3 reports the estimates.' vs B: 'a positive coefficient ... that persists after product fixed effects are added'"
+          "key": "714a020b11b7e001",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0326032
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions merge the first three sentences of the original and keep the remaining content intact. B's opening sentence states the takeaway up front: the coefficient is positive and 'persists after product fixed effects are added'. A states that the coefficient is positive but leaves the robustness to an embedded clause. B also joins the star-rating and R-squared sentences, which removes one choppy break, although the two facts are only loosely related. Word counts are nearly identical. A's 'after adding product fixed effects' has an implied agent, but it is standard in this genre, so precision is a tie. Register suits empirical IS researchers in both.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"tie\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'the coefficient on the identity-disclosed indicator is positive: 0.18 ... and, after adding product fixed effects, 0.15' vs B: 'a positive coefficient on the identity-disclosed indicator that persists after product fixed effects are added'\",\n    \"flow\": \"A: '...across all specifications. R-squared rises...' vs B: '...across all specifications, and R-squared rises...'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0350832,
+          "seconds": 11.4,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "before",
         "B": "after",
         "winner": "before",
-        "parsed": {
-          "reasoning": "Version A replaces the empty opener 'Table 3 reports the estimates' with the main finding: the disclosure coefficient is positive and survives product fixed effects. Readers learn the point in the first sentence, and the two estimates appear as evidence for it. A also merges the star-rating and R-squared sentences, which removes a choppy break. Version B keeps the original's list-like structure, and its trailing 'after product fixed effects are added' attaches loosely: it could modify the whole clause or only column 3. Both versions use a register suited to empirical IS researchers.",
-          "dimensions": {
-            "clarity": "A",
-            "concision": "A",
-            "flow": "A",
-            "precision": "A",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions merge the first three sentences of the original. Version A leads with the finding: the disclosure coefficient is positive and survives fixed effects. That gives the reader the takeaway before the numbers. Version B says the coefficient is positive but tucks the fixed-effects robustness into a mid-sentence parenthetical, so the point emerges more slowly. Word counts are essentially equal. A spends words on 'that persists after... are added' and saves them by joining the star-rating and R-squared sentences, while B's first sentence is tighter. On flow, A's 'persists' links the two estimates through their content. B simply lists them. A's 'and' join of star rating with R-squared is a mild, arbitrary coupling, but on balance A connects ideas better. On precision, B's 'after adding product fixed effects' is a dangling participle with no agent. A's 'after product fixed effects are added' is grammatically clean. Both use a register suited to empirical IS researchers.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "tie",
+              "flow": "A",
+              "precision": "A",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'a positive coefficient on the identity-disclosed indicator that persists after product fixed effects are added' vs B: 'is positive: 0.18 (SE = 0.04) in column 2 and, after adding product fixed effects, 0.15'",
+              "flow": "A: 'that persists after product fixed effects are added' vs B: '0.18 (SE = 0.04) in column 2 and, after adding product fixed effects, 0.15 (SE = 0.05) in column 3'",
+              "precision": "A: 'after product fixed effects are added' vs B: 'after adding product fixed effects'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "clarity": "A: 'reports a positive coefficient on the identity-disclosed indicator that persists after product fixed effects are added' vs B: 'Table 3 reports the estimates.'",
-            "concision": "A: 'Table 3 reports a positive coefficient ... that persists' vs B: 'Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is'",
-            "flow": "A: '0.42 (SE = 0.02) across all specifications, and R-squared rises' vs B: 'the coefficient on star rating is 0.42 (SE = 0.02). R-squared rises'",
-            "precision": "A: 'persists after product fixed effects are added: 0.18 ... in column 2 and 0.15 ... in column 3' vs B: '0.15 (SE = 0.05) in column 3, after product fixed effects are added'"
+          "key": "94c9d683ab933786",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0353272
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions merge the first three sentences of the original. Version A leads with the finding: the disclosure coefficient is positive and survives fixed effects. That gives the reader the takeaway before the numbers. Version B says the coefficient is positive but tucks the fixed-effects robustness into a mid-sentence parenthetical, so the point emerges more slowly. Word counts are essentially equal. A spends words on 'that persists after... are added' and saves them by joining the star-rating and R-squared sentences, while B's first sentence is tighter. On flow, A's 'persists' links the two estimates through their content. B simply lists them. A's 'and' join of star rating with R-squared is a mild, arbitrary coupling, but on balance A connects ideas better. On precision, B's 'after adding product fixed effects' is a dangling participle with no agent. A's 'after product fixed effects are added' is grammatically clean. Both use a register suited to empirical IS researchers.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"tie\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'a positive coefficient on the identity-disclosed indicator that persists after product fixed effects are added' vs B: 'is positive: 0.18 (SE = 0.04) in column 2 and, after adding product fixed effects, 0.15'\",\n    \"flow\": \"A: 'that persists after product fixed effects are added' vs B: '0.18 (SE = 0.04) in column 2 and, after adding product fixed effects, 0.15 (SE = 0.05) in column 3'\",\n    \"precision\": \"A: 'after product fixed effects are added' vs B: 'after adding product fixed effects'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.0400312,
+          "seconds": 14.4,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
@@ -425,47 +732,86 @@
         "A": "before",
         "B": "after",
         "winner": "before",
-        "parsed": {
-          "reasoning": "Both versions merge the column 2 and column 3 results into one sentence. Version A keeps the focal variable, identity disclosure, first and the control, star rating, after it, so the main result is easy to find. Version B opens with the control and then needs a content-free connective ('Alongside it') to reach the focal result, which pushes the key finding later. B is also slightly wordier ('has a coefficient of', 'Alongside it') and has a stray comma before 'and 0.15'. Register is equally appropriate for empirical IS researchers in both.",
-          "dimensions": {
-            "clarity": "A",
-            "concision": "A",
-            "flow": "A",
-            "precision": "A",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions merge the column 2 and column 3 estimates for the identity-disclosed indicator. Version A keeps the focal variable first and lists the specifications in column order. Version B opens with star rating, which is likely a control. That pushes the main result to the third sentence. B also links the two sentences with the vague, conversational 'has its own:'. Word counts are almost the same, but B's bridging phrase adds words without adding content. A's 'in column 4' at the start of its sentence makes a clean transition to the interaction. B's 'which adds product fixed effects' is slightly crisper than A's 'after adding', but this small gain does not offset the reordering and the awkward bridge.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "A",
+              "flow": "A",
+              "precision": "A",
+              "audience_fit": "A"
+            },
+            "evidence": {
+              "clarity": "A: 'The coefficient on the identity-disclosed indicator is 0.18' (focal result first) vs B: 'Star rating has a coefficient of 0.42' (control first, main result delayed)",
+              "concision": "A: 'is 0.18 (SE = 0.04) in column 2 and 0.15' vs B: 'The identity-disclosed indicator has its own: 0.18'",
+              "flow": "A: 'In column 4, the interaction with reviewer tenure' vs B: 'across all specifications. The identity-disclosed indicator has its own:'",
+              "precision": "A: 'The coefficient on the identity-disclosed indicator' vs B: 'has its own:' (unclear referent)",
+              "audience_fit": "A: 'and 0.15 (SE = 0.05) in column 3, after adding product fixed effects' vs B: 'has its own:' (colloquial for a results section)"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "clarity": "A: 'The coefficient on the identity-disclosed indicator is 0.18' (focal result first) vs B: 'Star rating has a coefficient of 0.42' (control first)",
-            "concision": "A: 'The coefficient on star rating is 0.42' vs B: 'Alongside it, the identity-disclosed indicator has a coefficient of'",
-            "flow": "A: 'in column 2 and 0.15 (SE = 0.05) in column 3' (progresses across columns) vs B: 'Alongside it,' (empty transition from control to focal variable)",
-            "precision": "A: 'in column 2 and 0.15 (SE = 0.05) in column 3' vs B: 'in column 2, and 0.15 (SE = 0.05) in column 3' (unneeded comma)"
+          "key": "2a7005ab4fbd6632",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0365512
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions merge the column 2 and column 3 estimates for the identity-disclosed indicator. Version A keeps the focal variable first and lists the specifications in column order. Version B opens with star rating, which is likely a control. That pushes the main result to the third sentence. B also links the two sentences with the vague, conversational 'has its own:'. Word counts are almost the same, but B's bridging phrase adds words without adding content. A's 'in column 4' at the start of its sentence makes a clean transition to the interaction. B's 'which adds product fixed effects' is slightly crisper than A's 'after adding', but this small gain does not offset the reordering and the awkward bridge.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The coefficient on the identity-disclosed indicator is 0.18' (focal result first) vs B: 'Star rating has a coefficient of 0.42' (control first, main result delayed)\",\n    \"concision\": \"A: 'is 0.18 (SE = 0.04) in column 2 and 0.15' vs B: 'The identity-disclosed indicator has its own: 0.18'\",\n    \"flow\": \"A: 'In column 4, the interaction with reviewer tenure' vs B: 'across all specifications. The identity-disclosed indicator has its own:'\",\n    \"precision\": \"A: 'The coefficient on the identity-disclosed indicator' vs B: 'has its own:' (unclear referent)\",\n    \"audience_fit\": \"A: 'and 0.15 (SE = 0.05) in column 3, after adding product fixed effects' vs B: 'has its own:' (colloquial for a results section)\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.035487199999999997,
+          "seconds": 12.5,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "after",
         "B": "before",
         "winner": "before",
-        "parsed": {
-          "reasoning": "The identity-disclosed indicator is the focal variable, and Version B keeps it first. B also merges the column 2 and column 3 estimates into one sentence, so the main result and its robustness check appear together. Version A opens with star rating, a control, which pushes the key finding back. It then links the two with 'Alongside it,', a connector that carries no content. Both versions merge the same material, so their lengths are nearly identical; A's extra connector makes it slightly wordier. On precision, B's comma before 'after adding product fixed effects' loosely attaches the clause, while A's placement is tighter, so the two roughly balance out. For empirical IS readers, reporting the focal coefficient first is the expected convention.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "B",
-            "flow": "B",
-            "precision": "tie",
-            "audience_fit": "B"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions report the same estimates, but they order them differently. B keeps the focal variable, the identity-disclosed indicator, first and moves through columns 2, 3 and 4 in order. It merges the column 2 and 3 estimates into one sentence and leaves the star-rating control for later. A opens with star rating, which is a control, so the main result is pushed back. A then connects to the focal estimate with 'has its own:', which is vague and colloquial. A's 'which adds product fixed effects' is slightly tighter than B's 'after adding product fixed effects', but this does not outweigh A's weak framing. Word counts are about the same.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "tie",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "B"
+            },
+            "evidence": {
+              "clarity": "A: 'Star rating has a coefficient of 0.42' opens the results vs B: 'The coefficient on the identity-disclosed indicator is 0.18' opens the results",
+              "flow": "A: 'The identity-disclosed indicator has its own:' vs B: '0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3'",
+              "precision": "A: 'has its own:' (its own what is left unstated) vs B: 'The coefficient on the identity-disclosed indicator is'",
+              "audience_fit": "A: 'has its own:' reads as casual vs B: 'The coefficient on ... is' is standard empirical register"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.' (control first) vs B: 'The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2 and 0.15' (focal result first)",
-            "concision": "A: 'Alongside it, the identity-disclosed indicator has a coefficient of' vs B: 'The coefficient on the identity-disclosed indicator is'",
-            "flow": "A: 'Alongside it, the identity-disclosed indicator' vs B: 'is 0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3'",
-            "audience_fit": "A: 'Star rating has a coefficient of 0.42' leads vs B: 'The coefficient on the identity-disclosed indicator is 0.18' leads, following the convention of reporting the focal estimate first"
+          "key": "62ad9caf3a45bc56",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0391552
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions report the same estimates, but they order them differently. B keeps the focal variable, the identity-disclosed indicator, first and moves through columns 2, 3 and 4 in order. It merges the column 2 and 3 estimates into one sentence and leaves the star-rating control for later. A opens with star rating, which is a control, so the main result is pushed back. A then connects to the focal estimate with 'has its own:', which is vague and colloquial. A's 'which adds product fixed effects' is slightly tighter than B's 'after adding product fixed effects', but this does not outweigh A's weak framing. Word counts are about the same.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"tie\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Star rating has a coefficient of 0.42' opens the results vs B: 'The coefficient on the identity-disclosed indicator is 0.18' opens the results\",\n    \"flow\": \"A: 'The identity-disclosed indicator has its own:' vs B: '0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3'\",\n    \"precision\": \"A: 'has its own:' (its own what is left unstated) vs B: 'The coefficient on the identity-disclosed indicator is'\",\n    \"audience_fit\": \"A: 'has its own:' reads as casual vs B: 'The coefficient on ... is' is standard empirical register\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0395232,
+          "seconds": 15.4,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
@@ -478,47 +824,85 @@
         "A": "after",
         "B": "before",
         "winner": "after",
-        "parsed": {
-          "reasoning": "Both versions strip the original's filler, but A goes further. It merges the citation sentence with the findings sentence and drops the intensifier 'fundamentally' and the hedge 'to the best of'. A also states the result fully ('effect on the relationship between reviews and sales'). B leaves it dangling ('has a significant effect'), which is less precise and makes the main finding harder to grasp. B's 'In this dataset' does link the result to the data sentence, but A's single sentence carrying both prior work and its finding, followed by 'Yet', gives a tighter logical turn to the gap. Register suits empirical IS readers in both.",
-          "dimensions": {
-            "clarity": "A",
-            "concision": "A",
-            "flow": "A",
-            "precision": "A",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "The two versions are nearly identical; they differ in three places. First, A cuts the empty intensifier 'fundamentally', while B keeps it. Second, A writes 'Several studies have examined', which sets up a clean antecedent for 'These studies found'. B writes 'Several researchers have studied', so the next sentence's 'These studies' has no matching noun. Third, A states the result in full: 'effect on the relationship between reviews and sales'. B's 'has a significant effect' leaves the reader to infer what is affected. B's 'In this dataset' gives a modest link back to the previous sentence, but it does not offset the vaguer claim. Both versions use a register suitable for empirical IS researchers. Overall, A is somewhat tighter, more precise, and more coherent.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "A",
+              "flow": "A",
+              "precision": "A",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'Reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'In this dataset, reviewer identity has a significant effect'",
+              "concision": "A: 'has transformed how consumers' vs B: 'has fundamentally transformed how consumers'",
+              "flow": "A: 'Several studies have examined ... These studies found' vs B: 'Several researchers have studied ... These studies found'",
+              "precision": "A: 'a significant effect on the relationship between reviews and sales' vs B: 'has a significant effect.'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "clarity": "A: 'Reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'reviewer identity has a significant effect'",
-            "concision": "A: 'Several studies of the relationship ... found that reviews matter' vs B: 'Several researchers have studied the relationship ... These studies found that reviews matter'",
-            "flow": "A: '...increase in revenue. Yet to our knowledge, whether reviewer identity...' vs B: 'These studies found that reviews matter... However, to the best of our knowledge'",
-            "precision": "A: 'has transformed how consumers' / 'effect on the relationship between reviews and sales' vs B: 'has fundamentally transformed how consumers' / 'has a significant effect.'"
+          "key": "35a7a6e88957f037",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0171284
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"The two versions are nearly identical; they differ in three places. First, A cuts the empty intensifier 'fundamentally', while B keeps it. Second, A writes 'Several studies have examined', which sets up a clean antecedent for 'These studies found'. B writes 'Several researchers have studied', so the next sentence's 'These studies' has no matching noun. Third, A states the result in full: 'effect on the relationship between reviews and sales'. B's 'has a significant effect' leaves the reader to infer what is affected. B's 'In this dataset' gives a modest link back to the previous sentence, but it does not offset the vaguer claim. Both versions use a register suitable for empirical IS researchers. Overall, A is somewhat tighter, more precise, and more coherent.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'In this dataset, reviewer identity has a significant effect'\",\n    \"concision\": \"A: 'has transformed how consumers' vs B: 'has fundamentally transformed how consumers'\",\n    \"flow\": \"A: 'Several studies have examined ... These studies found' vs B: 'Several researchers have studied ... These studies found'\",\n    \"precision\": \"A: 'a significant effect on the relationship between reviews and sales' vs B: 'has a significant effect.'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.042411199999999996,
+          "seconds": 13.8,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "before",
         "B": "after",
         "winner": "after",
-        "parsed": {
-          "reasoning": "Both versions remove the original's filler and passive constructions. B goes further. It merges the citation sentence with the finding, which removes the 'Several researchers have studied... These studies found' handoff, and it drops the intensifier 'fundamentally'. The biggest difference is in the results sentence. A writes 'reviewer identity has a significant effect' without saying on what. B names the target: 'on the relationship between reviews and sales'. That makes B's main finding clearer and more precise. A's opening uses two sentences where B uses one, so B is more concise. B's merged sentence places the citation block mid-sentence, which is slightly heavy, but the ideas still connect directly from studies to finding to gap. Both use a register suited to empirical IS researchers.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "B",
-            "flow": "B",
-            "precision": "B",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "The two versions are nearly identical; the differences are small. On clarity and precision, B states the finding fully ('effect on the relationship between reviews and sales'), while A's 'has a significant effect' leaves the reader to infer the outcome. For concision, B drops the intensifier 'fundamentally', and A spends words on 'In this dataset', which repeats the previous sentence; B's added words carry content. On flow, B's 'Several studies have examined... These studies found' links the two sentences through a repeated subject, while A shifts from 'researchers' to 'These studies'. Register is equally suitable for empirical IS researchers in both.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "B",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'reviewer identity has a significant effect.' vs B: 'Reviewer identity has a significant effect on the relationship between reviews and sales.'",
+              "concision": "A: 'has fundamentally transformed' / 'In this dataset, reviewer identity' vs B: 'has transformed' / 'Reviewer identity'",
+              "flow": "A: 'Several researchers have studied... These studies found' vs B: 'Several studies have examined... These studies found'",
+              "precision": "A: 'has a significant effect' vs B: 'has a significant effect on the relationship between reviews and sales'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'In this dataset, reviewer identity has a significant effect.' vs B: 'Reviewer identity has a significant effect on the relationship between reviews and sales.'",
-            "concision": "A: 'Several researchers have studied the relationship... These studies found that reviews matter' vs B: 'Several studies of the relationship... found that reviews matter'",
-            "flow": "A: 'Several researchers have studied... These studies found' vs B: 'Several studies of the relationship between online reviews and sales (...) found that reviews matter'",
-            "precision": "A: 'reviewer identity has a significant effect' vs B: 'has a significant effect on the relationship between reviews and sales'"
+          "key": "b691535630ac498c",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.0380832
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"The two versions are nearly identical; the differences are small. On clarity and precision, B states the finding fully ('effect on the relationship between reviews and sales'), while A's 'has a significant effect' leaves the reader to infer the outcome. For concision, B drops the intensifier 'fundamentally', and A spends words on 'In this dataset', which repeats the previous sentence; B's added words carry content. On flow, B's 'Several studies have examined... These studies found' links the two sentences through a repeated subject, while A shifts from 'researchers' to 'These studies'. Register is equally suitable for empirical IS researchers in both.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'reviewer identity has a significant effect.' vs B: 'Reviewer identity has a significant effect on the relationship between reviews and sales.'\",\n    \"concision\": \"A: 'has fundamentally transformed' / 'In this dataset, reviewer identity' vs B: 'has transformed' / 'Reviewer identity'\",\n    \"flow\": \"A: 'Several researchers have studied... These studies found' vs B: 'Several studies have examined... These studies found'\",\n    \"precision\": \"A: 'has a significant effect' vs B: 'has a significant effect on the relationship between reviews and sales'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0406032,
+          "seconds": 13.5,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
@@ -531,99 +915,175 @@
         "A": "after",
         "B": "before",
         "winner": "before",
-        "parsed": {
-          "reasoning": "Both versions strip the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted') and fix the comma splice. B is tighter in most places. 'Several studies have examined\u2026 These studies found' keeps a consistent referent, while A shifts from 'researchers' to 'These studies'. B also drops the extra hedge 'somewhat', uses 'dataset of' rather than 'dataset comprising', and states the result directly with 'We find', which is the standard voice in empirical IS papers. A's opening, 'Online platforms have transformed', is slightly leaner than B's 'The proliferation of online platforms has transformed'. That single gain does not outweigh B's advantages elsewhere.",
-          "dimensions": {
-            "clarity": "B",
-            "concision": "B",
-            "flow": "B",
-            "precision": "B",
-            "audience_fit": "B"
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted') and fix 'comprising of'. They differ mainly in the second paragraph and in how the gap sentence is built. B states the finding as an active claim ('We find that...') and ends with a direct implication linked by 'therefore'. A's 'In our analysis, reviewer identity has a significant effect' is vaguer about who found what, and 'For platform design, this finding implies that' is wordier. In B's gap sentence, the hedge 'to the best of our knowledge' comes early, so the sentence ends on 'underexplored'. A puts the hedge at the end, after 'in the literature', where it trails. B's 'These studies found' also has a clearer referent than A's 'They found', which could point to researchers or studies. A is slightly shorter in the findings sentence because B adds 'on this relationship', but B's last sentence is shorter, so concision is roughly a tie that leans slightly toward B. Both suit an IS research audience, but B's 'We find that' is the standard empirical register.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "B",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "B"
+            },
+            "evidence": {
+              "clarity": "A: 'In our analysis, reviewer identity has a significant effect' vs B: 'We find that reviewer identity has a significant effect on this relationship'",
+              "concision": "A: 'For platform design, this finding implies that managers should consider' vs B: 'Platform managers should therefore consider'",
+              "flow": "A: 'remains underexplored in the literature, to the best of our knowledge' vs B: 'Yet, to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored'",
+              "precision": "A: 'They found that reviews matter' vs B: 'These studies found that reviews matter'",
+              "audience_fit": "A: 'In our analysis, reviewer identity has' vs B: 'We find that reviewer identity has'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'Our analysis shows that reviewer identity' vs B: 'We find that reviewer identity'",
-            "concision": "A: 'a dataset comprising 1.2 million reviews' / 'remains somewhat underexplored' vs B: 'a dataset of 1.2 million reviews' / 'remains underexplored'",
-            "flow": "A: 'Several researchers have investigated\u2026 These studies found' vs B: 'Several studies have examined\u2026 These studies found'",
-            "precision": "A: 'Several researchers have investigated' (then 'These studies') vs B: 'Several studies have examined' (consistent referent)",
-            "audience_fit": "A: 'Our analysis shows' vs B: 'We find'"
+          "key": "5f366a2752830bd8",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.037831199999999995
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted') and fix 'comprising of'. They differ mainly in the second paragraph and in how the gap sentence is built. B states the finding as an active claim ('We find that...') and ends with a direct implication linked by 'therefore'. A's 'In our analysis, reviewer identity has a significant effect' is vaguer about who found what, and 'For platform design, this finding implies that' is wordier. In B's gap sentence, the hedge 'to the best of our knowledge' comes early, so the sentence ends on 'underexplored'. A puts the hedge at the end, after 'in the literature', where it trails. B's 'These studies found' also has a clearer referent than A's 'They found', which could point to researchers or studies. A is slightly shorter in the findings sentence because B adds 'on this relationship', but B's last sentence is shorter, so concision is roughly a tie that leans slightly toward B. Both suit an IS research audience, but B's 'We find that' is the standard empirical register.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"B\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'In our analysis, reviewer identity has a significant effect' vs B: 'We find that reviewer identity has a significant effect on this relationship'\",\n    \"concision\": \"A: 'For platform design, this finding implies that managers should consider' vs B: 'Platform managers should therefore consider'\",\n    \"flow\": \"A: 'remains underexplored in the literature, to the best of our knowledge' vs B: 'Yet, to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored'\",\n    \"precision\": \"A: 'They found that reviews matter' vs B: 'These studies found that reviews matter'\",\n    \"audience_fit\": \"A: 'In our analysis, reviewer identity has' vs B: 'We find that reviewer identity has'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0357192,
+          "seconds": 10.7,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "before",
         "B": "after",
         "winner": "before",
-        "parsed": {
-          "reasoning": "Both versions cut the original's filler and fix the comma splice. A is more internally consistent: 'Several studies have examined' sets up 'These studies found,' while B moves from 'Several researchers' to 'These studies,' a small referential slip. B keeps the hedge 'somewhat underexplored' and the extra word 'comprising.' A keeps 'The proliferation of,' but on balance A is slightly tighter. Clarity is comparable: both state the gap and the finding early and plainly. Register suits IS researchers in both; A's 'We find' is the field's conventional way to report results, but B's 'Our analysis shows' is also acceptable, so this is close to a tie. Overall A reads slightly better.",
-          "dimensions": {
-            "clarity": "tie",
-            "concision": "A",
-            "flow": "A",
-            "precision": "A",
-            "audience_fit": "tie"
+        "grader": {
+          "parsed": {
+            "reasoning": "The two versions share the same structure and most of their wording, so the differences are in the final sentences. Clarity: A states the finding directly ('We find that...') and ends the gap sentence on its key word ('remains underexplored'). B buries that point under a trailing hedge and frames the finding passively ('In our analysis, ...'). Concision: A states the implication in fewer words, while B adds 'For platform design, this finding implies that.' Flow: A's 'therefore' ties the implication to the finding, whereas B's fronted 'For platform design' opens with a new topic before linking back. Precision: A says what the effect acts on ('on this relationship'), but B leaves 'a significant effect' without a target. Audience fit: both use a standard empirical IS register, so it is a tie.",
+            "dimensions": {
+              "clarity": "A",
+              "concision": "A",
+              "flow": "A",
+              "precision": "A",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'We find that reviewer identity has a significant effect' vs B: 'In our analysis, reviewer identity has a significant effect'; A: 'whether reviewer identity affects this relationship remains underexplored.' vs B: 'remains underexplored in the literature, to the best of our knowledge.'",
+              "concision": "A: 'Platform managers should therefore consider' vs B: 'For platform design, this finding implies that managers should consider'",
+              "flow": "A: 'Platform managers should therefore consider highlighting' vs B: 'For platform design, this finding implies that'",
+              "precision": "A: 'a significant effect on this relationship' vs B: 'reviewer identity has a significant effect.'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "concision": "A: 'remains underexplored' / 'a dataset of 1.2 million reviews' vs B: 'remains somewhat underexplored' / 'a dataset comprising 1.2 million reviews'",
-            "flow": "A: 'Several studies have examined... These studies found' vs B: 'Several researchers have investigated... These studies found'",
-            "precision": "A: 'whether reviewer identity affects this relationship remains underexplored' vs B: 'remains somewhat underexplored'"
+          "key": "f5fc8a97ae6b3162",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0382112
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"The two versions share the same structure and most of their wording, so the differences are in the final sentences. Clarity: A states the finding directly ('We find that...') and ends the gap sentence on its key word ('remains underexplored'). B buries that point under a trailing hedge and frames the finding passively ('In our analysis, ...'). Concision: A states the implication in fewer words, while B adds 'For platform design, this finding implies that.' Flow: A's 'therefore' ties the implication to the finding, whereas B's fronted 'For platform design' opens with a new topic before linking back. Precision: A says what the effect acts on ('on this relationship'), but B leaves 'a significant effect' without a target. Audience fit: both use a standard empirical IS register, so it is a tie.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We find that reviewer identity has a significant effect' vs B: 'In our analysis, reviewer identity has a significant effect'; A: 'whether reviewer identity affects this relationship remains underexplored.' vs B: 'remains underexplored in the literature, to the best of our knowledge.'\",\n    \"concision\": \"A: 'Platform managers should therefore consider' vs B: 'For platform design, this finding implies that managers should consider'\",\n    \"flow\": \"A: 'Platform managers should therefore consider highlighting' vs B: 'For platform design, this finding implies that'\",\n    \"precision\": \"A: 'a significant effect on this relationship' vs B: 'reviewer identity has a significant effect.'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.0414592,
+          "seconds": 13.1,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   },
   {
     "case": "worked-example",
     "run": 3,
-    "consolidated": "before",
+    "consolidated": "after",
     "orders": [
       {
         "A": "before",
         "B": "after",
-        "winner": "before",
-        "parsed": {
-          "reasoning": "The two versions are nearly identical; both strip the original's filler and fix its comma splice. A is slightly tighter: it drops the double hedge 'somewhat ... in the literature' and puts 'However' first so the turn to the gap is signalled at once. A's 'significant effect on this relationship' ties the finding back to the research question, while B's 'significant effect' leaves the object implicit. B's 'researchers have studied ... These studies found' shifts from researchers to studies; A's 'Several studies have investigated ... These studies found' keeps one subject. B's plainer 'shows' is marginally better than A's 'demonstrates', but this does not offset A's other gains. Register is equally appropriate in both.",
-          "dimensions": {
-            "clarity": "A",
-            "concision": "A",
-            "flow": "A",
-            "precision": "A",
-            "audience_fit": "tie"
+        "winner": "after",
+        "grader": {
+          "parsed": {
+            "reasoning": "The first paragraphs are nearly identical. A ends it with 'However, to the best of our knowledge... remains underexplored'. B uses the tighter 'Yet to our knowledge' but keeps the vague hedge 'somewhat'. The second paragraph decides it. B states the finding with an explicit referent ('the relationship between reviews and sales') and a direct verb ('significantly affects'). It then moves straight to the implication with 'therefore'. A keeps the filler-ish 'Our analysis demonstrates' and the vaguer 'this relationship', and spends a whole sentence announcing 'This finding has implications for platform design' before stating the implication. Both suit empirical IS researchers equally. B's 'somewhat' is a small precision cost, but its explicit statement of the finding outweighs it.",
+            "dimensions": {
+              "clarity": "B",
+              "concision": "B",
+              "flow": "B",
+              "precision": "B",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "clarity": "A: 'has a significant effect on this relationship' vs B: 'significantly affects the relationship between reviews and sales'",
+              "concision": "A: 'This finding has implications for platform design: managers should consider' vs B: 'Platform managers should therefore consider'",
+              "flow": "A: 'Our analysis demonstrates that... This finding has implications' vs B: 'In these data, reviewer identity significantly affects... Platform managers should therefore'",
+              "precision": "A: 'Our analysis demonstrates that reviewer identity has a significant effect' vs B: 'reviewer identity significantly affects the relationship between reviews and sales'"
+            },
+            "overall": "B"
           },
-          "evidence": {
-            "clarity": "A: 'However, to the best of our knowledge' vs B: 'To the best of our knowledge, however,'",
-            "concision": "A: 'remains underexplored.' vs B: 'remains somewhat underexplored in the literature.'",
-            "flow": "A: 'Several studies have investigated ... These studies found' vs B: 'Several researchers have studied ... These studies found'",
-            "precision": "A: 'a significant effect on this relationship' vs B: 'a significant effect.'"
+          "key": "558cd47adf12d594",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "A"
-        },
-        "cost_usd": 0.0377872
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"The first paragraphs are nearly identical. A ends it with 'However, to the best of our knowledge... remains underexplored'. B uses the tighter 'Yet to our knowledge' but keeps the vague hedge 'somewhat'. The second paragraph decides it. B states the finding with an explicit referent ('the relationship between reviews and sales') and a direct verb ('significantly affects'). It then moves straight to the implication with 'therefore'. A keeps the filler-ish 'Our analysis demonstrates' and the vaguer 'this relationship', and spends a whole sentence announcing 'This finding has implications for platform design' before stating the implication. Both suit empirical IS researchers equally. B's 'somewhat' is a small precision cost, but its explicit statement of the finding outweighs it.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'has a significant effect on this relationship' vs B: 'significantly affects the relationship between reviews and sales'\",\n    \"concision\": \"A: 'This finding has implications for platform design: managers should consider' vs B: 'Platform managers should therefore consider'\",\n    \"flow\": \"A: 'Our analysis demonstrates that... This finding has implications' vs B: 'In these data, reviewer identity significantly affects... Platform managers should therefore'\",\n    \"precision\": \"A: 'Our analysis demonstrates that reviewer identity has a significant effect' vs B: 'reviewer identity significantly affects the relationship between reviews and sales'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+          "cost_usd": 0.0414552,
+          "seconds": 13.0,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       },
       {
         "A": "after",
         "B": "before",
-        "winner": "before",
-        "parsed": {
-          "reasoning": "The two versions are nearly identical, and both remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'comprising of'). The differences are small. B's 'Several studies have investigated' sets up 'These studies found' directly, while A switches from 'researchers' to 'studies'. B drops the weak hedge 'somewhat' and the redundant 'in the literature'. B's 'significant effect on this relationship' states the moderating claim exactly, where A's 'significant effect' leaves the target of the effect implicit. Both use a register suited to empirical IS researchers, and both state the gap and the contribution equally early. B is slightly better on concision, flow, and precision.",
-          "dimensions": {
-            "clarity": "tie",
-            "concision": "B",
-            "flow": "B",
-            "precision": "B",
-            "audience_fit": "tie"
+        "winner": "after",
+        "grader": {
+          "parsed": {
+            "reasoning": "Both versions strip the original's filler and fix its grammar. Version A trims further: 'Yet to our knowledge' replaces 'However, to the best of our knowledge', and A folds the implication into one direct sentence with 'therefore' instead of B's preamble 'This finding has implications for platform design:'. A's 'In these data, reviewer identity significantly affects...' scopes the claim carefully and uses a verb rather than a nominalization. B's 'Our analysis demonstrates... has a significant effect' is wordier and slightly overclaims with 'demonstrates'. Clarity is roughly equal: both state the gap and the finding early, and B's 'this relationship' links back as well as A's explicit restatement does. Both versions use a register that suits empirical IS researchers. Flow is comparable: A connects with 'therefore', and B connects with 'This finding'.",
+            "dimensions": {
+              "clarity": "tie",
+              "concision": "A",
+              "flow": "tie",
+              "precision": "A",
+              "audience_fit": "tie"
+            },
+            "evidence": {
+              "concision": "A: 'Yet to our knowledge' / 'Platform managers should therefore consider' vs B: 'However, to the best of our knowledge' / 'This finding has implications for platform design: managers should consider'",
+              "precision": "A: 'In these data, reviewer identity significantly affects' vs B: 'Our analysis demonstrates that reviewer identity has a significant effect on'"
+            },
+            "overall": "A"
           },
-          "evidence": {
-            "concision": "A: 'remains somewhat underexplored in the literature' vs B: 'remains underexplored'",
-            "flow": "A: 'Several researchers have studied ... These studies found' vs B: 'Several studies have investigated ... These studies found'",
-            "precision": "A: 'reviewer identity has a significant effect' vs B: 'reviewer identity has a significant effect on this relationship'"
+          "key": "164fa3acef794fe9",
+          "env": {
+            "flags": [
+              "--setting-sources",
+              "project",
+              "--disable-slash-commands",
+              "--tools",
+              ""
+            ],
+            "claude_code_version": "2.1.301 (Claude Code)"
           },
-          "overall": "B"
-        },
-        "cost_usd": 0.039451200000000006
+          "requested_model": "claude-opus-5-5",
+          "raw": "```json\n{\n  \"reasoning\": \"Both versions strip the original's filler and fix its grammar. Version A trims further: 'Yet to our knowledge' replaces 'However, to the best of our knowledge', and A folds the implication into one direct sentence with 'therefore' instead of B's preamble 'This finding has implications for platform design:'. A's 'In these data, reviewer identity significantly affects...' scopes the claim carefully and uses a verb rather than a nominalization. B's 'Our analysis demonstrates... has a significant effect' is wordier and slightly overclaims with 'demonstrates'. Clarity is roughly equal: both state the gap and the finding early, and B's 'this relationship' links back as well as A's explicit restatement does. Both versions use a register that suits empirical IS researchers. Flow is comparable: A connects with 'therefore', and B connects with 'This finding'.\",\n  \"dimensions\": {\"clarity\": \"tie\", \"concision\": \"A\", \"flow\": \"tie\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"concision\": \"A: 'Yet to our knowledge' / 'Platform managers should therefore consider' vs B: 'However, to the best of our knowledge' / 'This finding has implications for platform design: managers should consider'\",\n    \"precision\": \"A: 'In these data, reviewer identity significantly affects' vs B: 'Our analysis demonstrates that reviewer identity has a significant effect on'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+          "cost_usd": 0.0415192,
+          "seconds": 13.0,
+          "models": [
+            "claude-opus-5-5"
+          ]
+        }
       }
     ]
   }

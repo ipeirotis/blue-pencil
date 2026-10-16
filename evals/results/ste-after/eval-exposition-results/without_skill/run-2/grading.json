@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: All numbers remain attached to the correct coefficients and columns, but the revision turns a purely descriptive passage into an interpretive one, adding several claims about the role of reviewer identity that the original does not make."
+      "evidence": "verdict=changed: The numbers, columns, and significance levels are all attached to the correct items. However, the revision turns a purely descriptive passage into an interpretive one by adding claims about the role of identity, the robustness of the effect, credibility, and the strength of star rating that the original does not make."
     }
   ],
   "summary": {

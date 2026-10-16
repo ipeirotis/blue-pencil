@@ -7,23 +7,24 @@
       "B": "with_skill",
       "grader": {
         "parsed": {
-          "reasoning": "Version A opens with the main takeaway, that reviewer identity matters, and links the results through interpretive transitions such as 'the effect holds' and 'Identity also conditions'. That makes it easier to follow, though it is wordier. Some of its phrasing is loose: 'raises the outcome' does not name the outcome, and 'conditions the weight a review carries' is vague. Version B is tighter and states each estimate exactly. However, it leads with star rating, a control, which buries the identity result, and it reads as a list of coefficients. For audience fit, A's interpretive framing suits an empirical IS paper, but its causal 'raises' and its attribution of fit gains to 'identity measures' overreach for that audience, so the two balance out. On balance, A's clarity and flow outweigh B's concision and precision for a first-draft results paragraph.",
+          "reasoning": "Version A states the takeaway in its first sentence and links each estimate to the next, which suits a results paragraph for empirical IS readers. Some of its phrasing is loose, though. 'Identity also conditions on who is speaking' muddles the interaction, and 'echoing' is vague. Version B is tighter and more literal, but it opens with star rating, a control variable, so the focal identity estimate comes second. B's 'has its own:' is elliptical, and the paragraph reads like a table walk-through. A wins on clarity, flow and audience fit. B wins on concision and precision. On balance A reads better as a first-draft results paragraph.",
           "dimensions": {
             "clarity": "A",
             "concision": "B",
             "flow": "A",
             "precision": "B",
-            "audience_fit": "tie"
+            "audience_fit": "A"
           },
           "evidence": {
-            "clarity": "A: 'they point to a clear role for reviewer identity' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications'",
-            "concision": "A: 'Star rating matters as well, with a coefficient of 0.42 ... but it does not account for the identity effects, which persist alongside it' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications'",
-            "flow": "A: 'and the effect holds when we add product fixed effects' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. R-squared rises'",
-            "precision": "A: 'raises the outcome by 0.18' / 'conditions the weight a review carries' vs B: 'the identity-disclosed indicator has a coefficient of 0.18 (SE = 0.04)'"
+            "clarity": "A: 'they point to a consistent role for reviewer identity' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02)' (a control comes first)",
+            "concision": "A: 'Star rating matters throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it rather than merely echoing it' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications'",
+            "flow": "A: 'It remains sizable after we add product fixed effects in column 3' vs B: 'The identity-disclosed indicator has its own:'",
+            "precision": "A: 'Identity also conditions on who is speaking' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4'",
+            "audience_fit": "A: 'It remains sizable after we add product fixed effects' vs B: '0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3'"
           },
           "overall": "A"
         },
-        "key": "f7c1762f43ec5361",
+        "key": "d5653a656bcad714",
         "env": {
           "flags": [
             "--setting-sources",
@@ -35,9 +36,9 @@
           "claude_code_version": "2.1.301 (Claude Code)"
         },
         "requested_model": "claude-opus-5-5",
-        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with the main takeaway, that reviewer identity matters, and links the results through interpretive transitions such as 'the effect holds' and 'Identity also conditions'. That makes it easier to follow, though it is wordier. Some of its phrasing is loose: 'raises the outcome' does not name the outcome, and 'conditions the weight a review carries' is vague. Version B is tighter and states each estimate exactly. However, it leads with star rating, a control, which buries the identity result, and it reads as a list of coefficients. For audience fit, A's interpretive framing suits an empirical IS paper, but its causal 'raises' and its attribution of fit gains to 'identity measures' overreach for that audience, so the two balance out. On balance, A's clarity and flow outweigh B's concision and precision for a first-draft results paragraph.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'they point to a clear role for reviewer identity' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications'\",\n    \"concision\": \"A: 'Star rating matters as well, with a coefficient of 0.42 ... but it does not account for the identity effects, which persist alongside it' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications'\",\n    \"flow\": \"A: 'and the effect holds when we add product fixed effects' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. R-squared rises'\",\n    \"precision\": \"A: 'raises the outcome by 0.18' / 'conditions the weight a review carries' vs B: 'the identity-disclosed indicator has a coefficient of 0.18 (SE = 0.04)'\"\n  },\n  \"overall\": \"A\"\n}\n```",
-        "cost_usd": 0.0415952,
-        "seconds": 14.2,
+        "raw": "```json\n{\n  \"reasoning\": \"Version A states the takeaway in its first sentence and links each estimate to the next, which suits a results paragraph for empirical IS readers. Some of its phrasing is loose, though. 'Identity also conditions on who is speaking' muddles the interaction, and 'echoing' is vague. Version B is tighter and more literal, but it opens with star rating, a control variable, so the focal identity estimate comes second. B's 'has its own:' is elliptical, and the paragraph reads like a table walk-through. A wins on clarity, flow and audience fit. B wins on concision and precision. On balance A reads better as a first-draft results paragraph.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'they point to a consistent role for reviewer identity' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02)' (a control comes first)\",\n    \"concision\": \"A: 'Star rating matters throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it rather than merely echoing it' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications'\",\n    \"flow\": \"A: 'It remains sizable after we add product fixed effects in column 3' vs B: 'The identity-disclosed indicator has its own:'\",\n    \"precision\": \"A: 'Identity also conditions on who is speaking' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4'\",\n    \"audience_fit\": \"A: 'It remains sizable after we add product fixed effects' vs B: '0.18 (SE = 0.04) in column 2, and 0.15 (SE = 0.05) in column 3'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.042907200000000006,
+        "seconds": 15.0,
         "models": [
           "claude-opus-5-5"
         ]
@@ -49,24 +50,23 @@
       "B": "without_skill",
       "grader": {
         "parsed": {
-          "reasoning": "Version B states its main point in the first sentence ('a clear role for reviewer identity') and organizes the coefficients around that claim. Version A opens with star rating, a control, which pushes the key identity result into second place. B links sentences through content ('the effect holds when', 'Identity also conditions'), while A mostly lists numbers, joined only by 'Alongside it'. A is shorter for the same numeric content. A is also more exact: B uses the vague 'raises the outcome' and the loose phrase 'conditions the weight a review carries', where A names the coefficients directly. For empirical IS researchers, B's interpretive results narrative is the more typical and useful register. On balance B reads better, though it costs length and some precision.",
+          "reasoning": "Version B states the takeaway up front ('a consistent role for reviewer identity'), sequences the identity results first, and links each sentence by content ('It remains sizable', 'Identity also'). Version A instead leads with star rating, a control, which buries the focal identity result, and uses the awkward bridge 'has its own:'. A is leaner and avoids B's loose phrasing: 'Identity also conditions on who is speaking' misuses 'conditions on', and 'adds to it rather than merely echoing it' is vague. B's register (interpretive results narrative with 'we') suits empirical IS researchers about as well as A's plain reporting, so that dimension is a tie. On balance B reads better as a results paragraph because the main point is findable and the sequence is logical, though it needs its imprecise phrases tightened.",
           "dimensions": {
             "clarity": "B",
             "concision": "A",
             "flow": "B",
             "precision": "A",
-            "audience_fit": "B"
+            "audience_fit": "tie"
           },
           "evidence": {
-            "clarity": "A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.' vs B: 'they point to a clear role for reviewer identity'",
-            "concision": "A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.' vs B: 'Star rating matters as well, with a coefficient of 0.42 (SE = 0.02) across all specifications, but it does not account for the identity effects, which persist alongside it.'",
-            "flow": "A: 'Alongside it, the identity-disclosed indicator has a coefficient of 0.18' vs B: 'the effect holds when we add product fixed effects in column 3'",
-            "precision": "A: 'the identity-disclosed indicator has a coefficient of 0.18' vs B: 'Disclosing the reviewer's identity raises the outcome by 0.18'",
-            "audience_fit": "A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Identity also conditions the weight a review carries: the interaction with reviewer tenure is 0.09'"
+            "clarity": "A: 'Star rating has a coefficient of 0.42' (control first) vs B: 'they point to a consistent role for reviewer identity'",
+            "concision": "A: 'Table 3 reports the estimates.' vs B: 'Star rating matters throughout, ... yet identity adds to it rather than merely echoing it'",
+            "flow": "A: 'The identity-disclosed indicator has its own:' vs B: 'It remains sizable after we add product fixed effects'",
+            "precision": "A: 'in column 3, which adds product fixed effects' vs B: 'Identity also conditions on who is speaking'"
           },
           "overall": "B"
         },
-        "key": "fef33b16627073c5",
+        "key": "800a060b4288b605",
         "env": {
           "flags": [
             "--setting-sources",
@@ -78,9 +78,9 @@
           "claude_code_version": "2.1.301 (Claude Code)"
         },
         "requested_model": "claude-opus-5-5",
-        "raw": "```json\n{\n  \"reasoning\": \"Version B states its main point in the first sentence ('a clear role for reviewer identity') and organizes the coefficients around that claim. Version A opens with star rating, a control, which pushes the key identity result into second place. B links sentences through content ('the effect holds when', 'Identity also conditions'), while A mostly lists numbers, joined only by 'Alongside it'. A is shorter for the same numeric content. A is also more exact: B uses the vague 'raises the outcome' and the loose phrase 'conditions the weight a review carries', where A names the coefficients directly. For empirical IS researchers, B's interpretive results narrative is the more typical and useful register. On balance B reads better, though it costs length and some precision.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.' vs B: 'they point to a clear role for reviewer identity'\",\n    \"concision\": \"A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications.' vs B: 'Star rating matters as well, with a coefficient of 0.42 (SE = 0.02) across all specifications, but it does not account for the identity effects, which persist alongside it.'\",\n    \"flow\": \"A: 'Alongside it, the identity-disclosed indicator has a coefficient of 0.18' vs B: 'the effect holds when we add product fixed effects in column 3'\",\n    \"precision\": \"A: 'the identity-disclosed indicator has a coefficient of 0.18' vs B: 'Disclosing the reviewer's identity raises the outcome by 0.18'\",\n    \"audience_fit\": \"A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Identity also conditions the weight a review carries: the interaction with reviewer tenure is 0.09'\"\n  },\n  \"overall\": \"B\"\n}\n```",
-        "cost_usd": 0.0397312,
-        "seconds": 12.9,
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states the takeaway up front ('a consistent role for reviewer identity'), sequences the identity results first, and links each sentence by content ('It remains sizable', 'Identity also'). Version A instead leads with star rating, a control, which buries the focal identity result, and uses the awkward bridge 'has its own:'. A is leaner and avoids B's loose phrasing: 'Identity also conditions on who is speaking' misuses 'conditions on', and 'adds to it rather than merely echoing it' is vague. B's register (interpretive results narrative with 'we') suits empirical IS researchers about as well as A's plain reporting, so that dimension is a tie. On balance B reads better as a results paragraph because the main point is findable and the sequence is logical, though it needs its imprecise phrases tightened.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Star rating has a coefficient of 0.42' (control first) vs B: 'they point to a consistent role for reviewer identity'\",\n    \"concision\": \"A: 'Table 3 reports the estimates.' vs B: 'Star rating matters throughout, ... yet identity adds to it rather than merely echoing it'\",\n    \"flow\": \"A: 'The identity-disclosed indicator has its own:' vs B: 'It remains sizable after we add product fixed effects'\",\n    \"precision\": \"A: 'in column 3, which adds product fixed effects' vs B: 'Identity also conditions on who is speaking'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0392872,
+        "seconds": 13.4,
         "models": [
           "claude-opus-5-5"
         ]

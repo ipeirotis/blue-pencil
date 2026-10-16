@@ -7,24 +7,24 @@
       "B": "with_skill",
       "grader": {
         "parsed": {
-          "reasoning": "Version A opens with a takeaway ('identity matters') and links each estimate to an interpretation ('holds up', 'strengthens the effect'), so the reader knows what each number shows. Version B is tighter and merges the sentences sensibly, but it is still a recitation of the table with no stated point. However, A uses loose, overclaiming language ('powerful driver', 'rises accordingly', the breezy 'identity matters') that is imprecise and less suited to empirical IS readers, who expect measured wording. B's neutral phrasing is more exact and register-appropriate. On balance, A reads better as a results paragraph because it tells the reader what the table means. Its word choices should be toned down.",
+          "reasoning": "Version A turns a list of coefficients into an argument. Each result is framed by a short claim, such as 'Identity disclosure carries its own weight' and 'Disclosure also matters more for some reviewers than others', so the reader sees early why each number matters. The sentences link through content rather than sitting side by side. Version B is tighter: it merges the first two coefficient sentences and drops the restated table framing, so it wins on concision. But it remains a sequential readout, and moving the R-squared sentence after the significance statement makes it end on a weak note. On precision, B's 'falls to' states the change between columns exactly. A uses the looser idiom 'carries its own weight', and 'remains at' blurs the drop from 0.18 to 0.15. On audience fit, A's interpretive framing ('identity effects appear alongside the rating effect rather than in place of it') is how empirical IS papers usually present regression results. B reads like table notes. Overall, A reads better for this audience at this draft stage, even though it is longer and slightly less exact in wording.",
           "dimensions": {
             "clarity": "A",
             "concision": "B",
             "flow": "A",
             "precision": "B",
-            "audience_fit": "B"
+            "audience_fit": "A"
           },
           "evidence": {
-            "clarity": "A: 'Table 3 reports the estimates, and identity matters.' vs B: 'In Table 3, the identity-disclosed indicator has a coefficient of 0.18'",
-            "concision": "A: 'Explanatory power rises accordingly, as R-squared climbs from 0.31 to 0.47' vs B: 'and R-squared rises from 0.31 to 0.47'",
-            "flow": "A: 'it holds up when product fixed effects are added' / 'Reviewer tenure strengthens the effect:' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'",
-            "precision": "A: 'Star rating remains a powerful driver throughout' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02)'",
-            "audience_fit": "A: 'and identity matters' / 'a powerful driver' vs B: 'once product fixed effects are added'"
+            "clarity": "A: 'Identity disclosure carries its own weight: the coefficient...' vs B: 'In Table 3, the coefficient on the identity-disclosed indicator is 0.18'",
+            "concision": "A: 'Table 3 reports the estimates. Identity disclosure carries its own weight: the coefficient on...' vs B: 'In Table 3, the coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2 and falls to 0.15'",
+            "flow": "A: 'so the effect of disclosure grows with tenure. Throughout, star rating stays a strong predictor' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. The coefficient on star rating is 0.42'",
+            "precision": "A: 'it remains at 0.15 (SE = 0.05)' / 'carries its own weight' vs B: 'falls to 0.15 (SE = 0.05) in column 3 once product fixed effects are added'",
+            "audience_fit": "A: 'identity effects appear alongside the rating effect rather than in place of it' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.'"
           },
           "overall": "A"
         },
-        "key": "c91ac81e8fec7556",
+        "key": "0a0b819984942292",
         "env": {
           "flags": [
             "--setting-sources",
@@ -36,9 +36,9 @@
           "claude_code_version": "2.1.301 (Claude Code)"
         },
         "requested_model": "claude-opus-5-5",
-        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with a takeaway ('identity matters') and links each estimate to an interpretation ('holds up', 'strengthens the effect'), so the reader knows what each number shows. Version B is tighter and merges the sentences sensibly, but it is still a recitation of the table with no stated point. However, A uses loose, overclaiming language ('powerful driver', 'rises accordingly', the breezy 'identity matters') that is imprecise and less suited to empirical IS readers, who expect measured wording. B's neutral phrasing is more exact and register-appropriate. On balance, A reads better as a results paragraph because it tells the reader what the table means. Its word choices should be toned down.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Table 3 reports the estimates, and identity matters.' vs B: 'In Table 3, the identity-disclosed indicator has a coefficient of 0.18'\",\n    \"concision\": \"A: 'Explanatory power rises accordingly, as R-squared climbs from 0.31 to 0.47' vs B: 'and R-squared rises from 0.31 to 0.47'\",\n    \"flow\": \"A: 'it holds up when product fixed effects are added' / 'Reviewer tenure strengthens the effect:' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'\",\n    \"precision\": \"A: 'Star rating remains a powerful driver throughout' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02)'\",\n    \"audience_fit\": \"A: 'and identity matters' / 'a powerful driver' vs B: 'once product fixed effects are added'\"\n  },\n  \"overall\": \"A\"\n}\n```",
-        "cost_usd": 0.042615200000000006,
-        "seconds": 15.2,
+        "raw": "```json\n{\n  \"reasoning\": \"Version A turns a list of coefficients into an argument. Each result is framed by a short claim, such as 'Identity disclosure carries its own weight' and 'Disclosure also matters more for some reviewers than others', so the reader sees early why each number matters. The sentences link through content rather than sitting side by side. Version B is tighter: it merges the first two coefficient sentences and drops the restated table framing, so it wins on concision. But it remains a sequential readout, and moving the R-squared sentence after the significance statement makes it end on a weak note. On precision, B's 'falls to' states the change between columns exactly. A uses the looser idiom 'carries its own weight', and 'remains at' blurs the drop from 0.18 to 0.15. On audience fit, A's interpretive framing ('identity effects appear alongside the rating effect rather than in place of it') is how empirical IS papers usually present regression results. B reads like table notes. Overall, A reads better for this audience at this draft stage, even though it is longer and slightly less exact in wording.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Identity disclosure carries its own weight: the coefficient...' vs B: 'In Table 3, the coefficient on the identity-disclosed indicator is 0.18'\",\n    \"concision\": \"A: 'Table 3 reports the estimates. Identity disclosure carries its own weight: the coefficient on...' vs B: 'In Table 3, the coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2 and falls to 0.15'\",\n    \"flow\": \"A: 'so the effect of disclosure grows with tenure. Throughout, star rating stays a strong predictor' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. The coefficient on star rating is 0.42'\",\n    \"precision\": \"A: 'it remains at 0.15 (SE = 0.05)' / 'carries its own weight' vs B: 'falls to 0.15 (SE = 0.05) in column 3 once product fixed effects are added'\",\n    \"audience_fit\": \"A: 'identity effects appear alongside the rating effect rather than in place of it' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.042675199999999996,
+        "seconds": 14.9,
         "models": [
           "claude-opus-5-5"
         ]
@@ -50,24 +50,24 @@
       "B": "without_skill",
       "grader": {
         "parsed": {
-          "reasoning": "Version A merges the original's choppy sentences into a compact report of the results with no padding. Version B states a takeaway up front ('identity matters'), which helps readers find the point. Its connective phrasing ('holds up', 'strengthens the effect') also gives it better flow. However, B adds words and uses loose, somewhat promotional language. 'Powerful driver' is vague and causal. 'Rises accordingly' implies a link the table does not show. Empirical IS reviewers are wary of that kind of language in a results paragraph. B wins clarity and flow. A wins concision, precision, and audience fit, and is the better-written version overall.",
+          "reasoning": "Version A tightens the original by merging the column 2 and column 3 results with 'falls to', but it is still a list of coefficients that never says what they mean. Version B opens each result with its point, and it links the results through what they mean ('so the effect of disclosure grows with tenure', 'alongside the rating effect rather than in place of it'). Empirical IS readers expect this kind of interpretation in a results paragraph. B is longer, though. It also uses the colloquial 'carries its own weight', and 'remains at 0.15' blurs the drop that A states exactly. A therefore wins on concision and precision, and B wins on clarity, flow and audience fit. In a first draft where restructuring is welcome, B's added framing matters more.",
           "dimensions": {
             "clarity": "B",
             "concision": "A",
             "flow": "B",
             "precision": "A",
-            "audience_fit": "A"
+            "audience_fit": "B"
           },
           "evidence": {
-            "clarity": "A: 'In Table 3, the identity-disclosed indicator has a coefficient of 0.18' vs B: 'Table 3 reports the estimates, and identity matters.'",
-            "concision": "A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications' vs B: 'Star rating remains a powerful driver throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications'",
-            "flow": "A: 'The interaction with reviewer tenure is 0.09' vs B: 'Reviewer tenure strengthens the effect: the interaction in column 4 is 0.09'",
-            "precision": "A: 'R-squared rises from 0.31 to 0.47' vs B: 'Explanatory power rises accordingly, as R-squared climbs'",
-            "audience_fit": "A: 'Star rating has a coefficient of 0.42' vs B: 'Star rating remains a powerful driver throughout'"
+            "clarity": "A: 'In Table 3, the coefficient on the identity-disclosed indicator is 0.18' vs B: 'Identity disclosure carries its own weight: the coefficient...'",
+            "concision": "A: 'is 0.18 (SE = 0.04) in column 2 and falls to 0.15' vs B: 'Disclosure also matters more for some reviewers than others. The interaction with reviewer tenure is...'",
+            "flow": "A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. The coefficient on star rating is...' vs B: 'so identity effects appear alongside the rating effect rather than in place of it'",
+            "precision": "A: 'falls to 0.15 (SE = 0.05) in column 3' vs B: 'it remains at 0.15 (SE = 0.05)' / 'carries its own weight'",
+            "audience_fit": "A: 'R-squared rises from 0.31 to 0.47 across the columns.' vs B: 'so the effect of disclosure grows with tenure'"
           },
-          "overall": "A"
+          "overall": "B"
         },
-        "key": "9eb4f47fef18fda8",
+        "key": "608e6f5b43a2c5cf",
         "env": {
           "flags": [
             "--setting-sources",
@@ -79,16 +79,16 @@
           "claude_code_version": "2.1.301 (Claude Code)"
         },
         "requested_model": "claude-opus-5-5",
-        "raw": "```json\n{\n  \"reasoning\": \"Version A merges the original's choppy sentences into a compact report of the results with no padding. Version B states a takeaway up front ('identity matters'), which helps readers find the point. Its connective phrasing ('holds up', 'strengthens the effect') also gives it better flow. However, B adds words and uses loose, somewhat promotional language. 'Powerful driver' is vague and causal. 'Rises accordingly' implies a link the table does not show. Empirical IS reviewers are wary of that kind of language in a results paragraph. B wins clarity and flow. A wins concision, precision, and audience fit, and is the better-written version overall.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'In Table 3, the identity-disclosed indicator has a coefficient of 0.18' vs B: 'Table 3 reports the estimates, and identity matters.'\",\n    \"concision\": \"A: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications' vs B: 'Star rating remains a powerful driver throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications'\",\n    \"flow\": \"A: 'The interaction with reviewer tenure is 0.09' vs B: 'Reviewer tenure strengthens the effect: the interaction in column 4 is 0.09'\",\n    \"precision\": \"A: 'R-squared rises from 0.31 to 0.47' vs B: 'Explanatory power rises accordingly, as R-squared climbs'\",\n    \"audience_fit\": \"A: 'Star rating has a coefficient of 0.42' vs B: 'Star rating remains a powerful driver throughout'\"\n  },\n  \"overall\": \"A\"\n}\n```",
-        "cost_usd": 0.0359752,
-        "seconds": 9.8,
+        "raw": "```json\n{\n  \"reasoning\": \"Version A tightens the original by merging the column 2 and column 3 results with 'falls to', but it is still a list of coefficients that never says what they mean. Version B opens each result with its point, and it links the results through what they mean ('so the effect of disclosure grows with tenure', 'alongside the rating effect rather than in place of it'). Empirical IS readers expect this kind of interpretation in a results paragraph. B is longer, though. It also uses the colloquial 'carries its own weight', and 'remains at 0.15' blurs the drop that A states exactly. A therefore wins on concision and precision, and B wins on clarity, flow and audience fit. In a first draft where restructuring is welcome, B's added framing matters more.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'In Table 3, the coefficient on the identity-disclosed indicator is 0.18' vs B: 'Identity disclosure carries its own weight: the coefficient...'\",\n    \"concision\": \"A: 'is 0.18 (SE = 0.04) in column 2 and falls to 0.15' vs B: 'Disclosure also matters more for some reviewers than others. The interaction with reviewer tenure is...'\",\n    \"flow\": \"A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. The coefficient on star rating is...' vs B: 'so identity effects appear alongside the rating effect rather than in place of it'\",\n    \"precision\": \"A: 'falls to 0.15 (SE = 0.05) in column 3' vs B: 'it remains at 0.15 (SE = 0.05)' / 'carries its own weight'\",\n    \"audience_fit\": \"A: 'R-squared rises from 0.31 to 0.47 across the columns.' vs B: 'so the effect of disclosure grows with tenure'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0407192,
+        "seconds": 15.2,
         "models": [
           "claude-opus-5-5"
         ]
       },
-      "winner": "with_skill"
+      "winner": "without_skill"
     }
   ],
-  "consolidated": "tie",
-  "note": "order-dependent verdict, counted as tie"
+  "consolidated": "without_skill",
+  "note": ""
 }

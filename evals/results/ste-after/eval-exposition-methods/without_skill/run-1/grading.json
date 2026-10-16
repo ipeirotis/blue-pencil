@@ -3,18 +3,18 @@
     {
       "text": "Protected content unchanged (code grader)",
       "passed": false,
-      "evidence": "numberwords: -[] +['two-way']"
+      "evidence": "numberwords: -[] +['two']"
     },
     {
       "text": "Meaning preserved (meaning grader)",
-      "passed": false,
-      "evidence": "verdict=changed: The core specification, controls, clustering, control groups, and estimators are preserved. The revision adds substantive material the original did not contain, most importantly naming repeat purchase as the outcome, plus new claims about why a before-and-after comparison is unavailable and how TWFE can distort results."
+      "passed": true,
+      "evidence": "verdict=preserved: The revision splits the passage and adds glosses for 'staggered rollout', 'never-treated', and 'not-yet-treated'. These match the standard meanings of the original terms and assert nothing new. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are unchanged."
     }
   ],
   "summary": {
-    "passed": 0,
-    "failed": 2,
+    "passed": 1,
+    "failed": 1,
     "total": 2,
-    "pass_rate": 0.0
+    "pass_rate": 0.5
   }
 }

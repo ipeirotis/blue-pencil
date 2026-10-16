@@ -13,21 +13,21 @@
         {
           "type": "new_content",
           "severity": "major",
-          "original_quote": "The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.",
-          "revised_quote": "The effect of review valence on sales is hard to identify because valence is endogenous to unobserved product quality",
-          "explanation": "The original never names the outcome variable, but the revision says the estimand is the effect of review valence on sales."
+          "original_quote": "is a well-known obstacle to identification in this literature",
+          "revised_quote": "Identifying the causal effect of review valence on sales is difficult",
+          "explanation": "The original never names the outcome; the revision says the estimand is the causal effect of valence on sales."
         },
         {
           "type": "new_content",
           "severity": "major",
           "original_quote": "we estimate the effect and find it to be positive and significant",
-          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
-          "explanation": "The revision attaches the reported positive and significant result to sales, an outcome the original does not specify."
+          "revised_quote": "we estimate a positive and significant effect of review valence on sales",
+          "explanation": "The revision ties the reported positive, significant result to sales, an outcome the original does not state."
         }
       ],
-      "summary": "Most of the rewording is faithful, but the revision twice names 'sales' as the outcome variable. The original never states this, so the main result is now tied to a specific estimand the author did not give."
+      "summary": "Most of the edit is reordering and rephrasing that keeps the meaning, but the revision introduces \"sales\" as the outcome variable twice. The original never specifies the outcome."
     },
-    "key": "95e251393d34b2e3",
+    "key": "99d631bbd2be565f",
     "env": {
       "flags": [
         "--setting-sources",
@@ -39,9 +39,9 @@
       "claude_code_version": "2.1.301 (Claude Code)"
     },
     "requested_model": "claude-opus-5-5",
-    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"The effect of review valence on sales is hard to identify because valence is endogenous to unobserved product quality\",\n      \"explanation\": \"The original never names the outcome variable, but the revision says the estimand is the effect of review valence on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The revision attaches the reported positive and significant result to sales, an outcome the original does not specify.\"\n    }\n  ],\n  \"summary\": \"Most of the rewording is faithful, but the revision twice names 'sales' as the outcome variable. The original never states this, so the main result is now tied to a specific estimand the author did not give.\"\n}\n```",
-    "cost_usd": 0.032947199999999996,
-    "seconds": 9.7,
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"Identifying the causal effect of review valence on sales is difficult\",\n      \"explanation\": \"The original never names the outcome; the revision says the estimand is the causal effect of valence on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate a positive and significant effect of review valence on sales\",\n      \"explanation\": \"The revision ties the reported positive, significant result to sales, an outcome the original does not state.\"\n    }\n  ],\n  \"summary\": \"Most of the edit is reordering and rephrasing that keeps the meaning, but the revision introduces \\\"sales\\\" as the outcome variable twice. The original never specifies the outcome.\"\n}\n```",
+    "cost_usd": 0.0313352,
+    "seconds": 8.3,
     "models": [
       "claude-opus-5-5"
     ],

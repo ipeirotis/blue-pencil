@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": true,
-      "evidence": "verdict=preserved: The revision keeps every substantive claim, its citations, the 5-9% figure, the 1.2 million sample size, the significance finding, and the managerial recommendation. The only changes are three dropped qualifiers (\"fundamentally\", \"novel\", \"important\") plus removed filler and tighter wording."
+      "evidence": "verdict=preserved: Citations, the 5-9% figure, the 1.2 million count, and the claims all stay attached to the same statements at the same strength. The revision states outright that reviewer identity affects the review-sales relationship, which the original implied by the question it posed. Only minor qualifiers (\"fundamentally\", \"novel\", \"important\") were lost."
     }
   ],
   "summary": {

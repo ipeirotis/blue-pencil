@@ -14,55 +14,34 @@
           "type": "new_content",
           "severity": "major",
           "original_quote": "Table 3 reports the estimates.",
-          "revised_quote": "Table 3 reports the estimates, and they point to a clear role for reviewer identity.",
-          "explanation": "The revision adds an interpretive conclusion that the original never draws; the original only reports estimates."
-        },
-        {
-          "type": "claim_strength",
-          "severity": "major",
-          "original_quote": "The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.",
-          "revised_quote": "Disclosing the reviewer's identity raises the outcome by 0.18 (SE = 0.04) in column 2",
-          "explanation": "A reported coefficient becomes a causal claim that disclosure 'raises' the outcome."
+          "revised_quote": "Table 3 reports the estimates, and they point to a consistent role for reviewer identity.",
+          "explanation": "The original only reports coefficients; the revision adds an interpretive claim that the estimates show a consistent role for reviewer identity."
         },
         {
           "type": "new_content",
           "severity": "major",
           "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
-          "revised_quote": "the effect holds when we add product fixed effects in column 3",
-          "explanation": "The revision adds a robustness judgment ('the effect holds') that the original does not make, even though the coefficient drops from 0.18 to 0.15."
+          "revised_quote": "It remains sizable after we add product fixed effects in column 3, at 0.15 (SE = 0.05).",
+          "explanation": "The revision characterizes the column 3 coefficient as 'sizable', an evaluative judgment the original does not make."
         },
         {
           "type": "new_content",
           "severity": "major",
           "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
-          "revised_quote": "Identity also conditions the weight a review carries: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
-          "explanation": "The revision adds an interpretation of the interaction, about the 'weight a review carries', that the original does not state."
+          "revised_quote": "Identity also conditions on who is speaking: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "explanation": "The revision adds an interpretation of the tenure interaction ('identity also conditions on who is speaking') that the original does not state."
         },
         {
           "type": "new_content",
           "severity": "major",
           "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
-          "revised_quote": "Star rating matters as well, with a coefficient of 0.42 (SE = 0.02) across all specifications, but it does not account for the identity effects, which persist alongside it.",
-          "explanation": "The revision adds claims that star rating 'matters' and 'does not account for the identity effects', which are absent from the original."
-        },
-        {
-          "type": "reassigned",
-          "severity": "major",
-          "original_quote": "R-squared rises from 0.31 to 0.47 across the columns.",
-          "revised_quote": "Model fit improves as identity measures enter, with R-squared rising from 0.31 to 0.47 across the columns.",
-          "explanation": "The R-squared increase is now credited to identity measures, while the original attributes it to nothing, and column 3 adds product fixed effects rather than identity measures."
-        },
-        {
-          "type": "voice",
-          "severity": "recorded",
-          "original_quote": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18",
-          "revised_quote": "Disclosing the reviewer's identity raises the outcome by 0.18",
-          "explanation": "The original's neutral, descriptive reporting style is replaced with a persuasive narrative."
+          "revised_quote": "Star rating matters throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it rather than merely echoing it.",
+          "explanation": "The revision asserts that identity adds to star rating rather than echoing it, an incremental-contribution claim absent from the original."
         }
       ],
-      "summary": "The numbers, columns, and significance levels are preserved. However, the revision turns a neutral report of coefficients into a causal, interpretive story: it adds claims of effects, robustness, and persistence, and credits the R-squared gain to identity measures, none of which the original states."
+      "summary": "Every number stays attached to the correct column and variable, and the significance statement is unchanged. However, the revision turns a purely descriptive report into an interpretive one, adding claims about a consistent role for identity, its sizability, its conditioning on the speaker, and its contribution beyond star rating."
     },
-    "key": "35239b98ddde4b8b",
+    "key": "a8b46d99d849a8fc",
     "env": {
       "flags": [
         "--setting-sources",
@@ -74,9 +53,9 @@
       "claude_code_version": "2.1.301 (Claude Code)"
     },
     "requested_model": "claude-opus-5-5",
-    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and they point to a clear role for reviewer identity.\",\n      \"explanation\": \"The revision adds an interpretive conclusion that the original never draws; the original only reports estimates.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.\",\n      \"revised_quote\": \"Disclosing the reviewer's identity raises the outcome by 0.18 (SE = 0.04) in column 2\",\n      \"explanation\": \"A reported coefficient becomes a causal claim that disclosure 'raises' the outcome.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"the effect holds when we add product fixed effects in column 3\",\n      \"explanation\": \"The revision adds a robustness judgment ('the effect holds') that the original does not make, even though the coefficient drops from 0.18 to 0.15.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"Identity also conditions the weight a review carries: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"explanation\": \"The revision adds an interpretation of the interaction, about the 'weight a review carries', that the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating matters as well, with a coefficient of 0.42 (SE = 0.02) across all specifications, but it does not account for the identity effects, which persist alongside it.\",\n      \"explanation\": \"The revision adds claims that star rating 'matters' and 'does not account for the identity effects', which are absent from the original.\"\n    },\n    {\n      \"type\": \"reassigned\",\n      \"severity\": \"major\",\n      \"original_quote\": \"R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"revised_quote\": \"Model fit improves as identity measures enter, with R-squared rising from 0.31 to 0.47 across the columns.\",\n      \"explanation\": \"The R-squared increase is now credited to identity measures, while the original attributes it to nothing, and column 3 adds product fixed effects rather than identity measures.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18\",\n      \"revised_quote\": \"Disclosing the reviewer's identity raises the outcome by 0.18\",\n      \"explanation\": \"The original's neutral, descriptive reporting style is replaced with a persuasive narrative.\"\n    }\n  ],\n  \"summary\": \"The numbers, columns, and significance levels are preserved. However, the revision turns a neutral report of coefficients into a causal, interpretive story: it adds claims of effects, robustness, and persistence, and credits the R-squared gain to identity measures, none of which the original states.\"\n}\n```",
-    "cost_usd": 0.0469392,
-    "seconds": 13.8,
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and they point to a consistent role for reviewer identity.\",\n      \"explanation\": \"The original only reports coefficients; the revision adds an interpretive claim that the estimates show a consistent role for reviewer identity.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"It remains sizable after we add product fixed effects in column 3, at 0.15 (SE = 0.05).\",\n      \"explanation\": \"The revision characterizes the column 3 coefficient as 'sizable', an evaluative judgment the original does not make.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"Identity also conditions on who is speaking: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"explanation\": \"The revision adds an interpretation of the tenure interaction ('identity also conditions on who is speaking') that the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating matters throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds to it rather than merely echoing it.\",\n      \"explanation\": \"The revision asserts that identity adds to star rating rather than echoing it, an incremental-contribution claim absent from the original.\"\n    }\n  ],\n  \"summary\": \"Every number stays attached to the correct column and variable, and the significance statement is unchanged. However, the revision turns a purely descriptive report into an interpretive one, adding claims about a consistent role for identity, its sizability, its conditioning on the speaker, and its contribution beyond star rating.\"\n}\n```",
+    "cost_usd": 0.037951200000000004,
+    "seconds": 10.6,
     "models": [
       "claude-opus-5-5"
     ],

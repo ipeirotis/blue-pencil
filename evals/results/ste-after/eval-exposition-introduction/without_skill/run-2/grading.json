@@ -2,19 +2,19 @@
   "expectations": [
     {
       "text": "Protected content unchanged (code grader)",
-      "passed": false,
-      "evidence": "numberwords: -[] +['one', 'two']"
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
     },
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: The revision adds sales as the outcome variable, plus a framing claim and a mechanism built around it. None of these are in the original, so the estimated effect is now tied to a specific outcome the author never named."
+      "evidence": "verdict=changed: The revision adds sales as the outcome variable and adds a confounding mechanism through sales. The original does not state either, so the revision asserts new content even if it matches the paper's broader context. The definition of valence and the rest of the identification argument are preserved."
     }
   ],
   "summary": {
-    "passed": 0,
-    "failed": 2,
+    "passed": 1,
+    "failed": 1,
     "total": 2,
-    "pass_rate": 0.0
+    "pass_rate": 0.5
   }
 }

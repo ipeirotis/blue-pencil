@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: The revision names sales as the outcome variable throughout. The original never mentions sales, so this is a substantive addition to both the identification problem and the reported result. Other changes are rewording."
+      "evidence": "verdict=changed: The revision adds new content: it gives a mechanism for the endogeneity, names sales as the outcome, and claims that valence varies with moderation rather than with quality. None of this is in the original, so the passage now says more than the author did."
     }
   ],
   "summary": {

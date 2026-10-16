@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": true,
-      "evidence": "verdict=preserved: The revision keeps every claim, number, citation, and caveat attached to the same statements as the original. It mostly removes filler such as 'It is important to note that' and 'It should be noted that'. Dropping 'in the existing literature' does not change the scope, because 'underexplored' already refers to prior work. The only loss is the qualifier 'Crucially'."
+      "evidence": "verdict=preserved: The revision removes filler phrases and tightens wording. All claims, their certainty, the citations, the 5-9% figure, the 1.2 million review count, and the 'novel' qualifier stay attached to the same statements. Dropping 'in the existing literature' after 'somewhat underexplored' is redundant with 'to the best of our knowledge' and does not change the scope."
     }
   ],
   "summary": {

@@ -8,6 +8,7 @@
       "numberwords": {
         "removed": [],
         "added": [
+          "two",
           "two-way"
         ]
       }
@@ -20,21 +21,28 @@
         {
           "type": "new_content",
           "severity": "major",
-          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
-          "revised_quote": "which captures the change in outcomes for a store after the loyalty program arrives, relative to stores without it",
-          "explanation": "The revision adds an interpretation of the TWFE coefficient as a comparison against untreated stores; under staggered rollout, TWFE also implicitly uses already-treated stores as comparisons, so this new characterization of the method is not stated in the original and may be inaccurate."
+          "original_quote": "We estimate a two-way fixed effects model with store and week fixed effects,",
+          "revised_quote": "which absorb stable differences across stores and shocks that affect all stores in a given week",
+          "explanation": "The revision adds an interpretation of what the fixed effects absorb, which the original did not state."
         },
         {
-          "type": "voice",
-          "severity": "recorded",
-          "original_quote": "We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level.",
-          "revised_quote": "We estimate a two-way fixed effects model, which includes a separate intercept for each store and each week. The store effects absorb stable differences across stores, and the week effects absorb shocks that affect all stores in a given week.",
-          "explanation": "The author's compact technical phrasing was expanded into generic textbook-style explanation of fixed effects, clustering, and control groups."
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
+          "revised_quote": "which captures the change in outcomes after the program arrives in a treated store, relative to stores that did not receive it at that time",
+          "explanation": "The revision adds an interpretation of the TWFE coefficient as a comparison only against stores not treated at that time, which the original did not claim and which TWFE under staggered adoption does not strictly deliver."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "to address heterogeneity in treatment timing",
+          "revised_quote": "Differences in treatment timing can distort two-way fixed effects estimates when the program's effect varies across stores or over time.",
+          "explanation": "The revision adds a methodological claim about when and why TWFE estimates are biased, which the original did not make."
         }
       ],
-      "summary": "Most additions are accurate expository glosses (fixed effects, clustering, never-/not-yet-treated definitions, and TWFE sensitivity to timing, which the original implies). However, the added interpretation of the coefficient of interest is a new and arguably imprecise claim about what the estimator measures."
+      "summary": "The method, controls, clustering, comparison groups, and estimators are all retained. However, the revision adds three explanatory claims the original did not make: what the fixed effects absorb, how to interpret the interaction coefficient, and when TWFE is distorted."
     },
-    "key": "0f7d138f0d8a0675",
+    "key": "a0d8be071adb4928",
     "env": {
       "flags": [
         "--setting-sources",
@@ -46,9 +54,9 @@
       "claude_code_version": "2.1.301 (Claude Code)"
     },
     "requested_model": "claude-opus-5-5",
-    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"which captures the change in outcomes for a store after the loyalty program arrives, relative to stores without it\",\n      \"explanation\": \"The revision adds an interpretation of the TWFE coefficient as a comparison against untreated stores; under staggered rollout, TWFE also implicitly uses already-treated stores as comparisons, so this new characterization of the method is not stated in the original and may be inaccurate.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"We estimate a two-way fixed effects model with store and week fixed effects, clustering standard errors at the store level.\",\n      \"revised_quote\": \"We estimate a two-way fixed effects model, which includes a separate intercept for each store and each week. The store effects absorb stable differences across stores, and the week effects absorb shocks that affect all stores in a given week.\",\n      \"explanation\": \"The author's compact technical phrasing was expanded into generic textbook-style explanation of fixed effects, clustering, and control groups.\"\n    }\n  ],\n  \"summary\": \"Most additions are accurate expository glosses (fixed effects, clustering, never-/not-yet-treated definitions, and TWFE sensitivity to timing, which the original implies). However, the added interpretation of the coefficient of interest is a new and arguably imprecise claim about what the estimator measures.\"\n}\n```",
-    "cost_usd": 0.0473352,
-    "seconds": 17.1,
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"We estimate a two-way fixed effects model with store and week fixed effects,\",\n      \"revised_quote\": \"which absorb stable differences across stores and shocks that affect all stores in a given week\",\n      \"explanation\": \"The revision adds an interpretation of what the fixed effects absorb, which the original did not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"which captures the change in outcomes after the program arrives in a treated store, relative to stores that did not receive it at that time\",\n      \"explanation\": \"The revision adds an interpretation of the TWFE coefficient as a comparison only against stores not treated at that time, which the original did not claim and which TWFE under staggered adoption does not strictly deliver.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"to address heterogeneity in treatment timing\",\n      \"revised_quote\": \"Differences in treatment timing can distort two-way fixed effects estimates when the program's effect varies across stores or over time.\",\n      \"explanation\": \"The revision adds a methodological claim about when and why TWFE estimates are biased, which the original did not make.\"\n    }\n  ],\n  \"summary\": \"The method, controls, clustering, comparison groups, and estimators are all retained. However, the revision adds three explanatory claims the original did not make: what the fixed effects absorb, how to interpret the interaction coefficient, and when TWFE is distorted.\"\n}\n```",
+    "cost_usd": 0.04254719999999999,
+    "seconds": 14.1,
     "models": [
       "claude-opus-5-5"
     ],

@@ -1,43 +1,53 @@
 ## Diagnosis
 
-- **Opening:** The first sentence is throat-clearing ("It is important to note that", "the way in which", "fundamentally"). The reader doesn't meet the question until the end of the paragraph.
-- **Connectives:** "Furthermore", "Moreover" and "Crucially, however" announce the turn instead of making it. The spine is: reviews move sales, whether reviewer identity matters is unexplored, so we test it.
-- **Sentence 2:** The action is buried in a passive nominalization ("an investigation ... was conducted by").
-- **Sentence 3:** "reviews matter, a one-star increase leads to..." is a comma splice.
-- **Gap sentence:** "To the best of our knowledge" splits "remains" from "underexplored". "Somewhat" stacks a second hedge on the same claim.
-- **Second paragraph:** It has several filler phrases: "In order to", "leverage", "novel", "comprising of", "The results of our analysis demonstrate that", "It should be noted that" and "important implications".
-- **Finding:** "Has a significant effect" doesn't say an effect on what. "Significant" could mean statistical or substantive.
-- **Missing handle:** The opening has no memorable phrase for the paper and no concrete example. I didn't invent one, so it's in the author questions.
+Assumed context: none. The paper context came from `AGENTS.md`, and the stage is first draft. I did a direct rewrite of the pasted opening.
+
+- **Throat-clearing and stacked connectives.** "It is important to note that", "Furthermore", "Moreover", "Crucially" and "It should be noted that" add no content. "Furthermore" and "Moreover" also join what is really one idea.
+- **Passive nominalization.** "An investigation... was conducted by several researchers" hides the action.
+- **Comma splice.** "Reviews matter, a one-star increase leads to..." never states how the two clauses relate.
+- **Weakened turn.** The "underexplored" sentence is where the paper pivots, but it carries a stacked hedge ("to the best of our knowledge" plus "somewhat"). An adverbial also separates the verb from its complement, and "in the existing literature" repeats the previous sentence.
+- **Wording errors.** "Comprising of" is ungrammatical. "Leverage" and "novel" are promotional.
+- **Missing object.** "Has a significant effect" doesn't say an effect on what.
+- **Inconsistent term.** The same construct appears as "the identity of reviewers", "reviewer identity" and "reviewer credentials".
 
 ## Revised text
 
 ```
-The proliferation of online platforms has transformed how consumers make purchasing decisions. Several studies of the relationship between online reviews and sales (Chevalier and Mayzlin 2006; Forman et al. 2008; Dellarocas 2003) found that reviews matter: a one-star increase leads to a 5-9% increase in revenue. Yet to our knowledge, whether reviewer identity affects this relationship remains underexplored.
+The proliferation of online platforms has transformed how consumers make
+purchasing decisions. Several studies have examined the relationship between
+online reviews and sales (Chevalier and Mayzlin 2006; Forman et al. 2008;
+Dellarocas 2003). These studies found that reviews matter: a one-star increase
+leads to a 5-9% increase in revenue. However, to the best of our knowledge,
+whether reviewer identity affects this relationship remains underexplored.
 
-To investigate this question, we use a dataset of 1.2 million reviews. Reviewer identity has a significant effect on the relationship between reviews and sales. This finding has implications for platform design: managers should consider highlighting reviewer credentials.
+To investigate this question, we use a dataset of 1.2 million reviews. Reviewer
+identity has a significant effect on the relationship between reviews and
+sales. This finding has implications for platform design: managers should
+consider highlighting reviewer credentials.
 ```
 
 ## Change rationale
 
-Word count went from about 150 to about 90 (-40%). References loaded: principles, edit-checks, structural-patterns, exposition, altitude, precision-budget, narrative-spine, reader-pleasure, sentence-patterns, subtraction, ai-tells-to-avoid and copyediting. The whole-paper passes (cold-read, consistency-checks) were not loaded.
+The text goes from about 130 words to about 100 (−23%). All numbers (5-9%, 1.2 million) and the three citations, in their original order, are unchanged. The sweep loaded these references: principles, edit-checks, structural-patterns, exposition, altitude, precision-budget, narrative-spine, reader-pleasure, sentence-patterns, subtraction, ai-tells-to-avoid and copyediting. No pass was skipped.
 
-- **Numbers and citations:** The citations are unchanged and in the same order. "5-9%", "one-star increase" and "1.2 million reviews" are untouched.
-- **Sentence 1:** I cut "It is important to note that" and "fundamentally", and changed "the way in which" to "how".
-- **Sentences 2–3:** I merged them to remove "Furthermore" and "Moreover". "Found" is now the verb, and a colon fixes the comma splice. The citations now sit mid-sentence, so it ends on the finding.
-- **Gap sentence:** It now reads "Yet to our knowledge, whether reviewer identity affects this relationship remains underexplored." I cut "somewhat" and "in the existing literature". "Reviewer identity" matches the term used later.
-- **Second paragraph:**
-  - "In order to" became "To", "leverage" became "use", and "comprising of" became "of".
-  - I cut "novel".
-  - "The results of our analysis demonstrate that" is gone, so the finding is the subject.
-  - "It should be noted that" and "important" are cut.
-- **Order:** Nothing was reordered. The existing order of setup, open question, then what you did and found already carries the spine.
+- **Opening sentence.** I cut "It is important to note that", "fundamentally" and "the way in which". The claim is intact.
+- **Prior-work sentences.** The action moved into the verb ("Several studies have examined..."), and I dropped "Furthermore" and "Moreover". A colon now fixes the comma splice, so the per-star figure reads as the specification of "reviews matter".
+- **The turn.** I cut "Crucially", "somewhat", "in the existing literature" and "the question of". Your hedge "to the best of our knowledge" stays. "Underexplored" now falls at the end of the sentence.
+- **One term.** I used "reviewer identity" throughout. "Reviewer credentials" is left as you wrote it in the last sentence.
+- **Dataset sentence.** I changed "In order to" to "To", "leverage" to "use" and "comprising of" to "of", and cut "novel".
+- **Result sentence.** I removed the "The results of our analysis demonstrate that" frame. The result is now stated directly, with its object ("on the relationship between reviews and sales") taken from the paragraph 1 question. "Significant" is kept as written.
+- **Implications sentence.** I cut "It should be noted that" and "important". The recommendation itself is unchanged.
 
 ## Author questions
 
-- **Numbers and style:** Please confirm none of the numbers was altered. Does ISR style require an en dash in "5-9%"?
-- **The 5-9% claim:** Does each cited study report it, or is it a range across them? Is "leads to" causal or associative? Do "revenue" and "sales" name the same construct?
-- **Terms:** Are "reviewer identity" and "reviewer credentials" the same thing? What does identity mean in your data (name, location, expertise, verified-purchaser status)?
-- **The finding:** I added "on the relationship between reviews and sales" from your gap sentence, since the original named no object. Is that right? Is "significant" statistical or substantive? Where does the body state the estimate and its precision? That's outside this section, so I couldn't check it.
-- **Cut words:** Dropping "novel" removed the novelty claim. What makes the dataset new (platform, identity data, coverage)? Does plain "underexplored" match the size of gap you intend to claim?
-- **Handle and example:** Is there a phrase a colleague would use for the paper, such as who writes a review mattering beyond what it rates? Is there a concrete example of an identity effect you'd like readers to carry away?
-- **Recommendation:** Does highlighting credentials follow directly from the finding? Or does it rest on assumptions the body should state, such as credentials being displayable and driving the identity effect?
+- **Opening hook.** The puzzle (does reviewer identity change how much a review moves sales?) only arrives in sentence 4. Is there a concrete observation from your data or the literature that could open the paper? I didn't invent one.
+- **Construct definition.** What does "reviewer identity" mean here (credentials, reputation, verified status, demographics)? Is "reviewer credentials" the same thing?
+- **Object of the effect.** I read "has a significant effect" as an effect on the reviews-to-sales relationship. Is that what you intend?
+- **"Significant".** Does it mean statistically significant or substantively large? The introduction gives no direction or magnitude for the identity effect, though the per-star effect gets a figure.
+- **Causal language.** "Effect", "demonstrate" and "leads to" read as causal. Does your design support that? I left the strength of the claims unchanged.
+- **Cut hedge.** Did "somewhat" in "somewhat underexplored" mark partial prior coverage you want kept?
+- **"Novel".** If the dataset is new, what makes it so, in a phrase the manuscript already supports?
+- **Source of 5-9%.** Do all three cited papers report this figure, or only some? I kept the attribution as you wrote it.
+- **Named idea.** What phrase should a colleague use to describe this paper?
+- **Stakes.** Why does this question matter to empirical IS researchers beyond the platform-design implication? That isn't on the page yet.
+- **Results consistency.** Does the Results section state the identity effect in full, with the specification and conditions? I couldn't check that from the text you sent.

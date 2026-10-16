@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": true,
-      "evidence": "verdict=preserved: The revision reorders the sentences so star rating comes first and merges the column 2 and column 3 sentences. Every coefficient, standard error, column, specification, and significance level stays attached to the same variable as in the original."
+      "evidence": "verdict=preserved: The revision reorders the sentences and merges the two identity-disclosed estimates into one sentence. Every number stays attached to the same variable and column: 0.18 (SE = 0.04) in column 2, 0.15 (SE = 0.05) in column 3 with product fixed effects, 0.09 (SE = 0.03) for the tenure interaction in column 4, and 0.42 (SE = 0.02) for star rating. The R-squared range and the significance levels are unchanged."
     }
   ],
   "summary": {

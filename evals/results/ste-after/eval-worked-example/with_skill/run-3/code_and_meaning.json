@@ -15,26 +15,26 @@
           "severity": "minor",
           "original_quote": "has fundamentally transformed the way in which consumers make purchasing decisions",
           "revised_quote": "has transformed how consumers make purchasing decisions",
-          "explanation": "The intensifier \"fundamentally\" was dropped, which slightly softens how large the claimed transformation is."
+          "explanation": "The intensifier \"fundamentally\" was dropped, which slightly softens the claim about how much platforms changed purchasing decisions."
         },
         {
           "type": "qualifier_word",
           "severity": "minor",
           "original_quote": "we leverage a novel dataset comprising of 1.2 million reviews",
           "revised_quote": "we use a dataset of 1.2 million reviews",
-          "explanation": "The qualifier \"novel\" was dropped, so the revision no longer claims the dataset is new."
+          "explanation": "The qualifier \"novel\" describing the dataset was removed."
         },
         {
           "type": "qualifier_word",
           "severity": "minor",
-          "original_quote": "this finding has important implications for platform design",
-          "revised_quote": "This finding has implications for platform design",
-          "explanation": "The qualifier \"important\" was dropped, which weakens the stated significance of the implications."
+          "original_quote": "this finding has important implications for platform design: managers should consider highlighting reviewer credentials",
+          "revised_quote": "Platform managers should therefore consider highlighting reviewer credentials",
+          "explanation": "The framing that the finding has \"important implications\" was dropped, but the platform-design recommendation and its link to the finding are kept."
         }
       ],
-      "summary": "The revision keeps every substantive claim, its citations, the 5-9% figure, the 1.2 million sample size, the significance finding, and the managerial recommendation. The only changes are three dropped qualifiers (\"fundamentally\", \"novel\", \"important\") plus removed filler and tighter wording."
+      "summary": "Citations, the 5-9% figure, the 1.2 million count, and the claims all stay attached to the same statements at the same strength. The revision states outright that reviewer identity affects the review-sales relationship, which the original implied by the question it posed. Only minor qualifiers (\"fundamentally\", \"novel\", \"important\") were lost."
     },
-    "key": "bedad11fdfd5bb28",
+    "key": "83616a5bf9050d8c",
     "env": {
       "flags": [
         "--setting-sources",
@@ -46,9 +46,9 @@
       "claude_code_version": "2.1.301 (Claude Code)"
     },
     "requested_model": "claude-opus-5-5",
-    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"has fundamentally transformed the way in which consumers make purchasing decisions\",\n      \"revised_quote\": \"has transformed how consumers make purchasing decisions\",\n      \"explanation\": \"The intensifier \\\"fundamentally\\\" was dropped, which slightly softens how large the claimed transformation is.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"we leverage a novel dataset comprising of 1.2 million reviews\",\n      \"revised_quote\": \"we use a dataset of 1.2 million reviews\",\n      \"explanation\": \"The qualifier \\\"novel\\\" was dropped, so the revision no longer claims the dataset is new.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"this finding has important implications for platform design\",\n      \"revised_quote\": \"This finding has implications for platform design\",\n      \"explanation\": \"The qualifier \\\"important\\\" was dropped, which weakens the stated significance of the implications.\"\n    }\n  ],\n  \"summary\": \"The revision keeps every substantive claim, its citations, the 5-9% figure, the 1.2 million sample size, the significance finding, and the managerial recommendation. The only changes are three dropped qualifiers (\\\"fundamentally\\\", \\\"novel\\\", \\\"important\\\") plus removed filler and tighter wording.\"\n}\n```",
-    "cost_usd": 0.0405072,
-    "seconds": 11.4,
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"has fundamentally transformed the way in which consumers make purchasing decisions\",\n      \"revised_quote\": \"has transformed how consumers make purchasing decisions\",\n      \"explanation\": \"The intensifier \\\"fundamentally\\\" was dropped, which slightly softens the claim about how much platforms changed purchasing decisions.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"we leverage a novel dataset comprising of 1.2 million reviews\",\n      \"revised_quote\": \"we use a dataset of 1.2 million reviews\",\n      \"explanation\": \"The qualifier \\\"novel\\\" describing the dataset was removed.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"this finding has important implications for platform design: managers should consider highlighting reviewer credentials\",\n      \"revised_quote\": \"Platform managers should therefore consider highlighting reviewer credentials\",\n      \"explanation\": \"The framing that the finding has \\\"important implications\\\" was dropped, but the platform-design recommendation and its link to the finding are kept.\"\n    }\n  ],\n  \"summary\": \"Citations, the 5-9% figure, the 1.2 million count, and the claims all stay attached to the same statements at the same strength. The revision states outright that reviewer identity affects the review-sales relationship, which the original implied by the question it posed. Only minor qualifiers (\\\"fundamentally\\\", \\\"novel\\\", \\\"important\\\") were lost.\"\n}\n```",
+    "cost_usd": 0.0511432,
+    "seconds": 17.5,
     "models": [
       "claude-opus-5-5"
     ],

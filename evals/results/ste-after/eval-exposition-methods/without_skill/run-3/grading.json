@@ -3,12 +3,12 @@
     {
       "text": "Protected content unchanged (code grader)",
       "passed": false,
-      "evidence": "numberwords: -[] +['two-way']"
+      "evidence": "numberwords: -[] +['two', 'two-way']"
     },
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": false,
-      "evidence": "verdict=changed: Most additions are accurate expository glosses (fixed effects, clustering, never-/not-yet-treated definitions, and TWFE sensitivity to timing, which the original implies). However, the added interpretation of the coefficient of interest is a new and arguably imprecise claim about what the estimator measures."
+      "evidence": "verdict=changed: The method, controls, clustering, comparison groups, and estimators are all retained. However, the revision adds three explanatory claims the original did not make: what the fixed effects absorb, how to interpret the interaction coefficient, and when TWFE is distorted."
     }
   ],
   "summary": {

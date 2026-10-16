@@ -13,35 +13,42 @@
         {
           "type": "new_content",
           "severity": "major",
-          "original_quote": "a well-known obstacle to identification in this literature",
-          "revised_quote": "a well-known obstacle to identifying the causal effect of reviews on sales",
-          "explanation": "The original never names sales as the outcome or the estimand; the revision adds it and drops the 'in this literature' framing."
+          "original_quote": "is a well-known obstacle to identification in this literature",
+          "revised_quote": "A well-known obstacle to identifying the effect of a review's valence on sales",
+          "explanation": "The original never names the outcome variable; the revision says the estimand is the effect of valence on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The endogeneity of review valence with respect to unobserved product quality",
+          "revised_quote": "valence is correlated with unobserved product quality, which itself drives sales",
+          "explanation": "The revision adds a causal claim that product quality drives sales, which the original does not state."
         },
         {
           "type": "new_content",
           "severity": "major",
           "original_quote": "we estimate the effect and find it to be positive and significant",
           "revised_quote": "we estimate the effect of valence on sales and find it to be positive and significant",
-          "explanation": "The original does not say what the effect is of or on; the revision says the positive, significant result is valence on sales."
+          "explanation": "The positive and significant result is now tied to a specific outcome, sales, which the original left unspecified."
         },
         {
-          "type": "new_content",
+          "type": "caveat_or_scope",
           "severity": "major",
-          "original_quote": "which generates quasi-random assignment conditional on observed covariates",
-          "revised_quote": "This generates quasi-random assignment of review valence conditional on observed covariates, so that otherwise comparable products are exposed to different sets of reviews for reasons unrelated to their quality.",
-          "explanation": "The revision says what is assigned (review valence) and adds an exogeneity claim that exposure is unrelated to product quality, which the original does not state."
+          "original_quote": "a well-known obstacle to identification in this literature",
+          "revised_quote": "A well-known obstacle to identifying the effect of a review's valence on sales",
+          "explanation": "The original framed the obstacle relative to 'this literature'; the revision drops that framing and narrows the obstacle to one specific effect."
         },
         {
-          "type": "new_content",
-          "severity": "major",
-          "original_quote": "is a well-known obstacle to identification in this literature.",
-          "revised_quote": "a product that receives favorable reviews may also simply be a better product.",
-          "explanation": "The revision adds an explanation of the endogeneity mechanism that the original does not contain, though it is consistent with the original."
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "We exploit platform-level heterogeneity in content moderation",
+          "revised_quote": "We exploit differences across platforms in how reviews are moderated",
+          "explanation": "The author's technical phrasing was replaced with plainer generic wording that has the same meaning."
         }
       ],
-      "summary": "The revision adds substance the original does not state: it names sales as the outcome and estimand, says review valence is what is quasi-randomly assigned, and asserts that exposure is unrelated to quality. These may match the authors' intent, but they are new claims."
+      "summary": "The revision adds sales as the outcome variable and adds a claim that quality drives sales; the original specified neither, so the stated estimand and result now differ. The remaining edits rephrase the original without changing its meaning."
     },
-    "key": "a82c806324fc2595",
+    "key": "1ac971ccea5dd965",
     "env": {
       "flags": [
         "--setting-sources",
@@ -53,9 +60,9 @@
       "claude_code_version": "2.1.301 (Claude Code)"
     },
     "requested_model": "claude-opus-5-5",
-    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"a well-known obstacle to identifying the causal effect of reviews on sales\",\n      \"explanation\": \"The original never names sales as the outcome or the estimand; the revision adds it and drops the 'in this literature' framing.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original does not say what the effect is of or on; the revision says the positive, significant result is valence on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"which generates quasi-random assignment conditional on observed covariates\",\n      \"revised_quote\": \"This generates quasi-random assignment of review valence conditional on observed covariates, so that otherwise comparable products are exposed to different sets of reviews for reasons unrelated to their quality.\",\n      \"explanation\": \"The revision says what is assigned (review valence) and adds an exogeneity claim that exposure is unrelated to product quality, which the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"a product that receives favorable reviews may also simply be a better product.\",\n      \"explanation\": \"The revision adds an explanation of the endogeneity mechanism that the original does not contain, though it is consistent with the original.\"\n    }\n  ],\n  \"summary\": \"The revision adds substance the original does not state: it names sales as the outcome and estimand, says review valence is what is quasi-randomly assigned, and asserts that exposure is unrelated to quality. These may match the authors' intent, but they are new claims.\"\n}\n```",
-    "cost_usd": 0.0451352,
-    "seconds": 15.2,
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"A well-known obstacle to identifying the effect of a review's valence on sales\",\n      \"explanation\": \"The original never names the outcome variable; the revision says the estimand is the effect of valence on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The endogeneity of review valence with respect to unobserved product quality\",\n      \"revised_quote\": \"valence is correlated with unobserved product quality, which itself drives sales\",\n      \"explanation\": \"The revision adds a causal claim that product quality drives sales, which the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The positive and significant result is now tied to a specific outcome, sales, which the original left unspecified.\"\n    },\n    {\n      \"type\": \"caveat_or_scope\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"A well-known obstacle to identifying the effect of a review's valence on sales\",\n      \"explanation\": \"The original framed the obstacle relative to 'this literature'; the revision drops that framing and narrows the obstacle to one specific effect.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"We exploit platform-level heterogeneity in content moderation\",\n      \"revised_quote\": \"We exploit differences across platforms in how reviews are moderated\",\n      \"explanation\": \"The author's technical phrasing was replaced with plainer generic wording that has the same meaning.\"\n    }\n  ],\n  \"summary\": \"The revision adds sales as the outcome variable and adds a claim that quality drives sales; the original specified neither, so the stated estimand and result now differ. The remaining edits rephrase the original without changing its meaning.\"\n}\n```",
+    "cost_usd": 0.0406872,
+    "seconds": 13.1,
     "models": [
       "claude-opus-5-5"
     ],

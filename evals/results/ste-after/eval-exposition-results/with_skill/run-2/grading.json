@@ -8,7 +8,7 @@
     {
       "text": "Meaning preserved (meaning grader)",
       "passed": true,
-      "evidence": "verdict=preserved: The revision merges the column 2 and column 3 sentences and reorders the star-rating sentence. Every number stays with its original column, variable, and specification, and the significance statement is unchanged."
+      "evidence": "verdict=preserved: The revision merges the column 2 and column 3 sentences. Every number and SE stays with the same column and specification, including the product fixed effects in column 3. The added word \"positive\" follows directly from the reported coefficients (0.18 and 0.15), so it asserts nothing new."
     }
   ],
   "summary": {

@@ -8,33 +8,40 @@
   },
   "meaning": {
     "parsed": {
-      "verdict": "preserved",
+      "verdict": "changed",
       "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "remains, to the best of our knowledge, somewhat underexplored in the existing literature",
+          "revised_quote": "remains underexplored in the literature, to the best of our knowledge",
+          "explanation": "Dropping the hedge 'somewhat' strengthens the claim about the research gap from partially underexplored to underexplored."
+        },
         {
           "type": "qualifier_word",
           "severity": "minor",
           "original_quote": "has fundamentally transformed the way in which consumers make purchasing decisions",
-          "revised_quote": "have transformed how consumers make purchasing decisions",
-          "explanation": "The intensifier \"fundamentally\" was dropped, slightly softening the claim about the extent of transformation."
+          "revised_quote": "has transformed how consumers make purchasing decisions",
+          "explanation": "The intensifier 'fundamentally' was dropped, which weakens the claimed degree of transformation."
         },
         {
           "type": "qualifier_word",
           "severity": "minor",
           "original_quote": "we leverage a novel dataset comprising of 1.2 million reviews",
-          "revised_quote": "we use a dataset comprising 1.2 million reviews",
-          "explanation": "The qualifier \"novel\" describing the dataset was dropped."
+          "revised_quote": "we use a dataset of 1.2 million reviews",
+          "explanation": "The qualifier 'novel' describing the dataset was dropped."
         },
         {
           "type": "qualifier_word",
           "severity": "minor",
-          "original_quote": "It should be noted that this finding has important implications for platform design: managers should consider highlighting reviewer credentials.",
-          "revised_quote": "Platform managers should therefore consider highlighting reviewer credentials.",
-          "explanation": "The framing that the finding has \"important implications\" was dropped, though the managerial recommendation itself is kept."
+          "original_quote": "this finding has important implications for platform design",
+          "revised_quote": "For platform design, this finding implies that",
+          "explanation": "The qualifier 'important' describing the implications was dropped."
         }
       ],
-      "summary": "The revision keeps the citations, the 5-9% per-star effect, the 1.2 million review sample, the hedged \"somewhat underexplored\" gap, and the main finding and recommendation. Only emphasis qualifiers (\"fundamentally\", \"novel\", \"important implications\") were lost. Making explicit that the effect is \"on this relationship\" matches the research question the original posed, so it is not new content."
+      "summary": "Citations, the 5-9% figure, and the main finding stay attached to the right claims. However, removing 'somewhat' strengthens the research-gap claim, and several qualifiers ('fundamentally', 'novel', 'important') were dropped."
     },
-    "key": "5327c3394c5fc88c",
+    "key": "979c87a320c0cee0",
     "env": {
       "flags": [
         "--setting-sources",
@@ -46,9 +53,9 @@
       "claude_code_version": "2.1.301 (Claude Code)"
     },
     "requested_model": "claude-opus-5-5",
-    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"has fundamentally transformed the way in which consumers make purchasing decisions\",\n      \"revised_quote\": \"have transformed how consumers make purchasing decisions\",\n      \"explanation\": \"The intensifier \\\"fundamentally\\\" was dropped, slightly softening the claim about the extent of transformation.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"we leverage a novel dataset comprising of 1.2 million reviews\",\n      \"revised_quote\": \"we use a dataset comprising 1.2 million reviews\",\n      \"explanation\": \"The qualifier \\\"novel\\\" describing the dataset was dropped.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"It should be noted that this finding has important implications for platform design: managers should consider highlighting reviewer credentials.\",\n      \"revised_quote\": \"Platform managers should therefore consider highlighting reviewer credentials.\",\n      \"explanation\": \"The framing that the finding has \\\"important implications\\\" was dropped, though the managerial recommendation itself is kept.\"\n    }\n  ],\n  \"summary\": \"The revision keeps the citations, the 5-9% per-star effect, the 1.2 million review sample, the hedged \\\"somewhat underexplored\\\" gap, and the main finding and recommendation. Only emphasis qualifiers (\\\"fundamentally\\\", \\\"novel\\\", \\\"important implications\\\") were lost. Making explicit that the effect is \\\"on this relationship\\\" matches the research question the original posed, so it is not new content.\"\n}\n```",
-    "cost_usd": 0.0365884,
-    "seconds": 18.3,
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"remains, to the best of our knowledge, somewhat underexplored in the existing literature\",\n      \"revised_quote\": \"remains underexplored in the literature, to the best of our knowledge\",\n      \"explanation\": \"Dropping the hedge 'somewhat' strengthens the claim about the research gap from partially underexplored to underexplored.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"has fundamentally transformed the way in which consumers make purchasing decisions\",\n      \"revised_quote\": \"has transformed how consumers make purchasing decisions\",\n      \"explanation\": \"The intensifier 'fundamentally' was dropped, which weakens the claimed degree of transformation.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"we leverage a novel dataset comprising of 1.2 million reviews\",\n      \"revised_quote\": \"we use a dataset of 1.2 million reviews\",\n      \"explanation\": \"The qualifier 'novel' describing the dataset was dropped.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"this finding has important implications for platform design\",\n      \"revised_quote\": \"For platform design, this finding implies that\",\n      \"explanation\": \"The qualifier 'important' describing the implications was dropped.\"\n    }\n  ],\n  \"summary\": \"Citations, the 5-9% figure, and the main finding stay attached to the right claims. However, removing 'somewhat' strengthens the research-gap claim, and several qualifiers ('fundamentally', 'novel', 'important') were dropped.\"\n}\n```",
+    "cost_usd": 0.0482032,
+    "seconds": 14.3,
     "models": [
       "claude-opus-5-5"
     ],
