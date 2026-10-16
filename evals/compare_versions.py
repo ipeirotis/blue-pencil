@@ -35,8 +35,10 @@ def pair(case_id, n):
                          VERSION_A=revised[a], VERSION_B=revised[b])
         g = gp.model_json(prompt, gp.GRADER_MODEL, gp.quality_validator(revised[a], revised[b]))
         overall = (g["parsed"] or {}).get("overall")
+        # Keep the full grader record (requested and actual models, environment, cache key,
+        # raw reply), as grade_pilot.py does, so the verdict's provenance can be audited.
         orders.append({"A": a, "B": b, "winner": None if overall is None else {"A": a, "B": b, "tie": "tie"}[overall],
-                       "parsed": g["parsed"], "cost_usd": g["cost_usd"]})
+                       "grader": g})
     w1, w2 = orders[0]["winner"], orders[1]["winner"]
     cons = "ungraded" if None in (w1, w2) else (w1 if w1 == w2 else "tie")
     return {"case": case_id, "run": n, "consolidated": cons, "orders": orders}
@@ -45,7 +47,7 @@ def pair(case_id, n):
 # Refuse runs that cannot be compared: a case edited since either run, or runs that
 # differ in executor model, Claude Code version, flags, or case fingerprints.
 metas = {v: read_json(r / "run_meta.json") for v, r in ROOTS.items()}
-case_ids = sorted(ed.name[len("eval-"):] for ed in after_root.glob("eval-*"))
+case_ids = sorted(set(metas["before"].get("cases") or []) | set(metas["after"].get("cases") or []))
 for v, r in ROOTS.items():
     stale = changed_cases(metas[v], case_ids, r)
     if stale:
@@ -54,11 +56,16 @@ for key in ("executor_model", "claude_code_version", "flags", "preserve_instruct
     if metas["before"].get(key) != metas["after"].get(key):
         sys.exit(f"before and after runs differ in {key}; they are not comparable")
 
-jobs = []
-for ed in sorted(after_root.glob("eval-*")):
-    cid = ed.name[len("eval-"):]
-    for rd in sorted((ed / "with_skill").glob("run-*")):
-        jobs.append((cid, int(rd.name.split("-")[1])))
+# Both runs must cover the same planned cases and run count, and every planned with_skill
+# run must exist in both, so a partial run cannot pass for a smaller complete comparison.
+for key in ("cases", "runs_per_condition"):
+    if metas["before"].get(key) != metas["after"].get(key):
+        sys.exit(f"before and after runs differ in {key}; they are not comparable")
+jobs = [(c, n) for c in sorted(metas["after"]["cases"]) for n in range(1, metas["after"]["runs_per_condition"] + 1)]
+missing = [f"{v}: {c} run-{n}" for v, r in ROOTS.items() for c, n in jobs
+           if not (r / f"eval-{c}" / "with_skill" / f"run-{n}").is_dir()]
+if missing:
+    sys.exit("runs missing, comparison would be incomplete: " + "; ".join(missing))
 with ThreadPoolExecutor(max_workers=4) as ex:
     results = list(ex.map(lambda j: pair(*j), jobs))
 out_path.write_text(json.dumps(results, indent=2))
