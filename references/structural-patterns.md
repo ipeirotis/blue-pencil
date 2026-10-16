@@ -66,7 +66,7 @@ The most common methods pathology is the **procedural recitation**: a chronologi
 **Procedural passages.** Inside a Methods section, some passages are procedures a reader may repeat: a data-cleaning pipeline, an exclusion protocol, an annotation workflow, a stimulus sequence. The recitation pathology is about how the section is organized; inside a procedure, order of performance is the right order, because the reader will follow it. Here the instruction-writing rules of ASD-STE100 (rules 5.2 and 5.4) carry over in the past tense:
 
 - **One step per sentence**, unless two actions happened at the same time. A sentence that packs three steps hides their order.
-- **Steps in the order performed.** When the text says "after" or "before" to recover an order the sentences do not show, reorder the sentences (at `first draft`, or flag at later stages).
+- **Steps in the order performed.** When the text says "after" or "before" to recover an order the sentences do not show, reorder the sentences at `first draft`, and at `response to reviewers` when the paragraph is reviewer-flagged; at `final polish`, or in an unflagged paragraph, flag the order instead.
 - **The condition before the action.** "If a respondent failed both attention checks, we excluded them" tells the reader which cases the step covers before it describes the step. One leading condition is fine; a stack of them is the left-branching preamble (`references/sentence-patterns.md`).
 - **Name the agent and the parameter** when the step depends on them: who coded the responses, what threshold triggered the exclusion. A missing agent or parameter is substance, so it goes to `Author questions`, never into the text.
 

@@ -110,7 +110,7 @@ The underlying claim is that most misreadings come from a small set of causes: a
 
 | STE rule (Issue 9 numbering) | Academic version | Home in this skill |
 |---|---|---|
-| 1.3, 9.2: use each word only in its approved meaning | One word, one sense: "since", "as", "while", "once", "may", "should" each in one sense, never two in one passage | `references/copyediting.md`, item 11 |
+| 1.3, 9.2: use each word only in its approved meaning | One word, one sense: no occurrence of "since", "as", "while", "once", "may", or "should" can be read in two senses; clear uses of two senses in one passage ("as a control", "as specified") both stay | `references/copyediting.md`, item 11 |
 | 1.11, 9.4: do not use different technical nouns for the same thing | One construct, one term, already the terminology-consistency rule; no synonyms for variety | `references/copyediting.md`, items 4 and 11 |
 | 1.10, 1.9: no slang, regional, or jargon words as technical nouns; prefer short, clear ones | Jargon earns its place; a term of art stays, an idiom does not | `SKILL.md` Style rules; `references/sentence-patterns.md`, "Idioms and phrasal verbs" |
 | 2.1: multi-word nouns of not more than three nouns | The noun pile-up threshold (three suspicious, four almost always wrong) | `references/sentence-patterns.md`, "Noun pile-ups" |

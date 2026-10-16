@@ -276,10 +276,10 @@ Diagnostic: when you see one of these abstract nouns, ask what concrete content 
 
 **Vague verbs** are the verb form of the same problem: "address", "handle", "deal with", "tackle", "affect", "impact", "involve", "examine", "explore", "focus on", "look at". Each stands for a more specific action, and STE's demand for a specific word (the reason its dictionary gives each verb one meaning) applies here. The specific verb usually makes a different claim: "address the confound" can mean "measure", "control for", "bound", or "eliminate", and those are four different results.
 
-| Before | After (flag for the author) |
-|---|---|
-| We address selection bias with a reweighting step. | We reduce selection bias with a reweighting step. (Reduce, bound, or remove?) |
-| Income affects turnout. | Income raises turnout. (Which direction? Is the design causal?) |
+| Before | Rewrite, unless the manuscript says elsewhere | Author question |
+|---|---|---|
+| We address selection bias with a reweighting step. | Unchanged. | Does the reweighting reduce, bound, or remove the bias? |
+| Income affects turnout. | Unchanged. | Which direction, and is the design causal? |
 
 Diagnostic: for each vague verb on a claim, ask what the author did or found. If the passage says so elsewhere, use that verb; if it does not, the choice is substance, so ask in `Author questions` rather than picking the strongest verb.
 

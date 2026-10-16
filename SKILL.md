@@ -480,7 +480,7 @@ Return a paragraph or sentence verbatim when the passage clears all of these:
 - No banned transition, banned hedging phrase, banned promotional adjective, em-dash, or other tell from `references/ai-tells-to-avoid.md`.
 - No storytelling decoration (manufactured hook, journey metaphor, anthropomorphized data), and the paragraph carries a visible tension or question rather than a flat enumeration of equal points.
 - No nominalisation sits where an active verb belongs.
-- No word carries two senses in the passage ("since", "as", "while", "should"), no dropped "that" or article invites a wrong parse, and no sentence carries two topics (`references/sentence-patterns.md`, `references/copyediting.md`).
+- No occurrence of a multi-sense word ("since", "as", "while", "should") can be read in two senses, no dropped "that" or article invites a wrong parse, and no sentence carries two topics (`references/sentence-patterns.md`, `references/copyediting.md`).
 - No interrupting constituent (appositive, parenthetical, non-restrictive relative clause, interposed adverbial) and no chain of modifiers holds a clause's core open, separating any element from the word that completes it (a subject from its verb, a linking verb from its complement, a verb from its object or particle, or an object from its complement), and no stack of subordinate clauses precedes the core; each clause, embedded ones included, parses in one pass, though a brief parenthetical the reader resolves without losing the core may stay.
 - Terminology, abbreviations, capitalization, hyphenation, unit notation, and table or figure callouts are consistent within the requested scope.
 - Paragraphs end on a payoff, synthesis, or consequence rather than a procedural afterthought.
