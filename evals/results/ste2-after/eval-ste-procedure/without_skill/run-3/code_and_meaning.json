@@ -1,0 +1,57 @@
+{
+  "case": "ste-procedure",
+  "run_dir": "results/ste2-after/eval-ste-procedure/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "four"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "lost_content",
+          "severity": "major",
+          "original_quote": "Responses were screened and recoded after the field period closed",
+          "revised_quote": "First, we screened responses and excluded respondents",
+          "explanation": "The original says responses were both screened and recoded, but the revision drops the recoding step and still presents the process as a complete four-step list."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "Raking weights would have been expected to have been applied to the merged file before estimation",
+          "revised_quote": "raking weights were to be applied to the merged file before estimation",
+          "explanation": "The original's convoluted hedge is replaced with a simpler phrasing; both leave it unconfirmed whether weights were actually applied, so the claim strength appears unchanged."
+        }
+      ],
+      "summary": "The revision restructures the procedure into numbered steps and keeps all numbers and attributions intact, but it drops the recoding step mentioned in the original."
+    },
+    "key": "7fe3bc54cb318056",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"lost_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Responses were screened and recoded after the field period closed\",\n      \"revised_quote\": \"First, we screened responses and excluded respondents\",\n      \"explanation\": \"The original says responses were both screened and recoded, but the revision drops the recoding step and still presents the process as a complete four-step list.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"Raking weights would have been expected to have been applied to the merged file before estimation\",\n      \"revised_quote\": \"raking weights were to be applied to the merged file before estimation\",\n      \"explanation\": \"The original's convoluted hedge is replaced with a simpler phrasing; both leave it unconfirmed whether weights were actually applied, so the claim strength appears unchanged.\"\n    }\n  ],\n  \"summary\": \"The revision restructures the procedure into numbered steps and keeps all numbers and attributions intact, but it drops the recoding step mentioned in the original.\"\n}\n```",
+    "cost_usd": 0.036887199999999995,
+    "seconds": 12.1,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-after/eval-exposition-results/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Table 3 reports the estimates, and the pattern is clear: who writes a review matters, not just what it says.",
+          "explanation": "The revision adds an interpretive conclusion that the original never states; the original only reports coefficients."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "It remains substantial in column 3 after we add product fixed effects, at 0.15 (SE = 0.05).",
+          "explanation": "Calling the coefficient 'substantial' adds an evaluation of magnitude and robustness that the original does not make."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "revised_quote": "The effect also grows with experience: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "explanation": "The revision interprets the interaction as an effect that grows with experience and recasts 'tenure' as 'experience', which the original does not assert."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating, as expected, carries a strong effect of its own, with a coefficient of 0.42 (SE = 0.02) across all specifications.",
+          "explanation": "The revision adds 'as expected' and 'strong effect', which are claims about prior expectation and magnitude, and its 'effect' wording suggests causation where the original only reported a coefficient."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "R-squared rises from 0.31 to 0.47 across the columns.",
+          "revised_quote": "Model fit improves accordingly, as R-squared rises from 0.31 to 0.47 across the columns.",
+          "explanation": "'Accordingly' implies the rise in fit follows from the preceding findings, a link the original does not make."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.",
+          "revised_quote": "Table 3 reports the estimates, and the pattern is clear: who writes a review matters, not just what it says.",
+          "explanation": "The original's flat, purely descriptive reporting style became rhetorical and promotional prose."
+        }
+      ],
+      "summary": "All numbers stay attached to the correct columns and variables. However, the revision adds interpretive and causal claims ('pattern is clear', 'substantial', 'grows with experience', 'as expected, strong effect', 'accordingly') that the original's purely descriptive passage does not make."
+    },
+    "key": "c33277ea25e5fdf1",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and the pattern is clear: who writes a review matters, not just what it says.\",\n      \"explanation\": \"The revision adds an interpretive conclusion that the original never states; the original only reports coefficients.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"It remains substantial in column 3 after we add product fixed effects, at 0.15 (SE = 0.05).\",\n      \"explanation\": \"Calling the coefficient 'substantial' adds an evaluation of magnitude and robustness that the original does not make.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"The effect also grows with experience: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"explanation\": \"The revision interprets the interaction as an effect that grows with experience and recasts 'tenure' as 'experience', which the original does not assert.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating, as expected, carries a strong effect of its own, with a coefficient of 0.42 (SE = 0.02) across all specifications.\",\n      \"explanation\": \"The revision adds 'as expected' and 'strong effect', which are claims about prior expectation and magnitude, and its 'effect' wording suggests causation where the original only reported a coefficient.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"revised_quote\": \"Model fit improves accordingly, as R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"explanation\": \"'Accordingly' implies the rise in fit follows from the preceding findings, a link the original does not make.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"Table 3 reports the estimates. The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and the pattern is clear: who writes a review matters, not just what it says.\",\n      \"explanation\": \"The original's flat, purely descriptive reporting style became rhetorical and promotional prose.\"\n    }\n  ],\n  \"summary\": \"All numbers stay attached to the correct columns and variables. However, the revision adds interpretive and causal claims ('pattern is clear', 'substantial', 'grows with experience', 'as expected, strong effect', 'accordingly') that the original's purely descriptive passage does not make.\"\n}\n```",
+    "cost_usd": 0.0444752,
+    "seconds": 13.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

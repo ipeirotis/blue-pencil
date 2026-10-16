@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision tightens wording and restructures sentences, but keeps the two-stage model, the 8.3-point accuracy gain over the Koren et al. (2009) matrix factorization baseline, the warm-start engagement finding, and the single-platform limitation at the same strength and scope. Dropping 'the results point out that' and joining the limitation and future-work sentences with 'so' are an attribution-verb change and a connective, so neither is reported."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

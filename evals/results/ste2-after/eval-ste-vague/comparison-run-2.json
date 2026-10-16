@@ -1,0 +1,92 @@
+{
+  "case": "ste-vague",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's informal phrasing ('came up with', 'point out', 'ended up') and join the data limitation to the future-work sentence with 'so'. B opens with a direct contribution claim, folds the engagement finding into the result sentence, and uses fewer words, so it reads more tightly. A is slightly more precise in one spot: it unpacks the noun stack ('the accuracy of new-user engagement prediction') where B keeps 'new-user engagement prediction accuracy'. However, A's 'where interaction histories are sparse' attaches loosely to 'recommender systems'. Register suits the audience equally well in both. On balance B reads better.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'We developed a two-stage model for the cold-start problem in recommender systems, where interaction histories are sparse' vs B: 'Our two-stage model addresses the cold-start problem by handling sparse interaction histories'",
+            "concision": "A: 'The model improved... Engagement was higher for users who received' (two sentences) vs B: '...(Koren et al., 2009), and users who received the warm-start recommendations showed higher engagement' (one sentence)",
+            "flow": "A: 'Engagement was higher for users who received the warm-start recommendations.' (standalone) vs B: 'It improves... and users who received the warm-start recommendations showed higher engagement' (linked by pronoun and conjunction)",
+            "precision": "A: 'improved the accuracy of new-user engagement prediction' vs B: 'improves new-user engagement prediction accuracy'"
+          },
+          "overall": "B"
+        },
+        "key": "b3bbf0e611a2a79f",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's informal phrasing ('came up with', 'point out', 'ended up') and join the data limitation to the future-work sentence with 'so'. B opens with a direct contribution claim, folds the engagement finding into the result sentence, and uses fewer words, so it reads more tightly. A is slightly more precise in one spot: it unpacks the noun stack ('the accuracy of new-user engagement prediction') where B keeps 'new-user engagement prediction accuracy'. However, A's 'where interaction histories are sparse' attaches loosely to 'recommender systems'. Register suits the audience equally well in both. On balance B reads better.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'We developed a two-stage model for the cold-start problem in recommender systems, where interaction histories are sparse' vs B: 'Our two-stage model addresses the cold-start problem by handling sparse interaction histories'\",\n    \"concision\": \"A: 'The model improved... Engagement was higher for users who received' (two sentences) vs B: '...(Koren et al., 2009), and users who received the warm-start recommendations showed higher engagement' (one sentence)\",\n    \"flow\": \"A: 'Engagement was higher for users who received the warm-start recommendations.' (standalone) vs B: 'It improves... and users who received the warm-start recommendations showed higher engagement' (linked by pronoun and conjunction)\",\n    \"precision\": \"A: 'improved the accuracy of new-user engagement prediction' vs B: 'improves new-user engagement prediction accuracy'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0390792,
+        "seconds": 13.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's informal phrasing ('came up with', 'point out', 'ended up') and use the same structure. Version A opens with the model and its purpose in one sentence ('addresses the cold-start problem by handling sparse interaction histories'), so the contribution and its mechanism appear at once. It then joins the accuracy result and the engagement result in a single sentence, which makes A tighter and better connected. Version B ends with a short standalone sentence, 'Engagement was higher...', that reads choppier. Its opening 'where interaction histories are sparse' attaches loosely to 'recommender systems' rather than to the cold-start setting. B's one advantage in precision is that it unpacks A's noun stack 'new-user engagement prediction accuracy' into 'the accuracy of new-user engagement prediction', which is easier to parse. Register suits the audience equally in both. Overall, A reads better.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Our two-stage model addresses the cold-start problem by handling sparse interaction histories' vs B: 'for the cold-start problem in recommender systems, where interaction histories are sparse'",
+            "concision": "A: 'It improves new-user engagement prediction accuracy by 8.3 points' vs B: 'The model improved the accuracy of new-user engagement prediction by 8.3 points'",
+            "flow": "A: '...(Koren et al., 2009), and users who received the warm-start recommendations showed higher engagement' vs B: '...(Koren et al., 2009). Engagement was higher for users who received'",
+            "precision": "A: 'new-user engagement prediction accuracy' vs B: 'the accuracy of new-user engagement prediction'"
+          },
+          "overall": "A"
+        },
+        "key": "242f3a60bc0375c4",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's informal phrasing ('came up with', 'point out', 'ended up') and use the same structure. Version A opens with the model and its purpose in one sentence ('addresses the cold-start problem by handling sparse interaction histories'), so the contribution and its mechanism appear at once. It then joins the accuracy result and the engagement result in a single sentence, which makes A tighter and better connected. Version B ends with a short standalone sentence, 'Engagement was higher...', that reads choppier. Its opening 'where interaction histories are sparse' attaches loosely to 'recommender systems' rather than to the cold-start setting. B's one advantage in precision is that it unpacks A's noun stack 'new-user engagement prediction accuracy' into 'the accuracy of new-user engagement prediction', which is easier to parse. Register suits the audience equally in both. Overall, A reads better.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Our two-stage model addresses the cold-start problem by handling sparse interaction histories' vs B: 'for the cold-start problem in recommender systems, where interaction histories are sparse'\",\n    \"concision\": \"A: 'It improves new-user engagement prediction accuracy by 8.3 points' vs B: 'The model improved the accuracy of new-user engagement prediction by 8.3 points'\",\n    \"flow\": \"A: '...(Koren et al., 2009), and users who received the warm-start recommendations showed higher engagement' vs B: '...(Koren et al., 2009). Engagement was higher for users who received'\",\n    \"precision\": \"A: 'new-user engagement prediction accuracy' vs B: 'the accuracy of new-user engagement prediction'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.037151199999999995,
+        "seconds": 12.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

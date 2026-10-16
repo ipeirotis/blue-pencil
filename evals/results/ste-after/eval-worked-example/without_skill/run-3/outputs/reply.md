@@ -1,7 +1,0 @@
-```
-The proliferation of online platforms has fundamentally transformed how consumers make purchasing decisions. Several researchers have investigated the relationship between online reviews and sales (Chevalier and Mayzlin 2006; Forman et al. 2008; Dellarocas 2003), and found that reviews matter: a one-star increase leads to a 5-9% increase in revenue. Crucially, however, whether reviewer identity affects this relationship remains, to the best of our knowledge, somewhat underexplored.
-
-To investigate this question, we leverage a novel dataset comprising 1.2 million reviews. Our analysis demonstrates that reviewer identity has a significant effect. This finding has important implications for platform design: managers should consider highlighting reviewer credentials.
-```
-
-I cut filler openers ("It is important to note that," "It should be noted that," "Furthermore," "Moreover") and turned the passive "was conducted by several researchers" into an active construction. I also fixed "comprising of" to "comprising" and merged the run-on "reviews matter, a one-star increase…" into a colon construction. The numbers, the citations and their order, and your hedge ("to the best of our knowledge, somewhat underexplored") are unchanged.

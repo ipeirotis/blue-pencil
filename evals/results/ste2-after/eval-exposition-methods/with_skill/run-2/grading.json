@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision moves the staggered-rollout fact to the front, names it 'staggered', and adds a gloss of never-treated and not-yet-treated stores that matches the standard meaning of those terms. The model specification, clustering, controls, coefficient of interest, control groups and the Callaway and Sant'Anna estimator all stay the same and stay attached to the same claims."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

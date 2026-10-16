@@ -1,0 +1,93 @@
+{
+  "case": "exposition-methods",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions are grammatical and accurate. B opens with the staggered rollout, which motivates the design, and stays compact. A explains TWFE bias and how Callaway-Sant'Anna works, which quantitative marketing researchers already know, so it reads as padded for this venue. A's causal chain ('can be misleading... To avoid this') links ideas more tightly than B, which moves from control groups back to the TWFE specification and leaves the Callaway-Sant'Anna sentence loosely attached. On precision, A's trailing 'which addresses' attaches ambiguously, while B's definitions of the control groups are exact but elementary; overall this is a wash. B is better on clarity, concision, and audience fit; A is better on flow.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "tie",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'We estimate a two-way fixed effects model, which includes a fixed effect for each store and for each week' vs B: 'The loyalty program was rolled out to stores on different dates, so the set of treated stores changes over time.'",
+            "concision": "A: 'which includes a fixed effect for each store and for each week and clusters standard errors at the store level' vs B: 'with store and week fixed effects, clustering standard errors at the store level'",
+            "flow": "A: 'this can distort the estimate when the effect varies... To avoid this, we use the never-treated' vs B: 'not-yet-treated stores... at a given date. We estimate a two-way fixed effects model'",
+            "audience_fit": "A: 'by estimating the effect separately for each group of stores treated at the same time and then averaging across groups' vs B: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator'"
+          },
+          "overall": "B"
+        },
+        "key": "4aa5f7bd02517938",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions are grammatical and accurate. B opens with the staggered rollout, which motivates the design, and stays compact. A explains TWFE bias and how Callaway-Sant'Anna works, which quantitative marketing researchers already know, so it reads as padded for this venue. A's causal chain ('can be misleading... To avoid this') links ideas more tightly than B, which moves from control groups back to the TWFE specification and leaves the Callaway-Sant'Anna sentence loosely attached. On precision, A's trailing 'which addresses' attaches ambiguously, while B's definitions of the control groups are exact but elementary; overall this is a wash. B is better on clarity, concision, and audience fit; A is better on flow.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"tie\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We estimate a two-way fixed effects model, which includes a fixed effect for each store and for each week' vs B: 'The loyalty program was rolled out to stores on different dates, so the set of treated stores changes over time.'\",\n    \"concision\": \"A: 'which includes a fixed effect for each store and for each week and clusters standard errors at the store level' vs B: 'with store and week fixed effects, clustering standard errors at the store level'\",\n    \"flow\": \"A: 'this can distort the estimate when the effect varies... To avoid this, we use the never-treated' vs B: 'not-yet-treated stores... at a given date. We estimate a two-way fixed effects model'\",\n    \"audience_fit\": \"A: 'by estimating the effect separately for each group of stores treated at the same time and then averaging across groups' vs B: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.041103200000000006,
+        "seconds": 14.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions keep the same core content. A moves the staggered rollout to the front, which motivates the choice of controls, and keeps the TWFE description tight. It does define never-treated and not-yet-treated stores, which this audience already knows, but that costs only one sentence. B explains why TWFE is biased under staggered timing and how Callaway and Sant'Anna works. Quantitative marketing researchers know both, so this reads as textbook exposition and makes the passage much longer. B does connect its ideas well through causal links ('To avoid this'), so it wins on flow. B also has a misplaced relative clause: 'alongside the two-way fixed effects estimate, which addresses heterogeneity' attaches the clause to the TWFE estimate rather than the Callaway and Sant'Anna estimator, which is a precision error. Overall, A reads better for this venue.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'We therefore use two kinds of control stores' vs B: 'a simple two-way fixed effects comparison can be misleading: stores treated earlier can end up serving as controls for stores treated later, and this can distort the estimate when...'",
+            "concision": "A: 'two-way fixed effects model with store and week fixed effects' vs B: 'two-way fixed effects model, which includes a fixed effect for each store and for each week'",
+            "flow": "A: 'The coefficient of interest is the interaction... To address heterogeneity in treatment timing, we report' vs B: 'this can distort the estimate... To avoid this, we use the never-treated and not-yet-treated stores'",
+            "precision": "A: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator' vs B: 'alongside the two-way fixed effects estimate, which addresses heterogeneity in treatment timing'",
+            "audience_fit": "A: 'never-treated stores, which never receive the program' vs B: 'by estimating the effect separately for each group of stores treated at the same time and then averaging across groups'"
+          },
+          "overall": "A"
+        },
+        "key": "8dd7eb2f05f5efa2",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions keep the same core content. A moves the staggered rollout to the front, which motivates the choice of controls, and keeps the TWFE description tight. It does define never-treated and not-yet-treated stores, which this audience already knows, but that costs only one sentence. B explains why TWFE is biased under staggered timing and how Callaway and Sant'Anna works. Quantitative marketing researchers know both, so this reads as textbook exposition and makes the passage much longer. B does connect its ideas well through causal links ('To avoid this'), so it wins on flow. B also has a misplaced relative clause: 'alongside the two-way fixed effects estimate, which addresses heterogeneity' attaches the clause to the TWFE estimate rather than the Callaway and Sant'Anna estimator, which is a precision error. Overall, A reads better for this venue.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'We therefore use two kinds of control stores' vs B: 'a simple two-way fixed effects comparison can be misleading: stores treated earlier can end up serving as controls for stores treated later, and this can distort the estimate when...'\",\n    \"concision\": \"A: 'two-way fixed effects model with store and week fixed effects' vs B: 'two-way fixed effects model, which includes a fixed effect for each store and for each week'\",\n    \"flow\": \"A: 'The coefficient of interest is the interaction... To address heterogeneity in treatment timing, we report' vs B: 'this can distort the estimate... To avoid this, we use the never-treated and not-yet-treated stores'\",\n    \"precision\": \"A: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator' vs B: 'alongside the two-way fixed effects estimate, which addresses heterogeneity in treatment timing'\",\n    \"audience_fit\": \"A: 'never-treated stores, which never receive the program' vs B: 'by estimating the effect separately for each group of stores treated at the same time and then averaging across groups'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.045819200000000004,
+        "seconds": 14.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

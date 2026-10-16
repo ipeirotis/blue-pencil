@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision adds 'that' complementizers, swaps 'Since' for 'Because', and splits the second sentence into three. In the original, the causal clause 'Since the retriever was frozen' most plausibly explains only the unchanged frequent-question accuracy, which is how the revision attaches it, and all numbers, the citation, and the scope (1M to 10M indexes, top-ranked passages) stay with the same claims."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

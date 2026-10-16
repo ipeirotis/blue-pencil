@@ -1,0 +1,57 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-after/eval-exposition-introduction/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The original never names the outcome variable, so the revision adds the claim that the estimated positive, significant effect is on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.",
+          "revised_quote": "Do more positive reviews cause higher sales? ... a high-quality product tends to receive better reviews and to sell more, so a simple correlation between the two does not reveal the effect of the reviews themselves.",
+          "explanation": "The revision adds a research question and a causal mechanism involving sales that the original does not state."
+        }
+      ],
+      "summary": "Most of the edits are explanatory glosses, but the revision makes sales the outcome variable, while the original never names one. This changes what the reported finding is about."
+    },
+    "key": "d5ae6fda5eda2ffd",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original never names the outcome variable, so the revision adds the claim that the estimated positive, significant effect is on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"Do more positive reviews cause higher sales? ... a high-quality product tends to receive better reviews and to sell more, so a simple correlation between the two does not reveal the effect of the reviews themselves.\",\n      \"explanation\": \"The revision adds a research question and a causal mechanism involving sales that the original does not state.\"\n    }\n  ],\n  \"summary\": \"Most of the edits are explanatory glosses, but the revision makes sales the outcome variable, while the original never names one. This changes what the reported finding is about.\"\n}\n```",
+    "cost_usd": 0.035231200000000004,
+    "seconds": 10.0,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

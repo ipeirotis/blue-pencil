@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision only splits the second sentence, adds 'that' complementizers, and swaps 'Since' for 'Because' and 'while' for 'In contrast'. All numbers (41.2%, 57.8%, Table 3, 210 ms, 1M, 10M, 23%) and the citation [@lewis2020] stay attached to the same claims, and the causal scope of the frozen-retriever clause still covers only the frequent-question result."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

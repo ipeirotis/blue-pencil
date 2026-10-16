@@ -1,0 +1,35 @@
+{
+  "case": "ste-vague",
+  "run_dir": "results/ste2-after/eval-ste-vague/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision tightens the wording ('came up with' to 'developed', 'deals with' to 'for', drops 'the results point out that', and merges the last two sentences) without changing any claim, number, citation, or caveat. The 8.3-point improvement stays attached to new-user engagement prediction accuracy against the matrix factorization baseline (Koren et al., 2009), and the single-platform limitation is kept."
+    },
+    "key": "4d7a873f2f76eac8",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision tightens the wording ('came up with' to 'developed', 'deals with' to 'for', drops 'the results point out that', and merges the last two sentences) without changing any claim, number, citation, or caveat. The 8.3-point improvement stays attached to new-user engagement prediction accuracy against the matrix factorization baseline (Koren et al., 2009), and the single-platform limitation is kept.\"\n}\n```",
+    "cost_usd": 0.0288032,
+    "seconds": 7.9,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

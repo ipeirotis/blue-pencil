@@ -1,0 +1,5 @@
+```
+Our approach addresses cold-start in recommender systems. We developed a two-stage model for sparse interaction histories, and new-user engagement prediction accuracy improves by 8.3 points over the matrix factorization baseline (Koren et al., 2009). Engagement was also higher for users who received the warm-start recommendations. Our data come from a single streaming platform, so future work should test whether the effect carries over to other domains.
+```
+
+Changes: I cut filler ("came up with," "deals with," "point out," "ended up"), merged the last two sentences to make the limitation and its follow-up explicit, and kept the number, citation, and claims as written. I did not add specifics about the model or metric, since the paragraph doesn't supply them. If you want it less vague, naming the accuracy metric and the engagement measure would help most.

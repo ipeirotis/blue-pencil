@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "quotes: -[] +['\"after\"', '\"before\"']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: All original content is preserved, but the revision adds several assertions the original does not make. The most consequential is naming 'repeat purchase' as the outcome; the others are interpretive explanations of the fixed effects and the staggered rollout."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

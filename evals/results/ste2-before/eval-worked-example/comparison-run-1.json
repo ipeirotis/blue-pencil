@@ -1,0 +1,90 @@
+{
+  "case": "worked-example",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover') and fix the 'comprising of' error, so they read similarly. Clarity is a tie: each states the gap in the first paragraph and the finding early in the second. B is more concise. It drops intensifiers and stock phrasing ('fundamentally', 'novel', 'leverage', 'to the best of our knowledge'), though it adds 'in the literature'. Flow is a tie. A joins the prior-work sentences with 'and these studies found', and B links them just as well with 'These studies found'. B is slightly more precise: 'use' is plainer and more exact than 'leverage', and it avoids the inflated 'fundamentally'. B's 'In our analysis, reviewer identity has...' is a little less direct than A's 'Our analysis demonstrates', but not enough to change the call. For empirical IS readers, B's plainer register fits better than A's residual promotional wording.",
+          "dimensions": {
+            "clarity": "tie",
+            "concision": "B",
+            "flow": "tie",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "concision": "A: 'we leverage a novel dataset comprising 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'",
+            "precision": "A: 'has fundamentally transformed how consumers' vs B: 'has transformed how consumers'",
+            "audience_fit": "A: 'This finding has important implications' vs B: 'This finding has implications'"
+          },
+          "overall": "B"
+        },
+        "key": "8f9cdb649ee1179d",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover') and fix the 'comprising of' error, so they read similarly. Clarity is a tie: each states the gap in the first paragraph and the finding early in the second. B is more concise. It drops intensifiers and stock phrasing ('fundamentally', 'novel', 'leverage', 'to the best of our knowledge'), though it adds 'in the literature'. Flow is a tie. A joins the prior-work sentences with 'and these studies found', and B links them just as well with 'These studies found'. B is slightly more precise: 'use' is plainer and more exact than 'leverage', and it avoids the inflated 'fundamentally'. B's 'In our analysis, reviewer identity has...' is a little less direct than A's 'Our analysis demonstrates', but not enough to change the call. For empirical IS readers, B's plainer register fits better than A's residual promotional wording.\",\n  \"dimensions\": {\"clarity\": \"tie\", \"concision\": \"B\", \"flow\": \"tie\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"concision\": \"A: 'we leverage a novel dataset comprising 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'\",\n    \"precision\": \"A: 'has fundamentally transformed how consumers' vs B: 'has transformed how consumers'\",\n    \"audience_fit\": \"A: 'This finding has important implications' vs B: 'This finding has implications'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.040727200000000005,
+        "seconds": 13.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions strip the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover') and fix the comma splice, so the main point surfaces equally early in each. Version A cuts further: it drops intensifiers and promotional words that Version B keeps ('fundamentally', 'novel', 'leverage', 'important implications', 'to the best of our knowledge'). Flow is comparable. B joins the prior-work sentences with 'and', while A keeps them separate but links them through 'These studies'. On precision, A specifies the object of the effect ('on this relationship') and avoids vague 'leverage'. A's 'In our analysis, reviewer identity has' is slightly looser than B's 'Our analysis demonstrates', but on balance A is more exact. A's plainer register suits empirical IS researchers better than B's residual hype.",
+          "dimensions": {
+            "clarity": "tie",
+            "concision": "A",
+            "flow": "tie",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "concision": "A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset comprising 1.2 million reviews'",
+            "precision": "A: 'reviewer identity has a significant effect on this relationship' vs B: 'reviewer identity has a significant effect'",
+            "audience_fit": "A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'"
+          },
+          "overall": "A"
+        },
+        "key": "6b506549b01ed38d",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions strip the original's throat-clearing ('It is important to note', 'Furthermore', 'Moreover') and fix the comma splice, so the main point surfaces equally early in each. Version A cuts further: it drops intensifiers and promotional words that Version B keeps ('fundamentally', 'novel', 'leverage', 'important implications', 'to the best of our knowledge'). Flow is comparable. B joins the prior-work sentences with 'and', while A keeps them separate but links them through 'These studies'. On precision, A specifies the object of the effect ('on this relationship') and avoids vague 'leverage'. A's 'In our analysis, reviewer identity has' is slightly looser than B's 'Our analysis demonstrates', but on balance A is more exact. A's plainer register suits empirical IS researchers better than B's residual hype.\",\n  \"dimensions\": {\"clarity\": \"tie\", \"concision\": \"A\", \"flow\": \"tie\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"concision\": \"A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset comprising 1.2 million reviews'\",\n    \"precision\": \"A: 'reviewer identity has a significant effect on this relationship' vs B: 'reviewer identity has a significant effect'\",\n    \"audience_fit\": \"A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0388072,
+        "seconds": 11.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

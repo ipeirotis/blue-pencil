@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: Every coefficient, standard error, column, and significance level is still attached to the same variable and specification. The added words 'positive', 'remains positive', and 'stays at' only restate signs and values already given. Moving the R-squared sentence and folding 'Table 3 reports the estimates' into the next sentence do not change the meaning."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

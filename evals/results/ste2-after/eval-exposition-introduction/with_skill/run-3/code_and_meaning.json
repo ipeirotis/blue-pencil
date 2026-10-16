@@ -1,0 +1,57 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-after/eval-exposition-introduction/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "is a well-known obstacle to identification in this literature",
+          "revised_quote": "which obstructs identification of its effect on sales",
+          "explanation": "The original never names the outcome, and the revision adds that the identification target is the effect of review valence on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and statistically significant",
+          "explanation": "The revision says the estimated effect is on sales, an outcome variable the original does not name."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "is a well-known obstacle to identification",
+          "revised_quote": "which obstructs identification",
+          "explanation": "The qualifier \"well-known\" was dropped, so the revision no longer says the problem is widely recognized in the literature."
+        }
+      ],
+      "summary": "The revision keeps the identification strategy, the conditional quasi-random assignment, and the comparison to prior IV approaches. However, it twice adds that the outcome is sales, which the original does not state, and it drops \"well-known.\""
+    },
+    "key": "b67a621d8e2c51c5",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"which obstructs identification of its effect on sales\",\n      \"explanation\": \"The original never names the outcome, and the revision adds that the identification target is the effect of review valence on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and statistically significant\",\n      \"explanation\": \"The revision says the estimated effect is on sales, an outcome variable the original does not name.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"is a well-known obstacle to identification\",\n      \"revised_quote\": \"which obstructs identification\",\n      \"explanation\": \"The qualifier \\\"well-known\\\" was dropped, so the revision no longer says the problem is widely recognized in the literature.\"\n    }\n  ],\n  \"summary\": \"The revision keeps the identification strategy, the conditional quasi-random assignment, and the comparison to prior IV approaches. However, it twice adds that the outcome is sales, which the original does not state, and it drops \\\"well-known.\\\"\"\n}\n```",
+    "cost_usd": 0.0434858,
+    "seconds": 11.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "case": "exposition-results",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A states the key finding in its first sentence: the identity coefficient is positive, significant, and robust to product fixed effects. It then reports the numbers in tight, parallel sentences. Version B links the results with connective interpretation and so reads more smoothly. However, its opening ('a clear role') is vaguer than A's. Some of its glosses are also loosely worded. 'Identity also conditions the weight a review carries' reverses the usual reading of an interaction with tenure. 'Identity adds explanatory power beyond it, as R-squared rises' credits the R-squared gain to identity, although the columns also add fixed effects. A is shorter for the same content and more exact, and its register suits empirical IS readers. B wins on flow only.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'has a positive, significant coefficient that survives product fixed effects' vs B: 'they point to a clear role for reviewer identity'",
+            "concision": "A: 'in column 3, after adding product fixed effects, it is 0.15' vs B: 'Adding product fixed effects in column 3 leaves the effect largely intact, at 0.15'",
+            "flow": "A: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.' vs B: 'Star rating remains a strong predictor ... yet identity adds explanatory power beyond it'",
+            "precision": "A: 'The interaction with reviewer tenure is 0.09' vs B: 'Identity also conditions the weight a review carries'",
+            "audience_fit": "A: 'survives product fixed effects' vs B: 'point to a clear role for reviewer identity'"
+          },
+          "overall": "A"
+        },
+        "key": "01dd29969d411180",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A states the key finding in its first sentence: the identity coefficient is positive, significant, and robust to product fixed effects. It then reports the numbers in tight, parallel sentences. Version B links the results with connective interpretation and so reads more smoothly. However, its opening ('a clear role') is vaguer than A's. Some of its glosses are also loosely worded. 'Identity also conditions the weight a review carries' reverses the usual reading of an interaction with tenure. 'Identity adds explanatory power beyond it, as R-squared rises' credits the R-squared gain to identity, although the columns also add fixed effects. A is shorter for the same content and more exact, and its register suits empirical IS readers. B wins on flow only.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'has a positive, significant coefficient that survives product fixed effects' vs B: 'they point to a clear role for reviewer identity'\",\n    \"concision\": \"A: 'in column 3, after adding product fixed effects, it is 0.15' vs B: 'Adding product fixed effects in column 3 leaves the effect largely intact, at 0.15'\",\n    \"flow\": \"A: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.' vs B: 'Star rating remains a strong predictor ... yet identity adds explanatory power beyond it'\",\n    \"precision\": \"A: 'The interaction with reviewer tenure is 0.09' vs B: 'Identity also conditions the weight a review carries'\",\n    \"audience_fit\": \"A: 'survives product fixed effects' vs B: 'point to a clear role for reviewer identity'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0385832,
+        "seconds": 12.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B puts the specific finding first: the identity coefficient is positive, significant, and robust to product fixed effects. Version A opens with the vaguer 'a clear role for reviewer identity.' B is also shorter for the same content, because it merges columns 2 and 3 into one sentence. A connects its sentences better, with interpretive links between results, but some of that linking language is loose. 'Identity also conditions the weight a review carries' is vague. 'Identity adds explanatory power beyond it, as R-squared rises' credits identity for an R-squared gain that comes partly from added fixed effects, which is imprecise wording. B's plain, exact reporting suits empirical IS researchers better than A's slightly promotional framing. A wins on flow; B wins the other dimensions.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'they point to a clear role for reviewer identity' vs B: 'has a positive, significant coefficient that survives product fixed effects'",
+            "concision": "A: 'Adding product fixed effects in column 3 leaves the effect largely intact, at 0.15' vs B: 'it is 0.15 (SE = 0.05)' within a merged sentence",
+            "flow": "A: 'Star rating remains a strong predictor... yet identity adds explanatory power beyond it' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.'",
+            "precision": "A: 'Identity also conditions the weight a review carries' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4'",
+            "audience_fit": "A: 'point to a clear role for reviewer identity' vs B: 'survives product fixed effects'"
+          },
+          "overall": "B"
+        },
+        "key": "96074012661ba5e5",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B puts the specific finding first: the identity coefficient is positive, significant, and robust to product fixed effects. Version A opens with the vaguer 'a clear role for reviewer identity.' B is also shorter for the same content, because it merges columns 2 and 3 into one sentence. A connects its sentences better, with interpretive links between results, but some of that linking language is loose. 'Identity also conditions the weight a review carries' is vague. 'Identity adds explanatory power beyond it, as R-squared rises' credits identity for an R-squared gain that comes partly from added fixed effects, which is imprecise wording. B's plain, exact reporting suits empirical IS researchers better than A's slightly promotional framing. A wins on flow; B wins the other dimensions.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'they point to a clear role for reviewer identity' vs B: 'has a positive, significant coefficient that survives product fixed effects'\",\n    \"concision\": \"A: 'Adding product fixed effects in column 3 leaves the effect largely intact, at 0.15' vs B: 'it is 0.15 (SE = 0.05)' within a merged sentence\",\n    \"flow\": \"A: 'Star rating remains a strong predictor... yet identity adds explanatory power beyond it' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.'\",\n    \"precision\": \"A: 'Identity also conditions the weight a review carries' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4'\",\n    \"audience_fit\": \"A: 'point to a clear role for reviewer identity' vs B: 'survives product fixed effects'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0387512,
+        "seconds": 12.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

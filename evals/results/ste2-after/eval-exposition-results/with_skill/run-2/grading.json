@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: All numbers stay attached to the same variables and columns (0.18 in column 2, 0.15 in column 3 with product fixed effects, 0.09 for the tenure interaction in column 4, 0.42 for star rating, R-squared 0.31 to 0.47), and the significance statements are unchanged; the R-squared sentence was only moved. The added lead-in ('a positive, significant coefficient that survives product fixed effects') follows directly from the original, which reports positive coefficients significant at the 1% level both before and after product fixed effects, so it does not add a new claim."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

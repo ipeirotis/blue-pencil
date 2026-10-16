@@ -1,0 +1,43 @@
+{
+  "case": "ste-connectors",
+  "run_dir": "results/ste2-before/eval-ste-connectors/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "Since the retriever was frozen, accuracy on frequent questions did not change",
+          "revised_quote": "With the retriever frozen, accuracy on frequent questions did not change",
+          "explanation": "The original says the frozen retriever is why frequent-question accuracy did not change, while the revision only states it as a condition and drops that causal explanation."
+        }
+      ],
+      "summary": "Numbers, the citation, and scopes stay attached to the right claims. However, 'Since' became 'With', which removes the original's causal claim that freezing the retriever explains the unchanged accuracy on frequent questions."
+    },
+    "key": "91a7407a11a77131",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Since the retriever was frozen, accuracy on frequent questions did not change\",\n      \"revised_quote\": \"With the retriever frozen, accuracy on frequent questions did not change\",\n      \"explanation\": \"The original says the frozen retriever is why frequent-question accuracy did not change, while the revision only states it as a condition and drops that causal explanation.\"\n    }\n  ],\n  \"summary\": \"Numbers, the citation, and scopes stay attached to the right claims. However, 'Since' became 'With', which removes the original's causal claim that freezing the retriever explains the unchanged accuracy on frequent questions.\"\n}\n```",
+    "cost_usd": 0.0333312,
+    "seconds": 10.1,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

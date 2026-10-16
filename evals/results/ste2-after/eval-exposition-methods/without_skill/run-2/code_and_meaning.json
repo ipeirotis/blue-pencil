@@ -1,0 +1,71 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste2-after/eval-exposition-methods/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
+          "revised_quote": "which captures the change in repeat purchase at a store after the loyalty program arrives there, relative to stores without it",
+          "explanation": "The revision names the outcome variable ('repeat purchase'), which the original never states, and adds an interpretation of the coefficient."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Because the loyalty program was rolled out to stores on different dates, we use the never-treated and not-yet-treated stores as controls",
+          "revised_quote": "a simple comparison of treated and untreated stores is not sufficient: a store treated early could otherwise serve as a comparison for a store treated later",
+          "explanation": "The revision adds a methodological claim that a simple comparison is insufficient and explains why (early-treated stores serving as controls), a rationale the original does not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "to address heterogeneity in treatment timing.",
+          "revised_quote": "that is, the possibility that the program's effect differs depending on when a store was treated.",
+          "explanation": "The revision adds an interpretation of 'heterogeneity in treatment timing' as cohort-varying effects, which the original does not assert."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "We estimate a two-way fixed effects model with store and week fixed effects",
+          "revised_quote": "The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.",
+          "explanation": "The revision adds explanatory claims about what the fixed effects absorb that are absent from the original, although they are standard and accurate."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we use the never-treated and not-yet-treated stores as controls",
+          "revised_quote": "meaning stores that have not received the program by the period being compared",
+          "explanation": "The revision adds a definition of the control group that the original does not give."
+        }
+      ],
+      "summary": "The revision keeps every original element but adds substantial new material. The most consequential addition names 'repeat purchase' as the outcome, which the original never specifies. The others add rationales and interpretations of the method that the author did not write."
+    },
+    "key": "6819dc962c4cc6d9",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"which captures the change in repeat purchase at a store after the loyalty program arrives there, relative to stores without it\",\n      \"explanation\": \"The revision names the outcome variable ('repeat purchase'), which the original never states, and adds an interpretation of the coefficient.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Because the loyalty program was rolled out to stores on different dates, we use the never-treated and not-yet-treated stores as controls\",\n      \"revised_quote\": \"a simple comparison of treated and untreated stores is not sufficient: a store treated early could otherwise serve as a comparison for a store treated later\",\n      \"explanation\": \"The revision adds a methodological claim that a simple comparison is insufficient and explains why (early-treated stores serving as controls), a rationale the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"to address heterogeneity in treatment timing.\",\n      \"revised_quote\": \"that is, the possibility that the program's effect differs depending on when a store was treated.\",\n      \"explanation\": \"The revision adds an interpretation of 'heterogeneity in treatment timing' as cohort-varying effects, which the original does not assert.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"We estimate a two-way fixed effects model with store and week fixed effects\",\n      \"revised_quote\": \"The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.\",\n      \"explanation\": \"The revision adds explanatory claims about what the fixed effects absorb that are absent from the original, although they are standard and accurate.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we use the never-treated and not-yet-treated stores as controls\",\n      \"revised_quote\": \"meaning stores that have not received the program by the period being compared\",\n      \"explanation\": \"The revision adds a definition of the control group that the original does not give.\"\n    }\n  ],\n  \"summary\": \"The revision keeps every original element but adds substantial new material. The most consequential addition names 'repeat purchase' as the outcome, which the original never specifies. The others add rationales and interpretations of the method that the author did not write.\"\n}\n```",
+    "cost_usd": 0.0256198,
+    "seconds": 16.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

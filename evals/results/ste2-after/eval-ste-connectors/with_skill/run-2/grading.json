@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision splits sentences, swaps 'Since' for 'Because', and adds 'that' complementizers. All figures (41.2%, 57.8%, Table 3, 210 ms, 1M/10M, 23%, [@lewis2020]) stay attached to the same claims, and no claim, caveat, or scope changed."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

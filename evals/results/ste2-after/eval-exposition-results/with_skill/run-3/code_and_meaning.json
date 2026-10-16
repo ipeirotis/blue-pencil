@@ -1,0 +1,35 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-after/eval-exposition-results/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "Every coefficient, standard error, column, and significance level is still attached to the same variable and specification. The added words 'positive', 'remains positive', and 'stays at' only restate signs and values already given. Moving the R-squared sentence and folding 'Table 3 reports the estimates' into the next sentence do not change the meaning."
+    },
+    "key": "60e8a9fca32acca8",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"Every coefficient, standard error, column, and significance level is still attached to the same variable and specification. The added words 'positive', 'remains positive', and 'stays at' only restate signs and values already given. Moving the R-squared sentence and folding 'Table 3 reports the estimates' into the next sentence do not change the meaning.\"\n}\n```",
+    "cost_usd": 0.0283032,
+    "seconds": 7.5,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

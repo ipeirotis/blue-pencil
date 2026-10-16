@@ -1,0 +1,91 @@
+{
+  "case": "ste-connectors",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions add the missing 'that' complementizers and replace 'Since' with 'Because'. They differ in sentence structure. A splits the long sentences into short ones. This makes it easy to parse, but it drops the frequent-versus-rare contrast: 'Accuracy on rare questions rose...' just follows the previous sentence with no link. A keeps the final contrast only through 'However'. B keeps the contrasts inside single sentences using 'whereas' and 'but', so the comparison carries the argument. B also tightens 'As the index grows, retrieval cost rises' into 'Retrieval cost rises with index size', which puts the subject first. A's splitting does help precision in one place. In B, 'Because the retriever was frozen' governs both clauses, which suggests the freeze also explains the rise on rare questions. In A, the causal clause covers only the frequent-question result. For a second-language audience, A's short sentences are easy to read but choppy, while B's sentences are still manageable, so audience fit is a tie. On balance, B reads more fluently and more concisely.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'As the index grows, retrieval cost rises' vs B: 'Retrieval cost rises with index size'",
+            "concision": "A: 'did not change. Accuracy on rare questions rose' vs B: 'did not change, whereas accuracy on rare questions rose'",
+            "flow": "A: 'did not change. Accuracy on rare questions rose from 41.2% to 57.8%' vs B: 'did not change, whereas accuracy on rare questions rose'",
+            "precision": "A: 'Because the retriever was frozen, accuracy on frequent questions did not change.' vs B: 'Because the retriever was frozen, ... whereas accuracy on rare questions rose'"
+          },
+          "overall": "B"
+        },
+        "key": "d76866e146284459",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions add the missing 'that' complementizers and replace 'Since' with 'Because'. They differ in sentence structure. A splits the long sentences into short ones. This makes it easy to parse, but it drops the frequent-versus-rare contrast: 'Accuracy on rare questions rose...' just follows the previous sentence with no link. A keeps the final contrast only through 'However'. B keeps the contrasts inside single sentences using 'whereas' and 'but', so the comparison carries the argument. B also tightens 'As the index grows, retrieval cost rises' into 'Retrieval cost rises with index size', which puts the subject first. A's splitting does help precision in one place. In B, 'Because the retriever was frozen' governs both clauses, which suggests the freeze also explains the rise on rare questions. In A, the causal clause covers only the frequent-question result. For a second-language audience, A's short sentences are easy to read but choppy, while B's sentences are still manageable, so audience fit is a tie. On balance, B reads more fluently and more concisely.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'As the index grows, retrieval cost rises' vs B: 'Retrieval cost rises with index size'\",\n    \"concision\": \"A: 'did not change. Accuracy on rare questions rose' vs B: 'did not change, whereas accuracy on rare questions rose'\",\n    \"flow\": \"A: 'did not change. Accuracy on rare questions rose from 41.2% to 57.8%' vs B: 'did not change, whereas accuracy on rare questions rose'\",\n    \"precision\": \"A: 'Because the retriever was frozen, accuracy on frequent questions did not change.' vs B: 'Because the retriever was frozen, ... whereas accuracy on rare questions rose'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0425792,
+        "seconds": 15.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's missing 'that' complementizers and split off the latency clause. They differ in three places. A joins the frequent/rare results with 'whereas', which makes the contrast explicit. B splits them into two sentences with no connective, so the reader must infer the contrast. A's 'Retrieval cost rises with index size' says the same thing as B's 'As the index grows, retrieval cost rises' in fewer words. A's 'but' does the work of B's separate 'However,' sentence with less fragmentation. Both are grammatical and word choice is equally exact, so precision is a tie. Short sentences can help ESL readers, but A's sentences are still short and plain, so audience fit is a tie. A reads more tightly and keeps the logical links visible.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "tie",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'did not change, whereas accuracy on rare questions rose' vs B: 'did not change. Accuracy on rare questions rose'",
+            "concision": "A: 'Retrieval cost rises with index size' vs B: 'As the index grows, retrieval cost rises'",
+            "flow": "A: 'are relevant [@lewis2020], but our annotation shows' vs B: 'are relevant [@lewis2020]. However, our annotation shows'"
+          },
+          "overall": "A"
+        },
+        "key": "a3fc297373a32567",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's missing 'that' complementizers and split off the latency clause. They differ in three places. A joins the frequent/rare results with 'whereas', which makes the contrast explicit. B splits them into two sentences with no connective, so the reader must infer the contrast. A's 'Retrieval cost rises with index size' says the same thing as B's 'As the index grows, retrieval cost rises' in fewer words. A's 'but' does the work of B's separate 'However,' sentence with less fragmentation. Both are grammatical and word choice is equally exact, so precision is a tie. Short sentences can help ESL readers, but A's sentences are still short and plain, so audience fit is a tie. A reads more tightly and keeps the logical links visible.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'did not change, whereas accuracy on rare questions rose' vs B: 'did not change. Accuracy on rare questions rose'\",\n    \"concision\": \"A: 'Retrieval cost rises with index size' vs B: 'As the index grows, retrieval cost rises'\",\n    \"flow\": \"A: 'are relevant [@lewis2020], but our annotation shows' vs B: 'are relevant [@lewis2020]. However, our annotation shows'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.037827200000000005,
+        "seconds": 12.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

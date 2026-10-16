@@ -1,0 +1,57 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/ste2-after/eval-worked-example/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "has\nfundamentally transformed the way in which consumers make purchasing\ndecisions",
+          "revised_quote": "has transformed how consumers make purchasing decisions",
+          "explanation": "The intensifier \"fundamentally\" was dropped, slightly softening the characterization of the transformation."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "we leverage a novel dataset comprising\nof 1.2 million reviews",
+          "revised_quote": "we use a dataset of 1.2 million reviews",
+          "explanation": "The qualifier \"novel\" describing the dataset was removed."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "this finding has\nimportant implications for platform design",
+          "revised_quote": "This finding has implications for platform design",
+          "explanation": "The qualifier \"important\" modifying the implications was dropped."
+        }
+      ],
+      "summary": "The revision keeps all claims, citations, numbers, and hedges (\"to our knowledge\", \"somewhat underexplored\", \"should consider\") attached to the same statements. Only three qualifier words (\"fundamentally\", \"novel\", \"important\") were dropped, which are minor."
+    },
+    "key": "8e4fdf3c174ac341",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"has\\nfundamentally transformed the way in which consumers make purchasing\\ndecisions\",\n      \"revised_quote\": \"has transformed how consumers make purchasing decisions\",\n      \"explanation\": \"The intensifier \\\"fundamentally\\\" was dropped, slightly softening the characterization of the transformation.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"we leverage a novel dataset comprising\\nof 1.2 million reviews\",\n      \"revised_quote\": \"we use a dataset of 1.2 million reviews\",\n      \"explanation\": \"The qualifier \\\"novel\\\" describing the dataset was removed.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"this finding has\\nimportant implications for platform design\",\n      \"revised_quote\": \"This finding has implications for platform design\",\n      \"explanation\": \"The qualifier \\\"important\\\" modifying the implications was dropped.\"\n    }\n  ],\n  \"summary\": \"The revision keeps all claims, citations, numbers, and hedges (\\\"to our knowledge\\\", \\\"somewhat underexplored\\\", \\\"should consider\\\") attached to the same statements. Only three qualifier words (\\\"fundamentally\\\", \\\"novel\\\", \\\"important\\\") were dropped, which are minor.\"\n}\n```",
+    "cost_usd": 0.038923200000000005,
+    "seconds": 12.0,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

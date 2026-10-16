@@ -1,0 +1,92 @@
+{
+  "case": "ste-vague",
+  "run": 1,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A merges the problem and the method into one strong opening sentence. Its second sentence, though, is wordy and puts the baseline between 'improves' and 'by 8.3 points'. It also leaves the limitation and future work as disconnected statements. Version B keeps the problem and method in separate sentences and uses a dense noun stack ('new-user engagement prediction accuracy'). However, it is tighter. It links ideas through content: 'also' ties the engagement finding to the accuracy result, and 'so' turns the single-platform limitation into the reason for future work. A is more precise and states its key point sooner. B reads more economically and connects its ideas better. On balance, B's gains in flow and concision outweigh A's advantages.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'We address the cold-start problem in recommender systems with a two-stage model' vs B: 'Our approach addresses cold-start in recommender systems. We developed a two-stage model'",
+            "concision": "A: 'The results indicate that the accuracy of engagement predictions for new users improves' vs B: 'new-user engagement prediction accuracy improves'",
+            "flow": "A: 'Our data come from a single streaming platform. Future work should test' vs B: 'Our data come from a single streaming platform, so future work should test'",
+            "precision": "A: 'the accuracy of engagement predictions for new users' vs B: 'We developed ... and new-user engagement prediction accuracy improves'"
+          },
+          "overall": "B"
+        },
+        "key": "f35adbe79e5c5633",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A merges the problem and the method into one strong opening sentence. Its second sentence, though, is wordy and puts the baseline between 'improves' and 'by 8.3 points'. It also leaves the limitation and future work as disconnected statements. Version B keeps the problem and method in separate sentences and uses a dense noun stack ('new-user engagement prediction accuracy'). However, it is tighter. It links ideas through content: 'also' ties the engagement finding to the accuracy result, and 'so' turns the single-platform limitation into the reason for future work. A is more precise and states its key point sooner. B reads more economically and connects its ideas better. On balance, B's gains in flow and concision outweigh A's advantages.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We address the cold-start problem in recommender systems with a two-stage model' vs B: 'Our approach addresses cold-start in recommender systems. We developed a two-stage model'\",\n    \"concision\": \"A: 'The results indicate that the accuracy of engagement predictions for new users improves' vs B: 'new-user engagement prediction accuracy improves'\",\n    \"flow\": \"A: 'Our data come from a single streaming platform. Future work should test' vs B: 'Our data come from a single streaming platform, so future work should test'\",\n    \"precision\": \"A: 'the accuracy of engagement predictions for new users' vs B: 'We developed ... and new-user engagement prediction accuracy improves'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0406112,
+        "seconds": 15.1,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states the contribution in one active opening sentence that fuses the approach and the model, and it breaks A's dense noun stack into a readable phrase. That makes B clearer and more precise. Version A is tighter and links its ideas better: it adds 'also' and joins the single-platform limitation to future work with 'so'. However, A drops 'problem' after 'cold-start', and it uses a weak 'and' to join a past-tense method clause to a present-tense result. Both versions suit a recommender-systems audience. B's gains in clarity and precision outweigh A's advantages in concision and flow.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Our approach addresses cold-start in recommender systems. We developed a two-stage model' vs B: 'We address the cold-start problem in recommender systems with a two-stage model'",
+            "concision": "A: 'Our data come from a single streaming platform, so future work should test' vs B: 'Our data come from a single streaming platform. Future work should test'",
+            "flow": "A: 'Engagement was also higher ... so future work should test' vs B: 'Engagement was higher ... Our data come from a single streaming platform. Future work should'",
+            "precision": "A: 'new-user engagement prediction accuracy improves' vs B: 'the accuracy of engagement predictions for new users improves'"
+          },
+          "overall": "B"
+        },
+        "key": "9020069043d21d41",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states the contribution in one active opening sentence that fuses the approach and the model, and it breaks A's dense noun stack into a readable phrase. That makes B clearer and more precise. Version A is tighter and links its ideas better: it adds 'also' and joins the single-platform limitation to future work with 'so'. However, A drops 'problem' after 'cold-start', and it uses a weak 'and' to join a past-tense method clause to a present-tense result. Both versions suit a recommender-systems audience. B's gains in clarity and precision outweigh A's advantages in concision and flow.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Our approach addresses cold-start in recommender systems. We developed a two-stage model' vs B: 'We address the cold-start problem in recommender systems with a two-stage model'\",\n    \"concision\": \"A: 'Our data come from a single streaming platform, so future work should test' vs B: 'Our data come from a single streaming platform. Future work should test'\",\n    \"flow\": \"A: 'Engagement was also higher ... so future work should test' vs B: 'Engagement was higher ... Our data come from a single streaming platform. Future work should'\",\n    \"precision\": \"A: 'new-user engagement prediction accuracy improves' vs B: 'the accuracy of engagement predictions for new users improves'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0363912,
+        "seconds": 14.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "tie",
+  "note": "order-dependent verdict, counted as tie"
+}

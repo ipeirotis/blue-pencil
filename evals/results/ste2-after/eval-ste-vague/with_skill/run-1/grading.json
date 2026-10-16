@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision merges and tightens sentences and swaps informal phrasing (\"came up with\", \"deals with\", \"point out\", \"ended up\", \"look at\") for equivalent wording. The 8.3-point improvement stays attached to new-user engagement prediction accuracy versus the matrix factorization baseline (Koren et al., 2009), and the single-platform caveat and future-work scope are retained."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

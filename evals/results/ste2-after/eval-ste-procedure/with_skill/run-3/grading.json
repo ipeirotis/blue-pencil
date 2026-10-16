@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The sentence splits, the reordering, and the active-voice rewrite of the coding step preserve the meaning, and all numbers stay attached to the same claims. The revision does change the modality of the raking-weights sentence, from counterfactual to indicative, which alters what the passage implies about whether weighting was applied."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

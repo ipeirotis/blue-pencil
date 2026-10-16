@@ -1,0 +1,71 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-before/eval-exposition-results/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Table 3 reports the estimates, and they point to a clear role for reviewer identity.",
+          "explanation": "The original only reports estimates; the revision adds an interpretive conclusion that the results show a clear role for identity."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "It remains substantial after we add product fixed effects in column 3, where it is 0.15 (SE = 0.05).",
+          "explanation": "The revision describes the coefficient as remaining 'substantial', an evaluation of magnitude that the original does not make."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "revised_quote": "Identity also conditions the influence of a review: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "explanation": "The revision reads the interaction coefficient as evidence that identity conditions a review's influence, a substantive and quasi-causal claim the original does not make."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating matters as well, with a coefficient of 0.42 (SE = 0.02) across all specifications, but identity adds to its effect rather than being absorbed by it.",
+          "explanation": "The claims that identity 'adds to' star rating's effect 'rather than being absorbed by it' are new inferences not present in the original."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "R-squared rises from 0.31 to 0.47 across the columns.",
+          "revised_quote": "Model fit improves accordingly, as R-squared rises from 0.31 to 0.47 across the columns.",
+          "explanation": "'Accordingly' attributes the rise in R-squared to the identity results, whereas the original simply reports the rise (which may be driven by added fixed effects)."
+        }
+      ],
+      "summary": "All numbers remain correctly attached to their columns and variables, but the revision layers interpretive and quasi-causal claims (a 'clear role' for identity, 'substantial' persistence, identity 'conditions' influence, identity not 'absorbed' by star rating, fit improving 'accordingly') onto what was a purely descriptive report of estimates."
+    },
+    "key": "7dfecf32ab42ae4a",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and they point to a clear role for reviewer identity.\",\n      \"explanation\": \"The original only reports estimates; the revision adds an interpretive conclusion that the results show a clear role for identity.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"It remains substantial after we add product fixed effects in column 3, where it is 0.15 (SE = 0.05).\",\n      \"explanation\": \"The revision describes the coefficient as remaining 'substantial', an evaluation of magnitude that the original does not make.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"Identity also conditions the influence of a review: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"explanation\": \"The revision reads the interaction coefficient as evidence that identity conditions a review's influence, a substantive and quasi-causal claim the original does not make.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating matters as well, with a coefficient of 0.42 (SE = 0.02) across all specifications, but identity adds to its effect rather than being absorbed by it.\",\n      \"explanation\": \"The claims that identity 'adds to' star rating's effect 'rather than being absorbed by it' are new inferences not present in the original.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"revised_quote\": \"Model fit improves accordingly, as R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"explanation\": \"'Accordingly' attributes the rise in R-squared to the identity results, whereas the original simply reports the rise (which may be driven by added fixed effects).\"\n    }\n  ],\n  \"summary\": \"All numbers remain correctly attached to their columns and variables, but the revision layers interpretive and quasi-causal claims (a 'clear role' for identity, 'substantial' persistence, identity 'conditions' influence, identity not 'absorbed' by star rating, fit improving 'accordingly') onto what was a purely descriptive report of estimates.\"\n}",
+    "cost_usd": 0.041823200000000005,
+    "seconds": 13.0,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

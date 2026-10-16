@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision reorders sentences and adds glosses for 'never-treated' and 'not-yet-treated' that restate what the terms mean without adding a claim. The fixed effects, clustering, controls, coefficient of interest, control-group choice, and the stated reason for the Callaway and Sant'Anna estimator are all kept and still attached to the same statements."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

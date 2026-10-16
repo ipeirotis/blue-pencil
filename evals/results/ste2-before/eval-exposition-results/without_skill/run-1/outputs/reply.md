@@ -1,0 +1,8 @@
+```
+Table 3 reports the estimates, and they point to a clear role for reviewer identity. In column 2, the identity-disclosed indicator carries a coefficient of 0.18 (SE = 0.04). Adding product fixed effects in column 3 trims it only modestly, to 0.15 (SE = 0.05), so the effect does not hinge on differences across products. Identity matters more as reviewers gain experience: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. Star rating remains a strong driver of sales throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds explanatory power beyond it, as R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+```
+
+Two notes on choices I made:
+
+- **Added interpretive phrasing.** "Does not hinge on differences across products" and "identity matters more as reviewers gain experience" are readings of the coefficients that I layered on. Check they match what you argue elsewhere. In particular, the R-squared sentence now credits identity with the rise, which your original left unattributed. If the rise comes from other added controls too, soften or cut that clause.
+- **Numbers untouched.** All coefficients, standard errors, R-squared values, and significance levels are as you wrote them. There were no citations in the paragraph.

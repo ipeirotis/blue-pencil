@@ -1,0 +1,91 @@
+{
+  "case": "ste-connectors",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's missing 'that' after 'find' and move the latency figure into its own sentence. Version A keeps the frequent-versus-rare contrast in one sentence joined by 'whereas', which directly supports the opening claim that gains are concentrated in long-tail questions. Version B splits that contrast into two sentences, so the reader has to reconnect them. A's 'also' links the retrieval-cost sentence to the latency sentence before it. A also drops the filler 'we observe that'. B adds 'assumes that', a small gain in explicitness for second-language readers, but it does not offset A's stronger linking. 'Because the retriever was frozen' in B presents the frozen retriever as the cause of the unchanged accuracy, which reads as a forced causal link. A's 'With the retriever frozen' states the condition more exactly. Both suit the audience; B's shorter sentences are easy to parse, but A's sentences are also short and plain.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'did not change, whereas accuracy on rare questions rose' vs B: 'did not change. Accuracy on rare questions rose'",
+            "concision": "A: 'the median retrieval time roughly doubles' vs B: 'we observe that the median retrieval time roughly doubles'",
+            "flow": "A: 'Retrieval cost also rises as the index grows' vs B: 'As the index grows, retrieval cost rises'",
+            "precision": "A: 'With the retriever frozen' vs B: 'Because the retriever was frozen'"
+          },
+          "overall": "A"
+        },
+        "key": "1fc833a54e5d07c9",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's missing 'that' after 'find' and move the latency figure into its own sentence. Version A keeps the frequent-versus-rare contrast in one sentence joined by 'whereas', which directly supports the opening claim that gains are concentrated in long-tail questions. Version B splits that contrast into two sentences, so the reader has to reconnect them. A's 'also' links the retrieval-cost sentence to the latency sentence before it. A also drops the filler 'we observe that'. B adds 'assumes that', a small gain in explicitness for second-language readers, but it does not offset A's stronger linking. 'Because the retriever was frozen' in B presents the frozen retriever as the cause of the unchanged accuracy, which reads as a forced causal link. A's 'With the retriever frozen' states the condition more exactly. Both suit the audience; B's shorter sentences are easy to parse, but A's sentences are also short and plain.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'did not change, whereas accuracy on rare questions rose' vs B: 'did not change. Accuracy on rare questions rose'\",\n    \"concision\": \"A: 'the median retrieval time roughly doubles' vs B: 'we observe that the median retrieval time roughly doubles'\",\n    \"flow\": \"A: 'Retrieval cost also rises as the index grows' vs B: 'As the index grows, retrieval cost rises'\",\n    \"precision\": \"A: 'With the retriever frozen' vs B: 'Because the retriever was frozen'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0390952,
+        "seconds": 13.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's run-on second sentence, and both are grammatical. Version A breaks the passage into four short sentences. This makes each one easy to parse, but it separates the frequent-vs-rare contrast that supports the opening claim, and the latency sentence stands disconnected. Version B keeps the contrast in one sentence with 'whereas', which directly supports the 'concentrated in long-tail' claim. It links the index-size point with 'also' and cuts the filler 'we observe that'. A adds 'that' consistently, which slightly helps ESL readers. B omits it once ('assumes the retrieved'), but that is standard and unambiguous. On balance, B reads more cohesively at little cost to accessibility.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'accuracy on frequent questions did not change. Accuracy on rare questions rose' vs B: 'accuracy on frequent questions did not change, whereas accuracy on rare questions rose'",
+            "concision": "A: 'we observe that the median retrieval time roughly doubles' vs B: 'the median retrieval time roughly doubles'",
+            "flow": "A: 'Median latency increased by 210 ms per query. As the index grows, retrieval cost rises' vs B: 'Retrieval cost also rises as the index grows'"
+          },
+          "overall": "B"
+        },
+        "key": "d900bc46d13696ed",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's run-on second sentence, and both are grammatical. Version A breaks the passage into four short sentences. This makes each one easy to parse, but it separates the frequent-vs-rare contrast that supports the opening claim, and the latency sentence stands disconnected. Version B keeps the contrast in one sentence with 'whereas', which directly supports the 'concentrated in long-tail' claim. It links the index-size point with 'also' and cuts the filler 'we observe that'. A adds 'that' consistently, which slightly helps ESL readers. B omits it once ('assumes the retrieved'), but that is standard and unambiguous. On balance, B reads more cohesively at little cost to accessibility.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'accuracy on frequent questions did not change. Accuracy on rare questions rose' vs B: 'accuracy on frequent questions did not change, whereas accuracy on rare questions rose'\",\n    \"concision\": \"A: 'we observe that the median retrieval time roughly doubles' vs B: 'the median retrieval time roughly doubles'\",\n    \"flow\": \"A: 'Median latency increased by 210 ms per query. As the index grows, retrieval cost rises' vs B: 'Retrieval cost also rises as the index grows'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0372512,
+        "seconds": 12.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision splits one long sentence into three and adds 'that' after several verbs. The causal 'frozen retriever' clause, the 41.2% to 57.8% rise for rare questions (Table 3), the 210 ms per-query latency increase, the 1M–10M index doubling, the [@lewis2020] attribution and the 23% figure all keep their original attachments and strength."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

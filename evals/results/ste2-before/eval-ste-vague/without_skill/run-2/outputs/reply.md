@@ -1,0 +1,5 @@
+```
+Our approach addresses the cold-start problem in recommender systems. We developed a two-stage model for sparse interaction histories, and it improves new-user engagement prediction accuracy by 8.3 points over the matrix factorization baseline (Koren et al., 2009). Engagement was also higher for users who received the warm-start recommendations. Our data come from a single streaming platform; future work should test whether the effect carries over to other domains.
+```
+
+I tightened the wording and kept your claims, the 8.3-point figure, and the citation as written. Some of the vagueness comes from missing content that I can't supply. The paragraph doesn't say what the two stages are, what metric "points" refers to, or how much engagement rose. If you add those details, the paragraph will read as more concrete.

@@ -1,0 +1,35 @@
+{
+  "case": "ste-procedure",
+  "run_dir": "results/ste2-before/eval-ste-procedure/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision splits long sentences and changes the open-ended coding sentence from passive to active voice. It keeps every condition, number, citation, and the hedged 'would have been expected to have been applied' wording for the raking weights, so the meaning is unchanged."
+    },
+    "key": "639328bf5bd353af",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision splits long sentences and changes the open-ended coding sentence from passive to active voice. It keeps every condition, number, citation, and the hedged 'would have been expected to have been applied' wording for the raking weights, so the meaning is unchanged.\"\n}\n```",
+    "cost_usd": 0.024035200000000003,
+    "seconds": 5.8,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

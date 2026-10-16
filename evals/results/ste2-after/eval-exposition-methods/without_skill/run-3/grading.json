@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two-way']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The model, fixed effects, clustering, controls, and control-group choice are preserved, but the revision adds an outcome variable ('repeat purchase'), an argument for why staggered two-way fixed effects is biased, and an account of how the Callaway and Sant'Anna estimator works. None of these appear in the original."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

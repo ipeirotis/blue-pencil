@@ -1,0 +1,71 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste2-before/eval-exposition-methods/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two-way"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
+          "revised_quote": "which captures the change in repeat purchase after a store receives the loyalty program, relative to comparison stores",
+          "explanation": "The original never names the outcome variable, so the revision adds a factual claim that the dependent variable is repeat purchase."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "to address heterogeneity in treatment timing",
+          "revised_quote": "Two-way fixed effects estimates can be difficult to interpret when treatment timing varies, because the effect of the program may differ across stores or over time.",
+          "explanation": "The original only says the second estimator addresses timing heterogeneity, while the revision adds a substantive claim about why the TWFE estimate is problematic, namely effect heterogeneity across stores or over time."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate",
+          "revised_quote": "This estimator compares each group of stores that began treatment on the same date only with stores not yet treated or never treated, and then aggregates those comparisons.",
+          "explanation": "The revision adds implementation details the author did not state, such as cohort-by-cohort comparisons and an aggregation step; these may be accurate for the method but are not in the original."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "with store and week fixed effects",
+          "revised_quote": "These fixed effects absorb stable differences across stores and shocks common to all stores in a given week.",
+          "explanation": "The revision adds an interpretive claim about what the fixed effects control for that the original did not make, although it is a standard gloss."
+        }
+      ],
+      "summary": "All of the original's method steps, controls, clustering, control groups, and estimators are kept and correctly attached. However, the revision adds several assertions not in the original, most importantly naming repeat purchase as the outcome, which the source passage never specifies."
+    },
+    "key": "fa69105c5b85aa50",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"which captures the change in repeat purchase after a store receives the loyalty program, relative to comparison stores\",\n      \"explanation\": \"The original never names the outcome variable, so the revision adds a factual claim that the dependent variable is repeat purchase.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"to address heterogeneity in treatment timing\",\n      \"revised_quote\": \"Two-way fixed effects estimates can be difficult to interpret when treatment timing varies, because the effect of the program may differ across stores or over time.\",\n      \"explanation\": \"The original only says the second estimator addresses timing heterogeneity, while the revision adds a substantive claim about why the TWFE estimate is problematic, namely effect heterogeneity across stores or over time.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate\",\n      \"revised_quote\": \"This estimator compares each group of stores that began treatment on the same date only with stores not yet treated or never treated, and then aggregates those comparisons.\",\n      \"explanation\": \"The revision adds implementation details the author did not state, such as cohort-by-cohort comparisons and an aggregation step; these may be accurate for the method but are not in the original.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"with store and week fixed effects\",\n      \"revised_quote\": \"These fixed effects absorb stable differences across stores and shocks common to all stores in a given week.\",\n      \"explanation\": \"The revision adds an interpretive claim about what the fixed effects control for that the original did not make, although it is a standard gloss.\"\n    }\n  ],\n  \"summary\": \"All of the original's method steps, controls, clustering, control groups, and estimators are kept and correctly attached. However, the revision adds several assertions not in the original, most importantly naming repeat purchase as the outcome, which the source passage never specifies.\"\n}\n```",
+    "cost_usd": 0.0478192,
+    "seconds": 15.9,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "case": "ste-vague",
+  "run_dir": "results/ste2-before/eval-ste-vague/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision keeps the cold-start framing, the 8.3-point improvement over the cited matrix factorization baseline (Koren et al., 2009), the higher engagement for warm-start users, the single-platform caveat, and the future-work call. Its changes are informal-to-standard synonyms, a neutral attribution phrase removed, and two sentences merged with a connective."
+    },
+    "key": "5434bf9b97b261b5",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision keeps the cold-start framing, the 8.3-point improvement over the cited matrix factorization baseline (Koren et al., 2009), the higher engagement for warm-start users, the single-platform caveat, and the future-work call. Its changes are informal-to-standard synonyms, a neutral attribution phrase removed, and two sentences merged with a connective.\"\n}\n```",
+    "cost_usd": 0.0277792,
+    "seconds": 7.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

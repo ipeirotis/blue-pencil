@@ -1,0 +1,5 @@
+```
+Table 3 reports the estimates, and they point to a clear role for reviewer identity. In column 2, the coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04). Adding product fixed effects in column 3 leaves the effect largely intact, at 0.15 (SE = 0.05). Identity also conditions the weight a review carries: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. Star rating remains a strong predictor, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds explanatory power beyond it, as R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+```
+
+I kept every number and the order of the results unchanged. One thing to check: "largely intact" and "adds explanatory power beyond it" are interpretive framings. The R-squared rise spans all added terms (fixed effects and the interaction too), so if you want to avoid implying identity alone drives it, you could soften that clause to "the model's explanatory power rises."

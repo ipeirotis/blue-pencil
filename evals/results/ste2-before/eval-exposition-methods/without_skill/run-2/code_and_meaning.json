@@ -1,0 +1,79 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste2-before/eval-exposition-methods/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "quotes": {
+        "removed": [],
+        "added": [
+          "\"after\"",
+          "\"before\""
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.",
+          "revised_quote": "which compares the change in repeat purchase at stores after they receive the loyalty program with the change at stores that have not received it",
+          "explanation": "The revision names 'repeat purchase' as the outcome variable, which the original passage never states."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "and we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.",
+          "revised_quote": "Because differences in treatment timing can complicate the interpretation of the two-way fixed effects estimate, we report the Callaway and Sant'Anna estimator alongside it",
+          "explanation": "The revision adds a stated reason that staggered timing complicates interpretation of the TWFE estimate, which the original does not say."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "We estimate a two-way fixed effects model with store and week fixed effects,",
+          "revised_quote": "The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.",
+          "explanation": "The revision adds an interpretation of what each set of fixed effects controls for. The interpretation is standard, but the original does not state it."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Because the loyalty program was rolled out to stores on different dates,",
+          "revised_quote": "there is no single \"before\" and \"after\" period shared by all treated stores.",
+          "explanation": "The revision adds an explanatory claim about the rollout that the original does not make."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "we use the never-treated and not-yet-treated stores as controls",
+          "revised_quote": "We therefore use the never-treated stores (those that never receive the program) and the not-yet-treated stores (those that will receive it later but have not yet) as controls.",
+          "explanation": "The author's terse technical phrasing is expanded with textbook-style glosses."
+        }
+      ],
+      "summary": "All original content is preserved, but the revision adds several assertions the original does not make. The most consequential is naming 'repeat purchase' as the outcome; the others are interpretive explanations of the fixed effects and the staggered rollout."
+    },
+    "key": "122291985a6e40b3",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient of interest is the interaction between the post-rollout indicator and the treatment indicator.\",\n      \"revised_quote\": \"which compares the change in repeat purchase at stores after they receive the loyalty program with the change at stores that have not received it\",\n      \"explanation\": \"The revision names 'repeat purchase' as the outcome variable, which the original passage never states.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"and we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate to address heterogeneity in treatment timing.\",\n      \"revised_quote\": \"Because differences in treatment timing can complicate the interpretation of the two-way fixed effects estimate, we report the Callaway and Sant'Anna estimator alongside it\",\n      \"explanation\": \"The revision adds a stated reason that staggered timing complicates interpretation of the TWFE estimate, which the original does not say.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"We estimate a two-way fixed effects model with store and week fixed effects,\",\n      \"revised_quote\": \"The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.\",\n      \"explanation\": \"The revision adds an interpretation of what each set of fixed effects controls for. The interpretation is standard, but the original does not state it.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Because the loyalty program was rolled out to stores on different dates,\",\n      \"revised_quote\": \"there is no single \\\"before\\\" and \\\"after\\\" period shared by all treated stores.\",\n      \"explanation\": \"The revision adds an explanatory claim about the rollout that the original does not make.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"we use the never-treated and not-yet-treated stores as controls\",\n      \"revised_quote\": \"We therefore use the never-treated stores (those that never receive the program) and the not-yet-treated stores (those that will receive it later but have not yet) as controls.\",\n      \"explanation\": \"The author's terse technical phrasing is expanded with textbook-style glosses.\"\n    }\n  ],\n  \"summary\": \"All original content is preserved, but the revision adds several assertions the original does not make. The most consequential is naming 'repeat purchase' as the outcome; the others are interpretive explanations of the fixed effects and the staggered rollout.\"\n}\n```",
+    "cost_usd": 0.04426720000000001,
+    "seconds": 11.5,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

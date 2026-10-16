@@ -1,0 +1,94 @@
+{
+  "case": "exposition-introduction",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens with a useful question, but it then explains endogeneity and 'exogenous variation' to empirical economists and IS researchers, who already know both terms. It also keeps the original's dense nominal phrasing ('the endogeneity of review valence with respect to'). Version B reorders the passage into a logical chain: problem, flawed prior approaches, our improvement, mechanism, result. Each sentence picks up from the one before ('these approaches', 'this unequal moderation'), and the effect on sales is named in the first sentence. B's sentences are somewhat short and staccato, but they connect through content rather than added glosses. B is also tighter and more exact ('endogenous to', 'statistically significant'). Overall, B reads better for this audience.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'The question is hard to answer because the endogeneity of review valence with respect to unobserved product quality is a well-known obstacle' vs B: 'review valence is endogenous to unobserved product quality, which obstructs identification of its effect on sales'",
+            "concision": "A: 'a source of exogenous variation, that is, variation unrelated to product quality' vs B: 'a source of exogenous variation'",
+            "flow": "A: 'Our identification strategy improves upon prior approaches' (tacked on at the end) vs B: 'Prior approaches... rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches.'",
+            "precision": "A: 'find it to be positive and significant' vs B: 'positive and statistically significant'",
+            "audience_fit": "A: 'a simple correlation between the two does not reveal the effect of the reviews themselves' vs B: 'review valence is endogenous to unobserved product quality'"
+          },
+          "overall": "B"
+        },
+        "key": "f14cfc11577608f6",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with a useful question, but it then explains endogeneity and 'exogenous variation' to empirical economists and IS researchers, who already know both terms. It also keeps the original's dense nominal phrasing ('the endogeneity of review valence with respect to'). Version B reorders the passage into a logical chain: problem, flawed prior approaches, our improvement, mechanism, result. Each sentence picks up from the one before ('these approaches', 'this unequal moderation'), and the effect on sales is named in the first sentence. B's sentences are somewhat short and staccato, but they connect through content rather than added glosses. B is also tighter and more exact ('endogenous to', 'statistically significant'). Overall, B reads better for this audience.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The question is hard to answer because the endogeneity of review valence with respect to unobserved product quality is a well-known obstacle' vs B: 'review valence is endogenous to unobserved product quality, which obstructs identification of its effect on sales'\",\n    \"concision\": \"A: 'a source of exogenous variation, that is, variation unrelated to product quality' vs B: 'a source of exogenous variation'\",\n    \"flow\": \"A: 'Our identification strategy improves upon prior approaches' (tacked on at the end) vs B: 'Prior approaches... rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches.'\",\n    \"precision\": \"A: 'find it to be positive and significant' vs B: 'positive and statistically significant'\",\n    \"audience_fit\": \"A: 'a simple correlation between the two does not reveal the effect of the reviews themselves' vs B: 'review valence is endogenous to unobserved product quality'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0500792,
+        "seconds": 18.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Clarity: B's opening question states the research question immediately. A's first sentence also names the problem and the outcome (sales), but less vividly. Concision: B spends a full clause explaining endogeneity and glosses 'exogenous variation'. Expert readers don't need either, so A conveys the same content in fewer words. Flow: A moves prior approaches ahead of 'Our identification strategy improves upon these approaches', giving a problem → prior work → our fix → result arc. It links sentences with 'these approaches' and 'this unequal moderation', though some sentences are choppy. B leaves the comparison to prior work dangling at the end. Precision: A replaces the nominalized 'endogeneity ... with respect to ... is a well-known obstacle' with a direct clause and specifies 'statistically significant'. Its 'unequally' is slightly looser than B's field-standard 'differentially', but on balance A is more exact. Audience fit: empirical economists and IS researchers know what endogeneity and exogenous variation mean, so B's tutorial explanations talk down to them. A pitches at the right level. Overall A reads better for this audience despite B's stronger hook.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'review valence is endogenous to unobserved product quality, which obstructs identification' vs B: 'Do more positive reviews cause higher sales?'",
+            "concision": "A: 'review valence is endogenous to unobserved product quality' vs B: 'a high-quality product tends to receive better reviews and to sell more, so a simple correlation between the two does not reveal...'",
+            "flow": "A: 'Prior approaches ... rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches.' vs B: '...positive and significant. Our identification strategy improves upon prior approaches...'",
+            "precision": "A: 'positive and statistically significant' vs B: 'the endogeneity of review valence with respect to unobserved product quality is a well-known obstacle'",
+            "audience_fit": "A: 'as a source of exogenous variation' vs B: 'exogenous variation, that is, variation unrelated to product quality'"
+          },
+          "overall": "A"
+        },
+        "key": "9631dae811a25bbd",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Clarity: B's opening question states the research question immediately. A's first sentence also names the problem and the outcome (sales), but less vividly. Concision: B spends a full clause explaining endogeneity and glosses 'exogenous variation'. Expert readers don't need either, so A conveys the same content in fewer words. Flow: A moves prior approaches ahead of 'Our identification strategy improves upon these approaches', giving a problem → prior work → our fix → result arc. It links sentences with 'these approaches' and 'this unequal moderation', though some sentences are choppy. B leaves the comparison to prior work dangling at the end. Precision: A replaces the nominalized 'endogeneity ... with respect to ... is a well-known obstacle' with a direct clause and specifies 'statistically significant'. Its 'unequally' is slightly looser than B's field-standard 'differentially', but on balance A is more exact. Audience fit: empirical economists and IS researchers know what endogeneity and exogenous variation mean, so B's tutorial explanations talk down to them. A pitches at the right level. Overall A reads better for this audience despite B's stronger hook.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'review valence is endogenous to unobserved product quality, which obstructs identification' vs B: 'Do more positive reviews cause higher sales?'\",\n    \"concision\": \"A: 'review valence is endogenous to unobserved product quality' vs B: 'a high-quality product tends to receive better reviews and to sell more, so a simple correlation between the two does not reveal...'\",\n    \"flow\": \"A: 'Prior approaches ... rely on instrumental variables of questionable validity. Our identification strategy improves upon these approaches.' vs B: '...positive and significant. Our identification strategy improves upon prior approaches...'\",\n    \"precision\": \"A: 'positive and statistically significant' vs B: 'the endogeneity of review valence with respect to unobserved product quality is a well-known obstacle'\",\n    \"audience_fit\": \"A: 'as a source of exogenous variation' vs B: 'exogenous variation, that is, variation unrelated to product quality'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0460352,
+        "seconds": 15.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

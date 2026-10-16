@@ -1,0 +1,35 @@
+{
+  "case": "ste-vague",
+  "run_dir": "results/ste2-before/eval-ste-vague/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision tightens wording and restructures sentences, but keeps the two-stage model, the 8.3-point accuracy gain over the Koren et al. (2009) matrix factorization baseline, the warm-start engagement finding, and the single-platform limitation at the same strength and scope. Dropping 'the results point out that' and joining the limitation and future-work sentences with 'so' are an attribution-verb change and a connective, so neither is reported."
+    },
+    "key": "3e8a06d2c2991047",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision tightens wording and restructures sentences, but keeps the two-stage model, the 8.3-point accuracy gain over the Koren et al. (2009) matrix factorization baseline, the warm-start engagement finding, and the single-platform limitation at the same strength and scope. Dropping 'the results point out that' and joining the limitation and future-work sentences with 'so' are an attribution-verb change and a connective, so neither is reported.\"\n}\n```",
+    "cost_usd": 0.0274432,
+    "seconds": 7.3,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

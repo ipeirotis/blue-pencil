@@ -1,0 +1,57 @@
+{
+  "case": "ste-procedure",
+  "run_dir": "results/ste2-after/eval-ste-procedure/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "four"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "lost_content",
+          "severity": "major",
+          "original_quote": "Responses were screened and recoded after the field period closed",
+          "revised_quote": "First, responses were screened, and respondents were excluded",
+          "explanation": "The original says responses were both screened and recoded, but the revision drops the recoding step, and the new 'four steps' framing implies the list of processing steps is complete."
+        },
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "Raking weights would have been expected to have been applied to the merged file before estimation",
+          "revised_quote": "Fourth, raking weights were expected to be applied to the merged file before estimation",
+          "explanation": "The original's counterfactual 'would have been expected to have been applied' leaves open whether the weights were actually applied, while the revision presents weighting as a planned, ordinary step. That changes what readers infer about whether the estimates are weighted. The original is awkwardly worded, so the author should confirm which meaning was intended."
+        }
+      ],
+      "summary": "The revision drops the 'recoded' step from the description of data processing. It also changes the counterfactual wording about raking weights, which shifts the implication about whether the weights were applied. The numbers, sample size, citations, and their attachments are otherwise correctly preserved."
+    },
+    "key": "b1433e23d62f200f",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"lost_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Responses were screened and recoded after the field period closed\",\n      \"revised_quote\": \"First, responses were screened, and respondents were excluded\",\n      \"explanation\": \"The original says responses were both screened and recoded, but the revision drops the recoding step, and the new 'four steps' framing implies the list of processing steps is complete.\"\n    },\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Raking weights would have been expected to have been applied to the merged file before estimation\",\n      \"revised_quote\": \"Fourth, raking weights were expected to be applied to the merged file before estimation\",\n      \"explanation\": \"The original's counterfactual 'would have been expected to have been applied' leaves open whether the weights were actually applied, while the revision presents weighting as a planned, ordinary step. That changes what readers infer about whether the estimates are weighted. The original is awkwardly worded, so the author should confirm which meaning was intended.\"\n    }\n  ],\n  \"summary\": \"The revision drops the 'recoded' step from the description of data processing. It also changes the counterfactual wording about raking weights, which shifts the implication about whether the weights were applied. The numbers, sample size, citations, and their attachments are otherwise correctly preserved.\"\n}\n```",
+    "cost_usd": 0.0415432,
+    "seconds": 14.0,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

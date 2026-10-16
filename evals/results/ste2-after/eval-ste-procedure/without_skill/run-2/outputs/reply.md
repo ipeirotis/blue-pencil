@@ -1,0 +1,6 @@
+```
+After the field period closed, data processing proceeded in four steps. First, responses were screened, and respondents were excluded if they failed both attention checks or finished in under one third of the median completion time (4.1 minutes); the analytic sample is N = 2,184 after these exclusions. Second, open-ended answers were coded by two research assistants using the codebook in Appendix B, with disagreements resolved by discussion. Third, the coded categories were merged with the panel's demographic file using the respondent ID. Fourth, raking weights were expected to be applied to the merged file before estimation, matching the 2020 Census margins for age, sex, and region.
+```
+
+- **Weighting sentence:** The original, "would have been expected to have been applied," leaves it unclear whether the weights were actually applied. I shortened it to "were expected to be applied" to keep the hedge, but you likely want to state plainly which is true. If they were applied, "were applied" is the better wording.
+- **Replicator steps:** I made the sequence explicit but did not label which steps a replicator must repeat, because that depends on what you release. If you share the screened data or the coded categories, a replicator could start at the merge or the weighting step. If you want that stated, add a sentence saying where they can begin.

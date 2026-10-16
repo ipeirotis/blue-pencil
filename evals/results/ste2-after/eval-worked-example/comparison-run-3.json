@@ -1,0 +1,93 @@
+{
+  "case": "worked-example",
+  "run": 3,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's worst filler ('It is important to note', 'Furthermore', 'comprising of'). A goes further: it drops the hedges and buzzwords B keeps ('fundamentally', 'somewhat', 'leverage a novel'), uses tighter verbs, and makes the implication follow with 'therefore'. B reads more smoothly in two places. It merges the citation sentence with the findings, and 'Our analysis demonstrates' introduces the result instead of stating it bare, which in A feels abrupt after the data sentence. A is stronger on concision, precision, and register, and slightly clearer. B wins on flow.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'whether reviewer identity affects this relationship remains underexplored' vs B: 'whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored'",
+            "concision": "A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'",
+            "flow": "A: 'To investigate this question, we use a dataset of 1.2 million reviews. Reviewer identity has a significant effect' vs B: '(... Dellarocas 2003), and these studies find that reviews matter' / 'Our analysis demonstrates that reviewer identity has a significant effect'",
+            "precision": "A: 'a one-star increase raises revenue by 5-9%' vs B: 'a one-star increase leads to a 5-9% increase in revenue'",
+            "audience_fit": "A: 'has transformed how consumers make purchasing decisions' vs B: 'has fundamentally transformed how consumers' / 'we leverage a novel dataset'"
+          },
+          "overall": "A"
+        },
+        "key": "e5ba458ba9ec9bf6",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's worst filler ('It is important to note', 'Furthermore', 'comprising of'). A goes further: it drops the hedges and buzzwords B keeps ('fundamentally', 'somewhat', 'leverage a novel'), uses tighter verbs, and makes the implication follow with 'therefore'. B reads more smoothly in two places. It merges the citation sentence with the findings, and 'Our analysis demonstrates' introduces the result instead of stating it bare, which in A feels abrupt after the data sentence. A is stronger on concision, precision, and register, and slightly clearer. B wins on flow.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'whether reviewer identity affects this relationship remains underexplored' vs B: 'whether the identity of reviewers affects this relationship remains, to the best of our knowledge, somewhat underexplored'\",\n    \"concision\": \"A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'\",\n    \"flow\": \"A: 'To investigate this question, we use a dataset of 1.2 million reviews. Reviewer identity has a significant effect' vs B: '(... Dellarocas 2003), and these studies find that reviews matter' / 'Our analysis demonstrates that reviewer identity has a significant effect'\",\n    \"precision\": \"A: 'a one-star increase raises revenue by 5-9%' vs B: 'a one-star increase leads to a 5-9% increase in revenue'\",\n    \"audience_fit\": \"A: 'has transformed how consumers make purchasing decisions' vs B: 'has fundamentally transformed how consumers' / 'we leverage a novel dataset'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0408712,
+        "seconds": 13.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted'). B goes further. It drops intensifiers and vague hedges ('fundamentally', 'novel', 'somewhat'), states the revenue effect with a sharper verb, and moves 'to the best of our knowledge' forward so the research gap ends the sentence. A connects ideas better in two places. It merges the literature sentences with 'and these studies find', and its second paragraph moves from data to analysis to implication through 'Our analysis demonstrates' and 'This finding has important implications'. By contrast, B jumps from 'we use a dataset' straight to a bare finding, which reads choppy. Register is comparable: A's 'Our analysis demonstrates' frames the result in a way empirical readers expect, while B's plainness also suits the venue. On balance, B's gains in clarity, concision and precision outweigh A's smoother flow.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'remains, to the best of our knowledge, somewhat underexplored' vs B: 'to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored'",
+            "concision": "A: 'we leverage a novel dataset of 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'",
+            "flow": "A: 'Our analysis demonstrates that reviewer identity has a significant effect. This finding has important implications' vs B: 'we use a dataset of 1.2 million reviews. Reviewer identity has a significant effect'",
+            "precision": "A: 'a one-star increase leads to a 5-9% increase in revenue' vs B: 'a one-star increase raises revenue by 5-9%'"
+          },
+          "overall": "B"
+        },
+        "key": "9ced3f7df3e51f2e",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted'). B goes further. It drops intensifiers and vague hedges ('fundamentally', 'novel', 'somewhat'), states the revenue effect with a sharper verb, and moves 'to the best of our knowledge' forward so the research gap ends the sentence. A connects ideas better in two places. It merges the literature sentences with 'and these studies find', and its second paragraph moves from data to analysis to implication through 'Our analysis demonstrates' and 'This finding has important implications'. By contrast, B jumps from 'we use a dataset' straight to a bare finding, which reads choppy. Register is comparable: A's 'Our analysis demonstrates' frames the result in a way empirical readers expect, while B's plainness also suits the venue. On balance, B's gains in clarity, concision and precision outweigh A's smoother flow.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'remains, to the best of our knowledge, somewhat underexplored' vs B: 'to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored'\",\n    \"concision\": \"A: 'we leverage a novel dataset of 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'\",\n    \"flow\": \"A: 'Our analysis demonstrates that reviewer identity has a significant effect. This finding has important implications' vs B: 'we use a dataset of 1.2 million reviews. Reviewer identity has a significant effect'\",\n    \"precision\": \"A: 'a one-star increase leads to a 5-9% increase in revenue' vs B: 'a one-star increase raises revenue by 5-9%'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0438432,
+        "seconds": 15.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

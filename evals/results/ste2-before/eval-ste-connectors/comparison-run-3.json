@@ -1,0 +1,89 @@
+{
+  "case": "ste-connectors",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the same grammar issues: they add 'that' after 'find', 'observe', 'assumes', and 'shows'. They differ mainly in the second through fourth sentences. B keeps the frequent-versus-rare contrast in one sentence with 'whereas', so the paired finding reads as a unit. A splits it with 'In contrast', which works but is wordier. B's 'also' ties the latency result to the accuracy result, while A's 'Median latency increased' stands alone with no link. B's 'Retrieval cost rises as the index grows' puts the topic first, which makes the claim easier to find. On precision, A's 'Because the retriever was frozen' states the causal link explicitly, and B's 'With the retriever frozen' leaves it slightly looser. This offsets B's other small gains, so precision is a tie. Both registers suit second-language NLP readers: A's shorter sentences are easy to parse, and B's single 'whereas' is common in academic English. Overall, B is tighter and better connected.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'As the index grows, retrieval cost rises' vs B: 'Retrieval cost rises as the index grows'",
+            "concision": "A: 'did not change. In contrast, accuracy on rare questions' vs B: 'did not change, whereas accuracy on rare questions'",
+            "flow": "A: 'Median latency increased by 210 ms' vs B: 'Median latency also increased by 210 ms'"
+          },
+          "overall": "B"
+        },
+        "key": "6fa96d1eebc07225",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the same grammar issues: they add 'that' after 'find', 'observe', 'assumes', and 'shows'. They differ mainly in the second through fourth sentences. B keeps the frequent-versus-rare contrast in one sentence with 'whereas', so the paired finding reads as a unit. A splits it with 'In contrast', which works but is wordier. B's 'also' ties the latency result to the accuracy result, while A's 'Median latency increased' stands alone with no link. B's 'Retrieval cost rises as the index grows' puts the topic first, which makes the claim easier to find. On precision, A's 'Because the retriever was frozen' states the causal link explicitly, and B's 'With the retriever frozen' leaves it slightly looser. This offsets B's other small gains, so precision is a tie. Both registers suit second-language NLP readers: A's shorter sentences are easy to parse, and B's single 'whereas' is common in academic English. Overall, B is tighter and better connected.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'As the index grows, retrieval cost rises' vs B: 'Retrieval cost rises as the index grows'\",\n    \"concision\": \"A: 'did not change. In contrast, accuracy on rare questions' vs B: 'did not change, whereas accuracy on rare questions'\",\n    \"flow\": \"A: 'Median latency increased by 210 ms' vs B: 'Median latency also increased by 210 ms'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0385992,
+        "seconds": 12.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's grammar in the same way, adding the missing 'that' after find, observe, assumes and shows, and both split off the latency clause. They differ mainly in the middle sentences. A keeps the frequent-versus-rare contrast in one sentence with 'whereas', which ties the two results together. Its 'also' then links the latency result to what came before. B splits the contrast with 'In contrast,' and leaves 'Median latency increased' standing alone, so the step to a new topic feels abrupt. A is also slightly shorter ('With the retriever frozen' vs. 'Because the retriever was frozen'; 'whereas' vs. '. In contrast,'). B's shorter sentences are easy for second-language readers to parse, but A's sentences are also short and plain, so audience fit is about equal. Grammar and word choice are correct in both.",
+          "dimensions": {
+            "clarity": "tie",
+            "concision": "A",
+            "flow": "A",
+            "precision": "tie",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "concision": "A: 'With the retriever frozen, ... whereas accuracy' vs B: 'Because the retriever was frozen, ... In contrast, accuracy'",
+            "flow": "A: 'Median latency also increased by 210 ms' vs B: 'Median latency increased by 210 ms'"
+          },
+          "overall": "A"
+        },
+        "key": "818b684ecc3b5232",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's grammar in the same way, adding the missing 'that' after find, observe, assumes and shows, and both split off the latency clause. They differ mainly in the middle sentences. A keeps the frequent-versus-rare contrast in one sentence with 'whereas', which ties the two results together. Its 'also' then links the latency result to what came before. B splits the contrast with 'In contrast,' and leaves 'Median latency increased' standing alone, so the step to a new topic feels abrupt. A is also slightly shorter ('With the retriever frozen' vs. 'Because the retriever was frozen'; 'whereas' vs. '. In contrast,'). B's shorter sentences are easy for second-language readers to parse, but A's sentences are also short and plain, so audience fit is about equal. Grammar and word choice are correct in both.\",\n  \"dimensions\": {\"clarity\": \"tie\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"concision\": \"A: 'With the retriever frozen, ... whereas accuracy' vs B: 'Because the retriever was frozen, ... In contrast, accuracy'\",\n    \"flow\": \"A: 'Median latency also increased by 210 ms' vs B: 'Median latency increased by 210 ms'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0404992,
+        "seconds": 14.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

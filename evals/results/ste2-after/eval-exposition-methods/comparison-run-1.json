@@ -1,0 +1,93 @@
+{
+  "case": "exposition-methods",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens by naming what is estimated and links staggered rollout to the TWFE interpretation problem and then to Callaway and Sant'Anna, so it reads more coherently. However, it glosses terms this audience already knows ('a separate intercept for each store and each week', what the indicators mean) and adds vague filler ('Comparisons must therefore be constructed with care'). Version B is much tighter and uses standard terminology at the right register. Its reordering, which puts the rollout motivation first, helps justify the control choice. Its weakness is that the Callaway and Sant'Anna sentence sits at the end, cut off from the timing motivation. Precision is roughly even: A is more explicit, but B is accurate and concise. For an expert audience in quantitative marketing, B's economy and register outweigh A's smoother connective tissue.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "tie",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'We estimate the effect of the loyalty program with a two-way fixed effects model' vs B: 'The loyalty program was rolled out to stores on different dates.'",
+            "concision": "A: 'which includes a separate intercept for each store and each week' vs B: 'with store and week fixed effects'",
+            "flow": "A: 'Because treatment timing varies, a two-way fixed effects estimate alone can be difficult to interpret. We therefore report the Callaway and Sant'Anna estimator' vs B: 'The coefficient of interest is the interaction... We report the Callaway and Sant'Anna estimator alongside'",
+            "audience_fit": "A: 'the post-rollout indicator (whether a given week falls after the program launched)' vs B: 'the interaction between the post-rollout indicator and the treatment indicator'"
+          },
+          "overall": "B"
+        },
+        "key": "06bd9c8cbb88e903",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens by naming what is estimated and links staggered rollout to the TWFE interpretation problem and then to Callaway and Sant'Anna, so it reads more coherently. However, it glosses terms this audience already knows ('a separate intercept for each store and each week', what the indicators mean) and adds vague filler ('Comparisons must therefore be constructed with care'). Version B is much tighter and uses standard terminology at the right register. Its reordering, which puts the rollout motivation first, helps justify the control choice. Its weakness is that the Callaway and Sant'Anna sentence sits at the end, cut off from the timing motivation. Precision is roughly even: A is more explicit, but B is accurate and concise. For an expert audience in quantitative marketing, B's economy and register outweigh A's smoother connective tissue.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"tie\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We estimate the effect of the loyalty program with a two-way fixed effects model' vs B: 'The loyalty program was rolled out to stores on different dates.'\",\n    \"concision\": \"A: 'which includes a separate intercept for each store and each week' vs B: 'with store and week fixed effects'\",\n    \"flow\": \"A: 'Because treatment timing varies, a two-way fixed effects estimate alone can be difficult to interpret. We therefore report the Callaway and Sant'Anna estimator' vs B: 'The coefficient of interest is the interaction... We report the Callaway and Sant'Anna estimator alongside'\",\n    \"audience_fit\": \"A: 'the post-rollout indicator (whether a given week falls after the program launched)' vs B: 'the interaction between the post-rollout indicator and the treatment indicator'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.042759200000000004,
+        "seconds": 14.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A moves the staggered-rollout fact to the front. That motivates the control groups, but the passage then returns to the TWFE specification, so the Callaway–Sant'Anna sentence at the end is cut off from the timing problem it addresses. A's control definitions are also nearly circular. Version B opens with what is estimated and how. It then builds a clear causal chain: staggered rollout means no single before/after moment, which makes TWFE hard to interpret, which is why it reports Callaway–Sant'Anna. B's control-group definitions are also more exact. However, B over-explains basics this audience knows, such as fixed effects as intercepts and a gloss on what CS does. It also adds filler ('Comparisons must therefore be constructed with care'). A is tighter and pitched at the right level. On balance, B's clearer opening, logical flow and precise definitions outweigh its verbosity and slightly basic register.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'The loyalty program was rolled out to stores on different dates.' (opens on a background detail) vs B: 'We estimate the effect of the loyalty program with a two-way fixed effects model' (opens on the main point)",
+            "concision": "A: 'We estimate a two-way fixed effects model with store and week fixed effects' vs B: 'which includes a separate intercept for each store and each week' plus 'Comparisons must therefore be constructed with care.'",
+            "flow": "A: 'The coefficient of interest is... We report the Callaway and Sant'Anna estimator' (disconnected from the timing issue) vs B: 'Because treatment timing varies, a two-way fixed effects estimate alone can be difficult to interpret. We therefore report...'",
+            "precision": "A: 'never-treated stores, which never receive the program' (circular) vs B: 'which do not receive the program during the sample' / 'at the time of comparison'",
+            "audience_fit": "A: 'store and week fixed effects' (standard shorthand for quant marketers) vs B: 'a separate intercept for each store and each week' (explains basics this audience knows)"
+          },
+          "overall": "B"
+        },
+        "key": "d5e0f03cc89dfdd3",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A moves the staggered-rollout fact to the front. That motivates the control groups, but the passage then returns to the TWFE specification, so the Callaway–Sant'Anna sentence at the end is cut off from the timing problem it addresses. A's control definitions are also nearly circular. Version B opens with what is estimated and how. It then builds a clear causal chain: staggered rollout means no single before/after moment, which makes TWFE hard to interpret, which is why it reports Callaway–Sant'Anna. B's control-group definitions are also more exact. However, B over-explains basics this audience knows, such as fixed effects as intercepts and a gloss on what CS does. It also adds filler ('Comparisons must therefore be constructed with care'). A is tighter and pitched at the right level. On balance, B's clearer opening, logical flow and precise definitions outweigh its verbosity and slightly basic register.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The loyalty program was rolled out to stores on different dates.' (opens on a background detail) vs B: 'We estimate the effect of the loyalty program with a two-way fixed effects model' (opens on the main point)\",\n    \"concision\": \"A: 'We estimate a two-way fixed effects model with store and week fixed effects' vs B: 'which includes a separate intercept for each store and each week' plus 'Comparisons must therefore be constructed with care.'\",\n    \"flow\": \"A: 'The coefficient of interest is... We report the Callaway and Sant'Anna estimator' (disconnected from the timing issue) vs B: 'Because treatment timing varies, a two-way fixed effects estimate alone can be difficult to interpret. We therefore report...'\",\n    \"precision\": \"A: 'never-treated stores, which never receive the program' (circular) vs B: 'which do not receive the program during the sample' / 'at the time of comparison'\",\n    \"audience_fit\": \"A: 'store and week fixed effects' (standard shorthand for quant marketers) vs B: 'a separate intercept for each store and each week' (explains basics this audience knows)\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.045015200000000005,
+        "seconds": 14.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "tie",
+  "note": "order-dependent verdict, counted as tie"
+}

@@ -1,0 +1,35 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/ste2-after/eval-worked-example/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision removes filler ('It is important to note that', 'It should be noted that', 'Furthermore', 'Moreover'), converts passive constructions to active voice, merges sentences, and trims redundant wording. The citations, the 5-9% figure, the 1.2 million reviews, the hedges ('to the best of our knowledge, somewhat underexplored'), the qualifier 'novel', and the recommendation all remain attached to the same claims at the same strength. Dropping 'in the existing literature' does not change the meaning, since 'underexplored' already refers to prior research."
+    },
+    "key": "b6a15f7fcd6ac5d1",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision removes filler ('It is important to note that', 'It should be noted that', 'Furthermore', 'Moreover'), converts passive constructions to active voice, merges sentences, and trims redundant wording. The citations, the 5-9% figure, the 1.2 million reviews, the hedges ('to the best of our knowledge, somewhat underexplored'), the qualifier 'novel', and the recommendation all remain attached to the same claims at the same strength. Dropping 'in the existing literature' does not change the meaning, since 'underexplored' already refers to prior research.\"\n}\n```",
+    "cost_usd": 0.0323832,
+    "seconds": 9.2,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

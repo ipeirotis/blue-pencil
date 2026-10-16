@@ -1,0 +1,42 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste2-after/eval-exposition-methods/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision reorders the sentences, splits the causal 'Because...' sentence, and adds glosses of 'never-treated' and 'not-yet-treated' that only restate what the terms mean. The model specification, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are all kept, with the same purpose and strength."
+    },
+    "key": "1f2fcf568800b644",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision reorders the sentences, splits the causal 'Because...' sentence, and adds glosses of 'never-treated' and 'not-yet-treated' that only restate what the terms mean. The model specification, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are all kept, with the same purpose and strength.\"\n}\n```",
+    "cost_usd": 0.0303552,
+    "seconds": 8.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

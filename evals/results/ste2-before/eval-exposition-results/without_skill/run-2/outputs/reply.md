@@ -1,0 +1,5 @@
+```
+Table 3 reports the estimates, and they show that who writes a review matters. In column 2, the coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04). It remains substantial after we add product fixed effects in column 3, where it is 0.15 (SE = 0.05). Identity also interacts with reviewer tenure: the interaction in column 4 is 0.09 (SE = 0.03). Star rating, by contrast, carries a steady coefficient of 0.42 (SE = 0.02) across all specifications. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+```
+
+I kept every number and the column references unchanged. The edits are small: an opening clause that ties the table to your thesis, "remains substantial" to show the estimate holds under fixed effects, and "by contrast" to set the stable rating effect against the identity effects. I didn't add any claims beyond what the original supports.

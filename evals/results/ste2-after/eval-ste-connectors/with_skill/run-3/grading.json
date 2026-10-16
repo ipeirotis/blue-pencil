@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision only adds 'that' complementizers, swaps 'Since' for 'Because' and 'while' for 'whereas', splits the latency clause into its own sentence, and rephrases 'As the index grows, retrieval cost rises' as 'Retrieval cost rises with index size'. All numbers, the citation, the causal framing, and the scope (rare vs. frequent questions, 1M vs. 10M indexes, top-ranked passages) stay attached to the same claims at the same strength."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

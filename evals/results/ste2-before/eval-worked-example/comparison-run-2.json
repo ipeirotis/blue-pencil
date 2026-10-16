@@ -1,0 +1,94 @@
+{
+  "case": "worked-example",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's worst filler and fix the comma splice. A goes further. It drops the intensifiers and hype ('fundamentally', 'leverage', 'novel', 'demonstrates', 'important implications'), and it states what reviewer identity affects. B leaves the effect without an object. A's 'therefore' ties the finding to the managerial implication. B's colon construction also connects them, but with more words. B's joining of the two literature sentences with 'and' reads smoothly, but A's 'Yet' marks the gap just as well. On balance A is cleaner, more exact, and better suited to empirical IS readers, who tend to distrust inflated claims.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'reviewer identity has a significant effect'",
+            "concision": "A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'",
+            "flow": "A: 'Platform managers should therefore consider' vs B: 'This finding has important implications for platform design: managers should consider'",
+            "precision": "A: 'has transformed how consumers' vs B: 'has fundamentally transformed how consumers'",
+            "audience_fit": "A: 'In our data, reviewer identity has' vs B: 'Our analysis demonstrates that reviewer identity has'"
+          },
+          "overall": "A"
+        },
+        "key": "59c3a8012eda1b92",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's worst filler and fix the comma splice. A goes further. It drops the intensifiers and hype ('fundamentally', 'leverage', 'novel', 'demonstrates', 'important implications'), and it states what reviewer identity affects. B leaves the effect without an object. A's 'therefore' ties the finding to the managerial implication. B's colon construction also connects them, but with more words. B's joining of the two literature sentences with 'and' reads smoothly, but A's 'Yet' marks the gap just as well. On balance A is cleaner, more exact, and better suited to empirical IS readers, who tend to distrust inflated claims.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'reviewer identity has a significant effect'\",\n    \"concision\": \"A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'\",\n    \"flow\": \"A: 'Platform managers should therefore consider' vs B: 'This finding has important implications for platform design: managers should consider'\",\n    \"precision\": \"A: 'has transformed how consumers' vs B: 'has fundamentally transformed how consumers'\",\n    \"audience_fit\": \"A: 'In our data, reviewer identity has' vs B: 'Our analysis demonstrates that reviewer identity has'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.038387199999999996,
+        "seconds": 12.1,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'comprising of'). Version B goes further. It drops intensifiers and self-praise ('fundamentally', 'novel', 'leverage'). It states the result's object explicitly ('effect on the relationship between reviews and sales'). It replaces the abstract signpost 'This finding has important implications for platform design' with the concrete recommendation itself. Version A connects its first-paragraph ideas better: it merges the literature sentence and its finding with 'and these studies found', whereas B splits them and repeats 'These studies'. On balance, B reads tighter and more exact for an empirical IS audience, while A has a small edge in flow.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'This finding has important implications for platform design: managers should consider' vs B: 'Platform managers should therefore consider highlighting reviewer credentials'",
+            "concision": "A: 'has fundamentally transformed' / 'leverage a novel dataset of' vs B: 'has transformed' / 'use a dataset of'",
+            "flow": "A: '(…Dellarocas 2003), and these studies found that reviews matter' vs B: '(…Dellarocas 2003). These studies found that reviews matter'",
+            "precision": "A: 'reviewer identity has a significant effect.' vs B: 'reviewer identity has a significant effect on the relationship between reviews and sales'",
+            "audience_fit": "A: 'we leverage a novel dataset' vs B: 'we use a dataset'"
+          },
+          "overall": "B"
+        },
+        "key": "76e03e2ef5d8b578",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover', 'comprising of'). Version B goes further. It drops intensifiers and self-praise ('fundamentally', 'novel', 'leverage'). It states the result's object explicitly ('effect on the relationship between reviews and sales'). It replaces the abstract signpost 'This finding has important implications for platform design' with the concrete recommendation itself. Version A connects its first-paragraph ideas better: it merges the literature sentence and its finding with 'and these studies found', whereas B splits them and repeats 'These studies'. On balance, B reads tighter and more exact for an empirical IS audience, while A has a small edge in flow.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'This finding has important implications for platform design: managers should consider' vs B: 'Platform managers should therefore consider highlighting reviewer credentials'\",\n    \"concision\": \"A: 'has fundamentally transformed' / 'leverage a novel dataset of' vs B: 'has transformed' / 'use a dataset of'\",\n    \"flow\": \"A: '(…Dellarocas 2003), and these studies found that reviews matter' vs B: '(…Dellarocas 2003). These studies found that reviews matter'\",\n    \"precision\": \"A: 'reviewer identity has a significant effect.' vs B: 'reviewer identity has a significant effect on the relationship between reviews and sales'\",\n    \"audience_fit\": \"A: 'we leverage a novel dataset' vs B: 'we use a dataset'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.044479199999999997,
+        "seconds": 15.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

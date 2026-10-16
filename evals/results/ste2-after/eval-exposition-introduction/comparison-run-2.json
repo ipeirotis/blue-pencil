@@ -1,0 +1,94 @@
+{
+  "case": "exposition-introduction",
+  "run": 2,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A spells out endogeneity and exogenous variation, concepts that empirical economists and IS researchers already know. The added glosses delay the identification strategy and make the register too elementary for the audience. Version B keeps the technical framing. It joins the strategy and its mechanism with a colon, places the claim of improvement next to the strategy it describes, and ends on the result with a more exact term ('statistically significant'). A has one real advantage: it names the literature instead of the vague 'this literature'. B fixes the parallel gap by stating 'the effect of review valence on sales', so A's advantage does not outweigh B's gains in concision, flow, and register.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Reviews that are more favorable tend to accompany products that are better, which makes it hard to tell...' vs B: 'We exploit platform-level heterogeneity in content moderation as a source of exogenous variation:' (B reaches the core strategy in its second sentence without a preamble)",
+            "concision": "A: 'variation, that is, variation in which reviews are seen that is unrelated to product quality' vs B: 'source of exogenous variation:'",
+            "flow": "A: 'as a source of exogenous variation... Specifically, we leverage the fact that' vs B: 'exogenous variation: platforms apply moderation policies differentially across review cohorts, and this differential application generates'",
+            "precision": "A: 'find it to be positive and significant' vs B: 'find it to be positive and statistically significant'",
+            "audience_fit": "A: 'a review's valence (how positive or negative it is)' vs B: 'The endogeneity of review valence with respect to unobserved product quality'"
+          },
+          "overall": "B"
+        },
+        "key": "cb8482517c171888",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A spells out endogeneity and exogenous variation, concepts that empirical economists and IS researchers already know. The added glosses delay the identification strategy and make the register too elementary for the audience. Version B keeps the technical framing. It joins the strategy and its mechanism with a colon, places the claim of improvement next to the strategy it describes, and ends on the result with a more exact term ('statistically significant'). A has one real advantage: it names the literature instead of the vague 'this literature'. B fixes the parallel gap by stating 'the effect of review valence on sales', so A's advantage does not outweigh B's gains in concision, flow, and register.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"B\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Reviews that are more favorable tend to accompany products that are better, which makes it hard to tell...' vs B: 'We exploit platform-level heterogeneity in content moderation as a source of exogenous variation:' (B reaches the core strategy in its second sentence without a preamble)\",\n    \"concision\": \"A: 'variation, that is, variation in which reviews are seen that is unrelated to product quality' vs B: 'source of exogenous variation:'\",\n    \"flow\": \"A: 'as a source of exogenous variation... Specifically, we leverage the fact that' vs B: 'exogenous variation: platforms apply moderation policies differentially across review cohorts, and this differential application generates'\",\n    \"precision\": \"A: 'find it to be positive and significant' vs B: 'find it to be positive and statistically significant'\",\n    \"audience_fit\": \"A: 'a review's valence (how positive or negative it is)' vs B: 'The endogeneity of review valence with respect to unobserved product quality'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0410712,
+        "seconds": 14.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions specify the estimand ('effect of review valence on sales'), but they differ in register and economy. Version B adds lay glosses ('how positive or negative it is', 'that is, variation in which reviews are seen that is unrelated to product quality') and an intuitive opening sentence. Empirical economists and IS researchers already know what valence and exogenous variation mean, so these additions lengthen the passage and talk down to the reader. Version A keeps the expert register. Its colon joins the source of variation directly to its mechanism, and the claim about the identification strategy sits next to the strategy it describes. A also writes 'statistically significant' rather than the ambiguous 'significant'. B's opening sentence does give helpful motivation, but at this length and for this audience it is mostly redundant with the endogeneity sentence that follows it.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'The endogeneity of review valence ... is a well-known obstacle' (the problem is stated in the first line) vs B: 'Reviews that are more favorable tend to accompany products that are better, which makes it hard to tell...' (the technical point is delayed by a lay preamble)",
+            "concision": "A: 'We exploit platform-level heterogeneity in content moderation as a source of exogenous variation:' vs B: 'as a source of exogenous variation, that is, variation in which reviews are seen that is unrelated to product quality'",
+            "flow": "A: 'exogenous variation: platforms apply moderation policies differentially across review cohorts' vs B: 'exogenous variation, that is, ... Specifically, we leverage the fact that'",
+            "precision": "A: 'positive and statistically significant' vs B: 'positive and significant'",
+            "audience_fit": "A: 'review valence' (no gloss, as an expert reader expects) vs B: 'a review's valence (how positive or negative it is)'"
+          },
+          "overall": "A"
+        },
+        "key": "546a46f7d320c2f8",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions specify the estimand ('effect of review valence on sales'), but they differ in register and economy. Version B adds lay glosses ('how positive or negative it is', 'that is, variation in which reviews are seen that is unrelated to product quality') and an intuitive opening sentence. Empirical economists and IS researchers already know what valence and exogenous variation mean, so these additions lengthen the passage and talk down to the reader. Version A keeps the expert register. Its colon joins the source of variation directly to its mechanism, and the claim about the identification strategy sits next to the strategy it describes. A also writes 'statistically significant' rather than the ambiguous 'significant'. B's opening sentence does give helpful motivation, but at this length and for this audience it is mostly redundant with the endogeneity sentence that follows it.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The endogeneity of review valence ... is a well-known obstacle' (the problem is stated in the first line) vs B: 'Reviews that are more favorable tend to accompany products that are better, which makes it hard to tell...' (the technical point is delayed by a lay preamble)\",\n    \"concision\": \"A: 'We exploit platform-level heterogeneity in content moderation as a source of exogenous variation:' vs B: 'as a source of exogenous variation, that is, variation in which reviews are seen that is unrelated to product quality'\",\n    \"flow\": \"A: 'exogenous variation: platforms apply moderation policies differentially across review cohorts' vs B: 'exogenous variation, that is, ... Specifically, we leverage the fact that'\",\n    \"precision\": \"A: 'positive and statistically significant' vs B: 'positive and significant'\",\n    \"audience_fit\": \"A: 'review valence' (no gloss, as an expert reader expects) vs B: 'a review's valence (how positive or negative it is)'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0393512,
+        "seconds": 13.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

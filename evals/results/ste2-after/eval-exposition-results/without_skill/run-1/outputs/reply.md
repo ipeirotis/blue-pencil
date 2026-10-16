@@ -1,0 +1,5 @@
+```
+Table 3 reports the estimates. Identity disclosure carries weight beyond the rating itself: the coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2, and it persists at 0.15 (SE = 0.05) in column 3 after adding product fixed effects. The effect also grows with reviewer tenure, with an interaction coefficient of 0.09 (SE = 0.03) in column 4. Star rating remains a strong predictor throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, so identity matters alongside the rating, not in place of it. R-squared rises from 0.31 to 0.47 across the columns. All coefficients are significant at the 1% level except the interaction, which is significant at the 5% level.
+```
+
+I kept every number and the significance statement unchanged. The edits are to framing and order: the disclosure result now opens with its takeaway, and the star-rating sentence ties back to your thesis that identity and rating both matter. I did not add causal language, since the original doesn't claim it.

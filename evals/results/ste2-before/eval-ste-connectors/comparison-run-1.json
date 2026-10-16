@@ -1,0 +1,93 @@
+{
+  "case": "ste-connectors",
+  "run": 1,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "A keeps the central contrast between frequent and rare questions in one sentence ('did not change, but ... rose'), so the main finding is easy to find. B splits that contrast across two sentences, then joins the accuracy gain to the latency cost with 'and', which blurs two different points. A is tighter in the index-size sentence: it drops 'we observe that' and states 'grows with index size' directly. A also keeps the past tense throughout ('doubled'), while B shifts to the present ('doubles') among past-tense results. Both versions fix the original's missing 'that's. A's short, single-point sentences also suit readers of English as a second language a little better.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'did not change, but accuracy on rare questions rose' vs B: 'did not change. Accuracy on rare questions rose'",
+            "concision": "A: 'Retrieval cost also grows with index size: median retrieval time roughly doubled' vs B: 'Retrieval cost also rises as the index grows: we observe that the median retrieval time roughly doubles'",
+            "flow": "A: '(Table 3). Median latency rose by 210 ms per query.' vs B: '(Table 3), and median latency increased by 210 ms per query.'",
+            "precision": "A: 'roughly doubled between the 1M and 10M' vs B: 'roughly doubles between the 1M and 10M'",
+            "audience_fit": "A: 'With the retriever frozen, ... but accuracy on rare questions rose' vs B: 'we observe that the median retrieval time roughly doubles'"
+          },
+          "overall": "A"
+        },
+        "key": "020463c46ac74e76",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"A keeps the central contrast between frequent and rare questions in one sentence ('did not change, but ... rose'), so the main finding is easy to find. B splits that contrast across two sentences, then joins the accuracy gain to the latency cost with 'and', which blurs two different points. A is tighter in the index-size sentence: it drops 'we observe that' and states 'grows with index size' directly. A also keeps the past tense throughout ('doubled'), while B shifts to the present ('doubles') among past-tense results. Both versions fix the original's missing 'that's. A's short, single-point sentences also suit readers of English as a second language a little better.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'did not change, but accuracy on rare questions rose' vs B: 'did not change. Accuracy on rare questions rose'\",\n    \"concision\": \"A: 'Retrieval cost also grows with index size: median retrieval time roughly doubled' vs B: 'Retrieval cost also rises as the index grows: we observe that the median retrieval time roughly doubles'\",\n    \"flow\": \"A: '(Table 3). Median latency rose by 210 ms per query.' vs B: '(Table 3), and median latency increased by 210 ms per query.'\",\n    \"precision\": \"A: 'roughly doubled between the 1M and 10M' vs B: 'roughly doubles between the 1M and 10M'\",\n    \"audience_fit\": \"A: 'With the retriever frozen, ... but accuracy on rare questions rose' vs B: 'we observe that the median retrieval time roughly doubles'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0374872,
+        "seconds": 12.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's missing 'that' complementizers and break up its overloaded second sentence, but they split it differently. B keeps the frequent-versus-rare contrast in one sentence joined by 'but', which is the paragraph's main point, and moves latency into its own sentence. A puts the contrast across two sentences and instead attaches the unrelated latency figure to the rare-question result with 'and', so the pairing is less logical. B is also tighter: 'grows with index size' replaces 'rises as the index grows', and it drops the redundant 'we observe that'. B's past-tense 'doubled' matches the other reported results, whereas A shifts to the present 'doubles'. B does repeat 'rose' in adjacent sentences, but this is minor. A's explicit 'Because' is slightly easier for ESL readers than B's absolute construction 'With the retriever frozen', but both are standard academic English, so audience fit is a tie.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'did not change. Accuracy on rare questions rose' vs B: 'did not change, but accuracy on rare questions rose'",
+            "concision": "A: 'Retrieval cost also rises as the index grows: we observe that the median retrieval time' vs B: 'Retrieval cost also grows with index size: median retrieval time'",
+            "flow": "A: 'rose from 41.2% to 57.8% (Table 3), and median latency increased' vs B: 'rose from 41.2% to 57.8% (Table 3). Median latency rose'",
+            "precision": "A: 'roughly doubles between the 1M and 10M' vs B: 'roughly doubled between the 1M and 10M'"
+          },
+          "overall": "B"
+        },
+        "key": "d92ea2f81d809e5d",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's missing 'that' complementizers and break up its overloaded second sentence, but they split it differently. B keeps the frequent-versus-rare contrast in one sentence joined by 'but', which is the paragraph's main point, and moves latency into its own sentence. A puts the contrast across two sentences and instead attaches the unrelated latency figure to the rare-question result with 'and', so the pairing is less logical. B is also tighter: 'grows with index size' replaces 'rises as the index grows', and it drops the redundant 'we observe that'. B's past-tense 'doubled' matches the other reported results, whereas A shifts to the present 'doubles'. B does repeat 'rose' in adjacent sentences, but this is minor. A's explicit 'Because' is slightly easier for ESL readers than B's absolute construction 'With the retriever frozen', but both are standard academic English, so audience fit is a tie.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'did not change. Accuracy on rare questions rose' vs B: 'did not change, but accuracy on rare questions rose'\",\n    \"concision\": \"A: 'Retrieval cost also rises as the index grows: we observe that the median retrieval time' vs B: 'Retrieval cost also grows with index size: median retrieval time'\",\n    \"flow\": \"A: 'rose from 41.2% to 57.8% (Table 3), and median latency increased' vs B: 'rose from 41.2% to 57.8% (Table 3). Median latency rose'\",\n    \"precision\": \"A: 'roughly doubles between the 1M and 10M' vs B: 'roughly doubled between the 1M and 10M'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.041107199999999997,
+        "seconds": 13.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

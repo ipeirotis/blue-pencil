@@ -1,0 +1,94 @@
+{
+  "case": "exposition-results",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A turns the list of coefficients into an argument. It opens with the main finding, gives each estimate a purpose ('trims it only modestly', 'Identity matters more as reviewers gain experience') and links the sentences through their content. That suits a results section for empirical IS readers. Version B makes the same improvement on a smaller scale: it states that the indicator survives fixed effects and merges the two coefficients into one sentence. It is tighter, and its wording stays closer to what the numbers show. A is less precise in places. 'Driver of sales' is causal wording. 'Identity adds explanatory power beyond it, as R-squared rises' credits the R-squared gain to identity, although the columns also add fixed effects. B has a small awkward spot of its own ('which adds them'). Even so, A's gains in clarity, flow and fit with the audience outweigh B's advantages in concision and precision.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'they point to a clear role for reviewer identity' vs B: 'the identity-disclosed indicator survives the addition of product fixed effects'",
+            "concision": "A: 'Adding product fixed effects in column 3 trims it only modestly, to 0.15 (SE = 0.05), so the effect does not hinge on differences across products' vs B: 'and 0.15 (SE = 0.05) in column 3, which adds them'",
+            "flow": "A: 'Identity matters more as reviewers gain experience: the interaction with reviewer tenure is 0.09' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'",
+            "precision": "A: 'identity adds explanatory power beyond it, as R-squared rises' vs B: 'and R-squared rises from 0.31 to 0.47 across the columns'",
+            "audience_fit": "A: 'trims it only modestly, to 0.15 (SE = 0.05), so the effect does not hinge on differences across products' vs B: 'The coefficient on star rating stays at 0.42 (SE = 0.02) across all specifications'"
+          },
+          "overall": "A"
+        },
+        "key": "cac5e48c6d1a5bef",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A turns the list of coefficients into an argument. It opens with the main finding, gives each estimate a purpose ('trims it only modestly', 'Identity matters more as reviewers gain experience') and links the sentences through their content. That suits a results section for empirical IS readers. Version B makes the same improvement on a smaller scale: it states that the indicator survives fixed effects and merges the two coefficients into one sentence. It is tighter, and its wording stays closer to what the numbers show. A is less precise in places. 'Driver of sales' is causal wording. 'Identity adds explanatory power beyond it, as R-squared rises' credits the R-squared gain to identity, although the columns also add fixed effects. B has a small awkward spot of its own ('which adds them'). Even so, A's gains in clarity, flow and fit with the audience outweigh B's advantages in concision and precision.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'they point to a clear role for reviewer identity' vs B: 'the identity-disclosed indicator survives the addition of product fixed effects'\",\n    \"concision\": \"A: 'Adding product fixed effects in column 3 trims it only modestly, to 0.15 (SE = 0.05), so the effect does not hinge on differences across products' vs B: 'and 0.15 (SE = 0.05) in column 3, which adds them'\",\n    \"flow\": \"A: 'Identity matters more as reviewers gain experience: the interaction with reviewer tenure is 0.09' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'\",\n    \"precision\": \"A: 'identity adds explanatory power beyond it, as R-squared rises' vs B: 'and R-squared rises from 0.31 to 0.47 across the columns'\",\n    \"audience_fit\": \"A: 'trims it only modestly, to 0.15 (SE = 0.05), so the effect does not hinge on differences across products' vs B: 'The coefficient on star rating stays at 0.42 (SE = 0.02) across all specifications'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0437912,
+        "seconds": 14.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A stays compact and data-focused. It front-loads one finding: the indicator survives fixed effects. However, the clause 'which adds them' is awkward, and the remaining sentences are still a list of coefficients. Version B states its point in the opening sentence and then links each estimate to what it shows: robustness to product fixed effects, the tenure moderation, and star rating as a baseline driver. This makes the paragraph read as an argument rather than a list, which suits empirical IS readers. B costs more words. B is also looser in places. It attributes the R-squared rise to identity ('identity adds explanatory power beyond it'), but the later columns also add fixed effects and the interaction, so the attribution is imprecise. 'Trims it only modestly' is also evaluative wording. On balance, B's gains in clarity, flow, and fit outweigh A's advantages in concision and precision.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Table 3 reports the estimates, and the identity-disclosed indicator survives the addition of product fixed effects' vs B: 'Table 3 reports the estimates, and they point to a clear role for reviewer identity'",
+            "concision": "A: 'The coefficient on star rating stays at 0.42 (SE = 0.02) across all specifications' vs B: 'Star rating remains a strong driver of sales throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds explanatory power beyond it'",
+            "flow": "A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Identity matters more as reviewers gain experience: the interaction with reviewer tenure is 0.09'",
+            "precision": "A: 'R-squared rises from 0.31 to 0.47 across the columns' vs B: 'yet identity adds explanatory power beyond it, as R-squared rises from 0.31 to 0.47'",
+            "audience_fit": "A: '0.15 (SE = 0.05) in column 3, which adds them' vs B: 'so the effect does not hinge on differences across products'"
+          },
+          "overall": "B"
+        },
+        "key": "bb0401be2079219f",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A stays compact and data-focused. It front-loads one finding: the indicator survives fixed effects. However, the clause 'which adds them' is awkward, and the remaining sentences are still a list of coefficients. Version B states its point in the opening sentence and then links each estimate to what it shows: robustness to product fixed effects, the tenure moderation, and star rating as a baseline driver. This makes the paragraph read as an argument rather than a list, which suits empirical IS readers. B costs more words. B is also looser in places. It attributes the R-squared rise to identity ('identity adds explanatory power beyond it'), but the later columns also add fixed effects and the interaction, so the attribution is imprecise. 'Trims it only modestly' is also evaluative wording. On balance, B's gains in clarity, flow, and fit outweigh A's advantages in concision and precision.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Table 3 reports the estimates, and the identity-disclosed indicator survives the addition of product fixed effects' vs B: 'Table 3 reports the estimates, and they point to a clear role for reviewer identity'\",\n    \"concision\": \"A: 'The coefficient on star rating stays at 0.42 (SE = 0.02) across all specifications' vs B: 'Star rating remains a strong driver of sales throughout, with a coefficient of 0.42 (SE = 0.02) across all specifications, yet identity adds explanatory power beyond it'\",\n    \"flow\": \"A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Identity matters more as reviewers gain experience: the interaction with reviewer tenure is 0.09'\",\n    \"precision\": \"A: 'R-squared rises from 0.31 to 0.47 across the columns' vs B: 'yet identity adds explanatory power beyond it, as R-squared rises from 0.31 to 0.47'\",\n    \"audience_fit\": \"A: '0.15 (SE = 0.05) in column 3, which adds them' vs B: 'so the effect does not hinge on differences across products'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0444472,
+        "seconds": 13.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

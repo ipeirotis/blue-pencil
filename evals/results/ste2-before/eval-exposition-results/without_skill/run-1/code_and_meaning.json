@@ -1,0 +1,71 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-before/eval-exposition-results/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Table 3 reports the estimates, and they point to a clear role for reviewer identity.",
+          "explanation": "The revision adds an interpretive conclusion that the original never states; the original only reports estimates."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "Adding product fixed effects in column 3 trims it only modestly, to 0.15 (SE = 0.05), so the effect does not hinge on differences across products.",
+          "explanation": "The revision adds a characterization ('only modestly') and a robustness inference ('does not hinge on differences across products') that the original does not make."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "revised_quote": "Identity matters more as reviewers gain experience: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "explanation": "The revision adds a substantive interpretation of the interaction term that the original only reports numerically."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating remains a strong driver of sales throughout, with a coefficient of 0.42 (SE = 0.02)",
+          "explanation": "The revision asserts that star rating 'drives' sales, which is causal language and introduces 'sales' as the outcome, neither of which appears in the original."
+        },
+        {
+          "type": "reassigned",
+          "severity": "major",
+          "original_quote": "R-squared rises from 0.31 to 0.47 across the columns.",
+          "revised_quote": "yet identity adds explanatory power beyond it, as R-squared rises from 0.31 to 0.47 across the columns.",
+          "explanation": "The revision attributes the R-squared increase to identity, but the columns also add product fixed effects and the tenure interaction, so the original does not tie the increase to identity alone."
+        }
+      ],
+      "summary": "Every number stays attached to the correct column and variable. The revision changes the passage, though: it adds interpretations, robustness claims, causal language about sales, and attributes the R-squared increase to identity, none of which the original asserts."
+    },
+    "key": "4f23ef2a9dc5da84",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and they point to a clear role for reviewer identity.\",\n      \"explanation\": \"The revision adds an interpretive conclusion that the original never states; the original only reports estimates.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"Adding product fixed effects in column 3 trims it only modestly, to 0.15 (SE = 0.05), so the effect does not hinge on differences across products.\",\n      \"explanation\": \"The revision adds a characterization ('only modestly') and a robustness inference ('does not hinge on differences across products') that the original does not make.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"Identity matters more as reviewers gain experience: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"explanation\": \"The revision adds a substantive interpretation of the interaction term that the original only reports numerically.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating remains a strong driver of sales throughout, with a coefficient of 0.42 (SE = 0.02)\",\n      \"explanation\": \"The revision asserts that star rating 'drives' sales, which is causal language and introduces 'sales' as the outcome, neither of which appears in the original.\"\n    },\n    {\n      \"type\": \"reassigned\",\n      \"severity\": \"major\",\n      \"original_quote\": \"R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"revised_quote\": \"yet identity adds explanatory power beyond it, as R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"explanation\": \"The revision attributes the R-squared increase to identity, but the columns also add product fixed effects and the tenure interaction, so the original does not tie the increase to identity alone.\"\n    }\n  ],\n  \"summary\": \"Every number stays attached to the correct column and variable. The revision changes the passage, though: it adds interpretations, robustness claims, causal language about sales, and attributes the R-squared increase to identity, none of which the original asserts.\"\n}\n```",
+    "cost_usd": 0.041059200000000004,
+    "seconds": 11.1,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

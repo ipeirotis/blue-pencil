@@ -1,0 +1,42 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste2-before/eval-exposition-methods/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision reorders sentences and adds glosses for 'never-treated' and 'not-yet-treated' that restate what the terms mean without adding a claim. The fixed effects, clustering, controls, coefficient of interest, control-group choice, and the stated reason for the Callaway and Sant'Anna estimator are all kept and still attached to the same statements."
+    },
+    "key": "4b94ff0b4be8edca",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision reorders sentences and adds glosses for 'never-treated' and 'not-yet-treated' that restate what the terms mean without adding a claim. The fixed effects, clustering, controls, coefficient of interest, control-group choice, and the stated reason for the Callaway and Sant'Anna estimator are all kept and still attached to the same statements.\"\n}\n```",
+    "cost_usd": 0.0288752,
+    "seconds": 7.8,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

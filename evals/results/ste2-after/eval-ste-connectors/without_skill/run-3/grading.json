@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision splits sentences, adds 'that', changes 'Since' to 'Because', and adds the connective 'However'. All of these are permitted stylistic changes. Every number and citation (41.2%, 57.8%, Table 3, 210 ms, 1M, 10M, [@lewis2020], 23%) stays attached to the same claim, and no claim strength, caveat, or scope changed."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

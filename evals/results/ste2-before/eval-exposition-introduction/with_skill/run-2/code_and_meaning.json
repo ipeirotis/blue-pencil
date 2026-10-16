@@ -1,0 +1,43 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-before/eval-exposition-introduction/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "We study the effect of review valence on sales, where valence is how positive or negative a review is.",
+          "explanation": "The original never names the outcome variable; the revision says the estimated effect is on sales and adds a definition of valence, neither of which appears in the original."
+        }
+      ],
+      "summary": "The reordering and rewording otherwise keep the original meaning. The new opening sentence, however, says the outcome is sales, which the original does not state, so the reported positive and significant effect is now tied to a specific outcome."
+    },
+    "key": "11f3eb1cde41b583",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"We study the effect of review valence on sales, where valence is how positive or negative a review is.\",\n      \"explanation\": \"The original never names the outcome variable; the revision says the estimated effect is on sales and adds a definition of valence, neither of which appears in the original.\"\n    }\n  ],\n  \"summary\": \"The reordering and rewording otherwise keep the original meaning. The new opening sentence, however, says the outcome is sales, which the original does not state, so the reported positive and significant effect is now tied to a specific outcome.\"\n}\n```",
+    "cost_usd": 0.0331152,
+    "seconds": 10.1,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

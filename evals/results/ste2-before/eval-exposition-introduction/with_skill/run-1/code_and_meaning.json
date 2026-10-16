@@ -1,0 +1,35 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-before/eval-exposition-introduction/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision restructures sentences and moves the identification-strategy claim before the results without changing any claim, caveat, or number; 'conditional on observed covariates' and '3.4 million reviews' stay attached to the same claims. The added 'of review valence' makes explicit what the original implied, since the identification strategy addresses the endogeneity of review valence."
+    },
+    "key": "c371cdc4f6022e6f",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision restructures sentences and moves the identification-strategy claim before the results without changing any claim, caveat, or number; 'conditional on observed covariates' and '3.4 million reviews' stay attached to the same claims. The added 'of review valence' makes explicit what the original implied, since the identification strategy addresses the endogeneity of review valence.\"\n}\n```",
+    "cost_usd": 0.034695199999999995,
+    "seconds": 12.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

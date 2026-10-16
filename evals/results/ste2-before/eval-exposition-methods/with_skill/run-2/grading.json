@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision reorders the passage and adds glosses of 'never-treated' and 'not-yet-treated' that match the standard meanings. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the reason for reporting the Callaway and Sant'Anna estimator are all unchanged. The added gloss 'others do not yet' loosely implies every store is eventually treated, but the next sentence explicitly keeps the never-treated group, so the meaning holds."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-after/eval-exposition-results/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Table 3 reports the estimates, and they point to a clear role for reviewer identity.",
+          "explanation": "The revision adds an interpretive conclusion about a 'clear role' for identity that the original, which only reported numbers, did not assert."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "Adding product fixed effects in column 3 leaves the effect largely intact, at 0.15 (SE = 0.05).",
+          "explanation": "The revision adds a robustness judgment ('leaves the effect largely intact') that the original did not make."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "revised_quote": "Identity also conditions the weight a review carries: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.",
+          "explanation": "The revision adds a substantive interpretation of the interaction term (identity conditions a review's weight) that the original did not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating remains a strong predictor, with a coefficient of 0.42 (SE = 0.02) across all specifications",
+          "explanation": "The revision adds an evaluative claim that star rating is a 'strong predictor', which the original did not make."
+        },
+        {
+          "type": "reassigned",
+          "severity": "major",
+          "original_quote": "R-squared rises from 0.31 to 0.47 across the columns.",
+          "revised_quote": "yet identity adds explanatory power beyond it, as R-squared rises from 0.31 to 0.47 across the columns.",
+          "explanation": "The original reports the R-squared increase across columns that also add fixed effects and an interaction, but the revision attributes that increase specifically to identity's explanatory power beyond star rating, which is unsupported."
+        }
+      ],
+      "summary": "Every number is still attached to the right coefficient and column, but the revision turns a neutral report of estimates into causal and interpretive claims. Most seriously, it credits the R-squared increase to identity when the original makes no such attribution."
+    },
+    "key": "e3ed9d9d6a1bce89",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and they point to a clear role for reviewer identity.\",\n      \"explanation\": \"The revision adds an interpretive conclusion about a 'clear role' for identity that the original, which only reported numbers, did not assert.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"Adding product fixed effects in column 3 leaves the effect largely intact, at 0.15 (SE = 0.05).\",\n      \"explanation\": \"The revision adds a robustness judgment ('leaves the effect largely intact') that the original did not make.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"revised_quote\": \"Identity also conditions the weight a review carries: the interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.\",\n      \"explanation\": \"The revision adds a substantive interpretation of the interaction term (identity conditions a review's weight) that the original did not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating remains a strong predictor, with a coefficient of 0.42 (SE = 0.02) across all specifications\",\n      \"explanation\": \"The revision adds an evaluative claim that star rating is a 'strong predictor', which the original did not make.\"\n    },\n    {\n      \"type\": \"reassigned\",\n      \"severity\": \"major\",\n      \"original_quote\": \"R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"revised_quote\": \"yet identity adds explanatory power beyond it, as R-squared rises from 0.31 to 0.47 across the columns.\",\n      \"explanation\": \"The original reports the R-squared increase across columns that also add fixed effects and an interaction, but the revision attributes that increase specifically to identity's explanatory power beyond star rating, which is unsupported.\"\n    }\n  ],\n  \"summary\": \"Every number is still attached to the right coefficient and column, but the revision turns a neutral report of estimates into causal and interpretive claims. Most seriously, it credits the R-squared increase to identity when the original makes no such attribution.\"\n}\n```",
+    "cost_usd": 0.0407872,
+    "seconds": 12.2,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

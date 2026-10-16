@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision tightens the wording ('came up with' to 'developed', 'deals with' to 'for', drops 'the results point out that', and merges the last two sentences) without changing any claim, number, citation, or caveat. The 8.3-point improvement stays attached to new-user engagement prediction accuracy against the matrix factorization baseline (Koren et al., 2009), and the single-platform limitation is kept."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

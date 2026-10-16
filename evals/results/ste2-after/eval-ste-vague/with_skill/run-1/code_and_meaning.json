@@ -1,0 +1,35 @@
+{
+  "case": "ste-vague",
+  "run_dir": "results/ste2-after/eval-ste-vague/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision merges and tightens sentences and swaps informal phrasing (\"came up with\", \"deals with\", \"point out\", \"ended up\", \"look at\") for equivalent wording. The 8.3-point improvement stays attached to new-user engagement prediction accuracy versus the matrix factorization baseline (Koren et al., 2009), and the single-platform caveat and future-work scope are retained."
+    },
+    "key": "9f6ab8844a76815a",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision merges and tightens sentences and swaps informal phrasing (\\\"came up with\\\", \\\"deals with\\\", \\\"point out\\\", \\\"ended up\\\", \\\"look at\\\") for equivalent wording. The 8.3-point improvement stays attached to new-user engagement prediction accuracy versus the matrix factorization baseline (Koren et al., 2009), and the single-platform caveat and future-work scope are retained.\"\n}\n```",
+    "cost_usd": 0.0281672,
+    "seconds": 7.3,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

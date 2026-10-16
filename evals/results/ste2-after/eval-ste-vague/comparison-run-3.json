@@ -1,0 +1,91 @@
+{
+  "case": "ste-vague",
+  "run": 3,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A puts the model and the problem it solves in the opening sentence and folds the sparse-history detail into that sentence as the source of cold-start difficulty. It also states the result in a clear active form ('it improves accuracy in predicting new-user engagement'). Version B keeps the original's generic opener ('Our approach addresses...'), so the contribution arrives only in the second sentence. B also retains the stacked noun phrase 'new-user engagement prediction accuracy' and joins the method and result with a loose 'and'. A is tighter because it merges the first two sentences. Both versions handle the limitation-to-future-work link well with 'so'. B's 'also' links the engagement sentence a little better, but A's opening integration does more for flow overall. Both versions are formal and suitable for the audience, though A's phrasing is slightly more polished.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Our two-stage model targets the cold-start problem' vs B: 'Our approach addresses the cold-start problem... We developed a two-stage model'",
+            "concision": "A: 'Our two-stage model targets the cold-start problem in recommender systems, where new users have sparse interaction histories' vs B: 'Our approach addresses the cold-start problem in recommender systems. We developed a two-stage model that handles sparse interaction histories'",
+            "flow": "A: 'cold-start problem..., where new users have sparse interaction histories' vs B: 'handles sparse interaction histories, and new-user engagement prediction accuracy improves'",
+            "precision": "A: 'improves accuracy in predicting new-user engagement' vs B: 'new-user engagement prediction accuracy improves'"
+          },
+          "overall": "A"
+        },
+        "key": "1ab51b4556989243",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A puts the model and the problem it solves in the opening sentence and folds the sparse-history detail into that sentence as the source of cold-start difficulty. It also states the result in a clear active form ('it improves accuracy in predicting new-user engagement'). Version B keeps the original's generic opener ('Our approach addresses...'), so the contribution arrives only in the second sentence. B also retains the stacked noun phrase 'new-user engagement prediction accuracy' and joins the method and result with a loose 'and'. A is tighter because it merges the first two sentences. Both versions handle the limitation-to-future-work link well with 'so'. B's 'also' links the engagement sentence a little better, but A's opening integration does more for flow overall. Both versions are formal and suitable for the audience, though A's phrasing is slightly more polished.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Our two-stage model targets the cold-start problem' vs B: 'Our approach addresses the cold-start problem... We developed a two-stage model'\",\n    \"concision\": \"A: 'Our two-stage model targets the cold-start problem in recommender systems, where new users have sparse interaction histories' vs B: 'Our approach addresses the cold-start problem in recommender systems. We developed a two-stage model that handles sparse interaction histories'\",\n    \"flow\": \"A: 'cold-start problem..., where new users have sparse interaction histories' vs B: 'handles sparse interaction histories, and new-user engagement prediction accuracy improves'\",\n    \"precision\": \"A: 'improves accuracy in predicting new-user engagement' vs B: 'new-user engagement prediction accuracy improves'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.031351199999999996,
+        "seconds": 10.1,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's informal phrasing ('came up with', 'ended up', 'point out'), and both merge the limitation with future work. B leads with the contribution ('Our two-stage model targets...'). It also ties cold-start to sparse histories in one sentence, which places the point early and connects the ideas through content. A keeps the separate framing sentence and then joins the model and its result with a loose 'and'. A's noun stack 'new-user engagement prediction accuracy' is harder to parse than B's 'accuracy in predicting new-user engagement'. The two are about the same length: B saves words in the opening but spends them in the closing clause ('remains for future work to test'), so concision is a tie. Register suits a recommender-systems audience in both.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "tie",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Our approach addresses the cold-start problem... We developed a two-stage model' vs B: 'Our two-stage model targets the cold-start problem'",
+            "flow": "A: 'handles sparse interaction histories, and new-user engagement prediction accuracy improves' vs B: 'cold-start problem in recommender systems, where new users have sparse interaction histories'",
+            "precision": "A: 'new-user engagement prediction accuracy improves' vs B: 'improves accuracy in predicting new-user engagement'"
+          },
+          "overall": "B"
+        },
+        "key": "3fc6f7fed9e679c9",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's informal phrasing ('came up with', 'ended up', 'point out'), and both merge the limitation with future work. B leads with the contribution ('Our two-stage model targets...'). It also ties cold-start to sparse histories in one sentence, which places the point early and connects the ideas through content. A keeps the separate framing sentence and then joins the model and its result with a loose 'and'. A's noun stack 'new-user engagement prediction accuracy' is harder to parse than B's 'accuracy in predicting new-user engagement'. The two are about the same length: B saves words in the opening but spends them in the closing clause ('remains for future work to test'), so concision is a tie. Register suits a recommender-systems audience in both.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"tie\",\n    \"flow\": \"B\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Our approach addresses the cold-start problem... We developed a two-stage model' vs B: 'Our two-stage model targets the cold-start problem'\",\n    \"flow\": \"A: 'handles sparse interaction histories, and new-user engagement prediction accuracy improves' vs B: 'cold-start problem in recommender systems, where new users have sparse interaction histories'\",\n    \"precision\": \"A: 'new-user engagement prediction accuracy improves' vs B: 'improves accuracy in predicting new-user engagement'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.03755120000000001,
+        "seconds": 12.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}
