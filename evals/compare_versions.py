@@ -80,6 +80,8 @@ for v, m in metas.items():
         sys.exit(f"{v} run was resumed with a different {', '.join(mixed)}; its trials are not comparable")
 for key in ("executor_model", "claude_code_version", "flags", "preserve_instruction", "case_fingerprints",
             "runner_fingerprint"):
+    if metas["before"].get(key) in (None, "", [], {}) or metas["after"].get(key) in (None, "", [], {}):
+        sys.exit(f"a run does not record {key} (an older run); its provenance cannot be verified")
     if metas["before"].get(key) != metas["after"].get(key):
         sys.exit(f"before and after runs differ in {key}; they are not comparable")
 
