@@ -70,8 +70,8 @@ The most common methods pathology is the **procedural recitation**: a chronologi
 - **The condition before the action.** "If a respondent failed both attention checks, we excluded them" tells the reader which cases the step covers before it describes the step. One leading condition is fine; a stack of them is the left-branching preamble (`references/sentence-patterns.md`).
 - **Name the agent and the parameter** when the step depends on them: who coded the responses, what threshold triggered the exclusion. A missing agent or parameter is substance, so it goes to `Author questions`, never into the text.
 
-Bad: "Responses were cleaned, deduplicated by IP after removing speeders, and coded by two annotators, with disagreements adjudicated."
-Good: "We first removed speeders. We then removed duplicate responses from the same IP address. Two annotators coded the remaining responses, and their disagreements were adjudicated." (The order "speeders, then duplicates" comes from the original's "after". The original does not say who adjudicated, so the passive stays and `Author questions` asks; writing "a third annotator" would add substance.)
+Bad: "Responses were deduplicated by IP after removing speeders and coded by two annotators, with disagreements adjudicated."
+Good: "Speeders were removed first. Duplicate responses from the same IP address were removed next. Two annotators coded the remaining responses. Their disagreements were then adjudicated." (Every step in the original survives, one per sentence. The order "speeders, then duplicates" comes from the original's "after", and adjudication follows coding because it resolves the coders' disagreements. The original names no agent for removal or adjudication, so the passive stays and `Author questions` asks who adjudicated; writing "we" or "a third annotator" would add substance.)
 
 ## Results
 

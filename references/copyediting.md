@@ -18,7 +18,7 @@ Perform these edits when they are safe:
 8. **Tense and aspect.** Match disciplinary convention and section function. Prior work is usually past tense when describing a specific study, present tense when describing an established result or what a paper argues. Methods are often past tense for completed studies. Results often use past tense for observed outcomes and present tense for tables, figures, and persistent interpretations.
 9. **Table and figure callouts.** Keep references in logical order and ensure each callout has a clear reason. Do not renumber or invent references.
 10. **Citation punctuation.** Move punctuation around citation commands only when required by the local sentence grammar. Do not alter citation keys or citation commands.
-11. **One word, one sense.** Use each multi-sense word in one sense throughout the requested scope, and prefer the word that has only the sense you mean. The principle comes from ASD-STE100, whose dictionary gives each approved word one meaning (`references/principles.md`). The frequent academic cases:
+11. **One word, one sense.** Each occurrence of a multi-sense word should be readable in only one of its senses; where an occurrence could be read in two, prefer the word that has only the sense you mean. The check is per occurrence: "as a control" (role) and "as specified" (manner) in the same section are both clear and both stay. What fails is a single occurrence the reader can take two ways. The principle comes from ASD-STE100, whose dictionary gives each approved word one meaning (`references/principles.md`). The frequent academic cases:
     - "since" (time or cause): use "because" for cause, keep "since" for time.
     - "as" (cause, time, manner, or role): use "because" for cause, "while" or "when" for time; keep "as" for manner and role ("as a control").
     - "while" (time or contrast): use "although" or "whereas" for contrast (`references/sentence-patterns.md`, "Misused connectives").
@@ -87,5 +87,5 @@ Before returning the rewrite, verify:
 - Units, symbols, and numerical values match the original.
 - Table, figure, equation, section, and appendix references were not renumbered or invented.
 - Tense choices match section function and disciplinary convention.
-- Each multi-sense word ("since", "as", "while", "once", "may", "should") carries one sense in the scope, and the sense is clear from context.
+- No occurrence of a multi-sense word ("since", "as", "while", "once", "may", "should") can be read in two senses.
 - No reporting verb ("found", "show", "assume") drops a "that" where the next noun could be misread as its object (`references/sentence-patterns.md`, "The dropped connector").
