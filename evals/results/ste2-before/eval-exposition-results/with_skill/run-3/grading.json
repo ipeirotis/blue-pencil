@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: Every coefficient and standard error stays attached to the same variable and column: 0.18 (0.04) col 2, 0.15 (0.05) col 3 with product FE, 0.09 (0.03) interaction col 4, 0.42 (0.02) star rating across all specifications. The significance levels and the R-squared range are also unchanged. The added phrase 'identity disclosure carries a coefficient of its own' only restates that the indicator is estimated alongside star rating, which the original already implies, so it adds no new claim."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

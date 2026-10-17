@@ -1,0 +1,43 @@
+{
+  "case": "ste-vague",
+  "run_dir": "results/ste2-after/eval-ste-vague/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "We came up with a two-stage model that deals with sparse interaction histories",
+          "revised_quote": "We developed a two-stage model for the cold-start problem in recommender systems, where interaction histories are sparse",
+          "explanation": "The author's informal phrasing ('came up with', 'deals with', 'ended up', 'look at', 'carries over') was replaced with standard academic wording without changing the meaning."
+        }
+      ],
+      "summary": "The revision keeps every claim, number, citation, and scope limit, including the single-platform caveat and the future-work suggestion. The 8.3-point improvement stays attached to new-user engagement prediction accuracy over the Koren et al. (2009) baseline. Only the author's informal wording changed."
+    },
+    "key": "86157da676cbc1ae",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"We came up with a two-stage model that deals with sparse interaction histories\",\n      \"revised_quote\": \"We developed a two-stage model for the cold-start problem in recommender systems, where interaction histories are sparse\",\n      \"explanation\": \"The author's informal phrasing ('came up with', 'deals with', 'ended up', 'look at', 'carries over') was replaced with standard academic wording without changing the meaning.\"\n    }\n  ],\n  \"summary\": \"The revision keeps every claim, number, citation, and scope limit, including the single-platform caveat and the future-work suggestion. The 8.3-point improvement stays attached to new-user engagement prediction accuracy over the Koren et al. (2009) baseline. Only the author's informal wording changed.\"\n}\n```",
+    "cost_usd": 0.031475199999999995,
+    "seconds": 8.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

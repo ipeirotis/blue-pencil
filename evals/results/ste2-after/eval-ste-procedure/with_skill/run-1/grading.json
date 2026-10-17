@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision splits sentences and moves the analytic sample size earlier, but N = 2,184 is still tied explicitly to the exclusions. All steps, conditions, the 4.1-minute threshold, the Appendix B codebook, the respondent-ID merge, and the hedged raking-weights statement with its 2020 Census margins are kept at the same strength."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

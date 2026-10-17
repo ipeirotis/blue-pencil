@@ -1,0 +1,35 @@
+{
+  "case": "ste-connectors",
+  "run_dir": "results/ste2-after/eval-ste-connectors/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision only adds 'that' complementizers, swaps 'Since' for 'Because' and 'while' for 'whereas', splits the latency clause into its own sentence, and rephrases 'As the index grows, retrieval cost rises' as 'Retrieval cost rises with index size'. All numbers, the citation, the causal framing, and the scope (rare vs. frequent questions, 1M vs. 10M indexes, top-ranked passages) stay attached to the same claims at the same strength."
+    },
+    "key": "09e34a7a935345b9",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision only adds 'that' complementizers, swaps 'Since' for 'Because' and 'while' for 'whereas', splits the latency clause into its own sentence, and rephrases 'As the index grows, retrieval cost rises' as 'Retrieval cost rises with index size'. All numbers, the citation, the causal framing, and the scope (rare vs. frequent questions, 1M vs. 10M indexes, top-ranked passages) stay attached to the same claims at the same strength.\"\n}\n```",
+    "cost_usd": 0.030103199999999997,
+    "seconds": 7.6,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

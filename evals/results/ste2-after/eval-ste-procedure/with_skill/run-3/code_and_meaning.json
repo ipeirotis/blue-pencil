@@ -1,0 +1,43 @@
+{
+  "case": "ste-procedure",
+  "run_dir": "results/ste2-after/eval-ste-procedure/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "Raking weights would have been expected to have been applied to the merged file before estimation",
+          "revised_quote": "Raking weights were expected to have been applied to the merged file before estimation",
+          "explanation": "The original's counterfactual 'would have been expected' hedges, and may imply, that the weights were not actually applied; the revised 'were expected' states a real expectation and drops that implication, changing what readers infer about whether the estimates are weighted."
+        }
+      ],
+      "summary": "The sentence splits, the reordering, and the active-voice rewrite of the coding step preserve the meaning, and all numbers stay attached to the same claims. The revision does change the modality of the raking-weights sentence, from counterfactual to indicative, which alters what the passage implies about whether weighting was applied."
+    },
+    "key": "d53f78f8d4c1b8e2",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Raking weights would have been expected to have been applied to the merged file before estimation\",\n      \"revised_quote\": \"Raking weights were expected to have been applied to the merged file before estimation\",\n      \"explanation\": \"The original's counterfactual 'would have been expected' hedges, and may imply, that the weights were not actually applied; the revised 'were expected' states a real expectation and drops that implication, changing what readers infer about whether the estimates are weighted.\"\n    }\n  ],\n  \"summary\": \"The sentence splits, the reordering, and the active-voice rewrite of the coding step preserve the meaning, and all numbers stay attached to the same claims. The revision does change the modality of the raking-weights sentence, from counterfactual to indicative, which alters what the passage implies about whether weighting was applied.\"\n}\n```",
+    "cost_usd": 0.0361832,
+    "seconds": 11.9,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "case": "ste-connectors",
+  "run_dir": "results/ste2-after/eval-ste-connectors/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision splits one sentence, rewrites \"Since X, Y\" as \"X, so Y\" with the same causal link and scope, and adds \"that\" in several places. All numbers, the citation, and their attachments are unchanged, and no claim, caveat, or qualifier was altered."
+    },
+    "key": "59009cb7418081c0",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision splits one sentence, rewrites \\\"Since X, Y\\\" as \\\"X, so Y\\\" with the same causal link and scope, and adds \\\"that\\\" in several places. All numbers, the citation, and their attachments are unchanged, and no claim, caveat, or qualifier was altered.\"\n}\n```",
+    "cost_usd": 0.0272992,
+    "seconds": 5.9,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

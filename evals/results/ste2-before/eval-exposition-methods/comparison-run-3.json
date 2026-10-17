@@ -1,0 +1,93 @@
+{
+  "case": "exposition-methods",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B suits quantitative marketing researchers better. It opens with the staggered rollout, which motivates the choice of controls and the Callaway and Sant'Anna estimator, and it does not explain textbook concepts this audience already knows. Version A spends sentences on what fixed effects absorb, on what a staggered design is, and on how Callaway and Sant'Anna works. That lengthens the passage and talks down to the reader. A does link its ideas more explicitly through cause and consequence: it explains why not-yet-treated stores are valid comparisons and why TWFE is problematic. B's middle reads more like a list of specification items. Both versions restate the staggered timing, so precision is roughly even. Overall, B is cleaner and better pitched.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "tie",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'We estimate a two-way fixed effects model, which includes a separate intercept for each store and each week' (design context comes only in paragraph two) vs B: 'so at any point some stores are treated, some are not yet treated, and some never will be' (sets up the identification problem first)",
+            "concision": "A: 'a staggered design in which stores enter treatment at different times' vs B: 'Because the rollout was staggered'",
+            "flow": "A: 'Because of this, a store that has not yet received the program can still serve as a comparison until its own rollout date. We therefore use...' vs B: 'The specification includes controls for... The coefficient of interest is...'",
+            "audience_fit": "A: 'These fixed effects absorb stable differences across stores and shocks common to all stores in a given week' vs B: 'with store and week fixed effects, clustering standard errors at the store level'"
+          },
+          "overall": "B"
+        },
+        "key": "59ade1024cd81b82",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B suits quantitative marketing researchers better. It opens with the staggered rollout, which motivates the choice of controls and the Callaway and Sant'Anna estimator, and it does not explain textbook concepts this audience already knows. Version A spends sentences on what fixed effects absorb, on what a staggered design is, and on how Callaway and Sant'Anna works. That lengthens the passage and talks down to the reader. A does link its ideas more explicitly through cause and consequence: it explains why not-yet-treated stores are valid comparisons and why TWFE is problematic. B's middle reads more like a list of specification items. Both versions restate the staggered timing, so precision is roughly even. Overall, B is cleaner and better pitched.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"tie\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We estimate a two-way fixed effects model, which includes a separate intercept for each store and each week' (design context comes only in paragraph two) vs B: 'so at any point some stores are treated, some are not yet treated, and some never will be' (sets up the identification problem first)\",\n    \"concision\": \"A: 'a staggered design in which stores enter treatment at different times' vs B: 'Because the rollout was staggered'\",\n    \"flow\": \"A: 'Because of this, a store that has not yet received the program can still serve as a comparison until its own rollout date. We therefore use...' vs B: 'The specification includes controls for... The coefficient of interest is...'\",\n    \"audience_fit\": \"A: 'These fixed effects absorb stable differences across stores and shocks common to all stores in a given week' vs B: 'with store and week fixed effects, clustering standard errors at the store level'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0457872,
+        "seconds": 16.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Readers in quantitative marketing know what store and week fixed effects absorb and what a staggered design is, so B's explanations of these basics ('a separate intercept for each store and each week') slow them down. B also repeats itself: 'rolled out to stores on different dates, a staggered design in which stores enter treatment at different times.' A is tighter and opens with the design fact that motivates the estimation choices. A has one weakness: it states the staggered rollout at the start, moves on to the TWFE details, and then restates it ('Because the rollout was staggered'). B links its ideas better, with clear causal connectives and a paragraph structure that builds from the TWFE specification to why it is problematic and how Callaway and Sant'Anna fixes it. Overall, A suits this audience better and wastes fewer words. B wins only on flow.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'The loyalty program was rolled out to stores on different dates, so at any point some stores are treated, some are not yet treated' vs B: 'We estimate a two-way fixed effects model, which includes a separate intercept for each store and each week. These fixed effects absorb...'",
+            "concision": "A: 'with store and week fixed effects, clustering standard errors at the store level' vs B: 'which includes a separate intercept for each store and each week. These fixed effects absorb stable differences... We cluster standard errors at the store level.'",
+            "flow": "A: 'The coefficient of interest is the interaction... Because the rollout was staggered, we use' vs B: 'Because of this, a store that has not yet received the program can still serve as a comparison... We therefore use'",
+            "precision": "A: 'some are not yet treated, and some never will be' vs B: 'rolled out to stores on different dates, a staggered design in which stores enter treatment at different times'",
+            "audience_fit": "A: 'two-way fixed effects model with store and week fixed effects' vs B: 'which includes a separate intercept for each store and each week'"
+          },
+          "overall": "A"
+        },
+        "key": "24221732452a8120",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Readers in quantitative marketing know what store and week fixed effects absorb and what a staggered design is, so B's explanations of these basics ('a separate intercept for each store and each week') slow them down. B also repeats itself: 'rolled out to stores on different dates, a staggered design in which stores enter treatment at different times.' A is tighter and opens with the design fact that motivates the estimation choices. A has one weakness: it states the staggered rollout at the start, moves on to the TWFE details, and then restates it ('Because the rollout was staggered'). B links its ideas better, with clear causal connectives and a paragraph structure that builds from the TWFE specification to why it is problematic and how Callaway and Sant'Anna fixes it. Overall, A suits this audience better and wastes fewer words. B wins only on flow.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The loyalty program was rolled out to stores on different dates, so at any point some stores are treated, some are not yet treated' vs B: 'We estimate a two-way fixed effects model, which includes a separate intercept for each store and each week. These fixed effects absorb...'\",\n    \"concision\": \"A: 'with store and week fixed effects, clustering standard errors at the store level' vs B: 'which includes a separate intercept for each store and each week. These fixed effects absorb stable differences... We cluster standard errors at the store level.'\",\n    \"flow\": \"A: 'The coefficient of interest is the interaction... Because the rollout was staggered, we use' vs B: 'Because of this, a store that has not yet received the program can still serve as a comparison... We therefore use'\",\n    \"precision\": \"A: 'some are not yet treated, and some never will be' vs B: 'rolled out to stores on different dates, a staggered design in which stores enter treatment at different times'\",\n    \"audience_fit\": \"A: 'two-way fixed effects model with store and week fixed effects' vs B: 'which includes a separate intercept for each store and each week'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0451952,
+        "seconds": 13.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

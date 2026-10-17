@@ -1,0 +1,43 @@
+{
+  "case": "ste-vague",
+  "run_dir": "results/ste2-before/eval-ste-vague/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "We came up with a two-stage model that deals with sparse interaction histories",
+          "revised_quote": "We developed a two-stage model for sparse interaction histories",
+          "explanation": "The author's informal phrasing ('came up with', 'deals with') was replaced by more standard academic wording."
+        }
+      ],
+      "summary": "Every claim, number, citation, and scope caveat is preserved and still attached to the same statement, including the 8.3-point gain over Koren et al. (2009), the single-platform limitation, and the future-work direction. Only informal wording was normalized."
+    },
+    "key": "ee8c3d3d3c274f59",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"We came up with a two-stage model that deals with sparse interaction histories\",\n      \"revised_quote\": \"We developed a two-stage model for sparse interaction histories\",\n      \"explanation\": \"The author's informal phrasing ('came up with', 'deals with') was replaced by more standard academic wording.\"\n    }\n  ],\n  \"summary\": \"Every claim, number, citation, and scope caveat is preserved and still attached to the same statement, including the 8.3-point gain over Koren et al. (2009), the single-platform limitation, and the future-work direction. Only informal wording was normalized.\"\n}\n```",
+    "cost_usd": 0.028851199999999997,
+    "seconds": 7.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

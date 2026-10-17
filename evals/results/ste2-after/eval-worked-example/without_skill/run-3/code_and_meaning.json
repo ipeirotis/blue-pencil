@@ -1,0 +1,43 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/ste2-after/eval-worked-example/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "Crucially, however, the question of whether the identity of reviewers affects this relationship remains",
+          "revised_quote": "However, whether the identity of reviewers affects this relationship remains",
+          "explanation": "The emphasis word \"Crucially\", which marked the gap as especially important, was dropped."
+        }
+      ],
+      "summary": "The revision removes filler, tightens wording, and merges sentences. The citations, the 5-9% figure, the 1.2 million count, the \"novel\" qualifier, the hedge \"to the best of our knowledge, somewhat underexplored,\" and the managerial recommendation all stay attached to the same claims. Only the emphasis word \"Crucially\" was lost, and dropping \"in the existing literature\" does not change the scope."
+    },
+    "key": "9b5da754061da00c",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"Crucially, however, the question of whether the identity of reviewers affects this relationship remains\",\n      \"revised_quote\": \"However, whether the identity of reviewers affects this relationship remains\",\n      \"explanation\": \"The emphasis word \\\"Crucially\\\", which marked the gap as especially important, was dropped.\"\n    }\n  ],\n  \"summary\": \"The revision removes filler, tightens wording, and merges sentences. The citations, the 5-9% figure, the 1.2 million count, the \\\"novel\\\" qualifier, the hedge \\\"to the best of our knowledge, somewhat underexplored,\\\" and the managerial recommendation all stay attached to the same claims. Only the emphasis word \\\"Crucially\\\" was lost, and dropping \\\"in the existing literature\\\" does not change the scope.\"\n}\n```",
+    "cost_usd": 0.0345792,
+    "seconds": 9.2,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

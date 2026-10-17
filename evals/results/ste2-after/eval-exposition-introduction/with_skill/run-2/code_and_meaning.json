@@ -1,0 +1,43 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-after/eval-exposition-introduction/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and statistically significant",
+          "explanation": "The original never names the outcome or the treatment of the estimated effect, while the revision asserts it is the effect of review valence on sales, a specification the original does not state."
+        }
+      ],
+      "summary": "Most edits are a faithful restructuring: the sentences are merged and reordered, and the claims keep the same strength and conditions. However, the revision adds that the estimated effect is of review valence on sales, which the original never specifies."
+    },
+    "key": "9c3e91a269bf7a13",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and statistically significant\",\n      \"explanation\": \"The original never names the outcome or the treatment of the estimated effect, while the revision asserts it is the effect of review valence on sales, a specification the original does not state.\"\n    }\n  ],\n  \"summary\": \"Most edits are a faithful restructuring: the sentences are merged and reordered, and the claims keep the same strength and conditions. However, the revision adds that the estimated effect is of review valence on sales, which the original never specifies.\"\n}\n```",
+    "cost_usd": 0.0359058,
+    "seconds": 8.0,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

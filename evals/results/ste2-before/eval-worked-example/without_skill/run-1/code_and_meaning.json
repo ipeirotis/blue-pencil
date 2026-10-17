@@ -1,0 +1,43 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/ste2-before/eval-worked-example/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "remains, to the best of our knowledge, somewhat underexplored in the existing literature",
+          "revised_quote": "to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored",
+          "explanation": "Dropping the hedge \"somewhat\" makes the claim about the research gap stronger than the original, which said the question was only partly underexplored."
+        }
+      ],
+      "summary": "Most edits remove filler or tighten wording without changing meaning, and the citations, the 5-9% figure, the 1.2 million count, and \"novel\" stay attached to the same claims. However, removing \"somewhat\" strengthens the stated research gap."
+    },
+    "key": "1722589077636b2b",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"remains, to the best of our knowledge, somewhat underexplored in the existing literature\",\n      \"revised_quote\": \"to the best of our knowledge, whether reviewer identity affects this relationship remains underexplored\",\n      \"explanation\": \"Dropping the hedge \\\"somewhat\\\" makes the claim about the research gap stronger than the original, which said the question was only partly underexplored.\"\n    }\n  ],\n  \"summary\": \"Most edits remove filler or tighten wording without changing meaning, and the citations, the 5-9% figure, the 1.2 million count, and \\\"novel\\\" stay attached to the same claims. However, removing \\\"somewhat\\\" strengthens the stated research gap.\"\n}\n```",
+    "cost_usd": 0.036799200000000004,
+    "seconds": 11.2,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

@@ -1,0 +1,20 @@
+```
+We estimate a two-way fixed effects model with store and week fixed effects,
+clustering standard errors at the store level. The store fixed effects absorb
+stable differences across stores, and the week fixed effects absorb shocks that
+affect all stores in the same week. The specification also includes controls for
+foot traffic, local unemployment, and promotional intensity. The coefficient of
+interest is the interaction between the post-rollout indicator and the treatment
+indicator, which captures the change in repeat purchase at a store after the
+loyalty program arrives there, relative to stores without it. Because the loyalty
+program was rolled out to stores on different dates, a simple comparison of
+treated and untreated stores is not sufficient: a store treated early could
+otherwise serve as a comparison for a store treated later. We therefore use the
+never-treated and not-yet-treated stores as controls, meaning stores that have
+not received the program by the period being compared. We report the Callaway and
+Sant'Anna estimator alongside the two-way fixed effects estimate to address
+heterogeneity in treatment timing, that is, the possibility that the program's
+effect differs depending on when a store was treated.
+```
+
+I kept your sentence order, voice, and the Callaway and Sant'Anna reference as written (no year was in your text, so I didn't add one). The additions are short plain-language glosses of the fixed effects, the interaction term, the problem with staggered timing, and the two control groups. If you'd rather keep the paragraph tighter for JMR's length limits, the fixed-effects gloss in the second sentence is the easiest to cut.

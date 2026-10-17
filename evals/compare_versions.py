@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""Blinded head-to-head of two skill versions' with_skill outputs, same cases and run numbers.
+
+Reuses evals/grade_pilot.py's quality grader prompt, validator, and two-order rule:
+a win counts only if it survives the order swap; otherwise a tie.
+
+Usage: python3 compare_versions.py <evals_dir> <before_root> <after_root> <out.json> [--same-skill]
+
+The two runs must record different skill fingerprints, since the skill version is what
+is being compared; pass --same-skill only for a deliberate control run of one version.
+
+A pair already judged in <out.json> with the same grader prompt, model, and environment is reused, so running the
+same command again retries only the pairs that got no valid verdict. The script exits
+nonzero while any pair is still ungraded.
+"""
+import hashlib
+import json
+import threading
+import random
+import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+
+SAME_SKILL = "--same-skill" in sys.argv[5:]
+evals_dir, before_root, after_root, out_path = map(Path, sys.argv[1:5])
+sys.path.insert(0, str(evals_dir))
+import grade_pilot as gp  # noqa: E402
+from lib import changed_cases, read_json  # noqa: E402
+
+TEMPLATE = (evals_dir / "prompts" / "quality_grader.md").read_text()
+ROOTS = {"before": before_root, "after": after_root}
+
+
+def pair(case_id, n, saved):
+    rds = {v: r / f"eval-{case_id}" / "with_skill" / f"run-{n}" for v, r in ROOTS.items()}
+    revised = {v: gp.revised_of(rd) for v, rd in rds.items()}
+    texts_sha = hashlib.sha256((revised["before"] + "\0" + revised["after"]).encode()).hexdigest()[:16]
+    original = (evals_dir / "cases" / case_id / "input.txt").read_text().strip()
+    first = random.Random(f"bva-{case_id}-{n}").choice(("before", "after"))
+    plan = []
+    for a in (first, "after" if first == "before" else "before"):
+        b = "after" if a == "before" else "before"
+        prompt = gp.fill(TEMPLATE, AUDIENCE=gp.audience_of(case_id), ORIGINAL=original,
+                         VERSION_A=revised[a], VERSION_B=revised[b])
+        plan.append((a, b, prompt))
+    # Reuse a saved verdict only if, as in grade_pilot.py, each order was judged with the
+    # same full prompt (template, audience, original, both texts), requested model, and
+    # recorded grader environment, and its saved reply still passes the current validator;
+    # anything else is graded again.
+    old = saved.get((case_id, n))
+    # The key covers the full prompt, both texts included, so it alone decides; texts_sha is
+    # kept only as a readable record and is not required (older results lack it).
+    if (old and old.get("consolidated") in ("before", "after", "tie")
+            and len(old.get("orders", [])) == len(plan)
+            and all((o.get("grader") or {}).get("key") == gp.grader_key(prompt, gp.GRADER_MODEL)
+                    and "env" in (o.get("grader") or {}) and gp.same_env(o.get("grader"))
+                    and gp.quality_validator(revised[a], revised[b])((o.get("grader") or {}).get("parsed"))
+                    and (o.get("A"), o.get("B")) == (a, b)
+                    for o, (a, b, prompt) in zip(old["orders"], plan))):
+        return old
+    orders = []
+    for a, b, prompt in plan:
+        g = gp.model_json(prompt, gp.GRADER_MODEL, gp.quality_validator(revised[a], revised[b]))
+        overall = (g["parsed"] or {}).get("overall")
+        # Keep the full grader record (requested and actual models, environment, cache key,
+        # raw reply), as grade_pilot.py does, so the verdict's provenance can be audited.
+        orders.append({"A": a, "B": b, "winner": None if overall is None else {"A": a, "B": b, "tie": "tie"}[overall],
+                       "grader": g})
+    w1, w2 = orders[0]["winner"], orders[1]["winner"]
+    cons = "ungraded" if None in (w1, w2) else (w1 if w1 == w2 else "tie")
+    return {"case": case_id, "run": n, "consolidated": cons, "texts_sha": texts_sha, "orders": orders}
+
+
+# Refuse runs that cannot be compared: a case edited since either run, or runs that
+# differ in executor model, Claude Code version, flags, case fingerprints, or runner code.
+metas = {v: read_json(r / "run_meta.json") for v, r in ROOTS.items()}
+case_ids = sorted(set(metas["before"].get("cases") or []) | set(metas["after"].get("cases") or []))
+for v, r in ROOTS.items():
+    stale = changed_cases(metas[v], case_ids, r)
+    if stale:
+        sys.exit(f"{v} run: case files changed since it ran: {', '.join(stale)}")
+# run_pilot.py --allow-mixed records a changed configuration only in resumes[].config_differs,
+# leaving the top-level values from the original run, so a mixed root is refused outright.
+for v, m in metas.items():
+    mixed = sorted({d for r in m.get("resumes", []) for d in r.get("config_differs") or []})
+    if mixed:
+        sys.exit(f"{v} run was resumed with a different {', '.join(mixed)}; its trials are not comparable")
+for key in ("executor_model", "claude_code_version", "flags", "preserve_instruction", "case_fingerprints",
+            "runner_fingerprint"):
+    if metas["before"].get(key) in (None, "", [], {}) or metas["after"].get(key) in (None, "", [], {}):
+        sys.exit(f"a run does not record {key} (an older run); its provenance cannot be verified")
+    if metas["before"].get(key) != metas["after"].get(key):
+        sys.exit(f"before and after runs differ in {key}; they are not comparable")
+
+# The skill version is the independent variable: both runs must record it, and it must differ
+# unless this is a declared same-version control run.
+fps = {v: m.get("skill_fingerprint") for v, m in metas.items()}
+if not all(fps.values()):
+    sys.exit("a run does not record skill_fingerprint (an older run); the versions compared cannot be verified")
+if fps["before"] == fps["after"] and not SAME_SKILL:
+    sys.exit(f"both runs record skill fingerprint {fps['before']}; pass --same-skill for a same-version control run")
+
+# Both runs must cover the same planned cases and run count, and every planned with_skill
+# run must exist in both, so a partial run cannot pass for a smaller complete comparison.
+for key in ("cases", "runs_per_condition"):
+    if metas["before"].get(key) != metas["after"].get(key):
+        sys.exit(f"before and after runs differ in {key}; they are not comparable")
+jobs = [(c, n) for c in sorted(metas["after"]["cases"]) for n in range(1, metas["after"]["runs_per_condition"] + 1)]
+missing = [f"{v}: {c} run-{n}" for v, r in ROOTS.items() for c, n in jobs
+           if not (r / f"eval-{c}" / "with_skill" / f"run-{n}").is_dir()]
+if missing:
+    sys.exit("runs missing, comparison would be incomplete: " + "; ".join(missing))
+# _valid_trial checks only that revised.txt exists; an empty extracted revision is incomplete too,
+# as grade_pilot.head_to_head treats it.
+invalid = [f"{v}: {c} run-{n}" for v, r in ROOTS.items() for c, n in jobs
+           if not gp._valid_trial(r / f"eval-{c}" / "with_skill" / f"run-{n}", "with_skill")
+           or not gp.revised_of(r / f"eval-{c}" / "with_skill" / f"run-{n}")]
+if invalid:
+    sys.exit("invalid trials (errored, empty or missing revision, or skill not loaded); resume the run to retry them first: "
+             + "; ".join(invalid))
+# The requested executor can route to another model; compare the models each trial
+# actually used, pair by pair, so routing differences are never credited to the skill.
+def models_of(r, c, n):
+    t = read_json(r / f"eval-{c}" / "with_skill" / f"run-{n}" / "trial.json")
+    return sorted(t.get("models_used") or [])
+routed = [f"{c} run-{n}: {models_of(before_root, c, n)} vs {models_of(after_root, c, n)}" for c, n in jobs
+          if not models_of(before_root, c, n) or models_of(before_root, c, n) != models_of(after_root, c, n)]
+if routed:
+    sys.exit("trials used different or unrecorded executor models: " + "; ".join(routed))
+out_path.parent.mkdir(parents=True, exist_ok=True)
+saved = {(r["case"], r["run"]): r for r in json.loads(out_path.read_text())} if out_path.exists() else {}
+# Write each pair to out_path as soon as it is judged, so an interrupted or failing run keeps
+# every verdict already paid for; pairs not yet judged keep their saved entry, if any.
+done, lock = {}, threading.Lock()
+
+
+def checkpoint():
+    rows = [done.get(j) or saved.get(j) for j in jobs]
+    out_path.write_text(json.dumps([r for r in rows if r], indent=2))
+
+
+with ThreadPoolExecutor(max_workers=4) as ex:
+    futures = {ex.submit(pair, c, n, saved): (c, n) for c, n in jobs}
+    for f in as_completed(futures):
+        c, n = futures[f]
+        try:
+            r = f.result()
+        except Exception as e:  # a grader failure leaves this pair to the next run
+            r = {"case": c, "run": n, "consolidated": "ungraded", "error": repr(e)}
+        with lock:
+            done[(c, n)] = r
+            checkpoint()
+results = [done[j] for j in jobs]
+tally = {}
+for r in results:
+    tally[r["consolidated"]] = tally.get(r["consolidated"], 0) + 1
+print("before-vs-after:", tally)
+for r in results:
+    print(f"  {r['case']} run-{r['run']}: {r['consolidated']}")
+ungraded = [f"{r['case']} run-{r['run']}" for r in results if r["consolidated"] == "ungraded"]
+if ungraded:
+    print(f"{len(ungraded)} pairs have no valid grader verdict: {', '.join(ungraded)}. "
+          "Run the same command again to retry them.", file=sys.stderr)
+    sys.exit(1)

@@ -1,0 +1,92 @@
+{
+  "case": "exposition-results",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states its finding in the first sentence and anchors it to the table. It then reports the numbers in plain, exact terms and places the significance statement next to the coefficients it qualifies. Version A opens with a signpost sentence that carries no finding and makes the point only in its second sentence, with the loose phrase 'carries weight'. It also adds an interpretive tail that restates its opening claim. A's explicit connectives ('persists', 'also grows', 'so') do link the results through their content better than B's mostly list-like sentences. Both registers suit empirical IS researchers. On balance B reads more cleanly and precisely.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Table 3 reports the estimates. Identity disclosure carries weight...' vs B: 'With the star rating in the model, the identity-disclosed indicator is positive and significant (Table 3).'",
+            "concision": "A: 'so identity matters alongside the rating, not in place of it' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.'",
+            "flow": "A: 'it persists at 0.15 ... The effect also grows with reviewer tenure' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'",
+            "precision": "A: 'Identity disclosure carries weight beyond the rating itself' vs B: 'the identity-disclosed indicator is positive and significant'"
+          },
+          "overall": "B"
+        },
+        "key": "db42862d39e583cb",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states its finding in the first sentence and anchors it to the table. It then reports the numbers in plain, exact terms and places the significance statement next to the coefficients it qualifies. Version A opens with a signpost sentence that carries no finding and makes the point only in its second sentence, with the loose phrase 'carries weight'. It also adds an interpretive tail that restates its opening claim. A's explicit connectives ('persists', 'also grows', 'so') do link the results through their content better than B's mostly list-like sentences. Both registers suit empirical IS researchers. On balance B reads more cleanly and precisely.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Table 3 reports the estimates. Identity disclosure carries weight...' vs B: 'With the star rating in the model, the identity-disclosed indicator is positive and significant (Table 3).'\",\n    \"concision\": \"A: 'so identity matters alongside the rating, not in place of it' vs B: 'The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.'\",\n    \"flow\": \"A: 'it persists at 0.15 ... The effect also grows with reviewer tenure' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'\",\n    \"precision\": \"A: 'Identity disclosure carries weight beyond the rating itself' vs B: 'the identity-disclosed indicator is positive and significant'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0398112,
+        "seconds": 14.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens with the finding ('the identity-disclosed indicator is positive and significant'). Version B spends its first sentence on 'Table 3 reports the estimates' and states the point only in sentence two. A is also tighter: it cuts the empty opener and folds column 3 into the column 2 sentence. B connects results better, with 'persists', 'also grows with reviewer tenure', and an interpretive 'so' clause; after its first sentence, A reads more like a list. On precision, A's 'positive and significant' is exact. B uses looser phrasing such as 'carries weight' and 'strong predictor'. Both versions use a register that suits empirical IS researchers. A leads in clarity, concision, and precision, B in flow, so A is better overall.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'With the star rating in the model, the identity-disclosed indicator is positive and significant (Table 3).' vs B: 'Table 3 reports the estimates. Identity disclosure carries weight beyond the rating itself'",
+            "concision": "A: 'holds at 0.15 (SE = 0.05) in column 3 after product fixed effects are added' vs B: 'Table 3 reports the estimates.' ... 'Star rating remains a strong predictor throughout, with a coefficient of'",
+            "flow": "A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. The coefficient on star rating is 0.42' vs B: 'The effect also grows with reviewer tenure' ... 'so identity matters alongside the rating, not in place of it'",
+            "precision": "A: 'is positive and significant' vs B: 'carries weight beyond the rating itself' / 'remains a strong predictor'"
+          },
+          "overall": "A"
+        },
+        "key": "879ef3f4e0c2cd4a",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with the finding ('the identity-disclosed indicator is positive and significant'). Version B spends its first sentence on 'Table 3 reports the estimates' and states the point only in sentence two. A is also tighter: it cuts the empty opener and folds column 3 into the column 2 sentence. B connects results better, with 'persists', 'also grows with reviewer tenure', and an interpretive 'so' clause; after its first sentence, A reads more like a list. On precision, A's 'positive and significant' is exact. B uses looser phrasing such as 'carries weight' and 'strong predictor'. Both versions use a register that suits empirical IS researchers. A leads in clarity, concision, and precision, B in flow, so A is better overall.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'With the star rating in the model, the identity-disclosed indicator is positive and significant (Table 3).' vs B: 'Table 3 reports the estimates. Identity disclosure carries weight beyond the rating itself'\",\n    \"concision\": \"A: 'holds at 0.15 (SE = 0.05) in column 3 after product fixed effects are added' vs B: 'Table 3 reports the estimates.' ... 'Star rating remains a strong predictor throughout, with a coefficient of'\",\n    \"flow\": \"A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4. The coefficient on star rating is 0.42' vs B: 'The effect also grows with reviewer tenure' ... 'so identity matters alongside the rating, not in place of it'\",\n    \"precision\": \"A: 'is positive and significant' vs B: 'carries weight beyond the rating itself' / 'remains a strong predictor'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0470032,
+        "seconds": 18.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

@@ -1,0 +1,35 @@
+{
+  "case": "ste-connectors",
+  "run_dir": "results/ste2-after/eval-ste-connectors/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision splits one long sentence into three and adds 'that' after several verbs. The causal 'frozen retriever' clause, the 41.2% to 57.8% rise for rare questions (Table 3), the 210 ms per-query latency increase, the 1M–10M index doubling, the [@lewis2020] attribution and the 23% figure all keep their original attachments and strength."
+    },
+    "key": "53158fe323de619e",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision splits one long sentence into three and adds 'that' after several verbs. The causal 'frozen retriever' clause, the 41.2% to 57.8% rise for rare questions (Table 3), the 210 ms per-query latency increase, the 1M–10M index doubling, the [@lewis2020] attribution and the 23% figure all keep their original attachments and strength.\"\n}\n```",
+    "cost_usd": 0.0354992,
+    "seconds": 11.8,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

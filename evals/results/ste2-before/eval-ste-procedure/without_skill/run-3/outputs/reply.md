@@ -1,0 +1,8 @@
+```
+After the field period closed, the data were processed in four steps. First, responses were screened, and respondents were excluded if they failed both attention checks or finished in under one third of the median completion time (4.1 minutes); the analytic sample after these exclusions is N = 2,184. Second, two research assistants coded the open-ended answers using the codebook in Appendix B, resolving disagreements by discussion. Third, the coded categories were merged with the panel's demographic file using the respondent ID. Fourth, before estimation, raking weights were applied to the merged file, matching the 2020 Census margins for age, sex, and region.
+```
+
+- **Order:** I made the sequence explicit (screen, code, merge, weight, then estimate) and moved the N = 2,184 statement next to the exclusions it describes.
+- **Replication:** The four numbered steps let a replicator see each one separately. I didn't add claims about which steps are repeatable, since the paragraph doesn't say. If you want that spelled out, for example that coding needs a second pass but the merge is deterministic, tell me and I'll add it.
+- **Weighting sentence:** The original "would have been expected to have been applied" reads as hedged or counterfactual. I took it to mean the weights were applied, and wrote it that way. If the weights were not actually applied, or were applied only in some analyses, that sentence needs to change.
+- **Exclusion threshold:** I left "(4.1 minutes)" right after "median completion time," as in the original. It's ambiguous whether 4.1 is the median or the cutoff, so you may want to say which.

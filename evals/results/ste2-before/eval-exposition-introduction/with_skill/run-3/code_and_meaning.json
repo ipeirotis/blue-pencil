@@ -1,0 +1,57 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-before/eval-exposition-introduction/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.",
+          "revised_quote": "Unobserved quality can shape both a product's reviews and its sales, so the raw link between valence and sales does not isolate the effect of valence.",
+          "explanation": "The revision adds an explanation of the endogeneity mechanism and introduces sales as the outcome, which the original never mentions."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The original does not name the outcome, but the revision specifies that the estimated effect is on sales."
+        },
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "We exploit platform-level heterogeneity in content moderation as a source of exogenous variation. Specifically, we leverage the fact that platforms differentially apply moderation policies",
+          "revised_quote": "by exploiting unequal moderation: platforms differentially apply moderation policies across review cohorts. This platform-level heterogeneity in content moderation is a source of exogenous variation",
+          "explanation": "The revision introduces the new label \"unequal moderation\" and restructures the authors' framing of the strategy, but the substance is the same."
+        }
+      ],
+      "summary": "The identification strategy, its comparison to prior IV approaches, and the 3.4 million figure are preserved. However, the revision adds sales as the outcome variable and adds a confounding mechanism that the original does not state."
+    },
+    "key": "a75c7db266ebbe27",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"Unobserved quality can shape both a product's reviews and its sales, so the raw link between valence and sales does not isolate the effect of valence.\",\n      \"explanation\": \"The revision adds an explanation of the endogeneity mechanism and introduces sales as the outcome, which the original never mentions.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original does not name the outcome, but the revision specifies that the estimated effect is on sales.\"\n    },\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"We exploit platform-level heterogeneity in content moderation as a source of exogenous variation. Specifically, we leverage the fact that platforms differentially apply moderation policies\",\n      \"revised_quote\": \"by exploiting unequal moderation: platforms differentially apply moderation policies across review cohorts. This platform-level heterogeneity in content moderation is a source of exogenous variation\",\n      \"explanation\": \"The revision introduces the new label \\\"unequal moderation\\\" and restructures the authors' framing of the strategy, but the substance is the same.\"\n    }\n  ],\n  \"summary\": \"The identification strategy, its comparison to prior IV approaches, and the 3.4 million figure are preserved. However, the revision adds sales as the outcome variable and adds a confounding mechanism that the original does not state.\"\n}\n```",
+    "cost_usd": 0.0374272,
+    "seconds": 10.6,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

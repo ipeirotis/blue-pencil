@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: All numbers remain correctly attached to their columns and variables, but the revision layers interpretive and quasi-causal claims (a 'clear role' for identity, 'substantial' persistence, identity 'conditions' influence, identity not 'absorbed' by star rating, fit improving 'accordingly') onto what was a purely descriptive report of estimates."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

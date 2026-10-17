@@ -1,0 +1,92 @@
+{
+  "case": "ste-vague",
+  "run": 1,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens with the contribution itself ('We developed a two-stage model that addresses the cold-start problem'). It merges the original's separate framing sentence into that opening, which removes the redundant 'Our approach addresses...' lead-in. It also cuts the filler 'the results show that', drops the noun stack in 'new-user engagement prediction accuracy' in favor of 'accuracy of new-user engagement prediction', and ties the limitation to future work with 'Because'. Version B fixes the informal wording ('came up with', 'ended up', 'point out') as well. However, it keeps the original two-sentence opening and the hedging 'the results show that'. B's 'so' linkage and 'examine' are good, but A is tighter overall and gets to the point sooner. The two are about equal in register: both are professional, and B's 'examine' is slightly more formal than A's 'look at'. A also reads more like a finished abstract.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'We developed a two-stage model that addresses the cold-start problem' vs B: 'Our approach addresses the cold-start problem... We developed a two-stage model'",
+            "concision": "A: 'It improves the accuracy of new-user engagement prediction' vs B: 'and the results show that it improves new-user engagement prediction accuracy'",
+            "flow": "A: 'Because our data come from a single streaming platform, future work should' vs B: 'Our approach addresses... We developed a two-stage model that handles'",
+            "precision": "A: 'the accuracy of new-user engagement prediction' vs B: 'new-user engagement prediction accuracy'"
+          },
+          "overall": "A"
+        },
+        "key": "4ff2596105c7b775",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with the contribution itself ('We developed a two-stage model that addresses the cold-start problem'). It merges the original's separate framing sentence into that opening, which removes the redundant 'Our approach addresses...' lead-in. It also cuts the filler 'the results show that', drops the noun stack in 'new-user engagement prediction accuracy' in favor of 'accuracy of new-user engagement prediction', and ties the limitation to future work with 'Because'. Version B fixes the informal wording ('came up with', 'ended up', 'point out') as well. However, it keeps the original two-sentence opening and the hedging 'the results show that'. B's 'so' linkage and 'examine' are good, but A is tighter overall and gets to the point sooner. The two are about equal in register: both are professional, and B's 'examine' is slightly more formal than A's 'look at'. A also reads more like a finished abstract.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We developed a two-stage model that addresses the cold-start problem' vs B: 'Our approach addresses the cold-start problem... We developed a two-stage model'\",\n    \"concision\": \"A: 'It improves the accuracy of new-user engagement prediction' vs B: 'and the results show that it improves new-user engagement prediction accuracy'\",\n    \"flow\": \"A: 'Because our data come from a single streaming platform, future work should' vs B: 'Our approach addresses... We developed a two-stage model that handles'\",\n    \"precision\": \"A: 'the accuracy of new-user engagement prediction' vs B: 'new-user engagement prediction accuracy'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.031039199999999996,
+        "seconds": 9.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B merges the problem statement and the method into one opening sentence, so the contribution and its purpose appear immediately. That makes it more concise and gives it a tighter logical chain: model, then result, then limitation, linked with 'Because'. Version A keeps the separate generic opener and uses the long chain 'the results show that it improves', which delays the main finding. A's 'also' and 'so' do connect its sentences well. A has a slight edge in word choice, since 'examine' is more precise and formal than B's carried-over 'look at'. Both are grammatical. B's structural gains outweigh A's small lexical edge.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Our approach addresses the cold-start problem... We developed a two-stage model' vs B: 'We developed a two-stage model that addresses the cold-start problem'",
+            "concision": "A: 'the results show that it improves new-user engagement prediction accuracy' vs B: 'It improves the accuracy of new-user engagement prediction'",
+            "flow": "A: 'Our approach addresses... We developed a two-stage model that handles' vs B: 'addresses the cold-start problem in recommender systems by handling sparse interaction histories'",
+            "precision": "A: 'future work should examine whether' vs B: 'future work should look at whether'"
+          },
+          "overall": "B"
+        },
+        "key": "23284874820fb94a",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B merges the problem statement and the method into one opening sentence, so the contribution and its purpose appear immediately. That makes it more concise and gives it a tighter logical chain: model, then result, then limitation, linked with 'Because'. Version A keeps the separate generic opener and uses the long chain 'the results show that it improves', which delays the main finding. A's 'also' and 'so' do connect its sentences well. A has a slight edge in word choice, since 'examine' is more precise and formal than B's carried-over 'look at'. Both are grammatical. B's structural gains outweigh A's small lexical edge.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Our approach addresses the cold-start problem... We developed a two-stage model' vs B: 'We developed a two-stage model that addresses the cold-start problem'\",\n    \"concision\": \"A: 'the results show that it improves new-user engagement prediction accuracy' vs B: 'It improves the accuracy of new-user engagement prediction'\",\n    \"flow\": \"A: 'Our approach addresses... We developed a two-stage model that handles' vs B: 'addresses the cold-start problem in recommender systems by handling sparse interaction histories'\",\n    \"precision\": \"A: 'future work should examine whether' vs B: 'future work should look at whether'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0324392,
+        "seconds": 10.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

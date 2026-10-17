@@ -1,0 +1,92 @@
+{
+  "case": "exposition-introduction",
+  "run": 1,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "A trims the nominalized opening ('Review valence is endogenous to...') and drops filler like 'Specifically, we leverage the fact that', so it is tighter. But it leaves key referents underspecified: 'the effect of review valence' never names an outcome, and 'quasi-random assignment' never says what is assigned. Its closing two short sentences ('We find it positive and significant.') are choppy. Placing the improvement claim before the data and result also breaks the problem → strategy → evidence sequence. B is wordier, but it states what is identified ('causal effect of valence on sales'). It says what the variation assigns ('the moderation regime a review faces'). And it links the mechanism to the assignment claim ('so that comparable reviews are moderated differently. This generates...'). Both registers suit empirical economists and IS researchers; B's one-clause intuition for the endogeneity is standard in that literature, not condescending. On balance, B reads better.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'we estimate the effect of review valence' vs B: 'we estimate the effect of review valence on sales'",
+            "concision": "A: 'Platforms differentially apply moderation policies' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies'",
+            "flow": "A: 'we estimate the effect of review valence. We find it positive and significant.' vs B: 'so that comparable reviews are moderated differently. This generates quasi-random assignment'",
+            "precision": "A: 'generates quasi-random assignment conditional on observed covariates' vs B: 'quasi-random assignment, conditional on observed covariates, of the moderation regime a review faces'"
+          },
+          "overall": "B"
+        },
+        "key": "26a149b550f50c1c",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"A trims the nominalized opening ('Review valence is endogenous to...') and drops filler like 'Specifically, we leverage the fact that', so it is tighter. But it leaves key referents underspecified: 'the effect of review valence' never names an outcome, and 'quasi-random assignment' never says what is assigned. Its closing two short sentences ('We find it positive and significant.') are choppy. Placing the improvement claim before the data and result also breaks the problem → strategy → evidence sequence. B is wordier, but it states what is identified ('causal effect of valence on sales'). It says what the variation assigns ('the moderation regime a review faces'). And it links the mechanism to the assignment claim ('so that comparable reviews are moderated differently. This generates...'). Both registers suit empirical economists and IS researchers; B's one-clause intuition for the endogeneity is standard in that literature, not condescending. On balance, B reads better.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'we estimate the effect of review valence' vs B: 'we estimate the effect of review valence on sales'\",\n    \"concision\": \"A: 'Platforms differentially apply moderation policies' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies'\",\n    \"flow\": \"A: 'we estimate the effect of review valence. We find it positive and significant.' vs B: 'so that comparable reviews are moderated differently. This generates quasi-random assignment'\",\n    \"precision\": \"A: 'generates quasi-random assignment conditional on observed covariates' vs B: 'quasi-random assignment, conditional on observed covariates, of the moderation regime a review faces'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0411792,
+        "seconds": 14.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B is tighter. Its opening, 'Review valence is endogenous to unobserved product quality', is crisper than the original. But it never says what the effect is on, and it places the 'improves upon prior approaches' claim before the data and result. It also ends in two clipped sentences. Version A names the outcome (sales) early and explains the endogeneity mechanism in one clause. It also states what is quasi-randomly assigned (the moderation regime). Its sentences link causally: 'so that comparable reviews are moderated differently. This generates...'. A is wordier, but its added words carry content and make the identification argument easier to follow. Both registers suit empirical economists and IS researchers.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'obstacle to identifying the causal effect of valence on sales' vs B: 'a well-known obstacle to identification in this literature'",
+            "concision": "A: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle' vs B: 'Review valence is endogenous to unobserved product quality'",
+            "flow": "A: 'so that comparable reviews are moderated differently. This generates quasi-random assignment' vs B: 'we estimate the effect of review valence. We find it positive and significant.'",
+            "precision": "A: 'we estimate the effect of review valence on sales' vs B: 'we estimate the effect of review valence'"
+          },
+          "overall": "A"
+        },
+        "key": "ee3232f963757cdc",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B is tighter. Its opening, 'Review valence is endogenous to unobserved product quality', is crisper than the original. But it never says what the effect is on, and it places the 'improves upon prior approaches' claim before the data and result. It also ends in two clipped sentences. Version A names the outcome (sales) early and explains the endogeneity mechanism in one clause. It also states what is quasi-randomly assigned (the moderation regime). Its sentences link causally: 'so that comparable reviews are moderated differently. This generates...'. A is wordier, but its added words carry content and make the identification argument easier to follow. Both registers suit empirical economists and IS researchers.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'obstacle to identifying the causal effect of valence on sales' vs B: 'a well-known obstacle to identification in this literature'\",\n    \"concision\": \"A: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle' vs B: 'Review valence is endogenous to unobserved product quality'\",\n    \"flow\": \"A: 'so that comparable reviews are moderated differently. This generates quasi-random assignment' vs B: 'we estimate the effect of review valence. We find it positive and significant.'\",\n    \"precision\": \"A: 'we estimate the effect of review valence on sales' vs B: 'we estimate the effect of review valence'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0384072,
+        "seconds": 12.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

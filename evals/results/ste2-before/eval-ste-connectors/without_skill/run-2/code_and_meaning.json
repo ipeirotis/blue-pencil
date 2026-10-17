@@ -1,0 +1,35 @@
+{
+  "case": "ste-connectors",
+  "run_dir": "results/ste2-before/eval-ste-connectors/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision adds 'that' complementizers, swaps 'Since' for 'Because', and splits the second sentence into three. In the original, the causal clause 'Since the retriever was frozen' most plausibly explains only the unchanged frequent-question accuracy, which is how the revision attaches it, and all numbers, the citation, and the scope (1M to 10M indexes, top-ranked passages) stay with the same claims."
+    },
+    "key": "77b53ac5390ced8a",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision adds 'that' complementizers, swaps 'Since' for 'Because', and splits the second sentence into three. In the original, the causal clause 'Since the retriever was frozen' most plausibly explains only the unchanged frequent-question accuracy, which is how the revision attaches it, and all numbers, the citation, and the scope (1M to 10M indexes, top-ranked passages) stay with the same claims.\"\n}\n```",
+    "cost_usd": 0.0334872,
+    "seconds": 9.6,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

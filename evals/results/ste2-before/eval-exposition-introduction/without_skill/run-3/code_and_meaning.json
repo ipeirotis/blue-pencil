@@ -1,0 +1,57 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-before/eval-exposition-introduction/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "is a well-known obstacle to identification in this literature.",
+          "revised_quote": "is a well-known obstacle to identification in this literature: higher-quality products tend to receive more favorable reviews and also to sell more, so the observed relationship between valence and sales cannot be read as causal.",
+          "explanation": "The revision adds a causal mechanism and names sales as the outcome, neither of which the original states."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The original never specifies the treatment or the outcome, so the revision asserts that the estimated effect is valence on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "which generates quasi-random assignment conditional on observed covariates",
+          "revised_quote": "which generates quasi-random assignment of cohorts to differing moderation exposure, conditional on observed covariates",
+          "explanation": "The revision specifies what is quasi-randomly assigned (cohorts to moderation exposure), a detail of the design the original leaves unstated."
+        }
+      ],
+      "summary": "The revision adds a mechanism for endogeneity, names sales as the outcome variable, and specifies the unit and treatment of the quasi-random assignment. The original asserts none of these, so the meaning changed even though the additions are plausible."
+    },
+    "key": "6814dd87213757f0",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"is a well-known obstacle to identification in this literature: higher-quality products tend to receive more favorable reviews and also to sell more, so the observed relationship between valence and sales cannot be read as causal.\",\n      \"explanation\": \"The revision adds a causal mechanism and names sales as the outcome, neither of which the original states.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original never specifies the treatment or the outcome, so the revision asserts that the estimated effect is valence on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"which generates quasi-random assignment conditional on observed covariates\",\n      \"revised_quote\": \"which generates quasi-random assignment of cohorts to differing moderation exposure, conditional on observed covariates\",\n      \"explanation\": \"The revision specifies what is quasi-randomly assigned (cohorts to moderation exposure), a detail of the design the original leaves unstated.\"\n    }\n  ],\n  \"summary\": \"The revision adds a mechanism for endogeneity, names sales as the outcome variable, and specifies the unit and treatment of the quasi-random assignment. The original asserts none of these, so the meaning changed even though the additions are plausible.\"\n}\n```",
+    "cost_usd": 0.0360072,
+    "seconds": 10.6,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

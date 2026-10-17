@@ -1,0 +1,5 @@
+```
+Our two-stage model addresses the cold-start problem by handling sparse interaction histories. It improves new-user engagement prediction accuracy by 8.3 points over the matrix factorization baseline (Koren et al., 2009), and users who received the warm-start recommendations showed higher engagement. Our data come from a single streaming platform, so future work should test whether the effect carries over to other domains.
+```
+
+I merged the first two sentences and made the verbs active. The 8.3-point figure and the citation are unchanged. The vagueness that remains is in the content, not the wording. "Engagement ended up higher" has no magnitude or comparison group, and the paragraph doesn't say which metric the 8.3 points is measured in. If you give me those details, I can work them in.

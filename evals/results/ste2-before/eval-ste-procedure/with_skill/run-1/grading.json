@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision only splits long sentences and adds the connective 'then'. All exclusion criteria, coding procedures, merge steps, weighting details (including the original's hedged 'would have been expected to have been applied' wording), and the sample size are kept with the same meaning and attachments."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=unsure: Most edits are filler removal and tightening. The one uncertain change is \"reviewer identity has a significant effect\" becoming \"reviewer identity has a significant effect on the relationship between reviews and sales\". The original's research question (\"whether the identity of reviewers affects this relationship\") supports this reading, but the original result sentence never names the outcome, so it could also mean a direct effect on sales. The author should confirm which effect was estimated."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

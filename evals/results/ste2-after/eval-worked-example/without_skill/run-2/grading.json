@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision removes filler ('It is important to note that', 'It should be noted that', 'Furthermore', 'Moreover'), converts passive constructions to active voice, merges sentences, and trims redundant wording. The citations, the 5-9% figure, the 1.2 million reviews, the hedges ('to the best of our knowledge, somewhat underexplored'), the qualifier 'novel', and the recommendation all remain attached to the same claims at the same strength. Dropping 'in the existing literature' does not change the meaning, since 'underexplored' already refers to prior research."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

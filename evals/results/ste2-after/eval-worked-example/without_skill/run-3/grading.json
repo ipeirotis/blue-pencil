@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision removes filler, tightens wording, and merges sentences. The citations, the 5-9% figure, the 1.2 million count, the \"novel\" qualifier, the hedge \"to the best of our knowledge, somewhat underexplored,\" and the managerial recommendation all stay attached to the same claims. Only the emphasis word \"Crucially\" was lost, and dropping \"in the existing literature\" does not change the scope."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

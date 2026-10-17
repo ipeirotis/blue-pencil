@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision moves the staggered-rollout fact to the front and spells out the three groups of stores (treated, not-yet-treated, never-treated). The original already implies all three, since it uses never-treated and not-yet-treated stores as controls. The model specification, fixed effects, clustering, controls, coefficient of interest, control groups, and the Callaway and Sant'Anna estimator are all unchanged."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

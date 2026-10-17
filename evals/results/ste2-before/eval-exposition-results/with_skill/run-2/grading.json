@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: Every number stays attached to the same variable, column, and significance level. However, the revision adds a new opening claim that identity disclosure matters over and above the star rating, which the original does not assert. The phrase 'survives the addition of product fixed effects' fits the original's report that the coefficient is 0.15 and significant at the 1% level, so it is not flagged."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

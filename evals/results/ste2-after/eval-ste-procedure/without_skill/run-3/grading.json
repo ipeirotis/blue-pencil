@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['four']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The revision restructures the procedure into numbered steps and keeps all numbers and attributions intact, but it drops the recoding step mentioned in the original."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

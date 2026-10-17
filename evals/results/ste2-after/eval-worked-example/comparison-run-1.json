@@ -1,0 +1,92 @@
+{
+  "case": "worked-example",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover') and fix the comma splice with a colon, so the point is equally easy to find in each. B goes further in dropping intensifiers and promotional words ('fundamentally', 'novel', 'important', 'leverage'), which makes it slightly shorter and more measured. B has two small costs. 'Several studies investigated... These studies found' repeats 'studies' and reads a little less smoothly than A's 'Several researchers have investigated... These studies found'. B also adds 'in the literature', which is redundant. Its 'In our analysis, reviewer identity has a significant effect' is a bit flat, but it avoids A's overclaiming 'demonstrates'. On balance, B's plainer register suits empirical IS researchers better.",
+          "dimensions": {
+            "clarity": "tie",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "concision": "A: 'we leverage a novel dataset of 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'",
+            "flow": "A: 'Several researchers have investigated... These studies found' vs B: 'Several studies investigated... These studies found'",
+            "precision": "A: 'has fundamentally transformed' / 'Our analysis demonstrates' vs B: 'has transformed' / 'In our analysis, reviewer identity has'",
+            "audience_fit": "A: 'has important implications for platform design' vs B: 'has implications for platform design'"
+          },
+          "overall": "B"
+        },
+        "key": "36686f474f6150e6",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's filler ('It is important to note', 'Furthermore', 'Moreover') and fix the comma splice with a colon, so the point is equally easy to find in each. B goes further in dropping intensifiers and promotional words ('fundamentally', 'novel', 'important', 'leverage'), which makes it slightly shorter and more measured. B has two small costs. 'Several studies investigated... These studies found' repeats 'studies' and reads a little less smoothly than A's 'Several researchers have investigated... These studies found'. B also adds 'in the literature', which is redundant. Its 'In our analysis, reviewer identity has a significant effect' is a bit flat, but it avoids A's overclaiming 'demonstrates'. On balance, B's plainer register suits empirical IS researchers better.\",\n  \"dimensions\": {\"clarity\": \"tie\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"concision\": \"A: 'we leverage a novel dataset of 1.2 million reviews' vs B: 'we use a dataset of 1.2 million reviews'\",\n    \"flow\": \"A: 'Several researchers have investigated... These studies found' vs B: 'Several studies investigated... These studies found'\",\n    \"precision\": \"A: 'has fundamentally transformed' / 'Our analysis demonstrates' vs B: 'has transformed' / 'In our analysis, reviewer identity has'\",\n    \"audience_fit\": \"A: 'has important implications for platform design' vs B: 'has implications for platform design'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0393512,
+        "seconds": 13.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions strip the original's filler and repair the comma splice. A goes further: it drops the intensifiers ('fundamentally', 'important') and the promotional diction ('leverage a novel'), which empirical IS reviewers tend to discount. A also uses 'studies' in both adjacent sentences, so 'These studies' has a clean antecedent, whereas B shifts from 'researchers' to 'These studies'. B's 'Our analysis demonstrates' states the finding a little more directly than A's 'In our analysis, reviewer identity has a significant effect', but it also overclaims. On balance the two versions are equally easy to follow, and A is tighter, flows better, and is more measured.",
+          "dimensions": {
+            "clarity": "tie",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "concision": "A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'",
+            "flow": "A: 'Several studies investigated... These studies found' vs B: 'Several researchers have investigated... These studies found'",
+            "precision": "A: 'has transformed how consumers' vs B: 'has fundamentally transformed how consumers'",
+            "audience_fit": "A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'"
+          },
+          "overall": "A"
+        },
+        "key": "f2f9aa1c83344fdb",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions strip the original's filler and repair the comma splice. A goes further: it drops the intensifiers ('fundamentally', 'important') and the promotional diction ('leverage a novel'), which empirical IS reviewers tend to discount. A also uses 'studies' in both adjacent sentences, so 'These studies' has a clean antecedent, whereas B shifts from 'researchers' to 'These studies'. B's 'Our analysis demonstrates' states the finding a little more directly than A's 'In our analysis, reviewer identity has a significant effect', but it also overclaims. On balance the two versions are equally easy to follow, and A is tighter, flows better, and is more measured.\",\n  \"dimensions\": {\"clarity\": \"tie\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"concision\": \"A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'\",\n    \"flow\": \"A: 'Several studies investigated... These studies found' vs B: 'Several researchers have investigated... These studies found'\",\n    \"precision\": \"A: 'has transformed how consumers' vs B: 'has fundamentally transformed how consumers'\",\n    \"audience_fit\": \"A: 'This finding has implications for platform design' vs B: 'This finding has important implications for platform design'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0375272,
+        "seconds": 11.1,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

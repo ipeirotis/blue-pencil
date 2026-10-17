@@ -1,0 +1,90 @@
+{
+  "case": "exposition-introduction",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions add the needed explanation of why endogeneity matters and name the estimated effect (valence on sales). Version B restructures the passage into problem, prior approaches, our improvement, mechanism, result. That positions the contribution against prior work and ends on the finding, which is the kind of structural improvement welcome at this stage. Version A keeps the original order, so the comparison with prior IV approaches dangles at the end after the result. A is more precise in places: it specifies what is quasi-randomly assigned ('of cohorts to differing moderation exposure'), while B's 'unequal moderation' is vague and its back-to-back colons are slightly clumsy. Length is comparable: B drops 'Specifically, we leverage the fact that' but restates the moderation idea twice. Both use a register suited to empirical economists. B's 'raw link' is mildly informal and A's 'cannot be read as causal' is idiomatic, but neither is a real misfit.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "tie",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Our identification strategy improves upon prior approaches...' (contribution framed only at the end) vs B: 'Prior approaches to this problem rely on instrumental variables of questionable validity. Our identification strategy improves upon them by exploiting unequal moderation'",
+            "flow": "A: 'find it to be positive and significant. Our identification strategy improves upon prior approaches' vs B: 'Our identification strategy improves upon them... This platform-level heterogeneity in content moderation is a source of exogenous variation'",
+            "precision": "A: 'quasi-random assignment of cohorts to differing moderation exposure' vs B: 'by exploiting unequal moderation'"
+          },
+          "overall": "B"
+        },
+        "key": "7ba82ebfe970f732",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions add the needed explanation of why endogeneity matters and name the estimated effect (valence on sales). Version B restructures the passage into problem, prior approaches, our improvement, mechanism, result. That positions the contribution against prior work and ends on the finding, which is the kind of structural improvement welcome at this stage. Version A keeps the original order, so the comparison with prior IV approaches dangles at the end after the result. A is more precise in places: it specifies what is quasi-randomly assigned ('of cohorts to differing moderation exposure'), while B's 'unequal moderation' is vague and its back-to-back colons are slightly clumsy. Length is comparable: B drops 'Specifically, we leverage the fact that' but restates the moderation idea twice. Both use a register suited to empirical economists. B's 'raw link' is mildly informal and A's 'cannot be read as causal' is idiomatic, but neither is a real misfit.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"tie\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Our identification strategy improves upon prior approaches...' (contribution framed only at the end) vs B: 'Prior approaches to this problem rely on instrumental variables of questionable validity. Our identification strategy improves upon them by exploiting unequal moderation'\",\n    \"flow\": \"A: 'find it to be positive and significant. Our identification strategy improves upon prior approaches' vs B: 'Our identification strategy improves upon them... This platform-level heterogeneity in content moderation is a source of exogenous variation'\",\n    \"precision\": \"A: 'quasi-random assignment of cohorts to differing moderation exposure' vs B: 'by exploiting unequal moderation'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.042851200000000006,
+        "seconds": 14.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions add the needed account of why endogeneity matters and name the outcome (sales). Version A reorders the passage so that the problem leads to prior approaches and then to the authors' improvement, which gives it a stronger logical thread. However, it introduces the moderation idea twice ('unequal moderation: platforms differentially apply...' and then 'This platform-level heterogeneity...'). It also stacks two colon constructions, which blurs what the source of variation is. Version B keeps the original order, which is serviceable but ends on a tacked-on claim about prior work. Its explanation of the endogeneity mechanism is concrete and attached directly to the problem statement. It also states exactly what is quasi-randomly assigned ('cohorts to differing moderation exposure'), which empirical economists will want. Length is roughly equal; A's repetition offsets B's 'we leverage the fact that'. Overall, B's clearer and more precise identification statement outweighs A's better sequencing.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "tie",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'by exploiting unequal moderation: platforms differentially apply... This platform-level heterogeneity in content moderation is a source of exogenous variation: it generates' vs B: 'We exploit platform-level heterogeneity in content moderation as a source of exogenous variation.'",
+            "flow": "A: 'Prior approaches to this problem rely on... Our identification strategy improves upon them by exploiting' vs B: '...find it to be positive and significant. Our identification strategy improves upon prior approaches'",
+            "precision": "A: 'exploiting unequal moderation' / 'it generates quasi-random assignment' vs B: 'quasi-random assignment of cohorts to differing moderation exposure'"
+          },
+          "overall": "B"
+        },
+        "key": "7e8a60b32a3ca560",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions add the needed account of why endogeneity matters and name the outcome (sales). Version A reorders the passage so that the problem leads to prior approaches and then to the authors' improvement, which gives it a stronger logical thread. However, it introduces the moderation idea twice ('unequal moderation: platforms differentially apply...' and then 'This platform-level heterogeneity...'). It also stacks two colon constructions, which blurs what the source of variation is. Version B keeps the original order, which is serviceable but ends on a tacked-on claim about prior work. Its explanation of the endogeneity mechanism is concrete and attached directly to the problem statement. It also states exactly what is quasi-randomly assigned ('cohorts to differing moderation exposure'), which empirical economists will want. Length is roughly equal; A's repetition offsets B's 'we leverage the fact that'. Overall, B's clearer and more precise identification statement outweighs A's better sequencing.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"tie\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'by exploiting unequal moderation: platforms differentially apply... This platform-level heterogeneity in content moderation is a source of exogenous variation: it generates' vs B: 'We exploit platform-level heterogeneity in content moderation as a source of exogenous variation.'\",\n    \"flow\": \"A: 'Prior approaches to this problem rely on... Our identification strategy improves upon them by exploiting' vs B: '...find it to be positive and significant. Our identification strategy improves upon prior approaches'\",\n    \"precision\": \"A: 'exploiting unequal moderation' / 'it generates quasi-random assignment' vs B: 'quasi-random assignment of cohorts to differing moderation exposure'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0445912,
+        "seconds": 16.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "tie",
+  "note": "order-dependent verdict, counted as tie"
+}

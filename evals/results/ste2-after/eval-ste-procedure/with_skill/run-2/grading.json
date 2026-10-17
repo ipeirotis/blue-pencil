@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision splits and reorders sentences, moving the analytic-sample statement earlier, but N = 2,184 is still tied to the post-exclusion sample. The hedged wording about raking weights ('would have been expected to have been applied') and all exclusion criteria, coding steps, and merge details are retained unchanged."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

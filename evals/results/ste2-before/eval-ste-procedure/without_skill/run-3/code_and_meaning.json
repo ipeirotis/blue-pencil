@@ -1,0 +1,57 @@
+{
+  "case": "ste-procedure",
+  "run_dir": "results/ste2-before/eval-ste-procedure/without_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "four"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "Raking weights would have been expected to have been applied to the merged file before estimation",
+          "revised_quote": "Fourth, before estimation, raking weights were applied to the merged file",
+          "explanation": "The original's counterfactual phrasing leaves it unclear whether the weights were actually applied, and the revision states as fact that they were."
+        },
+        {
+          "type": "lost_content",
+          "severity": "major",
+          "original_quote": "Responses were screened and recoded after the field period closed",
+          "revised_quote": "First, responses were screened",
+          "explanation": "The recoding step is dropped, and the new 'four steps' framing no longer includes it, so a processing step the original reports is missing."
+        }
+      ],
+      "summary": "The revision turns a hedged, counterfactual statement about applying raking weights into a definite claim that they were applied, and it drops the mention that responses were recoded. The other changes restructure the passage into steps without changing its meaning."
+    },
+    "key": "711d9a1fec2dcdc3",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Raking weights would have been expected to have been applied to the merged file before estimation\",\n      \"revised_quote\": \"Fourth, before estimation, raking weights were applied to the merged file\",\n      \"explanation\": \"The original's counterfactual phrasing leaves it unclear whether the weights were actually applied, and the revision states as fact that they were.\"\n    },\n    {\n      \"type\": \"lost_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Responses were screened and recoded after the field period closed\",\n      \"revised_quote\": \"First, responses were screened\",\n      \"explanation\": \"The recoding step is dropped, and the new 'four steps' framing no longer includes it, so a processing step the original reports is missing.\"\n    }\n  ],\n  \"summary\": \"The revision turns a hedged, counterfactual statement about applying raking weights into a definite claim that they were applied, and it drops the mention that responses were recoded. The other changes restructure the passage into steps without changing its meaning.\"\n}\n```",
+    "cost_usd": 0.036291199999999996,
+    "seconds": 11.7,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

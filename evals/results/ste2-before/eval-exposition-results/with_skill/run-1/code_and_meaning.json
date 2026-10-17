@@ -1,0 +1,43 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-before/eval-exposition-results/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "the identity-disclosed indicator survives the addition of product fixed effects",
+          "explanation": "The original only reports the column 3 estimate; the revision adds a robustness conclusion the author did not state. The significance line may support it, but the author did not draw it."
+        }
+      ],
+      "summary": "All numbers stay attached to the correct columns, variables, and conditions. The revision does add an interpretive robustness claim (\"survives the addition of product fixed effects\") that the original did not make."
+    },
+    "key": "067217d23ae81cd7",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"the identity-disclosed indicator survives the addition of product fixed effects\",\n      \"explanation\": \"The original only reports the column 3 estimate; the revision adds a robustness conclusion the author did not state. The significance line may support it, but the author did not draw it.\"\n    }\n  ],\n  \"summary\": \"All numbers stay attached to the correct columns, variables, and conditions. The revision does add an interpretive robustness claim (\\\"survives the addition of product fixed effects\\\") that the original did not make.\"\n}\n```",
+    "cost_usd": 0.0326992,
+    "seconds": 9.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

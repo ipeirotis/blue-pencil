@@ -1,0 +1,35 @@
+{
+  "case": "ste-connectors",
+  "run_dir": "results/ste2-before/eval-ste-connectors/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "The revision splits sentences, adds 'that' and 'also', and swaps 'Since' for 'Because'. Every number, citation, and claim stays attached to the same subject at the same strength, and the frozen-retriever explanation still applies to the unchanged accuracy on frequent questions."
+    },
+    "key": "af7b667da49c3d9b",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"The revision splits sentences, adds 'that' and 'also', and swaps 'Since' for 'Because'. Every number, citation, and claim stays attached to the same subject at the same strength, and the frozen-retriever explanation still applies to the unchanged accuracy on frequent questions.\"\n}\n```",
+    "cost_usd": 0.0323272,
+    "seconds": 15.6,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

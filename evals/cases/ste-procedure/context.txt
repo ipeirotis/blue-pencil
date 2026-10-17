@@ -1,0 +1,6 @@
+<paper_context>
+target_venue: Public Opinion Quarterly
+audience: survey methodologists and political scientists
+core_thesis: Open-ended answers reveal partisan differences in how respondents interpret trust in institutions that closed-ended items miss.
+revision_stage: first draft
+</paper_context>

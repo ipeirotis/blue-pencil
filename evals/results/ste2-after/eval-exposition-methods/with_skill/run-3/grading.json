@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['two']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision reorders the passage and spells out what never-treated and not-yet-treated stores are, which the original terms already imply. The model specification, clustering, controls, coefficient of interest, control groups and the use of the Callaway and Sant'Anna estimator for heterogeneity in treatment timing are all unchanged."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

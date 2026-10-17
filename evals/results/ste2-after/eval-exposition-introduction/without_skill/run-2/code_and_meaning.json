@@ -1,0 +1,64 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-after/eval-exposition-introduction/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The original never names the outcome; the revision says the estimated effect is on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "a well-known obstacle to identification in this literature",
+          "revised_quote": "a well-known obstacle to identification in the literature on how online reviews affect sales",
+          "explanation": "The revision names the literature as being about review effects on sales, which the original does not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The endogeneity of review valence with respect to unobserved product quality",
+          "revised_quote": "Reviews that are more favorable tend to accompany products that are better, which makes it hard to tell whether a review's valence (how positive or negative it is) causes sales or merely reflects unobserved product quality.",
+          "explanation": "The revision adds an empirical claim that favorable reviews go with better products and frames the problem around sales, neither of which the original states."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "as a source of exogenous variation",
+          "revised_quote": "as a source of exogenous variation, that is, variation in which reviews are seen that is unrelated to product quality",
+          "explanation": "The revision says the moderation-induced variation concerns which reviews are seen, a mechanism the original does not specify."
+        }
+      ],
+      "summary": "The method, the sample size, and the direction and significance of the result are preserved. However, the revision adds content not in the original: it names sales as the outcome, characterizes the literature, asserts a correlation between favorable reviews and product quality, and says the exogenous variation concerns which reviews are seen."
+    },
+    "key": "b6ca86f1a42929f4",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original never names the outcome; the revision says the estimated effect is on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"a well-known obstacle to identification in the literature on how online reviews affect sales\",\n      \"explanation\": \"The revision names the literature as being about review effects on sales, which the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The endogeneity of review valence with respect to unobserved product quality\",\n      \"revised_quote\": \"Reviews that are more favorable tend to accompany products that are better, which makes it hard to tell whether a review's valence (how positive or negative it is) causes sales or merely reflects unobserved product quality.\",\n      \"explanation\": \"The revision adds an empirical claim that favorable reviews go with better products and frames the problem around sales, neither of which the original states.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"as a source of exogenous variation\",\n      \"revised_quote\": \"as a source of exogenous variation, that is, variation in which reviews are seen that is unrelated to product quality\",\n      \"explanation\": \"The revision says the moderation-induced variation concerns which reviews are seen, a mechanism the original does not specify.\"\n    }\n  ],\n  \"summary\": \"The method, the sample size, and the direction and significance of the result are preserved. However, the revision adds content not in the original: it names sales as the outcome, characterizes the literature, asserts a correlation between favorable reviews and product quality, and says the exogenous variation concerns which reviews are seen.\"\n}\n```",
+    "cost_usd": 0.0405952,
+    "seconds": 11.8,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

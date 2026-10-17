@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: Most edits are a faithful restructuring: the sentences are merged and reordered, and the claims keep the same strength and conditions. However, the revision adds that the estimated effect is of review valence on sales, which the original never specifies."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "pass_rate": 0.5
+  }
+}

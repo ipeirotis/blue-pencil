@@ -26,8 +26,9 @@ Preset triage:
 - **Scope:** direct rewrite, limited to sentence-level repairs: word choice,
   given-new flow, referents, stress position, terminology consistency,
   abbreviations, capitalization, hyphenation, units, table and figure callouts,
-  punctuation, tense, parallelism, rhythm, and the AI tells permitted to fix
-  under final-polish constraints. No paragraph reordering, no merging or
+  punctuation, tense, parallelism, rhythm, single-sense words, restored
+  connectors (a dropped "that" or article), one topic per sentence, and the
+  AI tells permitted to fix under final-polish constraints. No paragraph reordering, no merging or
   splitting paragraphs, no new explanatory content, no structural cuts (compress
   only).
 - **Unit:** the section provided below (a file path to read, or pasted text).

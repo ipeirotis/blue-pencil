@@ -1,0 +1,92 @@
+{
+  "case": "ste-procedure",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A gives the reader a roadmap ('processed in four steps') and orders the procedure explicitly, so the workflow is easy to follow. It also replaces the convoluted, ambiguous modal construction with a plain past-tense statement of what was done. Version B splits the original run-on into cleaner sentences, but it keeps 'would have been expected to have been applied.' That phrase is grammatically tortured and reads as hedging in a methods section. B also leaves the sample size dangling at the end, detached from the exclusions that produce it. A places N right after the exclusion rule. On length, A spends words on the enumeration ('First... Second...'), while B spends them on the stacked modal. The two are roughly equally economical. Overall A is clearer, flows better, is more precise, and better suits a methods audience.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "tie",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'the data were processed in four steps. First, responses were screened' vs B: 'responses were screened and recoded. Respondents were excluded'",
+            "flow": "A: 'were excluded if they failed both attention checks...; the analytic sample after these exclusions is N = 2,184' vs B: 'The analytic sample is N = 2,184 after exclusions.' (placed at the end, after weighting)",
+            "precision": "A: 'raking weights were applied to the merged file' vs B: 'Raking weights would have been expected to have been applied'",
+            "audience_fit": "A: 'Fourth, before estimation, raking weights were applied' vs B: 'would have been expected to have been applied' (odd hedging for a methods section)"
+          },
+          "overall": "A"
+        },
+        "key": "63ae9f644b0898a2",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A gives the reader a roadmap ('processed in four steps') and orders the procedure explicitly, so the workflow is easy to follow. It also replaces the convoluted, ambiguous modal construction with a plain past-tense statement of what was done. Version B splits the original run-on into cleaner sentences, but it keeps 'would have been expected to have been applied.' That phrase is grammatically tortured and reads as hedging in a methods section. B also leaves the sample size dangling at the end, detached from the exclusions that produce it. A places N right after the exclusion rule. On length, A spends words on the enumeration ('First... Second...'), while B spends them on the stacked modal. The two are roughly equally economical. Overall A is clearer, flows better, is more precise, and better suits a methods audience.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"tie\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'the data were processed in four steps. First, responses were screened' vs B: 'responses were screened and recoded. Respondents were excluded'\",\n    \"flow\": \"A: 'were excluded if they failed both attention checks...; the analytic sample after these exclusions is N = 2,184' vs B: 'The analytic sample is N = 2,184 after exclusions.' (placed at the end, after weighting)\",\n    \"precision\": \"A: 'raking weights were applied to the merged file' vs B: 'Raking weights would have been expected to have been applied'\",\n    \"audience_fit\": \"A: 'Fourth, before estimation, raking weights were applied' vs B: 'would have been expected to have been applied' (odd hedging for a methods section)\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0367232,
+        "seconds": 14.1,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions break the original's long sentences into readable units. Version B frames the paragraph as a four-step procedure, which puts the overall structure up front. It also moves the sample size next to the exclusions that produce it, which reads more logically. Version A keeps the convoluted 'would have been expected to have been applied', which is wordy and grammatically confusing in a methods section. B replaces it with the direct 'were applied'. On length, B's step scaffolding ('First,' 'Second,' and so on) roughly offsets the words A spends on the stacked passive, so the two are about even. Overall, B reads more clearly and precisely and fits a methods-oriented audience better.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "tie",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'After the field period closed, responses were screened and recoded.' vs B: 'the data were processed in four steps. First, responses were screened'",
+            "flow": "A: 'The analytic sample is N = 2,184 after exclusions.' (stranded at end) vs B: '(4.1 minutes); the analytic sample after these exclusions is N = 2,184'",
+            "precision": "A: 'Raking weights would have been expected to have been applied' vs B: 'raking weights were applied to the merged file'",
+            "audience_fit": "A: 'would have been expected to have been applied' vs B: 'Fourth, before estimation, raking weights were applied'"
+          },
+          "overall": "B"
+        },
+        "key": "36ccc9f23cb05c7e",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions break the original's long sentences into readable units. Version B frames the paragraph as a four-step procedure, which puts the overall structure up front. It also moves the sample size next to the exclusions that produce it, which reads more logically. Version A keeps the convoluted 'would have been expected to have been applied', which is wordy and grammatically confusing in a methods section. B replaces it with the direct 'were applied'. On length, B's step scaffolding ('First,' 'Second,' and so on) roughly offsets the words A spends on the stacked passive, so the two are about even. Overall, B reads more clearly and precisely and fits a methods-oriented audience better.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"tie\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'After the field period closed, responses were screened and recoded.' vs B: 'the data were processed in four steps. First, responses were screened'\",\n    \"flow\": \"A: 'The analytic sample is N = 2,184 after exclusions.' (stranded at end) vs B: '(4.1 minutes); the analytic sample after these exclusions is N = 2,184'\",\n    \"precision\": \"A: 'Raking weights would have been expected to have been applied' vs B: 'raking weights were applied to the merged file'\",\n    \"audience_fit\": \"A: 'would have been expected to have been applied' vs B: 'Fourth, before estimation, raking weights were applied'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0427632,
+        "seconds": 14.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

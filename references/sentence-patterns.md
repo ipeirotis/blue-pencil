@@ -2,7 +2,7 @@
 
 A catalog of recurring sentence-level patterns and their fixes, plus the within-paragraph cohesion mechanics that make prose flow. Load this when the sentence-level cohesion lens in SKILL.md names a flow or pattern problem and a concrete diagnosis is useful for the change rationale.
 
-The theory behind the cohesion moves (Williams's old-new flow, Gopen and Swan's reader-expectation positions) lives in `references/principles.md`; this file is the operational version. The AI-tell list and banned-transition policy live in `references/ai-tells-to-avoid.md`, not here.
+The theory behind the cohesion moves (Williams's old-new flow, Gopen and Swan's reader-expectation positions) lives in `references/principles.md`; this file is the operational version. Several patterns (the dropped connector, stacked verb phrases, two-way -ing forms, the vague "with", one topic per sentence, complex series, and idioms and phrasal verbs) adapt rules from ASD-STE100, Simplified Technical English; `references/principles.md` maps each rule to its academic version and lists the STE rules this skill does not adopt. The AI-tell list and banned-transition policy live in `references/ai-tells-to-avoid.md`, not here.
 
 ## Cohesion within the paragraph
 
@@ -90,7 +90,19 @@ A noun pile-up is three or more nouns adjacent, where the reader has to guess wh
 | Survey response quality measurement instrument | Instrument for measuring the quality of survey responses |
 | Algorithm performance evaluation methodology | Methodology for evaluating algorithm performance |
 
-Diagnostic: count adjacent nouns. Two is usually fine. Three is suspicious. Four is almost always wrong. Fix by breaking the pile with prepositions ("of", "for", "in", "with"). Watch the mirror-image failure: too many such prepositional phrases in a row hold the verb off, which is the prepositional-chain variant under `The interrupted clause` below.
+Diagnostic: count adjacent nouns. Two is usually fine. Three is suspicious. Four is almost always wrong. (STE sets its limit at three, rule 2.1.) Fix by breaking the pile with prepositions ("of", "for", "in", "with"). Watch the mirror-image failure: too many such prepositional phrases in a row hold the verb off, which is the prepositional-chain variant under `The interrupted clause` below.
+
+## Two-way -ing forms
+
+An "-ing" word in front of a noun can be a verb acting on that noun or an adjective describing it, and the reader cannot always tell which. STE allows the "-ing" form only as a noun or a noun modifier for this reason (rule 3.5). In academic prose the form is common and usually clear; the failure is the case where both readings make sense in context.
+
+| Before | After |
+|---|---|
+| Testing conditions differed across sites. | The test conditions differed across sites. (Or, if the act of testing is meant: The way the conditions were tested differed across sites.) |
+| Labeling errors reduced recall. | Errors in the labels reduced recall. (Or: Errors made during labeling reduced recall.) |
+| Using a larger sample, the effect disappeared. | In the larger sample, the effect disappeared. |
+
+Diagnostic: for each "-ing" word before a noun, read it once as a verb ("testing the conditions") and once as a modifier ("conditions for testing"). If both readings fit the context, recast with a noun, a preposition, or a clause that names the agent. When the two readings make different claims and the context does not decide between them, ask the author which one is meant; do not pick. The third row is the dangling "-ing" opener: its implied subject (whoever used the sample) is not the sentence's subject ("the effect"). Repair it without naming an agent the text does not name, as the third row does; write "when we used" only when the passage already says the authors did it, and otherwise ask. A term of art that ends in "-ing" ("matching estimator", "boosting", "training set") is a name, not an ambiguity; leave it.
 
 ## Hedge stacking
 
@@ -103,6 +115,18 @@ Hedges (modal verbs and adverbs that qualify a claim) are useful for honesty. St
 | The results seem to potentially indicate a tendency toward... | The results suggest a tendency toward... |
 
 Rule: one hedge per claim, maximum; a claim too uncertain to make with a single hedge should not be made, and a claim solid enough to make takes one hedge or none. Exception: a hedge that marks genuine calibration or scope ("on the held-out set", "correlational", a qualifier that bounds the claim to what the evidence bears) is content, not filler; keep it, and count it as the claim's one hedge rather than stripping it (see the qualifier-is-content rule in SKILL.md and `references/subtraction.md`).
+
+## Stacked verb phrases
+
+Auxiliaries and modals stack into verb phrases the reader has to unpack before reaching the action: "would have been expected to have increased", "has been being used", "could be seen to be suggesting". STE forbids auxiliary chains outright (rule 3.4); here the target is the chain that does no work, the verb-phrase sibling of the hedge stack above.
+
+| Before | After |
+|---|---|
+| The estimates can be seen to have been affected by the outliers. | The outliers appear to have affected the estimates. |
+| These features have been being used as proxies for income. | These features continue to be used as proxies for income. |
+| The results could be seen to be suggesting a ceiling. | The results suggest a ceiling. |
+
+Diagnostic: count the auxiliaries and modals between the subject and the main verb. Two is ordinary ("has been shown"); three or more is a stack. Keep the tense and aspect (the second row keeps the ongoing use that the progressive "being used" expressed; "have been used" could describe use that has ended) and one marker that carries the claim's calibration: in the first row "appear to" keeps the uncertainty that "can be seen to" expressed, and in the third row "suggest" already carries it, so "could be seen to" goes. When you cannot tell whether a stacked modal marks real uncertainty or only verbosity, keep a marker and ask; dropping the last one turns a qualified claim into a categorical one. Some stacks hide an agent or a time: "the effect would have been expected to be larger" may mean "we predicted" or "theory predicts", and that difference is content, so when the rewrite would have to choose an agent or a time the original left open, ask the author rather than choosing. A modal that carries calibration counts toward the claim's one hedge (see "Hedge stacking" above).
 
 ## Overclaiming
 
@@ -172,6 +196,28 @@ A sibling of the interrupted clause, with the same working-memory cost (`referen
 
 Diagnostic: for each sentence, find where the main subject and verb begin. If two or more subordinate or participial clauses precede them, front the core and trail the rest. One leading clause is rhythm; a stack is a preamble. This shares the stress principle of "Misplaced stress" above (the core belongs where the reader can act on it) and the plainness of "The buried thesis".
 
+## One topic per sentence
+
+A sentence carries one topic: one claim, one step, or one relation between two things (STE rules 4.1 and Section 6). A sentence that carries two topics makes the reader decide where the first ends, and a second-language reader or a translation tool often decides wrong. Length is the symptom, not the defect, so use it only to find candidates: a sentence past about 25 words (counting a citation command, a math span, or a parenthetical as one word, as STE counts a parenthesis) is checked for a second topic.
+
+| Before | After |
+|---|---|
+| We recruited 412 participants through the panel provider, and the participants completed the survey in about 14 minutes on average, and we excluded those who failed both attention checks, which removed 38 respondents. | We recruited 412 participants through the panel provider. They completed the survey in about 14 minutes on average. We excluded the 38 who failed both attention checks. |
+
+Diagnostic: for each sentence past the mark, list the independent claims or steps it makes: parts that each have their own subject and verb and could be true or false, or done or not done, without the others. One relation between two things is one topic even though naming it takes "and" ("the trade-off between accuracy and latency"), and a qualifier belongs to the claim it governs. If the sentence makes two or more independent claims or steps, split it between them, carrying every qualifier and number through unchanged. A split that moves or rephrases a numerical clause is a change to a numerical claim, so it needs both checks: the number and its referent survive exactly, and the change is flagged for human review under the numerical-claim constraint in `SKILL.md` (in the table, "which removed 38 respondents" becoming "the 38 who failed" is such a change). A long sentence that carries one topic with a clean core stays: the mark finds candidates and never sets a cap, because uniform short sentences are their own tell ("Sentence-length variety" above). The rewrite in the table keeps a long-short rhythm without the original's three topics.
+
+## The dropped connector
+
+Writers drop small words to save space: the conjunction "that", an article, a repeated verb. STE forbids it (rule 4.2, with a grammar rule on "that"). The common academic case is "that" after a verb of reporting or finding ("show", "find", "report", "observe", "assume", "note"). Without it, the reader parses the next noun as the object of the verb, then has to back up when a second verb arrives.
+
+| Before | After |
+|---|---|
+| We found the effect of tutoring on attendance was small. | We found that the effect of tutoring on attendance was small. |
+| Prior work assumes the labels reflect the construct. | Prior work assumes that the labels reflect the construct. |
+| Model trained on the full corpus outperforms baseline. | The model trained on the full corpus outperforms the baseline. |
+
+Diagnostic: after each reporting verb, check whether the noun phrase that follows could be its object ("found the effect"). If it could, and a verb follows that makes it the subject of a new clause instead, restore "that". Restore a dropped article in running prose, but the choice between "the" and "a" says which thing is meant, so take it from the context: the third row assumes the paper has already introduced one model and one baseline, and when the context does not settle which article is meant, ask in `Author questions` instead of choosing; captions, table headers, and figure labels may stay telegraphic when the venue's convention is telegraphic. Short objects that cannot mislead ("We found it was small") need no "that".
+
 ## Wordiness compounds
 
 Common multi-word phrases that have shorter equivalents. Cutting them is the easiest revision pass.
@@ -203,6 +249,18 @@ Common multi-word phrases that have shorter equivalents. Cutting them is the eas
 
 These are search-and-replace targets. Run them first; they almost always shorten without loss.
 
+## Idioms and phrasal verbs
+
+A phrasal verb whose meaning is not the sum of its words ("come up with", "end up", "turn out to be", "carry out", "point out") is clear to a native reader and opaque to many second-language readers and translation tools (STE rule 9.3). Where a single verb carries the same meaning with equal precision, use it.
+
+| Before | After |
+|---|---|
+| We came up with a scoring rule. | We devised a scoring rule. |
+| The gain turned out to be smaller in the second wave. | The gain was smaller in the second wave. |
+| Most respondents ended up choosing the default. | Most respondents chose the default. |
+
+Exceptions: a phrasal verb that is a term of art or the plain verb of the field ("rule out", "set up" for an experiment, "drop out" for attrition) stays, and so does one whose single-verb replacement is longer, rarer, or less precise ("find out" is often clearer than "ascertain"). Some phrasal verbs carry meaning their single-verb replacement drops: "turned out to be" can mark a surprise, and "ended up" can mark an outcome reached after deliberation or against an expectation. The rows above assume the context shows no such meaning; when it does, or when you cannot tell, the meaning is content, so keep the phrasal verb or ask. This pattern never licenses swapping a plain word for a Latinate one: the "use, not utilize" rule in `references/ai-tells-to-avoid.md` still holds.
+
 ## Vague abstractions
 
 Abstract nouns that hide the underlying concrete claim. Common offenders: "aspects", "factors", "issues", "considerations", "elements", "things", "approaches".
@@ -216,6 +274,15 @@ Abstract nouns that hide the underlying concrete claim. Common offenders: "aspec
 
 Diagnostic: when you see one of these abstract nouns, ask what concrete content it stands for. If you cannot answer, the writer probably could not either. Flag as an author question.
 
+**Vague verbs** are the verb form of the same problem: "address", "handle", "deal with", "tackle", "affect", "impact", "involve", "examine", "explore", "focus on", "look at". Each stands for a more specific action, and STE's demand for a specific word (the reason its dictionary gives each verb one meaning) applies here. The specific verb usually makes a different claim: "address the confound" can mean "measure", "control for", "bound", or "eliminate", and those are four different results.
+
+| Before | Rewrite, unless the manuscript says elsewhere | Author question |
+|---|---|---|
+| We address selection bias with a reweighting step. | Unchanged. | Does the reweighting reduce, bound, or remove the bias? |
+| Income affects turnout. | Unchanged. | Which direction, and is the design causal? |
+
+Diagnostic: for each vague verb on a claim, ask what the author did or found. If the passage says so elsewhere, use that verb; if it does not, the choice is substance, so ask in `Author questions` rather than picking the strongest verb.
+
 ## Misused connectives
 
 Common errors with logical connectives that obscure argument structure.
@@ -223,9 +290,20 @@ Common errors with logical connectives that obscure argument structure.
 - **"However"** signals contrast. If the next sentence does not contrast with the prior one, do not use it.
 - **"Thus", "therefore", "hence"** signal logical consequence. If the next sentence does not follow logically, do not use them.
 - **"Indeed"** signals confirming evidence. It is overused as a generic intensifier.
-- **"While"** is ambiguous between "during" and "although". Prefer "although" or "whereas" for the contrastive meaning, especially in academic prose.
+- **"While"** is ambiguous between "during" and "although". Prefer "although" or "whereas" for the contrastive meaning, especially in academic prose. "Since", "as", and "once" carry the same two-sense risk; the full rule is "One word, one sense" in `references/copyediting.md`.
 
 Note: the banned-transition list in `references/ai-tells-to-avoid.md` is the canonical source. The above are about misuse of allowed connectives, not bans.
+
+## The vague "with"
+
+"With" can attach a whole clause to a sentence without saying how the two relate: "Accuracy rose to 91%, with recall on rare classes falling to 40%." The reader cannot tell whether the second fact contrasts with the first, causes it, or only happened at the same time. STE limits "with" for this reason (its grammar rule on "with"). In academic prose the absolute "with X doing Y" construction is the usual case, and LLM drafts reach for it often.
+
+| Before | After |
+|---|---|
+| Accuracy rose to 91%, with recall on rare classes falling to 40%. | Accuracy rose to 91%. Recall on rare classes fell to 40%. (Flag: are these a trade-off, or independent?) |
+| Turnout fell in rural districts, with polling places closing in 30 counties. | Turnout fell in rural districts. Polling places closed in 30 counties. (Flag: are the closures in those districts, and do they explain the fall?) |
+
+Diagnostic: for each "with" followed by a noun and an "-ing" or past-participle verb, name the relation (contrast, cause, place, time, manner) and use the word that states it. The license is the same as for "Accumulation instead of argument" below: make explicit only a relation the author's text supports. Two numbers moving in opposite directions do not by themselves make a contrast: in the first row "but" would present the recall drop as a trade-off against the accuracy gain, which is a claim about the result, so it needs the paper to say so. In the second row the text likewise supports no relation: "because" would add a causal claim and "where" a claim about location, since the 30 counties may lie partly outside the rural districts. When no relation is supported, keep the two facts as two sentences and ask the author in `Author questions` which relation they mean. When the "with" clause carries a number (both rows do), splitting it off rephrases a numerical claim, so it also gets the human-review flag the numerical-claim constraint in `SKILL.md` requires, beside the relation question; every number and its referent carry through exactly. "With" in its plain senses ("trained with dropout", "participants with a degree") is fine.
 
 ## Accumulation instead of argument
 
@@ -237,6 +315,16 @@ Banning "Furthermore", "Moreover", and "Additionally" (`references/ai-tells-to-a
 | Annotators disagreed on the hard cases. The training set over-represents them. Moreover, the model inherits the noise. | Because annotators disagreed on the hard cases that the training set over-represents, the model inherits the noise. |
 
 Diagnostic: for a run of same-shaped declaratives joined by additive connectives or by nothing, ask what relation actually holds between them: does one cause, enable, qualify, or contrast with the next? Name that relation with the connective that fits (because, so, but, despite). The license comes from the author's own material: a juxtaposition that already implies the relation may be made explicit, but a relation the text does not support is new substance, so flag it in `Author questions` rather than inventing it. When the items are genuinely independent, an explicit list is more honest than additive glue. The test is whether reordering the sentences changes the meaning; if it does not, they are being accumulated, not argued. See "List rhythm" in `references/reader-pleasure.md`; for why a draft defaults to this equal-weight mold, see "Why the defensive draft reads flat" in `references/precision-budget.md`.
+
+## Complex series
+
+An inline series is hard to parse when its items are long, contain their own commas, or have internal structure of their own. STE's answer is a vertical list (rule 4.3). Academic prose has two lighter answers that keep the paragraph intact: label the items, or separate them with semicolons.
+
+| Before | After |
+|---|---|
+| Participants were excluded if they failed the attention check, completed the survey in under three minutes, which we set as one third of the median time, or gave the same answer to every grid item. | Participants were excluded if they (i) failed the attention check, (ii) completed the survey in under three minutes, which we set as one third of the median time, or (iii) gave the same answer to every grid item. |
+
+Diagnostic: a series of three or more items where any item contains a comma or its own clause takes labels "(i), (ii), (iii)" or semicolons between items. Labels and semicolons are sentence-level edits and run at any stage. Converting a series to a vertical list changes the paragraph's shape, so it is structural: propose it in `Diagnosis` at `first draft`, never perform it at `final polish`, and only where the venue style uses lists in running text. When the items are meant to be remembered rather than parsed, name them instead (`references/edit-checks.md`, check 7).
 
 ## Dangling references
 

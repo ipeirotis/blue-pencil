@@ -1,0 +1,50 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-after/eval-exposition-introduction/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.",
+          "revised_quote": "Identifying the effect of review valence on sales faces a well-known obstacle in this literature",
+          "explanation": "The original never names sales as the outcome; the revision says the identification problem concerns the effect of valence on sales."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find that effect to be positive and significant",
+          "explanation": "The revision says the positive and significant result is an effect on sales, an outcome the original does not name."
+        }
+      ],
+      "summary": "Most of the edit is reordering and rewording that keeps the meaning. However, the revision twice names sales as the outcome variable, which the original never does, so it now reports a specific result the original did not."
+    },
+    "key": "af03f211db3689ab",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"Identifying the effect of review valence on sales faces a well-known obstacle in this literature\",\n      \"explanation\": \"The original never names sales as the outcome; the revision says the identification problem concerns the effect of valence on sales.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find that effect to be positive and significant\",\n      \"explanation\": \"The revision says the positive and significant result is an effect on sales, an outcome the original does not name.\"\n    }\n  ],\n  \"summary\": \"Most of the edit is reordering and rewording that keeps the meaning. However, the revision twice names sales as the outcome variable, which the original never does, so it now reports a specific result the original did not.\"\n}\n```",
+    "cost_usd": 0.0386418,
+    "seconds": 8.6,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

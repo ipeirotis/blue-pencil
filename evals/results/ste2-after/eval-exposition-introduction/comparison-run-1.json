@@ -1,0 +1,91 @@
+{
+  "case": "exposition-introduction",
+  "run": 1,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions name the effect of valence on sales in the opening sentence. A recasts the nominalized opening into a cleaner sentence, drops 'Specifically, we leverage the fact that', and is tighter overall. B keeps the wordier original phrasing but adds two linking sentences. The first gives the intuition for endogeneity (quality drives both reviews and sales). The second explains why moderation variation isolates the effect. That makes the identification argument easier to follow and connects each step through its content. A's flow is serviceable but jumps from the assignment mechanism to a claim of superiority without stating why the variation is valid. Word choice and grammar are sound in both, and both suit an economics/IS readership. On balance, B's gains in clarity and flow outweigh A's concision.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'valence is endogenous with respect to unobserved product quality' vs B: 'the same quality that makes reviews favorable also makes a product sell'",
+            "concision": "A: 'Platforms apply their moderation policies differently across review cohorts' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies'",
+            "flow": "A: 'conditional on observed covariates. Our identification strategy improves upon' vs B: 'Because this unequal moderation is unrelated to product quality, it lets us isolate the effect'"
+          },
+          "overall": "B"
+        },
+        "key": "8cd62f7e77fce9f4",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions name the effect of valence on sales in the opening sentence. A recasts the nominalized opening into a cleaner sentence, drops 'Specifically, we leverage the fact that', and is tighter overall. B keeps the wordier original phrasing but adds two linking sentences. The first gives the intuition for endogeneity (quality drives both reviews and sales). The second explains why moderation variation isolates the effect. That makes the identification argument easier to follow and connects each step through its content. A's flow is serviceable but jumps from the assignment mechanism to a claim of superiority without stating why the variation is valid. Word choice and grammar are sound in both, and both suit an economics/IS readership. On balance, B's gains in clarity and flow outweigh A's concision.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"tie\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'valence is endogenous with respect to unobserved product quality' vs B: 'the same quality that makes reviews favorable also makes a product sell'\",\n    \"concision\": \"A: 'Platforms apply their moderation policies differently across review cohorts' vs B: 'Specifically, we leverage the fact that platforms differentially apply moderation policies'\",\n    \"flow\": \"A: 'conditional on observed covariates. Our identification strategy improves upon' vs B: 'Because this unequal moderation is unrelated to product quality, it lets us isolate the effect'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0426152,
+        "seconds": 16.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states the research goal at the start of its first sentence, while Version A only reaches it midway through a long sentence. B also cuts filler like 'Specifically, we leverage the fact that'. Version A has the better logical chain: its added 'Because...' sentence ties the moderation variation back to the identification problem. B instead puts its comparison to prior work between the design and the results, which breaks the sequence slightly. On wording, B is plainer ('apply their moderation policies differently'), though 'find that effect to be' is a little clunky. Both suit an econometrics-literate audience. A's explanation of why quality confounds valence is helpful but not needed for these readers, so audience fit is a tie. Overall, B reads cleaner and front-loads the point, which outweighs A's advantage in flow.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identifying the causal effect...' vs B: 'Identifying the effect of review valence on sales faces a well-known obstacle'",
+            "concision": "A: 'Specifically, we leverage the fact that platforms differentially apply moderation policies' vs B: 'Platforms apply their moderation policies differently across review cohorts'",
+            "flow": "A: 'Because this unequal moderation is unrelated to product quality, it lets us isolate the effect' vs B: 'Our identification strategy improves upon prior approaches... Using a dataset of 3.4 million reviews'",
+            "precision": "A: 'we leverage the fact that platforms differentially apply' vs B: 'Platforms apply their moderation policies differently'"
+          },
+          "overall": "B"
+        },
+        "key": "9d472ebfa860b61f",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states the research goal at the start of its first sentence, while Version A only reaches it midway through a long sentence. B also cuts filler like 'Specifically, we leverage the fact that'. Version A has the better logical chain: its added 'Because...' sentence ties the moderation variation back to the identification problem. B instead puts its comparison to prior work between the design and the results, which breaks the sequence slightly. On wording, B is plainer ('apply their moderation policies differently'), though 'find that effect to be' is a little clunky. Both suit an econometrics-literate audience. A's explanation of why quality confounds valence is helpful but not needed for these readers, so audience fit is a tie. Overall, B reads cleaner and front-loads the point, which outweighs A's advantage in flow.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identifying the causal effect...' vs B: 'Identifying the effect of review valence on sales faces a well-known obstacle'\",\n    \"concision\": \"A: 'Specifically, we leverage the fact that platforms differentially apply moderation policies' vs B: 'Platforms apply their moderation policies differently across review cohorts'\",\n    \"flow\": \"A: 'Because this unequal moderation is unrelated to product quality, it lets us isolate the effect' vs B: 'Our identification strategy improves upon prior approaches... Using a dataset of 3.4 million reviews'\",\n    \"precision\": \"A: 'we leverage the fact that platforms differentially apply' vs B: 'Platforms apply their moderation policies differently'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0411552,
+        "seconds": 12.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "tie",
+  "note": "order-dependent verdict, counted as tie"
+}

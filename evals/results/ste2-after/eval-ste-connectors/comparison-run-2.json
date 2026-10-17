@@ -1,0 +1,92 @@
+{
+  "case": "ste-connectors",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "The two versions are identical except for one sentence. A's 'Retrieval cost rises with index size' puts the subject first, so the point appears at the start of the sentence. It also follows on from the preceding latency sentence: latency, then retrieval cost. B opens with a subordinate clause, 'As the index grows', which delays the main claim. In the same sentence, A writes '1M-document and 10M-document indexes', which hyphenates the compound modifiers correctly. B's '1M and 10M document indexes' is missing the hyphens (correct form: '1M- and 10M-document'), and ESL readers could parse it ambiguously. A repeats 'document' while B uses a longer opening clause, so the word counts roughly balance and concision is a tie. Overall, A is better on clarity, flow, precision, and fit for an ESL audience.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "tie",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'Retrieval cost rises with index size:' vs B: 'As the index grows, retrieval cost rises:'",
+            "flow": "A: 'Median latency increased... Retrieval cost rises' vs B: 'Median latency increased... As the index grows'",
+            "precision": "A: 'the 1M-document and 10M-document indexes' vs B: 'the 1M and 10M document indexes'",
+            "audience_fit": "A: '1M-document and 10M-document' vs B: '1M and 10M document indexes'"
+          },
+          "overall": "A"
+        },
+        "key": "8ceef9dde8a04dec",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"The two versions are identical except for one sentence. A's 'Retrieval cost rises with index size' puts the subject first, so the point appears at the start of the sentence. It also follows on from the preceding latency sentence: latency, then retrieval cost. B opens with a subordinate clause, 'As the index grows', which delays the main claim. In the same sentence, A writes '1M-document and 10M-document indexes', which hyphenates the compound modifiers correctly. B's '1M and 10M document indexes' is missing the hyphens (correct form: '1M- and 10M-document'), and ESL readers could parse it ambiguously. A repeats 'document' while B uses a longer opening clause, so the word counts roughly balance and concision is a tie. Overall, A is better on clarity, flow, precision, and fit for an ESL audience.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"tie\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Retrieval cost rises with index size:' vs B: 'As the index grows, retrieval cost rises:'\",\n    \"flow\": \"A: 'Median latency increased... Retrieval cost rises' vs B: 'Median latency increased... As the index grows'\",\n    \"precision\": \"A: 'the 1M-document and 10M-document indexes' vs B: 'the 1M and 10M document indexes'\",\n    \"audience_fit\": \"A: '1M-document and 10M-document' vs B: '1M and 10M document indexes'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0376952,
+        "seconds": 13.1,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "The two versions are identical except for one sentence about retrieval cost. Clarity: B names the subject first ('Retrieval cost rises with index size'), so the claim is visible immediately. A opens with a subordinate clause. Concision: B states the same content in fewer words. Flow: both link to the following observation with the same colon construction, so there is no meaningful difference. Precision: B correctly hyphenates the compound modifiers ('1M-document and 10M-document indexes'). A's '1M and 10M document indexes' is ambiguous and could be parsed as '1M' plus '10M document indexes'. Audience fit: B's explicit hyphenation and subject-first order are easier for ESL readers to parse.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "tie",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'As the index grows, retrieval cost rises' vs B: 'Retrieval cost rises with index size'",
+            "concision": "A: 'As the index grows, retrieval cost rises' vs B: 'Retrieval cost rises with index size'",
+            "precision": "A: 'between the 1M and 10M document indexes' vs B: 'between the 1M-document and 10M-document indexes'",
+            "audience_fit": "A: '1M and 10M document indexes' vs B: '1M-document and 10M-document indexes'"
+          },
+          "overall": "B"
+        },
+        "key": "fe074cb3dea65bf7",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"The two versions are identical except for one sentence about retrieval cost. Clarity: B names the subject first ('Retrieval cost rises with index size'), so the claim is visible immediately. A opens with a subordinate clause. Concision: B states the same content in fewer words. Flow: both link to the following observation with the same colon construction, so there is no meaningful difference. Precision: B correctly hyphenates the compound modifiers ('1M-document and 10M-document indexes'). A's '1M and 10M document indexes' is ambiguous and could be parsed as '1M' plus '10M document indexes'. Audience fit: B's explicit hyphenation and subject-first order are easier for ESL readers to parse.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"tie\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'As the index grows, retrieval cost rises' vs B: 'Retrieval cost rises with index size'\",\n    \"concision\": \"A: 'As the index grows, retrieval cost rises' vs B: 'Retrieval cost rises with index size'\",\n    \"precision\": \"A: 'between the 1M and 10M document indexes' vs B: 'between the 1M-document and 10M-document indexes'\",\n    \"audience_fit\": \"A: '1M and 10M document indexes' vs B: '1M-document and 10M-document indexes'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0381952,
+        "seconds": 13.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

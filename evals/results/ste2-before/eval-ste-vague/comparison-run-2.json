@@ -1,0 +1,90 @@
+{
+  "case": "ste-vague",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions clean up the original's informal phrasing ('came up with', 'point out', 'ended up'), so register is comparable. A merges the problem and the method into one opening sentence, so the contribution appears immediately. B spends its first sentence on a generic framing before naming the model. B attributes the gain directly to the model ('it improves'), but it does so through a four-noun stack ('new-user engagement prediction accuracy'). A unpacks that into a readable phrase. A's closing sentence uses 'Because' to make the single-platform limitation the explicit reason for future work. B's semicolon leaves that link implicit. Overall length is nearly identical: A saves words in the opening, and B saves them in the results sentence. Concision is therefore a tie.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "tie",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'We address the cold-start problem in recommender systems with a two-stage model' vs B: 'Our approach addresses the cold-start problem in recommender systems. We developed a two-stage model'",
+            "flow": "A: 'Because our data come from a single streaming platform, future work should examine' vs B: 'Our data come from a single streaming platform; future work should test'",
+            "precision": "A: 'accuracy in predicting new-user engagement' vs B: 'new-user engagement prediction accuracy'"
+          },
+          "overall": "A"
+        },
+        "key": "8c453e10232b5164",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions clean up the original's informal phrasing ('came up with', 'point out', 'ended up'), so register is comparable. A merges the problem and the method into one opening sentence, so the contribution appears immediately. B spends its first sentence on a generic framing before naming the model. B attributes the gain directly to the model ('it improves'), but it does so through a four-noun stack ('new-user engagement prediction accuracy'). A unpacks that into a readable phrase. A's closing sentence uses 'Because' to make the single-platform limitation the explicit reason for future work. B's semicolon leaves that link implicit. Overall length is nearly identical: A saves words in the opening, and B saves them in the results sentence. Concision is therefore a tie.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"tie\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'We address the cold-start problem in recommender systems with a two-stage model' vs B: 'Our approach addresses the cold-start problem in recommender systems. We developed a two-stage model'\",\n    \"flow\": \"A: 'Because our data come from a single streaming platform, future work should examine' vs B: 'Our data come from a single streaming platform; future work should test'\",\n    \"precision\": \"A: 'accuracy in predicting new-user engagement' vs B: 'new-user engagement prediction accuracy'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0406912,
+        "seconds": 13.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions fix the original's informal phrasing ('came up with', 'ended up', 'point out'). B merges the opening two sentences, so the contribution and the method appear together in the first sentence. A keeps a generic opening sentence before the method. B also replaces A's four-noun stack with a clearer phrasing. B's 'Because' makes the causal link between the single-platform data and the call for future work explicit, where A only juxtaposes them with a semicolon. Word counts are close: A spends words on a redundant opener and B on 'The results show that', so concision is a tie. Register suits a recommender-systems audience in both.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "tie",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Our approach addresses the cold-start problem in recommender systems. We developed a two-stage model' vs B: 'We address the cold-start problem in recommender systems with a two-stage model'",
+            "flow": "A: 'Our data come from a single streaming platform; future work should test' vs B: 'Because our data come from a single streaming platform, future work should examine'",
+            "precision": "A: 'new-user engagement prediction accuracy' vs B: 'accuracy in predicting new-user engagement'"
+          },
+          "overall": "B"
+        },
+        "key": "f30f5c84db84b30c",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions fix the original's informal phrasing ('came up with', 'ended up', 'point out'). B merges the opening two sentences, so the contribution and the method appear together in the first sentence. A keeps a generic opening sentence before the method. B also replaces A's four-noun stack with a clearer phrasing. B's 'Because' makes the causal link between the single-platform data and the call for future work explicit, where A only juxtaposes them with a semicolon. Word counts are close: A spends words on a redundant opener and B on 'The results show that', so concision is a tie. Register suits a recommender-systems audience in both.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"tie\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"tie\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Our approach addresses the cold-start problem in recommender systems. We developed a two-stage model' vs B: 'We address the cold-start problem in recommender systems with a two-stage model'\",\n    \"flow\": \"A: 'Our data come from a single streaming platform; future work should test' vs B: 'Because our data come from a single streaming platform, future work should examine'\",\n    \"precision\": \"A: 'new-user engagement prediction accuracy' vs B: 'accuracy in predicting new-user engagement'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0357272,
+        "seconds": 11.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

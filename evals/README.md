@@ -81,9 +81,10 @@ Reused from Anthropic's skill-creator:
 - `run_pilot.py`: runs each case with and without Blue Pencil and saves every run.
 - `grade_pilot.py`: runs the graders. Use `--stage code`, `meaning`, or `quality` to grade in parts.
 - `report.py`: writes `report.md` and the blinded human review sheet.
+- `compare_versions.py`: blinded head-to-head of two skill versions' with-skill outputs, case by case and run by run, for before/after benchmarks; refuses runs that are not comparable or not complete.
 - `protected.py`: the code grader.
 - `lib.py`: shared helpers (runs `claude -p`, extracts the revised text).
 - `prompts/`: the meaning grader and quality grader prompts.
-- `cases/`: the 4 test passages. Each has `input.txt` (the passage), `context.txt` (paper context), and `request.txt` (the editing request).
+- `cases/`: the test passages. Four are built from the repo's examples by `build_cases.py`; three (`ste-*`) are written by hand to exercise the ASD-STE100 diagnostics and are kept when the catalog is rebuilt. Each has `input.txt` (the passage), `context.txt` (paper context), and `request.txt` (the editing request).
 - `grader_tests/`: damaged and harmless revisions (`cases.json`) and the offline code grader test (`test_protected.py`).
 - `results/pilot-001/`: the saved pilot. Start with `review.md`.

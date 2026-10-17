@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision merges and tightens sentences and swaps a neutral attribution verb ('point out' to 'show'), but keeps the 8.3-point improvement, the Koren et al., 2009 baseline citation, the warm-start engagement finding, and the single-platform limitation at the same strength and scope. The added 'Because' only makes explicit the link between the single-platform data and the call for future work."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

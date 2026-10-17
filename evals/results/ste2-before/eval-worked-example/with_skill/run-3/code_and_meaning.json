@@ -1,0 +1,71 @@
+{
+  "case": "worked-example",
+  "run_dir": "results/ste2-before/eval-worked-example/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "remains, to the best of our knowledge, somewhat underexplored in the existing literature",
+          "revised_quote": "To the best of our knowledge, however, whether the identity of reviewers affects this relationship remains underexplored",
+          "explanation": "Dropping the hedge \"somewhat\" makes the gap claim stronger, and dropping \"in the existing literature\" removes where the gap is said to be."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "reviewer identity has a significant effect",
+          "revised_quote": "reviewer identity has a significant effect on the relationship between reviews and sales",
+          "explanation": "The original does not say what reviewer identity affects; the revision says it moderates the review–sales relationship, which is more specific than a direct effect and is not stated in the original."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "has fundamentally transformed",
+          "revised_quote": "has transformed",
+          "explanation": "The intensifier \"fundamentally\" was dropped."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "a novel dataset comprising of 1.2 million reviews",
+          "revised_quote": "a dataset of 1.2 million reviews",
+          "explanation": "The novelty claim \"novel\" was dropped."
+        },
+        {
+          "type": "qualifier_word",
+          "severity": "minor",
+          "original_quote": "this finding has important implications for platform design",
+          "revised_quote": "This finding has implications for platform design",
+          "explanation": "The qualifier \"important\" was dropped."
+        }
+      ],
+      "summary": "Most edits are filler removal and tightening, and the citations and the 5-9% figure stay attached to the right claims. However, the revision removes the hedge on the research gap and says the finding is an effect on the review–sales relationship, which the original does not state."
+    },
+    "key": "219cc72a2a2482a8",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"remains, to the best of our knowledge, somewhat underexplored in the existing literature\",\n      \"revised_quote\": \"To the best of our knowledge, however, whether the identity of reviewers affects this relationship remains underexplored\",\n      \"explanation\": \"Dropping the hedge \\\"somewhat\\\" makes the gap claim stronger, and dropping \\\"in the existing literature\\\" removes where the gap is said to be.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"reviewer identity has a significant effect\",\n      \"revised_quote\": \"reviewer identity has a significant effect on the relationship between reviews and sales\",\n      \"explanation\": \"The original does not say what reviewer identity affects; the revision says it moderates the review–sales relationship, which is more specific than a direct effect and is not stated in the original.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"has fundamentally transformed\",\n      \"revised_quote\": \"has transformed\",\n      \"explanation\": \"The intensifier \\\"fundamentally\\\" was dropped.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"a novel dataset comprising of 1.2 million reviews\",\n      \"revised_quote\": \"a dataset of 1.2 million reviews\",\n      \"explanation\": \"The novelty claim \\\"novel\\\" was dropped.\"\n    },\n    {\n      \"type\": \"qualifier_word\",\n      \"severity\": \"minor\",\n      \"original_quote\": \"this finding has important implications for platform design\",\n      \"revised_quote\": \"This finding has implications for platform design\",\n      \"explanation\": \"The qualifier \\\"important\\\" was dropped.\"\n    }\n  ],\n  \"summary\": \"Most edits are filler removal and tightening, and the citations and the 5-9% figure stay attached to the right claims. However, the revision removes the hedge on the research gap and says the finding is an effect on the review–sales relationship, which the original does not state.\"\n}\n```",
+    "cost_usd": 0.0489992,
+    "seconds": 15.2,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

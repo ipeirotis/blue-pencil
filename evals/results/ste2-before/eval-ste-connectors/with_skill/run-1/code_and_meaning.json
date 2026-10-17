@@ -1,0 +1,50 @@
+{
+  "case": "ste-connectors",
+  "run_dir": "results/ste2-before/eval-ste-connectors/with_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "doubled"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "claim_strength",
+          "severity": "major",
+          "original_quote": "Since the retriever was frozen, accuracy on frequent questions did not change",
+          "revised_quote": "With the retriever frozen, accuracy on frequent questions did not change",
+          "explanation": "The original gives the frozen retriever as the reason accuracy on frequent questions did not change, while the revision only states it as an accompanying condition, so the causal explanation is weakened."
+        }
+      ],
+      "summary": "Numbers, citation, and all findings are preserved and attached to the same claims. The one change is that the causal 'Since' linking the frozen retriever to the unchanged frequent-question accuracy became the merely circumstantial 'With', which drops the stated explanation."
+    },
+    "key": "bdd4066bf44bf5a1",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"claim_strength\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Since the retriever was frozen, accuracy on frequent questions did not change\",\n      \"revised_quote\": \"With the retriever frozen, accuracy on frequent questions did not change\",\n      \"explanation\": \"The original gives the frozen retriever as the reason accuracy on frequent questions did not change, while the revision only states it as an accompanying condition, so the causal explanation is weakened.\"\n    }\n  ],\n  \"summary\": \"Numbers, citation, and all findings are preserved and attached to the same claims. The one change is that the causal 'Since' linking the frozen retriever to the unchanged frequent-question accuracy became the merely circumstantial 'With', which drops the stated explanation.\"\n}\n```",
+    "cost_usd": 0.0366952,
+    "seconds": 12.8,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

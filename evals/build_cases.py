@@ -6,6 +6,9 @@ its paper context and the request the author made. The skill's own output half
 is deliberately not used. Only examples whose stage is `first draft` are taken,
 because the pilot runs /paper:revise at the first-draft stage.
 
+Hand-written cases (an origin other than "repo example" in cases.json) are kept
+when the catalog is rebuilt.
+
 NOTE: these passages were written to show the skill off, so they are good for
 getting the pipeline working but not for judging how well the skill generalizes.
 Real passages from published papers come next.
@@ -15,7 +18,7 @@ import re
 import sys
 from pathlib import Path
 
-from lib import EVALS, REPO, write_json
+from lib import EVALS, REPO, read_json, write_json
 
 
 def input_block(lines):
@@ -61,6 +64,14 @@ def request_text(lines):
 
 
 def main():
+    # A hand-written case (any origin other than a repo example) must never share an id with
+    # an example: the loop below would overwrite its files. Check before writing anything.
+    catalog = EVALS / "cases" / "cases.json"
+    hand = {c["id"] for c in read_json(catalog)["cases"] if c.get("origin") != "repo example"} \
+        if catalog.exists() else set()
+    clash = sorted(hand & {p.stem for p in (REPO / "examples").glob("*.md")})
+    if clash:
+        sys.exit(f"example files share an id with hand-written cases: {', '.join(clash)}; rename one")
     cases = []
     for path in sorted((REPO / "examples").glob("*.md")):
         text = path.read_text()
@@ -84,7 +95,13 @@ def main():
         cases.append({"id": cid, "source": f"examples/{path.name}",
                       "revision_stage": "first draft", "origin": "repo example"})
         print(f"case {cid}: {len(passage.split())} words")
-    write_json(EVALS / "cases" / "cases.json", {"cases": cases})
+    # Keep hand-written cases (any origin other than a repo example): they have no
+    # example to rebuild from, and rewriting the catalog must not drop them.
+    if catalog.exists():
+        built = {c["id"] for c in cases}
+        cases += [c for c in read_json(catalog)["cases"]
+                  if c.get("origin") != "repo example" and c["id"] not in built]
+    write_json(catalog, {"cases": cases})
 
 
 if __name__ == "__main__":

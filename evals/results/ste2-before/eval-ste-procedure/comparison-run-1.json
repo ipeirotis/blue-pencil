@@ -1,0 +1,92 @@
+{
+  "case": "ste-procedure",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A states up front that data processing took four steps and then walks through them in order. This makes the procedure easy to follow and easy to locate. Version B splits the original run-on into separate sentences, which helps, but it keeps the tangled modal phrase 'would have been expected to have been applied.' A replaces it with the simpler 'were to be applied.' Word counts are about equal: A's framing sentence and ordinals cost roughly the words its shorter weighting clause saves. A's ordinals ('First... Second... Third... Fourth') connect the steps by their sequence. B relies mostly on separate passive sentences, with only one 'then.' Both registers suit survey methodologists. A's active 'we' is standard in political science methods sections, while B's stacked modal reads as awkward even for formal prose. A's one weakness is a shift back to the passive in step four, which slightly breaks its parallel structure.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "tie",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'we processed the data in four steps. First, we screened' vs B: 'Responses were screened and recoded after the field period closed.'",
+            "flow": "A: 'Second, two research assistants coded... Third, we merged' vs B: 'Open-ended answers were coded... The coded categories were then merged'",
+            "precision": "A: 'raking weights were to be applied' vs B: 'Raking weights would have been expected to have been applied'",
+            "audience_fit": "A: 'we screened the responses and excluded respondents' vs B: 'would have been expected to have been applied to the merged file'"
+          },
+          "overall": "A"
+        },
+        "key": "f2d6d7ca9406da42",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A states up front that data processing took four steps and then walks through them in order. This makes the procedure easy to follow and easy to locate. Version B splits the original run-on into separate sentences, which helps, but it keeps the tangled modal phrase 'would have been expected to have been applied.' A replaces it with the simpler 'were to be applied.' Word counts are about equal: A's framing sentence and ordinals cost roughly the words its shorter weighting clause saves. A's ordinals ('First... Second... Third... Fourth') connect the steps by their sequence. B relies mostly on separate passive sentences, with only one 'then.' Both registers suit survey methodologists. A's active 'we' is standard in political science methods sections, while B's stacked modal reads as awkward even for formal prose. A's one weakness is a shift back to the passive in step four, which slightly breaks its parallel structure.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"tie\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'we processed the data in four steps. First, we screened' vs B: 'Responses were screened and recoded after the field period closed.'\",\n    \"flow\": \"A: 'Second, two research assistants coded... Third, we merged' vs B: 'Open-ended answers were coded... The coded categories were then merged'\",\n    \"precision\": \"A: 'raking weights were to be applied' vs B: 'Raking weights would have been expected to have been applied'\",\n    \"audience_fit\": \"A: 'we screened the responses and excluded respondents' vs B: 'would have been expected to have been applied to the merged file'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0395552,
+        "seconds": 15.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states upfront that processing happened in four steps, so the reader sees the structure before the details. Its ordinal markers then tie each step to the next. A splits the original's run-on sentence into clean sentences, which helps, but the steps remain a list of passive statements with only 'then' linking them. On precision, A keeps the convoluted stacked modal 'would have been expected to have been applied'; B reduces it to 'were to be applied', which is grammatical and much cleaner. B's active 'we' voice suits survey-methods and political-science writing, where first-person plural is standard. On concision, the two versions are nearly identical in length: B spends words on the step scaffolding but saves them by cutting the stacked modal, so this is a tie.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "tie",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Responses were screened and recoded after the field period closed.' vs B: 'we processed the data in four steps. First, we screened the responses'",
+            "flow": "A: 'The coded categories were then merged' vs B: 'Third, we merged the coded categories'",
+            "precision": "A: 'would have been expected to have been applied' vs B: 'raking weights were to be applied'",
+            "audience_fit": "A: 'Open-ended answers were coded by two research assistants' vs B: 'we screened the responses and excluded respondents'"
+          },
+          "overall": "B"
+        },
+        "key": "0046f3435fb7b290",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states upfront that processing happened in four steps, so the reader sees the structure before the details. Its ordinal markers then tie each step to the next. A splits the original's run-on sentence into clean sentences, which helps, but the steps remain a list of passive statements with only 'then' linking them. On precision, A keeps the convoluted stacked modal 'would have been expected to have been applied'; B reduces it to 'were to be applied', which is grammatical and much cleaner. B's active 'we' voice suits survey-methods and political-science writing, where first-person plural is standard. On concision, the two versions are nearly identical in length: B spends words on the step scaffolding but saves them by cutting the stacked modal, so this is a tie.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"tie\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Responses were screened and recoded after the field period closed.' vs B: 'we processed the data in four steps. First, we screened the responses'\",\n    \"flow\": \"A: 'The coded categories were then merged' vs B: 'Third, we merged the coded categories'\",\n    \"precision\": \"A: 'would have been expected to have been applied' vs B: 'raking weights were to be applied'\",\n    \"audience_fit\": \"A: 'Open-ended answers were coded by two research assistants' vs B: 'we screened the responses and excluded respondents'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0442752,
+        "seconds": 15.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

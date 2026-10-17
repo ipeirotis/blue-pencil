@@ -1,0 +1,64 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-after/eval-exposition-introduction/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "is a well-known obstacle to identification in this literature",
+          "revised_quote": "is a well-known obstacle to identifying the causal effect of valence on sales: the same quality that makes reviews favorable also makes a product sell",
+          "explanation": "The original never names the outcome variable, but the revision specifies sales as the outcome and adds an explanation of the confounding mechanism."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "which generates quasi-random assignment conditional on observed covariates.",
+          "revised_quote": "Because this unequal moderation is unrelated to product quality, it lets us isolate the effect of valence on sales.",
+          "explanation": "The revision adds an exclusion-restriction claim that moderation is unrelated to product quality, and says the design isolates the effect on sales; the original asserts neither."
+        },
+        {
+          "type": "caveat_or_scope",
+          "severity": "major",
+          "original_quote": "quasi-random assignment conditional on observed covariates",
+          "revised_quote": "this unequal moderation is unrelated to product quality",
+          "explanation": "The original's identifying assumption is conditional on observed covariates, while the new sentence states it unconditionally, which widens the claim."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate this effect and find it to be positive and significant",
+          "explanation": "Because \"this effect\" now refers back to the effect of valence on sales, the reported positive and significant result is attached to an outcome the original never specified."
+        }
+      ],
+      "summary": "The revision introduces sales as the outcome, adds a confounding mechanism, and asserts an unconditional exclusion restriction that the original did not state. The original only claimed quasi-random assignment conditional on covariates and did not name the effect's outcome."
+    },
+    "key": "342adb4268afd455",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"is a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"is a well-known obstacle to identifying the causal effect of valence on sales: the same quality that makes reviews favorable also makes a product sell\",\n      \"explanation\": \"The original never names the outcome variable, but the revision specifies sales as the outcome and adds an explanation of the confounding mechanism.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"which generates quasi-random assignment conditional on observed covariates.\",\n      \"revised_quote\": \"Because this unequal moderation is unrelated to product quality, it lets us isolate the effect of valence on sales.\",\n      \"explanation\": \"The revision adds an exclusion-restriction claim that moderation is unrelated to product quality, and says the design isolates the effect on sales; the original asserts neither.\"\n    },\n    {\n      \"type\": \"caveat_or_scope\",\n      \"severity\": \"major\",\n      \"original_quote\": \"quasi-random assignment conditional on observed covariates\",\n      \"revised_quote\": \"this unequal moderation is unrelated to product quality\",\n      \"explanation\": \"The original's identifying assumption is conditional on observed covariates, while the new sentence states it unconditionally, which widens the claim.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate this effect and find it to be positive and significant\",\n      \"explanation\": \"Because \\\"this effect\\\" now refers back to the effect of valence on sales, the reported positive and significant result is attached to an outcome the original never specified.\"\n    }\n  ],\n  \"summary\": \"The revision introduces sales as the outcome, adds a confounding mechanism, and asserts an unconditional exclusion restriction that the original did not state. The original only claimed quasi-random assignment conditional on covariates and did not name the effect's outcome.\"\n}\n```",
+    "cost_usd": 0.024718200000000003,
+    "seconds": 11.7,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

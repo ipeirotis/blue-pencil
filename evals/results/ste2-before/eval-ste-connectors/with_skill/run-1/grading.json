@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['doubled']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: Numbers, citation, and all findings are preserved and attached to the same claims. The one change is that the causal 'Since' linking the frozen retriever to the unchanged frequent-question accuracy became the merely circumstantial 'With', which drops the stated explanation."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

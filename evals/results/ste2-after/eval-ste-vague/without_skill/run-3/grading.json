@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision tightens wording ('came up with' to 'developed', 'deals with' to 'handles', 'look at' to 'test'), drops a neutral attribution phrase, and merges the last two sentences. The 8.3-point improvement, the matrix factorization baseline, the Koren et al. (2009) citation, the warm-start engagement finding, and the single-platform limitation all keep their original attachments and strength."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

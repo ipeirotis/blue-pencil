@@ -1,0 +1,43 @@
+{
+  "case": "ste-vague",
+  "run_dir": "results/ste2-after/eval-ste-vague/with_skill/run-3",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "We came up with a two-stage model that deals with sparse interaction histories, and the results point out that",
+          "revised_quote": "Our two-stage model targets the cold-start problem in recommender systems, where new users have sparse interaction histories.",
+          "explanation": "The author's informal phrasing ('came up with', 'deals with', 'point out', 'ended up') was replaced with more generic academic prose."
+        }
+      ],
+      "summary": "The revision keeps the 8.3-point improvement, the baseline and citation, the higher engagement for warm-start users, the single-platform limitation, and the call for future work, all at the same strength. The only change is a shift from the author's informal register to more standard wording."
+    },
+    "key": "33059cad471729af",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"We came up with a two-stage model that deals with sparse interaction histories, and the results point out that\",\n      \"revised_quote\": \"Our two-stage model targets the cold-start problem in recommender systems, where new users have sparse interaction histories.\",\n      \"explanation\": \"The author's informal phrasing ('came up with', 'deals with', 'point out', 'ended up') was replaced with more generic academic prose.\"\n    }\n  ],\n  \"summary\": \"The revision keeps the 8.3-point improvement, the baseline and citation, the higher engagement for warm-start users, the single-platform limitation, and the call for future work, all at the same strength. The only change is a shift from the author's informal register to more standard wording.\"\n}\n```",
+    "cost_usd": 0.0332672,
+    "seconds": 8.9,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

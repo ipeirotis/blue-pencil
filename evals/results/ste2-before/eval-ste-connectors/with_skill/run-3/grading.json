@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision only adds 'that', splits the latency clause into its own sentence, and reorders clauses. 'Since the retriever was frozen' became 'With the retriever frozen', which still conditions the unchanged frequent-question accuracy on the frozen retriever. All numbers (41.2%, 57.8%, 210 ms, 23%, 1M/10M) and citations stay attached to the same claims."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

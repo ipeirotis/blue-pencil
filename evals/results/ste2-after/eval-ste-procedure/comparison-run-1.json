@@ -1,0 +1,93 @@
+{
+  "case": "ste-procedure",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A opens with a frame ('four steps') and walks through screening, coding, merging, and weighting in order, so the procedure is easy to follow. It also replaces the original's tangled 'would have been expected to have been applied' with a plain 'we applied'. Version B splits the passage into short sentences, which helps a little, but it places the sample size in the middle of the procedure, breaking the sequence, and it keeps the convoluted, ambiguous conditional in the weighting sentence. On concision the two roughly balance: A adds a framing sentence and ordinal signposts, while B keeps the padded weighting clause and adds 'After these exclusions'. A reads more precisely and suits methodologists, who expect a clear, active, step-by-step data-processing account.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "tie",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'Data processing proceeded in four steps' vs B: 'After the field period closed, responses were screened and recoded.'",
+            "flow": "A: 'Third, we merged... Fourth, before estimation, we applied raking weights' vs B: 'After these exclusions, the analytic sample is N = 2,184. Two research assistants coded...'",
+            "precision": "A: 'we applied raking weights to the merged file' vs B: 'Raking weights would have been expected to have been applied'",
+            "audience_fit": "A: 'before estimation, we applied raking weights' vs B: 'would have been expected to have been applied to the merged file before estimation'"
+          },
+          "overall": "A"
+        },
+        "key": "5c3b04478c8f1296",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A opens with a frame ('four steps') and walks through screening, coding, merging, and weighting in order, so the procedure is easy to follow. It also replaces the original's tangled 'would have been expected to have been applied' with a plain 'we applied'. Version B splits the passage into short sentences, which helps a little, but it places the sample size in the middle of the procedure, breaking the sequence, and it keeps the convoluted, ambiguous conditional in the weighting sentence. On concision the two roughly balance: A adds a framing sentence and ordinal signposts, while B keeps the padded weighting clause and adds 'After these exclusions'. A reads more precisely and suits methodologists, who expect a clear, active, step-by-step data-processing account.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"tie\",\n    \"flow\": \"A\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Data processing proceeded in four steps' vs B: 'After the field period closed, responses were screened and recoded.'\",\n    \"flow\": \"A: 'Third, we merged... Fourth, before estimation, we applied raking weights' vs B: 'After these exclusions, the analytic sample is N = 2,184. Two research assistants coded...'\",\n    \"precision\": \"A: 'we applied raking weights to the merged file' vs B: 'Raking weights would have been expected to have been applied'\",\n    \"audience_fit\": \"A: 'before estimation, we applied raking weights' vs B: 'would have been expected to have been applied to the merged file before estimation'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0397232,
+        "seconds": 14.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B announces its structure up front ('four steps') and walks through the pipeline in order, so the reader always knows where they are. Version A breaks the original into short sentences, which helps a little, but it reports the analytic sample in the middle of the procedure, before coding and merging, and its sentences read as choppy. A also keeps the garbled and evasive 'would have been expected to have been applied.' B replaces it with the direct 'we applied,' which is grammatical and is the normal register for a methods section. A is slightly shorter, mostly because it has no signposting. B is better on most dimensions.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'After the field period closed, responses were screened and recoded.' vs B: 'Data processing proceeded in four steps, after the field period closed.'",
+            "concision": "A: 'Two research assistants coded the open-ended answers using the codebook in Appendix B.' vs B: 'Second, two research assistants coded the open-ended answers ... and disagreements were resolved by discussion.' (B adds signposting words such as 'Data processing proceeded in four steps')",
+            "flow": "A: 'After these exclusions, the analytic sample is N = 2,184. Two research assistants coded...' vs B: 'Third, we merged the coded categories... Fourth, before estimation, we applied raking weights'",
+            "precision": "A: 'Raking weights would have been expected to have been applied' vs B: 'we applied raking weights to the merged file'",
+            "audience_fit": "A: 'would have been expected to have been applied to the merged file' vs B: 'First, we screened responses and excluded respondents'"
+          },
+          "overall": "B"
+        },
+        "key": "660c530a63826c2c",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B announces its structure up front ('four steps') and walks through the pipeline in order, so the reader always knows where they are. Version A breaks the original into short sentences, which helps a little, but it reports the analytic sample in the middle of the procedure, before coding and merging, and its sentences read as choppy. A also keeps the garbled and evasive 'would have been expected to have been applied.' B replaces it with the direct 'we applied,' which is grammatical and is the normal register for a methods section. A is slightly shorter, mostly because it has no signposting. B is better on most dimensions.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'After the field period closed, responses were screened and recoded.' vs B: 'Data processing proceeded in four steps, after the field period closed.'\",\n    \"concision\": \"A: 'Two research assistants coded the open-ended answers using the codebook in Appendix B.' vs B: 'Second, two research assistants coded the open-ended answers ... and disagreements were resolved by discussion.' (B adds signposting words such as 'Data processing proceeded in four steps')\",\n    \"flow\": \"A: 'After these exclusions, the analytic sample is N = 2,184. Two research assistants coded...' vs B: 'Third, we merged the coded categories... Fourth, before estimation, we applied raking weights'\",\n    \"precision\": \"A: 'Raking weights would have been expected to have been applied' vs B: 'we applied raking weights to the merged file'\",\n    \"audience_fit\": \"A: 'would have been expected to have been applied to the merged file' vs B: 'First, we screened responses and excluded respondents'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.037799200000000005,
+        "seconds": 13.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

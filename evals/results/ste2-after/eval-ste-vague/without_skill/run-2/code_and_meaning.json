@@ -1,0 +1,43 @@
+{
+  "case": "ste-vague",
+  "run_dir": "results/ste2-after/eval-ste-vague/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "We came up with a two-stage model that deals with sparse interaction histories, and the results point out that",
+          "revised_quote": "Our two-stage model addresses the cold-start problem by handling sparse interaction histories. It improves",
+          "explanation": "The authors' informal phrasing (\"came up with\", \"deals with\", \"point out\", \"ended up\") was replaced with more conventional academic prose without changing the claims."
+        }
+      ],
+      "summary": "The revision keeps the method, the 8.3-point improvement over the matrix factorization baseline (Koren et al., 2009), the warm-start engagement finding, the single-platform limitation, and the future-work statement at the same strength. Dropping \"in recommender systems\" does not change the scope because the passage's references to recommendations and matrix factorization still establish the domain, and only the authors' informal voice was lost."
+    },
+    "key": "6645902ef44b9d80",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"We came up with a two-stage model that deals with sparse interaction histories, and the results point out that\",\n      \"revised_quote\": \"Our two-stage model addresses the cold-start problem by handling sparse interaction histories. It improves\",\n      \"explanation\": \"The authors' informal phrasing (\\\"came up with\\\", \\\"deals with\\\", \\\"point out\\\", \\\"ended up\\\") was replaced with more conventional academic prose without changing the claims.\"\n    }\n  ],\n  \"summary\": \"The revision keeps the method, the 8.3-point improvement over the matrix factorization baseline (Koren et al., 2009), the warm-start engagement finding, the single-platform limitation, and the future-work statement at the same strength. Dropping \\\"in recommender systems\\\" does not change the scope because the passage's references to recommendations and matrix factorization still establish the domain, and only the authors' informal voice was lost.\"\n}\n```",
+    "cost_usd": 0.0339712,
+    "seconds": 11.4,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

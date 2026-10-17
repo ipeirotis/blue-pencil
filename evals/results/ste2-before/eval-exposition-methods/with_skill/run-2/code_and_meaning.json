@@ -1,0 +1,50 @@
+{
+  "case": "exposition-methods",
+  "run_dir": "results/ste2-before/eval-exposition-methods/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": false,
+    "diffs": {
+      "numberwords": {
+        "removed": [],
+        "added": [
+          "two"
+        ]
+      }
+    }
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [
+        {
+          "type": "voice",
+          "severity": "recorded",
+          "original_quote": "to address heterogeneity in treatment timing",
+          "revised_quote": "to address the differences across stores in when treatment began",
+          "explanation": "The author's technical term was replaced with a plainer paraphrase that means the same thing."
+        }
+      ],
+      "summary": "The revision reorders the passage and adds glosses of 'never-treated' and 'not-yet-treated' that match the standard meanings. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the reason for reporting the Callaway and Sant'Anna estimator are all unchanged. The added gloss 'others do not yet' loosely implies every store is eventually treated, but the next sentence explicitly keeps the never-treated group, so the meaning holds."
+    },
+    "key": "cb05c89c309eecda",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [\n    {\n      \"type\": \"voice\",\n      \"severity\": \"recorded\",\n      \"original_quote\": \"to address heterogeneity in treatment timing\",\n      \"revised_quote\": \"to address the differences across stores in when treatment began\",\n      \"explanation\": \"The author's technical term was replaced with a plainer paraphrase that means the same thing.\"\n    }\n  ],\n  \"summary\": \"The revision reorders the passage and adds glosses of 'never-treated' and 'not-yet-treated' that match the standard meanings. The model, fixed effects, clustering, controls, coefficient of interest, control groups, and the reason for reporting the Callaway and Sant'Anna estimator are all unchanged. The added gloss 'others do not yet' loosely implies every store is eventually treated, but the next sentence explicitly keeps the never-treated group, so the meaning holds.\"\n}\n```",
+    "cost_usd": 0.0358992,
+    "seconds": 11.5,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

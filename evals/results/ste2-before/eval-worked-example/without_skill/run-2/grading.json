@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision keeps all claims, numbers, citations, hedges (\"to the best of our knowledge\", \"somewhat underexplored\", \"novel\"), and the recommendation at the same strength. Dropping \"in the existing literature\" does not change the scope, and the only loss is the emphasis word \"Crucially\"."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

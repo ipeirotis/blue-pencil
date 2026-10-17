@@ -1,0 +1,57 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-before/eval-exposition-results/without_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Table 3 reports the estimates, and they show that who writes a review matters.",
+          "explanation": "The revision adds an interpretive conclusion that the original never states; the original only reports coefficients."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).",
+          "revised_quote": "It remains substantial after we add product fixed effects in column 3, where it is 0.15 (SE = 0.05).",
+          "explanation": "The revision calls the column 3 coefficient \"substantial,\" a judgment about economic magnitude that the original does not make."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.",
+          "revised_quote": "Star rating, by contrast, carries a steady coefficient of 0.42 (SE = 0.02) across all specifications.",
+          "explanation": "\"Steady\" and \"by contrast\" frame star rating as stable in contrast to the identity effect, a comparison the original does not draw."
+        }
+      ],
+      "summary": "All numbers stay attached to the correct columns and variables. The revision adds interpretive claims that the original, a purely descriptive passage, does not make: that \"who writes a review matters,\" that the effect \"remains substantial,\" and that star rating contrasts as \"steady.\""
+    },
+    "key": "c2ec6d9e1be4400d",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Table 3 reports the estimates, and they show that who writes a review matters.\",\n      \"explanation\": \"The revision adds an interpretive conclusion that the original never states; the original only reports coefficients.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"In column 3, after adding product fixed effects, the coefficient is 0.15 (SE = 0.05).\",\n      \"revised_quote\": \"It remains substantial after we add product fixed effects in column 3, where it is 0.15 (SE = 0.05).\",\n      \"explanation\": \"The revision calls the column 3 coefficient \\\"substantial,\\\" a judgment about economic magnitude that the original does not make.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The coefficient on star rating is 0.42 (SE = 0.02) across all specifications.\",\n      \"revised_quote\": \"Star rating, by contrast, carries a steady coefficient of 0.42 (SE = 0.02) across all specifications.\",\n      \"explanation\": \"\\\"Steady\\\" and \\\"by contrast\\\" frame star rating as stable in contrast to the identity effect, a comparison the original does not draw.\"\n    }\n  ],\n  \"summary\": \"All numbers stay attached to the correct columns and variables. The revision adds interpretive claims that the original, a purely descriptive passage, does not make: that \\\"who writes a review matters,\\\" that the effect \\\"remains substantial,\\\" and that star rating contrasts as \\\"steady.\\\"\"\n}\n```",
+    "cost_usd": 0.0369952,
+    "seconds": 10.8,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

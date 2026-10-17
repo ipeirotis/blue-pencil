@@ -1,0 +1,93 @@
+{
+  "case": "worked-example",
+  "run": 3,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's worst throat-clearing ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted') and fix 'comprising of'. Version A goes further. It drops intensifiers and hype ('fundamentally', 'Crucially', 'somewhat', 'novel', 'leverage', 'important implications'), and it states the finding as 'We find'. It also says what the effect acts on ('on the relationship between reviews and sales'), which B leaves vague. Version B merges the first two citation sentences into one with a shared subject, so its first paragraph connects a little more smoothly. Its hedged gap statement ('remains, to the best of our knowledge, somewhat underexplored') breaks up the sentence and weakens the gap. A's 'To the best of our knowledge, however, whether...' opens with the hedge but reads cleanly. A's register is plainer and suits empirical IS researchers, who tend to distrust buzzwords like 'leverage' and 'novel'. Overall A is tighter and more precise, and B has only a small edge in flow.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'We find that reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'Our analysis demonstrates that reviewer identity has a significant effect'",
+            "concision": "A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'",
+            "flow": "A: 'Several researchers have investigated... These studies found that reviews matter' vs B: 'Several researchers have investigated... (Chevalier and Mayzlin 2006; ...), and found that reviews matter'",
+            "precision": "A: 'remains underexplored' vs B: 'remains, to the best of our knowledge, somewhat underexplored'",
+            "audience_fit": "A: 'This finding has implications for platform design' vs B: 'Crucially, however' / 'This finding has important implications'"
+          },
+          "overall": "A"
+        },
+        "key": "61c293c2ecc6506f",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's worst throat-clearing ('It is important to note', 'Furthermore', 'Moreover', 'It should be noted') and fix 'comprising of'. Version A goes further. It drops intensifiers and hype ('fundamentally', 'Crucially', 'somewhat', 'novel', 'leverage', 'important implications'), and it states the finding as 'We find'. It also says what the effect acts on ('on the relationship between reviews and sales'), which B leaves vague. Version B merges the first two citation sentences into one with a shared subject, so its first paragraph connects a little more smoothly. Its hedged gap statement ('remains, to the best of our knowledge, somewhat underexplored') breaks up the sentence and weakens the gap. A's 'To the best of our knowledge, however, whether...' opens with the hedge but reads cleanly. A's register is plainer and suits empirical IS researchers, who tend to distrust buzzwords like 'leverage' and 'novel'. Overall A is tighter and more precise, and B has only a small edge in flow.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'We find that reviewer identity has a significant effect on the relationship between reviews and sales' vs B: 'Our analysis demonstrates that reviewer identity has a significant effect'\",\n    \"concision\": \"A: 'we use a dataset of 1.2 million reviews' vs B: 'we leverage a novel dataset of 1.2 million reviews'\",\n    \"flow\": \"A: 'Several researchers have investigated... These studies found that reviews matter' vs B: 'Several researchers have investigated... (Chevalier and Mayzlin 2006; ...), and found that reviews matter'\",\n    \"precision\": \"A: 'remains underexplored' vs B: 'remains, to the best of our knowledge, somewhat underexplored'\",\n    \"audience_fit\": \"A: 'This finding has implications for platform design' vs B: 'Crucially, however' / 'This finding has important implications'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0367472,
+        "seconds": 10.9,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's worst filler ('It is important to note', 'Furthermore', 'Moreover', 'comprising of'). A keeps several intensifiers and hedges: 'fundamentally', 'Crucially', 'somewhat underexplored', 'novel', 'important implications', and 'leverage'. B removes these, so the gap and the finding stand out more sharply. B states its result in the active first person ('We find that') and names what the effect is on, which is more exact than A's 'Our analysis demonstrates... a significant effect'. For flow, A joins the literature and its findings with 'and found that', while B links them with 'These studies found'. Both link through content, so flow is a tie. B's plainer wording also suits empirical IS readers better than A's buzzwords.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "tie",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Our analysis demonstrates that reviewer identity has a significant effect' vs B: 'We find that reviewer identity has a significant effect on the relationship between reviews and sales'",
+            "concision": "A: 'Crucially, however, whether... remains, to the best of our knowledge, somewhat underexplored' vs B: 'To the best of our knowledge, however, whether... remains underexplored'",
+            "precision": "A: 'we leverage a novel dataset' vs B: 'we use a dataset'",
+            "audience_fit": "A: 'has fundamentally transformed' / 'important implications' vs B: 'has transformed' / 'has implications'"
+          },
+          "overall": "B"
+        },
+        "key": "59c8c08c84486d46",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's worst filler ('It is important to note', 'Furthermore', 'Moreover', 'comprising of'). A keeps several intensifiers and hedges: 'fundamentally', 'Crucially', 'somewhat underexplored', 'novel', 'important implications', and 'leverage'. B removes these, so the gap and the finding stand out more sharply. B states its result in the active first person ('We find that') and names what the effect is on, which is more exact than A's 'Our analysis demonstrates... a significant effect'. For flow, A joins the literature and its findings with 'and found that', while B links them with 'These studies found'. Both link through content, so flow is a tie. B's plainer wording also suits empirical IS readers better than A's buzzwords.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"tie\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Our analysis demonstrates that reviewer identity has a significant effect' vs B: 'We find that reviewer identity has a significant effect on the relationship between reviews and sales'\",\n    \"concision\": \"A: 'Crucially, however, whether... remains, to the best of our knowledge, somewhat underexplored' vs B: 'To the best of our knowledge, however, whether... remains underexplored'\",\n    \"precision\": \"A: 'we leverage a novel dataset' vs B: 'we use a dataset'\",\n    \"audience_fit\": \"A: 'has fundamentally transformed' / 'important implications' vs B: 'has transformed' / 'has implications'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0405112,
+        "seconds": 14.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

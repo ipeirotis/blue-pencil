@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['four']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: Screening, coding, merging, and sample size are preserved, but the revision turns the original's hedged statement about raking weights into a definite claim that the weights were applied."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

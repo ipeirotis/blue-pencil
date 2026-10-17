@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: Every number stays attached to its original variable, column, and significance level, and the new lead sentence ('positive and significant', 'with the star rating in the model') only restates what the original's coefficients and 'across all specifications' already imply. The phrase 'holds at 0.15' adds a slight stability gloss to a drop from 0.18, but both values are still reported, so the meaning is not materially changed."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

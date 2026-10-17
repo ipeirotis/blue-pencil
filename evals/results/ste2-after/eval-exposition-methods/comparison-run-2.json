@@ -1,0 +1,92 @@
+{
+  "case": "exposition-methods",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A brings the staggered rollout to the front, so the design problem is visible before the estimation details. It adds only one short gloss on the control groups. Version B explains why staggered timing matters and links its sentences with explicit reasoning ('therefore'), which helps the passage flow. But B also spells out what store and week fixed effects absorb and what heterogeneity in treatment timing means. Quantitative marketing researchers already know these terms, so the glosses lengthen the passage and talk down to the reader. A's flow suffers a little from the repeated 'staggered timing' and a detached opening sentence. Both versions are grammatical and precise in their wording. On balance A reads better for this audience.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'The loyalty program was rolled out to stores on different dates, so treatment timing is staggered.' (opens with the design issue) vs B: 'Because the loyalty program was rolled out to stores on different dates' (appears only midway through)",
+            "concision": "A: 'clustering standard errors at the store level. The specification includes controls' vs B: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.'",
+            "flow": "A: 'Because of the staggered timing, we use...' (repeats the opening sentence) vs B: 'a store treated early could otherwise serve as a comparison for a store treated later. We therefore use...'",
+            "audience_fit": "A: 'to address heterogeneity in treatment timing.' vs B: 'that is, the possibility that the program's effect differs depending on when a store was treated' (glosses a concept this audience knows)"
+          },
+          "overall": "A"
+        },
+        "key": "b7bc033a8ed130db",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A brings the staggered rollout to the front, so the design problem is visible before the estimation details. It adds only one short gloss on the control groups. Version B explains why staggered timing matters and links its sentences with explicit reasoning ('therefore'), which helps the passage flow. But B also spells out what store and week fixed effects absorb and what heterogeneity in treatment timing means. Quantitative marketing researchers already know these terms, so the glosses lengthen the passage and talk down to the reader. A's flow suffers a little from the repeated 'staggered timing' and a detached opening sentence. Both versions are grammatical and precise in their wording. On balance A reads better for this audience.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"tie\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'The loyalty program was rolled out to stores on different dates, so treatment timing is staggered.' (opens with the design issue) vs B: 'Because the loyalty program was rolled out to stores on different dates' (appears only midway through)\",\n    \"concision\": \"A: 'clustering standard errors at the store level. The specification includes controls' vs B: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.'\",\n    \"flow\": \"A: 'Because of the staggered timing, we use...' (repeats the opening sentence) vs B: 'a store treated early could otherwise serve as a comparison for a store treated later. We therefore use...'\",\n    \"audience_fit\": \"A: 'to address heterogeneity in treatment timing.' vs B: 'that is, the possibility that the program's effect differs depending on when a store was treated' (glosses a concept this audience knows)\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0436032,
+        "seconds": 14.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states the key design feature, staggered rollout, in its first sentence. That frames the later choice of not-yet-treated controls and the Callaway and Sant'Anna estimator. B's later sentence 'Because of the staggered timing' then picks up that frame. Version A keeps the original order and adds textbook explanations of what store and week fixed effects absorb and what timing heterogeneity means. Quantitative marketing researchers already know these concepts, so the additions lengthen the passage and lower its register. A's sentences do link well through its explanations, for example 'We therefore use...', so flow is roughly even. On precision, B defines the two control groups separately and exactly. A's gloss 'stores that have not received the program by the period being compared' blurs never-treated and not-yet-treated stores into one description.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "tie",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Because the loyalty program was rolled out to stores on different dates' (sixth sentence) vs B: 'The loyalty program was rolled out to stores on different dates, so treatment timing is staggered.' (first sentence)",
+            "concision": "A: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.' vs B: 'We estimate a two-way fixed effects model with store and week fixed effects'",
+            "precision": "A: 'meaning stores that have not received the program by the period being compared' vs B: 'stores that never received the program and stores that had not yet received it on a given date'",
+            "audience_fit": "A: 'that is, the possibility that the program's effect differs depending on when a store was treated' vs B: 'to address heterogeneity in treatment timing.'"
+          },
+          "overall": "B"
+        },
+        "key": "87b458c2bdefb50a",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states the key design feature, staggered rollout, in its first sentence. That frames the later choice of not-yet-treated controls and the Callaway and Sant'Anna estimator. B's later sentence 'Because of the staggered timing' then picks up that frame. Version A keeps the original order and adds textbook explanations of what store and week fixed effects absorb and what timing heterogeneity means. Quantitative marketing researchers already know these concepts, so the additions lengthen the passage and lower its register. A's sentences do link well through its explanations, for example 'We therefore use...', so flow is roughly even. On precision, B defines the two control groups separately and exactly. A's gloss 'stores that have not received the program by the period being compared' blurs never-treated and not-yet-treated stores into one description.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"tie\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Because the loyalty program was rolled out to stores on different dates' (sixth sentence) vs B: 'The loyalty program was rolled out to stores on different dates, so treatment timing is staggered.' (first sentence)\",\n    \"concision\": \"A: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks that affect all stores in the same week.' vs B: 'We estimate a two-way fixed effects model with store and week fixed effects'\",\n    \"precision\": \"A: 'meaning stores that have not received the program by the period being compared' vs B: 'stores that never received the program and stores that had not yet received it on a given date'\",\n    \"audience_fit\": \"A: 'that is, the possibility that the program's effect differs depending on when a store was treated' vs B: 'to address heterogeneity in treatment timing.'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.024536600000000002,
+        "seconds": 14.5,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

@@ -1,0 +1,93 @@
+{
+  "case": "ste-vague",
+  "run": 3,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's wordy phrasing ('came up with', 'point out that', 'ended up') and merge the limitation with future work using 'so'. Version A gives the main result its own sentence with the model ('it') as the subject, which makes the result easier to find and ties the improvement directly to the method. Version B attaches the result to the method sentence with a loose 'and', so the subject shifts from 'We' to 'accuracy' with no causal link. Version B is more exact in places: 'test whether' is sharper than 'look at whether', and 'developed' is a more conventional academic verb than 'built'. Word counts are nearly identical. For a first draft, A's structural gains in clarity and flow matter more than B's word-level refinements.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "tie",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Compared with the matrix factorization baseline (Koren et al., 2009), it improves new-user engagement prediction accuracy by 8.3 points.' vs B: '...sparse interaction histories, and new-user engagement prediction accuracy improves by 8.3 points...'",
+            "flow": "A: 'it improves new-user engagement prediction accuracy' vs B: 'histories, and new-user engagement prediction accuracy improves'",
+            "precision": "A: 'future work should look at whether' vs B: 'future work should test whether'",
+            "audience_fit": "A: 'We built a two-stage model' vs B: 'We developed a two-stage model'"
+          },
+          "overall": "A"
+        },
+        "key": "40bdecae23465180",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's wordy phrasing ('came up with', 'point out that', 'ended up') and merge the limitation with future work using 'so'. Version A gives the main result its own sentence with the model ('it') as the subject, which makes the result easier to find and ties the improvement directly to the method. Version B attaches the result to the method sentence with a loose 'and', so the subject shifts from 'We' to 'accuracy' with no causal link. Version B is more exact in places: 'test whether' is sharper than 'look at whether', and 'developed' is a more conventional academic verb than 'built'. Word counts are nearly identical. For a first draft, A's structural gains in clarity and flow matter more than B's word-level refinements.\",\n  \"dimensions\": {\n    \"clarity\": \"A\",\n    \"concision\": \"tie\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Compared with the matrix factorization baseline (Koren et al., 2009), it improves new-user engagement prediction accuracy by 8.3 points.' vs B: '...sparse interaction histories, and new-user engagement prediction accuracy improves by 8.3 points...'\",\n    \"flow\": \"A: 'it improves new-user engagement prediction accuracy' vs B: 'histories, and new-user engagement prediction accuracy improves'\",\n    \"precision\": \"A: 'future work should look at whether' vs B: 'future work should test whether'\",\n    \"audience_fit\": \"A: 'We built a two-stage model' vs B: 'We developed a two-stage model'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0426672,
+        "seconds": 15.4,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions remove the original's wordiness ('came up with', 'the results point out', 'ended up') and merge the closing two sentences with 'so'. Version A keeps the model description and the result in one sentence joined by 'and', so the 8.3-point gain is buried mid-sentence and never attributed to the model. Version B gives the result its own sentence and ties it to the model with 'it', which makes the key finding easier to find and better connected. Version A is somewhat tighter. It also chooses more exact, more formal verbs: 'developed' over 'built', and 'test' over 'look at', which suits a research audience better. On balance, B's structural gain in clarity and flow outweighs A's advantages in word choice.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'sparse interaction histories, and new-user engagement prediction accuracy improves by 8.3 points' vs B: 'Compared with the matrix factorization baseline (Koren et al., 2009), it improves new-user engagement prediction accuracy by 8.3 points.'",
+            "concision": "A: 'Users who received the warm-start recommendations showed higher engagement.' vs B: 'Compared with the matrix factorization baseline (Koren et al., 2009), it improves...' (A conveys the same content in fewer words overall)",
+            "flow": "A: 'handles sparse interaction histories, and new-user engagement prediction accuracy improves' vs B: 'handles sparse interaction histories. Compared with the matrix factorization baseline ..., it improves'",
+            "precision": "A: 'future work should test whether' vs B: 'future work should look at whether'",
+            "audience_fit": "A: 'We developed a two-stage model' vs B: 'We built a two-stage model'"
+          },
+          "overall": "B"
+        },
+        "key": "ebab8f1f5b5b45cf",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions remove the original's wordiness ('came up with', 'the results point out', 'ended up') and merge the closing two sentences with 'so'. Version A keeps the model description and the result in one sentence joined by 'and', so the 8.3-point gain is buried mid-sentence and never attributed to the model. Version B gives the result its own sentence and ties it to the model with 'it', which makes the key finding easier to find and better connected. Version A is somewhat tighter. It also chooses more exact, more formal verbs: 'developed' over 'built', and 'test' over 'look at', which suits a research audience better. On balance, B's structural gain in clarity and flow outweighs A's advantages in word choice.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"A\",\n    \"audience_fit\": \"A\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'sparse interaction histories, and new-user engagement prediction accuracy improves by 8.3 points' vs B: 'Compared with the matrix factorization baseline (Koren et al., 2009), it improves new-user engagement prediction accuracy by 8.3 points.'\",\n    \"concision\": \"A: 'Users who received the warm-start recommendations showed higher engagement.' vs B: 'Compared with the matrix factorization baseline (Koren et al., 2009), it improves...' (A conveys the same content in fewer words overall)\",\n    \"flow\": \"A: 'handles sparse interaction histories, and new-user engagement prediction accuracy improves' vs B: 'handles sparse interaction histories. Compared with the matrix factorization baseline ..., it improves'\",\n    \"precision\": \"A: 'future work should test whether' vs B: 'future work should look at whether'\",\n    \"audience_fit\": \"A: 'We developed a two-stage model' vs B: 'We built a two-stage model'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.0402632,
+        "seconds": 14.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

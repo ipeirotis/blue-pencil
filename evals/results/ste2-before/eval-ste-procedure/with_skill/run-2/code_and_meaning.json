@@ -1,0 +1,43 @@
+{
+  "case": "ste-procedure",
+  "run_dir": "results/ste2-before/eval-ste-procedure/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "lost_content",
+          "severity": "major",
+          "original_quote": "Responses were screened and recoded after the field period closed",
+          "revised_quote": "After the field period closed, responses were screened",
+          "explanation": "The revision drops the recoding step, so the reader no longer learns that responses were recoded as well as screened."
+        }
+      ],
+      "summary": "The revision drops the statement that responses were recoded, which removes a processing step. The other edits are reordering and sentence splits. The hedged weighting clause ('would have been expected to have been applied' to 'were to be applied') still does not say that weights were actually applied, so it was not flagged."
+    },
+    "key": "e2424b6281e2211e",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"lost_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Responses were screened and recoded after the field period closed\",\n      \"revised_quote\": \"After the field period closed, responses were screened\",\n      \"explanation\": \"The revision drops the recoding step, so the reader no longer learns that responses were recoded as well as screened.\"\n    }\n  ],\n  \"summary\": \"The revision drops the statement that responses were recoded, which removes a processing step. The other edits are reordering and sentence splits. The hedged weighting clause ('would have been expected to have been applied' to 'were to be applied') still does not say that weights were actually applied, so it was not flagged.\"\n}\n```",
+    "cost_usd": 0.0314712,
+    "seconds": 10.5,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

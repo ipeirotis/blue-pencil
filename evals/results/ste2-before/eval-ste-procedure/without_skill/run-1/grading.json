@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": false,
+      "evidence": "numberwords: -[] +['four']"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": false,
+      "evidence": "verdict=changed: The revision drops the recoding step. It also presents the weighting as a completed processing step, while the original was hedged and unclear on whether weights were applied. The exclusion criteria, coding procedure, merge, Census margins, and N = 2,184 are preserved and correctly attached."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "pass_rate": 0.0
+  }
+}

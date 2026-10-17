@@ -1,0 +1,14 @@
+/paper:revise <paper_context>
+target_venue: Public Opinion Quarterly
+audience: survey methodologists and political scientists
+core_thesis: Open-ended answers reveal partisan differences in how respondents interpret trust in institutions that closed-ended items miss.
+revision_stage: first draft
+</paper_context>
+
+This is the data-processing paragraph of our methods section. A colleague said they could not tell what order the steps happened in or which ones a replicator would need to repeat. Can you make it clearer?
+
+Preserve my meaning, claims, and voice, and do not change any number, statistic, or citation, including the order of citations.
+
+Responses were screened and recoded after the field period closed, with respondents excluded if they failed both attention checks or finished in under one third of the median completion time (4.1 minutes). Open-ended answers were coded by two research assistants using the codebook in Appendix B, disagreements being resolved by discussion, and the coded categories were merged with the panel's demographic file using the respondent ID. Raking weights would have been expected to have been applied to the merged file before estimation, matching the 2020 Census margins for age, sex, and region, and the analytic sample is N = 2,184 after exclusions.
+
+Put the revised text in a single fenced code block.

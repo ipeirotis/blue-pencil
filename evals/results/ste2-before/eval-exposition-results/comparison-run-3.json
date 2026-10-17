@@ -1,0 +1,93 @@
+{
+  "case": "exposition-results",
+  "run": 3,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A states its point first ('a clear role for reviewer identity') and links each result to that point with content-bearing transitions. This is how empirical IS results sections usually read. Some of its framing is loose, however. 'Identity adds to its effect rather than being absorbed by it' and 'improves accordingly' are vaguer than the numbers support. Version B is tighter: it folds columns 2 and 3 into one sentence and avoids interpretive glosses, so its wording is more exact. But B opens with the control variable (star rating) rather than the focal one, offers no topic sentence, and mostly lists coefficients. A wins on clarity, flow, and audience fit. B wins on concision and precision. Overall, A reads better as a results paragraph.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'they point to a clear role for reviewer identity' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications'",
+            "concision": "A: 'In column 2, the coefficient ... is 0.18 (SE = 0.04). It remains substantial after we add product fixed effects in column 3, where it is 0.15' vs B: 'is 0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3, after adding product fixed effects'",
+            "flow": "A: 'It remains substantial after we add product fixed effects' / 'Identity also conditions the influence of a review' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'",
+            "precision": "A: 'identity adds to its effect rather than being absorbed by it' / 'Model fit improves accordingly' vs B: 'The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2'",
+            "audience_fit": "A: 'the estimates, and they point to a clear role for reviewer identity' vs B: 'identity disclosure carries a coefficient of its own'"
+          },
+          "overall": "A"
+        },
+        "key": "102c684c4e58a7a5",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A states its point first ('a clear role for reviewer identity') and links each result to that point with content-bearing transitions. This is how empirical IS results sections usually read. Some of its framing is loose, however. 'Identity adds to its effect rather than being absorbed by it' and 'improves accordingly' are vaguer than the numbers support. Version B is tighter: it folds columns 2 and 3 into one sentence and avoids interpretive glosses, so its wording is more exact. But B opens with the control variable (star rating) rather than the focal one, offers no topic sentence, and mostly lists coefficients. A wins on clarity, flow, and audience fit. B wins on concision and precision. Overall, A reads better as a results paragraph.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"B\", \"flow\": \"A\", \"precision\": \"B\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'they point to a clear role for reviewer identity' vs B: 'Star rating has a coefficient of 0.42 (SE = 0.02) across all specifications'\",\n    \"concision\": \"A: 'In column 2, the coefficient ... is 0.18 (SE = 0.04). It remains substantial after we add product fixed effects in column 3, where it is 0.15' vs B: 'is 0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3, after adding product fixed effects'\",\n    \"flow\": \"A: 'It remains substantial after we add product fixed effects' / 'Identity also conditions the influence of a review' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'\",\n    \"precision\": \"A: 'identity adds to its effect rather than being absorbed by it' / 'Model fit improves accordingly' vs B: 'The coefficient on the identity-disclosed indicator is 0.18 (SE = 0.04) in column 2'\",\n    \"audience_fit\": \"A: 'the estimates, and they point to a clear role for reviewer identity' vs B: 'identity disclosure carries a coefficient of its own'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.0465512,
+        "seconds": 16.6,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B states its point in the first sentence ('a clear role for reviewer identity'). It then moves through the columns using content-based links: 'remains substantial', 'also conditions', 'adds to its effect'. That suits a results section for empirical IS researchers, who expect estimates tied to a claim. Version A is shorter and merges columns 2 and 3 neatly. However, it opens with the control variable (star rating) rather than the focal one. It also inserts an empty clause, 'identity disclosure carries a coefficient of its own', and still lists results without a framing point. On precision, A's merged sentence is tight but its filler clause is vague. B's 'Model fit improves accordingly' implies a causal link the numbers don't establish. These weaknesses roughly offset. Overall, B reads better despite being longer.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "A",
+            "flow": "B",
+            "precision": "tie",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'Table 3 reports the estimates. Star rating has a coefficient of 0.42' vs B: 'Table 3 reports the estimates, and they point to a clear role for reviewer identity.'",
+            "concision": "A: '0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3' vs B: 'In column 2, the coefficient ... is 0.18 (SE = 0.04). It remains substantial after we add product fixed effects in column 3, where it is 0.15'",
+            "flow": "A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Identity also conditions the influence of a review: the interaction with reviewer tenure is 0.09'",
+            "audience_fit": "A: 'identity disclosure carries a coefficient of its own' vs B: 'identity adds to its effect rather than being absorbed by it'"
+          },
+          "overall": "B"
+        },
+        "key": "a11f56c247db32d3",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B states its point in the first sentence ('a clear role for reviewer identity'). It then moves through the columns using content-based links: 'remains substantial', 'also conditions', 'adds to its effect'. That suits a results section for empirical IS researchers, who expect estimates tied to a claim. Version A is shorter and merges columns 2 and 3 neatly. However, it opens with the control variable (star rating) rather than the focal one. It also inserts an empty clause, 'identity disclosure carries a coefficient of its own', and still lists results without a framing point. On precision, A's merged sentence is tight but its filler clause is vague. B's 'Model fit improves accordingly' implies a causal link the numbers don't establish. These weaknesses roughly offset. Overall, B reads better despite being longer.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"A\",\n    \"flow\": \"B\",\n    \"precision\": \"tie\",\n    \"audience_fit\": \"B\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Table 3 reports the estimates. Star rating has a coefficient of 0.42' vs B: 'Table 3 reports the estimates, and they point to a clear role for reviewer identity.'\",\n    \"concision\": \"A: '0.18 (SE = 0.04) in column 2 and 0.15 (SE = 0.05) in column 3' vs B: 'In column 2, the coefficient ... is 0.18 (SE = 0.04). It remains substantial after we add product fixed effects in column 3, where it is 0.15'\",\n    \"flow\": \"A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Identity also conditions the influence of a review: the interaction with reviewer tenure is 0.09'\",\n    \"audience_fit\": \"A: 'identity disclosure carries a coefficient of its own' vs B: 'identity adds to its effect rather than being absorbed by it'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.043487200000000004,
+        "seconds": 14.7,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "without_skill"
+    }
+  ],
+  "consolidated": "without_skill",
+  "note": ""
+}

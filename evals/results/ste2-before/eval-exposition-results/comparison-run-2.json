@@ -1,0 +1,93 @@
+{
+  "case": "exposition-results",
+  "run": 2,
+  "orders": [
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Both versions add an upfront claim, but A's is more exact. 'Identity disclosure matters over and above the star rating' names the variable being tested. B's 'who writes a review matters' is looser: the indicator captures whether identity is disclosed, not who the reviewer is. A is also tighter, merging columns 2 and 3 into one sentence without adding framing words. B connects ideas better through content ('Identity also interacts with reviewer tenure', 'Star rating, by contrast'), while A's later sentences remain a list of coefficients. B's 'by contrast' is also a little off, since star rating is a control and not a contrasting finding. For empirical IS readers, A's register is slightly more conventional. B wins on flow, but A's precision and concision outweigh it.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "B",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'Identity disclosure matters over and above the star rating.' vs B: 'Table 3 reports the estimates, and they show that who writes a review matters.'",
+            "concision": "A: 'and it survives the addition of product fixed effects in column 3' vs B: 'It remains substantial after we add product fixed effects in column 3'",
+            "flow": "A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Identity also interacts with reviewer tenure: the interaction in column 4 is 0.09'",
+            "precision": "A: 'Identity disclosure matters' vs B: 'who writes a review matters'",
+            "audience_fit": "A: 'over and above the star rating' vs B: 'Star rating, by contrast, carries a steady coefficient'"
+          },
+          "overall": "A"
+        },
+        "key": "87585e8a2561d765",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Both versions add an upfront claim, but A's is more exact. 'Identity disclosure matters over and above the star rating' names the variable being tested. B's 'who writes a review matters' is looser: the indicator captures whether identity is disclosed, not who the reviewer is. A is also tighter, merging columns 2 and 3 into one sentence without adding framing words. B connects ideas better through content ('Identity also interacts with reviewer tenure', 'Star rating, by contrast'), while A's later sentences remain a list of coefficients. B's 'by contrast' is also a little off, since star rating is a control and not a contrasting finding. For empirical IS readers, A's register is slightly more conventional. B wins on flow, but A's precision and concision outweigh it.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"B\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'Identity disclosure matters over and above the star rating.' vs B: 'Table 3 reports the estimates, and they show that who writes a review matters.'\",\n    \"concision\": \"A: 'and it survives the addition of product fixed effects in column 3' vs B: 'It remains substantial after we add product fixed effects in column 3'\",\n    \"flow\": \"A: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.' vs B: 'Identity also interacts with reviewer tenure: the interaction in column 4 is 0.09'\",\n    \"precision\": \"A: 'Identity disclosure matters' vs B: 'who writes a review matters'\",\n    \"audience_fit\": \"A: 'over and above the star rating' vs B: 'Star rating, by contrast, carries a steady coefficient'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.039895200000000006,
+        "seconds": 13.2,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B opens with a standalone claim that names the variable, so readers get the finding before the table details. Version A also states its point up front, but hides it after 'Table 3 reports the estimates, and' and phrases it loosely ('who writes a review'). A has better flow: its later sentences are linked by content ('It remains substantial', 'Identity also interacts', 'by contrast'). B's later sentences read as a list, much like the original. B is a little tighter and its wording is more exact: 'survives the addition of product fixed effects' is the standard robustness idiom, while A's 'who writes a review matters' blurs identity disclosure into authorship. Both suit an empirical IS audience. B's clearer topic sentence and more precise wording outweigh A's smoother transitions.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "A",
+            "precision": "B",
+            "audience_fit": "tie"
+          },
+          "evidence": {
+            "clarity": "A: 'Table 3 reports the estimates, and they show that who writes a review matters' vs B: 'Identity disclosure matters over and above the star rating.'",
+            "concision": "A: 'Star rating, by contrast, carries a steady coefficient of 0.42' vs B: 'The coefficient on star rating is 0.42'",
+            "flow": "A: 'It remains substantial after we add... Identity also interacts with reviewer tenure' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'",
+            "precision": "A: 'who writes a review matters' vs B: 'it survives the addition of product fixed effects'"
+          },
+          "overall": "B"
+        },
+        "key": "e75d068f56d537ac",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B opens with a standalone claim that names the variable, so readers get the finding before the table details. Version A also states its point up front, but hides it after 'Table 3 reports the estimates, and' and phrases it loosely ('who writes a review'). A has better flow: its later sentences are linked by content ('It remains substantial', 'Identity also interacts', 'by contrast'). B's later sentences read as a list, much like the original. B is a little tighter and its wording is more exact: 'survives the addition of product fixed effects' is the standard robustness idiom, while A's 'who writes a review matters' blurs identity disclosure into authorship. Both suit an empirical IS audience. B's clearer topic sentence and more precise wording outweigh A's smoother transitions.\",\n  \"dimensions\": {\n    \"clarity\": \"B\",\n    \"concision\": \"B\",\n    \"flow\": \"A\",\n    \"precision\": \"B\",\n    \"audience_fit\": \"tie\"\n  },\n  \"evidence\": {\n    \"clarity\": \"A: 'Table 3 reports the estimates, and they show that who writes a review matters' vs B: 'Identity disclosure matters over and above the star rating.'\",\n    \"concision\": \"A: 'Star rating, by contrast, carries a steady coefficient of 0.42' vs B: 'The coefficient on star rating is 0.42'\",\n    \"flow\": \"A: 'It remains substantial after we add... Identity also interacts with reviewer tenure' vs B: 'The interaction with reviewer tenure is 0.09 (SE = 0.03) in column 4.'\",\n    \"precision\": \"A: 'who writes a review matters' vs B: 'it survives the addition of product fixed effects'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.039199200000000003,
+        "seconds": 11.8,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

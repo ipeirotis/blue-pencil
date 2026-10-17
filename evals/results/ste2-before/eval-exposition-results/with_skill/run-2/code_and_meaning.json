@@ -1,0 +1,43 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-before/eval-exposition-results/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "Table 3 reports the estimates.",
+          "revised_quote": "Identity disclosure matters over and above the star rating.",
+          "explanation": "The revision adds an interpretive claim that the original never makes; the original only reports the coefficients and does not say identity disclosure matters beyond star rating."
+        }
+      ],
+      "summary": "Every number stays attached to the same variable, column, and significance level. However, the revision adds a new opening claim that identity disclosure matters over and above the star rating, which the original does not assert. The phrase 'survives the addition of product fixed effects' fits the original's report that the coefficient is 0.15 and significant at the 1% level, so it is not flagged."
+    },
+    "key": "0407766c7dfe0aa6",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"Table 3 reports the estimates.\",\n      \"revised_quote\": \"Identity disclosure matters over and above the star rating.\",\n      \"explanation\": \"The revision adds an interpretive claim that the original never makes; the original only reports the coefficients and does not say identity disclosure matters beyond star rating.\"\n    }\n  ],\n  \"summary\": \"Every number stays attached to the same variable, column, and significance level. However, the revision adds a new opening claim that identity disclosure matters over and above the star rating, which the original does not assert. The phrase 'survives the addition of product fixed effects' fits the original's report that the coefficient is 0.15 and significant at the 1% level, so it is not flagged.\"\n}\n```",
+    "cost_usd": 0.0310832,
+    "seconds": 8.5,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

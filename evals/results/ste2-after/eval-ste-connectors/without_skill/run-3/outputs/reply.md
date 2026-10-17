@@ -1,0 +1,5 @@
+```
+We find that the gain from retrieval augmentation is concentrated in long-tail questions. Because the retriever was frozen, accuracy on frequent questions did not change. Accuracy on rare questions rose from 41.2% to 57.8% (Table 3). Median latency increased by 210 ms per query. As the index grows, retrieval cost rises: we observe that the median retrieval time roughly doubles between the 1M and 10M document indexes. Prior work assumes that the retrieved passages are relevant [@lewis2020]. However, our annotation shows that 23% of the top-ranked passages do not contain the answer.
+```
+
+I split the long second sentence into three shorter ones, so each sentence carries one idea. I also added "that" after "find", "observe" and "assumes", and used "However" to mark the contrast in the last sentence. All numbers, the table reference, and the citation are unchanged.

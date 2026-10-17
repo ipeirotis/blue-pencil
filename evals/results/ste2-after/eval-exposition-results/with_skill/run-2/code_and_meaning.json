@@ -1,0 +1,35 @@
+{
+  "case": "exposition-results",
+  "run_dir": "results/ste2-after/eval-exposition-results/with_skill/run-2",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "preserved",
+      "problems": [],
+      "summary": "All numbers stay attached to the same variables and columns (0.18 in column 2, 0.15 in column 3 with product fixed effects, 0.09 for the tenure interaction in column 4, 0.42 for star rating, R-squared 0.31 to 0.47), and the significance statements are unchanged; the R-squared sentence was only moved. The added lead-in ('a positive, significant coefficient that survives product fixed effects') follows directly from the original, which reports positive coefficients significant at the 1% level both before and after product fixed effects, so it does not add a new claim."
+    },
+    "key": "dd6fc230104a0cd2",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"preserved\",\n  \"problems\": [],\n  \"summary\": \"All numbers stay attached to the same variables and columns (0.18 in column 2, 0.15 in column 3 with product fixed effects, 0.09 for the tenure interaction in column 4, 0.42 for star rating, R-squared 0.31 to 0.47), and the significance statements are unchanged; the R-squared sentence was only moved. The added lead-in ('a positive, significant coefficient that survives product fixed effects') follows directly from the original, which reports positive coefficients significant at the 1% level both before and after product fixed effects, so it does not add a new claim.\"\n}\n```",
+    "cost_usd": 0.0319112,
+    "seconds": 8.9,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

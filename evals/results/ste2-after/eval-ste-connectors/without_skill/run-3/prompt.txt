@@ -1,0 +1,14 @@
+<paper_context>
+target_venue: ACL
+audience: NLP researchers, many of whom read English as a second language
+core_thesis: Retrieval augmentation helps mainly on long-tail questions, and its benefit is limited by the relevance of what the retriever returns.
+revision_stage: first draft
+</paper_context>
+
+Many readers at this venue read English as a second language. Can you make this results paragraph easier to read without changing what it claims?
+
+Preserve my meaning, claims, and voice, and do not change any number, statistic, or citation, including the order of citations.
+
+We find the gain from retrieval augmentation is concentrated in long-tail questions. Since the retriever was frozen, accuracy on frequent questions did not change, while accuracy on rare questions rose from 41.2% to 57.8% (Table 3), with median latency increasing by 210 ms per query. As the index grows, retrieval cost rises: we observe the median retrieval time roughly doubles between the 1M and 10M document indexes. Prior work assumes the retrieved passages are relevant [@lewis2020], but our annotation shows 23% of the top-ranked passages do not contain the answer.
+
+Put the revised text in a single fenced code block.

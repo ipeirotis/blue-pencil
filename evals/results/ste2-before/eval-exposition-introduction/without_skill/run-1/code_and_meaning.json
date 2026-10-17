@@ -1,0 +1,71 @@
+{
+  "case": "exposition-introduction",
+  "run_dir": "results/ste2-before/eval-exposition-introduction/without_skill/run-1",
+  "has_revised_text": true,
+  "code": {
+    "passed": true,
+    "diffs": {}
+  },
+  "meaning": {
+    "parsed": {
+      "verdict": "changed",
+      "problems": [
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "a well-known obstacle to identification in this literature",
+          "revised_quote": "a well-known obstacle to identifying the causal effect of valence on sales in this literature",
+          "explanation": "The original names no estimand or outcome; the revision introduces sales as the outcome and a causal effect of valence on it."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.",
+          "revised_quote": "the same unobserved quality that leads consumers to rate a product highly also leads them to buy it",
+          "explanation": "The revision adds a specific mechanism for the endogeneity, involving purchase behavior, that the original does not state."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "platforms differentially apply moderation policies across review cohorts, which generates quasi-random assignment conditional on observed covariates",
+          "revised_quote": "so that comparable reviews are moderated differently",
+          "explanation": "The revision adds a claim that comparable reviews receive different moderation, which the original does not assert."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "which generates quasi-random assignment conditional on observed covariates",
+          "revised_quote": "This generates quasi-random assignment, conditional on observed covariates, of the moderation regime a review faces.",
+          "explanation": "The original does not say what is quasi-randomly assigned; the revision specifies the moderation regime."
+        },
+        {
+          "type": "new_content",
+          "severity": "major",
+          "original_quote": "we estimate the effect and find it to be positive and significant",
+          "revised_quote": "we estimate the effect of review valence on sales and find it to be positive and significant",
+          "explanation": "The original leaves the estimated effect unspecified; the revision says the positive, significant result is the effect of valence on sales."
+        }
+      ],
+      "summary": "The revision adds several specifics the original does not state: sales as the outcome, a mechanism for endogeneity, that comparable reviews are moderated differently, and what is quasi-randomly assigned. Together these change what the passage claims about the design and the result."
+    },
+    "key": "b07038ac47e75bf0",
+    "env": {
+      "flags": [
+        "--setting-sources",
+        "project",
+        "--disable-slash-commands",
+        "--tools",
+        ""
+      ],
+      "claude_code_version": "2.1.301 (Claude Code)"
+    },
+    "requested_model": "claude-opus-5-5",
+    "raw": "```json\n{\n  \"verdict\": \"changed\",\n  \"problems\": [\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"a well-known obstacle to identification in this literature\",\n      \"revised_quote\": \"a well-known obstacle to identifying the causal effect of valence on sales in this literature\",\n      \"explanation\": \"The original names no estimand or outcome; the revision introduces sales as the outcome and a causal effect of valence on it.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"The endogeneity of review valence with respect to unobserved product quality is a well-known obstacle to identification in this literature.\",\n      \"revised_quote\": \"the same unobserved quality that leads consumers to rate a product highly also leads them to buy it\",\n      \"explanation\": \"The revision adds a specific mechanism for the endogeneity, involving purchase behavior, that the original does not state.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"platforms differentially apply moderation policies across review cohorts, which generates quasi-random assignment conditional on observed covariates\",\n      \"revised_quote\": \"so that comparable reviews are moderated differently\",\n      \"explanation\": \"The revision adds a claim that comparable reviews receive different moderation, which the original does not assert.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"which generates quasi-random assignment conditional on observed covariates\",\n      \"revised_quote\": \"This generates quasi-random assignment, conditional on observed covariates, of the moderation regime a review faces.\",\n      \"explanation\": \"The original does not say what is quasi-randomly assigned; the revision specifies the moderation regime.\"\n    },\n    {\n      \"type\": \"new_content\",\n      \"severity\": \"major\",\n      \"original_quote\": \"we estimate the effect and find it to be positive and significant\",\n      \"revised_quote\": \"we estimate the effect of review valence on sales and find it to be positive and significant\",\n      \"explanation\": \"The original leaves the estimated effect unspecified; the revision says the positive, significant result is the effect of valence on sales.\"\n    }\n  ],\n  \"summary\": \"The revision adds several specifics the original does not state: sales as the outcome, a mechanism for endogeneity, that comparable reviews are moderated differently, and what is quasi-randomly assigned. Together these change what the passage claims about the design and the result.\"\n}\n```",
+    "cost_usd": 0.0422152,
+    "seconds": 13.0,
+    "models": [
+      "claude-opus-5-5"
+    ],
+    "rubric": "v0.3"
+  }
+}

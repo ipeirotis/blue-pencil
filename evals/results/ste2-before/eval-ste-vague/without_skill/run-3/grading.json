@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision keeps the cold-start framing, the 8.3-point improvement over the cited matrix factorization baseline (Koren et al., 2009), the higher engagement for warm-start users, the single-platform caveat, and the future-work call. Its changes are informal-to-standard synonyms, a neutral attribution phrase removed, and two sentences merged with a connective."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}

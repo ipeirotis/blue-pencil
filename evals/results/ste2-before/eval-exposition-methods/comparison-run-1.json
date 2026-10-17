@@ -1,0 +1,94 @@
+{
+  "case": "exposition-methods",
+  "run": 1,
+  "orders": [
+    {
+      "A": "without_skill",
+      "B": "with_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version B leads with the staggered rollout, which motivates both the control group and the estimator choice. It then states the specification in compact sentences that suit quantitative marketing researchers. Version A explains fixed effects, staggered designs, and 'not yet treated', all of which this audience already knows. Its sentence 'As a result, we do not need a separate group of stores that never receive the program' is a weak link. It also clashes with the next sentence, which puts never-treated stores in the comparison group. A's final sentence, 'This estimator addresses heterogeneity in treatment timing', is a stub split off from the previous sentence. B is clearer, tighter, flows better, and avoids A's internal inconsistency.",
+          "dimensions": {
+            "clarity": "B",
+            "concision": "B",
+            "flow": "B",
+            "precision": "B",
+            "audience_fit": "B"
+          },
+          "evidence": {
+            "clarity": "A: 'a staggered design in which stores enter treatment at different times rather than all at once' (restates the previous clause) vs B: 'rolled out to stores on different dates, so we use two kinds of stores as the control group'",
+            "concision": "A: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks common to all stores' vs B: 'with store and week fixed effects and controls for foot traffic'",
+            "flow": "A: 'As a result, we do not need a separate group of stores' (non sequitur) vs B: 'so we use two kinds of stores as the control group'",
+            "precision": "A: 'we do not need a separate group of stores that never receive the program' followed by 'stores that are never treated' (contradictory) vs B: 'never-treated stores, which never receive the program'",
+            "audience_fit": "A: 'meaning those that will receive the program later but have not yet received it' (over-explains to experts) vs B: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator'"
+          },
+          "overall": "B"
+        },
+        "key": "9ee1d40dd2abc65b",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version B leads with the staggered rollout, which motivates both the control group and the estimator choice. It then states the specification in compact sentences that suit quantitative marketing researchers. Version A explains fixed effects, staggered designs, and 'not yet treated', all of which this audience already knows. Its sentence 'As a result, we do not need a separate group of stores that never receive the program' is a weak link. It also clashes with the next sentence, which puts never-treated stores in the comparison group. A's final sentence, 'This estimator addresses heterogeneity in treatment timing', is a stub split off from the previous sentence. B is clearer, tighter, flows better, and avoids A's internal inconsistency.\",\n  \"dimensions\": {\"clarity\": \"B\", \"concision\": \"B\", \"flow\": \"B\", \"precision\": \"B\", \"audience_fit\": \"B\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'a staggered design in which stores enter treatment at different times rather than all at once' (restates the previous clause) vs B: 'rolled out to stores on different dates, so we use two kinds of stores as the control group'\",\n    \"concision\": \"A: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks common to all stores' vs B: 'with store and week fixed effects and controls for foot traffic'\",\n    \"flow\": \"A: 'As a result, we do not need a separate group of stores' (non sequitur) vs B: 'so we use two kinds of stores as the control group'\",\n    \"precision\": \"A: 'we do not need a separate group of stores that never receive the program' followed by 'stores that are never treated' (contradictory) vs B: 'never-treated stores, which never receive the program'\",\n    \"audience_fit\": \"A: 'meaning those that will receive the program later but have not yet received it' (over-explains to experts) vs B: 'To address heterogeneity in treatment timing, we report the Callaway and Sant'Anna estimator'\"\n  },\n  \"overall\": \"B\"\n}\n```",
+        "cost_usd": 0.037915199999999996,
+        "seconds": 12.3,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    },
+    {
+      "A": "with_skill",
+      "B": "without_skill",
+      "grader": {
+        "parsed": {
+          "reasoning": "Version A keeps the paragraph compact. It opens with the staggered rollout, which motivates the choice of controls, and then sets out the specification, the estimand and the robustness estimator in a logical order. Its one weakness is the glosses 'which never receive the program' and 'which have not received it yet', which repeat what the terms already say. Version B explains textbook ideas at length, such as what store and week fixed effects absorb and what a staggered design is. Quantitative marketing researchers do not need these explanations. B also says 'we do not need a separate group of stores that never receive the program' and then immediately lists never-treated stores in the comparison group, which reads as a contradiction. It ends with a short, tacked-on sentence that repeats the previous one. A is tighter, clearer, more precise and better matched to its expert audience.",
+          "dimensions": {
+            "clarity": "A",
+            "concision": "A",
+            "flow": "A",
+            "precision": "A",
+            "audience_fit": "A"
+          },
+          "evidence": {
+            "clarity": "A: 'so we use two kinds of stores as the control group' vs B: 'we do not need a separate group of stores that never receive the program. At any point in time, the comparison group consists of stores that are never treated'",
+            "concision": "A: 'we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate' vs B: 'we report the Callaway and Sant'Anna estimator alongside it. This estimator addresses heterogeneity in treatment timing.'",
+            "flow": "A: 'The loyalty program was rolled out to stores on different dates, so we use two kinds of stores' vs B: 'a staggered design in which stores enter treatment at different times rather than all at once. As a result, we do not need'",
+            "precision": "A: 'never-treated stores, which never receive the program' vs B: 'we do not need a separate group of stores that never receive the program'",
+            "audience_fit": "A: 'two-way fixed effects model with store and week fixed effects' vs B: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks common to all stores'"
+          },
+          "overall": "A"
+        },
+        "key": "241e28344ac77fdc",
+        "env": {
+          "flags": [
+            "--setting-sources",
+            "project",
+            "--disable-slash-commands",
+            "--tools",
+            ""
+          ],
+          "claude_code_version": "2.1.301 (Claude Code)"
+        },
+        "requested_model": "claude-opus-5-5",
+        "raw": "```json\n{\n  \"reasoning\": \"Version A keeps the paragraph compact. It opens with the staggered rollout, which motivates the choice of controls, and then sets out the specification, the estimand and the robustness estimator in a logical order. Its one weakness is the glosses 'which never receive the program' and 'which have not received it yet', which repeat what the terms already say. Version B explains textbook ideas at length, such as what store and week fixed effects absorb and what a staggered design is. Quantitative marketing researchers do not need these explanations. B also says 'we do not need a separate group of stores that never receive the program' and then immediately lists never-treated stores in the comparison group, which reads as a contradiction. It ends with a short, tacked-on sentence that repeats the previous one. A is tighter, clearer, more precise and better matched to its expert audience.\",\n  \"dimensions\": {\"clarity\": \"A\", \"concision\": \"A\", \"flow\": \"A\", \"precision\": \"A\", \"audience_fit\": \"A\"},\n  \"evidence\": {\n    \"clarity\": \"A: 'so we use two kinds of stores as the control group' vs B: 'we do not need a separate group of stores that never receive the program. At any point in time, the comparison group consists of stores that are never treated'\",\n    \"concision\": \"A: 'we report the Callaway and Sant'Anna estimator alongside the two-way fixed effects estimate' vs B: 'we report the Callaway and Sant'Anna estimator alongside it. This estimator addresses heterogeneity in treatment timing.'\",\n    \"flow\": \"A: 'The loyalty program was rolled out to stores on different dates, so we use two kinds of stores' vs B: 'a staggered design in which stores enter treatment at different times rather than all at once. As a result, we do not need'\",\n    \"precision\": \"A: 'never-treated stores, which never receive the program' vs B: 'we do not need a separate group of stores that never receive the program'\",\n    \"audience_fit\": \"A: 'two-way fixed effects model with store and week fixed effects' vs B: 'The store fixed effects absorb stable differences across stores, and the week fixed effects absorb shocks common to all stores'\"\n  },\n  \"overall\": \"A\"\n}\n```",
+        "cost_usd": 0.039495199999999994,
+        "seconds": 12.0,
+        "models": [
+          "claude-opus-5-5"
+        ]
+      },
+      "winner": "with_skill"
+    }
+  ],
+  "consolidated": "with_skill",
+  "note": ""
+}

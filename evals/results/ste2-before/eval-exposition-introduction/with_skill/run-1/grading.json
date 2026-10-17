@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "text": "Protected content unchanged (code grader)",
+      "passed": true,
+      "evidence": "no differences in citations, numbers, math, cross-references, quotes, markup"
+    },
+    {
+      "text": "Meaning preserved (meaning grader)",
+      "passed": true,
+      "evidence": "verdict=preserved: The revision restructures sentences and moves the identification-strategy claim before the results without changing any claim, caveat, or number; 'conditional on observed covariates' and '3.4 million reviews' stay attached to the same claims. The added 'of review valence' makes explicit what the original implied, since the identification strategy addresses the endogeneity of review valence."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "pass_rate": 1.0
+  }
+}
