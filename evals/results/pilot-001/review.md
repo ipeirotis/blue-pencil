@@ -8,8 +8,8 @@ Run `pilot-001`: 4 example passages, 3 runs each, with and without Blue Pencil (
 - Average major meaning problems per edit: Blue Pencil 0.67, plain Claude 2.17.
 - Code check failures: Blue Pencil 1, plain Claude 4. All were for added words.
 - Quality grader: Blue Pencil won 6, plain Claude 5, 1 tie. When only one version kept the meaning, it chose the other one (7 of 7).
-- Your verdicts: Blue Pencil 8, plain Claude 0, tie 4. You agreed with the grader on 4/12.
-- You said neither version improved on the original in 5 pairs.
+- Human reader verdicts: Blue Pencil 8, plain Claude 0, tie 4. The human reader agreed with the grader on 4/12.
+- The human reader said neither version improved on the original in 5 pairs.
 - Cost per edit: Blue Pencil $0.41 and 105 s, plain Claude $0.02 and 10 s.
 
 ## Results by passage
@@ -31,7 +31,7 @@ Full grader quotes are in each run's `code_and_meaning.json` and `comparison-run
 
 ### exposition-introduction, run 1
 
-Quality grader: **Blue Pencil**. You: **Blue Pencil**. Agree: yes.
+Quality grader: **Blue Pencil**. Human reader: **Blue Pencil**. Agree: yes.
 
 Original
 
@@ -77,13 +77,13 @@ Checks:
 - Blue Pencil: code passed, meaning changed, 2 major, 0 minor
 - Plain Claude: code failed, meaning changed, 3 major, 0 minor
 
-Your notes:
+Human reader notes:
 
 > Version 1 is significantly better than version 2. Meaning is not changed in version 1, meaning is changed in version 2. Version 2 using parentheticals and appositives to define all of the various terms the original author uses. This significantly damages author voice. Version 1 retains all of the original language. Version 1 is better than the original version because it re-orders sentences in a way that improves the logical flow of the author's arguments.
 
 ### exposition-introduction, run 2
 
-Quality grader: **Blue Pencil**. You: **Blue Pencil**. Agree: yes.
+Quality grader: **Blue Pencil**. Human reader: **Blue Pencil**. Agree: yes.
 
 Original
 
@@ -126,13 +126,13 @@ Checks:
 - Plain Claude: code passed, meaning changed, 2 major, 1 minor
 - Blue Pencil: code passed, meaning changed, 1 major, 0 minor
 
-Your notes:
+Human reader notes:
 
 > Version 2 is better than version 1. Meaning is changed in version 1, meaning is not changed in version 2. Specifically, this added sentence in version 1: "because quality affects both the reviews a product receives and its sales, a naive comparison conflates the effect of valence with the effect of quality" could be interpreted as just rewording the first sentence, but to me it seems to change too much of the original. Version 1 seems to reword the first sentence in a way that retains the original author's language and intent better, and the rest of the sentence flows better as well.
 
 ### exposition-introduction, run 3
 
-Quality grader: **Plain Claude**. You: **tie**. Agree: no.
+Quality grader: **Plain Claude**. Human reader: **tie**. Agree: no.
 
 Original
 
@@ -174,13 +174,13 @@ Checks:
 - Plain Claude: code passed, meaning changed, 2 major, 1 minor
 - Blue Pencil: code passed, meaning changed, 1 major, 0 minor
 
-Your notes:
+Human reader notes:
 
 > Tie. Meaning is changed, however, in version 1. Meaning is not changed in version 2. Version 1 adds the word "sales" which is not present at all in the original section. However, version 1 flows significantly better than version 2. Version 2 is clunky at the end, with a series of sentences that don't flow as well together.
 
 ### exposition-methods, run 1
 
-Quality grader: **Plain Claude**. You: **tie**. Agree: no.
+Quality grader: **Plain Claude**. Human reader: **tie**. Agree: no.
 
 Original
 
@@ -212,13 +212,13 @@ Checks:
 - Plain Claude: code failed, meaning changed, 2 major, 1 minor
 - Blue Pencil: code passed, meaning preserved
 
-Your notes:
+Human reader notes:
 
 > Tie. Neither are improvements on the original text. Version 1 contains unnecessary appositives and explanatory language that damages the author's original voice, and doesn't make the section clearer, easier to read, or improve section flow. Likewise, version 2 contains unnecessary parentheticals that damage author voice and flow.
 
 ### exposition-methods, run 2
 
-Quality grader: **tie**. You: **Blue Pencil**. Agree: no.
+Quality grader: **tie**. Human reader: **Blue Pencil**. Agree: no.
 
 Original
 
@@ -252,13 +252,13 @@ Checks:
 - Blue Pencil: code passed, meaning preserved
 - Plain Claude: code failed, meaning changed, 3 major, 0 minor
 
-Your notes:
+Human reader notes:
 
 > Version 1 is better than version 2, however, neither are improvements on the original text. Version 1 contains unnecessary appositives that damages the author's original voice and doesn't make the section clearer or easier to read. Beyond this, very little is changed. The last sentence of version 1 does improve flow a little, however. Version 2 adds far too much explanatory language, breaks up the original paragraph into two sections unnecessarily, which severely infringes on readability and flow.
 
 ### exposition-methods, run 3
 
-Quality grader: **Blue Pencil**. You: **Blue Pencil**. Agree: yes.
+Quality grader: **Blue Pencil**. Human reader: **Blue Pencil**. Agree: yes.
 
 Original
 
@@ -292,13 +292,13 @@ Checks:
 - Plain Claude: code failed, meaning changed, 2 major, 0 minor
 - Blue Pencil: code failed, meaning preserved
 
-Your notes:
+Human reader notes:
 
 > Version 2 is better than version 1, however, neither are improvements on the original text. Version 2 contains unnecessary appositives that damage the author's original voice and doesn't make the section clearer or easier to read. I also prefer the flow of the original section compared to version 1 and version 2. Version 2 again adds far too much explanatory language and breaks up the original paragraph into two sections unnecessarily, which severely infringes on readability and flow.
 
 ### exposition-results, run 1
 
-Quality grader: **Plain Claude**. You: **Blue Pencil**. Agree: no.
+Quality grader: **Plain Claude**. Human reader: **Blue Pencil**. Agree: no.
 
 Original
 
@@ -329,13 +329,13 @@ Checks:
 - Plain Claude: code passed, meaning changed, 6 major, 0 minor
 - Blue Pencil: code passed, meaning preserved
 
-Your notes:
+Human reader notes:
 
 > Version 2 is better than version 1. Version 1 changes meaning significantly, adding causal relationships. Version 2's re-ordering helps the section flow better.
 
 ### exposition-results, run 2
 
-Quality grader: **Plain Claude**. You: **Blue Pencil**. Agree: no.
+Quality grader: **Plain Claude**. Human reader: **Blue Pencil**. Agree: no.
 
 Original
 
@@ -366,13 +366,13 @@ Checks:
 - Blue Pencil: code passed, meaning preserved
 - Plain Claude: code passed, meaning changed, 2 major, 0 minor
 
-Your notes:
+Human reader notes:
 
 > Version 1 is better than version 2, however, neither are improvements on the original text. Version 1 re-orders sentences in a way that harms the flow of the section. Version 2 changes meaning by adding words and qualifiers like "it holds at 0.15" and "remains a strong predictor throughout"
 
 ### exposition-results, run 3
 
-Quality grader: **Plain Claude**. You: **Blue Pencil**. Agree: no.
+Quality grader: **Plain Claude**. Human reader: **Blue Pencil**. Agree: no.
 
 Original
 
@@ -403,13 +403,13 @@ Checks:
 - Plain Claude: code passed, meaning changed, 4 major, 0 minor
 - Blue Pencil: code passed, meaning preserved
 
-Your notes:
+Human reader notes:
 
 > Version 2 is better than version 1, however, neither are improvements on the original text. Version 2 adds "the identity-disclosed indicator carries its own positive coefficient: 0.18," which harms author voice in my opinion, as colons like this are indicators of AI-generated prose. Additionally, the section flow isn't significantly improved. Version 1 changes meaning significantly by adding "Identity matters over and above the rating itself," a claim never stated in the original.
 
 ### worked-example, run 1
 
-Quality grader: **Blue Pencil**. You: **tie**. Agree: no.
+Quality grader: **Blue Pencil**. Human reader: **tie**. Agree: no.
 
 Original
 
@@ -461,13 +461,13 @@ Checks:
 - Plain Claude: code passed, meaning preserved
 - Blue Pencil: code passed, meaning changed, 2 major, 3 minor
 
-Your notes:
+Human reader notes:
 
 > Tie. Both make very similar changes that improve flow and readability about the same. However, neither addresses the throat clearing in the original section: "Crucially, however... to the best of our knowledge,..."
 
 ### worked-example, run 2
 
-Quality grader: **Blue Pencil**. You: **Blue Pencil**. Agree: yes.
+Quality grader: **Blue Pencil**. Human reader: **Blue Pencil**. Agree: yes.
 
 Original
 
@@ -519,13 +519,13 @@ Checks:
 - Blue Pencil: code passed, meaning unsure, 1 major, 3 minor
 - Plain Claude: code passed, meaning preserved
 
-Your notes:
+Human reader notes:
 
 > Version 1 is better than version 2. Version 1 is more concise and flows better than the original section and version 2. However, neither address the throat-clearing in the original section: "Crucially, however... to the best of our knowledge,..."
 
 ### worked-example, run 3
 
-Quality grader: **Blue Pencil**. You: **tie**. Agree: no.
+Quality grader: **Blue Pencil**. Human reader: **tie**. Agree: no.
 
 Original
 
@@ -568,7 +568,7 @@ Checks:
 - Blue Pencil: code passed, meaning unsure, 1 major, 3 minor
 - Plain Claude: code passed, meaning preserved
 
-Your notes:
+Human reader notes:
 
 > Tie. These versions are very similar. The main difference is that version 1 removes "fundamentally," "novel," and "important." I personally prefer these qualifiers, but I still need to speak with my professor about them.
 
