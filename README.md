@@ -55,6 +55,23 @@ Using claude.ai or another chat surface instead of a coding agent? Skip the inst
 
 LaTeX and pasted plain text are first-class. From Word or Google Docs, paste the text in and reapply formatting afterwards.
 
+## How well does it work?
+
+We ran the same edit request on 7 test passages, 3 times each, with Blue Pencil and with plain Claude (`claude-sonnet-5-5`, same instructions and paper context). Each edit was checked by code (did any number, citation, equation, or quote change?), by a model grader (did a claim's strength or scope change?), and by a blinded model grader that picked the better of each pair of versions.
+
+| Per edit, 21 edits per condition | Blue Pencil | Plain Claude |
+|---|---|---|
+| Meaning problems (average per edit) | 0.43 | 1.90 |
+| Passed both preservation checks | 13/21 (62%) | 9/21 (43%) |
+| Won the blinded quality comparison | 13/21 | 5/21 (3 ties) |
+| Cost and time | $0.43, 108 s | $0.02, 11 s |
+
+- **It changes meaning less often.** Blue Pencil introduced about a quarter as many meaning problems (new claims, stronger or weaker wording) as plain Claude. The gap in "passed both" is smaller than the gap in problems, because a single flagged problem fails an edit.
+- **It reads better in most pairs, but costs about 25 times as much.** The extra cost comes from the skill's reference passes.
+- **Treat these numbers as preliminary.** There are only 7 short passages, taken from this repo's own examples. The model graders have not been calibrated against people (in an earlier pilot, a human reviewer agreed with the quality grader on only 4 of 12 pairs). Results move from run to run: re-running plain Claude gave 8/21 and 9/21 on "passed both".
+
+Full method, per-passage tables, and raw outputs are in [`evals/`](evals/README.md) (start with `evals/results/ste-comparison/README.md`). To repeat the run: `cd evals && python3 run_pilot.py --runs 3 --run-id my-run`.
+
 ## Commands
 
 Plain-English requests work in any agent that reads the skill. Start with
