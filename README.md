@@ -57,22 +57,17 @@ LaTeX and pasted plain text are first-class. From Word or Google Docs, paste the
 
 ## How well does it work?
 
-In a first pilot, we gave Claude (`claude-sonnet-5-5`) the same edit request on 4 passages, 3 times each, once with Blue Pencil and once without, for 12 pairs of edits. Each edit was checked by code (did any number, citation, equation, or quote change?), by a model grader (did a claim's strength or scope change?), and by a blinded model grader that picked the better version. A human reviewer then judged every pair, also without knowing which was which.
+We ran 4 passages through Claude three times each, with and without Blue Pencil, and judged all 12 pairs with code checks, model graders, and a human reader who didn't know which version was which.
 
 | 12 pairs | Blue Pencil | Plain Claude |
 |---|---|---|
-| Meaning problems (average per edit) | 0.67 | 2.17 |
+| Meaning problems per edit | 0.67 | 2.17 |
 | Passed both preservation checks | 5/12 | 3/12 |
 | Model grader preferred | 6 | 5 (1 tie) |
-| Human reviewer preferred | 8 | 0 (4 ties) |
+| Human reader preferred | 8 | 0 (4 ties) |
 | Cost and time per edit | $0.41, 105 s | $0.02, 10 s |
 
-- **It changes meaning less often, with one exception.** Plain Claude added claims or stronger wording about three times as often per edit. On the `worked-example` passage the opposite happened: Blue Pencil dropped qualifier words like "novel" and "fundamentally" and added scope to a claim, passing 0/3 while plain Claude passed 3/3.
-- **People preferred it more than the model grader did.** The human reviewer never chose plain Claude, but agreed with the model grader on only 4 of 12 pairs, so model verdicts should be treated as provisional. In 5 pairs the reviewer thought neither version improved on the original.
-- **It costs about 20 times as much** per edit, because it runs many reference passes.
-- **This is a small pilot.** It used 4 passages from this repo's own examples, one model, and a single human reviewer. Only the Blue Pencil runs were given the paper-context file, so the two conditions differed in that as well.
-
-Full method, per-pair verdicts, and raw outputs are in [`evals/`](evals/README.md) (start with `evals/results/pilot-001/review.md`).
+Blue Pencil changed meaning less often, except on the `worked-example` passage, where it dropped words like "novel" and plain Claude did better. The human reader and the model grader agreed on only 4 of 12 pairs, so treat the model verdicts as provisional. This is a small pilot: 4 passages from this repo's examples, one model, one reader, and only the Blue Pencil runs saw the paper-context file. Details are in [`evals/results/pilot-001/review.md`](evals/results/pilot-001/review.md).
 
 ## Commands
 
