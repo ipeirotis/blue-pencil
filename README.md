@@ -57,20 +57,22 @@ LaTeX and pasted plain text are first-class. From Word or Google Docs, paste the
 
 ## How well does it work?
 
-We ran the same edit request on 7 test passages, 3 times each, with Blue Pencil and with plain Claude (`claude-sonnet-5-5`, same instructions and paper context). Each edit was checked by code (did any number, citation, equation, or quote change?), by a model grader (did a claim's strength or scope change?), and by a blinded model grader that picked the better of each pair of versions.
+In a first pilot, we gave Claude (`claude-sonnet-5-5`) the same edit request on 4 passages, 3 times each, once with Blue Pencil and once without, for 12 pairs of edits. Each edit was checked by code (did any number, citation, equation, or quote change?), by a model grader (did a claim's strength or scope change?), and by a blinded model grader that picked the better version. A human reviewer then judged every pair, also without knowing which was which.
 
-| Per edit, 21 edits per condition | Blue Pencil | Plain Claude |
+| 12 pairs | Blue Pencil | Plain Claude |
 |---|---|---|
-| Meaning problems (average per edit) | 0.43 | 1.90 |
-| Passed both preservation checks | 13/21 (62%) | 9/21 (43%) |
-| Won the blinded quality comparison | 13/21 | 5/21 (3 ties) |
-| Cost and time | $0.43, 108 s | $0.02, 11 s |
+| Meaning problems (average per edit) | 0.67 | 2.17 |
+| Passed both preservation checks | 5/12 | 3/12 |
+| Model grader preferred | 6 | 5 (1 tie) |
+| Human reviewer preferred | 8 | 0 (4 ties) |
+| Cost and time per edit | $0.41, 105 s | $0.02, 10 s |
 
-- **It changes meaning less often.** Blue Pencil introduced about a quarter as many meaning problems (new claims, stronger or weaker wording) as plain Claude. The gap in "passed both" is smaller than the gap in problems, because a single flagged problem fails an edit.
-- **It reads better in most pairs, but costs about 25 times as much.** The extra cost comes from the skill's reference passes.
-- **Treat these numbers as preliminary.** There are only 7 short passages, taken from this repo's own examples. The model graders have not been calibrated against people (in an earlier pilot, a human reviewer agreed with the quality grader on only 4 of 12 pairs). Results move from run to run: re-running plain Claude gave 8/21 and 9/21 on "passed both".
+- **It changes meaning less often, with one exception.** Plain Claude added claims or stronger wording about three times as often per edit. On the `worked-example` passage the opposite happened: Blue Pencil dropped qualifier words like "novel" and "fundamentally" and added scope to a claim, passing 0/3 while plain Claude passed 3/3.
+- **People preferred it more than the model grader did.** The human reviewer never chose plain Claude, but agreed with the model grader on only 4 of 12 pairs, so model verdicts should be treated as provisional. In 5 pairs the reviewer thought neither version improved on the original.
+- **It costs about 20 times as much** per edit, because it runs many reference passes.
+- **This is a small pilot.** It used 4 passages from this repo's own examples, one model, and a single human reviewer. Only the Blue Pencil runs were given the paper-context file, so the two conditions differed in that as well.
 
-Full method, per-passage tables, and raw outputs are in [`evals/`](evals/README.md) (start with `evals/results/ste-comparison/README.md`). To repeat the run: `cd evals && python3 run_pilot.py --runs 3 --run-id my-run`.
+Full method, per-pair verdicts, and raw outputs are in [`evals/`](evals/README.md) (start with `evals/results/pilot-001/review.md`).
 
 ## Commands
 
